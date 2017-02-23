@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://codeshuai.com/"/>
-  <updated>2017-02-22T13:54:07.000Z</updated>
+  <updated>2017-02-23T18:27:31.000Z</updated>
   <id>http://codeshuai.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://codeshuai.com/2017/02/22/2017-02-22/"/>
     <id>http://codeshuai.com/2017/02/22/2017-02-22/</id>
     <published>2017-02-22T12:06:47.000Z</published>
-    <updated>2017-02-22T13:54:07.000Z</updated>
+    <updated>2017-02-23T18:27:31.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="有用的命令："><a href="#有用的命令：" class="headerlink" title="有用的命令："></a>有用的命令：</h2><ul>
 <li>hexo g -d  直接发布部署</li>
@@ -36,8 +36,12 @@
 <h2 id="具体安装时出现的问题："><a href="#具体安装时出现的问题：" class="headerlink" title="具体安装时出现的问题："></a>具体安装时出现的问题：</h2><ul>
 <li>不能执行hexo命令，只有init,help,version三个命令。解决方案：要在hexo目录下执行。</li>
 <li>注意坑：执行hexo server时出错，_config.xml里，type: repo: branch:后面，要有一个空格。</li>
-</ul>
+<li>在DNS的配置里，加入固定的两个IP<blockquote>
+<p>@        A        192.30.252.153<br>@        A        192.30.252.154</p>
 <a id="more"></a>
+</blockquote>
+</li>
+</ul>
 <h2 id="hexo主题："><a href="#hexo主题：" class="headerlink" title="hexo主题："></a>hexo主题：</h2><p><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">Next风格不错</a><br><a href="https://github.com/iissnan/hexo-theme-next/wiki" target="_blank" rel="external">Next的设置GitWiki里很详细</a></p>
 ]]></content>
     
@@ -57,7 +61,8 @@
 &lt;h2 id=&quot;具体安装时出现的问题：&quot;&gt;&lt;a href=&quot;#具体安装时出现的问题：&quot; class=&quot;headerlink&quot; title=&quot;具体安装时出现的问题：&quot;&gt;&lt;/a&gt;具体安装时出现的问题：&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;不能执行hexo命令，只有init,help,version三个命令。解决方案：要在hexo目录下执行。&lt;/li&gt;
 &lt;li&gt;注意坑：执行hexo server时出错，_config.xml里，type: repo: branch:后面，要有一个空格。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;在DNS的配置里，加入固定的两个IP&lt;blockquote&gt;
+&lt;p&gt;@        A        192.30.252.153&lt;br&gt;@        A        192.30.252.154&lt;/p&gt;
     
     </summary>
     
