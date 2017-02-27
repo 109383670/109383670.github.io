@@ -352,7 +352,7 @@
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scrapy crawl dmoz -o items.json</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="xpath"><a href="#xpath" class="headerlink" title="xpath"></a>xpath</h2><ul>
+<h2 id="xpath"><a href="#xpath" class="headerlink" title="xpath:"></a>xpath:</h2><ul>
 <li><p>following-sibling:<br>除自身外后面的同辈兄弟。如：td/following-sibling::td    同级td兄弟。</p>
 </li>
 <li><p>xpath中的序列从1开始：/a[1],代表a的第一个元素。没有[0]。</p>
@@ -367,8 +367,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ITEM_PIPELINES = &#123;</div><div class="line">    &apos;myproject.pipelines.PricePipeline&apos;: 300,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>分配给每个类的整型值，确定了他们运行的顺序，item按数字从低到高的顺序，通过pipeline，通常将这些数字定义在0-1000范围内。如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ITEM_PIPELINES = &#123;&apos;工程名.pipelines.自定义处理pipe类名&apos;: 1&#125;</div></pre></td></tr></table></figure>
-<h2 id="使用相对XPaths"><a href="#使用相对XPaths" class="headerlink" title="使用相对XPaths"></a>使用相对XPaths</h2><p>/或者//永远表示的是绝对路径，在嵌套xpath里，用’a/text()’这样的相对路径。</p>
-<h2 id="response-urljoin"><a href="#response-urljoin" class="headerlink" title="response.urljoin"></a>response.urljoin</h2><p>方法建立绝对路径并且产生新的请求，并注册回调函数parse_dir_contents()来爬取需要的数据。</p>
+<h2 id="使用相对XPaths"><a href="#使用相对XPaths" class="headerlink" title="使用相对XPaths:"></a>使用相对XPaths:</h2><p>/或者//永远表示的是绝对路径，在嵌套xpath里，用’a/text()’这样的相对路径。</p>
+<h2 id="response-urljoin"><a href="#response-urljoin" class="headerlink" title="response.urljoin:"></a>response.urljoin:</h2><p>方法建立绝对路径并且产生新的请求，并注册回调函数parse_dir_contents()来爬取需要的数据。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></div><div class="line">        <span class="keyword">for</span> href <span class="keyword">in</span> response.css(<span class="string">"ul.directory.dir-col &gt; li &gt; a::attr('href')"</span>):</div><div class="line">            url = response.urljoin(href.extract())</div><div class="line">            <span class="keyword">yield</span> scrapy.Request(url, callback=self.parse_dir_contents)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_dir_contents</span><span class="params">(self, response)</span>:</span></div><div class="line">        <span class="keyword">for</span> sel <span class="keyword">in</span> response.xpath(<span class="string">'//ul/li'</span>):</div><div class="line">            item = DmozItem()</div><div class="line">            item[<span class="string">'title'</span>] = sel.xpath(<span class="string">'a/text()'</span>).extract()</div><div class="line">            item[<span class="string">'link'</span>] = sel.xpath(<span class="string">'a/@href'</span>).extract()</div><div class="line">            item[<span class="string">'desc'</span>] = sel.xpath(<span class="string">'text()'</span>).extract()</div><div class="line">            <span class="keyword">yield</span> item</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
