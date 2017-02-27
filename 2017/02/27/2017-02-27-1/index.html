@@ -119,7 +119,7 @@ selector内容:
 
 xpath
 following-sib">
-<meta property="og:updated_time" content="2017-02-27T05:42:38.000Z">
+<meta property="og:updated_time" content="2017-02-27T05:45:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scrapy学习记录">
 <meta name="twitter:description" content="Scrapy Shell 命令:
@@ -396,7 +396,7 @@ following-sib">
 </ul>
 <h2 id="激活pipeline"><a href="#激活pipeline" class="headerlink" title="激活pipeline:"></a>激活pipeline:</h2><p>在setting.py里，为了启用一个Item Pipeline组件，你必须将它的类添加到 ITEM_PIPELINES 配置，就像下面这个例子:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ITEM_PIPELINES = &#123;</div><div class="line">    &apos;myproject.pipelines.PricePipeline&apos;: 300,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>分配给每个类的整型值，确定了他们运行的顺序，item按数字从低到高的顺序，通过pipeline，通常将这些数字定义在0-1000范围内。<br>如：</p>
+<p>分配给每个类的整型值，确定了他们运行的顺序，item按数字从低到高的顺序，通过pipeline，通常将这些数字定义在0-1000范围内。如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ITEM_PIPELINES = &#123;&apos;工程名.pipelines.自定义处理pipe类名&apos;: 1&#125;</div></pre></td></tr></table></figure>
 <h2 id="使用相对XPaths"><a href="#使用相对XPaths" class="headerlink" title="使用相对XPaths"></a>使用相对XPaths</h2><p>/或者//永远表示的是绝对路径，在嵌套xpath里，用’a/text()’这样的相对路径。</p>
 <h2 id="response-urljoin"><a href="#response-urljoin" class="headerlink" title="response.urljoin"></a>response.urljoin</h2><p>方法建立绝对路径并且产生新的请求，并注册回调函数parse_dir_contents()来爬取需要的数据。</p>
