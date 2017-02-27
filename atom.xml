@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://codeshuai.com/"/>
-  <updated>2017-02-27T04:43:49.000Z</updated>
+  <updated>2017-02-27T04:48:36.000Z</updated>
   <id>http://codeshuai.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://codeshuai.com/2017/02/27/2017-02-27/"/>
     <id>http://codeshuai.com/2017/02/27/2017-02-27/</id>
     <published>2017-02-27T04:02:44.000Z</published>
-    <updated>2017-02-27T04:43:49.000Z</updated>
+    <updated>2017-02-27T04:48:36.000Z</updated>
     
     <content type="html"><![CDATA[<p>##安装Homebrew </p>
 <pre><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
@@ -46,27 +46,22 @@
 <h2 id="中文问题"><a href="#中文问题" class="headerlink" title="中文问题:"></a>中文问题:</h2><ul>
 <li>shell里输出的是utf-8编码,用print可打印出中文。</li>
 <li>用变量格式化的方式，不直接在xpath中用中文字符，而是用一个变量代替。如’中文’,用u’中文’。或者在字符串前加u。如u”//a/text()”</li>
-<li>打印的时候可以参考：</li>
-</ul>
-<pre><code>for sel in  response.xpath(&quot;//div[@id=&apos;mcontent&apos;]/div/p&quot;):
-    conect = sel.xpath(&quot;text()&quot;).extract()
-    for t in conect:
-        print(t.encode(&quot;utf-8&quot;))
-</code></pre><ul>
+<li><p>打印的时候可以参考：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> sel <span class="keyword">in</span>  response.xpath(<span class="string">"//div[@id='mcontent']/div/p"</span>):</div><div class="line">      conect = sel.xpath(<span class="string">"text()"</span>).extract()</div><div class="line">         <span class="keyword">for</span> t <span class="keyword">in</span> conect:</div><div class="line">           print(t.encode(<span class="string">"utf-8"</span>))</div></pre></td></tr></table></figure>
+</li>
 <li><p>pycharm中支持中文</p>
 <ol>
 <li><p>代码页加入:</p>
 <p> <code># -*-coding:utf-8-*-</code></p>
 </li>
 <li><p>代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">strpath = <span class="string">u"//td[descendant::a[contains(text(),'中文字符')]]"</span>。</div><div class="line">或者</div><div class="line">strz = <span class="string">'中文字符'</span></div><div class="line">strpath = <span class="string">u"//td[descendant::a[contains(text(),%s)]]%strz"</span></div></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
-</ul>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">strpath = <span class="string">u"//td[descendant::a[contains(text(),'中文字符')]]"</span>。</div><div class="line">或者</div><div class="line">strz = <span class="string">'中文字符'</span></div><div class="line">strpath = <span class="string">u"//td[descendant::a[contains(text(),%s)]]%strz"</span></div></pre></td></tr></table></figure>
-</code></pre><ul>
 <li><p>json输出中文：</p>
   <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">    self.file = codecs.open(<span class="string">"items.json"</span>, <span class="string">"wb"</span>, encoding=<span class="string">"utf-8"</span>)</div><div class="line">	</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></div><div class="line">    line = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></div><div class="line">    self.file.write(line)</div><div class="line">    <span class="keyword">return</span> item</div><div class="line">	</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spider_closed</span><span class="params">(self, spider)</span>:</span></div><div class="line">    self.file.close()</div></pre></td></tr></table></figure>
+<a id="more"></a>
 </li>
 </ul>
 <p>##读取文件<br>with codecs.open(file_name, “r”,encoding=’utf-8’, errors=’ignore’) as fdata:</p>
@@ -77,7 +72,43 @@
     
       &lt;p&gt;##安装Homebrew &lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;
-&lt;/code&gt;&lt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;##安装python&lt;br&gt;    brew install python&lt;br&gt;Homebrew会自动安装好Setuptools和 pip 。&lt;br&gt;Setuptools提供 easy_install 命令，实现通过网络（通常Internet）下载和安装第三方Python包。 还可以轻松地将这种网络安装的方式加入到自己开发的Python应用中。&lt;br&gt;pip 是一款方便安装和管理Python 包的工具。&lt;/p&gt;
+&lt;h2 id=&quot;安装Scrapy&quot;&gt;&lt;a href=&quot;#安装Scrapy&quot; class=&quot;headerlink&quot; title=&quot;安装Scrapy&quot;&gt;&lt;/a&gt;安装Scrapy&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;pip install scrapy
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;Scrapy-使用&quot;&gt;&lt;a href=&quot;#Scrapy-使用&quot; class=&quot;headerlink&quot; title=&quot;Scrapy 使用:&quot;&gt;&lt;/a&gt;Scrapy 使用:&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;IDE工具：pycharm社区免费版本&lt;ul&gt;
+&lt;li&gt;教程参考: &lt;a href=&quot;http://scrapy-chs.readthedocs.io/zh_CN/latest/intro/tutorial.html#intro-tutorial&quot;&gt;http://scrapy-chs.readthedocs.io/zh_CN/latest/intro/tutorial.html#intro-tutorial&lt;/a&gt; &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;命令&quot;&gt;&lt;a href=&quot;#命令&quot; class=&quot;headerlink&quot; title=&quot;命令:&quot;&gt;&lt;/a&gt;命令:&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;生成HelloWorld的Scrapy工程  &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;scrapy startproject HelloWorld  
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;在pycharm IDE中配置命令&lt;br&gt;&lt;img src=&quot;/images/A373E711-D1C1-42FB-83BB-772FD44EB369.png&quot; alt=&quot;A373E711-D1C1-42FB-83BB-772FD44EB369&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;原理：&quot;&gt;&lt;a href=&quot;#原理：&quot; class=&quot;headerlink&quot; title=&quot;原理：&quot;&gt;&lt;/a&gt;原理：&lt;/h3&gt;&lt;p&gt;   执行:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;scrapy crawl MyPa (MyPa是自己在类中定义的爬虫名字)，
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   相当于在终端执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/usr/local/bin/python /usr/local/lib/python2.7/site-packages/scrapy/cmdline.py crawl MyPa
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 注意：要小心python的路径，如果python的路径不对，还是会报错。这里指的路径是系统路径与pycharm里设置的python路径。&lt;br&gt;            在终端里用which python查看一下路径,如果与pycharm设置里的不同，将修改成更系统路径一样的。&lt;/p&gt;
+&lt;h2 id=&quot;中文问题&quot;&gt;&lt;a href=&quot;#中文问题&quot; class=&quot;headerlink&quot; title=&quot;中文问题:&quot;&gt;&lt;/a&gt;中文问题:&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;shell里输出的是utf-8编码,用print可打印出中文。&lt;/li&gt;
+&lt;li&gt;用变量格式化的方式，不直接在xpath中用中文字符，而是用一个变量代替。如’中文’,用u’中文’。或者在字符串前加u。如u”//a/text()”&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;打印的时候可以参考：&lt;/p&gt;
+ &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; sel &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt;  response.xpath(&lt;span class=&quot;string&quot;&gt;&quot;//div[@id=&#39;mcontent&#39;]/div/p&quot;&lt;/span&gt;):&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      conect = sel.xpath(&lt;span class=&quot;string&quot;&gt;&quot;text()&quot;&lt;/span&gt;).extract()&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;         &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; t &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; conect:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;           print(t.encode(&lt;span class=&quot;string&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;))&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;pycharm中支持中文&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;代码页加入:&lt;/p&gt;
+&lt;p&gt; &lt;code&gt;# -*-coding:utf-8-*-&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;代码:&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;strpath = &lt;span class=&quot;string&quot;&gt;u&quot;//td[descendant::a[contains(text(),&#39;中文字符&#39;)]]&quot;&lt;/span&gt;。&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;或者&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;strz = &lt;span class=&quot;string&quot;&gt;&#39;中文字符&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;strpath = &lt;span class=&quot;string&quot;&gt;u&quot;//td[descendant::a[contains(text(),%s)]]%strz&quot;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;json输出中文：&lt;/p&gt;
+  &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self.file = codecs.open(&lt;span class=&quot;string&quot;&gt;&quot;items.json&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;wb&quot;&lt;/span&gt;, encoding=&lt;span class=&quot;string&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;	&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;process_item&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, item, spider)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    line = json.dumps(dict(item), ensure_ascii=&lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;) + &lt;span class=&quot;string&quot;&gt;&quot;\n&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self.file.write(line)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; item&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;	&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;spider_closed&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, spider)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self.file.close()&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
