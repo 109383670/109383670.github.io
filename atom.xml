@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://codeshuai.com/"/>
-  <updated>2017-03-06T09:27:36.000Z</updated>
+  <updated>2017-03-06T10:36:33.000Z</updated>
   <id>http://codeshuai.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://codeshuai.com/2017/03/06/2017-03-06/"/>
     <id>http://codeshuai.com/2017/03/06/2017-03-06/</id>
     <published>2017-03-06T04:48:56.000Z</published>
-    <updated>2017-03-06T09:27:36.000Z</updated>
+    <updated>2017-03-06T10:36:33.000Z</updated>
     
     <content type="html"><![CDATA[<p>屏幕分辨率一般指的是屏幕上像素的多少。所谓像素就是屏幕上的最小发光点，Led灯屏幕的一个像素就是一个Led灯。例如：640*960指的就是屏幕的宽和高上分别有640和960个像素。分辨率越高，图像越精细，也就是常说的高清。</p>
 <h2 id="iPhones设备分辨率"><a href="#iPhones设备分辨率" class="headerlink" title="iPhones设备分辨率"></a>iPhones设备分辨率</h2><h3 id="英寸"><a href="#英寸" class="headerlink" title="英寸"></a>英寸</h3><p><img src="/images/1708203-1768998327604e30.png" alt="1708203-1768998327604e30"></p>
@@ -65,7 +65,7 @@
 </li>
 </ul>
 <h2 id="实际开发中采用的方案"><a href="#实际开发中采用的方案" class="headerlink" title="实际开发中采用的方案"></a>实际开发中采用的方案</h2><p>实际开发中采用的方案是4号方案。4号方案能在保证画面不变形和出现黑边的情况下，最大程度的减少工作量。但是需要设计师巧妙的设计游戏背景图画。</p>
-<p>###以下图为例：<br>正常的设计分辨率：<br><img src="/images/0x0ss.jpg" alt="0x0ss"></p>
+<p> 以下图为例：<br>正常的设计分辨率：<br><img src="/images/0x0ss.jpg" alt="0x0ss"></p>
 <p>ipad适配后的分辨率：</p>
 <p><img src="/images/0x0ss-2.jpg" alt="0x0ss-2"></p>
 <h3 id="设计师设计比例"><a href="#设计师设计比例" class="headerlink" title="设计师设计比例"></a>设计师设计比例</h3><p>根据游戏的主要用户和市场上手机的主要分辨率，决定设计师设计游戏UI时使用的分辨率。设计师只需要注意分辨率的宽高比，宽高比决定了屏幕上的布局。设计师作图时，应该根据宽高比，最大化画布的大小。<br>比如：如果设计师的画布大小只有640x1136大小，当一旦需要1242x2208大小的图片时，设计师只能放大图片，这样就会导致图片质量下降。而如果设计师一开始的画布大小是2484x4416时，只需要将导出的图片缩小就可以了，不会过多的影响图片质量。</p>
