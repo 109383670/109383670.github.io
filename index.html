@@ -262,6 +262,190 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://codeshuai.com/2017/03/06/2017-03-06/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="BoomCode">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="CodeForFun">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="CodeForFun" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/06/2017-03-06/" itemprop="url">
+                  ios游戏分辨率问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-06T12:48:56+08:00">
+                2017-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>屏幕分辨率一般指的是屏幕上像素的多少。所谓像素就是屏幕上的最小发光点，Led灯屏幕的一个像素就是一个Led灯。例如：640*960指的就是屏幕的宽和高上分别有640和960个像素。分辨率越高，图像越精细，也就是常说的高清。</p>
+<h2 id="iPhones设备分辨率"><a href="#iPhones设备分辨率" class="headerlink" title="iPhones设备分辨率"></a>iPhones设备分辨率</h2><h3 id="英寸"><a href="#英寸" class="headerlink" title="英寸"></a>英寸</h3><p><img src="/images/1708203-1768998327604e30.png" alt="1708203-1768998327604e30"></p>
+<h3 id="像素尺寸"><a href="#像素尺寸" class="headerlink" title="像素尺寸"></a>像素尺寸</h3><p><img src="/images/1708203-75913098015ba4c2.png" alt="1708203-75913098015ba4"></p>
+<h3 id="尺寸表"><a href="#尺寸表" class="headerlink" title="尺寸表"></a>尺寸表</h3><p><img src="/images/1708203-9184bee9ba12d3b5.png" alt="1708203-9184bee9ba12d3b5"></p>
+<h2 id="游戏开发中用到的分辨率"><a href="#游戏开发中用到的分辨率" class="headerlink" title="游戏开发中用到的分辨率"></a>游戏开发中用到的分辨率</h2><ul>
+<li>iPhone 4s : 640x960  、<strong>宽高比：0.667</strong></li>
+<li>iPhone 5s : 640x1136、<strong>宽高比：0.563</strong></li>
+<li>iPhone 6 : 750x1134、<strong>宽高比：0.562</strong></li>
+<li>iPhone 6 plus : 1242x2208、<strong>宽高比：0.562</strong></li>
+<li>iPad : 1536x2048、<strong>宽高比：0.75</strong></li>
+</ul>
+<h2 id="为什么适配不同分辨率"><a href="#为什么适配不同分辨率" class="headerlink" title="为什么适配不同分辨率"></a>为什么适配不同分辨率</h2><p>不同的设备有不同的分辨率，为了减少美术设计人员的工作量，统一化产品设计就必须适配各种分辨率。尽量做到一套设计，不同分辨率的设备都可以通用，不需要美术设计人员针对每一个分辨率版本都给出不同的设计方案，也便于维护升级。<br>一套设计也便于减少游戏安装包大小，优化资源，提高游戏运行速度。</p>
+<h2 id="适配分辨率方案"><a href="#适配分辨率方案" class="headerlink" title="适配分辨率方案"></a>适配分辨率方案</h2><h3 id="1、针对不同的分辨率，给出不同的设计。"><a href="#1、针对不同的分辨率，给出不同的设计。" class="headerlink" title="1、针对不同的分辨率，给出不同的设计。"></a>1、针对不同的分辨率，给出不同的设计。</h3><ul>
+<li>优点：<br>效果最好，因为针对每一个分辨率都做了专门的适配，不同的分辨率都能体现最好的设计效果。</li>
+</ul>
+<ul>
+<li>缺点：<br>工作量大，维护困难，每一次升级修改都需要针对每一个分辨率的版本进行更新，大大增加了工作时间和出错的可能性。不利于扩展，如果市场上出现了新的设备，不同的分辨率，又得更新版本升级。</li>
+</ul>
+<h3 id="2、-按实际屏幕大小进行缩放"><a href="#2、-按实际屏幕大小进行缩放" class="headerlink" title="2、 按实际屏幕大小进行缩放"></a>2、 按实际屏幕大小进行缩放</h3><p>针对不同的分辨率，将游戏画面整个进行缩放，填充满整个屏幕。</p>
+<ul>
+<li><p>优点：<br>通用性高，工作量低。不管什么屏幕都是一套素材，一套代码，不需要额外的工作。</p>
+</li>
+<li><p>缺点：<br>画面严重失真，因为是按照实际屏幕进行缩放，所以如果实际屏幕的宽高比与设计的宽高比不同的话，画面就会出现变形。整个画面看起来像是被压扁或是拉长。</p>
+<p>如下图，变形了：<br><img src="/images/123.jpg" alt="123"></p>
+</li>
+</ul>
+<h3 id="3、-按设计比例进行缩放"><a href="#3、-按设计比例进行缩放" class="headerlink" title="3、 按设计比例进行缩放"></a>3、 按设计比例进行缩放</h3><p>针对不同的分辨率，按固定的宽高比进行缩放。</p>
+<ul>
+<li><p>优点：<br>最大程度的还原设计师的设计，可以做到一套设计通用，不会出现失真。</p>
+</li>
+<li><p>缺点：<br>会在屏幕上下或者左右留下黑边，影响游戏体验。</p>
+</li>
+</ul>
+<p>如下图，有黑边，UI位置暴露了：<br><img src="/images/222.jpg" alt="222"></p>
+<h3 id="4、固定高度适配"><a href="#4、固定高度适配" class="headerlink" title="4、固定高度适配"></a>4、固定高度适配</h3><p>  在3号方案的基础上，对按钮等UI元素根据分辨率进行动态计算调整。</p>
+<ul>
+<li><p>优点<br>一套设计通用，不会出现2、3中的问题。</p>
+</li>
+<li><p>缺点：<br>不能完全的还原设计师设计，要做出妥协。</p>
+</li>
+</ul>
+<h2 id="实际开发中采用的方案"><a href="#实际开发中采用的方案" class="headerlink" title="实际开发中采用的方案"></a>实际开发中采用的方案</h2><p>实际开发中采用的方案是4号方案。4号方案能在保证画面不变形和出现黑边的情况下，最大程度的减少工作量。但是需要设计师巧妙的设计游戏背景图画。</p>
+<p>###以下图为例：<br>正常的设计分辨率：<br><img src="/images/0x0ss.jpg" alt="0x0ss"></p>
+<p>ipad适配后的分辨率：</p>
+<p><img src="/images/0x0ss-2.jpg" alt="0x0ss-2"></p>
+<h3 id="设计师设计比例"><a href="#设计师设计比例" class="headerlink" title="设计师设计比例"></a>设计师设计比例</h3><p>根据游戏的主要用户和市场上手机的主要分辨率，决定设计师设计游戏UI时使用的分辨率。设计师只需要注意分辨率的宽高比，宽高比决定了屏幕上的布局。设计师作图时，应该根据宽高比，最大化画布的大小。<br>比如：如果设计师的画布大小只有640x1136大小，当一旦需要1242x2208大小的图片时，设计师只能放大图片，这样就会导致图片质量下降。而如果设计师一开始的画布大小是2484x4416时，只需要将导出的图片缩小就可以了，不会过多的影响图片质量。</p>
+<h3 id="实际使用比例"><a href="#实际使用比例" class="headerlink" title="实际使用比例"></a>实际使用比例</h3><p>游戏的主要人群是iPhone用户，而市场上的主流设备是iphone5以上，所以采用的设备宽高比是<strong>0.562</strong>，也就是iphone6的宽高比。</p>
+<h3 id="计算背景图片需要大小："><a href="#计算背景图片需要大小：" class="headerlink" title="计算背景图片需要大小："></a>计算背景图片需要大小：</h3><p>根据要适配的屏幕宽高比，主要有3种：</p>
+<ul>
+<li>iphone 6 : 0.562 </li>
+<li>iphone 4s : 0.667</li>
+<li>ipad：0.75</li>
+</ul>
+<p>假设高度为1，那么这3种分辨率中，宽度最大的是ipad的宽度，为0.75。那么设计师要设计的背景图片的宽高比根据最大宽度原则，采用0.75。</p>
+<h3 id="设计师如何工作"><a href="#设计师如何工作" class="headerlink" title="设计师如何工作"></a>设计师如何工作</h3><h4 id="真实的分辨率："><a href="#真实的分辨率：" class="headerlink" title="真实的分辨率："></a>真实的分辨率：</h4><p>750x1334</p>
+<h4 id="背景图片大小："><a href="#背景图片大小：" class="headerlink" title="背景图片大小："></a>背景图片大小：</h4><p>高度 = 1334<br>宽度 = 1002。计算过程：1334x0.75 = 1000.5 。近似取偶数 = <strong>1002</strong><br>最终大小：<strong>1002x1334</strong><br>设计师做图时，可以选择做一个2倍大的背景图。1002x2 = 2004、 1334x2 = 2668。</p>
+<h4 id="设计师设计步骤："><a href="#设计师设计步骤：" class="headerlink" title="设计师设计步骤："></a>设计师设计步骤：</h4><ol>
+<li>新建大小为 <strong>1500x2668</strong>的画布</li>
+<li>安排按钮等UI布局</li>
+<li>设计游戏背景图</li>
+<li>将背景图单独拿出来，扩充为2004x2668大小的画布，将多出来的部分过渡好。</li>
+</ol>
+<p>注意：<br>设计师主要精力放在1500x2668这个画布上，主要的元素都要在这个画布上呈现。背景宽度扩充的部分只需要过渡好，让玩家看起来不突兀，自然就好。</p>
+<p>作品：<br>设计师需要提交1002x1334的背景图，其他的ui元素正常提交，没有变动。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://codeshuai.com/2017/02/27/2017-02-27-1/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -883,7 +1067,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -894,7 +1078,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
