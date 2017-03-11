@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://codeshuai.com/"/>
-  <updated>2017-03-06T10:36:33.000Z</updated>
+  <updated>2017-03-11T09:01:26.000Z</updated>
   <id>http://codeshuai.com/</id>
   
   <author>
@@ -14,6 +14,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>egret与cocos creator</title>
+    <link href="http://codeshuai.com/2017/03/11/egret%E4%B8%8Ecocos%20creator/"/>
+    <id>http://codeshuai.com/2017/03/11/egret与cocos creator/</id>
+    <published>2017-03-11T08:18:43.000Z</published>
+    <updated>2017-03-11T09:01:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>花了点时间分别体验了两个html5游戏制作工具：egret与cocos2d creator。<br>为了更好的对比，同时用两个工具做一个简单的射击demo。<br>使用后的体会：</p>
+<h2 id="egret-（白鹭）"><a href="#egret-（白鹭）" class="headerlink" title="egret （白鹭）"></a>egret （白鹭）</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>开发工具齐全，从龙骨、粒子系统、资源管理、编译器等，基本上你需要的都提供了，省去了四处去找第三方工具库的麻烦，这个非常好。  </li>
+<li>开发用的是TypeScript语言。在没有任何基础的情况下，我边看例子，边学习TypeScript, 没有什么大的障碍。调试功能也整合得很好。  </li>
+<li>用exml进行UI可视化，直观，上手容易。</li>
+<li>提供云测试空间，可以直接发布免费提供的ft空间进行测试。想到真是太周到了，这是一条龙服务的节奏。</li>
+</ol>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><ol>
+<li>教程文档混乱，调试一个问题花了几个小时没找到原因，结果发现是一个类文件没有放在src的文件夹下，这么重要的东西，竟然在文档中没任何提及。</li>
+<li>exml这样的ui方式，对于初学者来说太过复杂了，刚开始学习的人，估计一头雾水，加上文档有混乱，入坑门槛比较高。</li>
+<li>在物理系统，碰撞系统的支持上，比较弱，可能html5游戏应该也用不到这么复杂的功能。</li>
+</ol>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>如果要开发html5游戏，之前用过cocos2d-x之类的，没有用过unity开发的，可以用egret。如果要进行大规模商业开发的，也建议用这个，各个功能比较完善，是成熟的产品。</p>
+<h2 id="coco2d-creator"><a href="#coco2d-creator" class="headerlink" title="coco2d creator"></a>coco2d creator</h2><h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><ol>
+<li>文档、教程详细，写的非常好，基本上你想知道的全部有。从零开始到完成helloworld, 一套龙。教程友好，文档规范合理，用起来太舒服了。</li>
+<li>用javascript进行开发，基于数据驱动的组件思想，入手快，开发直观。</li>
+<li>对碰撞、地图的支持很好。</li>
+</ol>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><ol>
+<li>vscode的代码提示基本没用，得一个一个查文档。</li>
+<li>调试功能差，估计调试错误花费的时间比较高。</li>
+<li>有些功能还不完善。</li>
+</ol>
+<h3 id="总结：-1"><a href="#总结：-1" class="headerlink" title="总结："></a>总结：</h3><p>如果是之前用过unity开发的，那就太舒服了，基本上可以一边看文档一边做，没什么难度，上手快，用来做小游戏应该很爽。</p>
+<h2 id="对比总结："><a href="#对比总结：" class="headerlink" title="对比总结："></a>对比总结：</h2><p>cocos2d creator就是模仿unity，打造一个轻型的html5制作工具。不得不说击中了unity在html5开发上的弱点。很看好cocos2d creator，相信在王哲的带领下，功能会越来越多，工具也会越来越完善。<br>cocos2d creator虽然以cocos2d-x为底层，但是有意思的是，egret才是以代码为驱动，用代码控制一切，cocos2d creator以数据为驱动，用组件的方式，跟unity一致。<br>egret像cocos2d-x, cocos2d creator像unity。<br>两个工具各有千秋，一个是以代码驱动，一个以数据驱动。选择一种就是选择一种不同设计方法。</p>
+<h2 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h2><p><a href="https://github.com/109383670/ShootSomething" target="_blank" rel="external">Github代码</a><br><a href="http://wingftp.open.egret.com/ftproot/109383670/" target="_blank" rel="external">点击预览游戏</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;花了点时间分别体验了两个html5游戏制作工具：egret与cocos2d creator。&lt;br&gt;为了更好的对比，同时用两个工具做一个简单的射击demo。&lt;br&gt;使用后的体会：&lt;/p&gt;
+&lt;h2 id=&quot;egret-（白鹭）&quot;&gt;&lt;a href=&quot;#egret-（白鹭）&quot; c
+    
+    </summary>
+    
+    
+      <category term="游戏开发" scheme="http://codeshuai.com/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="html5" scheme="http://codeshuai.com/tags/html5/"/>
+    
+      <category term="egret" scheme="http://codeshuai.com/tags/egret/"/>
+    
+      <category term="cccreator" scheme="http://codeshuai.com/tags/cccreator/"/>
+    
+  </entry>
   
   <entry>
     <title>ios游戏分辨率问题</title>
