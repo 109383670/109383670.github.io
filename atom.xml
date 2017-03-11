@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://codeshuai.com/"/>
-  <updated>2017-03-11T09:01:26.000Z</updated>
+  <updated>2017-03-11T09:04:45.000Z</updated>
   <id>http://codeshuai.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://codeshuai.com/2017/03/11/egret%E4%B8%8Ecocos%20creator/"/>
     <id>http://codeshuai.com/2017/03/11/egret与cocos creator/</id>
     <published>2017-03-11T08:18:43.000Z</published>
-    <updated>2017-03-11T09:01:26.000Z</updated>
+    <updated>2017-03-11T09:04:45.000Z</updated>
     
     <content type="html"><![CDATA[<p>花了点时间分别体验了两个html5游戏制作工具：egret与cocos2d creator。<br>为了更好的对比，同时用两个工具做一个简单的射击demo。<br>使用后的体会：</p>
 <h2 id="egret-（白鹭）"><a href="#egret-（白鹭）" class="headerlink" title="egret （白鹭）"></a>egret （白鹭）</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
@@ -35,6 +35,7 @@
 <li>在物理系统，碰撞系统的支持上，比较弱，可能html5游戏应该也用不到这么复杂的功能。</li>
 </ol>
 <h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>如果要开发html5游戏，之前用过cocos2d-x之类的，没有用过unity开发的，可以用egret。如果要进行大规模商业开发的，也建议用这个，各个功能比较完善，是成熟的产品。</p>
+<a id="more"></a>
 <h2 id="coco2d-creator"><a href="#coco2d-creator" class="headerlink" title="coco2d creator"></a>coco2d creator</h2><h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><ol>
 <li>文档、教程详细，写的非常好，基本上你想知道的全部有。从零开始到完成helloworld, 一套龙。教程友好，文档规范合理，用起来太舒服了。</li>
 <li>用javascript进行开发，基于数据驱动的组件思想，入手快，开发直观。</li>
@@ -53,7 +54,18 @@
     <summary type="html">
     
       &lt;p&gt;花了点时间分别体验了两个html5游戏制作工具：egret与cocos2d creator。&lt;br&gt;为了更好的对比，同时用两个工具做一个简单的射击demo。&lt;br&gt;使用后的体会：&lt;/p&gt;
-&lt;h2 id=&quot;egret-（白鹭）&quot;&gt;&lt;a href=&quot;#egret-（白鹭）&quot; c
+&lt;h2 id=&quot;egret-（白鹭）&quot;&gt;&lt;a href=&quot;#egret-（白鹭）&quot; class=&quot;headerlink&quot; title=&quot;egret （白鹭）&quot;&gt;&lt;/a&gt;egret （白鹭）&lt;/h2&gt;&lt;h3 id=&quot;优点&quot;&gt;&lt;a href=&quot;#优点&quot; class=&quot;headerlink&quot; title=&quot;优点&quot;&gt;&lt;/a&gt;优点&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;开发工具齐全，从龙骨、粒子系统、资源管理、编译器等，基本上你需要的都提供了，省去了四处去找第三方工具库的麻烦，这个非常好。  &lt;/li&gt;
+&lt;li&gt;开发用的是TypeScript语言。在没有任何基础的情况下，我边看例子，边学习TypeScript, 没有什么大的障碍。调试功能也整合得很好。  &lt;/li&gt;
+&lt;li&gt;用exml进行UI可视化，直观，上手容易。&lt;/li&gt;
+&lt;li&gt;提供云测试空间，可以直接发布免费提供的ft空间进行测试。想到真是太周到了，这是一条龙服务的节奏。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;缺点：&quot;&gt;&lt;a href=&quot;#缺点：&quot; class=&quot;headerlink&quot; title=&quot;缺点：&quot;&gt;&lt;/a&gt;缺点：&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;教程文档混乱，调试一个问题花了几个小时没找到原因，结果发现是一个类文件没有放在src的文件夹下，这么重要的东西，竟然在文档中没任何提及。&lt;/li&gt;
+&lt;li&gt;exml这样的ui方式，对于初学者来说太过复杂了，刚开始学习的人，估计一头雾水，加上文档有混乱，入坑门槛比较高。&lt;/li&gt;
+&lt;li&gt;在物理系统，碰撞系统的支持上，比较弱，可能html5游戏应该也用不到这么复杂的功能。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;总结：&quot;&gt;&lt;a href=&quot;#总结：&quot; class=&quot;headerlink&quot; title=&quot;总结：&quot;&gt;&lt;/a&gt;总结：&lt;/h3&gt;&lt;p&gt;如果要开发html5游戏，之前用过cocos2d-x之类的，没有用过unity开发的，可以用egret。如果要进行大规模商业开发的，也建议用这个，各个功能比较完善，是成熟的产品。&lt;/p&gt;
     
     </summary>
     
