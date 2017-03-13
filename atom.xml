@@ -85,7 +85,7 @@
     <link href="http://codeshuai.com/2017/03/06/2017-03-06/"/>
     <id>http://codeshuai.com/2017/03/06/2017-03-06/</id>
     <published>2017-03-06T04:48:56.000Z</published>
-    <updated>2017-03-06T10:36:33.000Z</updated>
+    <updated>2017-03-13T09:29:00.000Z</updated>
     
     <content type="html"><![CDATA[<p>屏幕分辨率一般指的是屏幕上像素的多少。所谓像素就是屏幕上的最小发光点，Led灯屏幕的一个像素就是一个Led灯。例如：640*960指的就是屏幕的宽和高上分别有640和960个像素。分辨率越高，图像越精细，也就是常说的高清。</p>
 <h2 id="iPhones设备分辨率"><a href="#iPhones设备分辨率" class="headerlink" title="iPhones设备分辨率"></a>iPhones设备分辨率</h2><h3 id="英寸"><a href="#英寸" class="headerlink" title="英寸"></a>英寸</h3><p><img src="/images/1708203-1768998327604e30.png" alt="1708203-1768998327604e30"></p>
@@ -142,7 +142,8 @@
 <li>ipad：0.75</li>
 </ul>
 <p>假设高度为1，那么这3种分辨率中，宽度最大的是ipad的宽度，为0.75。那么设计师要设计的背景图片的宽高比根据最大宽度原则，采用0.75。</p>
-<h3 id="设计师如何工作"><a href="#设计师如何工作" class="headerlink" title="设计师如何工作"></a>设计师如何工作</h3><h4 id="真实的分辨率："><a href="#真实的分辨率：" class="headerlink" title="真实的分辨率："></a>真实的分辨率：</h4><p>750x1334</p>
+<h3 id="设计师如何工作"><a href="#设计师如何工作" class="headerlink" title="设计师如何工作"></a>设计师如何工作</h3><p>说明图如下：<br><img src="/images/%E7%B2%98%E8%B4%B4%E5%9B%BE%E7%89%87.png" alt="粘贴图片"></p>
+<h4 id="真实的分辨率："><a href="#真实的分辨率：" class="headerlink" title="真实的分辨率："></a>真实的分辨率：</h4><p>750x1334</p>
 <h4 id="背景图片大小："><a href="#背景图片大小：" class="headerlink" title="背景图片大小："></a>背景图片大小：</h4><p>高度 = 1334<br>宽度 = 1002。计算过程：1334x0.75 = 1000.5 。近似取偶数 = <strong>1002</strong><br>最终大小：<strong>1002x1334</strong><br>设计师做图时，可以选择做一个2倍大的背景图。1002x2 = 2004、 1334x2 = 2668。</p>
 <h4 id="设计师设计步骤："><a href="#设计师设计步骤：" class="headerlink" title="设计师设计步骤："></a>设计师设计步骤：</h4><ol>
 <li>新建大小为 <strong>1500x2668</strong>的画布</li>
