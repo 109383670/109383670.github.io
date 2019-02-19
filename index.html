@@ -1089,6 +1089,7 @@
       
         
           <h2 id="有用的命令："><a href="#有用的命令：" class="headerlink" title="有用的命令："></a>有用的命令：</h2><ul>
+<li>hexo clean -清除</li>
 <li>hexo g -d  直接发布部署</li>
 <li>hexo g  生成   </li>
 <li>hexo s   打开本地服务器   <a href="http://localhost:4000/">http://localhost:4000/</a> 浏览</li>
@@ -1099,11 +1100,12 @@
 <li><a href="http://localhost:4000/">http://localhost:4000/</a></li>
 </ol>
 <h2 id="安装参考："><a href="#安装参考：" class="headerlink" title="安装参考："></a>安装参考：</h2><p><a href="https://my.oschina.net/ryaneLee/blog/638440">参考域名绑定部分、修改主题</a><br><a href="https://my.oschina.net/ryaneLee/blog/638440">各种出现的问题总结</a> </p>
-<h2 id="具体安装时出现的问题："><a href="#具体安装时出现的问题：" class="headerlink" title="具体安装时出现的问题："></a>具体安装时出现的问题：</h2><ul>
-<li>不能执行hexo命令，只有init,help,version三个命令。解决方案：要在hexo目录下执行。</li>
-<li>注意坑：执行hexo server时出错，_config.xml里，type: repo: branch:后面，要有一个空格。</li>
-<li>在DNS的配置里，加入固定的两个IP<blockquote>
+<h2 id="具体安装时出现的问题："><a href="#具体安装时出现的问题：" class="headerlink" title="具体安装时出现的问题："></a>具体安装时出现的问题：</h2><h3 id="不能执行hexo命令"><a href="#不能执行hexo命令" class="headerlink" title="不能执行hexo命令"></a>不能执行hexo命令</h3><p>只有init,help,version三个命令。解决方案：要在hexo目录下执行。</p>
+<h3 id="注意坑：执行hexo-server时出错"><a href="#注意坑：执行hexo-server时出错" class="headerlink" title="注意坑：执行hexo server时出错"></a>注意坑：执行hexo server时出错</h3><p>_config.xml里，type: repo: branch:后面，要有一个空格。</p>
+<h3 id="在DNS的配置里，加入固定的两个IP"><a href="#在DNS的配置里，加入固定的两个IP" class="headerlink" title="在DNS的配置里，加入固定的两个IP"></a>在DNS的配置里，加入固定的两个IP</h3><blockquote>
 <p>@        A        192.30.252.153<br>@        A        192.30.252.154</p>
+</blockquote>
+<h3 id="不能连接git，提示22端口错误"><a href="#不能连接git，提示22端口错误" class="headerlink" title="不能连接git，提示22端口错误"></a>不能连接git，提示22端口错误</h3><p>git网站中的ssh证书失效，要重新生成，参考帮助说明。<br><a href="https://help.github.com/articles/connecting-to-github-with-ssh/">ssh生成</a><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/22/2017-02-22/#more" rel="contents">

@@ -526,9 +526,10 @@
     <link href="http://codeshuai.com/2017/02/22/2017-02-22/"/>
     <id>http://codeshuai.com/2017/02/22/2017-02-22/</id>
     <published>2017-02-22T12:06:47.000Z</published>
-    <updated>2017-03-06T09:30:56.000Z</updated>
+    <updated>2019-02-19T18:06:59.902Z</updated>
     
     <content type="html"><![CDATA[<h2 id="有用的命令："><a href="#有用的命令：" class="headerlink" title="有用的命令："></a>有用的命令：</h2><ul>
+<li>hexo clean -清除</li>
 <li>hexo g -d  直接发布部署</li>
 <li>hexo g  生成   </li>
 <li>hexo s   打开本地服务器   <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 浏览</li>
@@ -539,21 +540,19 @@
 <li><a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></li>
 </ol>
 <h2 id="安装参考："><a href="#安装参考：" class="headerlink" title="安装参考："></a>安装参考：</h2><p><a href="https://my.oschina.net/ryaneLee/blog/638440" target="_blank" rel="external">参考域名绑定部分、修改主题</a><br><a href="https://my.oschina.net/ryaneLee/blog/638440" target="_blank" rel="external">各种出现的问题总结</a> </p>
-<h2 id="具体安装时出现的问题："><a href="#具体安装时出现的问题：" class="headerlink" title="具体安装时出现的问题："></a>具体安装时出现的问题：</h2><ul>
-<li>不能执行hexo命令，只有init,help,version三个命令。解决方案：要在hexo目录下执行。</li>
-<li>注意坑：执行hexo server时出错，_config.xml里，type: repo: branch:后面，要有一个空格。</li>
-<li>在DNS的配置里，加入固定的两个IP<blockquote>
+<h2 id="具体安装时出现的问题："><a href="#具体安装时出现的问题：" class="headerlink" title="具体安装时出现的问题："></a>具体安装时出现的问题：</h2><h3 id="不能执行hexo命令"><a href="#不能执行hexo命令" class="headerlink" title="不能执行hexo命令"></a>不能执行hexo命令</h3><p>只有init,help,version三个命令。解决方案：要在hexo目录下执行。</p>
+<h3 id="注意坑：执行hexo-server时出错"><a href="#注意坑：执行hexo-server时出错" class="headerlink" title="注意坑：执行hexo server时出错"></a>注意坑：执行hexo server时出错</h3><p>_config.xml里，type: repo: branch:后面，要有一个空格。</p>
+<h3 id="在DNS的配置里，加入固定的两个IP"><a href="#在DNS的配置里，加入固定的两个IP" class="headerlink" title="在DNS的配置里，加入固定的两个IP"></a>在DNS的配置里，加入固定的两个IP</h3><blockquote>
 <p>@        A        192.30.252.153<br>@        A        192.30.252.154</p>
-<a id="more"></a>
 </blockquote>
-</li>
-</ul>
+<h3 id="不能连接git，提示22端口错误"><a href="#不能连接git，提示22端口错误" class="headerlink" title="不能连接git，提示22端口错误"></a>不能连接git，提示22端口错误</h3><p>git网站中的ssh证书失效，要重新生成，参考帮助说明。<br><a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank" rel="external">ssh生成</a><br><a id="more"></a></p>
 <h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><p><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">Next风格不错</a><br><a href="https://github.com/iissnan/hexo-theme-next/wiki" target="_blank" rel="external">Next的设置GitWiki里很详细</a><br><a href="http://prozhuchen.com/2015/10/05/Hexo博客之改字体/" target="_blank" rel="external">字体及字体大小修改</a></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;h2 id=&quot;有用的命令：&quot;&gt;&lt;a href=&quot;#有用的命令：&quot; class=&quot;headerlink&quot; title=&quot;有用的命令：&quot;&gt;&lt;/a&gt;有用的命令：&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;hexo clean -清除&lt;/li&gt;
 &lt;li&gt;hexo g -d  直接发布部署&lt;/li&gt;
 &lt;li&gt;hexo g  生成   &lt;/li&gt;
 &lt;li&gt;hexo s   打开本地服务器   &lt;a href=&quot;http://localhost:4000/&quot;&gt;http://localhost:4000/&lt;/a&gt; 浏览&lt;/li&gt;
@@ -564,11 +563,12 @@
 &lt;li&gt;&lt;a href=&quot;http://localhost:4000/&quot;&gt;http://localhost:4000/&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&quot;安装参考：&quot;&gt;&lt;a href=&quot;#安装参考：&quot; class=&quot;headerlink&quot; title=&quot;安装参考：&quot;&gt;&lt;/a&gt;安装参考：&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://my.oschina.net/ryaneLee/blog/638440&quot;&gt;参考域名绑定部分、修改主题&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://my.oschina.net/ryaneLee/blog/638440&quot;&gt;各种出现的问题总结&lt;/a&gt; &lt;/p&gt;
-&lt;h2 id=&quot;具体安装时出现的问题：&quot;&gt;&lt;a href=&quot;#具体安装时出现的问题：&quot; class=&quot;headerlink&quot; title=&quot;具体安装时出现的问题：&quot;&gt;&lt;/a&gt;具体安装时出现的问题：&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;不能执行hexo命令，只有init,help,version三个命令。解决方案：要在hexo目录下执行。&lt;/li&gt;
-&lt;li&gt;注意坑：执行hexo server时出错，_config.xml里，type: repo: branch:后面，要有一个空格。&lt;/li&gt;
-&lt;li&gt;在DNS的配置里，加入固定的两个IP&lt;blockquote&gt;
+&lt;h2 id=&quot;具体安装时出现的问题：&quot;&gt;&lt;a href=&quot;#具体安装时出现的问题：&quot; class=&quot;headerlink&quot; title=&quot;具体安装时出现的问题：&quot;&gt;&lt;/a&gt;具体安装时出现的问题：&lt;/h2&gt;&lt;h3 id=&quot;不能执行hexo命令&quot;&gt;&lt;a href=&quot;#不能执行hexo命令&quot; class=&quot;headerlink&quot; title=&quot;不能执行hexo命令&quot;&gt;&lt;/a&gt;不能执行hexo命令&lt;/h3&gt;&lt;p&gt;只有init,help,version三个命令。解决方案：要在hexo目录下执行。&lt;/p&gt;
+&lt;h3 id=&quot;注意坑：执行hexo-server时出错&quot;&gt;&lt;a href=&quot;#注意坑：执行hexo-server时出错&quot; class=&quot;headerlink&quot; title=&quot;注意坑：执行hexo server时出错&quot;&gt;&lt;/a&gt;注意坑：执行hexo server时出错&lt;/h3&gt;&lt;p&gt;_config.xml里，type: repo: branch:后面，要有一个空格。&lt;/p&gt;
+&lt;h3 id=&quot;在DNS的配置里，加入固定的两个IP&quot;&gt;&lt;a href=&quot;#在DNS的配置里，加入固定的两个IP&quot; class=&quot;headerlink&quot; title=&quot;在DNS的配置里，加入固定的两个IP&quot;&gt;&lt;/a&gt;在DNS的配置里，加入固定的两个IP&lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;@        A        192.30.252.153&lt;br&gt;@        A        192.30.252.154&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;不能连接git，提示22端口错误&quot;&gt;&lt;a href=&quot;#不能连接git，提示22端口错误&quot; class=&quot;headerlink&quot; title=&quot;不能连接git，提示22端口错误&quot;&gt;&lt;/a&gt;不能连接git，提示22端口错误&lt;/h3&gt;&lt;p&gt;git网站中的ssh证书失效，要重新生成，参考帮助说明。&lt;br&gt;&lt;a href=&quot;https://help.github.com/articles/connecting-to-github-with-ssh/&quot;&gt;ssh生成&lt;/a&gt;&lt;br&gt;
     
     </summary>
     
