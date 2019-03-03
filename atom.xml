@@ -271,8 +271,8 @@
   
   <entry>
     <title>ios游戏分辨率问题</title>
-    <link href="http://codeshuai.com/2017/03/06/2017-03-06/"/>
-    <id>http://codeshuai.com/2017/03/06/2017-03-06/</id>
+    <link href="http://codeshuai.com/2017/03/06/ios%E6%B8%B8%E6%88%8F%E5%88%86%E8%BE%A8%E7%8E%87%E9%97%AE%E9%A2%98/"/>
+    <id>http://codeshuai.com/2017/03/06/ios游戏分辨率问题/</id>
     <published>2017-03-06T04:48:56.000Z</published>
     <updated>2017-03-13T09:29:00.000Z</updated>
     
@@ -369,8 +369,8 @@
   
   <entry>
     <title>Scrapy学习记录</title>
-    <link href="http://codeshuai.com/2017/02/27/2017-02-27-1/"/>
-    <id>http://codeshuai.com/2017/02/27/2017-02-27-1/</id>
+    <link href="http://codeshuai.com/2017/02/27/Scrapy%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
+    <id>http://codeshuai.com/2017/02/27/Scrapy学习记录/</id>
     <published>2017-02-27T05:19:50.000Z</published>
     <updated>2017-02-27T14:09:59.000Z</updated>
     
@@ -461,8 +461,8 @@
   
   <entry>
     <title>Scrapy安装与运行记录</title>
-    <link href="http://codeshuai.com/2017/02/27/2017-02-27/"/>
-    <id>http://codeshuai.com/2017/02/27/2017-02-27/</id>
+    <link href="http://codeshuai.com/2017/02/27/Scrapy%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C%E8%AE%B0%E5%BD%95/"/>
+    <id>http://codeshuai.com/2017/02/27/Scrapy安装与运行记录/</id>
     <published>2017-02-27T04:02:44.000Z</published>
     <updated>2017-02-27T04:50:17.000Z</updated>
     
@@ -565,20 +565,20 @@
   
   <entry>
     <title>hex+mac安装记录</title>
-    <link href="http://codeshuai.com/2017/02/22/2017-02-22/"/>
-    <id>http://codeshuai.com/2017/02/22/2017-02-22/</id>
+    <link href="http://codeshuai.com/2017/02/22/hex+mac%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/"/>
+    <id>http://codeshuai.com/2017/02/22/hex+mac安装记录/</id>
     <published>2017-02-22T12:06:47.000Z</published>
-    <updated>2019-02-19T18:06:59.902Z</updated>
+    <updated>2019-03-03T07:01:37.342Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="有用的命令："><a href="#有用的命令：" class="headerlink" title="有用的命令："></a>有用的命令：</h2><ul>
-<li>hexo clean -清除</li>
-<li>hexo g -d  直接发布部署</li>
-<li>hexo g  生成   </li>
-<li>hexo s   打开本地服务器   <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 浏览</li>
+    <content type="html"><![CDATA[<h2 id="有用的命令-hexo所在目录-："><a href="#有用的命令-hexo所在目录-：" class="headerlink" title="有用的命令(hexo所在目录)："></a>有用的命令(hexo所在目录)：</h2><ul>
+<li>sudo hexo clean -清除</li>
+<li>sudo hexo g -d  直接发布部署</li>
+<li>sudo hexo g  生成   </li>
+<li>sudo hexo s   打开本地服务器   <a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 浏览</li>
 </ul>
 <h3 id="本地预览步骤："><a href="#本地预览步骤：" class="headerlink" title="本地预览步骤："></a>本地预览步骤：</h3><ol>
-<li>hexo g</li>
-<li>hexo s</li>
+<li>sudo hexo g</li>
+<li>sudo hexo s</li>
 <li><a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></li>
 </ol>
 <h2 id="安装参考："><a href="#安装参考：" class="headerlink" title="安装参考："></a>安装参考：</h2><p><a href="https://my.oschina.net/ryaneLee/blog/638440" target="_blank" rel="external">参考域名绑定部分、修改主题</a><br><a href="https://my.oschina.net/ryaneLee/blog/638440" target="_blank" rel="external">各种出现的问题总结</a> </p>
@@ -588,20 +588,20 @@
 <p>@        A        192.30.252.153<br>@        A        192.30.252.154</p>
 </blockquote>
 <h3 id="不能连接git，提示22端口错误"><a href="#不能连接git，提示22端口错误" class="headerlink" title="不能连接git，提示22端口错误"></a>不能连接git，提示22端口错误</h3><p>git网站中的ssh证书失效，要重新生成，参考帮助说明。<br><a href="https://help.github.com/articles/connecting-to-github-with-ssh/" target="_blank" rel="external">ssh生成</a><br><a id="more"></a></p>
-<h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><p><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">Next风格不错</a><br><a href="https://github.com/iissnan/hexo-theme-next/wiki" target="_blank" rel="external">Next的设置GitWiki里很详细</a><br><a href="http://prozhuchen.com/2015/10/05/Hexo博客之改字体/" target="_blank" rel="external">字体及字体大小修改</a></p>
+<h3 id="git证书生成时，不能填写passphrase这个东西，自己回车跳过"><a href="#git证书生成时，不能填写passphrase这个东西，自己回车跳过" class="headerlink" title="git证书生成时，不能填写passphrase这个东西，自己回车跳过"></a>git证书生成时，不能填写passphrase这个东西，自己回车跳过</h3><h2 id="其他："><a href="#其他：" class="headerlink" title="其他："></a>其他：</h2><p><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">Next风格不错</a><br><a href="https://github.com/iissnan/hexo-theme-next/wiki" target="_blank" rel="external">Next的设置GitWiki里很详细</a><br><a href="http://prozhuchen.com/2015/10/05/Hexo博客之改字体/" target="_blank" rel="external">字体及字体大小修改</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;有用的命令：&quot;&gt;&lt;a href=&quot;#有用的命令：&quot; class=&quot;headerlink&quot; title=&quot;有用的命令：&quot;&gt;&lt;/a&gt;有用的命令：&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;hexo clean -清除&lt;/li&gt;
-&lt;li&gt;hexo g -d  直接发布部署&lt;/li&gt;
-&lt;li&gt;hexo g  生成   &lt;/li&gt;
-&lt;li&gt;hexo s   打开本地服务器   &lt;a href=&quot;http://localhost:4000/&quot;&gt;http://localhost:4000/&lt;/a&gt; 浏览&lt;/li&gt;
+      &lt;h2 id=&quot;有用的命令-hexo所在目录-：&quot;&gt;&lt;a href=&quot;#有用的命令-hexo所在目录-：&quot; class=&quot;headerlink&quot; title=&quot;有用的命令(hexo所在目录)：&quot;&gt;&lt;/a&gt;有用的命令(hexo所在目录)：&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;sudo hexo clean -清除&lt;/li&gt;
+&lt;li&gt;sudo hexo g -d  直接发布部署&lt;/li&gt;
+&lt;li&gt;sudo hexo g  生成   &lt;/li&gt;
+&lt;li&gt;sudo hexo s   打开本地服务器   &lt;a href=&quot;http://localhost:4000/&quot;&gt;http://localhost:4000/&lt;/a&gt; 浏览&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;本地预览步骤：&quot;&gt;&lt;a href=&quot;#本地预览步骤：&quot; class=&quot;headerlink&quot; title=&quot;本地预览步骤：&quot;&gt;&lt;/a&gt;本地预览步骤：&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;hexo g&lt;/li&gt;
-&lt;li&gt;hexo s&lt;/li&gt;
+&lt;li&gt;sudo hexo g&lt;/li&gt;
+&lt;li&gt;sudo hexo s&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://localhost:4000/&quot;&gt;http://localhost:4000/&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&quot;安装参考：&quot;&gt;&lt;a href=&quot;#安装参考：&quot; class=&quot;headerlink&quot; title=&quot;安装参考：&quot;&gt;&lt;/a&gt;安装参考：&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://my.oschina.net/ryaneLee/blog/638440&quot;&gt;参考域名绑定部分、修改主题&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://my.oschina.net/ryaneLee/blog/638440&quot;&gt;各种出现的问题总结&lt;/a&gt; &lt;/p&gt;
