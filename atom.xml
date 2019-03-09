@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://109383670.github.io/"/>
-  <updated>2019-03-04T15:52:07.389Z</updated>
+  <updated>2019-03-09T06:18:03.574Z</updated>
   <id>https://109383670.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS开发常见问题</title>
+    <link href="https://109383670.github.io/2019/03/09/iOS%20%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
+    <id>https://109383670.github.io/2019/03/09/iOS 开发常见问题/</id>
+    <published>2019-03-09T06:09:01.636Z</published>
+    <updated>2019-03-09T06:18:03.574Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="隐私政策问题"><a href="#隐私政策问题" class="headerlink" title="隐私政策问题"></a>隐私政策问题</h2><p>从2018年10月3号起，所有新提交的App都必须提供隐私条例。<a href="https://developer.apple.com/news/?id=08312018a" target="_blank" rel="noopener">官方链接</a><br>可以利用网站在线生成，并且都提供在线页面。不过没有中文版本。部分条款要收费，不过free 版本的就足够用了。<br>提供在线生成的网站：<br><a href="https://www.freeprivacypolicy.com" target="_blank" rel="noopener">freeprivacypolicy</a><br><a href="https://privacypolicies.com" target="_blank" rel="noopener">privacypolicies</a></p><h2 id="视频预览问题"><a href="#视频预览问题" class="headerlink" title="视频预览问题"></a>视频预览问题</h2><p>对于竖屏的视频，mac自带的iMovies无法处理，必须用cut final pro来进行处理。<br>导出视频的格式如下：<br><a href="https://help.apple.com/app-store-connect/?lang=zh-cn#/dev4e413fcb8" target="_blank" rel="noopener">App 预览规范</a><br><a href="https://help.apple.com/app-store-connect/?lang=zh-cn#/devd274dd925" target="_blank" rel="noopener">屏幕快照规范</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;隐私政策问题&quot;&gt;&lt;a href=&quot;#隐私政策问题&quot; class=&quot;headerlink&quot; title=&quot;隐私政策问题&quot;&gt;&lt;/a&gt;隐私政策问题&lt;/h2&gt;&lt;p&gt;从2018年10月3号起，所有新提交的App都必须提供隐私条例。&lt;a href=&quot;https://devel
+      
+    
+    </summary>
+    
+    
+      <category term="iOS 开发" scheme="https://109383670.github.io/tags/iOS-%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
   
   <entry>
     <title>cocos2d-x 3.0相对于2.0的变化</title>
