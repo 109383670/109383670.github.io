@@ -13,13 +13,43 @@
       "thumbnail": "reports/sample-report/thumbnail.svg"
     },
     {
-      "id": "sample-markdown",
-      "type": "markdown",
-      "title": "深度学习模型选型指南",
-      "summary": "演示站内 Markdown 阅读器。讲解模型选型维度、主流方案对比、决策流程与结构化输出示例。",
-      "tags": ["技术", "AI", "示例"],
+      "id": "laoren",
+      "type": "html",
+      "title": "老人与海时间轴",
+      "summary": "老人与海时间轴显示",
+      "tags": ["读书"],
       "date": "2026-06-22",
-      "path": "reports/sample-markdown/report.md",
+      "path": "reports/sample-report/index.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "bidepan",
+      "type": "html",
+      "title": "老人与海时间轴",
+      "summary": "《彼得·潘》小说时间轴",
+      "tags": ["读书"],
+      "date": "2026-06-22",
+      "path": "reports/sample-report/《彼得·潘》小说时间轴.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "bidepanjiegou",
+      "type": "markdown",
+      "title": "《彼得·潘》小说结构分析",
+      "summary": "《彼得·潘》小说结构分析",
+      "tags": ["读书", "小说结构分析"],
+      "date": "2026-06-22",
+      "path": "reports/sample-markdown/《彼得·潘》小说结构分析.md",
+      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+    },
+    {
+      "id": "laorenyuhaijiegou",
+      "type": "markdown",
+      "title": "老人与海时间线总结",
+      "summary": "老人与海时间线总结",
+      "tags": ["读书", "小说结构分析"],
+      "date": "2026-06-22",
+      "path": "reports/sample-markdown/老人与海时间线总结.md",
       "thumbnail": "reports/sample-markdown/thumbnail.svg"
     }
   ]
