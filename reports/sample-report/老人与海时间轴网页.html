@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline'; img-src * data: blob:; font-src * data:; media-src * data: blob:; connect-src 'none'; form-action 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《老人与海》时间线可视化</title>
+    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/fontawesome-free-7.1.0-web/js/all.min.js"></script>
+    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/3.4.17.js"></script>
+    <script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/echarts.min.js"></script>
+    <style>
+        /* 自定义时间轴样式 - 使用BEM命名法避免冲突 */
+        .timeline-custom {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline-custom::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #ec4899);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .timeline-custom__item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+        
+        .timeline-custom__item:nth-child(odd) .timeline-custom__content {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        
+        .timeline-custom__item:nth-child(even) .timeline-custom__content {
+            margin-left: 0;
+            margin-right: auto;
+        }
+        
+        .timeline-custom__marker {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 4px solid #3b82f6;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-custom__content {
+            width: 45%;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-custom__content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-custom__day-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .timeline-custom::before {
+                left: 30px;
+            }
+            
+            .timeline-custom__content {
+                width: calc(100% - 80px);
+                margin-left: 80px !important;
+                margin-right: 0 !important;
+            }
+            
+            .timeline-custom__marker {
+                left: 30px;
+            }
+        }
+        
+        /* 地图路径动画 */
+        .map-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 3s ease-in-out forwards;
+        }
+        
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        /* 图表容器 */
+        #timelineChart {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+<script>
+!(function(j,a,g){j.__itrace_conf = {bid: 'kt40h0wl-koyh4af8',rel: '', uid: '0bd88b53-55df-4f43-b13e-42ae260080b4' ,  spa: true, plugins:['jserror','interface','perf','resource','flow','blank']};var b = a.createElement("script");var d = a.getElementsByTagName("script")[0];b.type = "text/javascript";b.crossorigin = true;b.async = true;b.onload = function(){j.__itrace && j.__itrace.setReady()};d.parentNode.insertBefore(b,d);b.src = g})(window, document, "https://g.alicdn.com/woodpeckerx/itrace-next/itrace.iife.js")
+</script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 页面头部 -->
+    <header class="bg-gradient-to-r from-blue-900 to-purple-900 text-white py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">《老人与海》时间线可视化</h1>
+                    <p class="text-xl text-blue-200">海明威经典中篇小说 · 五天四夜的意志之战</p>
+                    <div class="mt-6 flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar-alt text-blue-300 mr-2"></i>
+                            <span>时间跨度：第84天 - 第88天</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-300 mr-2"></i>
+                            <span>地理轨迹：古巴哈瓦那 → 墨西哥湾流 → 返航</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <h3 class="text-xl font-bold mb-3">核心数据统计</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-yellow-300">84</div>
+                            <div class="text-sm text-blue-200">连续未捕到鱼天数</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-green-300">5</div>
+                            <div class="text-sm text-blue-200">故事总天数</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-red-300">3</div>
+                            <div class="text-sm text-blue-200">海上搏斗天数</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-purple-300">18</div>
+                            <div class="text-sm text-blue-200">马林鱼长度(英尺)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto max-w-6xl py-12 px-4">
+        <!-- 时间线图表 -->
+        <section class="mb-16">
+            <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-stream text-blue-600 mr-3"></i>
+                    交互式时间轴
+                </h2>
+                <p class="text-gray-600 mb-6">以下图表展示了《老人与海》从第84天到第88天的完整事件发展过程。点击时间点可查看详细信息。</p>
+                <div id="timelineChart"></div>
+            </div>
+        </section>
+
+        <!-- 详细时间线（传统布局） -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-history text-amber-600 mr-3"></i>
+                    详细时间线事件表
+                </h2>
+                <p class="text-gray-700 mb-8">基于小说原文整理的20个关键节点，涵盖时间点、事件描述、地理位置和"未钓到鱼"累计天数。</p>
+                
+                <div class="timeline-custom">
+                    <!-- 第84天事件 -->
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-blue-100 text-blue-800">第84天 · 连续第84天未捕到鱼</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">傍晚：空手而归</h3>
+                            <p class="text-gray-600 mb-3">老人圣地亚哥连续第84天未能捕获任何鱼类，空手而归；男孩曼诺林帮助他收拾渔具，并邀请共进晚餐。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>古巴哈瓦那附近的渔村海边小屋</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[1]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-blue-100 text-blue-800">第84天 · 连续第84天未捕到鱼</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">夜间：梦见狮子</h3>
+                            <p class="text-gray-600 mb-3">老人回到简陋小棚屋入睡，梦见非洲海滩上的狮子——这一反复出现的梦境象征力量与青春。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>海边小屋</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[2]</sup>, <sup>[3]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第85天事件 -->
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-green-100 text-green-800">第85天 · 连续第85天未捕到鱼</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">清晨：出海远征</h3>
+                            <p class="text-gray-600 mb-3">老人在寒冷的黎明前划船出港，驶向墨西哥湾流深处；使用孩子给的金枪鱼和沙丁鱼作饵。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>哈瓦那港口 → 墨西哥湾流远海区域</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[2]</sup>, <sup>[3]</sup>, <sup>[4]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-green-100 text-green-800">第85天 · 连续第85天未捕到鱼</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">上午：大鱼上钩</h3>
+                            <p class="text-gray-600 mb-3">小金枪鱼咬钩，被拉上船板，老人视其为好兆头；同时察觉深水中有一条大马林鱼开始啃食鱼饵。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>墨西哥湾流海域</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[2]</sup>, <sup>[3]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-green-100 text-green-800">第85天 · 连续第85天未捕到鱼</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">中午后：被动漂流</h3>
+                            <p class="text-gray-600 mb-3">大鱼正式上钩，拖着小船向西北方向移动；老人紧握钓丝，身体剧烈拉伤，左手首次抽筋。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>向西北漂流途中，陆地已不可见</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[1]</sup>, <sup>[2]</sup>, <sup>[3]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第86天事件 -->
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-purple-100 text-purple-800">第86天 · 连续第86天未捕到鱼</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">早晨：大鱼现身</h3>
+                            <p class="text-gray-600 mb-3">大鱼首次跃出水面，老人确认其为前所未见的巨大马林鱼；鱼突然转向东方。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>东方海域</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[2]</sup>, <sup>[3]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第87天事件 -->
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-red-100 text-red-800">第87天 · 捕鱼成功</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">中午左右：杀死大鱼</h3>
+                            <p class="text-gray-600 mb-3">老人用尽全力将鱼叉刺入大鱼心脏，成功杀死大马林鱼；随后将其绑在船侧，准备返航。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>海上作业点</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[1]</sup>, <sup>[2]</sup>, <sup>[5]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-red-100 text-red-800">第87天 · 捕鱼成功</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">下午：首次鲨鱼袭击</h3>
+                            <p class="text-gray-600 mb-3">发现第一条灰鲭鲨来袭，老人用鱼叉将其杀死，但失去唯一重型武器；大鱼尾部被咬掉约四十磅肉。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>归程起点附近</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[6]</sup>, <sup>[2]</sup>, <sup>[7]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第88天事件 -->
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-indigo-100 text-indigo-800">第88天 · 返回休整</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">凌晨：精疲力竭归港</h3>
+                            <p class="text-gray-600 mb-3">老人驾船返回，看见哈瓦那港微弱灯光；抵达岸边时已精疲力竭，几乎无法站立。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>哈瓦那海湾沿岸</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[1]</sup>, <sup>[2]</sup>, <sup>[8]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-custom__item">
+                        <div class="timeline-custom__marker"></div>
+                        <div class="timeline-custom__content">
+                            <div class="timeline-custom__day-badge bg-indigo-100 text-indigo-800">第88天 · 返回休整</div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">白天：渔民围观鱼骨</h3>
+                            <p class="text-gray-600 mb-3">渔民们围观大马林鱼的巨大骨架，惊叹其尺寸达十八英尺以上；有人误认为是鲨鱼或无法辨识。</p>
+                            <div class="flex items-center text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>海边码头</span>
+                            </div>
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-quote-left mr-1"></i>引用来源：<sup>[11]</sup>, <sup>[10]</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 地理移动轨迹 -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-route text-emerald-600 mr-3"></i>
+                    地理移动轨迹
+                </h2>
+                <p class="text-gray-700 mb-6">老人的航行路线呈"离岸—远海—折返—归岸"的弧形路径，最远距离陆地数十海里，深入墨西哥湾流中心区域。</p>
+                
+                <div class="bg-white rounded-xl p-6 mb-8">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 mb-6 md:mb-0">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">文字版航行路线</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="bg-emerald-100 text-emerald-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">1</div>
+                                    <div>
+                                        <p class="font-medium">起点：古巴哈瓦那渔村小屋</p>
+                                        <p class="text-sm text-gray-600">第85天清晨出发</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="bg-emerald-100 text-emerald-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">2</div>
+                                    <div>
+                                        <p class="font-medium">墨西哥湾流远海区域</p>
+                                        <p class="text-sm text-gray-600">初始捕鱼区，大鱼上钩</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="bg-emerald-100 text-emerald-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">3</div>
+                                    <div>
+                                        <p class="font-medium">西北方向漂流</p>
+                                        <p class="text-sm text-gray-600">第85天午后，被大鱼拖向西北</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="bg-emerald-100 text-emerald-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">4</div>
+                                    <div>
+                                        <p class="font-medium">海上作业点</p>
+                                        <p class="text-sm text-gray-600">第87天中午，杀死大鱼位置</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="bg-emerald-100 text-emerald-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">5</div>
+                                    <div>
+                                        <p class="font-medium">哈瓦那海湾沿岸</p>
+                                        <p class="text-sm text-gray-600">第88天凌晨，精疲力竭归港</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="bg-gray-100 rounded-xl p-6 h-full flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fas fa-map-marked-alt text-6xl text-emerald-500 mb-4"></i>
+                                    <h4 class="text-lg font-bold text-gray-800 mb-2">航行轨迹示意图</h4>
+                                    <p class="text-gray-600">由于参考文章未提供地图图片资源，此处使用图标示意老人的航行路径。</p>
+                                    <div class="mt-6">
+                                        <div class="inline-block bg-emerald-500 text-white px-4 py-2 rounded-lg">
+                                            总航程：离岸 → 远海 → 折返 → 归岸
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 阶段分析 -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                    <i class="fas fa-layer-group text-slate-600 mr-3"></i>
+                    分阶段深度解析
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-blue-100">
+                        <div class="text-blue-600 text-2xl mb-4">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">海边准备阶段</h3>
+                        <p class="text-gray-600 mb-4">第84天：孤独中的尊严</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>连续84天未捕到鱼</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>梦见非洲狮子</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>男孩曼诺林支持</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-green-100">
+                        <div class="text-green-600 text-2xl mb-4">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">海上搏斗阶段</h3>
+                        <p class="text-gray-600 mb-4">第85-87天：三天两夜的生命对决</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>与大马林鱼周旋</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>最终成功捕获</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>搏斗时长约48小时</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-red-100">
+                        <div class="text-red-600 text-2xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">归航抗争阶段</h3>
+                        <p class="text-gray-600 mb-4">第87天下午至第88天凌晨：成就的消解</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>鲨鱼群连续袭击</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>武器尽毁，鱼被啃食</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>物质失败，精神胜利</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-purple-100">
+                        <div class="text-purple-600 text-2xl mb-4">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">返回休整阶段</h3>
+                        <p class="text-gray-600 mb-4">第88天：精神的回归与传承</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>仅剩鱼骨归港</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>男孩决定重新跟随</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>再次梦见狮子</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-gray-300 py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold text-white mb-4">《老人与海》时间线分析</h3>
+                    <p class="max-w-md">基于海明威经典中篇小说《老人与海》情节发展的全面梳理，以"天"为单位构建详细时间轴，涵盖从第84天至第88天的全部关键事件、空间轨迹及心理变化。</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <div class="mb-4 p-4 bg-gray-800 rounded-lg">
+                        <p class="text-sm italic">"一个人并不是生来要给打败的，你尽可以把他消灭掉，可就是打不败他。"</p>
+                        <p class="text-xs mt-2">—— 欧内斯特·海明威《老人与海》</p>
+                    </div>
+                    <div class="text-sm">
+                        <p class="mb-2">本内容由AI生成，可能存在错误或不准确之处。请在使用前自行核实信息的准确性。</p>
+                        <p>生成日期：2026年6月22日，星期一</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <h4 class="text-lg font-bold text-white mb-4">引用来源</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                    <div>[1]: <a href="https://book.douban.com/review/16623446/" class="text-blue-400 hover:text-blue-300">确实还行（新课标必读名著名师备考丛书:老人与海·精解速读）书评</a></div>
+                    <div>[2]: <a href="http://www.haoyuwen8.com/xiangxi/124602/" class="text-blue-400 hover:text-blue-300">名著梗概：《老人与海》 - 好语文</a></div>
+                    <div>[3]: <a href="http://www.danxie.net/meiwenxinshang/454759.html" class="text-blue-400 hover:text-blue-300">《老人与海》故事梗概</a></div>
+                    <div>[4]: <a href="http://www.haoyuwen8.com/xiangxi/124620/" class="text-blue-400 hover:text-blue-300">一篇短小的杰作──读《老人与海》 - 好语文</a></div>
+                    <div>[5]: <a href="https://bkso.baidu.com/item/%E8%80%81%E4%BA%BA%E4%B8%8E%E6%B5%B7/1065?fromModule=lemma_starMap&lemmaFrom=lemma_starMap&lemmaIdFrom=1065&starNodeId=121b5b2a486e035bb9eeb38c" class="text-blue-400 hover:text-blue-300">老人与海（美国欧内斯特·米勒尔·海明威创作的中篇小说）_百度百科</a></div>
+                    <div>[6]: <a href="https://m.zxxk.com/soft/54791605.html" class="text-blue-400 hover:text-blue-300">10《老人与海》课件 2025-2026学年统编版高二语文选择性必修上册-学科网</a></div>
+                    <div>[7]: <a href="https://m.zxxk.com/soft/55116932.html" class="text-blue-400 hover:text-blue-300">10.《老人与海》（节选）课件 2025-2026学年统编版高二语文选择性必修上册-学科网</a></div>
+                    <div>[8]: <a href="https://easylearn.baidu.com/edu-page/tiangong/questiondetail?fr=search&id=1728836174463626681" class="text-blue-400 hover:text-blue-300">二）老人与海（节选海明威背景介绍：古巴的一位老渔夫桑迪亚哥已经连续84天没打到鱼了。前40天还有一个叫曼诺琳的孩子和他一起，后来孩子的父母嫌老人</a></div>
+                    <div>[9]: <a href="http://www.haoyuwen8.com/xiangxi/124622/" class="text-blue-400 hover:text-blue-300">《老人与海》缩写 - 好语文</a></div>
+                    <div>[10]: <a href="https://www.bilibili.com/video/BV1qnRzBCE4i" class="text-blue-400 hover:text-blue-300">每日精读一本书8：海明威《老人与海》</a></div>
+                    <div>[11]: <a href="https://page.quark.cn/baike?id=d3aad590c6b84a078958a6ac50d28f51" class="text-blue-400 hover:text-blue-300">老人与海</a></div>
+                    <div>[12]: <a href="http://www.haoyuwen8.com/xiangxi/124618/" class="text-blue-400 hover:text-blue-300">《老人与海》为何长销 - 好语文</a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 初始化ECharts时间轴图表
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartDom = document.getElementById('timelineChart');
+            const myChart = echarts.init(chartDom);
+            
+            // 基于参考文章的时间线数据
+            const timelineData = [
+                { 
+                    time: '第84天傍晚', 
+                    title: '空手而归', 
+                    detail: '连续第84天未捕到鱼，男孩曼诺林帮助收拾渔具',
+                    position: 'top',
+                    location: '古巴哈瓦那渔村海边小屋',
+                    dayType: '未捕到鱼'
+                },
+                { 
+                    time: '第84天夜间', 
+                    title: '梦见狮子', 
+                    detail: '梦见非洲海滩上的狮子，象征力量与青春',
+                    position: 'bottom',
+                    location: '海边小屋',
+                    dayType: '未捕到鱼'
+                },
+                { 
+                    time: '第85天清晨', 
+                    title: '出海远征', 
+                    detail: '划船出港，驶向墨西哥湾流深处',
+                    position: 'top',
+                    location: '哈瓦那港口 → 墨西哥湾流',
+                    dayType: '未捕到鱼'
+                },
+                { 
+                    time: '第85天上午', 
+                    title: '大鱼上钩', 
+                    detail: '小金枪鱼咬钩，察觉大马林鱼开始啃食鱼饵',
+                    position: 'bottom',
+                    location: '墨西哥湾流海域',
+                    dayType: '未捕到鱼'
+                },
+                { 
+                    time: '第85天中午后', 
+                    title: '被动漂流', 
+                    detail: '大鱼拖船向西北，左手首次抽筋',
+                    position: 'top',
+                    location: '向西北漂流，陆地不可见',
+                    dayType: '未捕到鱼'
+                },
+                { 
+                    time: '第86天早晨', 
+                    title: '大鱼现身', 
+                    detail: '大鱼首次跃出水面，确认其为巨大马林鱼',
+                    position: 'bottom',
+                    location: '东方海域',
+                    dayType: '未捕到鱼'
+                },
+                { 
+                    time: '第87天中午', 
+                    title: '杀死大鱼', 
+                    detail: '用鱼叉刺入大鱼心脏，成功杀死大马林鱼',
+                    position: 'top',
+                    location: '海上作业点',
+                    dayType: '捕鱼成功'
+                },
+                { 
+                    time: '第87天下午', 
+                    title: '鲨鱼袭击', 
+                    detail: '灰鲭鲨来袭，用鱼叉杀死，大鱼尾部被咬',
+                    position: 'bottom',
+                    location: '归程起点附近',
+                    dayType: '护鱼失败'
+                },
+                { 
+                    time: '第88天凌晨', 
+                    title: '精疲力竭归港', 
+                    detail: '驾船返回哈瓦那，几乎无法站立',
+                    position: 'top',
+                    location: '哈瓦那海湾沿岸',
+                    dayType: '返回休整'
+                },
+                { 
+                    time: '第88天白天', 
+                    title: '渔民围观鱼骨', 
+                    detail: '渔民惊叹十八英尺鱼骨，误认为是鲨鱼',
+                    position: 'bottom',
+                    location: '海边码头',
+                    dayType: '返回休整'
+                }
+            ];
+            
+            // 根据天数类型设置颜色
+            const dayTypeColors = {
+                '未捕到鱼': '#3b82f6',
+                '捕鱼成功': '#10b981',
+                '护鱼失败': '#ef4444',
+                '返回休整': '#8b5cf6'
+            };
+            
+            const option = {
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    top: '15%',
+                    bottom: '15%',
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        const dataIndex = params.dataIndex;
+                        const item = timelineData[dataIndex];
+                        return `
+                        <div style="font-weight:bold;margin-bottom:5px;">${item.title}</div>
+                        <div>时间：${item.time}</div>
+                        <div>地点：${item.location}</div>
+                        <div>详情：${item.detail}</div>
+                        `;
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    show: true,
+                    data: timelineData.map(item => item.time),
+                    axisLine: {
+                        lineStyle: {
+                            color: '#d1d5db'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#6b7280',
+                        fontSize: 12,
+                        rotate: 30
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    show: false,
+                    min: -1,
+                    max: 1
+                },
+                series: [{
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 20,
+                    lineStyle: {
+                        color: '#9ca3af',
+                        width: 3,
+                        type: 'solid'
+                    },
+                    itemStyle: {
+                        color: function(params) {
+                            return dayTypeColors[timelineData[params.dataIndex].dayType];
+                        },
+                        borderColor: '#1f2937',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: true,
+                        position: function(params) {
+                            return timelineData[params.dataIndex].position;
+                        },
+                        formatter: function(params) {
+                            const item = timelineData[params.dataIndex];
+                            return `{dayType|${item.dayType}}\n{title|${item.title}}\n{detail|${item.detail}}`;
+                        },
+                        rich: {
+                            dayType: {
+                                color: '#6b7280',
+                                fontSize: 11,
+                                align: 'center',
+                                padding: [2, 6],
+                                backgroundColor: '#f3f4f6',
+                                borderRadius: 10
+                            },
+                            title: {
+                                color: '#1f2937',
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                padding: [5, 0],
+                                align: 'center'
+                            },
+                            detail: {
+                                color: '#4b5563',
+                                fontSize: 12,
+                                align: 'center',
+                                lineHeight: 18
+                            }
+                        }
+                    },
+                    data: timelineData.map((item, index) => {
+                        return {
+                            value: index % 2 === 0 ? 0.3 : -0.3, // 上下交替
+                            itemStyle: {
+                                color: dayTypeColors[item.dayType]
+                            }
+                        };
+                    })
+                }]
+            };
+            
+            myChart.setOption(option);
+            
+            // 窗口大小变化时重绘图表
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+            
+            // 添加图表点击交互
+            myChart.on('click', function(params) {
+                const dataIndex = params.dataIndex;
+                const item = timelineData[dataIndex];
+                
+                // 创建详情弹窗
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 500px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h3 style="font-size: 1.5rem; font-weight: bold; color: #1f2937;">${item.title}</h3>
+                            <button id="closeModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;">×</button>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: inline-block; background: ${dayTypeColors[item.dayType]}; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600;">
+                                ${item.time} · ${item.dayType}
+                            </div>
+                        </div>
+                        <p style="color: #4b5563; margin-bottom: 1.5rem; line-height: 1.6;">${item.detail}</p>
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: center; color: #6b7280;">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i>
+                                <span>${item.location}</span>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <button id="confirmClose" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">关闭</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // 关闭弹窗功能
+                document.getElementById('closeModal').addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                });
+                
+                document.getElementById('confirmClose').addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                });
+                
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

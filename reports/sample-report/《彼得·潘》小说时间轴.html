@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《彼得·潘》小说时间轴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #3498db, #9b59b6, #e74c3c, #f39c12);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+        }
+        
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #3498db;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(2)::after { border-color: #9b59b6; }
+        .timeline-item:nth-child(3)::after { border-color: #e74c3c; }
+        .timeline-item:nth-child(4)::after { border-color: #f39c12; }
+        .timeline-item:nth-child(5)::after { border-color: #2ecc71; }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 90%;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 30px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 30px;
+        }
+        
+        .chapter {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-item:nth-child(2) .chapter { background: #9b59b6; }
+        .timeline-item:nth-child(3) .chapter { background: #e74c3c; }
+        .timeline-item:nth-child(4) .chapter { background: #f39c12; }
+        .timeline-item:nth-child(5) .chapter { background: #2ecc71; }
+        
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .theme {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-right: 0;
+                padding-left: 70px;
+                justify-content: flex-start;
+            }
+            
+            .timeline-item:nth-child(even) {
+                padding-left: 70px;
+            }
+            
+            .timeline-item::after {
+                left: 30px;
+            }
+            
+            .timeline-content {
+                width: 100%;
+                margin: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧚‍♂️ 《彼得·潘》小说时间轴</h1>
+        <p class="subtitle">James M. Barrie's Peter Pan - Story Timeline</p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="chapter">第一部分：在家 | 第一章至第三章</span>
+                    <h3>🏠 彼得·潘的初次登场</h3>
+                    <p>彼得·潘首次出现在达林家育儿室，教温迪、约翰和迈克尔飞行。他的影子被保姆狗娜娜抓走，温迪帮他缝回影子。彼得邀请孩子们前往永无岛。</p>
+                    <p><strong>关键事件：</strong>影子事件、学会飞行、决定前往永无岛</p>
+                    <div class="theme">主题：童年的召唤与冒险的诱惑</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="chapter">第二部分：离家 | 第四章至第十一章</span>
+                    <h3>🏝️ 永无岛之旅</h3>
+                    <p>温迪、约翰和迈克尔与彼得一起飞往永无岛，途中变换各种花样飞行。快到岛上时被海盗火炮打散。在岛上，温迪扮演母亲角色，照顾迷失男孩。他们还救出了印第安公主虎莲。</p>
+                    <p><strong>关键事件：</strong>飞往永无岛、建立地下之家、温迪成为"母亲"、营救虎莲</p>
+                    <div class="theme">主题：童年的自由与责任、想象与现实的碰撞</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="chapter">第三部分：对抗 | 第十二章至第十五章</span>
+                    <h3>⚔️ 与胡克船长的决战</h3>
+                    <p>海盗对迷失男孩的藏身处发动突袭，将孩子们抓走。彼得悄悄登上海盗船"快乐的罗杰号"营救温迪和迷失男孩。最终，彼得与胡克船长进行生死决战，胡克被鳄鱼吞食。</p>
+                    <p><strong>关键事件：</strong>孩子们被抓、彼得营救行动、与胡克最终对决、胡克之死</p>
+                    <div class="theme">主题：童年精神与成人秩序的对抗、勇气与智慧</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="chapter">第四部分：回家 | 第十六章至第十七章</span>
+                    <h3>🏠 返回伦敦</h3>
+                    <p>彼得驾驶海盗船返回伦敦。温迪、约翰和迈克尔回到达林家，迷失男孩也被达林夫妇收养。彼得选择留在永无岛，拒绝长大。温迪长大后，彼得再次出现，温迪的女儿简代替母亲开始新的冒险。</p>
+                    <p><strong>关键事件：</strong>驾驶海盗船回家、孩子们回归家庭、彼得拒绝长大、简的新冒险</p>
+                    <div class="theme">主题：成长的必然性、童年的传承、永恒的童年精神</div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="chapter">象征结构分析</span>
+                    <h3>🎭 三重对抗结构</h3>
+                    <p><strong>意象对抗：</strong>"鸟"世界与人世界的对抗<br>
+                    <strong>场景对抗：</strong>永无岛与伦敦城的对抗<br>
+                    <strong>人物对抗：</strong>彼得·潘与胡克船长的对抗</p>
+                    <p>这三种对抗最终奠定了儿童与成人间对抗的基本寓意框架，体现了作品的现代主义文学特征。</p>
+                    <div class="theme">主题：童年与成年的含混对立、成长与永恒的辩证关系</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #ecf0f1; color: #95a5a6; font-size: 0.9em;">
+            <p>📚 基于 J.M. Barrie 的《彼得·潘》(Peter and Wendy, 1911) 编制</p>
+            <p>🕐 故事时间轴 | 📖 情节结构分析 | 🎨 象征意义解读</p>
+        </div>
+    </div>
+</body>
+</html>

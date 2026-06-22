@@ -1,0 +1,106 @@
+# ============================================================
+# robots.txt — 禁止搜索引擎与爬虫收录本站
+#
+# 说明：
+#   • `User-agent: *` + `Disallow: /` 已对【所有遵守 robots 协议的爬虫】
+#     生效，包含搜索引擎与 AI 训练爬虫。
+#   • 下方再对常见 AI 训练 / 抓取爬虫单独声明，目的有二：
+#       1) 明确表达不参与 AI 训练的意图；
+#       2) 捕获少数对通配规则解析不严谨的爬虫。
+#
+# ⚠ 重要限制：robots.txt 仅对【遵守协议】的爬虫有效（Google、Bing、
+#   OpenAI、Anthropic、Google-Extended 等通常会遵守）。恶意爬虫 / 数据
+#   贩卖商会忽略它。若需更强的访问控制，请改用：
+#     - 私有仓库 + 付费 GitHub Pages（需鉴权）
+#     - 或部署到支持 Basic Auth / 访问控制的平台（Netlify/Vercel 密码保护）
+# ============================================================
+
+User-agent: *
+Disallow: /
+
+# ---------- 常见 AI 训练 / 抓取爬虫（显式屏蔽）----------
+# OpenAI（ChatGPT、GPTBot）
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+# Anthropic（Claude）
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Claude-User
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# Google Gemini 训练数据抓取
+User-agent: Google-Extended
+Disallow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
+
+# Common Crawl（被众多数据集复用的公共爬虫）
+User-agent: CCBot
+Disallow: /
+
+# 字节跳动
+User-agent: Bytespider
+Disallow: /
+
+# Meta
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+# Apple（Applebot-Extended 用于 AI 训练，与普通 Applebot 区分）
+User-agent: Applebot-Extended
+Disallow: /
+
+# Amazon
+User-agent: Amazonbot
+Disallow: /
+
+# 其他已知抓取 / 训练爬虫
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: Img2Dataset
+Disallow: /
+
+# -------------------------------------------------------
+# 若你【希望】被搜索引擎收录，请删除本文件，或改为：
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://你的用户名.github.io/reports-gallery/sitemap.xml
+# -------------------------------------------------------

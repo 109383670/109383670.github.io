@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
+  "reports": [
+    {
+      "id": "sample-report",
+      "type": "html",
+      "title": "2026 AI 编程助手市场分析",
+      "summary": "演示画廊如何托管自包含的 HTML 报告，内含数据卡片、趋势分析与展示建议。",
+      "tags": ["市场", "分析", "示例"],
+      "date": "2026-06-22",
+      "path": "reports/sample-report/index.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "sample-markdown",
+      "type": "markdown",
+      "title": "深度学习模型选型指南",
+      "summary": "演示站内 Markdown 阅读器。讲解模型选型维度、主流方案对比、决策流程与结构化输出示例。",
+      "tags": ["技术", "AI", "示例"],
+      "date": "2026-06-22",
+      "path": "reports/sample-markdown/report.md",
+      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+    }
+  ]
+}
