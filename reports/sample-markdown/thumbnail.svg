@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1620"/>
+      <stop offset="100%" stop-color="#0f1729"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg2)"/>
+  <circle cx="520" cy="60" r="140" fill="#06b6d4" opacity="0.12"/>
+  <circle cx="100" cy="320" r="160" fill="#6366f1" opacity="0.12"/>
+  <!-- Markdown 符号 # 作为主视觉 -->
+  <text x="80" y="170" font-family="monospace" font-size="120" font-weight="bold" fill="url(#cyan)" opacity="0.9">#</text>
+  <!-- 文档行模拟 -->
+  <rect x="200" y="90" width="240" height="16" rx="8" fill="url(#cyan)" opacity="0.85"/>
+  <rect x="200" y="124" width="320" height="8" rx="4" fill="#9aa7bd" opacity="0.4"/>
+  <rect x="200" y="142" width="300" height="8" rx="4" fill="#9aa7bd" opacity="0.35"/>
+  <rect x="200" y="160" width="280" height="8" rx="4" fill="#9aa7bd" opacity="0.3"/>
+  <rect x="200" y="186" width="160" height="10" rx="5" fill="#06b6d4" opacity="0.6"/>
+  <rect x="200" y="206" width="300" height="8" rx="4" fill="#9aa7bd" opacity="0.3"/>
+  <rect x="200" y="224" width="260" height="8" rx="4" fill="#9aa7bd" opacity="0.25"/>
+  <!-- 表格示意 -->
+  <rect x="200" y="252" width="200" height="8" rx="4" fill="#5d6b85"/>
+  <rect x="410" y="252" width="110" height="8" rx="4" fill="#5d6b85"/>
+  <rect x="200" y="268" width="200" height="6" rx="3" fill="#5d6b85" opacity="0.5"/>
+  <rect x="410" y="268" width="110" height="6" rx="3" fill="#5d6b85" opacity="0.5"/>
+  <!-- MD 角标 -->
+  <rect x="48" y="36" width="56" height="28" rx="6" fill="#06b6d4" opacity="0.2" stroke="#06b6d4" stroke-opacity="0.5"/>
+  <text x="76" y="55" font-family="monospace" font-size="13" font-weight="bold" fill="#06b6d4" text-anchor="middle">MD</text>
+</svg>

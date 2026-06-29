@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>报告画廊 · AI 生成报告展示</title>
+  <meta name="description" content="一个用于展示 AI 生成报告的静态画廊网站。">
+  <!-- 防止搜索引擎收录与爬取：noindex=不收录, nofollow=不跟踪链接,
+       noarchive=不缓存快照, noimageindex=不索引图片, nosnippet=不显示摘要 -->
+  <meta name="robots" content="noindex, nofollow, noarchive, noimageindex, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, noimageindex, nosnippet">
+  <!-- X-Robots-Tag 的等价声明（部分 CDN / 代理会读取） -->
+  <meta http-equiv="X-Robots-Tag" content="noindex, nofollow, noarchive">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236366f1'/><text x='50' y='68' font-size='52' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>R</text></svg>">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- ===================== 画廊视图 ===================== -->
+  <div id="gallery-view" class="view active">
+
+    <!-- 顶部导航 -->
+    <nav class="navbar">
+      <div class="container navbar-inner">
+        <a class="brand" href="#/">
+          <span class="brand-logo">R</span>
+          <span>报告画廊</span>
+        </a>
+        <div class="nav-stats">
+          共 <strong id="hero-count">0</strong> 份报告
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      <!-- Hero -->
+      <header class="hero">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          <span>AI 生成报告 · 静态展示</span>
+        </div>
+        <h1 class="hero-title">报告画廊</h1>
+        <p class="hero-subtitle">
+          在这里浏览所有 AI 生成的报告。支持自包含 HTML 页面，也支持 Markdown 文档站内阅读。
+        </p>
+      </header>
+
+      <!-- 工具栏：搜索 + 排序 -->
+      <div class="toolbar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="search" class="search-input" type="search" placeholder="搜索标题、简介或标签…" autocomplete="off">
+        </div>
+        <select id="sort" class="sort-select" title="排序方式">
+          <option value="date-desc">最新优先</option>
+          <option value="date-asc">最早优先</option>
+          <option value="title">按标题</option>
+        </select>
+      </div>
+
+      <!-- 标签过滤 -->
+      <div id="tag-bar" class="tag-bar"></div>
+
+      <!-- 结果计数 -->
+      <div style="color:var(--text-muted);font-size:.85rem;margin-bottom:16px">
+        显示 <strong id="result-count" style="color:var(--text-primary)">0</strong> 份报告
+      </div>
+
+      <!-- 卡片画廊 -->
+      <section id="gallery" class="gallery">
+        <div class="state-msg" style="grid-column:1/-1">
+          <p>正在加载报告清单…</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        由静态画廊驱动 · 部署于 GitHub Pages
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===================== Markdown 阅读器视图 ===================== -->
+  <div id="reader-view" class="view">
+    <div class="reader-bar">
+      <div class="container reader-bar-inner">
+        <a href="#/" id="back-to-gallery" class="back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          返回画廊
+        </a>
+        <div class="reader-meta">
+          <span class="reader-type">MD</span>
+          <span>站内 Markdown 阅读器</span>
+        </div>
+      </div>
+    </div>
+    <div id="reader-content"></div>
+  </div>
+
+  <!-- ===================== 脚本 ===================== -->
+  <!-- marked.js 用于渲染 Markdown（本地打包，离线可用） -->
+  <script src="assets/vendor/marked.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

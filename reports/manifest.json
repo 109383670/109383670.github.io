@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
+  "reports": [
+    {
+      "id": "MBTI-与荣格原典中-Ni-与-Ne-的完整解释-区别对比及核心冲突",
+      "type": "html",
+      "title": "Ni vs Ne: 荣格直觉功能可视化",
+      "summary": "基于荣格《心理类型》与 MBTI 认知功能理论的深度可视化",
+      "tags": [],
+      "date": "2026-06-29",
+      "path": "reports/sample-report/MBTI 与荣格原典中 Ni 与 Ne 的完整解释、区别对比及核心冲突.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "bidepan",
+      "type": "html",
+      "title": "老人与海时间轴",
+      "summary": "《彼得·潘》小说时间轴",
+      "tags": [
+        "读书"
+      ],
+      "date": "2026-06-22",
+      "path": "reports/sample-report/《彼得·潘》小说时间轴.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "laoren",
+      "type": "html",
+      "title": "老人与海时间轴",
+      "summary": "老人与海时间轴显示",
+      "tags": [
+        "读书"
+      ],
+      "date": "2026-06-22",
+      "path": "reports/sample-report/index.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "laorenyuhaijiegou",
+      "type": "markdown",
+      "title": "老人与海时间线总结",
+      "summary": "老人与海时间线总结",
+      "tags": [
+        "读书",
+        "小说结构分析"
+      ],
+      "date": "2026-06-22",
+      "path": "reports/sample-markdown/老人与海时间线总结.md",
+      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+    },
+    {
+      "id": "report",
+      "type": "markdown",
+      "title": "深度学习模型选型指南",
+      "summary": "在 AI 项目落地中，模型选型直接决定了成本、延迟与最终效果三者之间的平衡。一个\"最强\"的模型未必是最\"合适\"的——它可能在基准测试上领先，却因为推理成本过高或部署复杂而无法真正进入生产。",
+      "tags": [],
+      "date": "2026-06-22",
+      "path": "reports/sample-markdown/report.md",
+      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+    },
+    {
+      "id": "老人与海时间轴网页",
+      "type": "html",
+      "title": "《老人与海》时间线可视化",
+      "summary": "海明威经典中篇小说 · 五天四夜的意志之战",
+      "tags": [],
+      "date": "2026-06-22",
+      "path": "reports/sample-report/老人与海时间轴网页.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
+      "id": "bidepanjiegou",
+      "type": "markdown",
+      "title": "《彼得·潘》小说结构分析",
+      "summary": "《彼得·潘》小说结构分析",
+      "tags": [
+        "读书",
+        "小说结构分析"
+      ],
+      "date": "2026-06-22",
+      "path": "reports/sample-markdown/《彼得·潘》小说结构分析.md",
+      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+    }
+  ]
+}

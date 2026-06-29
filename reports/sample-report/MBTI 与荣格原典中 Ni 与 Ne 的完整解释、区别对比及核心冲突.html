@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ni vs Ne: 荣格直觉功能可视化</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+            --ni-color: #8b5cf6; /* 紫罗兰：深邃、收敛 */
+            --ni-glow: rgba(139, 92, 246, 0.4);
+            --ne-color: #f59e0b; /* 琥珀色：发散、活力 */
+            --ne-glow: rgba(245, 158, 11, 0.4);
+            --border-color: #334155;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* 头部 */
+        header { text-align: center; margin-bottom: 3rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(to right, var(--ni-color), var(--ne-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.subtitle { color: var(--text-sub); font-size: 1.1rem; }
+
+        /* 核心对比卡片 */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+        .card.ni:hover { box-shadow: 0 0 30px var(--ni-glow); border-color: var(--ni-color); }
+        .card.ne:hover { box-shadow: 0 0 30px var(--ne-glow); border-color: var(--ne-color); }
+
+        .card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .ni .icon { background: rgba(139, 92, 246, 0.2); color: var(--ni-color); }
+        .ne .icon { background: rgba(245, 158, 11, 0.2); color: var(--ne-color); }
+        
+        h2 { font-size: 1.5rem; }
+        .tag { font-size: 0.75rem; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,0.1); color: var(--text-sub); margin-left: auto; }
+
+        /* 可视化动画区域 */
+        .viz-area {
+            height: 200px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Ni 动画：收敛 */
+        .ni-particles { position: absolute; width: 100%; height: 100%; }
+        .ni-dot {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: var(--ni-color);
+            border-radius: 50%;
+            animation: converge 3s infinite ease-in-out;
+        }
+        @keyframes converge {
+            0% { transform: translate(var(--x-start), var(--y-start)) scale(1); opacity: 0.5; }
+            50% { transform: translate(0, 0) scale(1.5); opacity: 1; box-shadow: 0 0 10px var(--ni-color); }
+            100% { transform: translate(var(--x-start), var(--y-start)) scale(1); opacity: 0.5; }
+        }
+        .ni-core {
+            width: 20px; height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--ni-color);
+            z-index: 2;
+        }
+
+        /* Ne 动画：发散 */
+        .ne-web { position: absolute; width: 100%; height: 100%; }
+        .ne-node {
+            position: absolute;
+            width: 8px; height: 8px;
+            background: var(--ne-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite alternate;
+        }
+        .ne-line {
+            position: absolute;
+            height: 1px;
+            background: var(--ne-color);
+            opacity: 0.3;
+            transform-origin: left center;
+            animation: flicker 3s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.5); opacity: 1; } }
+        @keyframes flicker { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.5; } }
+
+        /* 详情列表 */
+        ul { list-style: none; }
+        li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; color: var(--text-sub); font-size: 0.95rem; }
+        li::before { content: "▸"; position: absolute; left: 0; color: var(--text-main); }
+        .ni li::before { color: var(--ni-color); }
+        .ne li::before { color: var(--ne-color); }
+        strong { color: var(--text-main); font-weight: 600; }
+
+        /* 核心冲突对比表 */
+        .conflict-section { margin-top: 3rem; }
+        .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); }
+        th, td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: rgba(255,255,255,0.03); color: var(--text-sub); font-weight: 500; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .badge.ni { background: rgba(139,92,246,0.2); color: var(--ni-color); }
+        .badge.ne { background: rgba(245,158,11,0.2); color: var(--ne-color); }
+
+        /* 荣格原典引用 */
+        .quote-box {
+            margin-top: 3rem;
+            padding: 2rem;
+            border-left: 4px solid var(--border-color);
+            background: rgba(255,255,255,0.02);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-sub);
+        }
+        .quote-box cite { display: block; margin-top: 1rem; font-style: normal; font-size: 0.9rem; color: var(--text-main); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>直觉的双生：Ni vs Ne</h1>
+        <p class="subtitle">基于荣格《心理类型》与 MBTI 认知功能理论的深度可视化</p>
+    </header>
+
+    <div class="grid-2">
+        <!-- Ni 卡片 -->
+        <div class="card ni">
+            <div class="card-header">
+                <div class="icon">🔭</div>
+                <div>
+                    <h2>内向直觉 (Ni)</h2>
+                </div>
+                <span class="tag">收敛 · 深度</span>
+            </div>
+            
+            <div class="viz-area">
+                <div class="ni-particles" id="niParticles"></div>
+                <div class="ni-core"></div>
+            </div>
+
+            <ul>
+                <li><strong>荣格定义：</strong>“从无意识中提取意义”，关注内在心理意象与原型。</li>
+                <li><strong>运作模式：</strong>收敛性。将碎片信息压缩为单一核心洞见（Aha Moment）。</li>
+                <li><strong>时间取向：</strong>未来导向。通过内在模型推演“必然的趋势”。</li>
+                <li><strong>典型体验：</strong>“我知道答案，但很难解释推导过程。”</li>
+                <li><strong>风险：</strong>脱离现实检验，陷入主观臆断或神秘主义。</li>
+            </ul>
+        </div>
+
+        <!-- Ne 卡片 -->
+        <div class="card ne">
+            <div class="card-header">
+                <div class="icon">🎆</div>
+                <div>
+                    <h2>外向直觉 (Ne)</h2>
+                </div>
+                <span class="tag">发散 · 广度</span>
+            </div>
+
+            <div class="viz-area">
+                <div class="ne-web" id="neWeb"></div>
+            </div>
+
+            <ul>
+                <li><strong>荣格定义：</strong>“感知外部对象的可能性”，依附于环境刺激的偶然性。</li>
+                <li><strong>运作模式：</strong>发散性。从单一点辐射出多重联想与路径。</li>
+                <li><strong>时间取向：</strong>当下导向。捕捉即时变化，探索“可能的分支”。</li>
+                <li><strong>典型体验：</strong>“这个让我想到那个，然后还可以这样……”</li>
+                <li><strong>风险：</strong>信息过载，难以收束，陷入空想或善变。</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 核心冲突对比 -->
+    <div class="conflict-section">
+        <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem;">核心冲突与动态平衡</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>维度</th>
+                        <th><span class="badge ni">Ni 视角</span></th>
+                        <th><span class="badge ne">Ne 视角</span></th>
+                        <th>冲突本质</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>决策风格</td>
+                        <td>锁定核心，排除干扰</td>
+                        <td>保留选项，持续探索</td>
+                        <td>确定性 vs 开放性</td>
+                    </tr>
+                    <tr>
+                        <td>面对未知</td>
+                        <td>试图构建预测模型</td>
+                        <td>拥抱混沌与随机性</td>
+                        <td>控制 vs 适应</td>
+                    </tr>
+                    <tr>
+                        <td>沟通方式</td>
+                        <td>精炼、隐喻、留白</td>
+                        <td>跳跃、举例、联想</td>
+                        <td>深度共鸣 vs 广度连接</td>
+                    </tr>
+                    <tr>
+                        <td>压力反应</td>
+                        <td>固执、拒绝反馈</td>
+                        <td>焦虑、决策瘫痪</td>
+                        <td>僵化 vs 失焦</td>
+                    </tr>
+                    <tr>
+                        <td>荣格警示</td>
+                        <td>需发展 Se 落地现实</td>
+                        <td>需发展 Ti 筛选逻辑</td>
+                        <td>功能整合是健康关键</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 荣格原典引用 -->
+    <div class="quote-box">
+        “内向直觉……并非基于客观事实，而是基于无意识中浮现的意象。它不关心外部对象的实际状态，而是关注这些对象在无意识中‘可能成为什么’。”
+        <cite>— 卡尔·荣格，《心理类型》第11章</cite>
+    </div>
+    
+    <div class="quote-box" style="margin-top: 1rem; border-left-color: var(--ne-color);">
+        “外向直觉……完全依附于外部对象及其涌现的可能性。它不追问‘这是否真实’，而是问‘这能导向什么’。因此，它看似轻浮，实则是对现实流动性的敏锐把握。”
+        <cite>— 卡尔·荣格，《心理类型》第11章</cite>
+    </div>
+
+</div>
+
+<script>
+    // 生成 Ni 收敛动画粒子
+    const niContainer = document.getElementById('niParticles');
+    for (let i = 0; i < 12; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'ni-dot';
+        const angle = (i / 12) * Math.PI * 2;
+        const radius = 60 + Math.random() * 30;
+        dot.style.setProperty('--x-start', `${Math.cos(angle) * radius}px`);
+        dot.style.setProperty('--y-start', `${Math.sin(angle) * radius}px`);
+        dot.style.animationDelay = `${Math.random() * 2}s`;
+        niContainer.appendChild(dot);
+    }
+
+    // 生成 Ne 发散网络
+    const neContainer = document.getElementById('neWeb');
+    const nodes = [];
+    for (let i = 0; i < 8; i++) {
+        const node = document.createElement('div');
+        node.className = 'ne-node';
+        const x = 20 + Math.random() * 60;
+        const y = 20 + Math.random() * 60;
+        node.style.left = `${x}%`;
+        node.style.top = `${y}%`;
+        node.style.animationDelay = `${Math.random() * 2}s`;
+        neContainer.appendChild(node);
+        nodes.push({x, y, el: node});
+    }
+
+    // 简单连线逻辑
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            if (Math.random() > 0.6) continue; // 随机连线
+            const line = document.createElement('div');
+            line.className = 'ne-line';
+            const dx = nodes[j].x - nodes[i].x;
+            const dy = nodes[j].y - nodes[i].y;
+            const length = Math.sqrt(dx*dx + dy*dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            line.style.left = `${nodes[i].x}%`;
+            line.style.top = `${nodes[i].y}%`;
+            line.style.width = `${length}%`;
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.animationDelay = `${Math.random() * 3}s`;
+            neContainer.appendChild(line);
+        }
+    }
+</script>
+
+</body>
+</html>
