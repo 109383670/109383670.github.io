@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李帅创作产出曲线 · 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0d0d1a;
+  color: #c8bfd6;
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", sans-serif;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+h1 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #e8e0f0;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.subtitle {
+  font-size: 14px;
+  color: #7a7090;
+  margin-bottom: 40px;
+}
+.chart-card {
+  background: #131322;
+  border: 1px solid #1e1d33;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 24px;
+}
+.chart-card h2 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #a098b8;
+  margin-bottom: 20px;
+}
+canvas { width: 100% !important; max-height: 400px; }
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.summary-item {
+  background: #131322;
+  border: 1px solid #1e1d33;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.summary-num {
+  font-size: 32px;
+  font-weight: 300;
+  color: #d4b0ff;
+  line-height: 1.2;
+}
+.summary-label {
+  font-size: 12px;
+  color: #7a7090;
+  margin-top: 6px;
+}
+.legend-block {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #a098b8;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #4a4260;
+  margin-top: 32px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>产出曲线</h1>
+  <p class="subtitle">全部原创作品 · 累计 ~148,902 字（含标点）· 截至 2026-07-03</p>
+
+  <!-- Summary -->
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="summary-num">148,902</div>
+      <div class="summary-label">总字数</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-num">15</div>
+      <div class="summary-label">作品/章节数</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-num">6/30 ~ 7/2</div>
+      <div class="summary-label">改稿活跃期</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-num">4</div>
+      <div class="summary-label">连续写作天数（初稿期）</div>
+    </div>
+  </div>
+
+  <!-- Chart 1: Cumulative curve -->
+  <div class="chart-card">
+    <h2>📈 累计产出曲线</h2>
+    <div class="legend-block">
+      <div class="legend-item"><span class="legend-dot" style="background:#d4b0ff;"></span> 累计字数</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ffe066;"></span> 当日产出</div>
+    </div>
+    <canvas id="cumulativeChart"></canvas>
+  </div>
+
+  <!-- Chart 2: Daily bar -->
+  <div class="chart-card">
+    <h2>📊 逐日产出（监督期 2026-06-24 起）</h2>
+    <canvas id="dailyChart"></canvas>
+  </div>
+
+  <!-- Chart 3: Work breakdown -->
+  <div class="chart-card">
+    <h2>📚 作品字数构成</h2>
+    <canvas id="breakdownChart"></canvas>
+  </div>
+</div>
+
+<script>
+// === DATA ===
+
+// Early works (estimated time assignment)
+const earlyBlocks = [
+  { label: '短篇5篇', chars: 32688, date: '2025-06' },  // estimated
+  { label: '一人·无名少年', chars: 32881, date: '2025-09' },
+  { label: '阿七 (2章)', chars: 20449, date: '2025-12' },
+];
+
+// Supervised period daily data (from writing-progress.md)
+// 初稿阶段
+const daily = [
+  { date: '2026-06-24', label: '6/24', chars: 3900, phase: '初稿' },
+  { date: '2026-06-25', label: '6/25', chars: 3363, phase: '初稿' },
+  { date: '2026-06-26', label: '6/26', chars: 2700, phase: '初稿' },
+  { date: '2026-06-27', label: '6/27', chars: 1300, phase: '初稿' },
+  { date: '2026-06-28', label: '6/28', chars: 3000, phase: '初稿' },
+  { date: '2026-06-29', label: '6/29', chars: 0, phase: '断更' },
+  { date: '2026-06-30', label: '6/30', chars: 5300, phase: '改稿' },
+  { date: '2026-07-01', label: '7/1', chars: 7200, phase: '改稿' },
+  { date: '2026-07-02', label: '7/2', chars: 1700, phase: '改稿' },
+  { date: '2026-07-03', label: '7/3', chars: 0, phase: '—' },
+];
+
+// Build cumulative timeline
+function buildTimeline() {
+  const points = [];
+  let cum = 0;
+  // Early works as rough monthly increments
+  // short stories: mid 2025
+  cum += 32688;
+  points.push({ date: '2025-06-15', cum: cum, event: '短篇5篇完稿' });
+  cum += 32881;
+  points.push({ date: '2025-09-15', cum: cum, event: '一人·无名少年' });
+  cum += 20449;
+  points.push({ date: '2025-12-15', cum: cum, event: '阿七 (前2章)' });
+  // supervised period
+  for (const d of daily) {
+    cum += d.chars;
+    points.push({ date: d.date, cum: cum, event: d.chars > 0 ? `${d.label} +${d.chars.toLocaleString()}字` : `${d.label} 0字` });
+  }
+  return points;
+}
+
+const timeline = buildTimeline();
+
+// === CHART 1: Cumulative Curve ===
+const ctx1 = document.getElementById('cumulativeChart').getContext('2d');
+
+const cumDates = timeline.map(p => p.date);
+const cumValues = timeline.map(p => p.cum);
+
+new Chart(ctx1, {
+  type: 'line',
+  data: {
+    labels: cumDates,
+    datasets: [{
+      label: '累计',
+      data: cumValues,
+      borderColor: '#d4b0ff',
+      backgroundColor: 'rgba(212, 176, 255, 0.08)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: '#d4b0ff',
+      pointBorderColor: '#131322',
+      pointBorderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1930',
+        titleColor: '#e8e0f0',
+        bodyColor: '#c8bfd6',
+        borderColor: '#2a2850',
+        borderWidth: 1,
+        cornerRadius: 8,
+        callbacks: {
+          afterBody: function(items) {
+            const idx = items[0].dataIndex;
+            return timeline[idx].event;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#5a5270',
+          font: { size: 11 },
+          maxTicksLimit: 12,
+        },
+        grid: { color: 'rgba(255,255,255,0.04)' }
+      },
+      y: {
+        ticks: {
+          color: '#5a5270',
+          font: { size: 11 },
+          callback: v => v >= 10000 ? (v/10000).toFixed(0) + '万' : v.toLocaleString()
+        },
+        grid: { color: 'rgba(255,255,255,0.04)' }
+      }
+    }
+  }
+});
+
+// === CHART 2: Daily Bar ===
+const ctx2 = document.getElementById('dailyChart').getContext('2d');
+const dailyLabels = daily.map(d => d.label);
+const dailyValues = daily.map(d => d.chars);
+const dailyColors = daily.map(d =>
+  d.phase === '初稿' ? '#7c6fbe' :
+  d.phase === '改稿' ? '#e8a040' :
+  d.phase === '断更' ? '#4a4260' :
+  '#2a2840'
+);
+
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: dailyLabels,
+    datasets: [{
+      label: '当日字数',
+      data: dailyValues,
+      backgroundColor: dailyColors,
+      borderRadius: 4,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1a1930',
+        titleColor: '#e8e0f0',
+        bodyColor: '#c8bfd6',
+        borderColor: '#2a2850',
+        borderWidth: 1,
+        cornerRadius: 8,
+        callbacks: {
+          label: ctx => `${ctx.parsed.y.toLocaleString()} 字 (${daily[ctx.dataIndex].phase})`
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#5a5270', font: { size: 11 } },
+        grid: { display: false }
+      },
+      y: {
+        ticks: {
+          color: '#5a5270',
+          font: { size: 11 },
+          callback: v => v.toLocaleString()
+        },
+        grid: { color: 'rgba(255,255,255,0.04)' }
+      }
+    }
+  }
+});
+
+// === CHART 3: Breakdown ===
+const ctx3 = document.getElementById('breakdownChart').getContext('2d');
+const breakdownLabels = ['两个强盗 (4章)', '一人·无名少年 (4节)', '阿七 (前2章)', '短篇 (5篇)'];
+const breakdownValues = [62884, 32881, 20449, 32688];
+const breakdownColors = ['#d4b0ff', '#7c6fbe', '#e8a040', '#5a8a7c'];
+
+new Chart(ctx3, {
+  type: 'doughnut',
+  data: {
+    labels: breakdownLabels,
+    datasets: [{
+      data: breakdownValues,
+      backgroundColor: breakdownColors,
+      borderColor: '#131322',
+      borderWidth: 2,
+      hoverOffset: 8,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '60%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#a098b8',
+          font: { size: 12 },
+          padding: 16,
+        }
+      },
+      tooltip: {
+        backgroundColor: '#1a1930',
+        titleColor: '#e8e0f0',
+        bodyColor: '#c8bfd6',
+        borderColor: '#2a2850',
+        borderWidth: 1,
+        cornerRadius: 8,
+        callbacks: {
+          label: ctx => {
+            const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+            const pct = ((ctx.parsed / total) * 100).toFixed(1);
+            return `${ctx.label}: ${ctx.parsed.toLocaleString()} 字 (${pct}%)`;
+          }
+        }
+      }
+    }
+  }
+});
+</script>
+
+<div class="footer">
+  数据来源：安心书院·作品库 / 写作监督档案 · 深紫系列仪表盘 v1
+</div>
+</body>
+</html>

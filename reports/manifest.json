@@ -3,11 +3,23 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "作品产出曲线_20260703",
+      "type": "html",
+      "title": "李帅创作产出曲线 · 2026",
+      "summary": "全部原创作品 · 累计 ~148,902 字（含标点）· 截至 2026-07-03",
+      "tags": ["统计"],
+      "date": "2026-07-03",
+      "path": "reports/sample-report/作品产出曲线_20260703.html",
+      "thumbnail": "reports/sample-report/thumbnail.svg"
+    },
+    {
       "id": "MBTI-与荣格原典中-Ni-与-Ne-的完整解释-区别对比及核心冲突",
       "type": "html",
       "title": "Ni vs Ne: 荣格直觉功能可视化",
       "summary": "基于荣格《心理类型》与 MBTI 认知功能理论的深度可视化",
-      "tags": ["心理类型"],
+      "tags": [
+        "心理类型"
+      ],
       "date": "2026-06-29",
       "path": "reports/sample-report/MBTI 与荣格原典中 Ni 与 Ne 的完整解释、区别对比及核心冲突.html",
       "thumbnail": "reports/sample-report/thumbnail.svg"
