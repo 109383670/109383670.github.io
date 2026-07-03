@@ -357,8 +357,20 @@ button {
   transform: scale(1.05);
 }
 
-/* 无缩略图时的占位渐变 */
+/* 无缩略图时的多彩占位渐变 */
 .card-thumb-fallback {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  transition: filter 0.4s ease;
+}
+
+.card:hover .card-thumb-fallback {
+  filter: brightness(1.2);
+}
+
+.card-thumb-initial {
   position: absolute;
   inset: 0;
   display: grid;
@@ -367,10 +379,20 @@ button {
   font-weight: 800;
   letter-spacing: 0.05em;
   color: rgba(255, 255, 255, 0.35);
-  background:
-    radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.3), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.25), transparent 60%),
-    linear-gradient(135deg, #0f1729, #1a1530);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.card-thumb-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  display: flex;
+  gap: 4px;
+  z-index: 0;
+  pointer-events: none;
+  flex-wrap: wrap;
+  max-width: 80%;
 }
 
 /* 类型角标（HTML / MD） */

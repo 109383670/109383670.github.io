@@ -57,13 +57,29 @@
     return d.toISOString().slice(0, 10);
   }
 
-  /** 卡片缩略图 HTML：有图显示图，无图显示渐变占位 */
+  /** 卡片缩略图 HTML：有图显示图，无图显示多彩渐变占位 */
   function thumbnailHtml(report) {
+    const title = report.title || "";
+    const init = initials(title);
+    const { accent, alt, second } = hashColors(title);
+    const decorators = fallbackDecorators(title);
+    const decorHtml = decorators.map(c => `<span style="opacity:0.12;font-size:1.1rem;font-weight:300">${escapeHtml(c)}</span>`).join("");
+
+    const fallbackStyle = `background:
+      radial-gradient(circle at 30% 20%, ${accent}55, transparent 60%),
+      radial-gradient(circle at 70% 80%, ${alt}55, transparent 60%),
+      radial-gradient(circle at 50% 50%, ${second}44, transparent 50%),
+      linear-gradient(135deg, #0f1729, hsl(${hashColors(title).hue}, 20%, 12%));`;
+
+    const fallbackInner = `
+      <div class="card-thumb-initial">${escapeHtml(init)}</div>
+      <div class="card-thumb-dots">${decorHtml}</div>`;
+
     if (report.thumbnail) {
-      return `<img src="${escapeHtml(report.thumbnail)}" alt="${escapeHtml(report.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
-              <div class="card-thumb-fallback" style="display:none;">${escapeHtml(initials(report.title))}</div>`;
+      return `<img src="${escapeHtml(report.thumbnail)}" alt="${escapeHtml(title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="card-thumb-fallback" style="display:none;${fallbackStyle}">${fallbackInner}</div>`;
     }
-    return `<div class="card-thumb-fallback">${escapeHtml(initials(report.title))}</div>`;
+    return `<div class="card-thumb-fallback" style="${fallbackStyle}">${fallbackInner}</div>`;
   }
 
   /** 从标题取首字作为占位标识 */
@@ -71,6 +87,42 @@
     if (!title) return "·";
     const ch = title.trim().charAt(0);
     return ch.toUpperCase();
+  }
+
+  /** 根据字符串 hash 生成一组色调协调的渐变色 */
+  function hashColors(str) {
+    if (!str) return { hue: 220, accent: "#6366f1", alt: "#a855f7" };
+    // 简单的 djb2 hash
+    let hash = 5381;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash) + str.charCodeAt(i);
+      hash = hash & hash; // 32-bit
+    }
+    // 主色调 hue (0-360)，避开太亮的黄色/绿色 zone
+    let hue = (hash & 0xFF) * 360 / 256;
+    if (hue > 45 && hue < 85) hue = 220;     // 避开脏黄区
+    if (hue > 130 && hue < 170) hue = 200;   // 避开死绿区
+    // 两个辅色偏移 40° 和 -40°
+    let hue2 = (hue + 40) % 360;
+    let hue3 = (hue - 40 + 360) % 360;
+    return {
+      hue,
+      accent: `hsl(${hue}, 70%, 60%)`,
+      alt: `hsl(${hue2}, 65%, 55%)`,
+      second: `hsl(${hue3}, 60%, 50%)`,
+    };
+  }
+
+  /** 统计标题中两字词用于占位装饰 */
+  function fallbackDecorators(title) {
+    if (!title) return [];
+    // 取部分标签装饰字
+    const chars = title.replace(/[\s《》（）\-—]/g, "").split("");
+    const out = [];
+    for (let i = 0; i < Math.min(chars.length, 6); i++) {
+      out.push(chars[i]);
+    }
+    return out;
   }
 
   /* -------------------- 数据加载 -------------------- */

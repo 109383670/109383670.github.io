@@ -38,6 +38,7 @@ import os
 import re
 import sys
 import time
+from collections import Counter
 from datetime import datetime, timezone
 
 # ----------------------------------------------------------------------------
@@ -103,6 +104,97 @@ def truncate(s, n=SUMMARY_MAX):
     s = (s or "").strip().replace("\n", " ")
     s = re.sub(r"\s+", " ", s)
     return s[:n] + ("…" if len(s) > n else "")
+
+
+# ============================================================================
+# 内容标签兜底（无 frontmatter / 无 #标签 时的第三道防线）
+# ============================================================================
+
+# 标题关键词 → 推荐标签
+DOMAIN_TAG_MAP = {
+    "时间轴":   ["读书"],
+    "时间线":   ["读书"],
+    "小说":     ["读书", "文学"],
+    "结构分析":  ["读书"],
+    "MBTI":     ["心理类型"],
+    "人格":     ["心理类型"],
+    "荣格":     ["心理类型"],
+    "Ni":       ["心理类型"],
+    "Ne":       ["心理类型"],
+    "模型":     ["AI"],
+    "深度学习":  ["AI"],
+    "GPT":      ["AI"],
+    "大语言模型": ["AI"],
+    "创作":     ["创作"],
+    "写作":     ["创作"],
+    "产出":     ["统计"],
+    "报告":     ["报告"],
+    "调研":     ["调研"],
+    "市场":     ["市场"],
+    "行业":     ["行业"],
+    "趋势":     ["趋势"],
+    "读书":     ["读书"],
+    "阅读":     ["读书"],
+}
+
+# 中文常用停用词（用于正文词频过滤）
+STOP_WORDS = {
+    "的", "了", "在", "是", "我", "有", "和", "就", "不", "人", "都",
+    "一", "个", "上", "也", "很", "到", "说", "要", "去", "你",
+    "会", "着", "没有", "看", "好", "自己", "这", "他", "她", "它",
+    "们", "那", "什么", "怎么", "如何", "为", "以", "从", "对", "与",
+    "但", "而", "或", "被", "把", "让", "向", "将", "能", "可以",
+    "更", "最", "和", "与", "及", "以及", "除了", "关于", "通过",
+    "这个", "那个", "这些", "那些", "一个", "一些", "一部", "一种",
+    "包括", "进行", "使用", "基于", "相关", "不同", "我们", "他们",
+    "可以", "需要", "可能", "已经", "没有", "不是", "如果", "因为",
+    "所以", "但是", "虽然", "不过", "而且", "然后", "之后", "以前",
+    "同时", "目前", "目前", "以上", "以下", "方面", "中的", "来源",
+}
+
+
+def extract_content_tags(body, title=""):
+    """基于内容的关键词标签提取（第三道防线）。
+    - 1) 标题关键词 → 领域映射
+    - 2) 正文中文 2-gram 词频
+    返回清洗后的标签列表（可能为空列表）。
+    """
+    tags = set()
+
+    # 1) 标题关键词映射
+    if title:
+        for keyword, suggested in DOMAIN_TAG_MAP.items():
+            if keyword in title:
+                tags.update(suggested)
+        # 标题按常见分隔符拆分，再逐一匹配
+        parts = re.split(r"[·•·　\s,，、/／_（）()《》]", title)
+        for part in parts:
+            part = part.strip()
+            if not part or len(part) < 2 or part in STOP_WORDS:
+                continue
+            for keyword, suggested in DOMAIN_TAG_MAP.items():
+                if keyword in part:
+                    tags.update(suggested)
+
+    if tags:
+        return slugify_tags(list(tags))
+
+    # 2) 正文中文 2-gram 频率
+    # 只保留中文字符（自动忽略 HTML/MD 标记）
+    chinese_only = re.sub(r"[^\u4e00-\u9fff]", "", body)
+    if len(chinese_only) >= 20:
+        bigrams = Counter()
+        for i in range(len(chinese_only) - 1):
+            bg = chinese_only[i:i + 2]
+            if bg not in STOP_WORDS:
+                bigrams[bg] += 1
+
+        threshold = max(3, len(chinese_only) // 200)
+        for bg, count in bigrams.most_common(8):
+            if count >= threshold and bg not in STOP_WORDS:
+                tags.add(bg)
+
+    return slugify_tags(list(tags))
 
 
 # ============================================================================
@@ -212,10 +304,12 @@ def parse_markdown(text):
             summary = truncate(clean)
             break
 
-    # 标签：frontmatter + 正文 #标签（支持中文/英文 #tag）
+    # 标签：frontmatter + 正文 #标签 + 内容语义兜底
     if not tags:
         for m in re.finditer(r"(?:^|\s)#([\w\u4e00-\u9fff]+)", body):
             tags.append(m.group(1))
+    if not tags:
+        tags = extract_content_tags(body, title=title)
 
     return {
         "title": title,
@@ -293,6 +387,11 @@ def parse_html(text):
             continue
         tags.append(candidate)
 
+    # 第三道防线：内容标签兜底（前两者皆空时）
+    if not tags:
+        visible_text = _TAG_RE.sub(" ", body_only)
+        tags = extract_content_tags(visible_text, title=title)
+
     return {
         "title": title,
         "summary": summary,
@@ -306,18 +405,37 @@ def parse_html(text):
 # ============================================================================
 
 def find_thumbnail(report_path):
-    """在同目录寻找 thumbnail / cover 图片。"""
+    """在同目录寻找报告专属缩略图。
+
+    匹配策略（防止共享目录误匹配）：
+    - index.*（文件夹式报告）→ 用目录级的 thumbnail.* / cover.*
+    - 独立文件 → 先找 {文件名}.thumbnail.*，再找 {文件名}-thumbnail.*
+    - 都不匹配 → 返回 None（前端会显示彩色占位）
+    """
     d = os.path.dirname(report_path)
+    base = os.path.splitext(os.path.basename(report_path))[0]
     try:
-        siblings = os.listdir(d)
+        siblings = {s.lower(): s for s in os.listdir(d)}
     except OSError:
         return None
-    # 优先精确名 thumbnail.*
-    for name in THUMB_NAMES:
-        for ext in THUMB_EXTS:
-            cand = f"{name}{ext}"
-            if cand.lower() in (s.lower() for s in siblings):
-                return relpath(os.path.join(d, cand))
+
+    # 文件夹式报告：index.* -> thumbnail.* / cover.*
+    if base.lower() == "index":
+        for name in THUMB_NAMES:
+            for ext in THUMB_EXTS:
+                cand_lower = f"{name}{ext}"
+                if cand_lower in siblings:
+                    return relpath(os.path.join(d, siblings[cand_lower]))
+
+    # 独立文件：{文件名}.thumbnail.* 或 {文件名}-thumbnail.*
+    for prefix in (base, f"{base}-"):
+        for name in THUMB_NAMES:
+            for ext in THUMB_EXTS:
+                cand = f"{prefix}{name}{ext}"
+                cand_lower = cand.lower()
+                if cand_lower in siblings:
+                    return relpath(os.path.join(d, siblings[cand_lower]))
+
     return None
 
 

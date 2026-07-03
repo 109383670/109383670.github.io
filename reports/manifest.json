@@ -7,7 +7,9 @@
       "type": "html",
       "title": "李帅创作产出曲线 · 2026",
       "summary": "全部原创作品 · 累计 ~148,902 字（含标点）· 截至 2026-07-03",
-      "tags": ["统计"],
+      "tags": [
+        "统计"
+      ],
       "date": "2026-07-03",
       "path": "reports/sample-report/作品产出曲线_20260703.html",
       "thumbnail": "reports/sample-report/thumbnail.svg"
@@ -66,7 +68,9 @@
       "type": "markdown",
       "title": "深度学习模型选型指南",
       "summary": "在 AI 项目落地中，模型选型直接决定了成本、延迟与最终效果三者之间的平衡。一个\"最强\"的模型未必是最\"合适\"的——它可能在基准测试上领先，却因为推理成本过高或部署复杂而无法真正进入生产。",
-      "tags": [],
+      "tags": [
+        "AI"
+      ],
       "date": "2026-06-22",
       "path": "reports/sample-markdown/report.md",
       "thumbnail": "reports/sample-markdown/thumbnail.svg"
@@ -76,7 +80,9 @@
       "type": "html",
       "title": "《老人与海》时间线可视化",
       "summary": "海明威经典中篇小说 · 五天四夜的意志之战",
-      "tags": [],
+      "tags": [
+        "读书"
+      ],
       "date": "2026-06-22",
       "path": "reports/sample-report/老人与海时间轴网页.html",
       "thumbnail": "reports/sample-report/thumbnail.svg"
