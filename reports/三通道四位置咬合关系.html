@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思维体定向模型 · 三通道 × 四位置 咬合关系</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0f14;
+    color: #e0dcd0;
+    font-family: -apple-system, "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+    line-height: 1.8;
+    padding: 60px 24px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  h1 {
+    font-size: 1.8rem; font-weight: 700; color: #d4b87a;
+    border-bottom: 1px solid #2a2a38; padding-bottom: 16px; margin-bottom: 8px;
+  }
+  .subtitle { color: #8a8a9a; font-size: 0.95rem; margin-bottom: 48px; }
+  h2 {
+    font-size: 1.3rem; font-weight: 600; color: #c4a56e;
+    margin: 56px 0 20px; padding-left: 12px; border-left: 3px solid #c4a56e;
+  }
+  .intro {
+    background: #1a1a26; border: 1px solid #2a2a3a; border-radius: 8px;
+    padding: 24px 28px; margin-bottom: 40px;
+  }
+  .intro p { margin-bottom: 10px; }
+  .mermaid-wrapper {
+    background: #15151f; border: 1px solid #2a2a38; border-radius: 12px;
+    padding: 32px 20px; margin: 20px 0 32px;
+    overflow-x: auto; text-align: center;
+  }
+  .commentary {
+    background: #191926; border: 1px solid #2e2e42; border-radius: 8px;
+    padding: 20px 24px; margin: 20px 0 32px;
+    font-size: 0.95rem; color: #bbb8aa;
+  }
+  .table-wrap { overflow-x: auto; margin: 20px 0 32px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  thead th {
+    background: #1a1a2e; color: #c4a56e; text-align: left;
+    padding: 12px 16px; border-bottom: 2px solid #2a2a3a;
+    font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: .04em;
+  }
+  tbody td {
+    padding: 12px 16px; border-bottom: 1px solid #202030; vertical-align: top;
+  }
+  tbody tr:hover { background: #1a1a28; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; }
+  .tag-conflict  { background: #3e1a1a; color: #f28b82; }
+  .tag-figate    { background: #1a1a3e; color: #8ab4f8; }
+  .tag-ti        { background: #3e2e1a; color: #fbbc04; }
+  .tag-se        { background: #2e1a3e; color: #d7aefb; }
+  hr { border: none; border-top: 1px solid #2a2a38; margin: 56px 0; }
+  .footer { color: #5a5a6a; font-size: 0.82rem; margin-top: 48px; text-align: center; }
+  strong { color: #d4c090; }
+  em { color: #aaa0cc; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🧭 思维体定向模型</h1>
+<div class="subtitle">三通道定向系统 × 认知功能四位置 · 咬合关系 · 完整命令流</div>
+
+<!-- ============================================================ -->
+<div class="intro">
+  <p><strong>两个系统是不同的维度。</strong></p>
+  <p><strong>三通道</strong>问的是「谁在下命令？」——<em>主动定向</em>（兴趣/意义）、<em>本能定向</em>（性欲/生存）、<em>衍生态定向</em>（权力/惯性），像董事会里抢话筒。</p>
+  <p><strong>四位置</strong>问的是「命令怎么执行？」——Ni主导（看方向）→ Fi辅助（审批准）→ Ti工具（拆分析）→ Se劣势（物理输出），是从董事长到工厂流水线的管道。</p>
+  <p>它们只有<strong>两个咬合点</strong>：① Ni主导 = 主动定向默认占线；② Se劣势 = 所有通道在物理输出被卡。其他位置不存在一一对应。</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>图一：两个系统怎么咬合</h2>
+
+<div class="mermaid-wrapper">
+<div class="mermaid">
+flowchart TB
+    subgraph CHANNELS["🧭 定向系统：谁在下命令？（三通道）"]
+        direction TB
+        ACT["🎯 主动定向\n兴趣 / 意义 / 创作冲动"]
+        INS["🧬 本能定向\n性欲 / 生存 / 繁殖"]
+        DER["🏛️ 衍生态定向\n权力 / 占有 / 惯性"]
+    end
+
+    subgraph PIPELINE["⚙️ 认知功能：命令怎么执行？（四位置）"]
+        direction LR
+        NIBOX["Ni 主导\n👁️ 看方向\n'这个值得做'"]
+        FIBOX["Fi 辅助\n❤️ 审批准\n'这对我重要'"]
+        TIBOX["Ti 工具\n🔧 拆解分析\n'怎么做到'"]
+        SEBOX["Se 劣势\n🚪 物理输出\n'动手做' ← 窄管"]
+    end
+
+    ACT --> NIBOX
+    INS --> FIBOX
+    DER --> TIBOX
+
+    NIBOX --> FIBOX --> TIBOX --> SEBOX
+
+    CONN1["🔗 咬合点①\nNi主导 = 主动定向默认占线\nNi是探照灯，天生找兴趣和意义\n所以主动通道常年抢到话筒"]
+    CONN2["🔗 咬合点②\nSe劣势 = 所有命令卡在门口\n不管谁下的命令，最后都要过Se\nSe窄 = 身体不动"]
+
+    NIBOX -..-> CONN1
+    SEBOX -..-> CONN2
+
+    classDef channel fill:#1a2740,stroke:#3a6bc5,color:#a0c4ff
+    classDef pipe fill:#2e2412,stroke:#bf7a2a,color:#f0c060
+    classDef conn fill:#1f1a30,stroke:#7a4ec4,color:#c0a0f0
+    class ACT,INS,DER channel
+    class NIBOX,FIBOX,TIBOX,SEBOX pipe
+    class CONN1,CONN2 conn
+</div>
+</div>
+
+<div class="commentary">
+  <p><strong>上面是命令层（谁喊话），下面是管道层（经过谁的手）。</strong></p>
+  <p>两条虚线就是唯一的咬合点。请注意三通道和四位置的箭头不是一一绑定——它们覆盖、重叠、争执。图里画的是最典型的流向，不是排他的。</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>图二：追一条完整命令流</h2>
+<div class="commentary" style="margin-bottom: 8px;">
+  <p>坐在电脑前，三个命令同时喊话。看能量从冲突→审批→分析→卡死或输出的全过程。</p>
+</div>
+
+<div class="mermaid-wrapper">
+<div class="mermaid">
+flowchart TB
+    START["🪑 你坐在电脑前"]
+
+    subgraph CONFLICT["🥊 第一层：命令冲突（三通道同时喊话）"]
+        CMD1["🎯 主动定向：'写小说！'"]
+        CMD2["🧬 本能定向：'刷个短视频吧'"]
+        CMD3["🏛️ 衍生态定向：'看看别人写了什么'"]
+    end
+
+    CONFLICT --> APPROVAL
+
+    subgraph FI_GATE["❤️ Fi 辅助：审批闸"]
+        APPROVAL["三个命令都到Fi\n'这对我重要吗？'"]
+        APPROVED["✅ 主动定向通过审批\n'写小说重要'\n❌ 另两个被否决"]
+    end
+
+    APPROVAL --> APPROVED
+
+    subgraph TI_PROCESS["🔧 Ti 工具：加工"]
+        TI_START["Ti 接到 '写小说'\n怎么做到？\n→ 构思场景 → 想句子"]
+        TI_SPIN["⚠️ Ti 过度运转\n'还不够好' → '再想想'\n→ 分析替代行动"]
+    end
+
+    APPROVED --> TI_START
+    TI_START -.-> TI_SPIN
+
+    subgraph SE_BOTTLENECK["🚪 Se 劣势：输出瓶颈（窄管）"]
+        SE_TRY["该动手了\n打开文档 → 打字"]
+        SE_BLOCK["Se 窄管 = 身体不动\n'脑子里全好了但手不动'\n→ 卡在这里"]
+    end
+
+    TI_START --> SE_TRY
+    TI_SPIN --> SE_BLOCK
+
+    classDef start fill:#1a3020,stroke:#3d8c40,color:#a0e0a0
+    classDef conflict fill:#302020,stroke:#b84040,color:#f09090
+    classDef figate fill:#202035,stroke:#5a5ac0,color:#a0a0e0
+    classDef tiproc fill:#302a18,stroke:#b87820,color:#f0c040
+    classDef sebott fill:#281830,stroke:#7a3eaa,color:#c8a0e8
+    class START start
+    class CMD1,CMD2,CMD3 conflict
+    class APPROVAL,APPROVED figate
+    class TI_START,TI_SPIN tiproc
+    class SE_TRY,SE_BLOCK sebott
+</div>
+</div>
+
+<!-- ============================================================ -->
+<h2>三种颜色的交汇处</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>位置</th><th>颜色</th><th>出了什么问题</th><th>卡在谁</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-ti">Ti 框</span></td>
+      <td>🟠 橙色虚线</td>
+      <td>「再想想」——分析替代行动。Ti 抢了审批之后的事，把命令拆碎了。</td>
+      <td>Ti 过度运转</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-se">Se 框</span></td>
+      <td>🟣 紫色</td>
+      <td>脑子里全好了但手不动。所有命令最后都必须过 Se，Se 窄管 = 身体卡死。</td>
+      <td>Se 输出瓶颈</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<hr>
+
+<h2>一句话版</h2>
+<div class="commentary">
+  <p><strong>三通道是「谁在按喇叭」，四位置是「喇叭响了之后经过谁的车才到你脚下」。</strong></p>
+  <p>你每天卡在同一个地方：<em>Ti 把命令拆了太久（分析上了头），等拆到 Se 的时候能量已经耗光了。</em></p>
+</div>
+
+<!-- ============================================================ -->
+<h2>关键洞见</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>洞见</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Ni 主导 = 主动定向默认占线</td>
+      <td>Ni 是探照灯，天生找兴趣和意义。主动通道常年抢到话筒，所以你感觉「对权力不敏感」——不是高尚，是衍生态通道很少抢到线。</td>
+    </tr>
+    <tr>
+      <td>Se 劣势 = 所有命令卡在门口</td>
+      <td>不管哪个通道下了命令——写小说、A、刷视频——最后都要过 Se 才能变成物理动作。Se 窄 = 连逃避刷视频都要 Se 拿手机，而你连那个动作都懒得做。</td>
+    </tr>
+    <tr>
+      <td>Fi 辅助 = 所有通道的审批闸</td>
+      <td>Fi 不过滤哪个通道，它过滤所有通道的内容——主动定向说「写小说」，Fi 问「这对我重要吗」；本能定向说「A」，Fi 问「这符合我的价值观吗」。</td>
+    </tr>
+    <tr>
+      <td>Ti 工具 = 通用加工器</td>
+      <td>兴趣来了 Ti 拆，嫉妒来了 Ti 也拆。Ti 不跟某个通道绑死——它是所有通道内容的分析引擎。问题不出在 Ti 拆，出在 Ti 拆太久。</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<div class="footer">
+  思维体定向模型 v3.0 · 三通道 × 四位置 咬合关系 · 2026-07-01 · 李帅 × 萧何
+</div>
+
+</div>
+
+<script>mermaid.initialize({ startOnLoad: true, theme:'dark', themeVariables:{ darkMode:true, background:'#15151f', primaryColor:'#1a2740', primaryTextColor:'#a0c4ff', primaryBorderColor:'#3a6bc5', lineColor:'#5a5a8a', secondaryColor:'#2e2412', tertiaryColor:'#1f1a30' } });</script>
+</body>
+</html>

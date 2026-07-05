@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李帅三大理论模型 · 可视化总览</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f0f14;
+    --surface: #16161f;
+    --surface2: #1a1a28;
+    --surface3: #202035;
+    --border: #2a2a3a;
+    --border-light: #3a3a50;
+    --text: #e0dcd0;
+    --text-dim: #8a8a9a;
+    --gold: #d4b87a;
+    --gold-light: #f0d89a;
+    --gold-dim: #a08040;
+    --accent: #c4a56e;
+    --purple: #9a7ac8;
+    --purple-dim: #6a4a98;
+    --green: #5aaa6a;
+    --green-dim: #3a8a4a;
+    --red: #c05050;
+    --red-dim: #8a3030;
+    --blue: #5a8ac8;
+    --orange: #d09040;
+    --cyan: #5ab8b8;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+    line-height: 1.8;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .app { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ============ HEADER ============ */
+  .header { margin-bottom: 40px; }
+  .header h1 {
+    font-size: 2rem; font-weight: 700; color: var(--gold);
+    border-bottom: 2px solid var(--gold-dim); padding-bottom: 14px; margin-bottom: 6px;
+  }
+  .header .subtitle { color: var(--text-dim); font-size: 0.95rem; }
+  .header .meta { color: var(--text-dim); font-size: 0.82rem; margin-top: 4px; }
+
+  /* ============ TAB NAV ============ */
+  .tabs { display: flex; gap: 0; margin-bottom: 32px; border-bottom: 1px solid var(--border); }
+  .tabs label {
+    flex: 1; text-align: center; padding: 14px 8px; cursor: pointer;
+    color: var(--text-dim); font-size: 0.9rem; font-weight: 600;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    user-select: none;
+  }
+  .tabs label:hover { color: var(--gold-dim); }
+  input.tab-radio { display: none; }
+  #tab1:checked ~ .tabs label[for="tab1"],
+  #tab2:checked ~ .tabs label[for="tab2"],
+  #tab3:checked ~ .tabs label[for="tab3"] {
+    color: var(--gold); border-bottom-color: var(--gold);
+  }
+  .tab-content { display: none; }
+  #tab1:checked ~ #panel1, #tab2:checked ~ #panel2, #tab3:checked ~ #panel3 {
+    display: block; animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ============ COMMON ============ */
+  h2 {
+    font-size: 1.4rem; font-weight: 700; color: var(--gold);
+    margin: 48px 0 16px; padding-left: 14px; border-left: 3px solid var(--gold);
+  }
+  h3 {
+    font-size: 1.1rem; font-weight: 600; color: var(--gold-light);
+    margin: 32px 0 12px;
+  }
+  h4 { font-size: 0.95rem; font-weight: 600; color: var(--accent); margin: 20px 0 8px; }
+
+  p { margin-bottom: 12px; color: var(--text); }
+  strong { color: var(--gold-light); }
+  em { color: var(--purple); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  .note {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 20px; margin: 16px 0 24px; font-size: 0.92rem; color: var(--text-dim);
+  }
+  .note strong { color: var(--gold); }
+
+  .tag {
+    display: inline-block; padding: 2px 10px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.03em;
+    margin-right: 4px;
+  }
+  .tag-ni    { background: #2a1a3e; color: #c8a0f0; }
+  .tag-fi    { background: #1a2a3e; color: #a0c0f0; }
+  .tag-ti    { background: #3e2e1a; color: #f0c040; }
+  .tag-se    { background: #2e1a3e; color: #d0a0e8; }
+  .tag-fe    { background: #1a3e2e; color: #a0e0b0; }
+  .tag-te    { background: #3e1a1a; color: #f09090; }
+  .tag-gold  { background: #3e2e18; color: #f0d080; }
+  .tag-green { background: #1a3e2a; color: #80d090; }
+  .tag-red   { background: #3e1a1a; color: #f08080; }
+  .tag-blue  { background: #1a2a3e; color: #80b0f0; }
+  .tag-orange { background: #3e2a1a; color: #f0b060; }
+
+  .card-grid {
+    display: grid; gap: 16px; margin: 16px 0 24px;
+  }
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  @media (max-width: 720px) {
+    .card-grid.cols-2, .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border-light); }
+  .card .card-title {
+    font-weight: 700; font-size: 1rem; color: var(--gold); margin-bottom: 8px;
+    border-bottom: 1px solid var(--border); padding-bottom: 6px;
+  }
+  .card p, .card li { font-size: 0.9rem; color: var(--text-dim); }
+  .card ul { list-style: none; padding: 0; }
+  .card li { padding: 4px 0 4px 18px; position: relative; }
+  .card li::before { content: "·"; position: absolute; left: 4px; color: var(--gold-dim); }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 0.9rem; }
+  thead th {
+    background: var(--surface3); color: var(--gold); text-align: left;
+    padding: 10px 14px; border-bottom: 2px solid var(--border-light);
+    font-weight: 600; font-size: 0.82rem; letter-spacing: 0.04em;
+  }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+  .section-sub { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 8px; }
+
+  /* ============ PURE CSS FLOWCHART ============ */
+  .flowchart {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px 16px; margin: 20px 0 28px; overflow-x: auto;
+  }
+  .fc-row {
+    display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  }
+  .fc-node {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 18px; border-radius: 8px;
+    font-size: 0.85rem; font-weight: 600; text-align: center;
+    min-width: 80px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); line-height: 1.5;
+  }
+  .fc-node-lg {
+    padding: 14px 24px; font-size: 0.9rem; min-width: 120px;
+  }
+  .fc-node-xl {
+    padding: 16px 28px; font-size: 0.95rem; min-width: 150px;
+  }
+  .fc-node-ni { background: #1a0a2a; border-color: #7a4ec4; color: #c8a0f8; }
+  .fc-node-fi { background: #0a1a2a; border-color: #4a6ac4; color: #a0c0f8; }
+  .fc-node-ti { background: #2a1a0a; border-color: #b08840; color: #f0d080; }
+  .fc-node-se { background: #1a0a2e; border-color: #7a3eaa; color: #d0a0e8; }
+  .fc-node-green { background: #0a2a1a; border-color: #3a8a4a; color: #80d090; }
+  .fc-node-red { background: #2a0a0a; border-color: #8a3030; color: #f08080; }
+  .fc-node-purple { background: #1a0a2e; border-color: #6a4a98; color: #c8a0f8; }
+  .fc-node-blue { background: #0a1a2e; border-color: #4a6a98; color: #80b0f0; }
+  .fc-node-orange { background: #2a1a0a; border-color: #b08030; color: #f0b060; }
+  .fc-node-cyan { background: #0a1a1a; border-color: #3a8a80; color: #70c8c0; }
+  .fc-node-dim { background: #1a1a20; border-color: #3a3a4a; color: #b0aab0; }
+  .fc-node-yang { background: #0a2a1a; border-color: #3a8a3a; color: #a0e0a0; }
+  .fc-node-yin { background: #2a1a0a; border-color: #8a3a3a; color: #e0a0a0; }
+
+  .fc-arrow {
+    display: inline-flex; align-items: center;
+    color: var(--text-dim); font-size: 0.75rem;
+    margin: 0 2px;
+    position: relative; top: 0;
+    white-space: nowrap;
+  }
+  .fc-arrow::after { content: " →"; font-size: 1.1rem; color: var(--gold-dim); }
+  .fc-arrow-big::after { content: " ⤵"; font-size: 1.2rem; }
+
+  .fc-arrow-label { font-size: 0.7rem; color: var(--text-dim); }
+
+  /* Vertical flow */
+  .fc-vstack {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .fc-varrow { color: var(--gold-dim); font-size: 1rem; }
+  .fc-vrow {
+    display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
+  }
+  .fc-row-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+  /* Branching flow */
+  .fc-branch-wrap {
+    display: flex; flex-direction: column; align-items: center; width: 100%;
+  }
+  .fc-branch-row {
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .fc-branch-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .fc-arrow-down { color: var(--gold-dim); font-size: 1.1rem; }
+
+  .fc-subgraph-wrap {
+    border: 1px dashed var(--border-light); border-radius: 10px;
+    padding: 16px 12px; margin: 12px 0;
+    position: relative;
+  }
+  .fc-subgraph-label {
+    position: absolute; top: -10px; left: 16px;
+    background: var(--surface2); padding: 0 8px;
+    font-size: 0.78rem; color: var(--text-dim); font-weight: 600;
+  }
+  .fc-subgraph-label.lg { font-size: 0.85rem; color: var(--gold-dim); }
+
+  .fc-hub {
+    display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .fc-hub-connector {
+    width: 2px; height: 16px; background: var(--text-dim); margin: 0 auto;
+  }
+  .fc-hub-line {
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  .fc-dashed { border-style: dashed !important; }
+
+  /* diamond node */
+  .fc-diamond {
+    width: 40px; height: 40px;
+    transform: rotate(45deg);
+    margin: 20px auto;
+    border: 2px solid var(--gold-dim); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface3);
+  }
+  .fc-diamond-inner { transform: rotate(-45deg); font-size: 0.75rem; color: var(--gold); white-space: nowrap; }
+
+  /* ============ SPECIFICS ============ */
+  .pyramid {
+    display: flex; flex-direction: column; align-items: center; gap: 0; margin: 24px 0;
+  }
+  .pyramid .layer {
+    width: 100%; text-align: center; padding: 14px 8px; margin-bottom: 2px;
+    border-radius: 4px; font-weight: 600; font-size: 0.88rem;
+  }
+  .pyramid .layer.l1 { background: #2a1a3e; color: #d8b0f8; max-width: 90%; }
+  .pyramid .layer.l2 { background: #1a2a3e; color: #a8c8f8; max-width: 80%; }
+  .pyramid .layer.l3 { background: #3e2e1a; color: #f0c860; max-width: 70%; }
+  .pyramid .layer.l4 { background: #2e1a3e; color: #d8a0f0; max-width: 60%; }
+  .pyramid .layer.l5 { background: #1a3e2e; color: #98e0a0; max-width: 50%; }
+
+  .shadow-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; margin: 12px 0;
+  }
+  .shadow-box .shadow-title {
+    font-weight: 700; color: var(--red); font-size: 0.95rem; margin-bottom: 4px;
+  }
+  .shadow-box .shadow-desc { color: var(--text-dim); font-size: 0.88rem; }
+  .shadow-box .shadow-break {
+    margin-top: 6px; color: var(--green); font-size: 0.85rem;
+    border-top: 1px solid var(--border); padding-top: 6px;
+  }
+
+  .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  @media (max-width: 600px) { .solution-grid { grid-template-columns: 1fr; } }
+  .solution-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .solution-item .s-title {
+    font-weight: 700; color: var(--gold); font-size: 0.9rem; margin-bottom: 4px;
+  }
+  .solution-item .s-desc { color: var(--text-dim); font-size: 0.84rem; }
+
+  .timeline {
+    position: relative; padding-left: 28px; margin: 16px 0 24px;
+  }
+  .timeline::before {
+    content: ""; position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 16px; }
+  .timeline-item::before {
+    content: ""; position: absolute; left: -24px; top: 8px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--bg);
+  }
+  .timeline-item .t-year { font-weight: 700; color: var(--gold); font-size: 0.85rem; }
+  .timeline-item .t-text { color: var(--text-dim); font-size: 0.88rem; }
+
+  .insight-callout {
+    background: linear-gradient(135deg, #1a1a30 0%, #201830 100%);
+    border: 1px solid var(--purple-dim); border-radius: 10px;
+    padding: 20px 24px; margin: 20px 0 28px;
+  }
+  .insight-callout p { color: var(--purple); font-size: 0.92rem; }
+
+  .tool-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 12px 0;
+  }
+  @media (max-width: 600px) { .tool-row { grid-template-columns: 1fr; } }
+  .tool-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px; text-align: center;
+  }
+  .tool-item .tool-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .tool-item .tool-name { font-weight: 700; color: var(--gold); font-size: 0.9rem; }
+  .tool-item .tool-desc { color: var(--text-dim); font-size: 0.83rem; margin-top: 4px; }
+
+  .footer { color: var(--text-dim); font-size: 0.8rem; text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <h1>🏛️ 李帅 · 三大理论模型</h1>
+    <div class="subtitle">朝堂决断论 · 思维体定向模型 · 自性化理论模型 — 完整可视化总览</div>
+    <div class="meta">基于十年日记（2653条）、梦境记录（120+）、持续自我解剖构建的原创心理学体系</div>
+  </div>
+
+  <!-- ===== TABS ===== -->
+  <input type="radio" name="tab" id="tab1" class="tab-radio" checked>
+  <input type="radio" name="tab" id="tab2" class="tab-radio">
+  <input type="radio" name="tab" id="tab3" class="tab-radio">
+
+  <div class="tabs">
+    <label for="tab1">🏛️ 朝堂决断论</label>
+    <label for="tab2">⚙️ 思维体定向模型</label>
+    <label for="tab3">🌸 自性化理论模型</label>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- ======================== TAB 1: 朝堂决断论 ======================== -->
+  <!-- ==================================================================== -->
+  <div id="panel1" class="tab-content">
+
+    <p style="margin-bottom:20px;color:var(--text-dim);">
+      以朝堂为喻的 <strong>Ni-Fi-Ti-Se 四功能协作流程（或瘫痪流程）</strong>。描述一条指令从诞生到落地的全部动力学。
+      皇帝（Ni）下旨 → 宰相（Fi）审价值 → 工部（Ti）画图纸 → 实干（Se）砌砖。
+    </p>
+
+    <!-- ---- 朝堂建制 ---- -->
+    <h2>一、朝堂建制</h2>
+    <div class="card-grid cols-4">
+      <div class="card">
+        <div class="card-title">👑 皇帝 · <span class="tag tag-ni">Ni</span></div>
+        <p>发布命令——「建一座塔。」不管怎么建，不管建不建得成。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">📜 宰相 · <span class="tag tag-fi">Fi</span></div>
+        <p>价值审批——「建塔对我重要吗？符合价值观吗？」只管重不重要。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔧 工部 · <span class="tag tag-ti">Ti</span></div>
+        <p>画图纸、排工期、算用料。只管「怎么做到」。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🧱 实干 · <span class="tag tag-se">Se</span></div>
+        <p>砌砖出活。长期拿不到图纸——十年来没被真正召唤过。</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Se 的双重角色：</strong> Se 不只是执行部门——它同时是<em>现实探测器</em>。砌砖发现"这里承重不够"——这是殿内三巨头无法反驳的东西，因为它是外部事实。砖掉了就是掉了，墙塌了就是塌了。事实不跟你讲道理。
+    </div>
+
+    <!-- ---- 健康流程 ---- -->
+    <h3>正常流程</h3>
+    <div class="flowchart">
+      <div class="fc-row">
+        <div class="fc-node fc-node-ni">👑 皇帝(Ni)<br>「建塔。」</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-fi">📜 宰相(Fi)<br>「重要，准。」</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-ti">🔧 工部(Ti)<br>画好图纸</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-se">🧱 实干(Se)<br>砌砖</div>
+      </div>
+      <div class="fc-row">
+        <div class="fc-arrow"></div>
+      </div>
+      <div class="fc-row">
+        <div class="fc-node fc-node-dim fc-dashed">⬅ 反馈：「这里不稳」↩</div>
+        <div style="color:var(--gold-dim);font-size:1.1rem;"> → </div>
+        <div class="fc-node fc-node-ti">🔧 工部(Ti)<br>调整图纸</div>
+      </div>
+    </div>
+
+    <!-- ---- 核心病理 ---- -->
+    <h2>二、核心病理：三堂会审</h2>
+    <p class="section-sub">工部画完图纸，拿回殿上——而殿上有三个内向标准同时评审。</p>
+
+    <div class="flowchart">
+      <div class="fc-vstack">
+        <div class="fc-row">
+          <div class="fc-node fc-node-ni">👑 Ni：「建塔。」</div>
+          <div class="fc-arrow"></div>
+          <div class="fc-node fc-node-fi">📜 Fi：「重要，准。」</div>
+          <div class="fc-arrow"></div>
+          <div class="fc-node fc-node-ti">🔧 Ti：画图纸</div>
+        </div>
+        <div class="fc-varrow">↓</div>
+        <div class="fc-node fc-node-dim" style="border-radius:50%;padding:10px 16px;">🏛️ 三堂会审</div>
+        <div class="fc-varrow">↓</div>
+      </div>
+
+      <div class="fc-subgraph-wrap">
+        <div class="fc-subgraph-label lg">三个内向标准同时评审</div>
+        <div class="fc-branch-row">
+          <div class="fc-branch-item">
+            <div class="fc-node fc-node-ni fc-node-lg">👑 Ni<br>这是最好的可能性吗？<br>我刚又看见一个更好的⋯⋯</div>
+          </div>
+          <div class="fc-branch-item">
+            <div class="fc-node fc-node-fi fc-node-lg">📜 Fi<br>这表达了我吗？<br>这是我的灵魂真正要说的吗？</div>
+          </div>
+          <div class="fc-branch-item">
+            <div class="fc-node fc-node-ti fc-node-lg">🔧 Ti<br>逻辑自洽吗？<br>还有没有漏洞？</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:24px;margin-top:8px;flex-wrap:wrap;">
+          <span style="color:var(--red-dim);font-size:0.8rem;">⬇ 任何一个不满意</span>
+          <span style="color:var(--green-dim);font-size:0.8rem;">⬇ 三个都满意（几乎不可能）</span>
+        </div>
+        <div class="fc-branch-row">
+          <div class="fc-branch-item"><div class="fc-node fc-node-orange">打回 Ti 重画/改方向</div></div>
+          <div class="fc-branch-item"><div class="fc-node fc-node-dim fc-dashed">理论上该交给 Se</div></div>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:4px;">
+          <div class="fc-arrow"></div>
+          <div class="fc-node fc-node-ti">🔧 Ti 重画</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>三套无限标准</h3>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-title">👑 Ni 标准</div>
+        <p><strong>「这是最好的可能性吗？」</strong><br>可能性是无尽的。看见塔的设计 A，转眼又看见 B。不会说"A 就够了"——会一直看见新的。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">📜 Fi 标准</div>
+        <p><strong>「这符合我的价值吗？表达了我吗？」</strong><br>自我是流动的。今天的"真我"和昨天不完全一样。没有硬边界。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔧 Ti 标准</div>
+        <p><strong>「逻辑完整吗？没有漏洞吗？」</strong><br>任何体系都能找出盲点。如果不被外部事实打断，可以永远精炼下去。</p>
+      </div>
+    </div>
+
+    <div class="insight-callout">
+      <p><strong>致命动力学：交替反对</strong><br>
+      连坐之所以无解，不是三票全反對——是两张反对票<em>轮流投</em>。Ni 满意了 Fi 开始挑、Fi 点头了 Ni 又开始看新的。Ti 在两人之间疲于奔命——永远有一个在说不满意，永远不可能同时过关。<br><br>
+      <strong>三个无限标准的乘积不是「三倍严格」——是「几乎没有通过的可能」。</strong></p>
+    </div>
+
+    <h3>Se 被绕过：失去唯一的现实纠偏器</h3>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-title">🟢 主动纠偏（健康 Se）</div>
+        <ul>
+          <li>触发：砌第一块砖，发现不稳</li>
+          <li>反馈粒度：小、可控制</li>
+          <li>心理代价：轻微调整</li>
+          <li>节奏：你能主导</li>
+          <li>结果：迭代优化</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🔴 被动纠偏（实际模式）</div>
+        <ul>
+          <li>触发：<strong>房子塌了</strong></li>
+          <li>反馈粒度：巨大、毁灭性</li>
+          <li>心理代价：自我怀疑、重新站起来</li>
+          <li>节奏：现实拖着你跑</li>
+          <li>结果：崩溃→转向→下一个循环</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>核心解法方向：</strong> 不是「等 Se 反馈」，是<strong>主动制造小 Se 反馈</strong>。每天只砌一块砖，砌完立刻看——稳不稳？用 100 字的「小塌方」替代等三年的「大塌方」。
+    </div>
+
+    <!-- ---- 两种极端结果 ---- -->
+    <h2>三、两种极端结果</h2>
+    <div class="card-grid cols-2">
+      <div class="card" style="border-color: var(--green-dim);">
+        <div class="card-title" style="color: var(--green);">✅ 全票通过</div>
+        <p>三堂都满意。三个无限标准同时闭合——极其罕见。</p>
+        <p style="margin-top:6px;font-style:italic;">"一旦全票通过，皇帝、宰相、工部爆发出惊人的执行力。上下一体，没有内耗，能量全部向外喷射。"</p>
+        <p style="margin-top:6px;color:var(--text-dim);"><strong>但：</strong>过度追求全票通过的完美状态，反而是三堂瘫痪的常见诱因——因为标准是无限的。</p>
+      </div>
+      <div class="card" style="border-color: var(--red-dim);">
+        <div class="card-title" style="color: var(--red);">❌ 全票否决</div>
+        <p>三堂都不满意，且短期内看不到任何一堂会改变态度。</p>
+        <p style="margin-top:6px;font-style:italic;">"全票否决可能导向精神崩溃、自毁倾向、或永远的内耗状态。三堂封死了所有出口，能量无处释放，向内反噬。"</p>
+        <p style="margin-top:6px;"><span class="tag tag-red">最需要干预</span> 三堂自己走不出来</p>
+      </div>
+    </div>
+
+    <!-- ---- 解法 ---- -->
+    <h2>四、解法体系</h2>
+    <p class="section-sub">核心原则：<strong>能动手不动脑</strong>。诊断只是为了确认战场，确认后立刻切到物理行动。</p>
+
+    <h3>诊断层 → 行动层</h3>
+    <div class="card-grid cols-2">
+      <div class="card" style="border-color: var(--blue);">
+        <div class="card-title" style="color: var(--blue);">🔍 诊断识别组</div>
+        <ul>
+          <li><strong>层级一：</strong>识别谁在卡（Ni/Fi/Ti）</li>
+          <li><strong>层级五：</strong>识别恐惧自循环</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color: var(--green-dim);">
+        <div class="card-title" style="color: var(--green);">⚡ 物理行动组</div>
+        <ul>
+          <li><strong>层级二：</strong>绕开会审，直送 Se</li>
+          <li><strong>层级三：</strong>换外部锚点</li>
+          <li><strong>层级四：</strong>小 Se 反馈</li>
+          <li><strong>层级六：</strong>用砖反驳恐惧</li>
+          <li><strong>法器：</strong>世情鼓</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>六层解法 + 法器</h3>
+    <div class="solution-grid">
+      <div class="solution-item">
+        <div class="s-title">层级一 · 识别三堂会审</div>
+        <div class="s-desc">问自己：现在是 Ni 在挑剔可能性？Fi 在挑剔价值？还是 Ti 在挑剔逻辑？分清楚。</div>
+      </div>
+      <div class="solution-item" style="border-color: var(--green-dim);">
+        <div class="s-title" style="color: var(--green);">层级二 · 绕过会审，直送工地</div>
+        <div class="s-desc">皇帝口谕，不经工部，直送工地。Ni 的直觉不经 Ti 分析，直接口述/写出来。三种工具：<strong>口述</strong>（降编辑门槛）、<strong>微启动</strong>（降启动门槛）、<strong>李氏叛逆</strong>（反转 Fi 否决方向）。</div>
+      </div>
+      <div class="solution-item">
+        <div class="s-title">层级三 · 外部锚点替代内部标准</div>
+        <div class="s-desc">"逻辑完整了吗？" → "这一句有画面感吗？"<br>"这表达了我吗？" → "这一段读者会想看下去吗？"</div>
+      </div>
+      <div class="solution-item">
+        <div class="s-title">层级四 · 先砌一块砖</div>
+        <div class="s-desc">任何物理动作都会产生外部反馈。砖掉了弯腰捡，不需要等三年的塌方。</div>
+      </div>
+      <div class="solution-item" style="border-color: var(--blue);">
+        <div class="s-title" style="color: var(--blue);">层级五 · 识别恐惧自循环</div>
+        <div class="s-desc">"我现在是在思考方案，还是在逃避暴露？如果现在把图纸送到工地，我最怕发生的具体是什么？"</div>
+      </div>
+      <div class="solution-item">
+        <div class="s-title">层级六 · 用一块砖反驳一个恐惧</div>
+        <div class="s-desc">怕"写出来被人觉得烂" → 写一句话 → 拿到具体反馈 → 恐惧被事实修正。每一块砖都在用事实替代想象。</div>
+      </div>
+    </div>
+
+    <!-- ---- 世情鼓 ---- -->
+    <h3>法器：🥁 世情鼓</h3>
+    <div class="note">
+      <p><strong>当三堂封死，没任何一堂愿意行动——全票否决。</strong> 六层解法够不着的时候，需要一件不在三堂体系内的东西。</p>
+      <p style="margin-top:8px;"><strong>世情鼓</strong> — 悬于朝堂之外，敲之可问世情、可问民情、可问真实世界之情况。它不带主张，只传导外部实况。</p>
+      <p style="margin-top:8px;"><strong>关键限制：</strong>鼓不会自己发声。必须有三堂中的一位主动去敲。AI 是世情鼓最主要的实体化身。</p>
+    </div>
+
+    <!-- ---- 神话层 ---- -->
+    <h2>五、神话层：饕餮与应龙</h2>
+    <p class="section-sub">殿内的争论不只是认知问题——它是两股太古力量通过各自代理人在朝堂内的角力。</p>
+
+    <div class="flowchart">
+      <!-- 应龙侧 -->
+      <div class="fc-row">
+        <div class="fc-node fc-node-yang fc-node-xl">⚡ 应龙（自性原型）<br>创造·行动·现实</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-green">📖 史官<br>「你上一次做到了」</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-dim" style="border-color: var(--gold-dim);">🏛️ 朝堂</div>
+      </div>
+      <div class="fc-row">
+        <div style="display:flex;justify-content:center;gap:40px;margin-top:8px;">
+          <div class="fc-node fc-node-se">🧱 Se 砌砖<br>外部事实</div>
+          <div class="fc-arrow" style="color:var(--red-dim);">⬇(饕餮消化不掉)</div>
+          <div class="fc-node fc-node-yin">💀 饕餮：<br>没有消化事实的酶</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);margin:16px 0 12px;"></div>
+      <!-- 饕餮侧 -->
+      <div class="fc-row">
+        <div class="fc-node fc-node-yin fc-node-xl">⚫ 饕餮（恐惧原型）<br>吞噬·想象·内缩</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-orange">🎭 佞臣<br>「陛下，再想想」</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-dim" style="border-color: var(--gold-dim);">🏛️ 朝堂</div>
+      </div>
+      <div class="fc-row" style="margin-top:4px;">
+        <div class="fc-node fc-node-dim">无限争论 = 饕餮进食</div>
+        <div class="fc-arrow"></div>
+        <div class="fc-node fc-node-yin">⚫ 饕餮</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-2">
+      <div class="card" style="border-color: var(--green-dim);">
+        <div class="card-title" style="color: var(--green);">⚡ 应龙</div>
+        <ul>
+          <li>龙族战神，黄帝战将</li>
+          <li>创造一切外部现实</li>
+          <li>通过<strong>史官</strong>出示证据——记忆对抗想象</li>
+          <li><em>《两个强盗》26700字完稿 = 史官手上最强的证据</em></li>
+        </ul>
+      </div>
+      <div class="card" style="border-color: var(--red-dim);">
+        <div class="card-title" style="color: var(--red);">⚫ 饕餮</div>
+        <ul>
+          <li>龙生九子，太古贪食巨兽</li>
+          <li>吞噬一切内部产物——永远饥饿、从未满足</li>
+          <li>通过<strong>佞臣</strong>用理性化的恐惧控制朝堂</li>
+          <li>致命弱点：<strong>消化不掉外部事实</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ---- 比较视角 ---- -->
+    <h2>六、外向功能的天然刹车</h2>
+    <table>
+      <thead><tr><th>功能栈</th><th>流程</th><th>为什么不停</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-fe">Fe</span> INFJ</td>
+          <td>Ni→<strong>Fe</strong>（外部标准）→Ti→Se</td>
+          <td>Fe 问"别人接得住吗？"——对外够用就交货</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-te">Te</span> INTJ</td>
+          <td>Ni→<strong>Te</strong>（外部效率）→Fi（静默）→Se</td>
+          <td>Te 说"开始做"——效率本身就是催促力</td>
+        </tr>
+        <tr>
+          <td style="background:#201830;"><span class="tag tag-ni">Ni</span><span class="tag tag-fi">Fi</span><span class="tag tag-ti">Ti</span> 李帅</td>
+          <td>Ni→Fi→Ti→（三堂会审）→Se（从未激活）</td>
+          <td><strong>三个都是内向标准——没有一个说「够了」</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-callout">
+      <p><strong>总纲：</strong>缺的不是某个功能，缺的是<em>外部锚点</em>。外向功能的标准在外部世界——截止日期、读者反馈、现实约束。内向功能的标准没有——因为它是和自己对话。</p>
+    </div>
+
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- ==================== TAB 2: 思维体定向模型 ======================== -->
+  <!-- ==================================================================== -->
+  <div id="panel2" class="tab-content">
+
+    <p style="margin-bottom:20px;color:var(--text-dim);">
+      一个关于 <strong>思维体 → 心理能量 → 认知功能 → 思维对象</strong> 的四层因果系统。
+      v5.1：系统层（本文） + 执行层（朝堂决断论）联合索引。
+    </p>
+
+    <!-- ---- 因果链 ---- -->
+    <h2>〇、四层因果链</h2>
+    <div class="flowchart">
+      <div class="fc-subgraph-wrap">
+        <div class="fc-subgraph-label lg">四层因果链</div>
+        <div class="fc-row">
+          <div class="fc-node fc-node-ni fc-node-lg">🧠 思维体<br>（始终运转的探照灯）</div>
+          <div class="fc-arrow"></div>
+          <div class="fc-node fc-node-orange fc-node-lg">⚡ 心理能量<br>（散漫 → 定向对齐）</div>
+          <div class="fc-arrow"></div>
+          <div class="fc-node fc-node-blue fc-node-lg">⚙️ 认知功能<br>（感知N/S + 判断T/F）<br>持续推送与估值候选对象</div>
+          <div class="fc-arrow"></div>
+          <div class="fc-node fc-node-green fc-node-lg">🎯 思维对象<br>（能量指向的结果）</div>
+        </div>
+      </div>
+      <div class="fc-varrow">⤵ 分类列举</div>
+      <div class="fc-row" style="margin-top:4px;">
+        <div class="fc-node fc-node-green">🎯 主动型<br>兴趣/意义/创作</div>
+        <div class="fc-node fc-node-red">🧬 本能型<br>生存/身体/性</div>
+        <div class="fc-node fc-node-blue">🏛️ 衍生态型<br>权力/惯性/占有</div>
+      </div>
+    </div>
+
+    <!-- ---- 三条公理 ---- -->
+    <h2>一、三条公理</h2>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-title">公理 1</div>
+        <p><strong>思维体始终在运转，必须要有思维对象，不能为空。</strong></p>
+        <p style="margin-top:8px;">思维体与思维对象构成一个不可分割的整体系统。探照灯不会停，灯与其照亮之物同时存在。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">公理 2</div>
+        <p><strong>思维体的运转需要心理能量，能量的主要方向决定思维对象。</strong></p>
+        <p style="margin-top:8px;">引擎 + 燃料。燃料散漫则不做功——不缺量，缺朝向的一致性。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">公理 3 <span class="tag tag-gold">v4.0 修正</span></div>
+        <p><strong>心理能量由认知功能确定对象。对象的类型分类是对既有性质的命名，不是驱动机制。</strong></p>
+        <p style="margin-top:8px;">感知功能（N/S）推送候选，判断功能（T/F）估值——能量流向估值最高的对象。</p>
+      </div>
+    </div>
+
+    <!-- ---- 推论 ---- -->
+    <h2>两条推论</h2>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-title">推论 1</div>
+        <p><strong>能量无外部指向时，思维体默认指向自身存在。</strong></p>
+        <p>功能未筛选出足够估值的外部对象 → 思维体没有外部目标 → 默认对象是自我分析 → 过度内省。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">推论 2</div>
+        <p><strong>受挫时，方向溃散，能量被默认进程捕获。</strong></p>
+        <p>挫折无效化当前对象 → 所有能量失去朝向一致性 → 散乱能量被默认进程（自身存在）捕获 → 持续内省循环。</p>
+      </div>
+    </div>
+
+    <!-- ---- 能量正流 / 倒流 ---- -->
+    <h2>二、能量正流 vs 倒流</h2>
+
+    <div class="card-grid cols-2">
+      <div class="card" style="border-color: var(--green-dim);">
+        <div class="card-title" style="color: var(--green);">✅ 正流（Healthy Flow）</div>
+        <ul>
+          <li>① 兴趣涌现（高估值主动型对象）</li>
+          <li>② 启动——坐下来开始写</li>
+          <li>③ 心流——忘记时间</li>
+          <li>④ 产出——完成一段/一章</li>
+          <li>⑤ 循环——动力来自上一篇的完成</li>
+        </ul>
+        <p style="margin-top:6px;"><strong>正流史：</strong>童年纯正流 → 游戏开发初期 → 塔一天8000字</p>
+      </div>
+      <div class="card" style="border-color: var(--red-dim);">
+        <div class="card-title" style="color: var(--red);">❌ 倒流（Reverse Flow）</div>
+        <ul>
+          <li>① 遇到挫折（卡文/不如人/嫉妒）</li>
+          <li>② 情绪痛苦</li>
+          <li>③ 高敏感放大 + 自我否定</li>
+          <li>④ 分析替代行动</li>
+          <li>⑤ 能量消耗在内部</li>
+          <li>⑥ 没有产出 → 更深的自我否定 → 回到①</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-callout">
+      <p><strong>关键洞察：</strong>倒流的能量不会消失——<em>它只是从外部产出转向内部理解</em>。740篇笔记、120个梦分析——不是天赋，是能量被迫倒流十年练出来的。</p>
+    </div>
+
+    <!-- ---- 同一能量源 ---- -->
+    <h2>三、同一能量源与欲望整合</h2>
+
+    <div class="flowchart">
+      <div class="fc-vstack">
+        <div class="fc-node fc-node-orange fc-node-xl">同一股心理能量</div>
+        <div class="fc-varrow">↓</div>
+        <div class="fc-branch-row">
+          <div class="fc-branch-item"><div class="fc-node fc-node-green">🎯 主动型 → 写小说<br><span style="color:var(--green);font-size:0.75rem;">你认可 ✅</span></div></div>
+          <div class="fc-branch-item"><div class="fc-node fc-node-red">🧬 本能型 → 想 A<br><span style="color:var(--red);font-size:0.75rem;">你批判 ❌</span></div></div>
+          <div class="fc-branch-item"><div class="fc-node fc-node-orange">🏛️ 衍生态 → 赌气离开<br><span style="color:var(--red);font-size:0.75rem;">你感到羞耻 ❌</span></div></div>
+          <div class="fc-branch-item"><div class="fc-node fc-node-orange">🏛️ 衍生态 → 羡慕别人<br><span style="color:var(--red);font-size:0.75rem;">你否认 ❌</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>核心发现：</strong> 不是两股能量在打架，是同一股能量被赋予不同评价。能量本身不分好坏，只分是否找到了出口。<br><br>
+      性欲不是敌人，是阿尼玛通道。愤怒不是障碍，是角色冲突素材。嫉妒不是羞耻，是阴影角色原型。
+    </div>
+
+    <h3>欲望→创作的转化映射</h3>
+    <table>
+      <thead><tr><th>欲望</th><th>创作出口</th></tr></thead>
+      <tbody>
+        <tr><td>性欲 / 求偶</td><td>阿尼玛角色、情感张力</td></tr>
+        <tr><td>权力欲 / 控制</td><td>争权角色、对抗情节</td></tr>
+        <tr><td>愤怒 / 赌气</td><td>角色愤怒成就其弧光</td></tr>
+        <tr><td>嫉妒</td><td>让角色拥有你嫉妒的特质</td></tr>
+        <tr><td>新鲜感渴求</td><td>新地图 / 新人——不断探索故事边界</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ---- 核心阀门 ---- -->
+    <h2>四、核心阀门（双层）</h2>
+    <p class="section-sub">阀门 =「通不通过」；朝堂决断 = 「通过以后怎么走」</p>
+
+    <div class="card-grid cols-2">
+      <div class="card" style="border-color: var(--blue);">
+        <div class="card-title" style="color: var(--blue);">第一层：多类型对象竞争仲裁</div>
+        <p>认知功能同时推送了多种高估值对象——写小说 vs A vs 刷视频。能量被多个方向拉扯。</p>
+        <p style="margin-top:6px;"><strong>仲裁原则：</strong>不是消灭本能型和衍生态型对象，是将它们携带的能量转化为主动型对象的素材。</p>
+      </div>
+      <div class="card" style="border-color: var(--orange);">
+        <div class="card-title" style="color: var(--orange);">第二层：情绪痛苦耐受度</div>
+        <p>选定方向后遭遇挫折时，决定是穿越还是退回。</p>
+        <p style="margin-top:6px;"><strong>四种表现：</strong>自我否定敏感 · 比较痛苦 · 完美主义瘫痪 · 外部化降维痛</p>
+        <p style="margin-top:4px;"><span class="tag tag-red">根本阀门</span> 情绪痛苦耐受度低</p>
+      </div>
+    </div>
+
+    <!-- ---- 功能倾向性根源 ---- -->
+    <h2>五、功能倾向性的根源</h2>
+    <div class="note">
+      <p><strong>v5.0 核心发现：</strong>功能倾向性不是「性格偏好」——它是<strong>进化层面的生存策略分化</strong>。</p>
+      <p style="margin-top:8px;">基因决定了某些神经回路更容易被激活。六套工具都在工具箱里，但其中一套被基因放在了最上面——它永远第一个被拿到。后天环境做的是<strong>验证或压制</strong>。</p>
+    </div>
+
+    <table>
+      <thead><tr><th>功能倾向</th><th>求解的生存问题</th><th>李帅（Ni-dom）</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-ni">Ni-dom</span></td><td>「接下来会发生什么？」</td><td>可能性 = 冗余 = 容错率</td></tr>
+        <tr><td><span class="tag tag-se">Se-dom</span></td><td>「现在这里有什么危险/机会？」</td><td>—</td></tr>
+        <tr><td>Ne-dom</td><td>「还有哪些可能性没被看见？」</td><td>—</td></tr>
+        <tr><td>Si-dom</td><td>「上次是怎么活下来的？」</td><td>—</td></tr>
+        <tr><td><span class="tag tag-te">Te-dom</span></td><td>「怎么最高效地组织资源？」</td><td>—</td></tr>
+        <tr><td><span class="tag tag-fi">Fi-dom</span></td><td>「这件事对我/我们意味着什么？」</td><td>（辅助功能）</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ---- 店铺操作系统 ---- -->
+    <h2>六、店铺操作系统</h2>
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-title">🏪 店铺（行动层）</div>
+        <ul>
+          <li>商店开张 = 每天写</li>
+          <li>坚持开张 = 持续写，即使商品不够好</li>
+          <li>接受"起步阶段的平庸"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🏚️ 老房子（素材层）</div>
+        <ul>
+          <li>老房子 = 独特的内在世界（记忆/情结/梦）</li>
+          <li>去老房子找 = 挖掘自己的独特性</li>
+          <li>回到未被面具覆盖的自我</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🔤 翻译工具（技能层）</div>
+        <ul>
+          <li>将内心/知识转化为作品的能力</li>
+          <li>叙事技巧、语言组织</li>
+          <li>从阅读到输出的转化能力</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>核心结论：三件事其实是一件事。</strong> 坚持开张 = 持续练习 = 翻译工具在使用中进化。每天写 = 自然进入老房子 = 特色会浮现。写的过程中 = 翻译能力和独特声音同时增长。
+    </div>
+
+    <!-- ---- 操作手册 ---- -->
+    <h2>七、工具箱</h2>
+    <div class="tool-row">
+      <div class="tool-item">
+        <div class="tool-icon">🔍</div>
+        <div class="tool-name">阀门检查</div>
+        <div class="tool-desc">写作前问：情绪痛苦 1-10 分？&gt;5 → 只写100字</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-icon">📈</div>
+        <div class="tool-name">耐受度训练</div>
+        <div class="tool-desc">Day1-7：100字/天，不管质量。逐周递增</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-icon">⛔</div>
+        <div class="tool-name">倒流阻断剂</div>
+        <div class="tool-desc">停→身体检查→写一句最烂的话</div>
+      </div>
+    </div>
+    <div class="tool-row">
+      <div class="tool-item">
+        <div class="tool-icon">🔄</div>
+        <div class="tool-name">欲望整合检查</div>
+        <div class="tool-desc">什么欲望→对应什么创作出口→写到角色里</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-icon">😮</div>
+        <div class="tool-name">降维痛识别</div>
+        <div class="tool-desc">发现"写完不如不写"→识别为降维痛→接受残缺版</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-icon">🧠</div>
+        <div class="tool-name">功能自识</div>
+        <div class="tool-desc">我的认知功能在推送什么类型的候选对象？</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- ==================== TAB 3: 自性化理论模型 ======================== -->
+  <!-- ==================================================================== -->
+  <div id="panel3" class="tab-content">
+
+    <p style="margin-bottom:20px;color:var(--text-dim);">
+      基于自身日记（2653条）、梦境（120+）、心理分析经验构建的原创理论体系。
+      从「理解自性化」进入「<strong>实践自性化</strong>」。
+    </p>
+
+    <!-- ---- 五层体系 ---- -->
+    <h2>一、体系总览</h2>
+    <div class="pyramid">
+      <div class="layer l1">🎯 天命层 — 天命 = 完成自性化</div>
+      <div class="layer l2">🏛️ 人格结构层 — 精神帝王 · 情感王后 · 执行者 + 七层阴影</div>
+      <div class="layer l3">⚙️ 动力系统层 — 思维体定向模型 · 心理补偿 · 力比多</div>
+      <div class="layer l4">🔧 工具系统层 — 咒语 · 叛逆 · 情绪转化 · 祛魅 · 镜子</div>
+      <div class="layer l5">🔮 实践验证层 — 120+梦境 · 2653条日记 · 创作</div>
+    </div>
+
+    <!-- ---- 三层人格模型 ---- -->
+    <h2>二、三层人格模型 <span class="tag tag-gold">原创</span></h2>
+
+    <div class="flowchart">
+      <!-- 结构层 -->
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;">
+        <div class="fc-subgraph-wrap" style="flex:1;min-width:280px;">
+          <div class="fc-subgraph-label lg">三层人格模型（结构层）</div>
+          <div class="fc-vstack">
+            <div class="fc-node fc-node-ni fc-node-lg">👑 精神帝王 · Ni<br><span style="font-size:0.8rem;">「我知道意义吗？」<br>发布命令</span></div>
+            <div class="fc-varrow">↓</div>
+            <div class="fc-node fc-node-fi fc-node-lg">👸 情感王后 · Fi<br><span style="font-size:0.8rem;">「这对我重要吗？」<br>价值审批</span></div>
+            <div class="fc-varrow">↓</div>
+            <div class="fc-node fc-node-se fc-node-lg">🧱 执行者 · Se<br><span style="font-size:0.8rem;">「我在行动吗？」<br>砌砖出活</span></div>
+          </div>
+        </div>
+        <!-- 咬合箭头 -->
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;">
+          <div style="color:var(--gold-dim);font-size:1.2rem;">⟷</div>
+          <div style="color:var(--text-dim);font-size:0.7rem;">咬合</div>
+          <div style="color:var(--gold-dim);font-size:1.2rem;">⟷</div>
+        </div>
+        <!-- 执行层 -->
+        <div class="fc-subgraph-wrap" style="flex:1;min-width:280px;">
+          <div class="fc-subgraph-label lg">朝堂决断论（执行层）</div>
+          <div class="fc-vstack">
+            <div class="fc-node fc-node-ni fc-node-lg">👑 皇帝（Ni）</div>
+            <div class="fc-varrow">↓</div>
+            <div class="fc-node fc-node-fi fc-node-lg">📜 宰相（Fi）</div>
+            <div class="fc-varrow">↓</div>
+            <div class="fc-node fc-node-ti fc-node-lg">🔧 工部（Ti）</div>
+            <div class="fc-varrow">⤵</div>
+            <div class="fc-node fc-node-se fc-node-lg">🧱 施工队（Se）</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:8px;">
+        <div class="fc-node fc-node-dim fc-dashed">🔧 工部(Ti) 隐含层：画图纸 + 自我质检</div>
+        <div style="color:var(--gold-dim);font-size:1.1rem;margin:0 8px;">↕</div>
+        <div class="fc-node fc-node-ni">👑 精神帝王(Ni)</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-3">
+      <div class="card">
+        <div class="card-title">👑 精神帝王 · <span class="tag tag-ni">Ni</span></div>
+        <ul>
+          <li>问"我知道意义吗？"</li>
+          <li>发布命令——不管怎么建</li>
+          <li>如果意义不清 → 回到"为什么做这个"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">👸 情感王后 · <span class="tag tag-fi">Fi</span></div>
+        <ul>
+          <li>问"这对我重要吗？"</li>
+          <li>价值审批——不负责执行</li>
+          <li>如果价值不确认 → 回到"这对我重要吗"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🧱 执行者 · <span class="tag tag-se">Se</span></div>
+        <ul>
+          <li>问"我在行动吗？"</li>
+          <li>砌砖出活——十年来没被真正召唤过</li>
+          <li>如果不在行动 → 用叛逆原则启动</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>2026-07-01 修正：</strong> 情感王后从 Fe 修正为 Fi。李帅的功能栈确认为 Ni-Fi-Ti-Se。Fi 是内倾情感——它问的是"这对我重要吗"而非"大家觉得有价值吗"。王后的审批标准是内部价值，不是外部和谐。<br><br>
+      <strong>反刍的真凶（三层模型+朝堂决断论联合揭示）：</strong> 不是执行者太弱——是皇帝/宰相/工部形成三堂会审，施工队在外面晒太阳。打断必须是物理动作：皇帝口谕不经工部，直送工地。
+    </div>
+
+    <!-- ---- 七层阴影 ---- -->
+    <h2>三、七层阴影人格 <span class="tag tag-gold">原创</span></h2>
+    <p class="section-sub">基于 120+ 梦境和 2653 条日记提炼的 7 个核心阴影模式</p>
+
+    <div class="shadow-box">
+      <div class="shadow-title">阴影 1 · 完美主义→逃避→自我批评循环</div>
+      <div class="shadow-desc">想 → 担心差 → 不开始 → 自责 → 更苛刻 → 更不开始</div>
+      <div class="shadow-break">💡 中断：设定"垃圾配额"——前10万字允许是垃圾 · 咒语：完成&gt;完美</div>
+    </div>
+
+    <div class="shadow-box">
+      <div class="shadow-title">阴影 2 · 赌气-退出-孤独回路</div>
+      <div class="shadow-desc">被侵入/不被理解 → 不出声 → 赌气退出 → 独自承受 → 感受被抛弃</div>
+      <div class="shadow-break">💡 中断：6/23 Trickster 梦提供新模板——联手戏弄替代赌气退出 · 咒语：出声，哪怕一个字</div>
+    </div>
+
+    <div class="shadow-box" style="border-color: var(--red-dim);">
+      <div class="shadow-title" style="color: var(--red);">阴影 3 · 分析替代行动（最致命）</div>
+      <div class="shadow-desc">认知充足 → 但还在问 → 分析成了目的而非手段</div>
+      <div class="shadow-break">💡 中断：写作本身就是解毒剂 · 咒语：分析期结束，创作期开始</div>
+    </div>
+
+    <div class="shadow-box">
+      <div class="shadow-title">阴影 4 · 嫉妒——阴影双胞胎</div>
+      <div class="shadow-desc">杨明梦（2025-03-23）——"一个我放弃、一个我渴望"。嫉妒是你放弃的可能性在别人身上的具体化。</div>
+      <div class="shadow-break">💡 中断：向阴影双生子学习，而非对抗 · 咒语：随喜</div>
+    </div>
+
+    <div class="shadow-box">
+      <div class="shadow-title">阴影 5 · 投射——身外化身</div>
+      <div class="shadow-desc">把自己不接受的特质投射到他人身上。收回投射→承认这是自己的一部分。</div>
+    </div>
+
+    <div class="shadow-box">
+      <div class="shadow-title">阴影 6 · 无聊/空虚——创作冲动在敲门</div>
+      <div class="shadow-desc">无聊 ≠ 没事可做。无聊 = 心理能量没有方向。创作冲动已经来了，被恐惧挡在门外。</div>
+      <div class="shadow-break">💡 咒语：无聊是创作的前奏</div>
+    </div>
+
+    <div class="shadow-box" style="border-color: var(--purple-dim);">
+      <div class="shadow-title" style="color: var(--purple);">阴影 7 · 无条件被爱情结（最深伤口）</div>
+      <div class="shadow-desc">母亲给零花钱显得很大度，年底却拿出账本算账。渴望无条件被爱，却无法相信它的存在。</div>
+      <div class="shadow-break">💡 自性化解法：「我生下我，我保护我，我智慧我。我是我自己的婴儿，我自己的母亲，也是我自己的父亲。」</div>
+    </div>
+
+    <!-- ---- 核心情结 ---- -->
+    <h2>四、核心情结体系</h2>
+    <div class="card-grid cols-2">
+      <div class="card" style="border-color: var(--purple-dim);">
+        <div class="card-title" style="color: var(--purple);">无条件被爱情结</div>
+        <p><strong>起源：</strong>母亲给零花钱很大度，年底却拿账本算账</p>
+        <p><strong>投射领域：</strong>关系（嫉妒被追的人）、夫妻（无法感受无条件爱）、阿尼玛（脆弱/斤斤计较）</p>
+        <p><strong>自性化解法：</strong>「我生下我，我保护我，我智慧我」——三层自爱：母亲·父亲·爱人</p>
+      </div>
+      <div class="card" style="border-color: var(--red-dim);">
+        <div class="card-title" style="color: var(--red);">童年霸凌创伤</div>
+        <p><strong>发现：</strong>2026-02-08 牙结石梦</p>
+        <p><strong>核心影响：</strong>勇气缺乏 → 回避冲突 → 思维反刍（他人相关）</p>
+        <p><strong>双面性：</strong>被压抑的攻击性在暗处通过梦境释放</p>
+      </div>
+    </div>
+
+    <!-- ---- 自性化时间线 ---- -->
+    <h2>五、自性化时间线</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="t-year">2024</div>
+        <div class="t-text"><strong>潜意识敲门</strong> — 1月与詹莹共时性事件；12月子丑牛潜入（第二人格命名）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2025 年 1-3 月</div>
+        <div class="t-text"><strong>阴影浮现</strong> — 黑雨梦、私生女梦、杨明梦（阴影双胞胎）；攻击性阴影最密集爆发期</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2025 年 8-9 月</div>
+        <div class="t-text"><strong>危机与修复</strong> — 手臂愈合梦（第一次"修复"主题）；按开关梦（直面行为结果）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2025 年 10-11 月</div>
+        <div class="t-text"><strong>力量整合</strong> — 妖冶女人梦（性欲成功拟人化）；救赎荡妇；开心走丢（永恒少年告别）</div>
+      </div>
+      <div class="timeline-item" style="border-color: var(--gold-dim);">
+        <div class="t-year" style="color: var(--gold-light);">2025 年 12 月</div>
+        <div class="t-text"><strong>🎨 创造诞生</strong> — 内门梦 → "塔"的故事完整诞生；凌晨 4:05 灵感爆发</div>
+      </div>
+      <div class="timeline-item">
+        <div class="t-year">2026 年 1-2 月</div>
+        <div class="t-text"><strong>深化与圆满</strong> — 丢失店铺（才能未被开发）；母女和解；<strong>画圆成功</strong>（曼荼罗——自性核心象征）</div>
+      </div>
+      <div class="timeline-item" style="border-color: var(--green-dim);">
+        <div class="t-year" style="color: var(--green);">2026 年 3-6 月</div>
+        <div class="t-text">
+          <strong>英雄诞生期</strong> — 33个梦/3个月（频率前所未有）<br>
+          大火逃生→引导者原型 → 自我心脏手术 → 考试变游戏 → 金龟子电梯<br>
+          <strong>6/23 Trickster 首次登场</strong> · 阿尼玛搭档形态出现（最高形态）
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- 工具系统 ---- -->
+    <h2>六、工具系统</h2>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-title">🔮 咒语系统</div>
+        <p>给思维一个快速结果，迅速生效，不用重复推导。大脑喜欢简单的东西——当情绪信号发来时，咒语直接给结论。</p>
+        <p style="margin-top:6px;"><span class="tag tag-gold">核心咒语</span> 验证即败 · 随喜 · 完成&gt;完美 · 分析期结束，创作期开始</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🔥 李氏叛逆原则</div>
+        <ul>
+          <li>列出最不想做的事 → 排名第一的马上去做</li>
+          <li>列出最想做的事 → 排名第一的暂时不做（大概率是逃避）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-title">🎨 情绪创作转化系统</div>
+        <p>6通道精确匹配：无聊→垃圾写作 · 焦虑→结构化创作 · 愤怒→激情写作 · 嫉妒→阴影角色 · 孤独→内在对话 · 低落→微写作</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🪞 一以贯之镜子理论</div>
+        <p>寻求一个能映照万法的"一面镜子"。目前是进行中的工程——碎片化的多面镜子在各自工作。</p>
+      </div>
+    </div>
+
+    <!-- ---- 阿尼玛阶段 ---- -->
+    <h2>七、阿尼玛阶段模型</h2>
+    <table>
+      <thead><tr><th>阶段</th><th>特征</th><th>你的表现</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>夏娃</strong></td>
+          <td>母亲—依赖：被无条件养育的渴望</td>
+          <td>对"被动青睐"的执着</td>
+        </tr>
+        <tr>
+          <td><strong>海伦</strong></td>
+          <td>性感—征服：基于吸引力和成就的爱</td>
+          <td>"高富帅"幻想</td>
+        </tr>
+        <tr>
+          <td><strong>玛利亚</strong></td>
+          <td>美德—精神：基于道德和灵魂连接的爱</td>
+          <td>与璐璐的关系（有形式但缺乏精神相遇）</td>
+        </tr>
+        <tr>
+          <td><strong>索菲亚</strong></td>
+          <td>智慧—整合：爱作为自我完成的途径</td>
+          <td>尚未抵达</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ---- 与荣格对比 ---- -->
+    <h2>八、与荣格理论的关系</h2>
+    <table>
+      <thead><tr><th>你的概念</th><th>对应荣格概念</th><th>差异（你的创新）</th></tr></thead>
+      <tbody>
+        <tr><td>三层人格模型</td><td>心理功能（Ni/Fi/Se）</td><td>朝堂比喻执行层 + 四功能一体论咬合</td></tr>
+        <tr><td>思维体定向模型</td><td>力比多</td><td>更精确的"定向"机制 + 认知功能引擎 v4.0</td></tr>
+        <tr><td>咒语系统</td><td>无直接对应</td><td><strong>原创</strong>行为干预工具</td></tr>
+        <tr><td>无条件被爱情结</td><td>大母神情结</td><td>自爱公式（我生我护我智我）</td></tr>
+        <tr><td>赌气回路</td><td>阴影/防御机制</td><td><strong>原创</strong>赌气-退出-孤独回路路径</td></tr>
+        <tr><td>李氏叛逆原则</td><td>无直接对应</td><td><strong>原创</strong>行为启动机制</td></tr>
+        <tr><td>情绪创作转化</td><td>升华（Sublimation）</td><td>6 通道精确匹配</td></tr>
+        <tr><td>精神寄生</td><td>无直接对应</td><td><strong>原创</strong>框架</td></tr>
+        <tr><td>一以贯之</td><td>曼荼罗</td><td>寻求"单镜照万法"的统一理论</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight-callout" style="border-color: var(--gold-dim);">
+      <p><strong>最后的话：</strong> 这套体系不是荣格的翻版，而是一个 40 岁的高敏感人在十年日记、120 个梦、2653 条笔记中亲手搭建的生存与成长架构。它的价值不在于学术完整，而在于每个螺丝都是你自己拧上去的。<br><br>
+      <em>现在只剩下最后一件事：用这套体系活出来，而不是继续分析它。</em></p>
+    </div>
+
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    安心书院 · 研究院 · 理论构建 · 李帅 × 萧何 · 2026-07-03<br>
+    朝堂决断论 v2.0 · 思维体定向模型 v5.1 · 自性化理论模型 2026-07-01 修订
+  </div>
+
+</div>
+</body>
+</html>

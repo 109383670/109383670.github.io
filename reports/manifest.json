@@ -3,6 +3,19 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "三通道四位置咬合关系",
+      "type": "html",
+      "title": "三通道 × 四位置 · 咬合关系图",
+      "summary": "Ni 棱镜 / Fi 反光镜 / Ti 透镜 与 四个认知位置的动态咬合",
+      "tags": [
+        "心理类型",
+        "理论构建"
+      ],
+      "date": "2026-07-04",
+      "path": "reports/三通道四位置咬合关系.html",
+      "thumbnail": "reports/thumbnail.svg"
+    },
+    {
       "id": "作品产出曲线_20260703",
       "type": "html",
       "title": "李帅创作产出曲线 · 2026",
@@ -11,8 +24,21 @@
         "统计"
       ],
       "date": "2026-07-03",
-      "path": "reports/sample-report/作品产出曲线_20260703.html",
-      "thumbnail": "reports/sample-report/thumbnail.svg"
+      "path": "reports/产出曲线_20260703.html",
+      "thumbnail": "reports/thumbnail.svg"
+    },
+    {
+      "id": "三大模型可视化",
+      "type": "html",
+      "title": "三大模型可视化 · 思维体定向理论",
+      "summary": "Ni 直觉映射模型、认知传动模型、思维体定向模型 · 一图看懂安心书院核心理论框架",
+      "tags": [
+        "心理类型",
+        "理论构建"
+      ],
+      "date": "2026-07-03",
+      "path": "reports/三大模型可视化.html",
+      "thumbnail": "reports/thumbnail.svg"
     },
     {
       "id": "MBTI-与荣格原典中-Ni-与-Ne-的完整解释-区别对比及核心冲突",
@@ -27,27 +53,15 @@
       "thumbnail": "reports/sample-report/thumbnail.svg"
     },
     {
-      "id": "bidepan",
+      "id": "laorenyuhaishijianzhou",
       "type": "html",
       "title": "老人与海时间轴",
-      "summary": "《彼得·潘》小说时间轴",
+      "summary": "海明威经典中篇小说 · 五天四夜的意志之战",
       "tags": [
         "读书"
       ],
       "date": "2026-06-22",
-      "path": "reports/sample-report/《彼得·潘》小说时间轴.html",
-      "thumbnail": "reports/sample-report/thumbnail.svg"
-    },
-    {
-      "id": "laoren",
-      "type": "html",
-      "title": "老人与海时间轴",
-      "summary": "老人与海时间轴显示",
-      "tags": [
-        "读书"
-      ],
-      "date": "2026-06-22",
-      "path": "reports/sample-report/index.html",
+      "path": "reports/sample-report/老人与海时间轴网页.html",
       "thumbnail": "reports/sample-report/thumbnail.svg"
     },
     {
@@ -64,27 +78,15 @@
       "thumbnail": "reports/sample-markdown/thumbnail.svg"
     },
     {
-      "id": "report",
-      "type": "markdown",
-      "title": "深度学习模型选型指南",
-      "summary": "在 AI 项目落地中，模型选型直接决定了成本、延迟与最终效果三者之间的平衡。一个\"最强\"的模型未必是最\"合适\"的——它可能在基准测试上领先，却因为推理成本过高或部署复杂而无法真正进入生产。",
-      "tags": [
-        "AI"
-      ],
-      "date": "2026-06-22",
-      "path": "reports/sample-markdown/report.md",
-      "thumbnail": "reports/sample-markdown/thumbnail.svg"
-    },
-    {
-      "id": "老人与海时间轴网页",
+      "id": "bidepan",
       "type": "html",
-      "title": "《老人与海》时间线可视化",
-      "summary": "海明威经典中篇小说 · 五天四夜的意志之战",
+      "title": "彼得·潘时间轴",
+      "summary": "《彼得·潘》小说时间轴",
       "tags": [
         "读书"
       ],
       "date": "2026-06-22",
-      "path": "reports/sample-report/老人与海时间轴网页.html",
+      "path": "reports/sample-report/《彼得·潘》小说时间轴.html",
       "thumbnail": "reports/sample-report/thumbnail.svg"
     },
     {
