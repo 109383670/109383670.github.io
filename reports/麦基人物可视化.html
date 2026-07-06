@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦基《人物》核心技术要点 · 可视化</title>
+<style>
+  :root {
+    --bg: #08090f;
+    --card: #11141f;
+    --border: #1e2130;
+    --accent: #f5a623;
+    --accent2: #ff5e62;
+    --accent3: #4ecdc4;
+    --accent4: #a78bfa;
+    --accent5: #68d391;
+    --accent6: #ed64a6;
+    --text: #e0e0e6;
+    --dim: #5a5d70;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  header {
+    text-align: center;
+    padding: 52px 20px 36px;
+    background: linear-gradient(180deg, #150f08 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  header::before {
+    content: '◐';
+    position: absolute;
+    top: 16px; left: 50%; transform: translateX(-50%);
+    font-size: 90px;
+    color: rgba(245,166,35,0.05);
+    line-height: 1;
+    pointer-events: none;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  header p {
+    color: var(--dim);
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+  header .subtitle {
+    color: var(--dim);
+    font-size: 0.8rem;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 20px 0;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.25s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 20px 80px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 44px 0 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .section-desc {
+    color: var(--dim);
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .core-quote {
+    text-align: center;
+    padding: 36px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .core-quote .quote-mark {
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.25;
+    line-height: 1;
+    position: absolute;
+    top: 12px; left: 20px;
+    font-family: Georgia, serif;
+  }
+  .core-quote .quote-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.7;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .core-quote .quote-sub {
+    color: var(--dim);
+    font-size: 0.82rem;
+    margin-top: 12px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+  }
+  .card.cat-essence::before { background: var(--accent); }
+  .card.cat-dimension::before { background: var(--accent2); }
+  .card.cat-arc::before { background: var(--accent3); }
+  .card.cast-design::before { background: var(--accent4); }
+  .card.cat-craft::before { background: var(--accent5); }
+  .card.cat-audience::before { background: var(--accent6); }
+
+  .card:hover {
+    border-color: rgba(245,166,35,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .card-num { font-size: 0.68rem; color: var(--dim); font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; }
+  .card-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 3px; }
+  .card-en { font-size: 0.72rem; color: var(--dim); margin-bottom: 10px; font-style: italic; }
+  .card-body { font-size: 0.83rem; color: var(--text); line-height: 1.6; }
+  .card-tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    border: 1px solid;
+  }
+  .cat-essence .card-tag { background: rgba(245,166,35,0.1); color: var(--accent); border-color: rgba(245,166,35,0.25); }
+  .cat-dimension .card-tag { background: rgba(255,94,98,0.1); color: var(--accent2); border-color: rgba(255,94,98,0.25); }
+  .cat-arc .card-tag { background: rgba(78,205,196,0.1); color: var(--accent3); border-color: rgba(78,205,196,0.25); }
+  .cast-design .card-tag { background: rgba(167,139,250,0.1); color: var(--accent4); border-color: rgba(167,139,250,0.25); }
+  .cat-craft .card-tag { background: rgba(104,211,145,0.1); color: var(--accent5); border-color: rgba(104,211,145,0.25); }
+  .cat-audience .card-tag { background: rgba(237,100,166,0.1); color: var(--accent6); border-color: rgba(237,100,166,0.25); }
+
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+  }
+  .detail-overlay.show { display: flex; }
+  .detail-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 92%;
+    max-width: 660px;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 36px;
+    position: relative;
+  }
+  .detail-close {
+    position: absolute;
+    top: 14px; right: 16px;
+    background: none; border: none;
+    color: var(--dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .detail-panel h2 { font-size: 1.35rem; color: #fff; margin-bottom: 4px; }
+  .detail-panel .en-title { color: var(--dim); font-size: 0.82rem; margin-bottom: 18px; font-style: italic; }
+  .detail-section { margin-bottom: 18px; }
+  .detail-section h3 {
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+    font-weight: 700;
+  }
+  .detail-section p, .detail-section li {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .detail-section ul { padding-left: 18px; }
+  .detail-section li::marker { color: var(--accent); }
+  .detail-section .warn-box {
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-top: 8px;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .arc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .arc-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .arc-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+  .arc-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .arc-name { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .arc-en { font-size: 0.72rem; color: var(--dim); margin-bottom: 8px; font-style: italic; }
+  .arc-desc { font-size: 0.8rem; color: var(--dim); line-height: 1.5; }
+  .arc-example { font-size: 0.75rem; color: var(--accent3); margin-top: 8px; }
+
+  .cast-orbit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .cast-orbit-card:hover { border-color: var(--accent4); }
+  .orbit-label { font-size: 0.7rem; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; }
+  .orbit-name { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .orbit-desc { font-size: 0.82rem; color: var(--dim); line-height: 1.5; }
+
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .checklist-item:hover { background: rgba(255,255,255,0.02); }
+  .checklist-num { color: var(--accent5); font-weight: 700; min-width: 24px; }
+
+  @media (max-width: 680px) {
+    header h1 { font-size: 1.3rem; }
+    .cards-grid, .arc-grid { grid-template-columns: 1fr; }
+    .detail-panel { padding: 24px; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎭 麦基《人物》核心技术要点</h1>
+  <p>Robert McKee · Character: The Art of Role and Cast Design for Page, Stage, and Screen</p>
+  <p class="subtitle">2021 (EN) / 2023 (中文版) · 虚构艺术三部曲 · 第三卷</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('essence', this)">人物本质</div>
+  <div class="tab" onclick="switchTab('technique', this)">技术要点</div>
+  <div class="tab" onclick="switchTab('arc', this)">六种弧光</div>
+  <div class="tab" onclick="switchTab('cast', this)">卡司设计</div>
+  <div class="tab" onclick="switchTab('checklist', this)">创作清单</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════ TAB 1: Essence ═══════════ -->
+  <div class="tab-content active" id="tab-essence">
+
+    <div class="core-quote">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">
+        人物不是人。<br>人物是一件<strong style="color:var(--accent)">艺术品</strong>——<br>是对人性的一个深情的、有意味的、值得纪念的比喻。
+      </div>
+      <div class="quote-sub">
+        A character is not a person. A character is a work of art.<br>
+        它出生于作者的心智子宫，安卧于故事的怀抱，注定要得永生。
+      </div>
+    </div>
+
+    <!-- Characterization vs True Character -->
+    <div class="section-title">
+      <span class="icon" style="background:rgba(245,166,35,0.12);color:var(--accent)">◐</span>
+      角色塑造 vs 真实人物
+    </div>
+    <p class="section-desc">
+      麦基最著名的理论之一——角色塑造是"面具"，真实人物是"面具下的脸"。只有在压力下的选择才能揭示真实人物。
+    </p>
+
+    <svg viewBox="0 0 900 280" width="100%" height="280" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left: Characterization (mask) -->
+      <rect x="40" y="30" width="380" height="220" rx="14" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="230" y="60" text-anchor="middle" fill="var(--accent)" font-size="13" font-weight="700" letter-spacing="1">角色塑造 CHARACTERIZATION</text>
+      <text x="230" y="82" text-anchor="middle" fill="#aaa" font-size="11">外部可观察的特征总和 — 面具</text>
+
+      <text x="70" y="110" fill="#ccc" font-size="10">• 年龄、性别、外貌</text>
+      <text x="70" y="128" fill="#ccc" font-size="10">• 职业、社会地位</text>
+      <text x="70" y="146" fill="#ccc" font-size="10">• 习惯、言谈模式</text>
+      <text x="70" y="164" fill="#ccc" font-size="10">• 服装、家居风格</text>
+      <text x="70" y="182" fill="#ccc" font-size="10">• 智商、教育背景</text>
+
+      <rect x="70" y="200" width="320" height="32" rx="8" fill="rgba(245,166,35,0.08)"/>
+      <text x="230" y="220" text-anchor="middle" fill="var(--accent)" font-size="10">功能：可信性 · 原创性 · 趣味</text>
+
+      <!-- Arrow -->
+      <line x1="430" y1="140" x2="470" y2="140" stroke="#333" stroke-width="2"/>
+      <polygon points="470,140 458,134 458,146" fill="#333"/>
+      <text x="450" y="128" text-anchor="middle" fill="#888" font-size="9">压力下</text>
+      <text x="450" y="158" text-anchor="middle" fill="#888" font-size="9">的选择</text>
+
+      <!-- Right: True Character (face) -->
+      <rect x="480" y="30" width="380" height="220" rx="14" fill="var(--card)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="670" y="60" text-anchor="middle" fill="var(--accent2)" font-size="13" font-weight="700" letter-spacing="1">真实人物 TRUE CHARACTER</text>
+      <text x="670" y="82" text-anchor="middle" fill="#aaa" font-size="11">压力下选择揭示的内在本质 — 面具下的脸</text>
+
+      <text x="510" y="110" fill="#ccc" font-size="10">• 深层动机与价值</text>
+      <text x="510" y="128" fill="#ccc" font-size="10">• 道德底线</text>
+      <text x="510" y="146" fill="#ccc" font-size="10">• 勇气或怯懦</text>
+      <text x="510" y="164" fill="#ccc" font-size="10">• 牺牲意愿</text>
+      <text x="510" y="182" fill="#ccc" font-size="10">• 真实欲望与恐惧</text>
+
+      <rect x="510" y="200" width="320" height="32" rx="8" fill="rgba(255,94,98,0.08)"/>
+      <text x="670" y="220" text-anchor="middle" fill="var(--accent2)" font-size="10">功能：揭示真相 · 驱动情节 · 建立共情</text>
+    </svg>
+
+    <!-- Four Selves -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(167,139,250,0.12);color:var(--accent4)">◉</span>
+      自我的四个层次（The Four Selves）
+    </div>
+    <p class="section-desc">
+      麦基提出"自我剧社"概念——人不是单一的"自我"，而是由四个层次的自我组成。深入理解这四层，才能创造出有深度的人物。
+    </p>
+
+    <svg viewBox="0 0 900 340" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
+      <!-- Layer 1: Social Self (outer) -->
+      <rect x="150" y="20" width="600" height="60" rx="12" fill="rgba(245,166,35,0.06)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="180" y="44" fill="var(--accent)" font-size="11" font-weight="700">① 社会自我</text>
+      <text x="180" y="62" fill="#aaa" font-size="9">Social Self — 面对公众的面具（工作、社交场合中的表现）</text>
+      <text x="620" y="52" fill="#666" font-size="9">最外层</text>
+
+      <!-- Layer 2: Personal Self -->
+      <rect x="180" y="90" width="540" height="60" rx="12" fill="rgba(78,205,196,0.06)" stroke="var(--accent3)" stroke-width="1.5"/>
+      <text x="210" y="114" fill="var(--accent3)" font-size="11" font-weight="700">② 个人自我</text>
+      <text x="210" y="132" fill="#aaa" font-size="9">Personal Self — 在亲密关系中的表现（家人、朋友、恋人）</text>
+
+      <!-- Layer 3: Core Self -->
+      <rect x="210" y="160" width="480" height="60" rx="12" fill="rgba(255,94,98,0.06)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="240" y="184" fill="var(--accent2)" font-size="11" font-weight="700">③ 核心自我 / 私密自我</text>
+      <text x="240" y="202" fill="#aaa" font-size="9">Core Self — 观察和做决定的那个"我"，面对一切变化时最终做决定的自</text>
+
+      <!-- Layer 4: Hidden Self (innermost) -->
+      <rect x="240" y="230" width="420" height="60" rx="12" fill="rgba(167,139,250,0.08)" stroke="var(--accent4)" stroke-width="1.5"/>
+      <text x="270" y="254" fill="var(--accent4)" font-size="11" font-weight="700">④ 隐藏自我</text>
+      <text x="270" y="272" fill="#aaa" font-size="9">Hidden Self — 潜意识，静默无言却真实存在</text>
+      <text x="580" y="262" fill="#666" font-size="9">最深层</text>
+
+      <!-- Arrow -->
+      <line x1="450" y1="300" x2="450" y2="320" stroke="#333" stroke-width="1.5"/>
+      <text x="450" y="334" text-anchor="middle" fill="#888" font-size="9">↓ 压力越大，越深层的人物自我被逼出 ↓</text>
+    </svg>
+
+    <!-- Plot = Character -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(78,205,196,0.12);color:var(--accent3)">⇄</span>
+      "情节是人物，人物是情节"
+    </div>
+    <p class="section-desc">
+      麦基认为"情节驱动 vs 人物驱动"是一个伪二分法。两者是同一故事硬币的正反两面。
+    </p>
+
+    <svg viewBox="0 0 900 180" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
+      <!-- Coin -->
+      <ellipse cx="450" cy="90" rx="80" ry="80" fill="rgba(245,166,35,0.08)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="450" y="85" text-anchor="middle" fill="var(--accent)" font-size="13" font-weight="700">故事</text>
+      <text x="450" y="102" text-anchor="middle" fill="var(--accent)" font-size="10">STORY</text>
+
+      <!-- Left side: Plot -->
+      <text x="200" y="60" fill="var(--accent3)" font-size="12" font-weight="700">情节 PLOT</text>
+      <text x="200" y="80" fill="#aaa" font-size="9">事件的因果链条</text>
+      <text x="200" y="98" fill="#aaa" font-size="9">外在行动与选择</text>
+      <text x="200" y="116" fill="#aaa" font-size="9">压力测试的载体</text>
+
+      <line x1="320" y1="90" x2="370" y2="90" stroke="var(--accent3)" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- Right side: Character -->
+      <text x="580" y="60" fill="var(--accent2)" font-size="12" font-weight="700">人物 CHARACTER</text>
+      <text x="580" y="80" fill="#aaa" font-size="9">选择的因果源头</text>
+      <text x="580" y="98" fill="#aaa" font-size="9">内在欲望与动机</text>
+      <text x="580" y="116" fill="#aaa" font-size="9">压力下揭示的真相</text>
+
+      <line x1="530" y1="90" x2="580" y2="90" stroke="var(--accent2)" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- Bottom note -->
+      <rect x="250" y="140" width="400" height="30" rx="8" fill="rgba(245,166,35,0.06)"/>
+      <text x="450" y="160" text-anchor="middle" fill="var(--accent)" font-size="10">没有人物就没有行动；没有行动，人物就无法被揭示</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 2: Technique Cards ═══════════ -->
+  <div class="tab-content" id="tab-technique">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(245,166,35,0.12);color:var(--accent)">⚡</span>
+      技术要点 · 18 项
+    </div>
+    <p class="section-desc">点击卡片查看完整说明。颜色标记：🟡本质 🔴维度 🟢弧光 🟣卡司 🟢创作 🟣观众</p>
+
+    <div class="cards-grid" id="technique-cards"></div>
+
+    <!-- Six Dimensions of Contradiction -->
+    <div class="section-title" style="margin-top:48px;">
+      <span class="icon" style="background:rgba(255,94,98,0.12);color:var(--accent2)">⬡</span>
+      六种矛盾类型（维度即矛盾）
+    </div>
+    <p class="section-desc">
+      "维度即矛盾"是全书最核心的技术理论。维度不是特质的积累，而是成对的矛盾。以下是六种矛盾类型。
+    </p>
+
+    <svg viewBox="0 0 900 420" width="100%" height="420" xmlns="http://www.w3.org/2000/svg">
+      <!-- Type 1 -->
+      <rect x="30" y="20" width="270" height="115" rx="12" fill="var(--card)" stroke="var(--accent2)" stroke-width="1"/>
+      <text x="165" y="45" text-anchor="middle" fill="var(--accent2)" font-size="10" font-weight="700">① 角色塑造内部的矛盾</text>
+      <text x="165" y="65" text-anchor="middle" fill="#ccc" font-size="9">穿着优雅但卫生习惯可怕</text>
+      <text x="165" y="85" text-anchor="middle" fill="#888" font-size="8">同一外显层面的两个矛盾特质</text>
+      <text x="165" y="110" text-anchor="middle" fill="#666" font-size="8">层次：外显 ↔ 外显</text>
+
+      <!-- Type 2 -->
+      <rect x="315" y="20" width="270" height="115" rx="12" fill="var(--card)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="450" y="45" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="700">② 角色塑造与真实人物的矛盾</text>
+      <text x="450" y="65" text-anchor="middle" fill="#ccc" font-size="9">外表冷漠 vs. 内心热情</text>
+      <text x="450" y="85" text-anchor="middle" fill="#888" font-size="8">面具与面具下的脸的矛盾</text>
+      <text x="450" y="110" text-anchor="middle" fill="#666" font-size="8">层次：外显 ↔ 内在</text>
+
+      <!-- Type 3 -->
+      <rect x="600" y="20" width="270" height="115" rx="12" fill="var(--card)" stroke="var(--accent4)" stroke-width="1"/>
+      <text x="735" y="45" text-anchor="middle" fill="var(--accent4)" font-size="10" font-weight="700">③ 意识与潜意识的矛盾</text>
+      <text x="735" y="65" text-anchor="middle" fill="#ccc" font-size="9">看起来活泼但内心深处极度平静</text>
+      <text x="735" y="85" text-anchor="middle" fill="#888" font-size="8">表层意识与深层潜意识的矛盾</text>
+      <text x="735" y="110" text-anchor="middle" fill="#666" font-size="8">层次：意识 ↔ 潜意识</text>
+
+      <!-- Type 4 -->
+      <rect x="30" y="155" width="270" height="115" rx="12" fill="var(--card)" stroke="var(--accent3)" stroke-width="1"/>
+      <text x="165" y="180" text-anchor="middle" fill="var(--accent3)" font-size="10" font-weight="700">④ 两个意识欲望之间的矛盾</text>
+      <text x="165" y="200" text-anchor="middle" fill="#ccc" font-size="9">爱丈夫但渴望情人</text>
+      <text x="165" y="220" text-anchor="middle" fill="#888" font-size="8">两个表层欲望的冲突</text>
+      <text x="165" y="245" text-anchor="middle" fill="#666" font-size="8">层次：意识欲望 ↔ 意识欲望</text>
+
+      <!-- Type 5 -->
+      <rect x="315" y="155" width="270" height="115" rx="12" fill="var(--card)" stroke="var(--accent6)" stroke-width="1"/>
+      <text x="450" y="180" text-anchor="middle" fill="var(--accent6)" font-size="10" font-weight="700">⑤ 意识与潜意识欲望的矛盾</text>
+      <text x="450" y="200" text-anchor="middle" fill="#ccc" font-size="9">想要爱情但潜意识里恨女人</text>
+      <text x="450" y="220" text-anchor="middle" fill="#888" font-size="8">表层欲望与深层欲望的冲突</text>
+      <text x="450" y="245" text-anchor="middle" fill="#666" font-size="8">层次：意识欲望 ↔ 潜意识欲望</text>
+
+      <!-- Type 6 -->
+      <rect x="600" y="155" width="270" height="115" rx="12" fill="var(--card)" stroke="var(--accent5)" stroke-width="1"/>
+      <text x="735" y="180" text-anchor="middle" fill="var(--accent5)" font-size="10" font-weight="700">⑥ 两个潜意识动机之间的矛盾</text>
+      <text x="735" y="200" text-anchor="middle" fill="#ccc" font-size="9">自爱 vs. 他爱</text>
+      <text x="735" y="220" text-anchor="middle" fill="#888" font-size="8">两个深层动机的冲突</text>
+      <text x="735" y="245" text-anchor="middle" fill="#666" font-size="8">层次：潜意识 ↔ 潜意识</text>
+
+      <!-- Case study -->
+      <rect x="100" y="295" width="700" height="100" rx="12" fill="rgba(255,94,98,0.06)" stroke="rgba(255,94,98,0.2)" stroke-width="1"/>
+      <text x="450" y="320" text-anchor="middle" fill="var(--accent2)" font-size="11" font-weight="700">📈 极致案例：《绝命毒师》沃尔特·怀特 — 16个维度</text>
+      <text x="450" y="340" text-anchor="middle" fill="#ccc" font-size="9">爱家/反社会 · 温和/暴力 · 受害者/加害者 · 谦逊/傲慢</text>
+      <text x="450" y="356" text-anchor="middle" fill="#ccc" font-size="9">理性/冲动 · 保护/危害 · 冷静/暴怒 · 忠心/不忠</text>
+      <text x="450" y="378" text-anchor="middle" fill="#888" font-size="9">16个维度之所以能展示，是因为编剧设计了足够多、足够强、功能多样的支持人物来持续挤压他</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 3: Six Arcs ═══════════ -->
+  <div class="tab-content" id="tab-arc">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(78,205,196,0.12);color:var(--accent3)">↗</span>
+      六种人物弧光（Six Character Arcs）
+    </div>
+    <p class="section-desc">
+      人物弧光不是平滑的直线，而是在动态的之字形中移动。在高潮时，主人公达到其经验的绝对极限。弧光必须通过"选择"完成——不能靠台词说"我变了"。
+    </p>
+
+    <!-- Arc visualization -->
+    <svg viewBox="0 0 900 300" width="100%" height="300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Baseline -->
+      <line x1="60" y1="150" x2="860" y2="150" stroke="#1e2130" stroke-width="1"/>
+      <text x="30" y="145" fill="#68d391" font-size="11" font-weight="700">+</text>
+      <text x="30" y="165" fill="#ff5e62" font-size="11" font-weight="700">−</text>
+      <text x="30" y="180" fill="#5a5d70" font-size="9">价值</text>
+
+      <!-- Redemption Arc (+ direction) -->
+      <path d="M 100,200 Q 300,180 500,120 T 820,60" fill="none" stroke="var(--accent5)" stroke-width="2.5"/>
+      <circle cx="100" cy="200" r="5" fill="var(--accent2)"/>
+      <circle cx="820" cy="60" r="5" fill="var(--accent5)"/>
+      <text x="100" y="220" text-anchor="middle" fill="var(--accent2)" font-size="9">− 负</text>
+      <text x="820" y="45" text-anchor="middle" fill="var(--accent5)" font-size="9">+ 正</text>
+      <text x="460" y="105" text-anchor="middle" fill="var(--accent5)" font-size="10" font-weight="700">救赎弧 ↗</text>
+
+      <!-- Degeneration Arc (- direction) -->
+      <path d="M 100,80 Q 300,120 500,180 T 820,240" fill="none" stroke="var(--accent2)" stroke-width="2.5"/>
+      <circle cx="100" cy="80" r="5" fill="var(--accent5)"/>
+      <circle cx="820" cy="240" r="5" fill="var(--accent2)"/>
+      <text x="100" y="65" text-anchor="middle" fill="var(--accent5)" font-size="9">+ 正</text>
+      <text x="820" y="260" text-anchor="middle" fill="var(--accent2)" font-size="9">− 负</text>
+      <text x="460" y="200" text-anchor="middle" fill="var(--accent2)" font-size="10" font-weight="700">堕落弧 ↘</text>
+
+      <!-- Legend -->
+      <text x="450" y="285" text-anchor="middle" fill="#5a5d70" font-size="9">道德维度：从负到正（救赎） / 从正到负（堕落）</text>
+    </svg>
+
+    <div class="arc-grid" id="arc-grid"></div>
+
+    <!-- Three dimensions of change -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(167,139,250,0.12);color:var(--accent4)">▹</span>
+      变化的三个维度
+    </div>
+    <svg viewBox="0 0 900 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+      <rect x="40" y="30" width="260" height="130" rx="12" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="170" y="60" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">① 道德</text>
+      <text x="170" y="80" text-anchor="middle" fill="#aaa" font-size="10">Morality</text>
+      <text x="170" y="105" text-anchor="middle" fill="#ccc" font-size="9">如何对待他人</text>
+      <text x="170" y="125" text-anchor="middle" fill="#888" font-size="9">如：残忍 → 善良</text>
+      <text x="170" y="145" text-anchor="middle" fill="#888" font-size="9">如：自私 → 牺牲</text>
+
+      <rect x="320" y="30" width="260" height="130" rx="12" fill="var(--card)" stroke="var(--accent3)" stroke-width="1.5"/>
+      <text x="450" y="60" text-anchor="middle" fill="var(--accent3)" font-size="11" font-weight="700">② 心理</text>
+      <text x="450" y="80" text-anchor="middle" fill="#aaa" font-size="10">Mentality</text>
+      <text x="450" y="105" text-anchor="middle" fill="#ccc" font-size="9">对现实和生命意义的看法</text>
+      <text x="450" y="125" text-anchor="middle" fill="#888" font-size="9">如：无意义 → 有意义</text>
+      <text x="450" y="145" text-anchor="middle" fill="#888" font-size="9">如：天真 → 觉悟</text>
+
+      <rect x="600" y="30" width="260" height="130" rx="12" fill="var(--card)" stroke="var(--accent6)" stroke-width="1.5"/>
+      <text x="730" y="60" text-anchor="middle" fill="var(--accent6)" font-size="11" font-weight="700">③ 人性</text>
+      <text x="730" y="80" text-anchor="middle" fill="#aaa" font-size="10">Humanity</text>
+      <text x="730" y="105" text-anchor="middle" fill="#ccc" font-size="9">整体存在</text>
+      <text x="730" y="125" text-anchor="middle" fill="#888" font-size="9">如：不成熟 → 成熟</text>
+      <text x="730" y="145" text-anchor="middle" fill="#888" font-size="9">如：充实 → 空虚</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 4: Cast Design ═══════════ -->
+  <div class="tab-content" id="tab-cast">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(167,139,250,0.12);color:var(--accent4)">☉</span>
+      卡司设计的"太阳系"模型
+    </div>
+    <p class="section-desc">
+      麦基的核心隐喻——卡司就像一个太阳系。主人公是恒星（太阳），支持人物是行星，围绕主人公在不同轨道上运行。人物之间通过对比和矛盾彼此照亮和定义。
+    </p>
+
+    <!-- Solar System SVG -->
+    <svg viewBox="0 0 900 500" width="100%" height="500" xmlns="http://www.w3.org/2000/svg">
+      <!-- Orbits -->
+      <circle cx="450" cy="250" r="60" fill="none" stroke="rgba(245,166,35,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+      <circle cx="450" cy="250" r="140" fill="none" stroke="rgba(167,139,250,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+      <circle cx="450" cy="250" r="220" fill="none" stroke="rgba(90,93,112,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+
+      <!-- Sun (Protagonist) -->
+      <circle cx="450" cy="250" r="40" fill="rgba(245,166,35,0.15)" stroke="var(--accent)" stroke-width="2"/>
+      <circle cx="450" cy="250" r="30" fill="rgba(245,166,35,0.1)"/>
+      <text x="450" y="248" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="700">主人公</text>
+      <text x="450" y="262" text-anchor="middle" fill="var(--accent)" font-size="8">PROTAGONIST</text>
+
+      <!-- First orbit: Major supporters -->
+      <circle cx="510" cy="250" r="16" fill="rgba(255,94,98,0.15)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="510" y="254" text-anchor="middle" fill="var(--accent2)" font-size="7" font-weight="700">反派</text>
+
+      <circle cx="390" cy="250" r="16" fill="rgba(78,205,196,0.15)" stroke="var(--accent3)" stroke-width="1.5"/>
+      <text x="390" y="254" text-anchor="middle" fill="var(--accent3)" font-size="7" font-weight="700">盟友</text>
+
+      <circle cx="450" cy="190" r="16" fill="rgba(237,100,166,0.15)" stroke="var(--accent6)" stroke-width="1.5"/>
+      <text x="450" y="194" text-anchor="middle" fill="var(--accent6)" font-size="7" font-weight="700">伴侣</text>
+
+      <circle cx="450" cy="310" r="16" fill="rgba(104,211,145,0.15)" stroke="var(--accent5)" stroke-width="1.5"/>
+      <text x="450" y="314" text-anchor="middle" fill="var(--accent5)" font-size="7" font-weight="700">镜子</text>
+
+      <!-- Second orbit: Functional supporters -->
+      <circle cx="560" cy="200" r="12" fill="rgba(167,139,250,0.1)" stroke="var(--accent4)" stroke-width="1"/>
+      <circle cx="580" cy="300" r="12" fill="rgba(167,139,250,0.1)" stroke="var(--accent4)" stroke-width="1"/>
+      <circle cx="340" cy="200" r="12" fill="rgba(167,139,250,0.1)" stroke="var(--accent4)" stroke-width="1"/>
+      <circle cx="320" cy="300" r="12" fill="rgba(167,139,250,0.1)" stroke="var(--accent4)" stroke-width="1"/>
+      <circle cx="450" cy="130" r="12" fill="rgba(167,139,250,0.1)" stroke="var(--accent4)" stroke-width="1"/>
+      <circle cx="450" cy="370" r="12" fill="rgba(167,139,250,0.1)" stroke="var(--accent4)" stroke-width="1"/>
+
+      <!-- Third orbit: Background -->
+      <circle cx="620" cy="250" r="8" fill="rgba(90,93,112,0.15)" stroke="#5a5d70" stroke-width="1"/>
+      <circle cx="280" cy="250" r="8" fill="rgba(90,93,112,0.15)" stroke="#5a5d70" stroke-width="1"/>
+      <circle cx="450" cy="90" r="8" fill="rgba(90,93,112,0.15)" stroke="#5a5d70" stroke-width="1"/>
+      <circle cx="450" cy="410" r="8" fill="rgba(90,93,112,0.15)" stroke="#5a5d70" stroke-width="1"/>
+      <circle cx="600" cy="150" r="8" fill="rgba(90,93,112,0.15)" stroke="#5a5d70" stroke-width="1"/>
+      <circle cx="300" cy="350" r="8" fill="rgba(90,93,112,0.15)" stroke="#5a5d70" stroke-width="1"/>
+
+      <!-- Labels -->
+      <text x="540" y="180" fill="var(--accent2)" font-size="9" font-weight="700">第一轨道</text>
+      <text x="540" y="192" fill="#888" font-size="8">主要支持人物</text>
+
+      <text x="610" y="130" fill="var(--accent4)" font-size="9" font-weight="700">第二轨道</text>
+      <text x="610" y="142" fill="#888" font-size="8">功能性支持</text>
+
+      <text x="660" y="100" fill="#5a5d70" font-size="9" font-weight="700">第三轨道</text>
+      <text x="660" y="112" fill="#5a5d70" font-size="8">背景人物</text>
+
+      <!-- Gravitational arrows between planets -->
+      <path d="M 405,248 Q 450,240 495,248" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="450" y="235" text-anchor="middle" fill="#444" font-size="7">引力</text>
+    </svg>
+
+    <!-- Orbit details -->
+    <div id="orbit-details"></div>
+
+    <!-- Protagonist design -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(245,166,35,0.12);color:var(--accent)">★</span>
+      主人公设计的四大要素
+    </div>
+
+    <div class="cards-grid">
+      <div class="card cat-essence" onclick="showDetailData({title:'意志力',en:'Willpower',num:'P1',tag:'主人公设计',summary:'',detail:{definition:'面对巨大压力时做出最终决定和采取最终行动的能力。',key:'主人公必须有意志力——在所有人都放弃时，他还能坚持。这不是"不痛苦"，而是"痛苦但仍然行动"。',example:'《绝命毒师》沃尔特·怀特：在癌症、毒枭、DEA三重压力下仍然坚持自己的选择。'}})">
+        <div class="card-num">P1</div>
+        <div class="card-title">意志力</div>
+        <div class="card-en">Willpower</div>
+        <div class="card-body">面对巨大压力时做出最终决定和采取最终行动的能力。主人公必须有意志力——在所有人都放弃时，他还能坚持。</div>
+        <span class="card-tag">主人公设计</span>
+      </div>
+      <div class="card cat-essence" onclick="showDetailData({title:'能力',en:'Capacity',num:'P2',tag:'主人公设计',summary:'',detail:{definition:'主人公必须具备追求目标的精神、情感或身体"能力"。能力必须与欲望匹配。',key:'如果主人公的能力远大于挑战，故事就没有悬念；如果能力远小于挑战，故事就显得不可能。',balance:'理想状态：能力 ≈ 挑战的70-80%，让主人公"勉强能赢"。'}})">
+        <div class="card-num">P2</div>
+        <div class="card-title">能力</div>
+        <div class="card-en">Capacity</div>
+        <div class="card-body">主人公必须具备追求目标的精神、情感或身体"能力"。能力必须与欲望匹配——能力 ≈ 挑战的 70-80%。</div>
+        <span class="card-tag">主人公设计</span>
+      </div>
+      <div class="card cat-essence" onclick="showDetailData({title:'弱势地位',en:'The Underdog Position',num:'P3',tag:'主人公设计',summary:'',detail:{definition:'主人公面对的对抗力量必须大于主人公的个人能力。内部冲突 + 个人关系冲突 + 社会制度阻力 + 物理环境限制 > 主人公的能力。',purpose:'创造悬念和共情。观众天生同情弱者——当主人公处于弱势时，观众会不自觉地站在他那边。',example:'《绝命毒师》：一个患癌症的高中化学老师 vs. 毒枭帝国 + DEA + 家庭危机。'}})">
+        <div class="card-num">P3</div>
+        <div class="card-title">弱势地位</div>
+        <div class="card-en">The Underdog Position</div>
+        <div class="card-body">对抗力量必须大于主人公的个人能力。所有冲突的总和 > 主人公的能力——这创造了悬念和共情。</div>
+        <span class="card-tag">主人公设计</span>
+      </div>
+      <div class="card cat-essence" onclick="showDetailData({title:'善之中心',en:'Center of Good',num:'P4',tag:'主人公设计',summary:'',detail:{definition:'人物必须拥有某种积极品质，使观众能够共情。不一定是好人，但必须有某种积极品质。',key:'共情 ≠ 同情。同情是"我觉得你可爱"；共情是"我觉得我就是你"。共情是连接观众与人物的脐带。',example:'《沉默的羔羊》汉尼拔：虽然是食人魔，但他的智慧、优雅和对克拉丽丝的尊重构成了"善之中心"。'}})">
+        <div class="card-num">P4</div>
+        <div class="card-title">善之中心</div>
+        <div class="card-en">Center of Good</div>
+        <div class="card-body">人物必须拥有某种积极品质，使观众能够共情。不一定是好人——反派也可以有善之中心。</div>
+        <span class="card-tag">主人公设计</span>
+      </div>
+    </div>
+
+    <!-- Foil principle -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(104,211,145,0.12);color:var(--accent5)">⇋</span>
+      衬托角色原理（Foil Characters）
+    </div>
+    <p class="section-desc">对比产生认知。通过设计衬托角色，可以突出主人公的特质，揭示盲点，创造冲突。</p>
+
+    <svg viewBox="0 0 900 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Protagonist -->
+      <circle cx="200" cy="100" r="35" fill="rgba(245,166,35,0.1)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="200" y="97" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="700">主人公</text>
+      <text x="200" y="112" text-anchor="middle" fill="var(--accent)" font-size="8">聪明/冲动</text>
+
+      <!-- Foil 1 -->
+      <circle cx="450" cy="100" r="30" fill="rgba(78,205,196,0.1)" stroke="var(--accent3)" stroke-width="1.5"/>
+      <text x="450" y="97" text-anchor="middle" fill="var(--accent3)" font-size="9" font-weight="700">衬托A</text>
+      <text x="450" y="112" text-anchor="middle" fill="var(--accent3)" font-size="8">愚蠢/理性</text>
+
+      <line x1="235" y1="100" x2="420" y2="100" stroke="#333" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="327" y="90" text-anchor="middle" fill="#888" font-size="8">对比 → 突出聪明</text>
+
+      <!-- Foil 2 -->
+      <circle cx="700" cy="100" r="30" fill="rgba(255,94,98,0.1)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="700" y="97" text-anchor="middle" fill="var(--accent2)" font-size="9" font-weight="700">衬托B</text>
+      <text x="700" y="112" text-anchor="middle" fill="var(--accent2)" font-size="8">冷静/谨慎</text>
+
+      <line x1="480" y1="100" x2="670" y2="100" stroke="#333" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="575" y="90" text-anchor="middle" fill="#888" font-size="8">对比 → 突出冲动</text>
+
+      <!-- Functions -->
+      <text x="200" y="160" text-anchor="middle" fill="var(--accent)" font-size="9">① 照亮主人公</text>
+      <text x="450" y="160" text-anchor="middle" fill="var(--accent3)" font-size="9">② 揭示盲点</text>
+      <text x="700" y="160" text-anchor="middle" fill="var(--accent2)" font-size="9">③ 创造冲突</text>
+
+      <text x="450" y="185" text-anchor="middle" fill="#5a5d70" font-size="9">不同支持人物激活主人公的不同维度</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 5: Checklist ═══════════ -->
+  <div class="tab-content" id="tab-checklist">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(104,211,145,0.12);color:var(--accent5)">✓</span>
+      人物创作检查清单
+    </div>
+    <p class="section-desc">基于《人物》全书内容整理。设计或检验一个人物时，逐一检视。</p>
+
+    <div id="checklist-container" style="margin-top:24px;"></div>
+
+    <!-- McKee quotes -->
+    <div style="margin-top:44px;padding:28px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">
+      <div style="color:var(--accent);font-size:0.8rem;letter-spacing:1px;margin-bottom:14px;font-weight:700;">麦基名言精选 · 来自《人物》</div>
+      <div style="font-size:0.95rem;line-height:2;color:var(--text);">
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "人物不是人。人物是一件<strong style="color:var(--accent);">艺术品</strong>——是对人性的一个深情的、有意味的、值得纪念的比喻。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "情节是人物，<strong style="color:var(--accent3);">人物是情节</strong>。两者是同一故事硬币的正反两面。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "维度是一个<strong style="color:var(--accent2);">活生生的矛盾</strong>。无矛盾，不人物。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "只有在生活的最大压力下，核心自我才会通过追求最强烈欲望时所做出的<strong style="color:var(--accent4);">选择</strong>来揭示自己。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);">
+          "所有写作在本质上都是自传性的。<strong style="color:var(--accent5);">自知之明</strong>是人物创作的根基。"
+        </div>
+      </div>
+    </div>
+
+    <!-- Book structure -->
+    <div class="section-title" style="margin-top:48px;">
+      <span class="icon" style="background:rgba(167,139,250,0.12);color:var(--accent4)">📖</span>
+      全书结构速览
+    </div>
+    <div style="overflow-x:auto;margin-top:16px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+        <thead>
+          <tr style="background:rgba(167,139,250,0.08);">
+            <th style="padding:10px 14px;text-align:left;color:var(--accent4);border-bottom:1px solid var(--border);">部分</th>
+            <th style="padding:10px 14px;text-align:left;color:var(--accent4);border-bottom:1px solid var(--border);">章节</th>
+            <th style="padding:10px 14px;text-align:left;color:var(--accent4);border-bottom:1px solid var(--border);">核心内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(30,33,48,0.5);">
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART 1<br>人物礼赞</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.1–3</td>
+            <td style="padding:10px 14px;color:var(--dim);">人物vs真人；情节与人物的关系；作者准备的十种素养</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(30,33,48,0.5);">
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART 2<br>人物创作</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.4–13</td>
+            <td style="padding:10px 14px;color:var(--dim);">由外而内/由内而外；四个自我；角色塑造vs真实人物；维度即矛盾；六种矛盾类型；复杂人物；完成的人物；象征性人物</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(30,33,48,0.5);">
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART 3<br>人物宇宙</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.14–16</td>
+            <td style="padding:10px 14px;color:var(--dim);">类型中的人物；行动中的人物（自我故事、鸿沟、困境）；表演中的人物（共情、信息管理）</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART 4<br>人物关系</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.17+</td>
+            <td style="padding:10px 14px;color:var(--dim);">卡司设计的"太阳系"模型；衬托角色；经典案例（《傲慢与偏见》《绝命毒师》《一条叫旺达的鱼》）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Detail Overlay -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <button class="detail-close" onclick="closeDetail(event)">✕</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════ Data ═══════════
+const techniques = [
+  {
+    id: 'not-person',
+    num: '01', cat: 'essence',
+    title: '人物不是真人，是艺术品',
+    en: 'Character Is Not a Person',
+    tag: '本质论',
+    summary: '人物不是对真人的模仿，而是比真人更"真实"的艺术品——更清晰、更浓缩、更深刻。',
+    detail: {
+      definition: '人物不是人。人物是一件艺术品——是对人性的一个深情的、有意味的、值得纪念的比喻，它出生于作者的心智子宫，安卧于故事的怀抱，注定要得永生。',
+      contrast: '真人：混乱、不透明、未完成、会变化、死亡终结。人物：设计好的、清晰的、有意义的、浓缩的、永生的。',
+      insight: '人物比真人"更真实"，因为他们揭示了被日常生活掩盖的人性本质。',
+      functions: ['提供洞察——看透自己和他人','提供共情——体验从未经历过的人生','审美愉悦——艺术美的享受','征服时间——实现永生']
+    }
+  },
+  {
+    id: 'pressure-choice',
+    num: '02', cat: 'essence',
+    title: '压力下的选择',
+    en: 'Choices Under Pressure',
+    tag: '本质论',
+    summary: '只有在生活的最大压力下，核心自我才会通过追求最强烈欲望时所做出的选择来揭示自己。',
+    detail: {
+      definition: '人物在压力下做出的选择揭示了他们真正的本质。舒适区中的选择证明不了什么；困境中的选择才揭示真相。',
+      principle: '当面对强大的负面力量时，当赌注最高时，他们的行动会揭示真相。因此，我们寻找能够施压的事件，用唯一可信的方法——选择——来揭示人物真相。',
+      method: '设计困境：不要设计简单的选择（好vs.坏）。积极困境（两个都想要，只能选一个）；消极困境（两个都不想要，必须选一个）。',
+      warning: '不能靠台词说"我变了"，必须靠关键行动证明。'
+    }
+  },
+  {
+    id: 'dimension-contradiction',
+    num: '03', cat: 'dimension',
+    title: '维度即矛盾',
+    en: 'Dimension Is Contradiction',
+    tag: '维度理论',
+    summary: '维度不是特质的积累，而是成对的矛盾。维度是一个支点，支持人物在两个对立品质间旋转。',
+    detail: {
+      definition: '维度是一个活生生的矛盾。维度是一个支点，支持人物的行为在两个对立的品质或特质之间旋转。',
+      formula: '维度 = 特质A vs. 特质B（两者在同一个人物身上都是真实的）。',
+      principle: '赫拉克利特原理：现实通过对立统一在一起。复杂人物展示出一个特定的自我，然后转变到它的对立面，再转回来——一个对立统一体。',
+      key: '矛盾不是缺陷，矛盾是生命力。无矛盾，不人物。',
+      example: '《奥德修斯》具有八个维度：实用主义/理想主义、顺从/叛逆、真诚/欺诈、聪慧/蠢笨等。'
+    }
+  },
+  {
+    id: 'complex-character',
+    num: '04', cat: 'dimension',
+    title: '复杂人物',
+    en: 'The Complex Character',
+    tag: '维度理论',
+    summary: '复杂性来自核心层面的矛盾——意识与潜意识的冲突是复杂性最深层的来源。',
+    detail: {
+      definition: '复杂人物不仅仅有一个矛盾，而是在核心层面拥有矛盾（如爱与恨、善与恶同时存在）。',
+      source: '最深的复杂性来自人物不知道自己想要什么，或者意识目标与潜意识欲望背道而驰。意识的自我与潜意识的自我是不可分割但又充满冲突的——创造了复杂的内部斗争（"两面神之心"）。',
+      example: '《绝命毒师》的沃尔特·怀特拥有16个维度的矛盾：爱家/反社会、温和/暴力、受害者/加害者、谦逊/傲慢等。',
+      note: '16个维度之所以能展示，是因为编剧设计了足够多、足够强、功能多样的支持人物来持续挤压、诱惑和挑战沃尔特。'
+    }
+  },
+  {
+    id: 'desire-fear',
+    num: '05', cat: 'essence',
+    title: '欲望与恐惧',
+    en: 'Desire and Fear',
+    tag: '本质论',
+    summary: '所有人物行为永远只来自两样东西：欲望（想要什么）和恐惧（害怕失去什么）。',
+    detail: {
+      definition: '所有人物行为永远只来自两样东西：欲望（想要什么）和恐惧（害怕失去什么/害怕成为什么）。欲望拉着人向前，恐惧推着人行动。',
+      twoLayers: '每个人物都有两种欲望：①表层欲望（意识欲望）——他以为自己想要的（钱、复仇、地位、爱情、破案）；②深层欲望（潜意识欲望）——他真正需要的（救赎、原谅、自我接纳、弥补遗憾、找到尊严）。',
+      essence: '故事的本质：人物从追逐表层，到发现深层。这就是人物弧光。',
+      motivation: '动机的来源：不朽、生存、平衡、快乐、权力、爱情等。',
+      warning: '没有欲望+恐惧的人物，是木偶。'
+    }
+  },
+  {
+    id: 'four-selves',
+    num: '06', cat: 'essence',
+    title: '自我的四个层次',
+    en: 'The Four Selves',
+    tag: '本质论',
+    summary: '社会自我、个人自我、核心自我、隐藏自我。压力越大，越深层的自我被逼出。',
+    detail: {
+      definition: '麦基提出"自我剧社"概念——人不是单一的"自我"，而是由四个层次的自我组成。',
+      levels: ['社会自我（Social Self）——面对公众的面具（工作、社交）','个人自我（Personal Self）——在亲密关系（家人、朋友、恋人）中的表现','核心自我/私密自我（Core Self）——观察和做决定的那个"我"，最终做决定的自','隐藏自我（Hidden Self）——潜意识，静默无言却真实存在'],
+      method: '压力递增技术：小压力→表现公共自我；中压力→暴露私人自我；极限压力→逼出核心自我。压力越大，人物越真实。',
+      quote: '为了深化我们对人性的理解，我们必须不仅接受"自我"的概念，还要接受"自我剧社"的概念。'
+    }
+  },
+  {
+    id: 'self-story',
+    num: '07', cat: 'craft',
+    title: '自我故事',
+    en: 'The Self-Story',
+    tag: '创作方法',
+    summary: '每个角色都给自己讲一个内部故事——回顾过去、反思现在、展望未来。这个内部叙事决定行动模式。',
+    detail: {
+      definition: '每个角色都给自己讲一个内部故事——回顾过去（解释我是谁）、反思现在、展望未来（我想要什么）。这个内部叙事逻辑决定了人物的行动模式（Modus Operandi, MO）。',
+      function: '自我故事解释了人物为什么以特定方式行动。它是对过去创伤的解释，也是对未来的预期。',
+      application: '设计人物时，先写人物的"自我故事"——ta如何向自己解释自己的过去？这决定了ta的行为模式。'
+    }
+  },
+  {
+    id: 'gap-action',
+    num: '08', cat: 'craft',
+    title: '行动中的鸿沟',
+    en: 'The Gap in Action',
+    tag: '创作方法',
+    summary: '期望与现实之间的差距产生鸿沟。人物必须做出新的选择——这个选择同时改变情节和揭示人物。',
+    detail: {
+      mechanism: ['欲望（Desire）——人物想要在场景中达成场景目标','期望（Expectation）——基于经验，人物期望某个行动产生某个结果','行动（Action）——人物采取行动（言语或身体）','鸿沟（Gap）——现实的反应与期望不同，产生冲突','调整（Adjustment）——人物必须在压力下做出新的选择'],
+      principle: '转折点围绕着启示或决定旋转，同时逆转情节方向和揭示人物的内在本质。',
+      relation: '转折点是人物弧光的具体体现。每个转折点都应该推动人物向弧光的终点移动。'
+    }
+  },
+  {
+    id: 'dilemma',
+    num: '09', cat: 'craft',
+    title: '困境设计',
+    en: 'Dilemma Design',
+    tag: '创作方法',
+    summary: '真正的选择不是在选择善恶，而是在困境中选择。积极困境和消极困境。',
+    detail: {
+      definition: '真正的选择不是在选择善恶（人们总是选择他们认为"好"的东西），而是在困境中选择。',
+      types: ['积极困境（Positive Dilemma）：两个都想要，只能选一个（两利相权取其重）','消极困境（Negative Dilemma）：两个都不想要，必须选一个（两害相权取其轻）'],
+      principle: '只有困境才能揭示真实人物。简单的善恶选择不构成真正的选择。',
+      example: '《卡萨布兰卡》：里克必须在爱情与反法西斯斗争之间做出选择——两个都是"好"，但只能选一个。'
+    }
+  },
+  {
+    id: 'empathy',
+    num: '10', cat: 'audience',
+    title: '共情 vs 同情',
+    en: 'Empathy vs Sympathy',
+    tag: '观众关系',
+    summary: '同情是"我觉得你可爱"；共情是"我觉得我就是你"。共情是连接观众与人物的脐带。',
+    detail: {
+      sympathy: '同情 = 我觉得你可爱，但我不是你。这是"喜欢"。',
+      empathy: '共情 = 我觉得我就是你。这是"认同"。共情是连接观众与人物的脐带。',
+      center: '善之中心（Center of Good）：为了建立共情，人物必须有一个"善之中心"——不一定是好人，但必须有某种积极品质。',
+      example: '《沉默的羔羊》汉尼拔：虽然是食人魔，但他的智慧、优雅和对克拉丽丝的尊重构成了"善之中心"。'
+    }
+  },
+  {
+    id: 'info-management',
+    num: '11', cat: 'audience',
+    title: '信息管理策略',
+    en: 'Information Management',
+    tag: '观众关系',
+    summary: '谜团、悬念、戏剧反讽——三种管理观众与人物信息差的核心策略。',
+    detail: {
+      mystery: '谜团（Mystery）：人物知道，观众不知道。刺激好奇心（他到底是谁？）',
+      suspense: '悬念（Suspense）：人物和观众知道同样多。刺激共同焦虑（接下来会发生什么？）',
+      irony: '戏剧反讽（Dramatic Irony）：观众知道，人物不知道。刺激优越感、同情或恐惧（别开那扇门！杀手在里面！）',
+      application: '优秀的故事会灵活切换三种策略。不同的信息管理方式创造不同的观众体验。'
+    }
+  },
+  {
+    id: 'antagonist',
+    num: '12', cat: 'cast-design'.replace('cast-design','cast'),
+    title: '对抗力量设计',
+    en: 'Antagonist Design',
+    tag: '卡司设计',
+    summary: '顶级反派和主角有相同欲望，但选择了不同道路。反派是主角"如果走错一步"会变成的样子。',
+    detail: {
+      levels: '对抗力量的四个层次：①物理层面（自然、环境、身体、时间）②社会层面（制度、等级、意识形态）③个人层面（亲密关系）④内部层面（内心冲突）。',
+      golden: '反派设计的黄金法则：顶级反派和主角有相同欲望，但选择了不同道路。反派是主角"如果走错一步"会变成的样子。',
+      logic: '反派永远觉得自己是正义的。反派的逻辑必须自洽——一个纯粹"邪恶"的反派是无趣的。',
+      example: '《绝命毒师》古斯·福林：沃尔特的终极镜子——完美、冷静、成功的罪犯。古斯的存在激活了沃尔特"成为王者"的野心。'
+    }
+  },
+  {
+    id: 'foil',
+    num: '13', cat: 'cast',
+    title: '衬托角色',
+    en: 'Foil Characters',
+    tag: '卡司设计',
+    summary: '对比产生认知。通过设计衬托角色，突出主人公的特质，揭示盲点，创造冲突。',
+    detail: {
+      definition: '衬托角色的原理——对比产生认知。如果你想显示主人公聪明，给他一个愚蠢的朋友；如果你想显示主人公冲动，给他一个极其理性的搭档。',
+      functions: ['照亮主人公——通过差异突出特质','揭示盲点——看到主人公看不到的东西','创造冲突——价值观或个性的直接碰撞'],
+      method: '通过互动产生维度：如果主人公有4个主要维度，你需要设计不同的支持人物来触发这些不同方面。支持人物A激活"傲慢"，B激活"谦逊"，C激活"恐惧"。',
+      example: '《傲慢与偏见》：简（善良天真）对比伊丽莎白（怀疑尖锐）；玛丽（迂腐）对比伊丽莎白（机智活泼）。'
+    }
+  },
+  {
+    id: 'outside-in',
+    num: '14', cat: 'craft',
+    title: '由外而内法',
+    en: 'Outside-In Method',
+    tag: '创作方法',
+    summary: '从观察外部世界获取灵感，设计角色塑造（外显特征），通过角色塑造引导到真实人物。',
+    detail: {
+      definition: '从观察外部世界获取灵感，设计角色塑造（外显特征），通过角色塑造引导到真实人物。',
+      steps: ['从观察外部世界获取灵感','设计角色塑造（外显特征）','通过角色塑造引导到真实人物'],
+      magicIf: '"魔法如果"技术：如果我在人物的情况下，我会做什么？这是斯坦尼斯拉夫斯基的概念，邀请作者和演员想象自己处于人物情境中。'
+    }
+  },
+  {
+    id: 'inside-out',
+    num: '15', cat: 'craft',
+    title: '由内而外法',
+    en: 'Inside-Out Method',
+    tag: '创作方法',
+    summary: '从作者自身的内在经验出发，设计真实人物（内在本质），通过真实人物引导到角色塑造。',
+    detail: {
+      definition: '从作者自身的内在经验投射到人物身上。设计真实人物（内在本质），通过真实人物引导到角色塑造。',
+      method: '"进入人物内心"的写作：作者不仅是观察者，更是第一个演员。你需要进入人物的身体，感受他们的脉搏。',
+      quote: '当"进入人物内心"的作者居住在人物的内在自我中时，她的情感就变成了人物的情感……人物的第一个表演者就是作者自己。',
+      warning: '纯内省有自我投射的风险——"假使"需要研究和观察作为制衡，不能只用编剧自己的性格替代所有角色。'
+    }
+  },
+  {
+    id: 'research',
+    num: '16', cat: 'craft',
+    title: '四种研究类型',
+    en: 'Four Types of Research',
+    tag: '创作方法',
+    summary: '当灵感不足时：个人研究、想象研究、书本研究、实地研究。',
+    detail: {
+      types: ['个人研究（Personal Research）——挖掘自己的记忆（创伤、喜悦、羞耻）','想象研究（Imagination Research）——重组记忆片段，想象"如果……"','书本研究（Book Research）——阅读心理学、社会学、历史等相关领域的非虚构作品','实地研究（Field Research）——像纪录片导演一样观察、访谈、体验生活'],
+      key: '自知之明是人物创作的根基。你对自己人性挖掘得越深，你的人物就越真实。',
+      quote: '所有写作在本质上都是自传性的。'
+    }
+  },
+  {
+    id: 'genre-character',
+    num: '17', cat: 'craft',
+    title: '类型中的人物',
+    en: 'Character in Genre',
+    tag: '创作方法',
+    summary: '命运情节（人物不变）vs 人物情节（人物变化）。类型不是枷锁，而是容器。',
+    detail: {
+      fate: '命运情节（Fate Plots）：人物的外部生活条件变化（输/赢、生/死），但内部本质基本不变。如动作/冒险/恐怖（核心是生存）、犯罪（正义vs.不正义）、爱情（爱vs.恨）。',
+      character: '人物情节（Character Plots）：人物的内部本质经历深刻变化。六种子类型：救赎、堕落、教育、幻灭、进化、退化。',
+      principle: '类型不是枷锁，而是容器。类型惯例限制了某些表达，同时使深度表达成为可能。',
+      hybrid: '类型杂交与融合：杂交（Hybrid）——两个或多个故事线交织，丰富意义；融合（Fusion）——故事中的故事，澄清动机。'
+    }
+  },
+  {
+    id: 'first-impression',
+    num: '18', cat: 'audience',
+    title: '第一印象的力量',
+    en: 'The Power of First Impression',
+    tag: '观众关系',
+    summary: '人物登场的那一刻至关重要。"揭示"必须精心设计——不仅展示外部特征，还要暗示内部矛盾。',
+    detail: {
+      definition: '人物登场的那一刻至关重要。"揭示（reveal）"必须精心设计——不仅展示外部特征，最好还能暗示内部矛盾或核心谜团。',
+      quote: '抵制在主页就放置主人公的冲动。相反，为了撩拨读者或观众的兴趣，把主人公留到最有效的场景，然后给他们一个辉煌的入场。',
+      technique: '维持兴趣的三种方式：①好奇心（Curiosity）——想要知道"为什么"和"怎么做"；②关切（Concern）——关心人物的安危；③悬念（Suspense）——好奇心+关切。'
+    }
+  }
+];
+
+const arcs = [
+  { icon: '↗', name: '救赎弧', en: 'Redemption', desc: '道德从负到正。人物从堕落的起点走向道德升华。', example: '《辛德勒的名单》', color: 'var(--accent5)' },
+  { icon: '↘', name: '堕落弧', en: 'Degeneration', desc: '道德从正到负。人物从道德高地滑向深渊。', example: '《教父》迈克尔·柯里昂', color: 'var(--accent2)' },
+  { icon: '→', name: '教育弧', en: 'Education', desc: '心理从无意义到有意义，或获得更深的理解。', example: '《哈姆雷特》', color: 'var(--accent3)' },
+  { icon: '↘', name: '幻灭弧', en: 'Disillusionment', desc: '心理从信仰到虚无主义，看见世界的荒谬。', example: '《了不起的盖茨比》', color: 'var(--accent6)' },
+  { icon: '↑', name: '进化弧', en: 'Evolution', desc: '人性从不完整到完整、自我实现。成长故事的核心。', example: '成长故事', color: 'var(--accent)' },
+  { icon: '↓', name: '退化弧', en: 'Devolution', desc: '人性从完整到破碎，甚至走向疯狂。', example: '《闪灵》', color: 'var(--accent4)' }
+];
+
+const orbits = [
+  { label: 'FIRST ORBIT · 第一轨道', name: '主要支持人物', desc: '最接近主人公的轨道。对主人公的生活产生重大、直接、不可逆转的影响。通常包括主要对手（反派）、亲密伴侣、核心盟友。拥有自己的子情节，具有更高的复杂性和多个维度。', color: 'var(--accent2)' },
+  { label: 'SECOND ORBIT · 第二轨道', name: '功能性支持人物', desc: '中距离轨道。推进或阻碍情节，增添色彩，但通常不会经历深刻的内部变化。朋友、同事、特定社会角色（医生、律师等）。', color: 'var(--accent4)' },
+  { label: 'THIRD ORBIT · 第三轨道', name: '外围/背景人物', desc: '最外层。构建社会环境的质感，提供必要信息或服务，或者只是增加"人群密度"。无名路人、群众演员、只出现在一个场景中的侍者。', color: '#5a5d70' }
+];
+
+const checklistItems = [
+  { q: '人物是否有"维度"？（是否拥有成对的矛盾特质？）', ref: 'dimension-contradiction' },
+  { q: '人物是否有"善之中心"？（观众能共情吗？）', ref: 'empathy' },
+  { q: '人物是否在压力下做出选择？（而非仅靠对白说明？）', ref: 'pressure-choice' },
+  { q: '人物是否有表层欲望和深层欲望的两层结构？', ref: 'desire-fear' },
+  { q: '人物是否有"自我故事"？（内部叙事决定行动模式）', ref: 'self-story' },
+  { q: '人物弧光是否通过"选择"完成？（而非台词说"我变了"）', ref: 'dilemma' },
+  { q: '对抗力量是否大于主人公的能力？（弱势地位）', ref: 'antagonist' },
+  { q: '反派是否有自洽的逻辑？（而非纯粹"邪恶"）', ref: 'antagonist' },
+  { q: '支持人物是否激活了主人公的不同维度？', ref: 'foil' },
+  { q: '卡司设计是否形成了"太阳系"结构？（三轨道）', ref: 'foil' },
+  { q: '人物的登场是否有"辉煌的入场"？', ref: 'first-impression' },
+  { q: '你是否挖掘了自知之明？（所有写作都是自传性的）', ref: 'research' },
+];
+
+// ═══════════ Render ═══════════
+function renderTechniqueCards() {
+  const grid = document.getElementById('technique-cards');
+  if (!grid) return;
+  grid.innerHTML = '';
+  techniques.forEach(t => {
+    const card = document.createElement('div');
+    card.className = `card cat-${t.cat}`;
+    card.onclick = () => showDetailData(t);
+    card.innerHTML = `
+      <div class="card-num">NO. ${t.num}</div>
+      <div class="card-title">${t.title}</div>
+      <div class="card-en">${t.en}</div>
+      <div class="card-body">${t.summary}</div>
+      <span class="card-tag">${t.tag}</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderArcs() {
+  const grid = document.getElementById('arc-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  arcs.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'arc-card';
+    card.style.borderColor = a.color.includes('var') ? '' : a.color + '40';
+    card.onclick = () => showArcDetail(a);
+    card.innerHTML = `
+      <div class="arc-icon" style="color:${a.color}">${a.icon}</div>
+      <div class="arc-name">${a.name}</div>
+      <div class="arc-en">${a.en}</div>
+      <div class="arc-desc">${a.desc}</div>
+      <div class="arc-example">🎬 ${a.example}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderOrbits() {
+  const container = document.getElementById('orbit-details');
+  if (!container) return;
+  container.innerHTML = '';
+  orbits.forEach(o => {
+    const div = document.createElement('div');
+    div.className = 'cast-orbit-card';
+    div.style.borderColor = o.color.includes('var') ? '' : o.color + '40';
+    div.innerHTML = `
+      <div class="orbit-label" style="color:${o.color}">${o.label}</div>
+      <div class="orbit-name">${o.name}</div>
+      <div class="orbit-desc">${o.desc}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function renderChecklist() {
+  const container = document.getElementById('checklist-container');
+  if (!container) return;
+  container.innerHTML = '';
+  checklistItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    if (item.ref) {
+      div.onclick = () => { switchTab('technique', null); setTimeout(() => showDetailById(item.ref), 300); };
+    }
+    div.innerHTML = `<span class="checklist-num">${i+1}</span><span>${item.q}</span>`;
+    container.appendChild(div);
+  });
+}
+
+// ═══════════ Detail ═══════════
+function showDetailData(t) {
+  const overlay = document.getElementById('detail-overlay');
+  const content = document.getElementById('detail-content');
+  let html = `<h2>${t.title}</h2><div class="en-title">${t.en} · NO.${t.num}</div>`;
+  const d = t.detail;
+  const fields = [
+    ['definition','定义'],['contrast','对比'],['insight','洞察'],['functions','四大功能'],
+    ['principle','原则'],['method','方法'],['warning','警告'],
+    ['formula','公式'],['key','关键'],
+    ['source','来源'],['example','示例'],['note','说明'],
+    ['twoLayers','两层结构'],['motivation','动机来源'],
+    ['levels','层次'],['quote','麦基原话'],
+    ['mechanism','机制'],['relation','关系'],
+    ['types','类型'],['application','应用'],
+    ['steps','步骤'],['magicIf','魔法如果'],
+    ['fate','命运情节'],['character','人物情节'],['hybrid','杂交与融合'],
+    ['golden','黄金法则'],['logic','反派逻辑'],
+    ['functions_list','功能'],
+    ['sympathy','同情'],['empathy','共情'],['center','善之中心'],
+    ['mystery','谜团'],['suspense','悬念'],['irony','戏剧反讽']
+  ];
+  fields.forEach(([key, label]) => {
+    if (!d[key]) return;
+    if (Array.isArray(d[key])) {
+      html += `<div class="detail-section"><h3>${label}</h3><ul>${d[key].map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+    } else {
+      html += `<div class="detail-section"><h3>${label}</h3><p>${d[key]}</p></div>`;
+    }
+  });
+  content.innerHTML = html;
+  overlay.classList.add('show');
+}
+
+function showDetailById(id) {
+  const t = techniques.find(x => x.id === id);
+  if (t) showDetailData(t);
+}
+
+function showArcDetail(a) {
+  const overlay = document.getElementById('detail-overlay');
+  const content = document.getElementById('detail-content');
+  content.innerHTML = `
+    <h2>${a.name}</h2>
+    <div class="en-title">${a.en}</div>
+    <div class="detail-section"><h3>定义</h3><p>${a.desc}</p></div>
+    <div class="detail-section"><h3>代表案例</h3><p>${a.example}</p></div>
+    <div class="detail-section"><h3>变化维度</h3><p>人物弧光在三个维度之一发生深刻变化：道德（如何对待他人）、心理（对现实和生命意义的看法）、人性（整体存在）。</p></div>
+    <div class="detail-section"><h3>弧光特点</h3><p>在动态的之字形中移动，而不是平滑的直线。在高潮时，主人公达到其经验的绝对极限。弧光必须通过"选择"完成——不能靠台词说"我变了"，必须靠关键行动证明。</p></div>
+  `;
+  overlay.classList.add('show');
+}
+
+function closeDetail(e) {
+  if (e.target === document.getElementById('detail-overlay') || e.target.classList.contains('detail-close')) {
+    document.getElementById('detail-overlay').classList.remove('show');
+  }
+}
+
+// ═══════════ Tabs ═══════════
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else {
+    const tabs = document.querySelectorAll('.tab');
+    const labels = { essence:'人物本质', technique:'技术要点', arc:'六种弧光', cast:'卡司设计', checklist:'创作清单' };
+    tabs.forEach(t => { if (t.textContent.includes(labels[tab])) t.classList.add('active'); });
+  }
+  const target = document.getElementById('tab-' + tab);
+  if (target) target.classList.add('active');
+}
+
+// Init
+renderTechniqueCards();
+renderArcs();
+renderOrbits();
+renderChecklist();
+</script>
+</body>
+</html>

@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦基《对白》核心技术要点 · 可视化</title>
+<style>
+  :root {
+    --bg: #0a0c14;
+    --card: #12141f;
+    --border: #222640;
+    --accent: #f97066;
+    --accent2: #f5a623;
+    --accent3: #56cfdf;
+    --accent4: #9b72f0;
+    --accent5: #60d394;
+    --text: #e2e2e8;
+    --dim: #6b6e80;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    padding: 52px 20px 36px;
+    background: linear-gradient(180deg, #1a0e14 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  header::before {
+    content: '“';
+    position: absolute;
+    top: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 120px;
+    color: rgba(249,112,102,0.06);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  header p {
+    color: var(--dim);
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+  header .subtitle {
+    color: var(--dim);
+    font-size: 0.8rem;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ── Nav Tabs ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 20px 0;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.25s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 36px 20px 80px;
+  }
+
+  /* ── Section Title ── */
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 44px 0 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .section-desc {
+    color: var(--dim);
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* ── CORE QUOTE ── */
+  .core-quote {
+    text-align: center;
+    padding: 36px 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .core-quote .quote-mark {
+    font-size: 3rem;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+    position: absolute;
+    top: 12px; left: 20px;
+    font-family: Georgia, serif;
+  }
+  .core-quote .quote-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .core-quote .quote-sub {
+    color: var(--dim);
+    font-size: 0.85rem;
+    margin-top: 12px;
+  }
+
+  /* ── Three Spheres SVG ── */
+  .spheres-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+  }
+
+  /* ── Cards Grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+  }
+  .card.cat-core::before { background: var(--accent); }
+  .card.cat-subtext::before { background: var(--accent3); }
+  .card.cat-action::before { background: var(--accent2); }
+  .card.cat-design::before { background: var(--accent4); }
+  .card.cat-voice::before { background: var(--accent5); }
+  .card.cat-flaw::before { background: #f07090; }
+  .card.cat-conflict::before { background: #f5d623; }
+
+  .card:hover {
+    border-color: rgba(249,112,102,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .card-num {
+    font-size: 0.68rem;
+    color: var(--dim);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  .card-en {
+    font-size: 0.72rem;
+    color: var(--dim);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .card-body {
+    font-size: 0.83rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .card-tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    border: 1px solid;
+  }
+  .cat-core .card-tag { background: rgba(249,112,102,0.1); color: var(--accent); border-color: rgba(249,112,102,0.25); }
+  .cat-subtext .card-tag { background: rgba(86,207,223,0.1); color: var(--accent3); border-color: rgba(86,207,223,0.25); }
+  .cat-action .card-tag { background: rgba(245,166,35,0.1); color: var(--accent2); border-color: rgba(245,166,35,0.25); }
+  .cat-design .card-tag { background: rgba(155,114,240,0.1); color: var(--accent4); border-color: rgba(155,114,240,0.25); }
+  .cat-voice .card-tag { background: rgba(96,211,148,0.1); color: var(--accent5); border-color: rgba(96,211,148,0.25); }
+  .cat-flaw .card-tag { background: rgba(240,112,144,0.1); color: #f07090; border-color: rgba(240,112,144,0.25); }
+  .cat-conflict .card-tag { background: rgba(245,214,35,0.1); color: var(--accent2); border-color: rgba(245,214,35,0.25); }
+
+  /* ── Detail Panel ── */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+  }
+  .detail-overlay.show { display: flex; }
+  .detail-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 92%;
+    max-width: 660px;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 36px;
+    position: relative;
+  }
+  .detail-close {
+    position: absolute;
+    top: 14px; right: 16px;
+    background: none; border: none;
+    color: var(--dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .detail-panel h2 { font-size: 1.35rem; color: #fff; margin-bottom: 4px; }
+  .detail-panel .en-title { color: var(--dim); font-size: 0.82rem; margin-bottom: 18px; font-style: italic; }
+  .detail-section { margin-bottom: 18px; }
+  .detail-section h3 {
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+    font-weight: 700;
+  }
+  .detail-section p, .detail-section li {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .detail-section ul { padding-left: 18px; }
+  .detail-section li::marker { color: var(--accent); }
+  .detail-section .warn-box {
+    background: rgba(249,112,102,0.08);
+    border: 1px solid rgba(249,112,102,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-top: 8px;
+  }
+
+  /* ── Conflict Types Grid ── */
+  .conflict-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .conflict-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .conflict-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+  .conflict-type {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .conflict-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .conflict-case {
+    font-size: 0.75rem;
+    color: var(--accent3);
+    margin-bottom: 8px;
+  }
+  .conflict-desc {
+    font-size: 0.82rem;
+    color: var(--dim);
+    line-height: 1.5;
+  }
+
+  /* ── Flaw Table ── */
+  .flaw-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.85rem;
+  }
+  .flaw-table th {
+    padding: 12px 16px;
+    text-align: left;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .flaw-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(34,38,64,0.5);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .flaw-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .flaw-type-label {
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .flaw-fix {
+    color: var(--accent5);
+    font-size: 0.82rem;
+  }
+
+  /* ── 3 Spheres Visual ── */
+  .spheres-svg {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* ── Trialogue Diagram ── */
+  .trialogue-diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  .trialogue-diagram svg {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  /* ── Tab content ── */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    header h1 { font-size: 1.3rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .conflict-grid { grid-template-columns: 1fr; }
+    .detail-panel { padding: 24px; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <h1>🎬 麦基《对白》核心技术要点</h1>
+  <p>Robert McKee · Dialogue: The Art of Verbal Action for Page, Stage, and Screen</p>
+  <p class="subtitle">2016 (EN) / 2018 (中文版) · 焦雄屏 译</p>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('core', this)">核心理论</div>
+  <div class="tab" onclick="switchTab('technique', this)">技术要点</div>
+  <div class="tab" onclick="switchTab('conflict', this)">六种冲突</div>
+  <div class="tab" onclick="switchTab('flaws', this)">瑕疵诊断</div>
+  <div class="tab" onclick="switchTab('checklist', this)">创作清单</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════ TAB 1: Core Theory ═══════════ -->
+  <div class="tab-content active" id="tab-core">
+
+    <div class="core-quote">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">
+        对白不是对话，<br>是<strong style="color:var(--accent)">行动</strong>。
+      </div>
+      <div class="quote-sub">
+        Dialogue is not conversation; it is action.<br>
+        每句台词背后，都有一个用语言执行的目的。
+      </div>
+    </div>
+
+    <!-- Three Spheres -->
+    <div class="section-title">
+      <span class="icon" style="background:rgba(86,207,223,0.12);color:var(--accent3)">◎</span>
+      对白的三层结构：说出的 / 没说出的 / 说不出口的
+    </div>
+    <p class="section-desc">
+      麦基最核心的分析模型——人类 90% 的真实意思不在台词里，在没说出口的话里。好对白创造"透明感"，让读者/观众透过台词看到角色隐藏的内心。
+    </p>
+
+    <svg class="spheres-svg" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer sphere: The Said -->
+      <circle cx="350" cy="170" r="150" fill="rgba(86,207,223,0.05)" stroke="var(--accent3)" stroke-width="1.5"/>
+      <text x="350" y="52" text-anchor="middle" fill="var(--accent3)" font-size="13" font-weight="700" letter-spacing="2">外层：说出的 THE SAID</text>
+      <text x="350" y="72" text-anchor="middle" fill="#888" font-size="10">角色选择向他人表达的想法和情感</text>
+
+      <!-- Middle sphere: The Unsaid -->
+      <circle cx="350" cy="170" r="100" fill="rgba(245,166,35,0.06)" stroke="var(--accent2)" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="350" y="155" text-anchor="middle" fill="var(--accent2)" font-size="12" font-weight="700" letter-spacing="2">中层：没说出的</text>
+      <text x="350" y="172" text-anchor="middle" fill="var(--accent2)" font-size="11" font-weight="700" letter-spacing="1">THE UNSAID</text>
+      <text x="350" y="190" text-anchor="middle" fill="#aaa" font-size="9">角色有意识但压制的想法和情感</text>
+
+      <!-- Inner sphere: The Unsayable -->
+      <circle cx="350" cy="170" r="50" fill="rgba(249,112,102,0.08)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="350" y="167" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="700" letter-spacing="1">内核：说不出口的</text>
+      <text x="350" y="182" text-anchor="middle" fill="var(--accent)" font-size="9" font-weight="700" letter-spacing="1">THE UNSAYABLE</text>
+      <text x="350" y="196" text-anchor="middle" fill="#bbb" font-size="8">潜意识的冲动和欲望</text>
+      <text x="350" y="207" text-anchor="middle" fill="#bbb" font-size="8">连对自己都无法用语言表达</text>
+
+      <!-- Arrows -->
+      <path d="M 180,250 Q 160,290 140,320" fill="none" stroke="var(--accent3)" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="120" y="330" fill="var(--accent3)" font-size="9">观众/读者看到的是这一层</text>
+
+      <path d="M 350,70 Q 360,50 400,30" fill="none" stroke="var(--accent2)" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="410" y="28" fill="var(--accent2)" font-size="9">优秀演员表演的是这一层</text>
+
+      <path d="M 480,120 Q 520,100 570,80" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="580" y="78" fill="var(--accent)" font-size="9">最伟大的戏剧触及这一层</text>
+    </svg>
+
+    <!-- Core propositions -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(249,112,102,0.12);color:var(--accent)">◆</span>
+      核心命题
+    </div>
+
+    <div class="cards-grid">
+      <div class="card cat-core" onclick="showDetail('dialogue-is-action')">
+        <div class="card-num">命题 01</div>
+        <div class="card-title">对白即行动</div>
+        <div class="card-en">Dialogue = Verbal Action</div>
+        <div class="card-body">所有言语都是对某种需求的回应，都服务于某种目的，都执行某种行动。说一件事就是做一件事。</div>
+        <span class="card-tag">核心理论</span>
+      </div>
+      <div class="card cat-core" onclick="showDetail('three-paths')">
+        <div class="card-num">命题 02</div>
+        <div class="card-title">对白的三条路径</div>
+        <div class="card-en">Three Paths of Dialogue</div>
+        <div class="card-body">对白不只是"角色之间谈话"——还包括角色对自己说（内心独白）和角色对观众/读者说（打破第四面墙）。</div>
+        <span class="card-tag">核心理论</span>
+      </div>
+      <div class="card cat-core" onclick="showDetail('subtext-law')">
+        <div class="card-num">命题 03</div>
+        <div class="card-title">烛光测试</div>
+        <div class="card-en">The Candlelight Test</div>
+        <div class="card-body">两个恋人在烛光晚餐上说"我爱你"且完全真心——这是不可表演的。当人物完全说出所想所感时，读起来像非人或疯子。</div>
+        <span class="card-tag">核心理论</span>
+      </div>
+      <div class="card cat-core" onclick="showDetail('dialogue-problem')">
+        <div class="card-num">命题 04</div>
+        <div class="card-title">对白问题是伪装的故事问题</div>
+        <div class="card-en">Dialogue Problems = Disguised Story Problems</div>
+        <div class="card-body">坏对白是症状，不是疾病。以代数对称性：故事越差，对白越差。修复必须从内到外，从潜文本向外重建。</div>
+        <span class="card-tag">核心理论</span>
+      </div>
+      <div class="card cat-core" onclick="showDetail('economy')">
+        <div class="card-num">命题 05</div>
+        <div class="card-title">经济原则</div>
+        <div class="card-en">Economy Principle</div>
+        <div class="card-body">没有一段台词应该要求观众多吸收一个不必要的音节。能一个字说清，绝不用两个字。《迷失东京》几乎全用单音节词。</div>
+        <span class="card-tag">核心理论</span>
+      </div>
+      <div class="card cat-core" onclick="showDetail('melodrama-redefined')">
+        <div class="card-num">命题 06</div>
+        <div class="card-title">通俗剧的重新定义</div>
+        <div class="card-en">Melodrama Redefined</div>
+        <div class="card-body">通俗剧不是"过度表达"，而是"动机不足"——行为超出了实际利害关系。修复方法：提升动机以匹配行动。</div>
+        <span class="card-tag">核心理论</span>
+      </div>
+    </div>
+
+    <!-- Three functions of dialogue -->
+    <div class="section-title">
+      <span class="icon" style="background:rgba(155,114,240,0.12);color:var(--accent4)">▣</span>
+      对白的三个功能（The Three Functions）
+    </div>
+    <svg viewBox="0 0 900 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Function 1 -->
+      <rect x="40" y="30" width="260" height="140" rx="14" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="170" y="65" text-anchor="middle" fill="var(--accent)" font-size="12" font-weight="700" letter-spacing="1">FUNCTION 1</text>
+      <text x="170" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">行动功能</text>
+      <text x="170" y="110" text-anchor="middle" fill="#aaa" font-size="10">Verbal Action</text>
+      <text x="170" y="135" text-anchor="middle" fill="#ccc" font-size="10">每句口语表达执行一个</text>
+      <text x="170" y="150" text-anchor="middle" fill="#ccc" font-size="10">内在行动（乞求/威胁/安抚…）</text>
+
+      <!-- Arrow -->
+      <line x1="300" y1="100" x2="370" y2="100" stroke="#2a2d3a" stroke-width="2"/>
+      <polygon points="370,100 358,94 358,106" fill="#2a2d3a"/>
+
+      <!-- Function 2 -->
+      <rect x="370" y="30" width="260" height="140" rx="14" fill="var(--card)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="500" y="65" text-anchor="middle" fill="var(--accent2)" font-size="12" font-weight="700" letter-spacing="1">FUNCTION 2</text>
+      <text x="500" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">叙事功能</text>
+      <text x="500" y="110" text-anchor="middle" fill="#aaa" font-size="10">Narrative Function</text>
+      <text x="500" y="135" text-anchor="middle" fill="#ccc" font-size="10">传达信息与观点；</text>
+      <text x="500" y="150" text-anchor="middle" fill="#ccc" font-size="10">将交代性信息转化为弹药</text>
+
+      <!-- Arrow -->
+      <line x1="630" y1="100" x2="700" y2="100" stroke="#2a2d3a" stroke-width="2"/>
+      <polygon points="700,100 688,94 688,106" fill="#2a2d3a"/>
+
+      <!-- Function 3 -->
+      <rect x="700" y="30" width="160" height="140" rx="14" fill="var(--card)" stroke="var(--accent4)" stroke-width="1.5"/>
+      <text x="780" y="65" text-anchor="middle" fill="var(--accent4)" font-size="12" font-weight="700" letter-spacing="1">FUNCTION 3</text>
+      <text x="780" y="90" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">塑造功能</text>
+      <text x="780" y="110" text-anchor="middle" fill="#aaa" font-size="10">Characterization</text>
+      <text x="780" y="135" text-anchor="middle" fill="#ccc" font-size="10">独特的口语风格</text>
+      <text x="780" y="150" text-anchor="middle" fill="#ccc" font-size="10">个性化每个角色</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 2: Technique Cards ═══════════ -->
+  <div class="tab-content" id="tab-technique">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(249,112,102,0.12);color:var(--accent)">⚡</span>
+      技术要点 · 20 项
+    </div>
+    <p class="section-desc">点击卡片查看完整说明。颜色标记：🔴核心 🔵潜文本 🟡行动 🟣设计 🟢声音 🟠冲突</p>
+
+    <div class="cards-grid" id="technique-cards">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Trialogue Diagram -->
+    <div class="section-title" style="margin-top:48px;">
+      <span class="icon" style="background:rgba(245,166,35,0.12);color:var(--accent2)">△</span>
+      三重对话法（The Trialogue）
+    </div>
+    <p class="section-desc">
+      两个处于冲突中的角色将斗争通过"第三样东西"（外部事物或话题）来传达，这个第三样东西承载了潜文本。
+    </p>
+
+    <div class="trialogue-diagram">
+      <svg viewBox="0 0 600 300" width="100%" height="300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Person A -->
+        <circle cx="120" cy="150" r="40" fill="rgba(249,112,102,0.1)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="120" y="155" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">角色 A</text>
+
+        <!-- Person B -->
+        <circle cx="480" cy="150" r="40" fill="rgba(86,207,223,0.1)" stroke="var(--accent3)" stroke-width="1.5"/>
+        <text x="480" y="155" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">角色 B</text>
+
+        <!-- Third thing -->
+        <ellipse cx="300" cy="150" rx="70" ry="45" fill="rgba(245,166,35,0.08)" stroke="var(--accent2)" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="300" y="147" text-anchor="middle" fill="var(--accent2)" font-size="11" font-weight="700">第三样东西</text>
+        <text x="300" y="162" text-anchor="middle" fill="var(--accent2)" font-size="9">（话题/物品/第三者）</text>
+
+        <!-- Spoken lines (surface) -->
+        <path d="M 155,135 Q 220,110 265,125" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="200" y="105" text-anchor="middle" fill="var(--accent)" font-size="9">表面上谈论</text>
+
+        <path d="M 445,135 Q 380,110 335,125" fill="none" stroke="var(--accent3)" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="400" y="105" text-anchor="middle" fill="var(--accent3)" font-size="9">表面上回应</text>
+
+        <!-- Real conflict (hidden) -->
+        <path d="M 120,200 Q 300,260 480,200" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="300" y="280" text-anchor="middle" fill="#666" font-size="10">↓ 真正的冲突在潜文本里流动 ↓</text>
+
+        <!-- Examples -->
+        <text x="300" y="40" text-anchor="middle" fill="#888" font-size="11" font-weight="700">经典案例</text>
+        <text x="300" y="60" text-anchor="middle" fill="#aaa" font-size="9">《杯酒人生》：Miles和Maya 通过品评黑皮诺来相互诱惑</text>
+        <text x="300" y="74" text-anchor="middle" fill="#aaa" font-size="9">《真探》：两个警察 通过争论帐篷复兴会 展现对立世界观</text>
+      </svg>
+    </div>
+
+    <!-- Line Design Diagram -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(155,114,240,0.12);color:var(--accent4)">¶</span>
+      行设计：三种句式形态
+    </div>
+    <p class="section-desc">
+      每句台词都有一个"核心关键词"，其在句中的位置决定句子的形态和效果。麦基称此为"行设计"（Line Design）。
+    </p>
+
+    <svg viewBox="0 0 900 320" width="100%" height="320" xmlns="http://www.w3.org/2000/svg">
+      <!-- Periodic / Suspense sentence -->
+      <rect x="30" y="20" width="260" height="130" rx="12" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="160" y="50" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700" letter-spacing="1">掉尾句 / 悬疑句</text>
+      <text x="160" y="68" text-anchor="middle" fill="#aaa" font-size="10">Periodic / Suspense Sentence</text>
+      <text x="50" y="92" fill="#ccc" font-size="10">核心词置于</text>
+      <text x="50" y="108" fill="var(--accent)" font-size="12" font-weight="700">句末</text>
+      <text x="50" y="124" fill="#ccc" font-size="10">→ 从第一个词到最后一个词</text>
+      <text x="50" y="140" fill="#ccc" font-size="10">  都抓住注意力</text>
+      <text x="50" y="156" fill="#888" font-size="9">例：几乎所有口头笑话都用此式</text>
+
+      <!-- Arrow from word 1 to word N -->
+      <line x1="100" y1="175" x2="220" y2="175" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="80" y="170" fill="#888" font-size="9">词1</text>
+      <text x="210" y="170" fill="var(--accent)" font-size="9" font-weight="700">核心词★</text>
+      <polygon points="220,175 208,169 208,181" fill="var(--accent)"/>
+
+      <!-- Cumulative sentence -->
+      <rect x="320" y="20" width="260" height="130" rx="12" fill="var(--card)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="450" y="50" text-anchor="middle" fill="var(--accent2)" font-size="11" font-weight="700" letter-spacing="1">累积句</text>
+      <text x="450" y="68" text-anchor="middle" fill="#aaa" font-size="10">Cumulative Sentence</text>
+      <text x="340" y="92" fill="#ccc" font-size="10">核心词置于</text>
+      <text x="340" y="108" fill="var(--accent2)" font-size="12" font-weight="700">句首</text>
+      <text x="340" y="124" fill="#ccc" font-size="10">→ 立即传达意义，</text>
+      <text x="340" y="140" fill="#ccc" font-size="10">  更多用于勾勒细节</text>
+      <text x="340" y="156" fill="#888" font-size="9">例：描述性对白、场景交代</text>
+
+      <!-- Arrow -->
+      <line x1="370" y1="175" x2="490" y2="175" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="360" y="170" fill="var(--accent2)" font-size="9" font-weight="700">核心词★</text>
+      <text x="480" y="170" fill="#888" font-size="9">细节…</text>
+      <polygon points="490,175 478,169 478,181" fill="var(--accent2)"/>
+
+      <!-- Balanced sentence -->
+      <rect x="610" y="20" width="260" height="130" rx="12" fill="var(--card)" stroke="var(--accent4)" stroke-width="1.5"/>
+      <text x="740" y="50" text-anchor="middle" fill="var(--accent4)" font-size="11" font-weight="700" letter-spacing="1">平衡句</text>
+      <text x="740" y="68" text-anchor="middle" fill="#aaa" font-size="10">Balanced Sentence</text>
+      <text x="630" y="92" fill="#ccc" font-size="10">核心词</text>
+      <text x="630" y="108" fill="var(--accent4)" font-size="12" font-weight="700">埋在句中</text>
+      <text x="630" y="124" fill="#ccc" font-size="10">→ 风险：可能导致演员</text>
+      <text x="630" y="140" fill="#ccc" font-size="10">  相互打断或尴尬等待</text>
+      <text x="630" y="156" fill="#888" font-size="9">⚠ 尽量避免此形态</text>
+
+      <!-- Note -->
+      <text x="450" y="240" text-anchor="middle" fill="#888" font-size="11">⚠ 持续使用掉尾句会显得做作——</text>
+      <text x="450" y="258" text-anchor="middle" fill="#888" font-size="11">变化才是纠正方法。优秀的台词在三种形态间灵活切换。</text>
+
+      <!-- Performance note -->
+      <rect x="200" y="275" width="500" height="35" rx="8" fill="rgba(249,112,102,0.06)" stroke="rgba(249,112,102,0.2)" stroke-width="1"/>
+      <text x="450" y="297" text-anchor="middle" fill="var(--accent)" font-size="10">表演提示：一段台词的最后一个词是触发对方演员反应的信号——错放核心词会导致重叠或尴尬等待。</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 3: Six Conflict Types ═══════════ -->
+  <div class="tab-content" id="tab-conflict">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(245,214,35,0.12);color:var(--accent2)">✦</span>
+      六种冲突类型（Part Four 案例分析框架）
+    </div>
+    <p class="section-desc">
+      麦基将故事中的对白冲突归纳为六种类型，每种类型决定了角色之间的言语互动方式。这是《对白》第四部分的核心框架。
+    </p>
+
+    <div class="conflict-grid" id="conflict-grid">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Desire dimensions -->
+    <div class="section-title" style="margin-top:48px;">
+      <span class="icon" style="background:rgba(96,211,148,0.12);color:var(--accent5)">◈</span>
+      欲望的五个维度（第12章）
+    </div>
+    <p class="section-desc">
+      麦基将《故事》中讨论过的人物欲望切割为五个维度。理解这五个维度，才能写出有动机的对白。
+    </p>
+
+    <svg viewBox="0 0 900 280" width="100%" height="280" xmlns="http://www.w3.org/2000/svg">
+      <!-- Center: Desire -->
+      <circle cx="450" cy="140" r="45" fill="rgba(249,112,102,0.1)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="450" y="136" text-anchor="middle" fill="var(--accent)" font-size="12" font-weight="700">欲望</text>
+      <text x="450" y="152" text-anchor="middle" fill="var(--accent)" font-size="10">Desire</text>
+
+      <!-- 5 dimensions radiating -->
+      <!-- 1 -->
+      <line x1="405" y1="105" x2="300" y2="60" stroke="var(--accent2)" stroke-width="1.5"/>
+      <rect x="210" y="35" width="140" height="50" rx="8" fill="var(--card)" stroke="var(--accent2)" stroke-width="1"/>
+      <text x="280" y="58" text-anchor="middle" fill="var(--accent2)" font-size="10" font-weight="700">欲望对象</text>
+      <text x="280" y="73" text-anchor="middle" fill="#aaa" font-size="9">Object of Desire</text>
+      <text x="215" y="85" fill="#888" font-size="8">角色想要什么</text>
+
+      <!-- 2 -->
+      <line x1="490" y1="105" x2="600" y2="60" stroke="var(--accent3)" stroke-width="1.5"/>
+      <rect x="550" y="35" width="140" height="50" rx="8" fill="var(--card)" stroke="var(--accent3)" stroke-width="1"/>
+      <text x="620" y="58" text-anchor="middle" fill="var(--accent3)" font-size="10" font-weight="700">超意图</text>
+      <text x="620" y="73" text-anchor="middle" fill="#aaa" font-size="9">Super-intention</text>
+      <text x="555" y="85" fill="#888" font-size="8">主角最深的诉求</text>
+
+      <!-- 3 -->
+      <line x1="405" y1="175" x2="300" y2="220" stroke="var(--accent4)" stroke-width="1.5"/>
+      <rect x="210" y="195" width="140" height="50" rx="8" fill="var(--card)" stroke="var(--accent4)" stroke-width="1"/>
+      <text x="280" y="218" text-anchor="middle" fill="var(--accent4)" font-size="10" font-weight="700">动机</text>
+      <text x="280" y="233" text-anchor="middle" fill="#aaa" font-size="9">Motivation</text>
+      <text x="215" y="245" fill="#888" font-size="8">为什么这么做</text>
+
+      <!-- 4 -->
+      <line x1="490" y1="175" x2="600" y2="220" stroke="var(--accent5)" stroke-width="1.5"/>
+      <rect x="550" y="195" width="140" height="50" rx="8" fill="var(--card)" stroke="var(--accent5)" stroke-width="1"/>
+      <text x="620" y="218" text-anchor="middle" fill="var(--accent5)" font-size="10" font-weight="700">场景意图</text>
+      <text x="620" y="233" text-anchor="middle" fill="#aaa" font-size="9">Scene Intention</text>
+      <text x="555" y="245" fill="#888" font-size="8">他当前想要的</text>
+
+      <!-- 5 -->
+      <line x1="450" y1="185" x2="450" y2="240" stroke="#f5d623" stroke-width="1.5"/>
+      <rect x="370" y="245" width="160" height="50" rx="8" fill="var(--card)" stroke="#f5d623" stroke-width="1"/>
+      <text x="450" y="268" text-anchor="middle" fill="#f5d623" font-size="10" font-weight="700">背景欲望</text>
+      <text x="450" y="283" text-anchor="middle" fill="#aaa" font-size="9">Background Desires</text>
+      <text x="380" y="295" fill="#888" font-size="8">强化角色生命现状，形成约束的网</text>
+    </svg>
+
+    <!-- Four levels of conflict -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(245,166,35,0.12);color:var(--accent2)">▤</span>
+      冲突层次与对白量的关系
+    </div>
+    <svg viewBox="0 0 900 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer to inner -->
+      <text x="450" y="30" text-anchor="middle" fill="#888" font-size="11">冲突层次越向外（外在），对白越少；越向内（私密），对白越多</text>
+
+      <!-- Level 4: Intimate -->
+      <rect x="340" y="55" width="220" height="50" rx="10" fill="rgba(249,112,102,0.08)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="450" y="72" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="700">④ 私密冲突</text>
+      <text x="450" y="87" text-anchor="middle" fill="#ccc" font-size="9">Intimate Conflict · 意识 vs 潜意识</text>
+      <text x="450" y="100" text-anchor="middle" fill="var(--accent)" font-size="9">← 对白最多</text>
+
+      <!-- Level 3 -->
+      <rect x="280" y="115" width="340" height="50" rx="10" fill="rgba(245,166,35,0.06)" stroke="var(--accent2)" stroke-width="1.5"/>
+      <text x="450" y="132" text-anchor="middle" fill="var(--accent2)" font-size="10" font-weight="700">③ 个人冲突</text>
+      <text x="450" y="147" text-anchor="middle" fill="#ccc" font-size="9">Personal Conflict · 朋友、家庭、情人</text>
+      <text x="450" y="160" text-anchor="middle" fill="var(--accent2)" font-size="9">← 对白较多</text>
+
+      <!-- Level 2 -->
+      <rect x="200" y="175" width="500" height="1" fill="none"/>
+      <text x="450" y="185" text-anchor="middle" fill="var(--accent3)" font-size="10" font-weight="700">② 社会冲突</text>
+      <text x="450" y="200" text-anchor="middle" fill="#ccc" font-size="9">Social Conflict · 建制及其中个人</text>
+      <text x="450" y="213" text-anchor="middle" fill="var(--accent3)" font-size="9">← 对白较少</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 4: Flaws & Fixes ═══════════ -->
+  <div class="tab-content" id="tab-flaws">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(240,112,144,0.12);color:#f07090">✕</span>
+      对白瑕疵诊断与修复（Part Two）
+    </div>
+    <p class="section-desc">
+      麦基将坏对白的症状分为四大类，每类下有具体表现和修复方法。这是全书最实用的"诊断手册"部分。
+    </p>
+
+    <table class="flaw-table">
+      <thead>
+        <tr>
+          <th>瑕疵类型</th>
+          <th>具体表现</th>
+          <th>修复方法</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="flaw-type-label" style="color:var(--accent);">可信性瑕疵<br><span style="font-size:0.75rem;color:#888;font-weight:400">Credibility Flaws</span></td>
+          <td>
+            • 选词模仿生活的重复繁琐<br>
+            • 角色诉说已知的事（对白变成讲座）<br>
+            • 情感滥用，总是催泪<br>
+            • 角色说过于明白的东西（写在鼻子上）
+          </td>
+          <td class="flaw-fix">
+            ✦ 在故事和真实中寻求简练<br>
+            ✦ 让角色说"自己的话"，而非作者的话<br>
+            ✦ 用潜文本代替直白情感
+          </td>
+        </tr>
+        <tr>
+          <td class="flaw-type-label" style="color:var(--accent2);">语言瑕疵<br><span style="font-size:0.75rem;color:#888;font-weight:400">Language Flaws</span></td>
+          <td>
+            • 老套的故事和对话（陈词滥调）<br>
+            • 干巴巴或过于文学性<br>
+            • 用词不具体（"大钉子"vs"道钉"）<br>
+            • 方言/口音滑向漫画化
+          </td>
+          <td class="flaw-fix">
+            ✦ 写具体不写抽象<br>
+            ✦ 写短字不写长字<br>
+            ✦ 写直接不写迂回<br>
+            ✦ 写主观不写被动
+          </td>
+        </tr>
+        <tr>
+          <td class="flaw-type-label" style="color:var(--accent3);">内容瑕疵<br><span style="font-size:0.75rem;color:#888;font-weight:400">Content Flaws</span></td>
+          <td>
+            • <strong>写在鼻子上</strong>（On-the-nose）：角色全部思维直接全盘而出<br>
+            • 缺乏潜文本，人物扁平化<br>
+            • 重复节拍（同样的正负极性反复出现）
+          </td>
+          <td class="flaw-fix">
+            ✦ <strong>三重对话法</strong>：通过第三样东西传达冲突<br>
+            ✦ 注意人物说话时会观察听者反应<br>
+            ✦ 冲突中的角色可以针对第三者作为争斗出口
+          </td>
+        </tr>
+        <tr>
+          <td class="flaw-type-label" style="color:var(--accent4);">设计瑕疵<br><span style="font-size:0.75rem;color:#888;font-weight:400">Design Flaws</span></td>
+          <td>
+            • 情感重复（没有进展的重复节拍）<br>
+            • 关键词位置错误（平衡句形态）<br>
+            • 交代性信息作为讲座倾倒<br>
+            • 停顿使用过度（"狼来了"效应）
+          </td>
+          <td class="flaw-fix">
+            ✦ 用掉尾句把关键词放在句末<br>
+            ✦ 将交代性信息转化为<strong>弹药</strong><br>
+            ✦ 停顿必须被"挣来"——只在潜文本爆发时使用
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- On-the-nose illustration -->
+    <div class="section-title" style="margin-top:40px;">
+      <span class="icon" style="background:rgba(249,112,102,0.12);color:var(--accent)">⚠</span>
+      "写在鼻子上"（On-the-Nose）详解
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-top:16px;">
+      <div style="color:var(--accent);font-size:0.8rem;letter-spacing:1px;margin-bottom:12px;font-weight:700;">麦基最常诊断、最具破坏性的瑕疵</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;" class="on-the-nose-grid">
+        <div>
+          <div style="color:#f06080;font-size:0.85rem;font-weight:700;margin-bottom:8px;">❌ 写在鼻子上（坏对白）</div>
+          <div style="background:rgba(240,96,128,0.06);border:1px solid rgba(240,96,128,0.2);border-radius:8px;padding:14px;font-size:0.85rem;line-height:1.7;color:#ccc;">
+            角色 A：「我现在非常愤怒，因为你背叛了我，我感到被伤害和被抛弃。」<br><br>
+            <span style="color:#888;font-size:0.75rem;">（直接说出所有情感和动机——观众不需要思考，也不需要演员表演潜文本）</span>
+          </div>
+        </div>
+        <div>
+          <div style="color:var(--accent3);font-size:0.85rem;font-weight:700;margin-bottom:8px;">✅ 有潜文本（好对白）</div>
+          <div style="background:rgba(86,207,223,0.06);border:1px solid rgba(86,207,223,0.2);border-radius:8px;padding:14px;font-size:0.85rem;line-height:1.7;color:#ccc;">
+            角色 A：「咖啡凉了。」<br>
+            <span style="color:#888;font-size:0.75rem;">（表面上说咖啡，实则表达：我们的关系也凉了。愤怒在沉默和动作里，不在台词里。）</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding:14px 18px;background:rgba(249,112,102,0.06);border-radius:8px;border-left:3px solid var(--accent);font-size:0.85rem;color:#ccc;line-height:1.6;">
+        <strong style="color:var(--accent);">修复口诀：</strong>嘴上说东，心里想西，行动攻你，关系变势。如果角色真的在说想的事，故事就死了。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ TAB 5: Checklist ═══════════ -->
+  <div class="tab-content" id="tab-checklist">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(96,211,148,0.12);color:var(--accent5)">✓</span>
+      对白创作检查清单
+    </div>
+    <p class="section-desc">
+      基于《对白》全书内容整理的检查清单。写完一场戏的对白后，逐一检视。也可用于诊断已有对白的问题。
+    </p>
+
+    <div id="checklist-container" style="margin-top:24px;">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- McKee quotes -->
+    <div style="margin-top:44px;padding:28px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">
+      <div style="color:var(--accent);font-size:0.8rem;letter-spacing:1px;margin-bottom:14px;font-weight:700;">麦基名言精选 · 来自《对白》</div>
+      <div style="font-size:0.95rem;line-height:2;color:var(--text);">
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "对白不是对话，是<strong style="color:var(--accent);">行动</strong>。每句台词背后都有一个可以用<strong style="color:var(--accent2);">动名词</strong>命名的行动。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "人类 90% 的真实意思不在台词里，在<strong style="color:var(--accent3);">没说出口的话</strong>里。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "对白问题几乎总是伪装的故事问题。从<strong style="color:var(--accent4);">内到外</strong>修复——先修故事，对白自然变好。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);margin-bottom:12px;">
+          "通俗剧不是过度表达，而是<strong style="color:var(--accent2);">动机不足</strong>。行为超出了实际利害关系。"
+        </div>
+        <div style="padding-left:16px;border-left:2px solid var(--border);">
+          "约束、纪律、限制会激发惊人的创作成就；无限制的自由反而导致<strong style="color:var(--accent);">懒散</strong>。"
+        </div>
+      </div>
+    </div>
+
+    <!-- Book structure -->
+    <div class="section-title" style="margin-top:48px;">
+      <span class="icon" style="background:rgba(155,114,240,0.12);color:var(--accent4)">📖</span>
+      全书结构速览
+    </div>
+    <div style="overflow-x:auto;margin-top:16px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+        <thead>
+          <tr style="background:rgba(155,114,240,0.08);">
+            <th style="padding:10px 14px;text-align:left;color:var(--accent4);border-bottom:1px solid var(--border);">部分</th>
+            <th style="padding:10px 14px;text-align:left;color:var(--accent4);border-bottom:1px solid var(--border);">章节</th>
+            <th style="padding:10px 14px;text-align:left;color:var(--accent4);border-bottom:1px solid var(--border);">核心内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(34,38,64,0.4);">
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART I<br>对白的艺术</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.1–5</td>
+            <td style="padding:10px 14px;color:var(--dim);">对白的完全定义、三个功能、表达（内容/形式/技巧）</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(34,38,64,0.4);">
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART II<br>瑕疵与修补</td>
+            <td style="padding:10px 14px;color:var(--text);">导论 + Ch.6–9</td>
+            <td style="padding:10px 14px;color:var(--dim);">六项对白任务；可信性/语言/内容/设计四大瑕疵类型与修复</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(34,38,64,0.4);">
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART III<br>创造对白</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.10–11</td>
+            <td style="padding:10px 14px;color:var(--dim);">角色专属对白（声音/个人语风）；四个跨媒介案例研究</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:var(--accent);font-weight:700;">PART IV<br>对白设计</td>
+            <td style="padding:10px 14px;color:var(--text);">Ch.12–19</td>
+            <td style="padding:10px 14px;color:var(--dim);">故事/场景/对白关系；六种冲突类型的逐场拆解（附完整案例）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Detail Overlay -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <button class="detail-close" onclick="closeDetail(event)">✕</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════ Data ═══════════
+const techniques = [
+  {
+    id: 'verbal-action',
+    num: '01',
+    cat: 'action',
+    title: '言语行动',
+    en: 'Verbal Action / Gerund Labeling',
+    tag: '行动分析',
+    summary: '每一句台词背后都有一个可以用动名词（-ing）命名的行动：乞求、诱惑、指责、嘲笑、安抚、威胁……',
+    detail: {
+      definition: '每一句台词背后都有一个可以用动名词（-ing动词）命名的行动。如果你无法为一句台词下面的行动命名动名词，这句台词很可能是空洞的。',
+      method: '诊断方法：为场景中每句台词标注其背后的行动（用动名词）。如："求你别走"（begging）、"你以为你是谁"（challenging）。',
+      purpose: '这个标注法让编剧看清：对白不是在"交谈"，而是在"交战"。每句话都是一个战术动作。',
+      example: '《黑道家族》Tony向Dr. Melfi求欢——13个节拍从"施展魅力"螺旋至"用语言杀死她"，每个节拍都有明确的动名词标注。'
+    }
+  },
+  {
+    id: 'beat-dialogue',
+    num: '02',
+    cat: 'action',
+    title: '节拍（对白版）',
+    en: 'Beat (Dialogue)',
+    tag: '行动分析',
+    summary: '节拍 = 一个行动 + 一个反应。节拍只在角色切换策略时才改变。重复节拍是最致命的瑕疵。',
+    detail: {
+      definition: '节拍 = 一个行动 + 一个反应，用动名词标注（如 侮辱/反击）。节拍必须层层递进，冲向转折点。',
+      rule: '节拍只在角色"切换策略"时才改变。如果角色持续用同样的策略（如持续乞求），那就是同一个节拍。',
+      fatal: '重复节拍（Repetitious beats）：同样的正负极性（如乞求/拒绝）用不同的话反复出现——这是场景最致命的瑕疵。',
+      progression: '节拍递进向转折点，在转折点价值翻转（正→负 或 负→正）。没有转折点的场景是"平"的。'
+    }
+  },
+  {
+    id: 'value-charge',
+    num: '03',
+    cat: 'action',
+    title: '价值极性追踪',
+    en: 'Value-Charge Tracking',
+    tag: '行动分析',
+    summary: '每个节拍可标注为正（+）或负（−）。节拍递进向转折点，在转折点价值翻转。',
+    detail: {
+      definition: '每个节拍可标注为正（+）或负（−），代表场景中价值的极性状态。节拍递进向转折点，在转折点价值翻转。',
+      method: '在剧本边缘标注每个节拍的正负极性，连起来就是一条"价值摆动曲线"。如果曲线是平的，场景无效。',
+      example: '场景开始：信任（+）→ 某句话：怀疑（−）→ 反击：愤怒（−））→ 揭露：震惊（−）→ 和解：理解（+）。',
+      note: '价值极性追踪是麦基从《故事》延伸到对白分析的核心工具。它让抽象的"节奏"变得可见可测。'
+    }
+  },
+  {
+    id: 'trialogue',
+    num: '04',
+    cat: 'subtext',
+    title: '三重对话法',
+    en: 'The Trialogue',
+    tag: '潜文本技巧',
+    summary: '两个冲突角色通过"第三样东西"（外部事物或话题）来传达潜文本冲突。避免"写在鼻子上"。',
+    detail: {
+      definition: '两个处于冲突中的角色将斗争通过"第三样东西"（外部事物或话题）来传达，这个"第三样东西"承载了潜文本。',
+      mechanism: '角色A和B不直接说自己真正的冲突，而是通过谈论X来表达对彼此的感受。X成为了潜文本的载体。',
+      examples: '《杯酒人生》：Miles和Maya通过对黑皮诺的品评来相互诱惑；《真探》：两个警察通过争论帐篷复兴会来展现对立世界观。',
+      warning: '过度使用会变成可见的矫饰手法；最好的"第三样东西"应该是"被发现的，而非被设计的"。',
+     Discovery: '优秀的三重对话法来自对人物关系的深刻理解——第三样东西自然浮现，而非刻意安排。'
+    }
+  },
+  {
+    id: 'exposition-ammunition',
+    num: '05',
+    cat: 'subtext',
+    title: '交代性信息作为弹药',
+    en: 'Exposition as Ammunition',
+    tag: '潜文本技巧',
+    summary: '把背景信息在冲突时刻作为武器射出，而非作为讲座倾倒。事实在观众追逐冲突时不知不觉地传递。',
+    detail: {
+      definition: '大量倾倒背景信息会杀死节奏。将交代性信息转化为武器：角色在冲突时刻使用自己所知的信息作为武器。',
+      principle: '事实在观众追逐冲突时不知不觉地传递。两个引擎承载信息不被察觉：叙事驱动力（好奇心）和共情（情感投入）。',
+      classic: '《星球大战》中黑武士的"我是你父亲"是在光剑决斗中作为武器射出的，而非由一个机器人低声耳语。',
+      method: '检查你的对白：如果有大段"告知"信息，问：这个信息能否在冲突最激烈时被当作武器使用？'
+    }
+  },
+  {
+    id: 'silence-power',
+    num: '06',
+    cat: 'subtext',
+    title: '沉默的力量',
+    en: 'The Power of Silence',
+    tag: '潜文本技巧',
+    summary: '沉默是终极的经济。没说出口的话比说出口的更有力。停顿 = 潜文本在爆发。',
+    detail: {
+      definition: '沉默是终极的经济——过度使用的停顿会失去所有力量（"狼来了"效应）。当台词淹没场景时，改为为眼睛写作。',
+      principle: '停顿 = 潜文本在爆发。没说出口的话比说出口的更有力。',
+      example: '伯格曼《沉默》中，侍者通过掉落餐巾、跪下、闻她来诱惑一个女人——无需对白。',
+      condition: '极简主义需要极其充分的前期铺垫；稀疏的台词只有当观众已经感知到翻涌的潜文本时才会产生共鸣。',
+      note: '麦基对沉默的态度：不是"越多越好"，而是"只在挣来时使用"。'
+    }
+  },
+  {
+    id: 'line-design',
+    num: '07',
+    cat: 'design',
+    title: '行设计',
+    en: 'Line Design',
+    tag: '句式技巧',
+    summary: '每句台词的核心关键词位置决定形态。掉尾句（词在句末）制造悬念；累积句（词在句首）立即传达意义。',
+    detail: {
+      definition: '每句台词都有一个"核心关键词"（core/keyword），其在句中的位置决定句子的形态和效果。',
+      periodic: '掉尾句/悬疑句（Periodic）：核心词置于句末 → 从第一个词到最后一个词都抓住注意力。几乎所有口头笑话都用此式放置笑点词。',
+      cumulative: '累积句（Cumulative）：核心词置于句首 → 立即传达意义，更多用于勾勒细节。',
+      balanced: '平衡句（Balanced）：核心词埋在句中 → 风险：可能导致演员相互打断或尴尬等待。应尽量避免。',
+      performance: '表演层面：一段台词的最后一个词是触发对方演员反应的信号——错放核心词会导致重叠或尴尬的等待。',
+      warning: '持续使用掉尾句听起来会显得做作；变化才是纠正方法。'
+    }
+  },
+  {
+    id: 'voice-idiolect',
+    num: '08',
+    cat: 'voice',
+    title: '声音 / 个人语风',
+    en: 'Voice / Idiolect',
+    tag: '角色塑造',
+    summary: '声音是结果，不是选择。词汇揭示知识和智力；修饰语揭示性格和情感。每个人有独特的语言指纹。',
+    detail: {
+      principle: '声音是结果，不是选择——它从对角色的深入了解中自然涌现。刻意"设计"声音会显得做作。',
+      vocabulary: '词汇（名词/动词）揭示知识和智力；修饰语（形容词、副词、情态动词）揭示性格和情感。',
+      specificity: '具体性暴露心智："一个大钉子"= 业余；"道钉"或"沉钉"= 手艺人。情感缩短词语和句子；理性延长它们。',
+      idiolect: '个人语风（Idiolect）：每个人独特的语言指纹。优秀的角色专属对白让观众闭着眼睛也能分辨谁在说话。',
+      warning: '口头习惯语不是声音；方言/特殊词汇可能滑向漫画化。跨阶级、种族、性别的写作需要深度研究。'
+    }
+  },
+  {
+    id: 'modal-verbs',
+    num: '09',
+    cat: 'voice',
+    title: '情态动词的运用',
+    en: 'Modal Verbs',
+    tag: '角色塑造',
+    summary: '情态动词（可能、或许、必须、应该）传达角色对自我、世界、社会地位的感知。是对白写作的微观技巧。',
+    detail: {
+      definition: '情态动词（可能、或许、必须、应该、会）传达角色对以下方面的感知：①自我和所处世界 ②社会地位和人际互动 ③过去、现在、未来 ④对可能、允许、必要之事的态度。',
+      function: '一个角色如何使用情态动词，暴露了他的自信程度、社会地位感、对被压迫的敏感度。',
+      example: '一个缺乏自信的角色倾向于过度使用"也许"、"可能"；一个有特权的角色倾向于使用"应该"、"必须"。',
+      application: '检查你的角色对白：他们使用的情态动词是否与其社会地位、性格、当前情境相匹配？'
+    }
+  },
+  {
+    id: 'comedy-theory',
+    num: '10',
+    cat: 'conflict',
+    title: '喜剧冲突理论',
+    en: 'Comic Conflict & Humor',
+    tag: '冲突类型',
+    summary: '喜剧人物被一个"看不见的痴迷"所支配，他自己看不到这种疯狂。共情杀死笑声。',
+    detail: {
+      theory: '本·琼森（Ben Jonson）的概念：喜剧人物被一个"看不见的痴迷"（blind obsession）所支配，他自己看不到这种疯狂。',
+      difference: '戏剧人物能退后一步想"这可能害死我"；喜剧人物不能。共情杀死笑声——观众必须和喜剧人物保持距离。',
+      technique: '距离技巧：清晰、夸张、时机（笑点在能量峰值时落下）、不协调。',
+      exception: '最伟大的喜剧创作（福斯塔夫、Fleabag）带有真正的悲悯，模糊了界线——悲喜剧通过违反规则而繁荣。',
+      note: '麦基强调：喜剧比对白更难写，因为它要求编剧在"共情"和"距离"之间找到精确的平衡点。'
+    }
+  },
+  {
+    id: 'magic-if',
+    num: '11',
+    cat: 'design',
+    title: '斯坦尼斯拉夫斯基的"假使"',
+    en: 'The Magic If',
+    tag: '创作方法',
+    summary: '不要问"我的角色会怎么做？"或"我会怎么做？"。问："如果我是我的角色，在这种情况下，我会做什么和说什么？"',
+    detail: {
+      method: '不要问"我的角色会怎么做？"（把你留在角色之外）或"我会怎么做？"（你不是角色）。问："如果我是我的角色，在这种情况下，我会做什么和说什么？"然后信任诚实的回答。',
+      embodiment: '狄更斯会从桌前跳起，在镜子前扭曲面孔，喃喃自语，然后冲回去疯狂写作——具身认知。',
+      history: '几乎所有伟大的剧作家最初都是演员；写对白就是重演争论的本能（重写你本该说的话），被形式化了。',
+      warning: '纯内省有自我投射的风险——"假使"需要研究和观察作为制衡，不能只用编剧自己的性格替代所有角色。'
+    }
+  },
+  {
+    id: 'on-the-nose',
+    num: '12',
+    cat: 'flaw',
+    title: '写在鼻子上',
+    en: 'On-the-Nose Writing',
+    tag: '瑕疵诊断',
+    summary: '麦基最常诊断的瑕疵：角色将自己全部的想法和最深感受直接、全盘说出。消除潜文本，让角色扁平化。',
+    detail: {
+      definition: '角色将自己全部的想法和最深感受直接、全盘说出。消除潜文本，让角色扁平化，场景琐碎化。',
+      effect: '当人物完全说出所想所感时，读起来像非人或疯子。"烛光测试"：两个恋人在烛光晚餐上说"我爱你"且完全真心——这是不可表演的。',
+      fix: '三重对话法（见技术要点 04）。让人物说话时观察听者反应，根据反应调整策略——这是真实对话的特征。',
+      test: '如果你的角色在对话中直接说出"我很生气因为…"，这就是写在鼻子上。改成：用行动攻击对方，但嘴上说的是别的事。'
+    }
+  },
+  {
+    id: 'repetitious-beats',
+    num: '13',
+    cat: 'flaw',
+    title: '重复节拍',
+    en: 'Repetitious Beats',
+    tag: '瑕疵诊断',
+    summary: '同样的正负极性（如乞求/拒绝）用不同的话反复出现。场景最致命的瑕疵之一。',
+    detail: {
+      definition: '同样的正负极性（如乞求/拒绝）用不同的话反复出现——场景在"原地打转"，没有进展。',
+      identification: '用价值极性追踪法（技术要点 03）标注每个节拍的正负——如果曲线是平的或重复的，就是重复节拍。',
+      fix: '确保每个节拍都切换策略。角色必须"升级"或"改变战术"，而不是用更多话重复同样的事。',
+      example: 'A乞求 → B拒绝 → A再乞求（用不同话说同一件事）→ B再拒绝。这是重复节拍。修复：A从乞求转为威胁，或转为沉默，或转为离开。'
+    }
+  },
+  {
+    id: 'conflict-levels',
+    num: '14',
+    cat: 'conflict',
+    title: '冲突层次与对白量',
+    en: 'Conflict Levels & Dialogue Quantity',
+    tag: '冲突类型',
+    summary: '外在/社会冲突越多 → 对白越少；个人/私密冲突越多 → 对白越多。这是跨媒介的普遍规律。',
+    detail: {
+      levels: '冲突的四个层次：①外在冲突（时间、空间及其中所有）②社会冲突（建制及其中个人）③个人冲突（朋友、家庭、情人）④私密冲突（意识与潜意识）。',
+      law: '外在/社会冲突越多 → 对白越少（动作代替语言）；个人/私密冲突越多 → 对白越多（语言是主要战场）。',
+      application: '如果你写的是动作片，对白应该极简。如果你写的是亲密关系剧，对白应该密集且充满潜文本。',
+      note: '这一规律帮助编剧判断"这场戏的对白量是否合理"。'
+    }
+  },
+  {
+    id: 'six-dialogue-tasks',
+    num: '15',
+    cat: 'core',
+    title: '六项对白任务',
+    en: 'Six Dialogue Tasks',
+    tag: '核心理论',
+    summary: '有效对白能同时执行六项任务：行动、场景推进、信息传达、角色塑造、捕捉注意力、保持真实。',
+    detail: {
+      tasks: [
+        '每个口语表达执行一个内在行动',
+        '每个行动/反应节拍均加强场景，建构至或围绕转折点',
+        '陈述和暗示传达信息和观点',
+        '独特的口语风格个性化每个角色',
+        '进展节拍捕捉注意力，带进叙事驱动的浪潮',
+        '语言保持真实，维持虚构真实的可信度'
+      ],
+      note: '一项对白同时执行多项任务才是"好对白"。如果一句台词只执行一项任务（比如只传达信息），那就是乏味的。',
+      ideal: '最优秀的对白在一个场景中同时推进：行动、关系、信息、角色塑造——四件事情一起发生。'
+    }
+  },
+  {
+    id: 'desire-five',
+    num: '16',
+    cat: 'core',
+    title: '欲望的五个维度',
+    en: 'Five Dimensions of Desire',
+    tag: '核心理论',
+    summary: '欲望对象、超意图、动机、场景意图、背景欲望。理解这五个维度，才能写出有动机的对白。',
+    detail: {
+      dimensions: [
+        '欲望对象（Object of Desire）：角色想要什么',
+        '超意图（Super-intention）：主角最深的诉求',
+        '动机（Motivation）：为什么这么做',
+        '场景意图（Scene Intention）：他当前想要的',
+        '背景欲望（Background Desires）：强化角色生命现状，形成约束的网'
+      ],
+      application: '写对白时，问自己：这个角色在当前场景中的"场景意图"是什么？超意图又是什么？这两个意图之间的张力就是潜文本的来源。',
+      note: '这五个维度是麦基将《故事》中的人物欲望理论在对白层面的具体展开。'
+    }
+  },
+  {
+    id: 'cross-media',
+    num: '17',
+    cat: 'design',
+    title: '跨媒介对白差异',
+    en: 'Cross-Media Dialogue Differences',
+    tag: '创作方法',
+    summary: '电影对白极简、动作化；小说对白可搭配心理描写；舞台对白奖励高度化语言；电视剧对白更长更生活化。',
+    detail: {
+      film: '电影对白：极简、动作化、视觉优先、潜文本密集。"摄影机拍不了思维"——小说的叙述体内在对白不能直接搬到银幕。',
+      tv: '电视剧对白：更长、更生活化、更注重关系拉扯。有线电视剧（如《黑道家族》《真探》）允许比电影更复杂、更长的对白。',
+      novel: '小说对白：可搭配心理描写、内心对白更自由；容许"告知"（telling）。有时速度胜过含蓄。',
+      stage: '舞台对白：奖励高度化的语言，而摄像机暴露其为虚假。舞台的"假定性"允许电影中无法接受的对白风格。',
+      note: '麦基的《对白》是少数真正严肃对待"跨媒介对白差异"的编剧书籍之一。'
+    }
+  },
+  {
+    id: 'punchline-placement',
+    num: '18',
+    cat: 'design',
+    title: '笑点放置原则',
+    en: 'Punchline Placement',
+    tag: '句式技巧',
+    summary: '几乎所有口头笑话都使用掉尾句（关键词在句末）来放置笑点词。这是对白写作中最实用的喜剧技巧之一。',
+    detail: {
+      principle: '几乎所有口头笑话都用掉尾句（Periodic Sentence）放置笑点词——关键词在句末，让悬念维持到最后一刻。',
+      application: '写幽默对白时，把"笑点"放在句子末尾。如果你把笑点放在句子中间，观众会在错误的地方笑（或根本不笑）。',
+      example: '"你知道的太多了。"（笑点在"太多"之后结束）。如果改成"太多——你知道的。"，笑点就丢了。',
+      note: '这条原则不仅适用于笑话，也适用于任何需要"冲击力"的台词——把最有力的词放在最后。'
+    }
+  },
+  {
+    id: '的三个方法',
+    num: '19',
+    cat: 'design',
+    title: '掌握对白技艺的三个方法',
+    en: 'Three Methods to Master the Craft',
+    tag: '创作方法',
+    summary: '①聆听：倾听生活中有趣的表达；②在角色内写作：代入角色，必要时可以演出来；③关键问题清单。',
+    detail: {
+      methods: [
+        '聆听：倾听生活，记录有趣的表达方式和意有所指的字句。多读优秀小说、剧本，记录对白。',
+        '在角色内写作：把自己变成演员，代入角色，必要时可以演出来。用斯坦尼斯拉夫斯基的"假使"。',
+        '关键问题清单：当对白遇到困难时，围绕背景欲望、欲望对象、超意图、场景意图、动机等问题自问。'
+      ],
+      note: '麦基强调：对白写作不是"智力练习"，而是"感官和同理心练习"。你必须能"听到"角色的声音，才能写好对白。'
+    }
+  },
+  {
+    id: 'show-vs-dialogue',
+    num: '20',
+    cat: 'core',
+    title: '为眼睛写作 vs 为耳朵写作',
+    en: 'Writing for the Eye vs the Ear',
+    tag: '核心理论',
+    summary: '当台词淹没场景时，改为为眼睛写作。视觉叙事和对白叙事是两种不同模式，优秀编剧知道何时切换。',
+    detail: {
+      principle: '当台词淹没场景时，改为为眼睛写作。视觉叙事和对白叙事是两种不同模式。',
+      eye: '为眼睛写作：用动作、表情、视觉细节传达信息。伯格曼《沉默》是极致范例——整场戏几乎没有对白。',
+      ear: '为耳朵写作：对白密集的场景需要观众专注于"听"。这时视觉应该简化，避免分散注意力。',
+      balance: '优秀编剧知道何时切换模式：动作场面→极简对白；情感高潮→密集对白+简视觉。',
+      note: '这一原则是麦基对"Show, Don\'t Tell"的深化——不仅要展示，还要知道何时展示、何时诉说。'
+    }
+  }
+];
+
+const conflictTypes = [
+  {
+    type: '均衡冲突',
+    en: 'Balanced Conflict',
+    case: '《黑道家族》The Sopranos',
+    desc: '双方力量相当，节拍螺旋递进。Tony向Dr. Melfi求欢——13个节拍从"施展魅力"螺旋至"用语言杀死她"。',
+    color: '#f97066'
+  },
+  {
+    type: '喜剧冲突',
+    en: 'Comic Conflict',
+    case: '《欢乐一家亲》Frasier',
+    desc: '喜剧人物对自身痴迷的盲目。本·琼森理论：喜剧人物被一个"看不见的痴迷"所支配，无法自省。',
+    color: '#f5a623'
+  },
+  {
+    type: '不对称冲突',
+    en: 'Asymmetric Conflict',
+    case: '《日光下的葡萄干》A Raisin in the Sun',
+    desc: '权力不对等，弱势方用言语反击。对白成为弱者唯一的武器，语言的力量在压迫中显现。',
+    color: '#56cfdf'
+  },
+  {
+    type: '非直接冲突',
+    en: 'Indirect Conflict',
+    case: '《了不起的盖茨比》The Great Gatsby',
+    desc: '通过第三者/话题承载潜文本。角色不直接说自己真正的冲突，而是通过"第三样东西"来表达。',
+    color: '#9b72f0'
+  },
+  {
+    type: '自反性冲突',
+    en: 'Reflexive Conflict',
+    case: '《埃尔泽小姐》Fräulein Else',
+    desc: '角色与自己内心交战。最极端的冲突类型——对白的对象是"自己"，独白即对话。',
+    color: '#60d394'
+  },
+  {
+    type: '微限冲突',
+    en: 'Minimal Conflict',
+    case: '《迷失东京》Lost in Translation',
+    desc: '极简对白，潜文本密集。几乎全用单音节词倾诉破碎的婚姻、空洞的事业和存在性漂泊。',
+    color: '#f0a0c0'
+  }
+];
+
+const checklistItems = [
+  { q: '每句台词背后是否能用一个动名词（-ing）命名其行动？', ref: 'verbal-action' },
+  { q: '对白是否存在"写在鼻子上"的问题？（角色是否直接说出所有想法？）', ref: 'on-the-nose' },
+  { q: '场景中的节拍是否有重复？（同样的正负极性是否反复出现？）', ref: 'repetitious-beats' },
+  { q: '每个场景是否都有潜文本？（说出的 vs 没说出的之间是否有张力？）', ref: 'trialogue' },
+  { q: '交代性信息是否作为"弹药"在冲突中使用，而非作为讲座倾倒？', ref: 'exposition-ammunition' },
+  { q: '核心关键词是否放在句末（掉尾句）以制造悬念？（或是否有意识地选择句式？）', ref: 'line-design' },
+  { q: '每个角色的对白是否听起来像"不同的人"在说话？（个人语风是否清晰？）', ref: 'voice-idiolect' },
+  { q: '沉默是否被"挣来"？还是过度使用导致失去力量？', ref: 'silence-power' },
+  { q: '对白问题是否其实是故事问题？（欲望、冲突、动机是否先确立了？）', ref: 'dialogue-problem' },
+  { q: '冲突类型是否匹配媒介？（电影是否对白过多？舞台是否对白过少？）', ref: 'cross-media' },
+  { q: '喜剧场景中，观众与角色是否保持了足够距离？（共情是否杀死了笑声？）', ref: 'comedy-theory' },
+  { q: '能否用"假使"方法，代入角色，听到ta真正会说的话？', ref: 'magic-if' },
+];
+
+// ═══════════ Render ═══════════
+function renderTechniqueCards() {
+  const grid = document.getElementById('technique-cards');
+  if (!grid) return;
+  grid.innerHTML = '';
+  techniques.forEach(t => {
+    const card = document.createElement('div');
+    card.className = `card cat-${t.cat}`;
+    card.onclick = () => showDetailData(t);
+    card.innerHTML = `
+      <div class="card-num">NO. ${t.num}</div>
+      <div class="card-title">${t.title}</div>
+      <div class="card-en">${t.en}</div>
+      <div class="card-body">${t.summary}</div>
+      <span class="card-tag">${t.tag}</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderConflictGrid() {
+  const grid = document.getElementById('conflict-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  conflictTypes.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'conflict-card';
+    card.style.borderColor = c.color + '40';
+    card.onclick = () => showConflictDetail(c);
+    card.innerHTML = `
+      <div class="conflict-type" style="color:${c.color}">${c.en.toUpperCase()}</div>
+      <div class="conflict-name">${c.type}</div>
+      <div class="conflict-case">📺 ${c.case}</div>
+      <div class="conflict-desc">${c.desc}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderChecklist() {
+  const container = document.getElementById('checklist-container');
+  if (!container) return;
+  container.innerHTML = '';
+  checklistItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);font-size:0.88rem;cursor:pointer;transition:background 0.2s;';
+    div.onmouseenter = function() { this.style.background = 'rgba(255,255,255,0.02)'; };
+    div.onmouseleave = function() { this.style.background = 'transparent'; };
+    if (item.ref) {
+      div.onclick = () => { switchTab('technique', null); setTimeout(() => showDetailById(item.ref), 300); };
+    }
+    div.innerHTML = `<span style="color:var(--accent5);font-weight:700;min-width:24px;">${i+1}</span><span>${item.q}</span>`;
+    container.appendChild(div);
+  });
+}
+
+// ═══════════ Detail ═══════════
+function showDetailData(t) {
+  const overlay = document.getElementById('detail-overlay');
+  const content = document.getElementById('detail-content');
+  let html = `<h2>${t.title}</h2><div class="en-title">${t.en} · NO.${t.num}</div>`;
+
+  const d = t.detail;
+  const fields = [
+    ['definition', '定义'],
+    ['method', '方法'],
+    ['principle', '原则'],
+    ['mechanism', '机制'],
+    ['theory', '理论'],
+    ['function', '功能'],
+    ['effect', '效果'],
+    ['example', '示例'],
+    ['examples', '示例'],
+    ['application', '应用'],
+    ['fix', '修复方法'],
+    ['identification', '识别方法'],
+    ['law', '规律'],
+    ['note', '说明'],
+    ['warning', '警告'],
+    ['purpose', '目的'],
+    ['difference', '区别'],
+    ['technique', '技巧'],
+    ['exception', '例外'],
+    ['condition', '条件'],
+    ['Discovery', '发现方法'],
+    ['levels', '冲突层次'],
+    ['tasks', '六项任务'],
+    ['dimensions', '五个维度'],
+    ['methods', '三个方法'],
+    ['system', '体系']
+  ];
+
+  fields.forEach(([key, label]) => {
+    if (!d[key]) return;
+    if (Array.isArray(d[key])) {
+      html += `<div class="detail-section"><h3>${label}</h3><ul>${d[key].map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+    } else {
+      html += `<div class="detail-section"><h3>${label}</h3><p>${d[key]}</p></div>`;
+    }
+  });
+
+  content.innerHTML = html;
+  overlay.classList.add('show');
+}
+
+function showDetailById(id) {
+  const t = techniques.find(x => x.id === id);
+  if (t) showDetailData(t);
+}
+
+function showConflictDetail(c) {
+  const overlay = document.getElementById('detail-overlay');
+  const content = document.getElementById('detail-content');
+  content.innerHTML = `
+    <h2>${c.type}</h2>
+    <div class="en-title">${c.en} · ${c.case}</div>
+    <div class="detail-section">
+      <h3>核心特征</h3>
+      <p>${c.desc}</p>
+    </div>
+    <div class="detail-section">
+      <h3>案例作品</h3>
+      <p>${c.case}</p>
+    </div>
+    <div class="detail-section">
+      <h3>麦基的分析重点</h3>
+      <p>在《对白》第四部分，麦基对这六种冲突类型进行了逐场拆解（scene-by-scene breakdown），展示每种类型中节拍如何递进、潜文本如何流动、对白如何服务于冲突。</p>
+    </div>
+  `;
+  overlay.classList.add('show');
+}
+
+function closeDetail(e) {
+  if (e.target === document.getElementById('detail-overlay') || e.target.classList.contains('detail-close')) {
+    document.getElementById('detail-overlay').classList.remove('show');
+  }
+}
+
+// ═══════════ Tabs ═══════════
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else {
+    document.querySelectorAll('.tab').forEach(t => {
+      if (t.textContent.includes(tab === 'core' ? '核心理论' : tab === 'technique' ? '技术要点' : tab === 'conflict' ? '六种冲突' : tab === 'flaws' ? '瑕疵诊断' : '创作清单')) t.classList.add('active');
+    });
+  }
+  const target = document.getElementById('tab-' + tab);
+  if (target) target.classList.add('active');
+}
+
+// Init
+renderTechniqueCards();
+renderConflictGrid();
+renderChecklist();
+
+// Responsive: on-the-nose grid
+const checkGrid = document.querySelector('.on-the-nose-grid');
+if (checkGrid && window.innerWidth < 680) {
+  checkGrid.style.gridTemplateColumns = '1fr';
+}
+</script>
+</body>
+</html>

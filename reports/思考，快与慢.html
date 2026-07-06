@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>读书笔记 · 思考，快与慢 | 丹尼尔·卡尼曼</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --paper:#f4ece0;
+  --paper-2:#ede2cf;
+  --paper-light:#fbf6ed;
+  --paper-card:#faf4ea;
+  --ink:#2a1f15;
+  --ink-2:#4a3a2a;
+  --ink-3:#7a6a5a;
+  --ink-4:#aa9a8a;
+  --accent:#9c2a2a;
+  --accent-2:#b8333e;
+  --gold:#b8860b;
+  --gold-2:#d4a843;
+  --teal:#2a6a6a;
+  --blue:#2a4a7a;
+  --border:#d8c8ac;
+  --border-2:#e8dcc4;
+  --shadow-sm:0 1px 8px rgba(60,40,20,.06);
+  --shadow-md:0 4px 24px rgba(60,40,20,.1);
+  --shadow-lg:0 8px 40px rgba(60,40,20,.15);
+  --serif:'Noto Serif SC','Songti SC',Georgia,serif;
+  --display:'Playfair Display','Noto Serif SC',Georgia,serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:var(--serif);
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar{
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  z-index:200;width:0;transition:width .1s;
+}
+
+/* ===== Bookmark ===== */
+.bookmark{
+  position:fixed;top:0;right:max(8%,28px);
+  width:30px;height:88px;
+  background:linear-gradient(180deg,var(--accent-2) 0%,var(--accent) 100%);
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);
+  z-index:100;
+  box-shadow:2px 2px 12px rgba(0,0,0,.2);
+}
+.bookmark::before{
+  content:'';position:absolute;
+  top:8px;left:50%;transform:translateX(-50%);
+  width:14px;height:1px;
+  background:rgba(255,255,255,.25);
+}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;width:100%;
+  height:75vh;min-height:460px;max-height:720px;
+  overflow:hidden;
+}
+#bookshelf{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  display:block;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(26,15,8,.25) 0%,
+    rgba(26,15,8,.05) 25%,
+    rgba(26,15,8,.3) 55%,
+    rgba(20,12,6,.9) 100%);
+}
+.hero-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:48px 24px 52px;z-index:10;
+}
+.hero-inner{max-width:900px;margin:0 auto}
+.hero-eyebrow{
+  font-family:var(--display);
+  font-size:.85rem;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--gold-2);
+  margin-bottom:14px;
+  opacity:0;animation:fadeUp .8s .2s forwards;
+}
+.hero-title{
+  font-family:var(--display);
+  font-size:clamp(2.5rem,8vw,5rem);
+  font-weight:700;color:#f5ede0;
+  line-height:1.1;margin-bottom:10px;
+  letter-spacing:-.01em;
+  text-shadow:0 2px 30px rgba(0,0,0,.5);
+  opacity:0;animation:fadeUp .8s .4s forwards;
+}
+.hero-subtitle{
+  font-family:var(--display);
+  font-size:clamp(1rem,3vw,1.4rem);
+  font-style:italic;
+  color:rgba(245,237,224,.65);
+  margin-bottom:14px;
+  opacity:0;animation:fadeUp .8s .6s forwards;
+}
+.hero-author{
+  font-size:.95rem;
+  color:rgba(245,237,224,.55);
+  letter-spacing:.08em;
+  opacity:0;animation:fadeUp .8s .8s forwards;
+}
+.hero-author::before{
+  content:'';display:inline-block;
+  width:24px;height:1px;
+  background:rgba(245,237,224,.3);
+  vertical-align:middle;margin-right:10px;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ===== Main ===== */
+.content{
+  max-width:860px;margin:0 auto;padding:0 24px;
+}
+
+.section{padding:60px 0;position:relative}
+
+.section-head{margin-bottom:32px}
+
+.section-num{
+  font-family:var(--display);
+  font-size:.8rem;letter-spacing:.3em;
+  color:var(--accent);margin-bottom:6px;
+  text-transform:uppercase;font-weight:600;
+}
+
+.section-title{
+  font-family:var(--display);
+  font-size:clamp(1.6rem,4vw,2.3rem);
+  font-weight:700;color:var(--ink);
+  margin-bottom:10px;line-height:1.3;
+}
+
+.section-divider{
+  width:48px;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  margin-bottom:8px;
+}
+
+.section-desc{
+  font-size:.95rem;color:var(--ink-3);
+  margin-top:12px;line-height:1.7;
+}
+
+/* ===== Book Info ===== */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;margin-top:8px;
+}
+.info-item{
+  background:var(--paper-card);
+  border:1px solid var(--border-2);
+  border-radius:8px;
+  padding:18px 22px;
+  box-shadow:var(--shadow-sm);
+}
+.info-label{
+  font-size:.72rem;letter-spacing:.15em;
+  color:var(--ink-3);text-transform:uppercase;
+  margin-bottom:6px;font-weight:500;
+}
+.info-value{
+  font-size:.98rem;color:var(--ink);line-height:1.6;
+}
+.info-value strong{font-weight:600}
+
+/* ===== Overview ===== */
+.overview{
+  text-align:center;padding:40px 20px 20px;
+}
+.overview-text{
+  font-family:var(--display);
+  font-size:clamp(1.25rem,3.2vw,1.75rem);
+  font-style:italic;line-height:1.65;
+  color:var(--ink-2);max-width:700px;margin:0 auto;
+  position:relative;
+}
+.overview-quote-mark{
+  font-family:var(--display);
+  font-size:4rem;color:var(--border);
+  line-height:.5;margin-bottom:8px;display:block;
+}
+.overview-source{
+  margin-top:20px;font-size:.85rem;
+  color:var(--ink-3);letter-spacing:.05em;
+}
+
+/* ===== System Comparison ===== */
+.systems-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;margin-top:8px;
+}
+.system-card{
+  border-radius:12px;padding:30px 26px;
+  position:relative;overflow:hidden;
+}
+.system-1{
+  background:linear-gradient(135deg,#fdf4e8,#f9e8d4);
+  border:1px solid #e8d0a8;
+}
+.system-2{
+  background:linear-gradient(135deg,#eef2f8,#dde6f0);
+  border:1px solid #c0cee0;
+}
+.system-card::after{
+  content:'';position:absolute;
+  top:-20px;right:-20px;
+  width:80px;height:80px;
+  border-radius:50%;opacity:.06;
+}
+.system-1::after{background:#8a5a1a}
+.system-2::after{background:#2a4a7a}
+
+.system-icon{
+  width:40px;height:40px;margin-bottom:14px;
+}
+.system-1 .system-icon{color:#8a5a1a}
+.system-2 .system-icon{color:#2a4a7a}
+
+.system-name{
+  font-family:var(--display);
+  font-size:1.5rem;font-weight:700;
+  margin-bottom:2px;
+}
+.system-1 .system-name{color:#8a5a1a}
+.system-2 .system-name{color:#2a4a7a}
+
+.system-subtitle{
+  font-size:.85rem;color:var(--ink-3);
+  margin-bottom:18px;letter-spacing:.05em;
+}
+
+.system-attrs{list-style:none}
+.system-attrs li{
+  padding:7px 0;
+  border-bottom:1px solid rgba(0,0,0,.05);
+  font-size:.9rem;color:var(--ink-2);
+  display:flex;align-items:flex-start;gap:8px;
+  line-height:1.6;
+}
+.system-attrs li:last-child{border-bottom:none}
+.system-attrs li::before{
+  content:'—';color:var(--ink-4);flex-shrink:0;
+}
+
+.systems-vs{
+  text-align:center;margin:16px 0;
+  font-family:var(--display);
+  font-size:.85rem;color:var(--ink-3);
+  letter-spacing:.2em;
+}
+
+/* ===== Bias Cards ===== */
+.biases-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;margin-top:8px;
+}
+.bias-card{
+  background:var(--paper-card);
+  border:1px solid var(--border-2);
+  border-radius:10px;padding:24px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .3s,box-shadow .3s;
+}
+.bias-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-md);
+}
+.bias-header{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:10px;
+}
+.bias-icon{
+  width:32px;height:32px;
+  flex-shrink:0;color:var(--accent);
+}
+.bias-name{
+  font-family:var(--display);
+  font-size:1.15rem;font-weight:600;
+  color:var(--ink);
+}
+.bias-name-en{
+  font-size:.78rem;color:var(--ink-3);
+  font-style:italic;margin-bottom:10px;
+}
+.bias-desc{
+  font-size:.9rem;color:var(--ink-2);
+  line-height:1.7;margin-bottom:12px;
+}
+.bias-example{
+  background:rgba(156,42,42,.04);
+  border-left:3px solid var(--accent);
+  padding:10px 14px;border-radius:0 6px 6px 0;
+  font-size:.85rem;color:var(--ink-2);
+  line-height:1.65;
+}
+.bias-example strong{color:var(--accent)}
+
+/* ===== Chapter Flow ===== */
+.chapter-flow{
+  margin-top:8px;position:relative;
+}
+.chapter-flow::before{
+  content:'';position:absolute;
+  left:11px;top:12px;bottom:12px;
+  width:2px;
+  background:linear-gradient(180deg,var(--accent),var(--gold),var(--border));
+}
+.chapter-part{
+  position:relative;
+  padding-left:40px;
+  margin-bottom:24px;
+}
+.chapter-part:last-child{margin-bottom:0}
+.chapter-part::before{
+  content:'';position:absolute;
+  left:4px;top:4px;
+  width:16px;height:16px;
+  border-radius:50%;
+  background:var(--paper);
+  border:3px solid var(--accent);
+  z-index:1;
+}
+.chapter-part-num{
+  font-family:var(--display);
+  font-size:.72rem;letter-spacing:.2em;
+  color:var(--accent);text-transform:uppercase;
+  font-weight:600;
+}
+.chapter-part-title{
+  font-family:var(--display);
+  font-size:1.1rem;font-weight:600;
+  color:var(--ink);margin:3px 0;
+}
+.chapter-part-range{
+  font-size:.78rem;color:var(--ink-3);
+  margin-bottom:6px;
+}
+.chapter-part-desc{
+  font-size:.88rem;color:var(--ink-2);
+  line-height:1.7;
+}
+.chapter-tags{
+  margin-top:6px;display:flex;
+  flex-wrap:wrap;gap:6px;
+}
+.chapter-tag{
+  font-size:.75rem;
+  padding:2px 10px;border-radius:20px;
+  background:var(--paper-2);
+  color:var(--ink-3);
+  border:1px solid var(--border-2);
+}
+
+/* ===== Quotes ===== */
+.quotes-container{margin-top:8px}
+.quote-block{
+  position:relative;
+  padding:30px 32px 30px 44px;
+  margin-bottom:18px;
+  background:var(--paper-card);
+  border-radius:8px;
+  border-left:4px solid var(--accent);
+  box-shadow:var(--shadow-sm);
+}
+.quote-block:last-child{margin-bottom:0}
+.quote-mark{
+  position:absolute;top:14px;left:14px;
+  font-family:var(--display);
+  font-size:2.5rem;color:var(--border);
+  line-height:1;
+}
+.quote-text{
+  font-family:var(--display);
+  font-size:1.1rem;font-style:italic;
+  color:var(--ink);line-height:1.7;
+}
+.quote-text-en{
+  font-size:.82rem;color:var(--ink-3);
+  margin-top:8px;font-style:italic;
+  line-height:1.5;
+}
+.quote-source{
+  margin-top:10px;font-size:.8rem;
+  color:var(--ink-4);letter-spacing:.05em;
+}
+
+/* ===== Actions ===== */
+.action-list{
+  margin-top:8px;counter-reset:action-counter;
+}
+.action-item{
+  display:flex;gap:18px;
+  padding:18px 0;
+  border-bottom:1px solid var(--border-2);
+  counter-increment:action-counter;
+}
+.action-item:last-child{border-bottom:none}
+.action-num{
+  font-family:var(--display);
+  font-size:1.8rem;font-weight:700;
+  color:var(--accent);line-height:1;
+  min-width:44px;text-align:right;
+}
+.action-num::before{
+  content:counter(action-counter,decimal-leading-zero);
+}
+.action-body h4{
+  font-family:var(--display);
+  font-size:1.02rem;font-weight:600;
+  color:var(--ink);margin-bottom:3px;
+}
+.action-body p{
+  font-size:.9rem;color:var(--ink-2);
+  line-height:1.7;
+}
+
+/* ===== Audience ===== */
+.audience-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;margin-top:8px;
+}
+.audience-card{
+  background:var(--paper-card);
+  border:1px solid var(--border-2);
+  border-radius:8px;padding:18px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.audience-icon{
+  width:28px;height:28px;
+  flex-shrink:0;color:var(--accent);
+  margin-top:2px;
+}
+.audience-card h4{
+  font-size:.98rem;font-weight:600;
+  color:var(--ink);margin-bottom:3px;
+}
+.audience-card p{
+  font-size:.85rem;color:var(--ink-2);
+  line-height:1.6;
+}
+
+/* ===== Footer ===== */
+.footer{
+  text-align:center;padding:48px 24px 56px;
+  border-top:1px solid var(--border-2);
+  margin-top:40px;
+}
+.footer-ornament{
+  font-family:var(--display);
+  font-size:1.5rem;color:var(--border);
+  margin-bottom:10px;
+}
+.footer p{
+  font-size:.83rem;color:var(--ink-3);
+  letter-spacing:.05em;line-height:1.7;
+}
+
+/* ===== Fade In ===== */
+.fade-in{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.fade-in.visible{
+  opacity:1;transform:translateY(0);
+}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .hero{
+    height:55vh;min-height:340px;
+  }
+  .hero-content{padding:32px 20px 36px}
+  .info-grid{grid-template-columns:1fr}
+  .systems-grid{grid-template-columns:1fr;gap:12px}
+  .biases-grid{grid-template-columns:1fr}
+  .audience-grid{grid-template-columns:1fr}
+  .bookmark{width:22px;height:64px;right:16px}
+  .section{padding:44px 0}
+  .quote-block{padding:24px 18px 24px 36px}
+  .quote-text{font-size:1rem}
+  .quote-mark{font-size:2rem;left:10px}
+  .action-item{flex-direction:column;gap:6px}
+  .action-num{text-align:left;font-size:1.4rem}
+  .system-card{padding:24px 20px}
+  .content{padding:0 18px}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:2rem}
+  .hero-subtitle{font-size:.9rem}
+  .bias-card{padding:18px}
+  .section-title{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="bookmark"></div>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <svg id="bookshelf" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Reading Notes</p>
+      <h1 class="hero-title">思考，快与慢</h1>
+      <p class="hero-subtitle">Thinking, Fast and Slow</p>
+      <p class="hero-author">丹尼尔·卡尼曼 · 2011</p>
+    </div>
+  </div>
+</header>
+
+<main class="content">
+
+  <!-- ========== 01 Book Info ========== -->
+  <section class="section fade-in" id="info">
+    <div class="section-head">
+      <p class="section-num">01 — Book Info</p>
+      <h2 class="section-title">书籍信息</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <p class="info-label">作者</p>
+        <p class="info-value"><strong>丹尼尔·卡尼曼</strong>（Daniel Kahneman, 1934–2024）<br>普林斯顿大学心理学教授 · 2002年诺贝尔经济学奖得主</p>
+      </div>
+      <div class="info-item">
+        <p class="info-label">领域</p>
+        <p class="info-value">行为经济学 · 认知心理学 · 决策科学</p>
+      </div>
+      <div class="info-item">
+        <p class="info-label">出版</p>
+        <p class="info-value">2011年 · 全书5部分38章 · 约500页</p>
+      </div>
+      <div class="info-item">
+        <p class="info-label">核心命题</p>
+        <p class="info-value">人类心智拥有两套思维系统——直觉的快系统与理性的慢系统，它们的协作与冲突，决定了我们如何判断、选择与犯错</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 02 Overview ========== -->
+  <section class="section fade-in" id="overview">
+    <div class="section-head">
+      <p class="section-num">02 — Overview</p>
+      <h2 class="section-title">一句话总览</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="overview">
+      <span class="overview-quote-mark">"</span>
+      <p class="overview-text">你以为自己在做理性决策，其实95%的判断在你意识到之前就已完成——系统1开了枪，系统2只是签字盖章。</p>
+      <p class="overview-source">— 读书笔记提炼</p>
+    </div>
+  </section>
+
+  <!-- ========== 03 Dual Systems ========== -->
+  <section class="section fade-in" id="systems">
+    <div class="section-head">
+      <p class="section-num">03 — Core Framework</p>
+      <h2 class="section-title">双系统框架</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">卡尼曼将人类思维拆解为两套协作系统。系统1是自动驾驶仪，系统2是偶尔被唤醒的理性审查官。</p>
+    </div>
+    <div class="systems-grid">
+      <!-- System 1 -->
+      <div class="system-card system-1">
+        <svg class="system-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M26 4L10 26h8l-2 18 16-22h-8l2-18z" fill="rgba(138,90,26,.12)"/>
+        </svg>
+        <h3 class="system-name">系统 1</h3>
+        <p class="system-subtitle">快系统 · 直觉模式</p>
+        <ul class="system-attrs">
+          <li>快速、自动、无需意志力</li>
+          <li>持续运转，无法主动关闭</li>
+          <li>擅长模式识别与直觉判断</li>
+          <li>低耗能，占日常判断95%以上</li>
+          <li>情绪驱动，容易被偏见影响</li>
+          <li>比喻：自动驾驶仪</li>
+        </ul>
+      </div>
+      <!-- System 2 -->
+      <div class="system-card system-2">
+        <svg class="system-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="8"/>
+          <circle cx="24" cy="24" r="3" fill="rgba(42,74,122,.15)"/>
+          <path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M11 37l4-4M33 15l4-4"/>
+        </svg>
+        <h3 class="system-name">系统 2</h3>
+        <p class="system-subtitle">慢系统 · 理性模式</p>
+        <ul class="system-attrs">
+          <li>缓慢、费力、需要集中注意力</li>
+          <li>按需启动，天性"懒惰"</li>
+          <li>擅长逻辑推理与复杂计算</li>
+          <li>高耗能，容易被疲劳和葡萄糖消耗削弱</li>
+          <li>能纠正系统1的错误，但很少主动这样做</li>
+          <li>比喻：手动操控</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 04 Cognitive Biases ========== -->
+  <section class="section fade-in" id="biases">
+    <div class="section-head">
+      <p class="section-num">04 — Cognitive Biases</p>
+      <h2 class="section-title">关键认知偏误</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">系统1的"快捷方式"在大多数情况下有效，但在特定情境下会制造系统性错误。以下八张卡片是最经典的认知陷阱。</p>
+    </div>
+    <div class="biases-grid">
+
+      <!-- 1 Anchoring -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="5" r="3"/>
+            <line x1="12" y1="8" x2="12" y2="21"/>
+            <path d="M5 13c0 4 3 7 7 7s7-3 7-7"/>
+            <line x1="8" y1="13" x2="5" y2="13"/>
+            <line x1="16" y1="13" x2="19" y2="13"/>
+          </svg>
+          <h3 class="bias-name">锚定效应</h3>
+        </div>
+        <p class="bias-name-en">Anchoring Effect</p>
+        <p class="bias-desc">先接触到的数字或信息会像"锚"一样，牢牢锁定后续判断的范围。</p>
+        <div class="bias-example"><strong>例：</strong>商品标价"原价¥999，现价¥299"——即使原价是虚构的，锚定的¥999也让¥299显得划算。</div>
+      </div>
+
+      <!-- 2 Availability -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6M10 22h4"/>
+            <path d="M12 2a7 7 0 0 0-4 12.5c.5.5 1 1.5 1 2.5h6c0-1 .5-2 1-2.5A7 7 0 0 0 12 2z"/>
+          </svg>
+          <h3 class="bias-name">可得性启发</h3>
+        </div>
+        <p class="bias-name-en">Availability Heuristic</p>
+        <p class="bias-desc">越容易从记忆中提取的信息，越容易被高估其重要性和发生概率。</p>
+        <div class="bias-example"><strong>例：</strong>飞机失事新闻铺天盖地后，人们高估空难概率——实际驾车风险是飞行的近百倍。</div>
+      </div>
+
+      <!-- 3 Loss Aversion -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="3" x2="12" y2="21"/>
+            <line x1="6" y1="7" x2="18" y2="7"/>
+            <path d="M6 7l-3 7h6l-3-7z" fill="rgba(156,42,42,.1)"/>
+            <path d="M18 7l-3 7h6l-3-7z"/>
+            <line x1="3" y1="21" x2="21" y2="21"/>
+          </svg>
+          <h3 class="bias-name">损失厌恶</h3>
+        </div>
+        <p class="bias-name-en">Loss Aversion</p>
+        <p class="bias-desc">失去100元的痛苦 ≈ 获得200元的快乐。损失的心理权重是等量收益的两倍。</p>
+        <div class="bias-example"><strong>例：</strong>投资者持有亏损股票不卖——"卖了就真亏了"。其实不卖也是亏，只是记忆自我推迟了痛感。</div>
+      </div>
+
+      <!-- 4 Framing -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <rect x="7" y="7" width="10" height="10" rx="1" fill="rgba(156,42,42,.06)"/>
+          </svg>
+          <h3 class="bias-name">框架效应</h3>
+        </div>
+        <p class="bias-name-en">Framing Effect</p>
+        <p class="bias-desc">同一件事，不同表述方式会引发完全不同的决策。</p>
+        <div class="bias-example"><strong>例：</strong>"手术成功率90%" vs "手术死亡率10%"——理性上完全等价，但前者让人安心接受。</div>
+      </div>
+
+      <!-- 5 Representativeness -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="16" y1="16" x2="21" y2="21"/>
+          </svg>
+          <h3 class="bias-name">代表性启发</h3>
+        </div>
+        <p class="bias-name-en">Representativeness Heuristic</p>
+        <p class="bias-desc">用"像不像"替代"可不可能"，系统性忽略基础概率。</p>
+        <div class="bias-example"><strong>例：</strong>一个安静内向爱读书的人，更可能是图书管理员还是农民？大多数人猜前者——但农民数量远超图书管理员。</div>
+      </div>
+
+      <!-- 6 Halo -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2" x2="12" y2="5"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="5" y2="12"/>
+            <line x1="19" y1="12" x2="22" y2="12"/>
+            <line x1="5" y1="5" x2="7" y2="7"/>
+            <line x1="17" y1="17" x2="19" y2="19"/>
+            <line x1="5" y1="19" x2="7" y2="17"/>
+            <line x1="17" y1="7" x2="19" y2="5"/>
+          </svg>
+          <h3 class="bias-name">光环效应</h3>
+        </div>
+        <p class="bias-name-en">Halo Effect</p>
+        <p class="bias-desc">一个突出特征（外貌、名校、口才）会"光环"般辐射到所有其他评价维度。</p>
+        <div class="bias-example"><strong>例：</strong>面试官对名校毕业生自动高估其能力——先看简历再看人，评分必然被光环污染。</div>
+      </div>
+
+      <!-- 7 Endowment -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 11V6a2 2 0 0 0-4 0v5"/>
+            <path d="M14 10V4a2 2 0 0 0-4 0v6"/>
+            <path d="M10 10.5V6a2 2 0 0 0-4 0v8"/>
+            <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34"/>
+          </svg>
+          <h3 class="bias-name">禀赋效应</h3>
+        </div>
+        <p class="bias-name-en">Endowment Effect</p>
+        <p class="bias-desc">一旦拥有某物，对其估值立即上升——"我的东西更值钱"。</p>
+        <div class="bias-example"><strong>例：</strong>实验中，获得咖啡杯的人要价是未获得者出价的两倍以上。拥有感本身创造了价值幻觉。</div>
+      </div>
+
+      <!-- 8 Overconfidence / WYSIATI -->
+      <div class="bias-card">
+        <div class="bias-header">
+          <svg class="bias-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18h18M3 8l4 4 5-7 5 7 4-4-2 10H5L3 8z" fill="rgba(156,42,42,.08)"/>
+          </svg>
+          <h3 class="bias-name">过度自信 · WYSIATI</h3>
+        </div>
+        <p class="bias-name-en">Overconfidence & What You See Is All There Is</p>
+        <p class="bias-desc">系统1用有限信息编织连贯故事，系统2欣然接受。"所见即所有"——我们不知道自己不知道什么。</p>
+        <div class="bias-example"><strong>例：</strong>90%的司机认为自己驾驶水平高于平均；创业者系统性高估成功率。信心≠正确。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== 05 Chapter Structure ========== -->
+  <section class="section fade-in" id="chapters">
+    <div class="section-head">
+      <p class="section-num">05 — Book Structure</p>
+      <h2 class="section-title">全书章节脉络</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">全书五部分构成一条完整的认知考古路线：从两套系统的引入，到偏误的拆解，再到过度自信的警示、选择的机制，最终回到"两个自我"的存在论叩问。</p>
+    </div>
+    <div class="chapter-flow">
+
+      <div class="chapter-part">
+        <p class="chapter-part-num">Part 1</p>
+        <h3 class="chapter-part-title">两个系统</h3>
+        <p class="chapter-part-range">Two Systems · 第1–9章</p>
+        <p class="chapter-part-desc">引入系统1与系统2的概念框架，揭示系统2的"懒惰"本质——它倾向于接受系统1的第一印象，而非主动审查。</p>
+        <div class="chapter-tags">
+          <span class="chapter-tag">注意力与努力</span>
+          <span class="chapter-tag">认知放松</span>
+          <span class="chapter-tag">控制错觉</span>
+        </div>
+      </div>
+
+      <div class="chapter-part">
+        <p class="chapter-part-num">Part 2</p>
+        <h3 class="chapter-part-title">启发法与偏误</h3>
+        <p class="chapter-part-range">Heuristics and Biases · 第10–18章</p>
+        <p class="chapter-part-desc">系统性地拆解系统1的"快捷方式"如何制造系统性错误：锚定、可得性、代表性、光环效应——以及"所见即所有"的信息处理盲区。</p>
+        <div class="chapter-tags">
+          <span class="chapter-tag">小数定律</span>
+          <span class="chapter-tag">锚定</span>
+          <span class="chapter-tag">可得性</span>
+          <span class="chapter-tag">WYSIATI</span>
+        </div>
+      </div>
+
+      <div class="chapter-part">
+        <p class="chapter-part-num">Part 3</p>
+        <h3 class="chapter-part-title">过度自信</h3>
+        <p class="chapter-part-range">Overconfidence · 第19–24章</p>
+        <p class="chapter-part-desc">人类系统性地高估自己"理解世界"的能力。专家直觉有其边界，叙事的连贯性不等于预测的有效性——规划谬误是过度自信的典型症状。</p>
+        <div class="chapter-tags">
+          <span class="chapter-tag">理解的错觉</span>
+          <span class="chapter-tag">专家直觉边界</span>
+          <span class="chapter-tag">规划谬误</span>
+        </div>
+      </div>
+
+      <div class="chapter-part">
+        <p class="chapter-part-num">Part 4</p>
+        <h3 class="chapter-part-title">选择</h3>
+        <p class="chapter-part-range">Choices · 第25–34章</p>
+        <p class="chapter-part-desc">前景理论的核心：人类不是理性经济人。损失厌恶、禀赋效应、框架效应和心理账户，共同构成了行为经济学对经典决策理论的革命性替代。</p>
+        <div class="chapter-tags">
+          <span class="chapter-tag">前景理论</span>
+          <span class="chapter-tag">损失厌恶</span>
+          <span class="chapter-tag">禀赋效应</span>
+          <span class="chapter-tag">心理账户</span>
+        </div>
+      </div>
+
+      <div class="chapter-part">
+        <p class="chapter-part-num">Part 5</p>
+        <h3 class="chapter-part-title">两个自我</h3>
+        <p class="chapter-part-range">Two Selves · 第35–38章</p>
+        <p class="chapter-part-desc">体验自我与记忆自我的分裂：我们对经历的评价，不是体验的总和，而是峰终定律决定的关键时刻快照。这解释了为什么记忆和体验经常打架。</p>
+        <div class="chapter-tags">
+          <span class="chapter-tag">体验 vs 记忆</span>
+          <span class="chapter-tag">峰终定律</span>
+          <span class="chapter-tag">幸福度量</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== 06 Quotes ========== -->
+  <section class="section fade-in" id="quotes">
+    <div class="section-head">
+      <p class="section-num">06 — Quotes</p>
+      <h2 class="section-title">金句引用</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="quotes-container">
+
+      <div class="quote-block">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">我们不仅对显而易见的事实视而不见，还对自己的盲目一无所知。</p>
+        <p class="quote-text-en">We can be blind to the obvious, and we are also blind to our blindness.</p>
+        <p class="quote-source">— 第一章 · Two Systems</p>
+      </div>
+
+      <div class="quote-block">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">系统1无法被关闭。它是我们心智的自动驾驶仪——你以为你在掌控方向盘，其实它早替你选好了路。</p>
+        <p class="quote-text-en">A characteristic of System 1 is that it cannot be turned off.</p>
+        <p class="quote-source">— 第二章 · Attention and Effort</p>
+      </div>
+
+      <div class="quote-block">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">生活中没有哪件事，像你思考它时显得那么重要。</p>
+        <p class="quote-text-en">Nothing in life is as important as you think it is while you are thinking about it.</p>
+        <p class="quote-source">— 聚焦错觉 · Focusing Illusion</p>
+      </div>
+
+      <div class="quote-block">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">对信念的信心，不取决于证据的多少，而取决于你能在脑中编织出多连贯的故事。</p>
+        <p class="quote-text-en">The confidence that individuals have in their beliefs depends mostly on the quality of the story they can tell about what they see, even if they see little.</p>
+        <p class="quote-source">— 第十九章 · The Illusion of Understanding</p>
+      </div>
+
+      <div class="quote-block">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">损失比收益更"突出"——失去100元的痛苦，大约是获得100元快乐的两倍。</p>
+        <p class="quote-text-en">Losses loom larger than gains.</p>
+        <p class="quote-source">— 第二十六章 · Prospect Theory</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== 07 Action Insights ========== -->
+  <section class="section fade-in" id="actions">
+    <div class="section-head">
+      <p class="section-num">07 — Takeaways</p>
+      <h2 class="section-title">对工作与决策的行动启发</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="action-list">
+
+      <div class="action-item">
+        <div class="action-num"></div>
+        <div class="action-body">
+          <h4>重大决策前，强制冷却24小时</h4>
+          <p>系统1在情绪激动时占据主导。给自己一个"系统2窗口期"，让直觉沉淀为理性——睡一觉再决定，成本极低，收益极大。</p>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="action-num"></div>
+        <div class="action-body">
+          <h4>警惕第一个数字</h4>
+          <p>谈判中谁先报价谁就设定了锚。在被锚定之前，先写下你自己的目标和底线——用你自己的锚抵抗对方的锚。</p>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="action-num"></div>
+        <div class="action-body">
+          <h4>问"基础概率是多少"</h4>
+          <p>别被生动个案带走。任何判断前，先问"这类事情通常发生的概率是多少"——代表性启发让你重个案、轻统计，而统计才是真相。</p>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="action-num"></div>
+        <div class="action-body">
+          <h4>重新表述问题</h4>
+          <p>把"存活率90%"翻译成"死亡率10%"，把"损失5万"翻译成"总资产缩水2%"。如果换一种说法你的选择就变了，说明框架在操控你。</p>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="action-num"></div>
+        <div class="action-body">
+          <h4>用"事前验尸"对抗过度自信</h4>
+          <p>启动重大项目前，假设"这个项目一年后彻底失败了"，让团队列出最可能的失败原因。这比乐观预期更有价值——悲观比乐观更接近真相。</p>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="action-num"></div>
+        <div class="action-body">
+          <h4>区分体验自我与记忆自我</h4>
+          <p>不要因为"回忆起来不太好"就否定一段经历。你的体验自我和记忆自我在打不同的分——有时候，过程本身就是回报，不必只看结尾。</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== 08 Audience ========== -->
+  <section class="section fade-in" id="audience">
+    <div class="section-head">
+      <p class="section-num">08 — Who Should Read</p>
+      <h2 class="section-title">适合谁读</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="audience-grid">
+
+      <div class="audience-card">
+        <svg class="audience-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <div>
+          <h4>决策者与管理者</h4>
+          <p>你每天在做的判断，有一半被系统1的偏见悄悄绑架。理解偏差不是为了消灭直觉，而是知道何时该让系统2出场。</p>
+        </div>
+      </div>
+
+      <div class="audience-card">
+        <svg class="audience-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17l6-6 4 4 8-8"/>
+          <path d="M17 7h4v4"/>
+        </svg>
+        <div>
+          <h4>投资者</h4>
+          <p>市场是人类认知偏差的放大器。损失厌恶、锚定效应、可得性启发——每一个都能解释你在交易中的非理性行为。</p>
+        </div>
+      </div>
+
+      <div class="audience-card">
+        <svg class="audience-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="9" y1="3" x2="9" y2="21"/>
+          <line x1="15" y1="3" x2="15" y2="21"/>
+        </svg>
+        <div>
+          <h4>产品经理与设计师</h4>
+          <p>用户95%的行为由系统1驱动。理解快系统，就是理解用户体验的底层逻辑——别用系统2的理性去设计系统1的界面。</p>
+        </div>
+      </div>
+
+      <div class="audience-card">
+        <svg class="audience-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
+          <path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/>
+          <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
+        </svg>
+        <div>
+          <h4>营销与定价从业者</h4>
+          <p>锚定原价、框架话术、禀赋效应（试用后再付费）——这本书就是你的行为经济学兵法，每一个偏误都是可用的策略。</p>
+        </div>
+      </div>
+
+      <div class="audience-card" style="grid-column:1/-1">
+        <svg class="audience-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+        <div>
+          <h4>想"少犯蠢"的每个人</h4>
+          <p>这不是教你变聪明的书，是教你认清自己有多蠢。而认清这一点，恰恰是变聪明的第一步。读完你不会变得更理性，但你会知道自己什么时候不理性——这就够了。</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== Footer ========== -->
+<footer class="footer">
+  <p class="footer-ornament">— · — · —</p>
+  <p>读书笔记 · 思考，快与慢 · 丹尼尔·卡尼曼</p>
+  <p style="margin-top:6px">Thinking, Fast and Slow · Daniel Kahneman · 2011</p>
+</footer>
+
+<script>
+// ===== Bookshelf SVG Generator =====
+(function(){
+  const svg = document.getElementById('bookshelf');
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // Seeded random for consistent layout
+  let seed = 137;
+  function rand(){
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  }
+
+  function el(tag, attrs){
+    const e = document.createElementNS(ns, tag);
+    for(const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  // --- Defs ---
+  const defs = el('defs');
+
+  // Background radial gradient
+  const bgGrad = el('radialGradient',{id:'bgGrad',cx:'50%',cy:'25%',r:'75%'});
+  bgGrad.appendChild(el('stop',{offset:'0%','stop-color':'#3d2818'}));
+  bgGrad.appendChild(el('stop',{offset:'60%','stop-color':'#241410'}));
+  bgGrad.appendChild(el('stop',{offset:'100%','stop-color':'#150a06'}));
+  defs.appendChild(bgGrad);
+
+  // Warm glow gradient
+  const glowGrad = el('radialGradient',{id:'glowGrad',cx:'50%',cy:'0%',r:'50%'});
+  glowGrad.appendChild(el('stop',{offset:'0%','stop-color':'#d4a843','stop-opacity':'0.12'}));
+  glowGrad.appendChild(el('stop',{offset:'100%','stop-color':'#d4a843','stop-opacity':'0'}));
+  defs.appendChild(glowGrad);
+
+  // Vignette
+  const vigGrad = el('radialGradient',{id:'vigGrad',cx:'50%',cy:'50%',r:'70%'});
+  vigGrad.appendChild(el('stop',{offset:'55%','stop-color':'#000','stop-opacity':'0'}));
+  vigGrad.appendChild(el('stop',{offset:'100%','stop-color':'#000','stop-opacity':'0.55'}));
+  defs.appendChild(vigGrad);
+
+  svg.appendChild(defs);
+
+  // --- Background ---
+  svg.appendChild(el('rect',{width:'1200',height:'675',fill:'url(#bgGrad)'}));
+
+  // --- Warm glow ---
+  svg.appendChild(el('rect',{width:'1200',height:'400',fill:'url(#glowGrad)'}));
+
+  // --- Bookshelf frame ---
+  const frameColor = '#1a0e06';
+  // Left & right verticals
+  svg.appendChild(el('rect',{x:'18',y:'28',width:'10',height:'625',fill:frameColor,rx:'1'}));
+  svg.appendChild(el('rect',{x:'1172',y:'28',width:'10',height:'625',fill:frameColor,rx:'1'}));
+  // Top & bottom
+  svg.appendChild(el('rect',{x:'18',y:'22',width:'1164',height:'10',fill:frameColor,rx:'1'}));
+  svg.appendChild(el('rect',{x:'18',y:'645',width:'1164',height:'10',fill:frameColor,rx:'1'}));
+
+  // --- Books ---
+  const colors = [
+    '#8B2635','#2C3E50','#5D4E37','#8B6914','#2D5A3D',
+    '#4A235A','#1A2A3A','#6B5344','#3E6B4F','#A93226',
+    '#1E3A2F','#5B2C6F','#A0822A','#1A3A3A','#3D2817',
+    '#6B4423','#704241','#2D4639','#4d3a2a','#5c3317',
+    '#722F37','#3B5323','#4169E1','#8B0000'
+  ];
+
+  const shelves = [
+    {y:36, h:108},
+    {y:154, h:108},
+    {y:272, h:108},
+    {y:390, h:108},
+    {y:508, h:108}
+  ];
+
+  const shelfL = 34, shelfR = 1166;
+
+  shelves.forEach(function(shelf, si){
+    let x = shelfL + rand() * 6;
+    let bookCount = 0;
+
+    while(x < shelfR - 12 && bookCount < 18){
+      const w = 13 + rand() * 24;
+      if(x + w > shelfR - 4) break;
+
+      const hVar = rand() * 26;
+      const h = shelf.h - 4 - hVar;
+      const y = shelf.y + (shelf.h - h);
+      const color = colors[Math.floor(rand() * colors.length)];
+      const tilt = (rand() - 0.5) * 2.2;
+      const cx = x + w / 2;
+      const rotStr = tilt !== 0 ? 'rotate(' + tilt + ' ' + cx + ' ' + (y + h) + ')' : '';
+
+      // Book body
+      svg.appendChild(el('rect',{
+        x:x, y:y, width:w, height:h,
+        fill:color, rx:'0.5',
+        transform:rotStr
+      }));
+
+      // Top highlight
+      svg.appendChild(el('rect',{
+        x:x, y:y, width:w, height:2,
+        fill:'rgba(255,255,255,0.13)',
+        transform:rotStr
+      }));
+
+      // Spine decoration (random)
+      if(rand() > 0.45){
+        const numLines = rand() > 0.7 ? 2 : 1;
+        for(let l=0; l<numLines; l++){
+          const ly = y + 8 + l * 6 + rand() * 4;
+          if(ly < y + h - 8){
+            svg.appendChild(el('line',{
+              x1:x + 2, y1:ly, x2:x + w - 2, y2:ly,
+              stroke:'rgba(0,0,0,0.12)',
+              'stroke-width':'0.5',
+              transform:rotStr
+            }));
+          }
+        }
+      }
+
+      // Gold accent on some books
+      if(rand() > 0.85){
+        svg.appendChild(el('rect',{
+          x:x + 1, y:y + h * 0.3, width:w - 2, height:1.5,
+          fill:'rgba(212,168,67,0.3)',
+          transform:rotStr
+        }));
+      }
+
+      // Leaning book (occasionally shorter, leaning)
+      if(rand() > 0.93 && bookCount > 2){
+        // Next book leans
+      }
+
+      x += w + rand() * 1.5;
+      bookCount++;
+    }
+
+    // Shelf bar
+    svg.appendChild(el('rect',{
+      x:shelfL - 4, y:shelf.y + shelf.h - 2,
+      width:shelfR - shelfL + 8, height:5,
+      fill:'#2a1808', rx:'1'
+    }));
+
+    // Shelf shadow
+    svg.appendChild(el('rect',{
+      x:shelfL - 4, y:shelf.y + shelf.h + 3,
+      width:shelfR - shelfL + 8, height:2,
+      fill:'rgba(0,0,0,0.3)'
+    }));
+  });
+
+  // --- Decorative items on top shelf ---
+  // A small clock or vase silhouette
+  const vaseX = 600 + rand() * 200;
+  const vaseY = 36;
+  svg.appendChild(el('ellipse',{
+    cx:vaseX, cy:vaseY + 40, rx:14, ry:8,
+    fill:'#2a3a2a', opacity:'0.8'
+  }));
+  svg.appendChild(el('rect',{
+    x:vaseX - 6, y:vaseY + 10, width:12, height:28,
+    fill:'#2a3a2a', rx:'2', opacity:'0.8'
+  }));
+
+  // --- Vignette ---
+  svg.appendChild(el('rect',{width:'1200',height:'675',fill:'url(#vigGrad)'}));
+
+  // --- Bottom fade ---
+  const fadeGrad = el('linearGradient',{id:'fadeGrad',x1:'0',y1:'0',x2:'0',y2:'1'});
+  fadeGrad.appendChild(el('stop',{offset:'0%','stop-color':'#150a06','stop-opacity':'0'}));
+  fadeGrad.appendChild(el('stop',{offset:'70%','stop-color':'#150a06','stop-opacity':'0.3'}));
+  fadeGrad.appendChild(el('stop',{offset:'100%','stop-color':'#150a06','stop-opacity':'0.8'}));
+  defs.appendChild(fadeGrad);
+  svg.appendChild(el('rect',{width:'1200',height:'675',fill:'url(#fadeGrad)'}));
+
+})();
+
+// ===== Progress Bar =====
+window.addEventListener('scroll', function(){
+  const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progressBar').style.width = Math.min(scrolled, 100) + '%';
+}, {passive:true});
+
+// ===== Fade-in Observer =====
+document.addEventListener('DOMContentLoaded', function(){
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+
+  document.querySelectorAll('.fade-in').forEach(function(el){
+    observer.observe(el);
+  });
+});
+</script>
+
+</body>
+</html>

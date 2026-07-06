@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦基《故事》核心技术要点 · 可视化</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --border: #2a2d3a;
+    --accent: #f0c040;
+    --accent2: #40c9f0;
+    --accent3: #f06080;
+    --accent4: #60f0a0;
+    --text: #e0e0e0;
+    --dim: #888;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    padding: 48px 20px 32px;
+    background: linear-gradient(180deg, #1a1020 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  header p {
+    color: var(--dim);
+    margin-top: 8px;
+    font-size: 0.95rem;
+  }
+
+  /* ── Nav Tabs ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 20px 0;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.25s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── Main Container ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+
+  /* ── SECTION: Story Structure Diagram ── */
+  .structure-diagram {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 40px 0;
+  }
+  .struct-node {
+    position: relative;
+    width: 280px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    background: var(--card);
+    border: 1px solid var(--border);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 2;
+  }
+  .struct-node:hover, .struct-node.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 24px rgba(240,192,64,0.15);
+    transform: scale(1.03);
+  }
+  .struct-node .label {
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .struct-node .name {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .struct-node .desc {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .struct-connector {
+    width: 2px;
+    height: 32px;
+    background: var(--border);
+    position: relative;
+  }
+  .struct-connector::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: -4px;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    transform: rotate(45deg);
+  }
+
+  /* ── Story Triangle ── */
+  .triangle-section {
+    display: flex;
+    justify-content: center;
+    margin: 48px 0;
+  }
+  .triangle-wrap {
+    position: relative;
+    width: 400px;
+    height: 350px;
+  }
+  .triangle-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+  .triangle-label {
+    position: absolute;
+    padding: 10px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .triangle-label:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(240,192,64,0.12);
+  }
+  .tl-classical { top: 0; left: 50%; transform: translateX(-50%); border-color: var(--accent); }
+  .tl-mini { bottom: 0; left: 5%; }
+  .tl-anti { bottom: 0; right: 5%; }
+
+  /* ── Cards Grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+  }
+  .card.cat-structure::before { background: var(--accent); }
+  .card.cat-value::before { background: var(--accent2); }
+  .card.cat-character::before { background: var(--accent3); }
+  .card.cat-scene::before { background: var(--accent4); }
+  .card.cat-design::before { background: #c080f0; }
+  .card.cat-craft::before { background: #f0a040; }
+  .card.cat-principle::before { background: #40f0c0; }
+
+  .card:hover {
+    border-color: rgba(240,192,64,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .card-number {
+    font-size: 0.7rem;
+    color: var(--dim);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .card-en {
+    font-size: 0.75rem;
+    color: var(--dim);
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+  .card-body {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .card-body strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .card-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    background: rgba(240,192,64,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(240,192,64,0.2);
+  }
+
+  /* ── Detail Panel ── */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+  }
+  .detail-overlay.show { display: flex; }
+  .detail-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 640px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 36px;
+    position: relative;
+  }
+  .detail-panel .close-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none; border: none;
+    color: var(--dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .detail-panel h2 {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .detail-panel .en-title {
+    color: var(--dim);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .detail-section {
+    margin-bottom: 20px;
+  }
+  .detail-section h3 {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .detail-section p, .detail-section li {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .detail-section ul {
+    padding-left: 20px;
+  }
+  .detail-section li::marker {
+    color: var(--accent);
+  }
+
+  /* ── Flow Diagram (SVG) ── */
+  .flow-svg {
+    width: 100%;
+    max-width: 900px;
+    margin: 32px auto;
+    display: block;
+  }
+
+  /* ── Checklist ── */
+  .checklist {
+    margin-top: 32px;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .check-item:hover { background: rgba(255,255,255,0.02); }
+  .check-num {
+    color: var(--accent);
+    font-weight: 700;
+    min-width: 24px;
+  }
+
+  /* ── Section Title ── */
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 48px 0 8px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .section-desc {
+    color: var(--dim);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* ── Glow dots animation ── */
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    header h1 { font-size: 1.4rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .triangle-wrap { width: 300px; height: 280px; }
+    .struct-node { width: 220px; padding: 12px 14px; }
+  }
+
+  /* Tab content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <h1>📖 麦基《故事》核心技术要点</h1>
+  <p>Robert McKee · 《故事：材质、结构、风格和银幕剧作的原理》· 2001 / 2014</p>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('structure')">故事结构</div>
+  <div class="tab" onclick="switchTab('terminology')">技术要点</div>
+  <div class="tab" onclick="switchTab('triangle')">故事三角</div>
+  <div class="tab" onclick="switchTab('checklist')">编剧检查清单</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════ TAB 1: Structure ═══════════ -->
+  <div class="tab-content active" id="tab-structure">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(240,192,64,0.15);color:var(--accent)">⚡</span>
+      故事结构全景图
+    </div>
+    <p class="section-desc">从均衡到新均衡——麦基经典三幕结构的可视化流程图。点击节点查看详情。</p>
+
+    <!-- SVG Flow Diagram -->
+    <svg class="flow-svg" viewBox="0 0 900 720" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#f0c040;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#f0a040;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#40c9f0;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#4060f0;stop-opacity:1" />
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Vertical line -->
+      <line x1="450" y1="30" x2="450" y2="690" stroke="#2a2d3a" stroke-width="2" stroke-dasharray="6,4"/>
+
+      <!-- Nodes -->
+      <g cursor="pointer" onclick="showDetail('equilibrium')">
+        <rect x="330" y="20" width="240" height="56" rx="12" fill="#1a1d27" stroke="#2a2d3a" stroke-width="1"/>
+        <text x="450" y="47" text-anchor="middle" fill="#888" font-size="11">均衡状态</text>
+        <text x="450" y="66" text-anchor="middle" fill="#ddd" font-size="13" font-weight="700">Equilibrium</text>
+      </g>
+
+      <g cursor="pointer" onclick="showDetail('inciting')">
+        <rect x="310" y="100" width="280" height="68" rx="12" fill="#1a1d27" stroke="#f0c040" stroke-width="2" filter="url(#glow)"/>
+        <text x="450" y="127" text-anchor="middle" fill="#f0c040" font-size="11" letter-spacing="1">⚡ 激励事件</text>
+        <text x="450" y="148" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Inciting Incident</text>
+        <text x="450" y="163" text-anchor="middle" fill="#aaa" font-size="10">打破均衡 · 故事前 10–15%</text>
+      </g>
+
+      <g cursor="pointer" onclick="showDetail('act1')">
+        <rect x="320" y="195" width="260" height="80" rx="12" fill="#1a1d27" stroke="#2a2d3a" stroke-width="1"/>
+        <text x="450" y="222" text-anchor="middle" fill="#40c9f0" font-size="11" letter-spacing="1">第一幕 · 建制</text>
+        <text x="450" y="242" text-anchor="middle" fill="#ddd" font-size="12">介绍人物 · 建立世界</text>
+        <text x="450" y="260" text-anchor="middle" fill="#ddd" font-size="12">确立欲望 · 情节点 I</text>
+        <rect x="370" y="272" width="160" height="22" rx="6" fill="rgba(64,201,240,0.1)" stroke="rgba(64,201,240,0.3)" stroke-width="1"/>
+        <text x="450" y="287" text-anchor="middle" fill="#40c9f0" font-size="10">▲ 情节点 I — 转向第二幕</text>
+      </g>
+
+      <g cursor="pointer" onclick="showDetail('act2')">
+        <rect x="310" y="310" width="280" height="110" rx="12" fill="#1a1d27" stroke="#2a2d3a" stroke-width="1"/>
+        <text x="450" y="337" text-anchor="middle" fill="#f06080" font-size="11" letter-spacing="1">第二幕 · 对抗</text>
+        <text x="450" y="357" text-anchor="middle" fill="#ddd" font-size="12">进展纠葛 · 冲突升级</text>
+        <text x="450" y="375" text-anchor="middle" fill="#ddd" font-size="12">──────────────</text>
+        <text x="450" y="393" text-anchor="middle" fill="#f06080" font-size="12" font-weight="700">⬇ 危机 Crisis</text>
+        <text x="450" y="408" text-anchor="middle" fill="#aaa" font-size="10">两难选择 · 不可兼容的价值</text>
+        <rect x="370" y="418" width="160" height="22" rx="6" fill="rgba(240,96,128,0.1)" stroke="rgba(240,96,128,0.3)" stroke-width="1"/>
+        <text x="450" y="433" text-anchor="middle" fill="#f06080" font-size="10">▲ 情节点 II — 通向高潮</text>
+      </g>
+
+      <g cursor="pointer" onclick="showDetail('act3')">
+        <rect x="320" y="455" width="260" height="90" rx="12" fill="#1a1d27" stroke="#2a2d3a" stroke-width="1"/>
+        <text x="450" y="482" text-anchor="middle" fill="#60f0a0" font-size="11" letter-spacing="1">第三幕 · 结局</text>
+        <text x="450" y="502" text-anchor="middle" fill="#60f0a0" font-size="13" font-weight="700">⬇ 高潮 Climax</text>
+        <text x="450" y="520" text-anchor="middle" fill="#ddd" font-size="11">终极对决 · 不可逆转</text>
+        <text x="450" y="538" text-anchor="middle" fill="#ddd" font-size="11">⬇ 结局 Resolution · 新均衡</text>
+      </g>
+
+      <g cursor="pointer" onclick="showDetail('controlling')">
+        <rect x="330" y="580" width="240" height="56" rx="12" fill="#1a1d27" stroke="#2a2d3a" stroke-width="1"/>
+        <text x="450" y="607" text-anchor="middle" fill="#888" font-size="11">主控思想呈现</text>
+        <text x="450" y="626" text-anchor="middle" fill="#ddd" font-size="13" font-weight="700">Controlling Idea</text>
+      </g>
+
+      <g cursor="pointer" onclick="showDetail('new-equilibrium')">
+        <rect x="330" y="660" width="240" height="40" rx="10" fill="#1a1d27" stroke="#2a2d3a" stroke-width="1"/>
+        <text x="450" y="685" text-anchor="middle" fill="#888" font-size="11">新均衡状态 · 从此以后……</text>
+      </g>
+
+      <!-- Connector arrows -->
+      <polygon points="450,76 444,64 456,64" fill="#2a2d3a"/>
+      <polygon points="450,168 444,156 456,156" fill="#2a2d3a"/>
+      <polygon points="450,275 444,263 456,263" fill="#2a2d3a"/>
+      <polygon points="450,390 444,378 456,378" fill="#2a2d3a"/>
+      <polygon points="450,545 444,533 456,533" fill="#2a2d3a"/>
+      <polygon points="450,636 444,624 456,624" fill="#2a2d3a"/>
+    </svg>
+
+    <!-- Value Swing Diagram -->
+    <div class="section-title">
+      <span class="icon" style="background:rgba(96,240,160,0.15);color:var(--accent4)">⇄</span>
+      价值转换摆动图
+    </div>
+    <p class="section-desc">故事的动力来自价值在正负极之间的不断摆动。每个场景、每个序列、每幕都是一次价值转换。</p>
+
+    <svg viewBox="0 0 900 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Baseline -->
+      <line x1="60" y1="100" x2="860" y2="100" stroke="#2a2d3a" stroke-width="1"/>
+      <!-- + and - labels -->
+      <text x="30" y="96" fill="#60f0a0" font-size="13" font-weight="700">+</text>
+      <text x="30" y="140" fill="#f06080" font-size="13" font-weight="700">−</text>
+      <text x="30" y="118" fill="#666" font-size="10">价值</text>
+
+      <!-- Scene value swings -->
+      <polyline points="100,140 180,60 260,140 340,50 420,145 500,55 580,140 660,45 740,130 820,50"
+                fill="none" stroke="#f0c040" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Dots -->
+      <circle cx="100" cy="140" r="5" fill="#f06080"/>
+      <circle cx="180" cy="60" r="5" fill="#60f0a0"/>
+      <circle cx="260" cy="140" r="5" fill="#f06080"/>
+      <circle cx="340" cy="50" r="5" fill="#60f0a0"/>
+      <circle cx="420" cy="145" r="5" fill="#f06080"/>
+      <circle cx="500" cy="55" r="5" fill="#60f0a0"/>
+      <circle cx="580" cy="140" r="5" fill="#f06080"/>
+      <circle cx="660" cy="45" r="5" fill="#60f0a0"/>
+      <circle cx="740" cy="130" r="5" fill="#f06080"/>
+      <circle cx="820" cy="50" r="5" fill="#60f0a0"/>
+
+      <!-- Labels -->
+      <text x="100" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景1</text>
+      <text x="180" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景2</text>
+      <text x="260" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景3</text>
+      <text x="340" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景4</text>
+      <text x="420" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景5</text>
+      <text x="500" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景6</text>
+      <text x="580" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景7</text>
+      <text x="660" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景8</text>
+      <text x="740" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景9</text>
+      <text x="820" y="170" text-anchor="middle" fill="#aaa" font-size="10">场景10</text>
+
+      <!-- Note -->
+      <text x="450" y="195" text-anchor="middle" fill="#666" font-size="10">没有价值转换 = 无效场景 → 删掉或重写</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 2: Terminology Cards ═══════════ -->
+  <div class="tab-content" id="tab-terminology">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(240,192,64,0.15);color:var(--accent)">📋</span>
+      32 项核心技术要点
+    </div>
+    <p class="section-desc">点击卡片查看完整说明。按分类颜色标记：🟡结构 🔵价值 🔴人物 🟢场景 🟣设计 🟠技巧</p>
+
+    <div class="cards-grid" id="cards-grid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+
+  <!-- ═══════════ TAB 3: Story Triangle ═══════════ -->
+  <div class="tab-content" id="tab-triangle">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(192,128,240,0.15);color:#c080f0">△</span>
+      故事三角 · 麦基设计谱系
+    </div>
+    <p class="section-desc">麦基将故事设计分为三个大类，构成一个"三角"关系。经典设计位于顶端，小情节和反情节构成底座两端。</p>
+
+    <div class="triangle-section">
+      <div class="triangle-wrap">
+        <svg class="triangle-svg" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="200,20 30,320 370,320"
+                   fill="none" stroke="#2a2d3a" stroke-width="1.5" stroke-dasharray="8,4"/>
+          <!-- Classical to Mini -->
+          <line x1="170" y1="110" x2="90" y2="270" stroke="rgba(240,192,64,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- Classical to Anti -->
+          <line x1="230" y1="110" x2="310" y2="270" stroke="rgba(240,192,64,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+        </svg>
+        <!-- Labels (positioned absolute) -->
+        <div class="triangle-label tl-classical" onclick="showDetail('classical')">
+          <div style="color:var(--accent);font-size:0.75rem;letter-spacing:1px">CLASSICAL</div>
+          <div>大情节</div>
+          <div style="font-size:0.75rem;color:var(--dim);margin-top:4px">经典设计</div>
+        </div>
+        <div class="triangle-label tl-mini" onclick="showDetail('miniplot')">
+          <div style="color:var(--accent2);font-size:0.75rem;letter-spacing:1px">MINIMALISM</div>
+          <div>小情节</div>
+          <div style="font-size:0.75rem;color:var(--dim);margin-top:4px">艺术电影</div>
+        </div>
+        <div class="triangle-label tl-anti" onclick="showDetail('antiplot')">
+          <div style="color:var(--accent3);font-size:0.75rem;letter-spacing:1px">ANTI-PLOT</div>
+          <div>反情节</div>
+          <div style="font-size:0.75rem;color:var(--dim);margin-top:4px">实验电影</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div style="overflow-x:auto;margin-top:32px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+        <thead>
+          <tr style="background:rgba(240,192,64,0.08);">
+            <th style="padding:12px 16px;text-align:left;color:var(--accent);border-bottom:1px solid var(--border);">维度</th>
+            <th style="padding:12px 16px;text-align:center;color:var(--accent);border-bottom:1px solid var(--border);">大情节</th>
+            <th style="padding:12px 16px;text-align:center;color:var(--accent2);border-bottom:1px solid var(--border);">小情节</th>
+            <th style="padding:12px 16px;text-align:center;color:var(--accent3);border-bottom:1px solid var(--border);">反情节</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 16px;color:var(--dim);">因果逻辑</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">清晰严密</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">模糊松散</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">断裂否定</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 16px;color:var(--dim);">时间结构</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">线性</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">松散/循环</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">非线性/碎片化</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 16px;color:var(--dim);">主人公</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">主动·意志坚定</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">被动·内心导向</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">碎片化·非人物</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 16px;color:var(--dim);">冲突类型</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">外部冲突驱动</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">内在心理为主</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">否定冲突</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 16px;color:var(--dim);">结局</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">闭合式</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">开放式</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">否定结局</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 16px;color:var(--dim);">代表影片</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">《教父》<br>《指环王》</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">《迷失东京》<br>《橡皮头》</td>
+            <td style="padding:10px 16px;text-align:center;color:var(--text);">《低俗小说》<br>《马里昂巴德》</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- The Gap Diagram -->
+    <div class="section-title" style="margin-top:48px;">
+      <span class="icon" style="background:rgba(240,96,128,0.15);color:var(--accent3)">⊘</span>
+      "鸿沟"原理示意图
+    </div>
+    <svg viewBox="0 0 900 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Expectation line -->
+      <text x="40" y="40" fill="#40c9f0" font-size="12" font-weight="700">预期 / 行动</text>
+      <line x1="140" y1="40" x2="700" y2="40" stroke="#40c9f0" stroke-width="2"/>
+      <polygon points="700,40 688,34 688,46" fill="#40c9f0"/>
+
+      <!-- Reality line -->
+      <text x="40" y="180" fill="#f06080" font-size="12" font-weight="700">现实 / 结果</text>
+      <line x1="140" y1="180" x2="700" y2="180" stroke="#f06080" stroke-width="2"/>
+      <polygon points="700,180 688,174 688,186" fill="#f06080"/>
+
+      <!-- Gap -->
+      <line x1="420" y1="50" x2="420" y2="170" stroke="#f0c040" stroke-width="2.5" stroke-dasharray="4,3"/>
+      <text x="420" y="115" text-anchor="middle" fill="#f0c040" font-size="13" font-weight="700">鸿沟</text>
+      <text x="420" y="132" text-anchor="middle" fill="#f0c040" font-size="10">The Gap</text>
+
+      <!-- Arrow from expectation to gap -->
+      <path d="M 300,40 Q 340,90 380,140" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="3,3"/>
+      <text x="280" y="85" fill="#888" font-size="10">行动产生</text>
+      <text x="270" y="98" fill="#888" font-size="10">未预期结果</text>
+
+      <!-- Character arc -->
+      <text x="40" y="240" fill="#60f0a0" font-size="12" font-weight="700">人物弧光</text>
+      <line x1="140" y1="220" x2="860" y2="220" stroke="#2a2d3a" stroke-width="1"/>
+      <!-- arc curve -->
+      <path d="M 140,230 Q 300,190 500,230 Q 650,270 860,230" fill="none" stroke="#60f0a0" stroke-width="2"/>
+      <text x="500" y="215" text-anchor="middle" fill="#60f0a0" font-size="10">内在转变过程</text>
+    </svg>
+
+  </div>
+
+  <!-- ═══════════ TAB 4: Checklist ═══════════ -->
+  <div class="tab-content" id="tab-checklist">
+
+    <div class="section-title">
+      <span class="icon" style="background:rgba(96,240,160,0.15);color:var(--accent4)">✓</span>
+      麦基编剧检查清单
+    </div>
+    <p class="section-desc">写完剧本后，用这 12 个问题逐一检查。全部通过，故事才算真正成立。</p>
+
+    <div class="checklist" id="checklist">
+      <!-- Injected by JS -->
+    </div>
+
+    <div style="margin-top:40px;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);">
+      <div style="color:var(--accent);font-size:0.8rem;letter-spacing:1px;margin-bottom:8px;">麦基名言</div>
+      <div style="font-size:1.05rem;line-height:1.8;color:var(--text);font-style:italic;">
+        "人物的真相只有在压力之下选择的那一刻才会显露。<br>
+        故事不是关于人物是什么人，而是关于人物<strong style='color:var(--accent);'>如何选择</strong>。"
+      </div>
+      <div style="margin-top:12px;font-size:0.8rem;color:var(--dim);">—— 罗伯特·麦基《故事》</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Detail Overlay -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <button class="close-btn" onclick="closeDetail(event)">✕</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════ Data ═══════════
+const concepts = [
+  {
+    id: 'inciting',
+    num: '01',
+    cat: 'structure',
+    title: '激励事件',
+    en: 'Inciting Incident',
+    tag: '核心结构',
+    summary: '打破主人公生活均衡的事件，激发欲望，启动故事主线。',
+    detail: {
+      definition: '打破主人公生活平衡的事件，在故事开始时发生，激发主人公的欲望，推动故事进入主线。',
+      when: '通常在第1幕中段，约故事前 10–15% 处发生。',
+      function: '打破"均衡状态"；提出问题；激发布局欲望；确立故事主线方向。',
+      features: ['不可逆转', '必须改变主人公生活状况', '引发主人公主动反应', '与主控思想相关'],
+      examples: '《指环王》：弗罗多继承魔戒；《教父》：维托遇刺后迈克卷入家族。'
+    }
+  },
+  {
+    id: 'complications',
+    num: '02',
+    cat: 'structure',
+    title: '进展纠葛',
+    en: 'Progressive Complications',
+    tag: '核心结构',
+    summary: '由激励事件引发、不断升级的冲突与障碍序列，构成故事主体。',
+    detail: {
+      definition: '故事主体——一系列由激励事件引发、不断升级的冲突与障碍，主人公在追逐目标时遭遇越来越大的阻力。',
+      principle: '冲突必须愈来愈强（"进展"）；障碍必须越来越大；冲突必须来自人物内在与外在的双重压力。',
+      mechanism: '每一幕的结尾必须比前一幕更困难、更复杂、更危险。通过"场景"连续叠加实现。',
+      key: '如果删掉进展纠葛中的任何一个环节，后面的冲突就不成立——这就是"因果链条"。'
+    }
+  },
+  {
+    id: 'crisis',
+    num: '03',
+    cat: 'structure',
+    title: '危机',
+    en: 'Crisis',
+    tag: '核心结构',
+    summary: '故事中最紧张的时刻，主人公面临两难选择，必须做出终极决定。',
+    detail: {
+      definition: '故事中最紧张、最关键的时刻，通常发生在高潮之前，是主人公面临最大困境、必须做出最艰难抉择的节点。',
+      location: '第二幕（Act II）的结尾，通向高潮的转折点。',
+      essence: '两难选择——主人公必须在两个不可兼容的价值之间做出取舍（如：爱情 vs 责任）。',
+      function: '将所有线索收束，逼迫主人公做出终极决定，为高潮蓄力。危机的质量决定高潮的力量。',
+      example: '《卡萨布兰卡》：里克必须在爱情与反法西斯斗争之间做出选择。'
+    }
+  },
+  {
+    id: 'climax',
+    num: '04',
+    cat: 'structure',
+    title: '高潮',
+    en: 'Climax',
+    tag: '核心结构',
+    summary: '故事中最重要、最具决定意义的场景，主人公与对抗力量最终对决。',
+    detail: {
+      definition: '故事中最重要、最激动人心、最具决定意义的场景，主人公与对抗力量进行最终对决。',
+      location: '第三幕核心，通常占故事最后 10–15%。',
+      features: ['不可逆转的决定性时刻', '最大可能的情感强度', '回答故事提出的核心问题'],
+      test: '如果高潮删掉，故事是否还成立？如果删掉其他部分故事仍成立，则说明高潮是真正的核心。',
+      arcIntersection: '高潮是人物弧光（内在转变）最彻底呈现的时刻，内在与外在在此交汇。'
+    }
+  },
+  {
+    id: 'resolution',
+    num: '05',
+    cat: 'structure',
+    title: '结局',
+    en: 'Resolution',
+    tag: '核心结构',
+    summary: '高潮之后展示新生活状态的收尾段落，"从此以后怎样"。',
+    detail: {
+      definition: '高潮之后，展示主人公新生活状态的收尾段落，告诉观众"从此以后怎样"。',
+      function: '完成情感闭环；展示人物在新均衡状态下的生活；强化主控思想。',
+      principle: '结局必须是高潮的"必然结果"；不能引入新的重大冲突；必须展示价值转换后的新状态。',
+      types: '闭合式结局（问题完全解决）vs 开放式结局（留下想象空间）。麦基更推崇闭合式，但不否定开放式。'
+    }
+  },
+  {
+    id: 'act',
+    num: '06',
+    cat: 'structure',
+    title: '幕',
+    en: 'Act',
+    tag: '结构层级',
+    summary: '故事的重大结构单元，以重大转折（情节点）作为结束标志。三幕结构是基础。',
+    detail: {
+      definition: '故事的重大结构单元，由一系列场景组成，以重大转折（转折点）作为结束标志。',
+      threeActs: '第一幕（建制）：介绍人物、世界、激励事件；第二幕（对抗）：进展纠葛，危机累积；第三幕（结局）：高潮+结局。',
+      ending: '幕的结束标志：必须有一个"情节点"（Plot Point）——重大转折，改变故事方向。',
+      note: '每一幕都是一个"完整的小故事"，有自己的起承转合。'
+    }
+  },
+  {
+    id: 'sequence',
+    num: '07',
+    cat: 'structure',
+    title: '序列',
+    en: 'Sequence',
+    tag: '结构层级',
+    summary: '由场景组成的中层结构单元，围绕一个小型目标展开，电影中约 8–12 个序列。',
+    detail: {
+      definition: '由一系列场景组成，围绕一个小型目标或冲突展开，长度通常为若干分钟（电影中约10–15分钟）。',
+      function: '将故事分解成更易管理的段落；每个序列有自己的小高潮。',
+      count: '标准电影通常有 8–12 个序列。',
+      relation: '一幕包含多个序列；序列是幕的"子结构"。优秀的序列设计让故事节奏张弛有度。'
+    }
+  },
+  {
+    id: 'scene',
+    num: '08',
+    cat: 'scene',
+    title: '场景',
+    en: 'Scene',
+    tag: '结构层级',
+    summary: '最小结构单位。核心设计原则：每个场景必须至少有一次"价值转换"。',
+    detail: {
+      definition: '故事中最小的结构单位，是在同一时间、同一地点发生的一段连续行动。',
+      corePrinciple: '每一个场景必须至少有一次"价值转换"（从正面到负面，或反之）。',
+      analysis: '场景分析四步骤：①确定冲突（谁想要什么？）；②标注起始价值；③标注结束价值；④审视节奏（转折点在哪里？）。',
+      invalid: '如果场景开始和结束的价值状态相同，则该场景是"静态"的，应删掉或重写。',
+      subtext: '优秀场景的精髓在于"潜文本"——人物未说出口的真实意图、情感、动机。'
+    }
+  },
+  {
+    id: 'beat',
+    num: '09',
+    cat: 'scene',
+    title: '节拍',
+    en: 'Beat',
+    tag: '结构层级',
+    summary: '场景中最小的变化单位，是动作-反应链条中的"微观转折"。',
+    detail: {
+      definition: '场景中最小的变化单位，是人物行动或反应中的一个"转折"；是节拍表（Beat Sheet）的基本元素。',
+      function: '推进场景节奏；标记人物之间的"动作-反应"链条。',
+      relation: '一个场景由多个节拍组成；节拍是场景内部的"微观转折"。',
+      application: '编剧常用"节拍表"来规划每个场景的节奏变化。精确认知节拍是职业编剧的基本功。'
+    }
+  },
+  {
+    id: 'value-turn',
+    num: '10',
+    cat: 'value',
+    title: '价值转换',
+    en: 'Value Turn / Conversion',
+    tag: '价值观念',
+    summary: '价值从正面极性转向负面极性（或反之），是故事动力的最基本单位。',
+    detail: {
+      definition: '在场景或故事中，价值（如希望→绝望、爱→恨、自由→奴役）从一个极性转向另一个极性。',
+      polarity: '正面（+）↔ 负面（−），或更复杂的价值光谱（如：自由→奴役→真正自由）。',
+     动力: '故事的本质就是价值在正负极之间不断摆动；没有价值转换就没有故事。',
+      test: '问：这个场景/序列/幕的开始价值是什么？结束时变成了什么？如果一样，则无效。',
+      note: '价值不一定是道德层面的"好/坏"，而是"戏剧性的正负极性"（如：安静vs混乱、连接vs孤立）。'
+    }
+  },
+  {
+    id: 'controlling',
+    num: '11',
+    cat: 'value',
+    title: '主控思想',
+    en: 'Controlling Idea',
+    tag: '价值观念',
+    summary: '故事表达的核心价值观念，"故事的意义"，可用一句话概括。',
+    detail: {
+      definition: '故事表达的核心价值观念，即"故事的意义"——通过故事的形式传达的某个关于人生的真理。',
+      composition: '价值（正面或负面）+ 原因（如何达成或为何失去该价值）。',
+      expression: '表述方式："一个故事的主控思想可以用一句话概括：当X发生时，Y价值得以实现（或丧失）"。',
+      function: '统一故事的所有元素；指导人物、情节、主题的选择；是判断故事是否完整的终极标准。',
+      examples: '《教父》："绝对权力腐蚀绝对的人"；《卡萨布兰卡》："牺牲个人幸福可以实现更高的道德价值"。'
+    }
+  },
+  {
+    id: 'resonance',
+    num: '12',
+    cat: 'value',
+    title: '共鸣',
+    en: 'Resonance',
+    tag: '价值观念',
+    summary: '故事结束后，意象、情感、思想在观众心中持续回响、扩展的力量。',
+    detail: {
+      definition: '故事结束后，意象、情感、思想在观众心中持续回响、扩展的力量。',
+      creation: '通过意象的重复、主题的呼应、象征的积累来创造"多层次的意义"。',
+      vsProb: '说服力让观众相信故事"可能发生"；共鸣让观众感觉故事"意义重大"。两者缺一不可。',
+      example: '《公民凯恩》中"玫瑰花蕾"雪橇的反复出现，直至最后焚烧场景，产生强烈共鸣。',
+      note: '共鸣是"不可言说"的效果——你无法刻意制造它，只能通过真诚的主题探索和形式把控来培育。'
+    }
+  },
+  {
+    id: 'character-arc',
+    num: '13',
+    cat: 'character',
+    title: '人物弧光',
+    en: 'Character Arc',
+    tag: '人物塑造',
+    summary: '人物在故事进程中经历的内在转变，从一种心理状态转变为另一种。',
+    detail: {
+      definition: '人物在故事进程中经历的内在转变——从一种心理状态、价值观念或人格特质，转变为另一种。',
+      relation: '人物弧光必须通过情节（外在行动）来展现，不能仅靠对白或旁白说明。',
+      types: '正面弧（人物成长、升华）；负面弧（人物堕落、毁灭）；平弧（人物不变，但改变周围世界）。',
+      test: '高潮时的人物状态 vs 故事开始时的人物状态——必须有明显差异。',
+      note: '弧光与价值转换本质相同：都是"内在价值的转换过程"。'
+    }
+  },
+  {
+    id: 'true-character',
+    num: '14',
+    cat: 'character',
+    title: '人物真相 vs 人物塑造',
+    en: 'True Character vs Character',
+    tag: '人物塑造',
+    summary: '人物的真相只有在压力之下选择的那一刻才会显露。外表≠本质。',
+    detail: {
+      character: '人物塑造：人物的外表、职业、行为习惯等"可见特征"——这是人物的"面具"。',
+      true: '人物真相：在压力之下，人物做出的选择所揭示的内在本质——这是人物的"灵魂"。',
+      quote: '"人物的真相只有在压力之下选择的那一刻才会显露。"——这是麦基最著名的论断之一。',
+      application: '设计人物时，必须同时考虑表面特征（塑造）和深层本质（真相）；故事的压力就是用来揭示真相的。',
+      test: '如果你能用一个形容词概括人物真相（如"勇敢"、"自私"），恭喜——但你还需要通过情节来"证明"它。'
+    }
+  },
+  {
+    id: 'antagonism',
+    num: '15',
+    cat: 'character',
+    title: '对抗力量',
+    en: 'Forces of Antagonism',
+    tag: '人物塑造',
+    summary: '与主人公欲望相对抗的所有力量。反派不是必须的，但对抗力量必须足够强大。',
+    detail: {
+      definition: '与主人公欲望相对抗的所有力量——不一定是人，可以是自然、社会、命运、内心矛盾。',
+      principle: '对抗力量必须"至少和主人公一样强大"，最好"更强大"；对抗力量必须有自己的合理动机。',
+      function: '创造冲突；逼迫主人公成长；让胜利具有意义。没有强大对抗力量的故事是"TableView"（桌子上聊天）。',
+      types: '人物对抗（反派）；环境对抗（自然灾害）；社会对抗（制度、偏见）；内在对抗（自我怀疑、恐惧）。',
+      warning: '纯粹"邪恶"的反派是无趣的——优秀的对抗力量有自己的合理逻辑和价值观。'
+    }
+  },
+  {
+    id: 'gap',
+    num: '16',
+    cat: 'character',
+    title: '鸿沟',
+    en: 'The Gap',
+    tag: '人物塑造',
+    summary: '人物预期/期望与现实结果之间的差距。故事的动力源，转折和惊喜的来源。',
+    detail: {
+      definition: '人物预期/期望与现实结果之间的差距——当人物的行动产生了一个他未曾预料的结果时，"鸿沟"就出现了。',
+      power: '鸿沟是"转折"和"惊喜"的来源；故事之所以有趣，就是因为人物不断地跌入鸿沟。',
+      relation: '与"期待与出乎意料"的关系：观众期待A，结果发生B——这就是鸿沟效应。',
+      technique: '让人物基于"错误的前提"行动，行动的结果却将人物推向完全相反的方向。',
+      note: '鸿沟越大，场景越有力量。但鸿沟必须是"合理的意外"——不能为了意外而意外。'
+    }
+  },
+  {
+    id: 'subtext',
+    num: '17',
+    cat: 'scene',
+    title: '文本与潜文本',
+    en: 'Text and Subtext',
+    tag: '场景设计',
+    summary: '人物说出来的 vs 真实意图。优秀场景的精髓在于文本与潜文本之间的张力。',
+    detail: {
+      text: '文本：人物说出来的对白、做出的明显行动。',
+      subtext: '潜文本：人物真实意图、情感、未说出口的欲望——隐藏在文本之下的"真相"。',
+      feature: '优秀场景特征：文本与潜文本之间存在"张力"；人物说的话与真实的想法不一致。',
+      method: '写一个场景时，先确定每个人物的"潜文本目标"，再写"文本对白"——让两者错位。',
+      example: '两人表面谈论天气，实则在进行权力博弈或情感试探。这就是潜文本的力量。'
+    }
+  },
+  {
+    id: 'turning-point',
+    num: '18',
+    cat: 'scene',
+    title: '转折点',
+    en: 'Turning Point',
+    tag: '场景设计',
+    summary: '场景中价值发生转换的具体时刻，是动作-反应链条中的"拐点"。',
+    detail: {
+      definition: '场景中价值发生转换的具体时刻，是动作-反应链条中的"拐点"。',
+      function: '推动场景前进；制造悬念；连接上下场景。',
+      identification: '在场景中寻找"但是"、"然而"等转折词出现的位置——那通常就是转折点。',
+      relation: '转折点通常对应一个或多个节拍的变化。没有转折点的场景是"平"的。',
+      note: '幕的结束也是一个"大转折点"（情节点），其原理与场景转折点完全相同，只是规模更大。'
+    }
+  },
+  {
+    id: 'classical',
+    num: '19',
+    cat: 'design',
+    title: '大情节 / 经典设计',
+    en: 'Grand Plot / Classical Design',
+    tag: '故事设计',
+    summary: '因果逻辑清晰、线性时间、主动主人公、外部冲突驱动、闭合式结局。麦基认为这是最自然有力的形式。',
+    detail: {
+      features: '因果逻辑清晰；时空统一；主动主人公；外部冲突驱动；闭合式结局；线性时间。',
+      value: '麦基认为这是"最自然、最有力、最持久"的故事形式，能够触达最广大的主流观众。',
+      examples: '《星球大战》、《教父》、《指环王》、《肖申克的救赎》。',
+      note: '经典设计不等于"俗套"——麦基强调，经典设计是最难写好的，因为它对逻辑和结构的要求最高。'
+    }
+  },
+  {
+    id: 'miniplot',
+    num: '20',
+    cat: 'design',
+    title: '小情节',
+    en: 'Mini-Plot / Minimalism',
+    tag: '故事设计',
+    summary: '减少因果、弱化外部冲突、注重内在心理。艺术电影和独立电影的常见结构。',
+    detail: {
+      features: '减少因果关系；弱化外部冲突；注重内在心理；开放式或模糊结局；人物可能被动或静止。',
+      repr: '艺术电影、独立电影的常见结构。需要极高的艺术把控力。',
+      risk: '容易变得沉闷、难以理解；如果处理不好，观众会失去兴趣。',
+      examples: '《迷失东京》、《橡皮头》、《花样年华》。',
+      note: '小情节不是"偷懒"的借口——它需要比大情节更精准的人物刻画和主题把控。'
+    }
+  },
+  {
+    id: 'antiplot',
+    num: '21',
+    cat: 'design',
+    title: '反情节',
+    en: 'Anti-Plot',
+    tag: '故事设计',
+    summary: '故意打破经典设计规则，非线性时间，无逻辑因果，荒诞实验性。',
+    detail: {
+      features: '故意打破经典设计规则；非线性时间；无逻辑因果；荒诞、实验性；故意让观众"读不懂"。',
+      intent: '挑战观众预期；探索叙事的可能性边界；表达现代主义或后现代主义观念。',
+      examples: '《低俗小说》（非线性时间）；《去年在马里昂巴德》（模糊因果）；《记忆碎片》。',
+      warning: '反情节很容易被误用为"掩盖叙事无能的遮羞布"。真正的反情节作品必须有其美学理由。'
+    }
+  },
+  {
+    id: 'flashback',
+    num: '22',
+    cat: 'craft',
+    title: '闪回',
+    en: 'Flashback',
+    tag: '叙述技巧',
+    summary: '打断时间线插入过去事件。麦基警告：这是最被滥用的技巧之一。',
+    detail: {
+      definition: '打断当前时间线，插入过去事件的叙述技巧。',
+      warning: '闪回是"最被滥用的技巧之一"；许多可以用对话或行动交代的内容，编剧却用闪回。',
+      correct: '只有当过去事件的信息"无法用当前场景的合理方式呈现"时，才使用闪回。',
+      test: '问：这个闪回能否删除而不影响故事理解？如果可以，则删掉。',
+      note: '麦基并非反对闪回，而是反对"为了炫技而闪回"。闪回必须有叙事上的必要性。'
+    }
+  },
+  {
+    id: 'voiceover',
+    num: '23',
+    cat: 'craft',
+    title: '旁白',
+    en: 'Voice-Over / Narration',
+    tag: '叙述技巧',
+    summary: '画外音叙述。麦基警告：旁白常常被用来"弥补"剧本的缺陷。',
+    detail: {
+      definition: '画外音叙述，通常由主人公或知情者以第一人称讲述。',
+      warning: '旁白常常被用来"弥补"剧本的缺陷——用讲述代替展示，是编剧的"懒惰手段"。',
+      correct: '旁白应该提供"只有旁白才能提供的独特信息"（如内心独白、时间跳跃的桥梁）。',
+      examples: '《肖申克的救赎》旁白（提供监狱岁月的独特视角）；《银翼杀手》旁白（但有争议）。',
+      note: '麦基对旁白的态度是"高度怀疑"——他更倾向于让故事自己"说话"，而不是靠旁白解释。'
+    }
+  },
+  {
+    id: 'montage',
+    num: '24',
+    cat: 'craft',
+    title: '蒙太奇',
+    en: 'Montage',
+    tag: '叙述技巧',
+    summary: '一系列短镜头的快速剪辑，压缩时间、展示过程或表达主题。',
+    detail: {
+      definition: '一系列短镜头的快速剪辑，用以压缩时间、展示过程或表达主题。',
+      function: '省略不必要的过程细节；展示人物状态的变化；创造节奏感。',
+      mckay: '蒙太奇应服务于"展示时间流逝中人物的变化"，而不是简单地"交代情节"。',
+      examples: '《洛奇》训练蒙太奇（展示成长过程）；《飞越疯人院》病人日常蒙太奇（展示制度化的压抑）。',
+      warning: '不要为了"节省篇幅"而用蒙太奇——如果那段过程本身有戏剧价值，就应该写成完整场景。'
+    }
+  },
+  {
+    id: 'probability',
+    num: '25',
+    cat: 'principle',
+    title: '说服力与可能性',
+    en: 'Probability and Possibility',
+    tag: '创作原理',
+    summary: '说服力 = 相信"可能发生"；可能性 = 相信"人生可能如此"。两者缺一不可。',
+    detail: {
+      probability: '说服力（Probability）：让观众相信"这件事可能发生"——即使是非常离奇的情节，也必须具有内在逻辑的一致性。',
+      possibility: '可能性（Possibility）：让观众相信"这件事是可能的"——比说服力更进一步，触及"人生可能发生"的层面。',
+      balance: '过于"可能"则平淡无奇；过于"不可能"则失去说服力；好故事在两者间找到黄金点。',
+      quote: '"故事必须同时具有说服力和可能性——缺一不可。"——麦基'
+    }
+  },
+  {
+    id: 'surprise',
+    num: '26',
+    cat: 'principle',
+    title: '期待与出乎意料',
+    en: 'Anticipation and Surprise',
+    tag: '创作原理',
+    summary: '在"期待"和"出乎意料"之间不断摆动，制造悬念和满足感。伏笔是关键。',
+    detail: {
+      anticipation: '期待：编剧在观众心中建立的预期——通过铺垫、暗示、模式建立。',
+      surprise: '出乎意料：打破期待，给出意外结果——但必须是"合理的意外"。',
+      rhythm: '在"期待"和"出乎意料"之间不断摆动，制造悬念和满足感。',
+      technique: '伏笔（Chekhov\'s Gun）：前文埋下的细节，在后文产生意义。没有伏笔的"意外"是"机械降神"。'
+    }
+  },
+  {
+    id: 'show-dont-tell',
+    num: '27',
+    cat: 'principle',
+    title: '表现而非讲述',
+    en: 'Show, Don\'t Tell',
+    tag: '创作原理',
+    summary: '通过行动展示人物，而不是用对白"告诉"观众。麦基的深化：展示"选择"。',
+    detail: {
+      definition: '通过行动、对白、视觉元素来展示人物特质和情节发展，而不是直接用对白或旁白"告诉"观众。',
+      mckayDeep: '麦基深化：不只是"展示行动"，而是"展示选择"——人物在压力下的选择才是真正的展示。',
+      test: '如果一段戏可以用"某某人物很勇敢"来概括，那就没写好；应该让观众通过行动自己得出"他很勇敢"的结论。',
+      note: '这条原则适用于所有叙事艺术，不仅限于电影剧本。'
+    }
+  },
+  {
+    id: 'chekhov',
+    num: '28',
+    cat: 'principle',
+    title: '契诃夫之枪',
+    en: 'Chekhov\'s Gun',
+    tag: '创作原理',
+    summary: '第一幕出现的枪，第三幕必须响。所有重要元素必须在后续得到呼应。',
+    detail: {
+      definition: '如果第一幕出现了一把枪，第三幕它必须响——即所有在故事中出现的重要元素，必须在后续得到呼应或解决。',
+      reverse: '反向应用：如果某个元素在后续没有作用，就不应该出现在故事中（删掉它）。',
+      function: '创造结构上的完整性；增强说服力；让观众感觉故事"严丝合缝"。',
+      warning: '不要过度使用——如果每个细节都是"契诃夫之枪"，故事会变得过于机械和刻意。'
+    }
+  },
+  {
+    id: 'act1',
+    num: '29',
+    cat: 'structure',
+    title: '第一幕 · 建制',
+    en: 'Act I · Setup',
+    tag: '结构详解',
+    summary: '介绍人物与世界，激励事件发生，情节点I将故事推向第二幕。',
+    detail: {
+      function: '建立人物、世界、基调；引入激励事件；设立主人公的欲望目标。',
+      length: '约占故事 25%（电影约 25–30 分钟）。',
+      plotPoint: '情节点 I：第一幕结束时的重大转折，将故事推向第二幕。没有它，故事就会"卡"在第一幕。',
+      warning: '第一幕最常见的错误：太过缓慢、没有真正的激励事件、人物欲望不清晰。'
+    }
+  },
+  {
+    id: 'act2',
+    num: '30',
+    cat: 'structure',
+    title: '第二幕 · 对抗',
+    en: 'Act II · Confrontation',
+    tag: '结构详解',
+    summary: '进展纠葛的核心场域，冲突不断升级，直至危机时刻的两难选择。',
+    detail: {
+      function: '进展纠葛的核心场域；冲突不断升级；人物被迫做出越来越困难的选择。',
+      length: '约占故事 50%（电影约 60 分钟）——是最长也最难写的一幕。',
+      difficulty: '第二幕是大多数剧本"崩盘"的地方——冲突升级不够、重复、失去动力。',
+      midpoint: '中点（Midpoint）：第二幕中间的重大事件或 revelation，为后半段提供新动力。',
+      crisis: '第二幕结尾的危机（Crisis）是整部电影最关键的转折之一。'
+    }
+  },
+  {
+    id: 'act3',
+    num: '31',
+    cat: 'structure',
+    title: '第三幕 · 结局',
+    en: 'Act III · Resolution',
+    tag: '结构详解',
+    summary: '高潮（终极对决）+ 结局（新均衡）。故事的最后 10–15%，必须干净利落。',
+    detail: {
+      function: '高潮：主人公与对抗力量最终对决，回答故事的核心问题。结局：展示新均衡状态。',
+      length: '约占故事 25%（电影约 20–30 分钟）。',
+      principle: '高潮必须"不可逆转"——故事在那一刻永远改变了方向。结局必须是高潮的"必然结果"。',
+      warning: '第三幕最常见的错误：引入新反派/新冲突（"机械降神"）、高潮不够"高"、结局拖沓。'
+    }
+  },
+  {
+    id: 'equilibrium',
+    num: '32',
+    cat: 'structure',
+    title: '均衡与新均衡',
+    en: 'Equilibrium & New Equilibrium',
+    tag: '结构详解',
+    summary: '故事开始时的平衡状态，被激励事件打破，结局时建立新的平衡状态。',
+    detail: {
+      equilibrium: '均衡状态：故事开始时的"正常世界"——人物生活平衡，但可能隐含"不满足感"。',
+      disruption: '激励事件打破均衡——从此，人物生活"再也回不去了"。',
+      newEquilibrium: '新均衡状态：结局时，人物生活重新获得平衡，但已经是"不同的平衡"——因为人物已经改变。',
+      note: '故事的本质就是：均衡 → 失衡 → 挣扎 → 新均衡。这个循环是一切叙事的共同骨架。'
+    }
+  }
+];
+
+// ═══════════ Render Cards ═══════════
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+  concepts.forEach(c => {
+    const card = document.createElement('div');
+    card.className = `card cat-${c.cat}`;
+    card.onclick = () => showDetail(c.id);
+    card.innerHTML = `
+      <div class="card-number">NO. ${c.num}</div>
+      <div class="card-title">${c.title}</div>
+      <div class="card-en">${c.en}</div>
+      <div class="card-body">${c.summary}</div>
+      <span class="card-tag">${c.tag}</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════ Render Checklist ═══════════
+function renderChecklist() {
+  const cl = document.getElementById('checklist');
+  const items = [
+    { q: '激励事件是否在故事前 15% 内发生？是否不可逆转？', ref: 'inciting' },
+    { q: '主人公想要什么？欲望是否足够强烈、具体？', ref: null },
+    { q: '对抗力量是否足够强大？是否有自己的合理动机？', ref: 'antagonism' },
+    { q: '每个场景是否都有价值转换？（开始 vs 结束的价值状态）', ref: 'scene' },
+    { q: '冲突是否每一幕都比前一幕更强烈？（进展升级）', ref: 'complications' },
+    { q: '危机是否提出了真正的两难选择？（不可兼容的价值）', ref: 'crisis' },
+    { q: '高潮是否是不可逆转的决定性时刻？', ref: 'climax' },
+    { q: '人物是否在故事结束时发生了内在转变？（人物弧光）', ref: 'character-arc' },
+    { q: '能否用一句话概括故事的主控思想？', ref: 'controlling' },
+    { q: '场景中的对白与人物真实意图是否错位？（潜文本）', ref: 'subtext' },
+    { q: '观众是否相信这一切"可能发生"？（说服力）', ref: 'probability' },
+    { q: '故事结束后，观众心中是否还有回响？（共鸣）', ref: 'resonance' },
+  ];
+  items.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'check-item';
+    div.innerHTML = `<span class="check-num">${i+1}</span><span>${item.q}</span>`;
+    if (item.ref) {
+      div.style.cursor = 'pointer';
+      div.onclick = () => { switchTab('terminology'); setTimeout(() => showDetail(item.ref), 200); };
+    }
+    cl.appendChild(div);
+  });
+}
+
+// ═══════════ Detail Panel ═══════════
+function showDetail(id) {
+  const concept = concepts.find(c => c.id === id);
+  if (!concept) return;
+  const overlay = document.getElementById('detail-overlay');
+  const content = document.getElementById('detail-content');
+  
+  let html = `
+    <h2>${concept.title}</h2>
+    <div class="en-title">${concept.en} · NO.${concept.num}</div>
+  `;
+
+  const d = concept.detail;
+  if (d.definition) html += `<div class="detail-section"><h3>定义</h3><p>${d.definition}</p></div>`;
+  if (d.when) html += `<div class="detail-section"><h3>发生时机</h3><p>${d.when}</p></div>`;
+  if (d.location) html += `<div class="detail-section"><h3>位置</h3><p>${d.location}</p></div>`;
+  if (d.function) html += `<div class="detail-section"><h3>功能</h3><p>${d.function}</p></div>`;
+  if (d.features) html += `<div class="detail-section"><h3>关键特征</h3><ul>${d.features.map(f => `<li>${f}</li>`).join('')}</ul></div>`;
+  if (d.principle) html += `<div class="detail-section"><h3>原则</h3><p>${d.principle}</p></div>`;
+  if (d.essence) html += `<div class="detail-section"><h3>本质</h3><p>${d.essence}</p></div>`;
+  if (d.types) html += `<div class="detail-section"><h3>类型</h3><p>${d.types}</p></div>`;
+  if (d.examples) html += `<div class="detail-section"><h3>示例</h3><p>${d.examples}</p></div>`;
+  if (d.mechanism) html += `<div class="detail-section"><h3>机制</h3><p>${d.mechanism}</p></div>`;
+  if (d.test) html += `<div class="detail-section"><h3>检验标准</h3><p>${d.test}</p></div>`;
+  if (d.relation) html += `<div class="detail-section"><h3>关系</h3><p>${d.relation}</p></div>`;
+  if (d.application) html += `<div class="detail-section"><h3>应用方法</h3><p>${d.application}</p></div>`;
+  if (d.warning) html += `<div class="detail-section"><h3>⚠ 麦基警告</h3><p>${d.warning}</p></div>`;
+  if (d.quote) html += `<div class="detail-section"><h3>📌 麦基名言</h3><p style="font-style:italic;">${d.quote}</p></div>`;
+  if (d.note) html += `<div class="detail-section"><h3>补充说明</h3><p>${d.note}</p></div>`;
+  if (d.composition) html += `<div class="detail-section"><h3>构成</h3><p>${d.composition}</p></div>`;
+  if (d.expression) html += `<div class="detail-section"><h3>表述方式</h3><p>${d.expression}</p></div>`;
+  if (d.creation) html += `<div class="detail-section"><h3>产生方式</h3><p>${d.creation}</p></div>`;
+  if (d.vsProb) html += `<div class="detail-section"><h3>与说服力的区别</h3><p>${d.vsProb}</p></div>`;
+  if (d.power) html += `<div class="detail-section"><h3>故事动力</h3><p>${d.power}</p></div>`;
+  if (d.technique) html += `<div class="detail-section"><h3>创作技巧</h3><p>${d.technique}</p></div>`;
+  if (d.corePrinciple) html += `<div class="detail-section"><h3>核心设计原则</h3><p>${d.corePrinciple}</p></div>`;
+  if (d.analysis) html += `<div class="detail-section"><h3>分析方法</h3><p>${d.analysis}</p></div>`;
+  if (d.invalid) html += `<div class="detail-section"><h3>无效场景判断</h3><p>${d.invalid}</p></div>`;
+  if (d.text) html += `<div class="detail-section"><h3>文本</h3><p>${d.text}</p></div>`;
+  if (d.subtext) html += `<div class="detail-section"><h3>潜文本</h3><p>${d.subtext}</p></div>`;
+  if (d.feature) html += `<div class="detail-section"><h3>优秀场景特征</h3><p>${d.feature}</p></div>`;
+  if (d.method) html += `<div class="detail-section"><h3>创作方法</h3><p>${d.method}</p></div>`;
+  if (d.identification) html += `<div class="detail-section"><h3>识别方法</h3><p>${d.identification}</p></div>`;
+  if (d.threeActs) html += `<div class="detail-section"><h3>三幕内容</h3><p>${d.threeActs}</p></div>`;
+  if (d.ending) html += `<div class="detail-section"><h3>结束标志</h3><p>${d.ending}</p></div>`;
+  if (d.note) html += `<div class="detail-section"><h3>说明</h3><p>${d.note}</p></div>`;
+  if (d.character) html += `<div class="detail-section"><h3>人物塑造</h3><p>${d.character}</p></div>`;
+  if (d.true) html += `<div class="detail-section"><h3>人物真相</h3><p>${d.true}</p></div>`;
+  if (d.probability) html += `<div class="detail-section"><h3>说服力</h3><p>${d.probability}</p></div>`;
+  if (d.possibility) html += `<div class="detail-section"><h3>可能性</h3><p>${d.possibility}</p></div>`;
+  if (d.balance) html += `<div class="detail-section"><h3>创作平衡</h3><p>${d.balance}</p></div>`;
+  if (d.anticipation) html += `<div class="detail-section"><h3>期待</h3><p>${d.anticipation}</p></div>`;
+  if (d.surprise) html += `<div class="detail-section"><h3>出乎意料</h3><p>${d.surprise}</p></div>`;
+  if (d.rhythm) html += `<div class="detail-section"><h3>创作节奏</h3><p>${d.rhythm}</p></div>`;
+  if (d.technique) html += `<div class="detail-section"><h3>经典技巧</h3><p>${d.technique}</p></div>`;
+  if (d.polarity) html += `<div class="detail-section"><h3>极性</h3><p>${d.polarity}</p></div>`;
+  if (d.tests) html += `<div class="detail-section"><h3>检验方法</h3><p>${d.tests}</p></div>`;
+
+  content.innerHTML = html;
+  overlay.classList.add('show');
+}
+
+function closeDetail(e) {
+  if (e.target === document.getElementById('detail-overlay') || e.target.classList.contains('close-btn')) {
+    document.getElementById('detail-overlay').classList.remove('show');
+  }
+}
+
+// ═══════════ Tabs ═══════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// Init
+renderCards();
+renderChecklist();
+</script>
+</body>
+</html>
