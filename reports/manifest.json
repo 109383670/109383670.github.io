@@ -3,6 +3,57 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "古代科举制度可视化",
+      "type": "html",
+      "title": "古代科举制度调查 · 可视化报告",
+      "summary": "以宋 · 明 · 清三朝为中心的资格、流程与前景考察",
+      "tags": [
+        "报告"
+      ],
+      "date": "2026-07-11",
+      "path": "reports/古代科举制度可视化.html",
+      "thumbnail": null
+    },
+    {
+      "id": "麦基故事可视化",
+      "type": "html",
+      "title": "麦基《故事》核心技术要点 · 可视化",
+      "summary": "罗伯特·麦基故事理论 · 故事三角、节拍序列、激励事件",
+      "tags": [
+        "创作",
+        "小说技法"
+      ],
+      "date": "2026-07-06",
+      "path": "reports/麦基故事可视化.html",
+      "thumbnail": "reports/thumbnail.svg"
+    },
+    {
+      "id": "麦基对白可视化",
+      "type": "html",
+      "title": "麦基《对白》核心技术要点 · 可视化",
+      "summary": "罗伯特·麦基对白写作理论 · 对白层次、潜文本、角色声音",
+      "tags": [
+        "创作",
+        "小说技法"
+      ],
+      "date": "2026-07-06",
+      "path": "reports/麦基对白可视化.html",
+      "thumbnail": "reports/thumbnail.svg"
+    },
+    {
+      "id": "麦基人物可视化",
+      "type": "html",
+      "title": "麦基《人物》核心技术要点 · 可视化",
+      "summary": "罗伯特·麦基人物塑造理论 · 角色维度、人物弧光、冲突设计",
+      "tags": [
+        "创作",
+        "小说技法"
+      ],
+      "date": "2026-07-06",
+      "path": "reports/麦基人物可视化.html",
+      "thumbnail": "reports/thumbnail.svg"
+    },
+    {
       "id": "三通道四位置咬合关系",
       "type": "html",
       "title": "三通道 × 四位置 · 咬合关系图",
@@ -13,6 +64,18 @@
       ],
       "date": "2026-07-04",
       "path": "reports/三通道四位置咬合关系.html",
+      "thumbnail": "reports/thumbnail.svg"
+    },
+    {
+      "id": "思考快与慢",
+      "type": "html",
+      "title": "读书笔记 · 思考，快与慢",
+      "summary": "丹尼尔·卡尼曼 · 系统1与系统2核心摘要可视化",
+      "tags": [
+        "读书"
+      ],
+      "date": "2026-07-03",
+      "path": "reports/思考，快与慢.html",
       "thumbnail": "reports/thumbnail.svg"
     },
     {
@@ -101,57 +164,6 @@
       "date": "2026-06-22",
       "path": "reports/sample-markdown/《彼得·潘》小说结构分析.md",
       "thumbnail": "reports/sample-markdown/thumbnail.svg"
-    },
-    {
-      "id": "思考快与慢",
-      "type": "html",
-      "title": "读书笔记 · 思考，快与慢",
-      "summary": "丹尼尔·卡尼曼 · 系统1与系统2核心摘要可视化",
-      "tags": [
-        "读书"
-      ],
-      "date": "2026-07-03",
-      "path": "reports/思考，快与慢.html",
-      "thumbnail": "reports/thumbnail.svg"
-    },
-    {
-      "id": "麦基人物可视化",
-      "type": "html",
-      "title": "麦基《人物》核心技术要点 · 可视化",
-      "summary": "罗伯特·麦基人物塑造理论 · 角色维度、人物弧光、冲突设计",
-      "tags": [
-        "创作",
-        "小说技法"
-      ],
-      "date": "2026-07-06",
-      "path": "reports/麦基人物可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
-    },
-    {
-      "id": "麦基对白可视化",
-      "type": "html",
-      "title": "麦基《对白》核心技术要点 · 可视化",
-      "summary": "罗伯特·麦基对白写作理论 · 对白层次、潜文本、角色声音",
-      "tags": [
-        "创作",
-        "小说技法"
-      ],
-      "date": "2026-07-06",
-      "path": "reports/麦基对白可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
-    },
-    {
-      "id": "麦基故事可视化",
-      "type": "html",
-      "title": "麦基《故事》核心技术要点 · 可视化",
-      "summary": "罗伯特·麦基故事理论 · 故事三角、节拍序列、激励事件",
-      "tags": [
-        "创作",
-        "小说技法"
-      ],
-      "date": "2026-07-06",
-      "path": "reports/麦基故事可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
     }
   ]
 }
