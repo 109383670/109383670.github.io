@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天宫大战 · 白蒙古讲述本（满族萨满创世神话）</title>
+<style>
+:root{
+  --bg:#070b16; --bg2:#0d1426; --void:#0a1020;
+  --gold:#e8c66a; --gold-soft:#fff3c4;
+  --fire:#e8503a; --water:#5bc8d6; --green:#6fae6f; --purple:#b07fe0;
+  --text:#ece9e0; --muted:#98a3b6; --line:rgba(232,198,106,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(1200px 700px at 70% -10%, rgba(91,200,214,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 20%, rgba(232,80,58,.08), transparent 55%),
+    radial-gradient(1000px 800px at 50% 120%, rgba(232,198,106,.07), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:"Noto Serif SC","Songti SC","Source Han Serif SC",STSong,"SimSun",serif;
+  line-height:1.9; letter-spacing:.02em; overflow-x:hidden;
+}
+a{color:var(--gold);text-decoration:none}
+::selection{background:rgba(232,198,106,.3);color:#fff}
+
+/* 进度条 */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;
+  background:linear-gradient(90deg,var(--gold),var(--fire),var(--water));
+  box-shadow:0 0 12px rgba(232,198,106,.7)}
+
+/* 导航 */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
+  padding:10px 14px;background:rgba(7,11,22,.72);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);font-size:13.5px}
+nav a{padding:5px 11px;border-radius:20px;color:var(--muted);
+  border:1px solid transparent;transition:.25s;white-space:nowrap}
+nav a:hover,nav a.active{color:var(--gold);border-color:var(--line);background:rgba(232,198,106,.08)}
+
+/* 容器 */
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+section{padding:70px 0 30px}
+.sec-title{font-size:26px;color:var(--gold);text-align:center;margin-bottom:8px;letter-spacing:.12em}
+.sec-sub{text-align:center;color:var(--muted);margin-bottom:34px;font-size:14px}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:90px 22px 40px;overflow:hidden}
+.hero svg.bgstars{position:absolute;inset:0;width:100%;height:100%;opacity:.5;z-index:0}
+.hero-inner{position:relative;z-index:2}
+.hero .kicker{color:var(--water);letter-spacing:.5em;font-size:13px;margin-bottom:18px;
+  text-transform:uppercase;opacity:.85}
+.hero h1{font-size:clamp(54px,13vw,140px);line-height:1;font-weight:800;letter-spacing:.06em;
+  background:linear-gradient(180deg,#fff6d8,var(--gold) 55%,#a9791f);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 40px rgba(232,198,106,.25);margin-bottom:6px}
+.hero .sub{font-size:clamp(16px,2.4vw,22px);color:var(--gold-soft);letter-spacing:.3em;margin:10px 0 6px}
+.hero .by{color:var(--muted);font-size:14px;margin-top:14px;letter-spacing:.06em}
+.hero .scrollhint{margin-top:42px;color:var(--muted);font-size:13px;letter-spacing:.3em;
+  animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* 序语 / 来源 */
+.intro-card{background:linear-gradient(180deg,rgba(13,20,38,.9),rgba(10,16,32,.9));
+  border:1px solid var(--line);border-radius:16px;padding:28px 30px;margin-bottom:10px;
+  box-shadow:0 18px 50px rgba(0,0,0,.4)}
+.intro-card p{color:#d7d3c8;font-size:15.5px}
+.intro-card .src{margin-top:14px;color:var(--muted);font-size:13px;border-left:3px solid var(--line);padding-left:12px}
+
+/* 神系图 */
+.godmap-wrap{background:radial-gradient(700px 500px at 50% 30%,rgba(91,200,214,.07),transparent);
+  border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:10px}
+.godmap-svg{width:100%;height:auto;display:block}
+.gm-name{fill:#1a1206;font-size:15px;font-weight:700;font-family:inherit}
+.gm-sub{fill:#3a2a08;font-size:11px;font-family:inherit}
+.gm-cap{fill:var(--muted);font-size:12px;font-family:inherit}
+.gm-node{cursor:pointer;transition:.3s}
+.gm-node:hover{filter:drop-shadow(0 0 14px rgba(255,243,196,.8))}
+.gm-node:hover circle:first-child{transform:scale(1.08);transform-origin:center;transform-box:fill-box}
+
+/* 角色卡 */
+.roles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:10px}
+.role-card{position:relative;background:rgba(13,20,38,.72);border:1px solid var(--line);
+  border-radius:14px;padding:18px 18px 20px;transition:.3s;overflow:hidden}
+.role-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rc);opacity:.85}
+.role-card:hover{transform:translateY(-6px);border-color:var(--rc);
+  box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 18px color-mix(in srgb,var(--rc) 40%,transparent)}
+.role-top{display:flex;align-items:center;gap:9px}
+.role-dot{width:11px;height:11px;border-radius:50%;box-shadow:0 0 10px var(--rc)}
+.role-name{font-size:18px;color:#fff;letter-spacing:.04em}
+.role-title{color:var(--rc);font-size:13px;margin:6px 0 2px;font-weight:600}
+.role-feng{color:var(--muted);font-size:11.5px;margin-bottom:8px;letter-spacing:.04em}
+.role-desc{color:#cfcabc;font-size:13.5px;line-height:1.75}
+
+/* 时间轴 */
+.timeline{position:relative;max-width:760px;margin:10px auto 0;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--fire),var(--water))}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-dot{position:absolute;left:-29px;top:18px;width:14px;height:14px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 0 4px rgba(232,198,106,.18)}
+.tl-card{background:rgba(13,20,38,.72);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+.tl-stage{color:var(--gold);font-size:16px;font-weight:700;letter-spacing:.08em}
+.tl-feng{color:var(--muted);font-size:11.5px;white-space:nowrap}
+.tl-text{color:#d7d3c8;font-size:14.5px}
+
+/* 章节 */
+.chapter{max-width:880px;margin:0 auto 46px;background:linear-gradient(180deg,rgba(13,20,38,.78),rgba(10,16,32,.7));
+  border:1px solid var(--line);border-radius:18px;padding:26px 30px;
+  box-shadow:0 18px 46px rgba(0,0,0,.35);position:relative;overflow:hidden}
+.chapter::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;
+  background:radial-gradient(circle,rgba(232,198,106,.12),transparent 70%);border-radius:50%}
+.ch-head{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.ch-badge{flex:0 0 auto;width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(145deg,var(--gold),#a9791f);color:#1a1206;
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;
+  box-shadow:0 0 18px rgba(232,198,106,.5)}
+.ch-num{font-size:24px;color:var(--gold);letter-spacing:.1em}
+.ch-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:3px}
+.ch-icon{font-size:18px}
+.ch-theme{color:var(--water);font-size:13.5px}
+.ch-manchu{color:var(--muted);font-size:12.5px}
+.ch-intro{color:#c9c4b6;font-size:14.5px;font-style:italic;
+  border-left:3px solid var(--line);padding:6px 0 6px 14px;margin:6px 0 16px}
+.ch-body{color:#e9e6dc;font-size:16px}
+.ch-p{margin:0 0 12px;text-indent:2em}
+.ch-body p:first-child{text-indent:0}
+.ch-body p:first-child::first-letter{font-size:1.1em;color:var(--gold)}
+
+/* footer */
+footer{padding:50px 22px 70px;text-align:center;color:var(--muted);font-size:13px;
+  border-top:1px solid var(--line);margin-top:40px;line-height:1.9}
+footer .gold{color:var(--gold)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:640px){
+  .ch-body{font-size:14.5px}
+  nav{font-size:12px;padding:8px 8px}
+  nav a{padding:4px 8px}
+  .chapter{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav><a href="#intro">序·来源</a><a href="#godmap">神系图</a><a href="#roles">角色</a><a href="#timeline">时间轴</a><a href="#ch-1">头腓凌</a><a href="#ch-2">贰腓凌</a><a href="#ch-3">叁腓凌</a><a href="#ch-4">肆腓凌</a><a href="#ch-5">伍腓凌</a><a href="#ch-6">陆腓凌</a><a href="#ch-7">柒腓凌</a><a href="#ch-8">捌腓凌</a><a href="#ch-9">玖腓凌</a></nav>
+
+<header class="hero">
+  <svg class="bgstars" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice"><circle cx="168" cy="428" r="1.6" fill="#cfe3ff" opacity="0.61"/><circle cx="490" cy="863" r="0.9" fill="#cfe3ff" opacity="0.84"/><circle cx="486" cy="827" r="0.9" fill="#cfe3ff" opacity="0.53"/><circle cx="241" cy="807" r="0.6" fill="#cfe3ff" opacity="0.21"/><circle cx="955" cy="599" r="1.6" fill="#cfe3ff" opacity="0.25"/><circle cx="812" cy="769" r="0.9" fill="#cfe3ff" opacity="0.8"/><circle cx="710" cy="43" r="1.6" fill="#cfe3ff" opacity="0.85"/><circle cx="756" cy="789" r="1.6" fill="#cfe3ff" opacity="0.6"/><circle cx="34" cy="979" r="1.2" fill="#cfe3ff" opacity="0.55"/><circle cx="710" cy="118" r="1.2" fill="#cfe3ff" opacity="0.22"/><circle cx="758" cy="837" r="0.6" fill="#cfe3ff" opacity="0.28"/><circle cx="950" cy="20" r="1.6" fill="#cfe3ff" opacity="0.3"/><circle cx="745" cy="351" r="1.6" fill="#cfe3ff" opacity="0.52"/><circle cx="191" cy="681" r="0.6" fill="#cfe3ff" opacity="0.51"/><circle cx="839" cy="240" r="0.6" fill="#cfe3ff" opacity="0.71"/><circle cx="213" cy="689" r="0.6" fill="#cfe3ff" opacity="0.28"/><circle cx="487" cy="572" r="1.6" fill="#cfe3ff" opacity="0.33"/><circle cx="945" cy="149" r="1.6" fill="#cfe3ff" opacity="0.39"/><circle cx="977" cy="462" r="1.6" fill="#cfe3ff" opacity="0.41"/><circle cx="496" cy="395" r="1.2" fill="#cfe3ff" opacity="0.22"/><circle cx="95" cy="162" r="1.6" fill="#cfe3ff" opacity="0.2"/><circle cx="71" cy="563" r="0.9" fill="#cfe3ff" opacity="0.57"/><circle cx="326" cy="569" r="0.6" fill="#cfe3ff" opacity="0.32"/><circle cx="174" cy="641" r="1.2" fill="#cfe3ff" opacity="0.74"/><circle cx="340" cy="354" r="1.2" fill="#cfe3ff" opacity="0.36"/><circle cx="172" cy="67" r="0.9" fill="#cfe3ff" opacity="0.71"/><circle cx="383" cy="163" r="0.6" fill="#cfe3ff" opacity="0.64"/><circle cx="920" cy="673" r="0.9" fill="#cfe3ff" opacity="0.46"/><circle cx="167" cy="984" r="0.6" fill="#cfe3ff" opacity="0.77"/><circle cx="502" cy="518" r="1.6" fill="#cfe3ff" opacity="0.63"/><circle cx="958" cy="897" r="0.9" fill="#cfe3ff" opacity="0.31"/><circle cx="70" cy="449" r="1.6" fill="#cfe3ff" opacity="0.7"/><circle cx="494" cy="58" r="1.2" fill="#cfe3ff" opacity="0.23"/><circle cx="264" cy="674" r="1.2" fill="#cfe3ff" opacity="0.22"/><circle cx="254" cy="174" r="1.6" fill="#cfe3ff" opacity="0.25"/><circle cx="346" cy="660" r="0.9" fill="#cfe3ff" opacity="0.84"/><circle cx="763" cy="745" r="1.6" fill="#cfe3ff" opacity="0.23"/><circle cx="142" cy="981" r="1.6" fill="#cfe3ff" opacity="0.22"/><circle cx="217" cy="921" r="1.2" fill="#cfe3ff" opacity="0.72"/><circle cx="902" cy="377" r="1.6" fill="#cfe3ff" opacity="0.51"/><circle cx="924" cy="869" r="1.6" fill="#cfe3ff" opacity="0.4"/><circle cx="547" cy="602" r="1.2" fill="#cfe3ff" opacity="0.29"/><circle cx="738" cy="10" r="1.6" fill="#cfe3ff" opacity="0.65"/><circle cx="976" cy="732" r="0.6" fill="#cfe3ff" opacity="0.37"/><circle cx="333" cy="659" r="0.9" fill="#cfe3ff" opacity="0.75"/><circle cx="598" cy="431" r="1.2" fill="#cfe3ff" opacity="0.64"/><circle cx="769" cy="981" r="0.9" fill="#cfe3ff" opacity="0.29"/><circle cx="97" cy="406" r="0.6" fill="#cfe3ff" opacity="0.32"/><circle cx="657" cy="457" r="0.9" fill="#cfe3ff" opacity="0.25"/><circle cx="121" cy="671" r="1.2" fill="#cfe3ff" opacity="0.28"/><circle cx="551" cy="964" r="1.2" fill="#cfe3ff" opacity="0.46"/><circle cx="909" cy="224" r="0.9" fill="#cfe3ff" opacity="0.32"/><circle cx="878" cy="386" r="0.9" fill="#cfe3ff" opacity="0.66"/><circle cx="563" cy="775" r="0.6" fill="#cfe3ff" opacity="0.59"/><circle cx="516" cy="894" r="0.6" fill="#cfe3ff" opacity="0.71"/><circle cx="8" cy="396" r="1.6" fill="#cfe3ff" opacity="0.76"/><circle cx="407" cy="782" r="0.9" fill="#cfe3ff" opacity="0.76"/><circle cx="238" cy="258" r="1.2" fill="#cfe3ff" opacity="0.68"/><circle cx="250" cy="398" r="0.9" fill="#cfe3ff" opacity="0.4"/><circle cx="922" cy="302" r="1.6" fill="#cfe3ff" opacity="0.82"/><circle cx="100" cy="558" r="0.6" fill="#cfe3ff" opacity="0.53"/><circle cx="752" cy="331" r="1.2" fill="#cfe3ff" opacity="0.39"/><circle cx="639" cy="538" r="0.9" fill="#cfe3ff" opacity="0.24"/><circle cx="834" cy="333" r="0.9" fill="#cfe3ff" opacity="0.43"/><circle cx="325" cy="673" r="1.6" fill="#cfe3ff" opacity="0.27"/><circle cx="77" cy="667" r="0.6" fill="#cfe3ff" opacity="0.61"/><circle cx="827" cy="778" r="1.6" fill="#cfe3ff" opacity="0.53"/><circle cx="969" cy="20" r="1.6" fill="#cfe3ff" opacity="0.51"/><circle cx="525" cy="398" r="1.6" fill="#cfe3ff" opacity="0.25"/><circle cx="25" cy="49" r="1.6" fill="#cfe3ff" opacity="0.23"/><circle cx="282" cy="721" r="1.6" fill="#cfe3ff" opacity="0.67"/><circle cx="466" cy="816" r="0.9" fill="#cfe3ff" opacity="0.46"/><circle cx="335" cy="498" r="0.9" fill="#cfe3ff" opacity="0.61"/><circle cx="986" cy="670" r="0.6" fill="#cfe3ff" opacity="0.22"/><circle cx="176" cy="503" r="1.2" fill="#cfe3ff" opacity="0.67"/><circle cx="911" cy="221" r="1.6" fill="#cfe3ff" opacity="0.61"/><circle cx="776" cy="634" r="1.2" fill="#cfe3ff" opacity="0.36"/><circle cx="938" cy="510" r="1.6" fill="#cfe3ff" opacity="0.4"/><circle cx="391" cy="844" r="0.6" fill="#cfe3ff" opacity="0.31"/><circle cx="206" cy="319" r="1.6" fill="#cfe3ff" opacity="0.67"/><circle cx="92" cy="566" r="0.9" fill="#cfe3ff" opacity="0.25"/><circle cx="309" cy="634" r="1.6" fill="#cfe3ff" opacity="0.68"/><circle cx="473" cy="110" r="0.9" fill="#cfe3ff" opacity="0.66"/><circle cx="210" cy="694" r="1.2" fill="#cfe3ff" opacity="0.44"/><circle cx="595" cy="697" r="0.9" fill="#cfe3ff" opacity="0.37"/><circle cx="974" cy="29" r="1.2" fill="#cfe3ff" opacity="0.53"/><circle cx="967" cy="865" r="0.9" fill="#cfe3ff" opacity="0.78"/><circle cx="519" cy="204" r="0.9" fill="#cfe3ff" opacity="0.59"/><circle cx="284" cy="733" r="1.6" fill="#cfe3ff" opacity="0.3"/><circle cx="402" cy="478" r="1.6" fill="#cfe3ff" opacity="0.48"/><circle cx="631" cy="681" r="1.2" fill="#cfe3ff" opacity="0.64"/><circle cx="683" cy="393" r="1.2" fill="#cfe3ff" opacity="0.26"/><circle cx="998" cy="983" r="0.9" fill="#cfe3ff" opacity="0.22"/><circle cx="829" cy="644" r="1.2" fill="#cfe3ff" opacity="0.21"/><circle cx="513" cy="593" r="0.6" fill="#cfe3ff" opacity="0.46"/><circle cx="451" cy="717" r="1.6" fill="#cfe3ff" opacity="0.36"/><circle cx="7" cy="964" r="0.9" fill="#cfe3ff" opacity="0.26"/><circle cx="316" cy="194" r="1.6" fill="#cfe3ff" opacity="0.44"/><circle cx="3" cy="378" r="0.9" fill="#cfe3ff" opacity="0.29"/><circle cx="810" cy="933" r="1.6" fill="#cfe3ff" opacity="0.54"/><circle cx="50" cy="316" r="0.9" fill="#cfe3ff" opacity="0.47"/><circle cx="903" cy="565" r="0.9" fill="#cfe3ff" opacity="0.35"/><circle cx="821" cy="843" r="1.6" fill="#cfe3ff" opacity="0.77"/><circle cx="18" cy="674" r="0.6" fill="#cfe3ff" opacity="0.25"/><circle cx="921" cy="852" r="0.9" fill="#cfe3ff" opacity="0.3"/><circle cx="509" cy="834" r="1.6" fill="#cfe3ff" opacity="0.51"/><circle cx="819" cy="692" r="1.2" fill="#cfe3ff" opacity="0.3"/><circle cx="157" cy="361" r="1.2" fill="#cfe3ff" opacity="0.39"/><circle cx="642" cy="9" r="0.6" fill="#cfe3ff" opacity="0.63"/><circle cx="190" cy="524" r="0.6" fill="#cfe3ff" opacity="0.64"/><circle cx="194" cy="368" r="1.2" fill="#cfe3ff" opacity="0.43"/><circle cx="165" cy="38" r="1.6" fill="#cfe3ff" opacity="0.38"/><circle cx="808" cy="668" r="1.6" fill="#cfe3ff" opacity="0.3"/><circle cx="106" cy="238" r="1.2" fill="#cfe3ff" opacity="0.55"/><circle cx="418" cy="203" r="0.9" fill="#cfe3ff" opacity="0.67"/><circle cx="537" cy="433" r="0.6" fill="#cfe3ff" opacity="0.41"/><circle cx="224" cy="218" r="0.6" fill="#cfe3ff" opacity="0.67"/><circle cx="621" cy="545" r="0.9" fill="#cfe3ff" opacity="0.21"/><circle cx="377" cy="505" r="1.6" fill="#cfe3ff" opacity="0.31"/><circle cx="871" cy="452" r="0.6" fill="#cfe3ff" opacity="0.79"/></svg>
+  <div class="hero-inner">
+    <div class="kicker">满族萨满 · 创世史诗</div>
+    <h1>天宫大战</h1>
+    <div class="sub">白蒙古讲述本 · 乌车始乌勒本</div>
+    <div class="by">讲述者：瑷珲四季屯满族萨满 白蒙古<br>1937年 富希陆、吴纪贤 记录 · 据《满族与萨满教》王宏刚</div>
+    <div class="scrollhint">向下滚动 · 进入神话 ▾</div>
+  </div>
+</header>
+
+<section id="intro" class="wrap">
+  <h2 class="sec-title">序 · 来源</h2>
+  <div class="sec-sub">《天宫大战》是流传于黑龙江流域野人女真的萨满教创世神话</div>
+  <div class="intro-card reveal">
+    <p>1937年，满族文化遗产的重要挖掘者、传承人富希陆、吴纪贤先生记录了孙吴县四季屯满族萨满<b>白蒙古</b>口叙的《天宫大战》。在这部《天宫大战》中，音容不一、司职各异的三百女神有了比较完整的描述与记载。</p>
+    <p style="margin-top:12px">瑷珲四季屯满族萨满白蒙古讲叙的“乌车始乌勒本”，据其内容谓之“天宫大战”，是同类神话中<b>最完整的范本</b>。“腓凌”满语意为“几次或几番”，白蒙古讲述本分为头、贰、叁、肆、伍、陆、柒、捌、玖共九章（腓凌）。</p>
+    <div class="src">本页可视化文本据扫描 PDF 逐页 OCR 提取，已剔除原书作者王宏刚的分析论述，仅保留神话叙事本身。OCR 个别字形或有讹误，建议核对原书第 24–42 页。</div>
+  </div>
+</section>
+
+<section id="godmap" class="wrap">
+  <h2 class="sec-title">神系图谱</h2>
+  <div class="sec-sub">创世三女神 · 恶神耶鲁里 · 三百女神星阵</div>
+  <div class="godmap-wrap reveal">
+    <svg viewBox="0 0 900 560" class="godmap-svg" role="img" aria-label="天宫大战神系图">
+      <!-- 星阵 -->
+      <circle cx="371" cy="117" r="3.5" fill="#cfe3ff" opacity="0.69"/><circle cx="114" cy="460" r="2" fill="#cfe3ff" opacity="0.52"/><circle cx="99" cy="505" r="2.5" fill="#cfe3ff" opacity="0.32"/><circle cx="484" cy="254" r="2" fill="#cfe3ff" opacity="0.44"/><circle cx="604" cy="257" r="2" fill="#cfe3ff" opacity="0.8"/><circle cx="166" cy="154" r="2" fill="#cfe3ff" opacity="0.65"/><circle cx="446" cy="65" r="2.5" fill="#cfe3ff" opacity="0.33"/><circle cx="176" cy="188" r="3.5" fill="#cfe3ff" opacity="0.39"/><circle cx="160" cy="332" r="3" fill="#cfe3ff" opacity="0.64"/><circle cx="738" cy="132" r="2" fill="#cfe3ff" opacity="0.65"/><circle cx="694" cy="136" r="3" fill="#cfe3ff" opacity="0.36"/><circle cx="769" cy="72" r="2" fill="#cfe3ff" opacity="0.67"/><circle cx="548" cy="388" r="3.5" fill="#cfe3ff" opacity="0.77"/><circle cx="516" cy="339" r="3.5" fill="#cfe3ff" opacity="0.52"/><circle cx="294" cy="446" r="2.5" fill="#cfe3ff" opacity="0.72"/><circle cx="289" cy="81" r="3" fill="#cfe3ff" opacity="0.62"/><circle cx="391" cy="413" r="3.5" fill="#cfe3ff" opacity="0.47"/><circle cx="114" cy="100" r="3.5" fill="#cfe3ff" opacity="0.4"/><circle cx="390" cy="117" r="3.5" fill="#cfe3ff" opacity="0.55"/><circle cx="724" cy="79" r="3" fill="#cfe3ff" opacity="0.5"/><circle cx="398" cy="344" r="3.5" fill="#cfe3ff" opacity="0.65"/><circle cx="507" cy="75" r="2" fill="#cfe3ff" opacity="0.87"/><circle cx="525" cy="396" r="2" fill="#cfe3ff" opacity="0.34"/><circle cx="758" cy="198" r="3.5" fill="#cfe3ff" opacity="0.47"/><circle cx="435" cy="494" r="3" fill="#cfe3ff" opacity="0.31"/><circle cx="512" cy="221" r="2.5" fill="#cfe3ff" opacity="0.67"/>
+      <!-- 连线 -->
+      <line x1="450" y1="130" x2="300" y2="370" stroke="#e8c66a" stroke-width="2.5" opacity="0.7"/>
+      <line x1="450" y1="130" x2="600" y2="370" stroke="#e8c66a" stroke-width="2.5" opacity="0.7"/>
+      <line x1="300" y1="370" x2="600" y2="370" stroke="#6fae6f" stroke-width="1.5" opacity="0.4" stroke-dasharray="4 4"/>
+      <line x1="450" y1="150" x2="450" y2="470" stroke="#e8503a" stroke-width="2" opacity="0.55" stroke-dasharray="6 5"/>
+      <line x1="300" y1="370" x2="450" y2="470" stroke="#e8503a" stroke-width="1.4" opacity="0.4" stroke-dasharray="4 4"/>
+      <line x1="600" y1="370" x2="450" y2="470" stroke="#e8503a" stroke-width="1.4" opacity="0.4" stroke-dasharray="4 4"/>
+      <!-- 节点 -->
+      <g class="gm-node" data-name="阿布卡赫赫">
+        <circle cx="450" cy="120" r="46" fill="#e8c66a"/><circle cx="450" cy="120" r="46" fill="none" stroke="#fff3c4" stroke-width="2"/>
+        <text x="450" y="116" text-anchor="middle" class="gm-name">阿布卡赫赫</text>
+        <text x="450" y="136" text-anchor="middle" class="gm-sub">天母·创世</text>
+      </g>
+      <g class="gm-node" data-name="巴那姆赫赫">
+        <circle cx="300" cy="380" r="38" fill="#6fae6f"/><circle cx="300" cy="380" r="38" fill="none" stroke="#d8f0d8" stroke-width="2"/>
+        <text x="300" y="377" text-anchor="middle" class="gm-name">巴那姆赫赫</text>
+        <text x="300" y="396" text-anchor="middle" class="gm-sub">地母</text>
+      </g>
+      <g class="gm-node" data-name="卧勒多赫赫">
+        <circle cx="600" cy="380" r="38" fill="#5bc8d6"/><circle cx="600" cy="380" r="38" fill="none" stroke="#d6f4fa" stroke-width="2"/>
+        <text x="600" y="377" text-anchor="middle" class="gm-name">卧勒多赫赫</text>
+        <text x="600" y="396" text-anchor="middle" class="gm-sub">布星女神</text>
+      </g>
+      <g class="gm-node" data-name="耶鲁里">
+        <circle cx="450" cy="480" r="42" fill="#e8503a"/><circle cx="450" cy="480" r="42" fill="none" stroke="#ffb3a7" stroke-width="2"/>
+        <text x="450" y="477" text-anchor="middle" class="gm-name">耶鲁里</text>
+        <text x="450" y="496" text-anchor="middle" class="gm-sub">九头恶魔</text>
+      </g>
+      <text x="450" y="545" text-anchor="middle" class="gm-cap">金色实线＝创生裂生　红色虚线＝善恶对抗　满天星点＝三百女神星阵</text>
+    </svg></div>
+</section>
+
+<section id="roles" class="wrap">
+  <h2 class="sec-title">神祇谱</h2>
+  <div class="sec-sub">神话中登场的主要神祇（按色彩区分神性）</div>
+  <div class="roles-grid">
+          <div class="role-card reveal" style="--rc:#e8c66a">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8c66a"></span>
+              <h4 class="role-name">阿布卡赫赫</h4>
+            </div>
+            <div class="role-title">天母 / 创世主神</div>
+            <div class="role-feng">出现于：头·贰·…·玖</div>
+            <p class="role-desc">创世三女神核心。自水泡中生，气生万物、光生万物、身生万物；裂生巴那姆赫赫与卧勒多赫赫。终战败耶鲁里，成男性天神阿布卡恩都里。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#6fae6f">
+            <div class="role-top">
+              <span class="role-dot" style="background:#6fae6f"></span>
+              <h4 class="role-name">巴那姆赫赫</h4>
+            </div>
+            <div class="role-title">地母神</div>
+            <div class="role-feng">出现于：贰·叁·玖</div>
+            <p class="role-desc">阿布卡赫赫下身裂生。掌地，肤生谷泉；与姐妹造男人时慌忙以熊之‘索索’成男根。后被耶鲁里搅得地动山摇。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#5bc8d6">
+            <div class="role-top">
+              <span class="role-dot" style="background:#5bc8d6"></span>
+              <h4 class="role-name">卧勒多赫赫</h4>
+            </div>
+            <div class="role-title">布星女神（希里女神）</div>
+            <div class="role-feng">出现于：贰·柒·捌</div>
+            <p class="role-desc">阿布卡赫赫上身裂生。周行天地、司掌明亮；以阿布卡赫赫之眼生太阳、月亮、小七星；执布星袋，定星辰东升西落。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e8503a">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8503a"></span>
+              <h4 class="role-name">耶鲁里</h4>
+            </div>
+            <div class="role-title">九头恶魔（敖钦所变）</div>
+            <div class="role-feng">出现于：叁·肆·伍·捌·玖</div>
+            <p class="role-desc">原是女天神敖钦，被山砬子击成两性怪神，自生自育，成无往不胜的恶神。败而化光气，魔气化山岚恶瘴、疫病遗害人世。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e8e6df">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8e6df"></span>
+              <h4 class="role-name">博额德音姆萨玛</h4>
+            </div>
+            <div class="role-title">序语传讲者</div>
+            <div class="role-feng">出现于：头</div>
+            <p class="role-desc">已故女萨满的真魂（‘博额德音’满语即‘已死的’）。骑九叉神鹿而来，传讲《天宫大战》，被敬为记忆神与歌舞神。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e8923a">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8923a"></span>
+              <h4 class="role-name">拖亚拉哈</h4>
+            </div>
+            <div class="role-title">盗火女神</div>
+            <div class="role-feng">出现于：玖</div>
+            <p class="role-desc">阿布卡恩都里额上红瘤‘其其旦’所化。私盗天神心中神火，以手为足，被烧成怪兽，为大地和人类送来火种、招来春天。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e8503a">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8503a"></span>
+              <h4 class="role-name">突姆火神</h4>
+            </div>
+            <div class="role-title">火神</div>
+            <div class="role-feng">出现于：柒</div>
+            <p class="role-desc">临危抛光毛火发化群星，自化白石头为南天微星，如天灯照亮穹宇。后世燃天灯、点冰灯、开篝火之源。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#5bc8d6">
+            <div class="role-top">
+              <span class="role-dot" style="background:#5bc8d6"></span>
+              <h4 class="role-name">那丹女神</h4>
+            </div>
+            <div class="role-title">小七星 / 领星</div>
+            <div class="role-feng">出现于：贰·柒</div>
+            <p class="role-desc">那丹那位呼。卧勒多赫赫星袋中钻出，化数百小星成星阵领星，于耶鲁里扰黑穹宇中照射光芒。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#4fd0d6">
+            <div class="role-top">
+              <span class="role-dot" style="background:#4fd0d6"></span>
+              <h4 class="role-name">德登</h4>
+            </div>
+            <div class="role-title">登高女神（天母之脚）</div>
+            <div class="role-feng">出现于：捌</div>
+            <p class="role-desc">阿布卡赫赫一支脚所化，与天地同高。散长发为星地，诱耶鲁里踩空堕入地心，被福特锦所擒。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#b07fe0">
+            <div class="role-top">
+              <span class="role-dot" style="background:#b07fe0"></span>
+              <h4 class="role-name">福特锦</h4>
+            </div>
+            <div class="role-title">大力神（巴那吉额姆之女）</div>
+            <div class="role-feng">出现于：捌</div>
+            <p class="role-desc">四头六臂八足，护视九层天下三层。耶鲁里堕入其母肚脐眼，被她掐住九头；耶鲁里化光气逃走。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e8e6df">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8e6df"></span>
+              <h4 class="role-name">者固鲁</h4>
+            </div>
+            <div class="role-title">护眼女神（芍丹乌西哈）</div>
+            <div class="role-feng">出现于：柒</div>
+            <p class="role-desc">赫赫护眼女神。化白芍药花星，千条光箭射瞎耶鲁里，智救天母。后世戴花插花以惊退魔鬼由此而来。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e69ab8">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e69ab8"></span>
+              <h4 class="role-name">依尔哈</h4>
+            </div>
+            <div class="role-title">花神（香云）</div>
+            <div class="role-feng">出现于：柒</div>
+            <p class="role-desc">天母身上香肉所化，日夜制香云使天色清澄。其居处被耶鲁里伪装老太太侵入。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#c9a0ff">
+            <div class="role-top">
+              <span class="role-dot" style="background:#c9a0ff"></span>
+              <h4 class="role-name">昆哲勒</h4>
+            </div>
+            <div class="role-title">九彩神鸟</div>
+            <div class="role-feng">出现于：玖</div>
+            <p class="role-desc">太阳河边神树上的九彩神鸟。衔太阳河水、以九彩神光为阿布卡赫赫编护腰战裙，助其苏醒。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#9fb3c8">
+            <div class="role-top">
+              <span class="role-dot" style="background:#9fb3c8"></span>
+              <h4 class="role-name">西斯林</h4>
+            </div>
+            <div class="role-title">风神</div>
+            <div class="role-feng">出现于：陆·柒·玖</div>
+            <p class="role-desc">阿布卡恩都里两双巨脚所化生。其风威助耶鲁里吞光；因贪睡破风阵致天母被擒，后被逐为男性野神。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#9b7fe0">
+            <div class="role-top">
+              <span class="role-dot" style="background:#9b7fe0"></span>
+              <h4 class="role-name">西思林</h4>
+            </div>
+            <div class="role-title">雷神</div>
+            <div class="role-feng">出现于：玖</div>
+            <p class="role-desc">阿布卡恩都里啸声化形。娶其其旦（拖亚拉哈），声啸裂地劈天。打雷即雷神向风神哥哥索要爱妻。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#e8923a">
+            <div class="role-top">
+              <span class="role-dot" style="background:#e8923a"></span>
+              <h4 class="role-name">多喀霍</h4>
+            </div>
+            <div class="role-title">火与生命女神（石为屋）</div>
+            <div class="role-feng">出现于：陆</div>
+            <p class="role-desc">以石为屋，火与光明化身。助众神获新生；其白石被天母啃食，热力令天母肢体融解为日月森林。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#b08968">
+            <div class="role-top">
+              <span class="role-dot" style="background:#b08968"></span>
+              <h4 class="role-name">巴那吉额姆</h4>
+            </div>
+            <div class="role-title">大地之母</div>
+            <div class="role-feng">出现于：捌·玖</div>
+            <p class="role-desc">地母之母。肚脐眼住女儿福特锦；耶鲁里堕入其中被擒。阿布卡恩都里学其懒散酣睡。</p>
+          </div>
+
+          <div class="role-card reveal" style="--rc:#b08968">
+            <div class="role-top">
+              <span class="role-dot" style="background:#b08968"></span>
+              <h4 class="role-name">代敏大鹰</h4>
+            </div>
+            <div class="role-title">留世大鹰</div>
+            <div class="role-feng">出现于：玖</div>
+            <p class="role-desc">洪涛冰山盖野后，与一女人留世，生下人类。女萨满由此成为人类始母神。</p>
+          </div></div>
+</section>
+
+<section id="timeline" class="wrap">
+  <h2 class="sec-title">创世时间轴</h2>
+  <div class="sec-sub">从水泡到人类 · 母系到父系</div>
+  <div class="timeline">
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">太初</span><span class="tl-feng">贰腓凌</span></div>
+              <p class="tl-text">不分天不分地的水泡泡，水泡里生出阿布卡赫赫</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">三女神</span><span class="tl-feng">贰腓凌</span></div>
+              <p class="tl-text">阿布卡赫赫下身裂生巴那姆赫赫（地），上身裂生卧勒多赫赫（星）</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">造人</span><span class="tl-feng">叁腓凌</span></div>
+              <p class="tl-text">先造女人（心慈性烈），后造男人（肩胛骨、腋毛与熊之‘索索’）</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">恶之诞生</span><span class="tl-feng">肆腓凌</span></div>
+              <p class="tl-text">敖钦女神被山砬子击成两性怪神，自生自育，化为九头恶魔耶鲁里</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">星辰之战</span><span class="tl-feng">伍腓凌</span></div>
+              <p class="tl-text">耶鲁里化九头为九亮星，卧勒多赫赫抛星定东西向星移路线</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">冰天之灾</span><span class="tl-feng">伍腓凌</span></div>
+              <p class="tl-text">耶鲁里搬白海冰山盖天，九色巨鸭啄千洞，鸭嘴挤扁、爪成三叶</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">神魔大战</span><span class="tl-feng">陆·柒·捌腓凌</span></div>
+              <p class="tl-text">吃石补身、多喀霍助生、雪海骗逐；三百女神连番出战</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">智胜</span><span class="tl-feng">柒·捌腓凌</span></div>
+              <p class="tl-text">者固鲁化芍药花射瞎耶鲁里；德登散发改星地诱其落网</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">最终决战</span><span class="tl-feng">捌·玖腓凌</span></div>
+              <p class="tl-text">福特锦掐耶鲁里九头，魔气化山岚恶瘴；耶鲁里败为九头恶鸟</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">女萨满</span><span class="tl-feng">玖腓凌</span></div>
+              <p class="tl-text">神鹰哺育世上第一个大萨满，授星卜、神技、孕育医术</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">人类始母</span><span class="tl-feng">玖腓凌</span></div>
+              <p class="tl-text">洪涛后代敏大鹰与一女人留世，生人类；女萨满成始母神</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">盗火</span><span class="tl-feng">玖腓凌</span></div>
+              <p class="tl-text">拖亚拉哈私盗神火，以手为足，招来春天</p>
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-head"><span class="tl-stage">父系来临</span><span class="tl-feng">玖腓凌</span></div>
+              <p class="tl-text">阿布卡赫赫成男性天神阿布卡恩都里，送九十二位瞒尼神</p>
+            </div>
+          </div></div>
+</section>
+
+<section id="chapters" class="wrap">
+  <h2 class="sec-title">九章全文</h2>
+  <div class="sec-sub">头腓凌 → 玖腓凌 · 完整神话正文（不遗漏）</div>
+  
+        <article class="chapter reveal" id="ch-1">
+          <div class="ch-head">
+            <div class="ch-badge">头</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">头腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">🦌</span><span class="ch-theme">传讲者降临</span><span class="ch-manchu">头腓凌 · 序语</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">满语“腓凌”意为“几次或几番”。头腓凌是整个神话的序语，由已故女萨满博额德音姆萨玛的真魂传讲——她“家里已经走了的”（满语“博额德音”即“已死”），在神龛上传讲这最神圣的故事。</p>
+          <div class="ch-body"><p class="ch-p">白蒙古讲述本之“头腓凌”（腓凌，满语，意为几次或几番）：<br></p><p class="ch-p">从萨哈连下游的东方，走来骑九叉神鹿的博额德音姆萨满——<br></p><p class="ch-p">“天上彩霞闪光的时候，萨哈林（今黑龙江）跳着浪光的时候，天上刮下来金翅鲤鱼，树窟里爬出四腿的银蛇，不知是几辈姐姐管家的年头，走来了骑着九叉神鹿的博额德音姆萨玛（即萨满），百余岁了，还红颜满面，白发满头还年富力强，是神鹰给她的精力，是鱼神给她的水性，是阿布卡（天）给她的神寿，是百鸟给她的歌喉，是百兽给她的坐骥，百技除邪，百事通神，百难卜知，哈拉器（扎板，神器的一种）传谕着神示，厚爱族众的情深呵犹如东方的太阳神（火）照的大地。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-2">
+          <div class="ch-head">
+            <div class="ch-badge">贰</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">贰腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">🌊</span><span class="ch-theme">宇宙创生</span><span class="ch-manchu">贰腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">宇宙最初是“不分天不分地的水泡泡”。水孕生命的朴素唯物主义思想，寓于诗一般的创世图画中。</p>
+          <div class="ch-body"><p class="ch-p">贰腓凌：<br></p><p class="ch-p">“世上最先有的是什么？最古最古的时候是什么样？世上最古最古时候是不分天不分地的水泡泡，水泡渐渐长，水泡渐渐多，水泡里生出阿布卡赫赫。她像水泡那么小，可她越长越大，有水的地方，有水泡的地方，都有阿布卡赫。她小小的像水珠，她长长的高过寰宇，她大得变成天穹。她身轻能飘浮空宇、她身重能深入水底。无处不生，无处不有，无处不在。她的体魄谁也看不清，只有在小水珠才能看清她是七彩神光，白亮湛蓝。她能气生万物，光生万物，身生万物。阿布卡赫赫下身裂生出巴那姆赫赫（地神）女神，上身裂生出卧勒多赫赫（希里女神），好动不止，周行天地，司掌明亮……阿布卡气生云雷，巴那姆肤生谷泉，卧勒多用阿布卡赫赫眼发生顺（太阳）毕牙（月亮），那丹那位呼（小七星）。三神永生永育，育有大千。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-3">
+          <div class="ch-head">
+            <div class="ch-badge">叁</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">叁腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">🜂</span><span class="ch-theme">造人 · 女人先于男人</span><span class="ch-manchu">叁腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">三女神造人：先造女人，后造男人。男人是巴那姆赫赫慌忙中用肩胛骨、腋毛和熊的“索索”拼成——故男人浊泥多、心术叵测，而“索索”是从熊身上借来的。</p>
+          <div class="ch-body"><p class="ch-p">叁腓凌中讲：<br></p><p class="ch-p">“阿布卡赫赫和卧勒多赫两神造人，最先造出来的全是女人，所以女人心慈性烈。阿布卡赫赫见世上光生女人，就从身上揪块肉做个敖钦女神，生九个头，八个臂，侍守在巴那姆赫赫身旁。阿布卡赫赫、卧多赫赫这回同巴那姆赫赫造男人。巴那姆赫赫身边有个捣乱的敖钦女神不得酣睡，姐妹又在催促快造男人，她忙三迭四不耐烦地顺手抓下一把肩胛骨和腋毛，和姐妹的慈肉、烈肉，搓成了一个男人，所以男人性烈、心慈，还比女人身强力壮，因是骨头做的。不过是肩骨和腋毛合成的，所以男人身上比女人须发髯毛多。肩胛骨常让巴那姆赫赫躺卧压在身下，肩胛骨有泥，所以男人比女人浊泥多，心术比女人叵测。巴那姆赫赫慌慌忙忙从身边的野熊胯下要了个‘索索’（雄性生殖器），给她们合做成的男人型体的胯下安上了。所以，男人的‘索索’，跟熊的‘索索’长短模样相似，是跟熊身上借来的。所以，兽族百禽比人到世上早。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-4">
+          <div class="ch-head">
+            <div class="ch-badge">肆</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">肆腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">👹</span><span class="ch-theme">恶之诞生 · 耶鲁里</span><span class="ch-manchu">肆腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">敖钦女神本是女天神，因巴那姆赫赫用山砬子击中，化为一角九头八臂的两性怪神，自生自育，成为九头恶魔耶鲁里——恶并非外来，而源于女神自身的嬗变。</p>
+          <div class="ch-body"><p class="ch-p">肆腓凌中讲：<br></p><p class="ch-p">“敖钦女神九个头颅，把百禽百兽的智慧和能耐都学通了。她的手时时推摇巴那姆赫赫，练得力撼山岳，猛劲无穷。她总看守巴那姆赫赫，也甚觉没趣儿，有时就发怒吼闹。巴那姆赫赫本来就烦恶敖钦女神，一气之下用身上的两大块山砬子打过去，一块山尖变成了敖钦女神头上的一只角，直插天穹；另一块大山尖压在敖钦女神肚下，变成了‘索索’。敖钦女神被两块山尖一打，马上变了一角九头八臂的两性怪神。有利角可刺破天穹大地，刺伤了巴那姆赫赫，钻进巴那姆赫赫肚子里。她自生自育，生出无数跟她一样的怪神。这就是九头恶魔无往不胜的耶鲁里大神。它性淫暴烈，能化气开天，化光入日，凭角入地，对三女神毫不惧畏，反而欺凌女神们。巴那姆赫赫再不能宁静酣眠了，耶鲁里大神闹得她地动山摇，肌残肤破，地水横溢，闹得风雷四震，日月无光，飞星（流星）满天，万物惨亡。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-5">
+          <div class="ch-head">
+            <div class="ch-badge">伍</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">伍腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">⭐</span><span class="ch-theme">星辰运行 · 冰天之灾</span><span class="ch-manchu">伍腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">最早的鏖战。耶鲁里化九个头为九个亮星，天上像有十个太阳；卧勒多赫赫抛星成东西向运行的星移路线。耶鲁里又搬白海冰山盖天，九色花翅巨鸭啄出千千万万洞，鸭嘴被挤成扁圆、双爪成三片叶形。</p>
+          <div class="ch-body"><p class="ch-p">伍腓凌讲述了世上最早的鏖战，世上最惨的拼争。神话中说：<br></p><p class="ch-p">“九头敖钦女神变成了一角、九头、自生自育的恶魔耶鲁里，凌辱三女神，她把九个头变成九个亮星，天上像有了十个太阳。卧勒多赫赫忙用桦皮兜去装九个亮星，也给带入地下。她的光芒照得耶鲁里九个头上的眼睛尖明，头晕地旋，慌忙将抓在手上的桦皮布星神兜抛出来，正巧是从东往西抛出的，布星女神卧勒多赫赫便从东往西追赶，得到了布星袋。从此，星星总是从东方升起向西方移动，万万年如此，就是让耶鲁里给抛出来的星移路线。<br></p><p class="ch-p">耶鲁里凭着恶魔的眼力，在暗夜的冰块上找到了白冰，而且理直气壮地说：我敢打赌天与地都是白色的。说着，它让自生自育的无数耶鲁里，到遥远的白海把冰山搬来。阿布卡赫赫苦无良策，巴那姆赫赫派去了身边的九色花翅大嘴巨鸭，把阿布卡赫赫从被困的冰天中背上蓝天，躲过了灾难。可是，冰海盖住了天穹，蔽盖了大地，大嘴巨鸭，口喷烈火，把冰天给啄个洞，一连气儿啄个千千万万个洞，从此才又出现了日月星光，才有了光明温暖，可鸭嘴却从此以后让冰巨块给挤压成了又扁又圆的了，双爪也给挤压成三片叶形了。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-6">
+          <div class="ch-head">
+            <div class="ch-badge">陆</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">陆腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">🔥</span><span class="ch-theme">神魔大战 · 火与石</span><span class="ch-manchu">陆腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">谁是长生不死的神？以石为屋的多喀霍女神（火与光明化身）助众神获得新生；阿布卡赫赫被耶鲁里骗入雪海，啃白石充饥，烤化雪山，肢体融解化为日月森林溪流。</p>
+          <div class="ch-body"><p class="ch-p">陆腓凌论述了在天宫大战中“谁是长生不死的神？谁是不可抗争的神圣大神？”神话中讲：<br></p><p class="ch-p">“九头恶魔耶鲁里率领自生自育的成千恶魔，吐噬万物，称霸苍穹，浊雾弥天，禽兽丧亡。阿布卡赫赫杀死一群又一群，耶鲁里连生不竭，恶魔反倒比以前更凶更多。在分不清天分不清地的时候，有个以石为屋的多喀霍女神。她能帮助众神，获得生命和力量，并有自育自生能力。她让西斯林女神施展风威，用飞砂走石驱赶恶魔。耶鲁里仓惶逃到地下，天穹才又现出光明。耶鲁里不甘心，又跟阿布卡赫赫比试飞力，阿布卡赫赫凭着七彩神火照射，便追了下去，被耶鲁里骗进了北天雪海里。阿布卡赫赫饿得无法，只好啃住多喀霍女神的白石充饥。因为多喀霍是光明和火的化身，热力烧得阿布卡赫赫坐立不安，浑身充满了巨力，烤化了雪山，一下山又重新撞开层层雪海雪山，冲回穹宇。可是热水烧得阿布卡赫赫肢体融解，眼睛变成了日、月，头发变成了森林，汗水变成了溪、河……”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-7">
+          <div class="ch-head">
+            <div class="ch-badge">柒</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">柒腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">🌸</span><span class="ch-theme">天灯与爱花 · 智胜</span><span class="ch-manchu">柒腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">突姆火神抛光毛火发化群星，成南天微星；那丹女神化七星领星；依尔哈制香云；者固鲁化白芍药花，以千条光箭射瞎耶鲁里，智救天母。后世戴花插花以惊退魔鬼，源出于此。</p>
+          <div class="ch-body"><p class="ch-p">柒腓凌讲述在天界神魔大战中，给人类留下立竿燃天灯与爱花风俗的由来。神话中讲：<br></p><p class="ch-p">“耶鲁里喷出的恶风黑雾，卷起了天上的星辰和彩云，卷走了巴那姆赫赫身上的百兽百禽，突姆火神临危不惧，用自己身上的光毛火发，抛到黑空里化为群星，自己变成白石头，成为南天上三星下边的一颗闪闪晃晃、忽明忽暗的小星，就是突姆女神仅有的微火在闪照，像天灯照亮穹宇。后世人在‘撮罗子’前，立有白桦高竿，或在山顶、高树上用兽头骨里盛满獾、野猪油，点燃照天灯，岁岁点冰灯，开篝火照耀黑夜，就是为了驱吓独角九头恶魔耶鲁里，也是为了缅念和祭祷空妈妈母神。卧勒多赫赫星袋里的那丹女神，知道突姆女神光灭星殒，便也钻出了大星袋，化成数百个小星星，像个星星火球，在九头恶魔耶鲁里扰黑的穹宇中，照射光芒。这便是七星那丹那拉呼，成为星阵的领星。<br></p><p class="ch-p">在东方天空有个蓝色的草地上住着依尔哈女神，她香气四溢，是阿布卡赫赫身上的香肉变成的，她日夜勤劳，为苍穹制造香云。耶鲁里知道这是阿布卡赫赫在天上栖居的地方，乔装成一个赶着三只鹅的老太太，拄着个木杖吆吆喝喝地走来，阿布卡赫赫正安静睡觉，忽然觉得全身被白网拴着，越拴越紧，白鹅原来变成了拴阿布卡赫赫的白筋绳子，木拐杖原来正是九头恶魔耶鲁里的又凶又大的顶天触角，刺扎得阿布卡赫赫遍体鳞伤。守护赫赫的西斯林女神当时贪恋睡觉，只张开着风翅保护着赫赫没有飓风扇动天魔，被耶鲁里轻轻地破了风阵，抓住了阿布卡赫赫。阿布卡赫赫被抓，天要塌陷了，天摇地晃，日月马上暗淡无光，天上的神禽，地上的神兽相继死亡。正在这大难的千钧一发之时，在白鹅筋绳拴绑的阿布卡赫赫泪眼溪流旁，住着者固鲁女神们，她们身上都有光彩之魂，是赫赫的护眼女神，守护日月。她们在溪河旁知道赫赫被绑，便化做了一朵芳香四散、洁白美丽的芍丹乌西哈（芍药花星），光芒四射。九头恶魔耶鲁里一见这朵奇妙的神花，爱不释手。恶魔们争抢着摘白花，谁知白花突然变成千条万条光箭，射耶鲁里的眼睛，疼得耶鲁里闭目打滚，捂着九头逃回地穴。阿布卡赫赫被拯救了，天地被拯救了。西斯林女神因为贪睡，惹出大祸，被三女神驱逐出天地之外，夺去了她的女神神牌。西斯林从此改变了神形，后来成了耶鲁里伙下的男性野神，放荡无羁，驰号天地之间，撼山摇月，成为万物一害。后世人们头上总喜戴花或头髻插花，认为便可惊退魔鬼。戴花、插花、贴窗花、雕冰花，都喜欢是白芍药花。雪花，也是白色的，恰是阿布卡赫赫剪成的，可以驱魔洁世，代代吉祥。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-8">
+          <div class="ch-head">
+            <div class="ch-badge">捌</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">捌腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">⚔️</span><span class="ch-theme">大战高潮 · 三百女神出战</span><span class="ch-manchu">捌腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">天宇神魔大战的最高潮。吃石补身、米亚卡小神钻耶鲁里独角、野猪得灵牙、鱼母神化鲤拐子、云母神化计时星、德登以长发诱耶鲁里落网、福特锦大力神掐住九头——魔气化山岚恶瘴遗害人世。</p>
+          <div class="ch-body"><p class="ch-p">捌腓凌是天宇中神魔大战的高潮，神话中说：<br></p><p class="ch-p">“阿布卡赫赫为了打败耶鲁里，就要吃石补身，便派侍女白腹号鸟、白脖厚嘴号鸟飞往东海采衔九纹石，累了便在东天九叉神树上歇脚，察望耶鲁里的恶魔动静，看到通天树上住着九天三百女神。耶鲁里的长角最无敌，赫赫搓下身上的尘做了无数米亚卡小神，钻进了耶鲁里的九头独触角里面。耶鲁里又痒痒又头痛，冲到天上，独角让米亚卡神给钻了一半，掉在地上，正巧赶上野猪拱地成沟，要咬耶鲁里，结果那个掉下的角一下子扎在野猪的嘴上，从此野猪长出了又长又灵的牙，比百兽都厉害。耶鲁里疼得在天上打滚，见到三百女神向它扑来，便随着黑风逃到了一条大河河底下，化成个小曲蛇（蚯蚓）藏进了泥水里，三九天上的鱼母神，就追到了水里，变成个机灵敏捷的小鲤拐子找到了耶鲁里，从泥里咬住了耶鲁里化形的小蚯蚓尾巴，蚯蚓身子一缩掀起大浪泥砂，扰混了清水，鱼母神松口，耶鲁里化阵恶风又逃之夭夭，西离妈妈女神因找到耶鲁里有功，便成为宇宙中鱼星辰——鱼拐子星，在天海边追寻着恶魔耶鲁里。<br></p><p class="ch-p">耶鲁里凭借西斯林的风威，将光明吞进肚里，天宇又变成黑漆天光，恶风呼啸，尘砂弥漫，企图把天上三百女神吹昏头脑，追踪不到它的身迹。阿布卡赫赫便让一九云母神变成一个永世计时星，不要让耶鲁里认出来，因为耶鲁里有西斯林的飓风，刮起来云母神便不能久停，云母神便化做卧勒多赫赫布星神属下的一位伟大而忠于职守的塔其妈妈星神，昼夜为众神计时，再狂的恶风黑夜也骗不了众神的眼睛。<br></p><p class="ch-p">阿布卡赫赫又从身上搓落出泥，生出兴克里女神，能引导太阳的光芒照进暗夜，这便是永世迎日的鼠星神。阿布卡赫赫担心黎明前的那一段黑夜耶鲁里来偷袭捣乱，就把身边的三耳六眼灵兽派了出去，永远横卧在苍天之中，头北尾南，极目远望高天，寻找耶鲁里的踪影，一直到太阳的光芒照彻寰宇，星光隐灭，从中天中消逝，满语尊称他为‘乌西哈布鲁古’大神。九头恶魔屡战屡败，恼羞万分，便送去口信，要一对一地比试高低，阿布卡赫赫便与耶鲁里争杀在一起，地动星移，星撞星雷鸣电闪，耶鲁里喷着黑风恶水，天地昏黑，石雨雷砸，万物殒灭。耶鲁里被星光围困，被光耀照晃，被者固鲁女神光彩刺射，虽然与阿布卡赫赫一对一地撕斗，终神力难支，想站在星星上歇口气，谁知踩在德登女神的头部。德登女神是阿布卡赫赫的一支脚，身姿秀美修长，与天地同高，终日追逐风云，可洞测寰宇些微动息。德登女神妈妈忽见九头恶魔耶鲁里仓皇降下，便故意将自已的尖尖长发布散成一望无边的空中星地，等耶鲁里双脚刚一踏上，德登女神将头身猛倾，耶鲁里踩空，头朝下堕进了德登女神脚踩着的地心里。正巧，地心是巴那吉额姆身上的肚脐眼。这里住着巴那吉额姆最宠爱的女儿福特锦大力神。她有四头六臂八足，身高齐天，护视九层天穹的下三层。四头分视四方，眼睛能观察到鸟虫也飞不到的地方，能看穿岩土峦岳。她的六臂能够托天摇地，拔山撼树，能缚捉到千里之外的飞鸟奔兔，闭眼伸手就能采摘野果，辨百草，她长着人脚、兽脚、鸟爪，百虫的八足，跑起来连风也追不到。耶鲁里掉进肚脐沿，被福特锦捉住，紧紧掐住它的九头，耶鲁里化成光气逃走，放散的魔气化成了山岚恶瘴、疫病，从此留到了世间，遗害无穷。空际星阵为卧勒多赫赫聚星而成，从此穹宇间日月相分，不在一天，相互追映。空际有了天河星海，白亮亮光闪闪绵亘东西，像一条顶天立地不可逾越的星山，便是为拦截耶鲁里而筑成的。”</p></div>
+        </article>
+
+        <article class="chapter reveal" id="ch-9">
+          <div class="ch-head">
+            <div class="ch-badge">玖</div>
+            <div class="ch-titles">
+              <h3 class="ch-num">玖腓凌</h3>
+              <div class="ch-meta"><span class="ch-icon">🌅</span><span class="ch-theme">终结局 · 盗火与人类</span><span class="ch-manchu">玖腓凌</span></div>
+            </div>
+          </div>
+          <p class="ch-intro">最终决战：耶鲁里败为九头恶鸟，败魂化瞒尼、满盖。神鹰哺育女萨满（世上第一个大萨满）；洪涛后女萨满成人类始母；拖亚拉哈私盗神火招来春天；最终阿布卡赫赫成男性天神阿布卡恩都里——母系让位于父系。</p>
+          <div class="ch-body"><p class="ch-p">玖腓凌讲叙了天宫大战的最终结局，神话中说：<br></p><p class="ch-p">“耶鲁里为了挟天为主，便于日月降落后的黑夜里，悄悄冲向青空，口喷黑风恶水，淹没了穹宇大地，并把阿布卡赫赫身上的护身战裙扯了下来。阿布卡赫赫逃回九层天上，昏倒在滚动着金光的太阳河旁。太阳河边的神树上住着一位名叫昆哲勒的九彩神鸟，它扯下自己身上的毛羽，又衔来金色的太阳河水，为阿布卡赫赫擦伤口，用九彩神光编织护腰战裙，阿布卡赫赫身穿九彩神羽战裙，从太阳河水中慢慢苏醒过来。巴那姆赫赫将自己身上生息的虎、豹、熊、鳞、蛇、鹰、雕、牛、鱼、百虫等魂魄摄来，让每一个兽禽神魂献出一块魂骨，为阿布卡赫赫编织了护腰战裙，从此阿布卡赫赫才真正有了无敌于寰宇的神威。姊妹三人在众神禽神兽的辅佐之下打败了九头恶魔耶鲁里，使它变成了一个只会夜间怪号的九头恶鸟。耶鲁里的败魂还时常出世脱化瞒尼、满盖，践害人世。阿布卡赫赫打败耶鲁里时，将它九个头上还有五个头的双眼取下，使他变成了瞎子，最怕光明和篝火，只要燃放篝火，点起冰灯，照亮暗隅，九头鸟便不敢危害世间了。<br></p><p class="ch-p">阿布卡赫赫派神鹰哺育女萨满，使她成为世上第一个大萨满。神鹰受命后便用昆哲勒神鸟衔来的太阳河中的生命与智慧的神囊喂养萨满，用卧勒多赫赫的神光启迪萨满，使她通晓星卜天时；用巴那姆赫赫的肤肉丰润萨满，使她运筹神技；用耶鲁里自生自育的奇功诱导萨满，使她有传播男女孕育的医术。女大萨满才成为世间百聪百伶百慧百巧的万能神者，抚安世界，传替百代。<br></p><p class="ch-p">不知又过了多少亿斯万年，北天冰海南流，洪涛冰山盖野，大地上只有代敏大鹰和一个女人留世，生下了人类。这便是洪涛后的女萨满，成为人类的始母神。是阿布卡赫赫把太阳光和昆哲勒神派到水中，从此冰水才有了温暖，才生育出水虫、水草，重新有鱼虾、水蛇、水鼋、水狸，又在东海有人首鱼身的江湖沼海之神，称为‘德立格’女神。为使世间能分辨方向，阿布卡赫赫让自己身边的五个方向女神下来给人类指点方向。大地上有残留汪洋，阿布卡赫赫拔下身上的腋毛，化成了无数条水龙——木克木都里，朝朝暮暮地吞水，从此又在大地上出现了无数条又粗又宽又长又弯的江河和沟岔，养育着阿布卡赫赫的子孙——人类。<br></p><p class="ch-p">不知又经过了多少万年，洪荒远古，阿布卡赫赫人称阿布卡恩都里大神（即男性天神），高卧九层云天之上，呵气为霞，喷火为星，山河宁静，阿布卡恩都里也学巴那吉额姆一样懒惰散漫，性喜酣睡。所以，北地朔野寒天，冰河覆地，雪海无垠，万物不生。巴那姆额姆教人穴居地下，筑室洞窟，故北人大家深室九梯，刺猬、蝙蝠均为安全守神。耶鲁里常潜出施毒烟害人，疮疖、天花灭室穴生命。天生雅格哈女神擅识百草，索活（甜酱菜）、它卡（野芥菜）、佛库宅拉（蕨菜）、省哲（蘑菇）、山茶（木耳）为人所食，百花为人送香气，百树为人衣其皮，百兽为人食其肉，年期香为人祛疮除疫敬祖神。阿布卡恩都里送给人间瞒尼神（祖先英雄神）九十二位：战神、箭神、石神、痘神、火神、头疼神、噬血神、大力神、穴居神、飞润神、舟筏神、育娄神、产孕神、狩猎神、断事神、卜算神、驭火神、唤水神、山雪神、乌春神（歌神）、玛克辛神（舞神）、说古神，等等瞒尼神，传播古史子嗣故事。<br></p><p class="ch-p">神话最后说道：‘阿布卡恩都里未给人以火之前，茹血生食，常窟于地下同蝼鼠无异。雪消出洞，落雪入地，人蛇同穴，人蝠同眠，十有一生。阿布卡恩都里额上突生红瘤‘其其旦’，化为美女，脚踏火烧云，身披红霞星光彩，嫁与雷神西思林为妻。雷神西思林是阿布卡恩都里的啸声化形而成的巨神，火发白身长手，喜驰游寰宇，声啸裂地劈天，勇不可挡，而风神西斯林早生于西思林雷神，是阿布卡恩都里的两双巨脚所化生，风驰电掣，不逊于雷神的肆虐，乘其外游盗走其其旦女神，欲与女神孕育子孙，播送大地，使人类得以绵续。可是其其旦女神见大冰厚齐天，无法育子，便私盗阿布卡恩都里的心中神火临风，怕神火熄灭，她便把神火吞进肚里，嫌两脚行走太慢，便以手为足助驰。天长日久，她终于运火中被神火烧成虎目、虎耳、豹头、豹须、灌身、鹰爪、尾的一只怪兽，变成拖亚拉哈大神，她四爪蹦火云，巨口喷烈焰，驱冰雪、逐寒霜，驰如电闪，光照群山，为大地和人类送来了火种，招来了春天。天上所以要打雷，就是那暴烈的雷神弟弟向风神哥哥在索要爱妻呢！'</p></div>
+        </article>
+</section>
+
+<footer>
+  <p><span class="gold">《天宫大战》白蒙古讲述本</span> · 满族萨满创世神话可视化</p>
+  <p>讲述者：白蒙古（1937 富希陆、吴纪贤记录）　|　文本来源：《满族与萨满教》王宏刚</p>
+  <p>注：本页为 OCR 提取整理，已去除原书作者论述，仅存神话叙事；个别字建议核对原书。</p>
+</footer>
+
+<script>
+// 进度条
+const prog=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const sc=h.scrollTop/(h.scrollHeight-h.clientHeight);
+  prog.style.width=(sc*100)+'%';
+});
+// 滚动揭示
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold: 0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// 导航高亮
+const navAs=[...document.querySelectorAll('nav a')];
+const secs=navAs.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const navIO=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    const id='#'+e.target.id;
+    navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id));
+  }});
+},{rootMargin:'-45% 0px -50% 0px'});
+secs.forEach(s=>navIO.observe(s));
+</script>
+</body>
+</html>
