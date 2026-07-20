@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《山海经》深度研究 · 上古奇书全解</title>
+<style>
+  :root{
+    --bg:#f7f4ee; --paper:#fffdf8; --ink:#2b2620; --ink-soft:#5c5347;
+    --line:#e3dccd; --gold:#a9803f; --gold-soft:#c9a55f; --red:#9c3a2c;
+    --teal:#3d6b64; --blue:#3a5a7a; --plum:#6d4560;
+    --shadow:0 8px 30px rgba(90,70,40,.10);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Songti SC","Noto Serif SC",STSong,serif;
+    line-height:1.85;font-size:16.5px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px}
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;padding:78px 22px 60px;text-align:center;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(169,128,63,.18), transparent 60%),
+      linear-gradient(180deg,#efe7d6,#f7f4ee);
+    border-bottom:1px solid var(--line);overflow:hidden;
+  }
+  .hero .seal{
+    display:inline-block;font-family:"Kaiti SC",STKaiti,serif;
+    color:#fff;background:var(--red);border-radius:8px;
+    font-size:15px;letter-spacing:4px;padding:6px 14px;margin-bottom:22px;
+    box-shadow:0 4px 14px rgba(156,58,44,.35);
+  }
+  .hero h1{
+    font-family:"Kaiti SC",STKaiti,serif;font-size:56px;margin:.1em 0 .12em;
+    letter-spacing:6px;color:var(--ink);font-weight:900;
+  }
+  .hero .sub{font-size:17px;color:var(--gold);letter-spacing:2px;margin-bottom:20px}
+  .hero .meta{color:var(--ink-soft);font-size:14.5px;max-width:640px;margin:0 auto;line-height:1.9}
+  .hero .stats{display:flex;justify-content:center;gap:34px;margin-top:30px;flex-wrap:wrap}
+  .hero .stat b{display:block;font-family:"Kaiti SC",serif;font-size:32px;color:var(--red)}
+  .hero .stat span{font-size:13px;color:var(--ink-soft);letter-spacing:1px}
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:20;background:rgba(247,244,238,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;gap:6px;flex-wrap:wrap;padding:10px 22px}
+  nav a{
+    font-size:13.5px;color:var(--ink-soft);text-decoration:none;
+    padding:5px 11px;border-radius:6px;transition:.2s;font-family:sans-serif;
+  }
+  nav a:hover{background:var(--gold);color:#fff}
+  /* ---------- SECTION ---------- */
+  section{padding:52px 0 8px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;border-bottom:2px solid var(--gold);padding-bottom:10px}
+  .sec-head .no{font-family:"Kaiti SC",serif;font-size:30px;color:var(--gold-soft);font-weight:900}
+  .sec-head h2{font-family:"Kaiti SC",STKaiti,serif;font-size:29px;margin:0;letter-spacing:2px}
+  .sec-head .en{margin-left:auto;font-family:sans-serif;font-size:12px;color:#b8ac97;letter-spacing:1px;text-transform:uppercase}
+  p{margin:14px 0}
+  .lead{font-size:17.5px;color:var(--ink);border-left:3px solid var(--gold);padding-left:16px;background:linear-gradient(90deg,rgba(169,128,63,.06),transparent)}
+  em.k{font-style:normal;color:var(--red);font-weight:700}
+  .q{font-family:"Kaiti SC",serif;color:var(--plum);background:#f3ecdf;border-radius:8px;padding:12px 18px;margin:16px 0;border-left:3px solid var(--plum);font-size:16px}
+  /* ---------- CARD ---------- */
+  .grid{display:grid;gap:16px;margin:20px 0}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+  .card h4{margin:0 0 8px;font-family:"Kaiti SC",serif;font-size:19px;color:var(--gold);letter-spacing:1px}
+  .card p{margin:6px 0;font-size:15px;color:var(--ink-soft)}
+  .tag{display:inline-block;font-family:sans-serif;font-size:11.5px;padding:2px 9px;border-radius:20px;background:#efe7d6;color:var(--gold);margin:2px 4px 2px 0}
+  /* ---------- TABLE ---------- */
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px;background:var(--paper);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  th{background:#4a3f2e;color:#f3ead6;font-family:"Kaiti SC",serif;font-weight:600;letter-spacing:1px}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tbody tr:nth-child(even){background:#faf6ed}
+  td.c{color:var(--red);font-weight:700;white-space:nowrap}
+  /* ---------- TIMELINE ---------- */
+  .tl{position:relative;margin:24px 0 8px;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--gold-soft),var(--line))}
+  .tl .item{position:relative;margin-bottom:20px}
+  .tl .item::before{content:"";position:absolute;left:-22px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid var(--paper);box-shadow:0 0 0 2px var(--gold-soft)}
+  .tl .yr{font-family:"Kaiti SC",serif;color:var(--red);font-weight:700;font-size:15px}
+  .tl .tx{font-size:15px;color:var(--ink-soft);margin-top:2px}
+  /* ---------- BEAST ---------- */
+  .beast{display:flex;gap:14px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+  .beast .em{font-size:34px;line-height:1;flex-shrink:0;filter:sepia(.2)}
+  .beast h4{margin:0 0 4px;font-family:"Kaiti SC",serif;font-size:18px;color:var(--ink)}
+  .beast p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+  .beast .src{font-family:sans-serif;font-size:11px;color:var(--gold);margin-top:5px}
+  /* ---------- MYTH ---------- */
+  .myth{border-left:3px solid var(--red);padding:4px 0 4px 18px;margin:18px 0}
+  .myth h4{margin:0 0 4px;font-family:"Kaiti SC",serif;font-size:20px;color:var(--red)}
+  .myth .orig{font-family:"Kaiti SC",serif;color:var(--plum);font-size:15px}
+  /* footer */
+  footer{margin-top:60px;padding:30px 22px 48px;border-top:1px solid var(--line);text-align:center;color:var(--ink-soft);font-size:13px;font-family:sans-serif}
+  footer a{color:var(--gold)}
+  .divider{text-align:center;color:var(--gold-soft);font-size:22px;margin:40px 0 8px;letter-spacing:8px}
+  @media(max-width:720px){
+    .g2,.g3{grid-template-columns:1fr}
+    .hero h1{font-size:42px}
+    .sec-head .en{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="seal">上 古 奇 書</div>
+  <h1>山 海 經</h1>
+  <div class="sub">CLASSIC OF MOUNTAINS AND SEAS · 深度研究</div>
+  <p class="meta">一部集地理、神话、方志、博物、巫术于一体的先秦"天下奇书"。<br>非一人一时之作，主体成于战国，完全成书不晚于秦汉之际。</p>
+  <div class="stats">
+    <div class="stat"><b>18</b><span>卷 / 篇</span></div>
+    <div class="stat"><b>约3.1万</b><span>字</span></div>
+    <div class="stat"><b>550+</b><span>座山</span></div>
+    <div class="stat"><b>300+</b><span>条水道</span></div>
+    <div class="stat"><b>400+</b><span>神怪异兽</span></div>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#s1">概述</a>
+  <a href="#s2">成书与作者</a>
+  <a href="#s3">结构体系</a>
+  <a href="#s4">五藏山经</a>
+  <a href="#s5">海经·大荒经</a>
+  <a href="#s6">神话谱系</a>
+  <a href="#s7">四大神话</a>
+  <a href="#s8">神兽异怪</a>
+  <a href="#s9">殊方异国</a>
+  <a href="#s10">山海图</a>
+  <a href="#s11">性质之争</a>
+  <a href="#s12">价值与版本</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- 1 -->
+<section id="s1">
+  <div class="sec-head"><span class="no">壹</span><h2>它是一部什么书</h2><span class="en">Overview</span></div>
+  <p class="lead">《山海经》是中国现存最古老的地理博物与神话总集，被鲁迅称为"古之巫书"，被袁珂誉为"神话之渊府"。全书以"山"为纲、以"海"为纬，记述了远古的名山大川、动植矿产、邦国民族、祭祀巫医与神灵怪异。</p>
+  <p>司马迁在《史记·大宛列传赞》中最早提及它——"至《禹本纪》《山海经》所有怪物，余不敢言之也"，态度是<em class="k">敬而远之</em>；而正是这种"闳诞迂夸、怪诞不经"，让它成为保存中国上古神话资料最多、最系统的一部典籍。没有《山海经》，我们几乎无从谈起黄帝、炎帝、夸父、精卫、刑天、西王母的原始面貌。</p>
+  <div class="q">"其书所包甚广，内容之奇诡，历代书籍罕能匹敌，堪称百科全书式的天下奇书。"</div>
+  <p>它同时是一座"多学科富矿"：集古代<em class="k">地理学、方志学、动物学、植物学、矿物学、天文学、医药学、民族学、神话学、宗教学、巫术学</em>之大成。其中关于矿物的记载，是世界文献中最早的矿物学记录。</p>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <div class="sec-head"><span class="no">贰</span><h2>成书年代、作者与整理源流</h2><span class="en">Authorship</span></div>
+  <p>《山海经》<em class="k">非出于一时一人之手</em>。近代学界共识是：大抵先有口头传说，战国时开始文字记录，秦汉两代又有增补。旧说"禹、益所作"或出自"禹鼎图"，皆不可信——因为《五藏山经》中有大量关于<em class="k">铁</em>的记载，而铁器冶制春秋方现、战国始盛，这直接推翻了"成书于禹时"之说。</p>
+
+  <h4 style="font-family:'Kaiti SC',serif;color:var(--gold);font-size:19px;margin-top:26px">◆ 作者众说纷纭</h4>
+  <table>
+    <thead><tr><th>学者</th><th>观点</th></tr></thead>
+    <tbody>
+      <tr><td class="c">顾颉刚</td><td>非一人所作，作者为秦人</td></tr>
+      <tr><td class="c">袁　珂</td><td>各篇作者皆为楚国或楚地人（因多神巫记载，合于战国楚地巫风）</td></tr>
+      <tr><td class="c">陆侃如</td><td>《山经》战国楚人作；《海内外经》西汉人作；《大荒经》《海内经》东汉魏晋人作</td></tr>
+      <tr><td class="c">蒙文通</td><td>可能出自巴蜀人之手，代表巴蜀文化的典籍（书中无麦，说明非产于北方）</td></tr>
+      <tr><td class="c">马伯乐（法）</td><td>《山经》作者是洛邑（洛阳）人</td></tr>
+    </tbody>
+  </table>
+
+  <h4 style="font-family:'Kaiti SC',serif;color:var(--gold);font-size:19px;margin-top:26px">◆ 从三十二篇到十八卷：整理源流</h4>
+  <div class="tl">
+    <div class="item"><div class="yr">战国初 / 中期</div><div class="tx">《五藏山经》五篇写定，是全书最早成形的部分——巫祝之流依远古传说记录的踏勘之书。</div></div>
+    <div class="item"><div class="yr">秦 · 西汉初</div><div class="tx">附益《海外经》《海内经》共八篇，方士之书，专载殊方异国传闻，夹杂大量神话。</div></div>
+    <div class="item"><div class="yr">西汉成帝时</div><div class="tx">太史令尹咸校《山经》五篇 + 海内外经八篇，定为《山海经》十三篇（即《汉书·艺文志》著录之数）。</div></div>
+    <div class="item"><div class="yr">西汉哀帝 建平元年（前6年）</div><div class="tx"><em class="k">刘歆（刘秀）</em>据三十二篇本重加校定删汰，改编为十八篇进呈。今本〈海内东经〉后仍留有"待诏太常属臣望校治……臣秀领主省"的题署。</div></div>
+    <div class="item"><div class="yr">东晋</div><div class="tx"><em class="k">郭璞</em>为《山海经》作注，将刘歆删去、别本流传的《大荒经》四篇与《海内经》一篇重新收入独立成篇，并著《山海经图赞》——形成今传十八卷本的祖本。</div></div>
+    <div class="item"><div class="yr">清代</div><div class="tx">毕沅《山海经新校正》、郝懿行《山海经笺疏》精加考订；郝懿行考出古本至少三十四篇。</div></div>
+    <div class="item"><div class="yr">现代</div><div class="tx">袁珂《山海经校注》《山海经校译》成为当代最权威通行整理本。</div></div>
+  </div>
+  <div class="q">"经"字之谜：《山海经》无宗教依附、无官学地位，为何称"经"？郝懿行认为此"经"本是"经历、经行"之意（走过、勘察）；袁珂则认为是刘歆整理时所加，以契合西汉的经典化潮流。</div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <div class="sec-head"><span class="no">叁</span><h2>十八卷的结构体系</h2><span class="en">Structure</span></div>
+  <p>全书按"由内及外"的空间层次展开：<em class="k">山经</em>为华夏域内核心地带 →《海内经》为边疆 →《海外经》为更远之地 →《大荒经》为极荒之域。（注意"海"非海洋，而指《尔雅》所谓"九夷八狄七戎六蛮"的四方偏远之地。）</p>
+  <table>
+    <thead><tr><th>大类</th><th>篇目</th><th>卷数</th><th>性质</th><th>年代</th></tr></thead>
+    <tbody>
+      <tr><td class="c">五藏山经<br>（山经）</td><td>南、西、北、东、中山经</td><td>5卷</td><td>地理博物为主，以山为纲</td><td>战国初/中期（最早）</td></tr>
+      <tr><td class="c">海外经</td><td>海外南、西、北、东经</td><td>4卷</td><td>域外殊国、方位神话</td><td>秦·西汉初</td></tr>
+      <tr><td class="c">海内经</td><td>海内南、西、北、东经</td><td>4卷</td><td>海内异闻、古史传说</td><td>秦·西汉初</td></tr>
+      <tr><td class="c">大荒经</td><td>大荒东、南、西、北经</td><td>4卷</td><td>创世神话、帝系谱系（最富神话）</td><td>较早/一说汉初</td></tr>
+      <tr><td class="c">海内经</td><td>海内经（不分方位）</td><td>1卷</td><td>综述性，含发明创制</td><td>成书最晚，或汉初</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14.5px;color:var(--ink-soft)">各篇字数悬殊：〈西山经〉〈北山经〉多至四五千字，〈海内南经〉仅三百余字，〈海内东经〉去掉后人所加"水经"后甚至只剩百余字。篇目排序（山经—海外—海内—大荒—海内）颇为杂乱、不合由近及远的常理，正说明"书成于众手，后世编定者难以协调，只能照旧"。</p>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <div class="sec-head"><span class="no">肆</span><h2>《五藏山经》：上古的地理坐标</h2><span class="en">The Mountains</span></div>
+  <p>《山经》共载 <em class="k">447 座山</em>（一说约550座含海经），其记述方式极其程式化，形成了中国最早的"地理志"范式：</p>
+  <div class="q">先按方位分五区 → 每区分若干山系（列）→ 每列"自首山曰某山"叙起 → 依次"又某向若干里曰某山" → 记该山矿产、草木、鸟兽的名称·形态·用途 → "某水出焉，某向流注于某水/泽/海" → 附祭祀所宜、巫医、怪异。</div>
+  <div class="grid g3">
+    <div class="card"><h4>南山经</h4><p>东起浙江舟山（漆吴山），西抵湖南沅水（柜山），南达广东南海。可指实最北为浙江东天目山（浮玉山），连带叙及"具区"即今太湖。</p></div>
+    <div class="card"><h4>西山经</h4><p>东起晋陕黄河，南达秦岭，西南抵甘肃鸟鼠山、青海湖（西海），西北或达新疆阿尔金山。西王母之所居昆仑即在此系。</p></div>
+    <div class="card"><h4>北山经</h4><p>字数最多之一，记北方群山水系。精卫填海（发鸠山）、共工台等神话多出于此。</p></div>
+    <div class="card"><h4>东山经</h4><p>记东方之山，多及海岱、江淮之地的物产与异兽。</p></div>
+    <div class="card"><h4>中山经</h4><p>篇幅最大（一卷十二篇），记豫西、晋南、陕中一带最为详确——正是华夏文明核心区，地理可信度最高。</p></div>
+    <div class="card" style="background:#f3ecdf"><h4>可信度分布</h4><p>447座山中，汉晋以来可指实确切方位者约<b style="color:var(--red)">140座</b>（约1/3），其中半数属《中山经》。离中原越远，越疏略差谬——印证其"实测+传闻"的混合来源。</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+  <div class="sec-head"><span class="no">伍</span><h2>《海经》与《大荒经》：神话的主场</h2><span class="en">Seas &amp; Wilds</span></div>
+  <p>如果说《山经》是"务实"的地理踏勘，那么《海经》《大荒经》就是"务奇"的神话世界。这里记载了海内外<em class="k">殊方异国</em>——羽民国、贯胸国、女子国、丈夫国、三首国、长臂国……以及最核心的<em class="k">上古帝系神话</em>。</p>
+  <p>《大荒经》尤为关键：它保存了以<em class="k">帝俊</em>为中心的创世谱系（帝俊几乎是山海经神话体系里"生殖力最强"的天帝，其后裔繁衍出众多邦国与文化英雄），以及日月的运行、十日与十二月的诞生、羲和浴日、常羲浴月等宇宙起源母题。学界（如袁珂）认为《大荒经》四篇与《海内经》一篇成书或最早，是山海经神话的"内核"。</p>
+  <div class="q">图解性特征：《大荒经》中大量"进行时"描写——"有人曰王亥，两手操鸟，方食其头"（正在吃鸟头），暗示这些文字本是对古图的"解说词"，先有图、后有文。</div>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+  <div class="sec-head"><span class="no">陆</span><h2>上古神话谱系：谁是谁</h2><span class="en">Pantheon</span></div>
+  <p>《山海经》的神灵不是孤立的，而是构成一张互相通婚、征战、生育的巨网。理清几位核心天帝，就抓住了整个体系的骨架：</p>
+  <div class="grid g2">
+    <div class="card"><h4>帝俊 · 东方天帝</h4><p>山海经独有的至高神，可能是殷商上帝"夋/喾"的原型。妻羲和生十日、妻常羲生十二月；后裔遍布诸国，是文化英雄（发明车、船、乐器、耕作）之源。</p><span class="tag">生日生月</span><span class="tag">万物之祖</span></div>
+    <div class="card"><h4>黄帝 · 中央之帝</h4><p>诸帝之首，与炎帝、蚩尤大战。生苗龙→融吾→并明……谱系庞大；应龙、女魃皆其战将。</p><span class="tag">涿鹿之战</span><span class="tag">华夏共祖</span></div>
+    <div class="card"><h4>炎帝 · 南方火帝</h4><p>其女化精卫、化瑶草（女尸/瑶姬）；后裔共工、祝融、夸父多与之相关。</p><span class="tag">火德</span><span class="tag">农神系</span></div>
+    <div class="card"><h4>颛顼 · 北方之帝</h4><p>黄帝之裔，"绝地天通"的主导者；死后化鱼妇复苏，象征生死循环。共工怒触不周山即在其治下。</p><span class="tag">绝地天通</span></div>
+    <div class="card"><h4>西王母</h4><p>《西山经》载其"其状如人，豹尾虎齿而善啸，蓬发戴胜，司天之厉及五残"——原始形态是掌瘟疫刑杀的半兽神，后世才逐渐演变为雍容的王母娘娘。</p><span class="tag">司天之厉</span><span class="tag">形象演变</span></div>
+    <div class="card"><h4>烛龙（烛九阴）</h4><p>钟山之神，人面蛇身赤色，"视为昼，瞑为夜，吹为冬，呼为夏"，睁眼闭眼即成昼夜——一位掌管光明与时序的创世级巨神。</p><span class="tag">昼夜之神</span></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+  <div class="sec-head"><span class="no">柒</span><h2>那些流传千年的神话</h2><span class="en">Great Myths</span></div>
+
+  <div class="myth">
+    <h4>夸父逐日</h4>
+    <p class="orig">"夸父与日逐走，入日；渴，欲得饮，饮于河、渭；河、渭不足，北饮大泽。未至，道渴而死。弃其杖，化为邓林。"（《海外北经》）</p>
+    <p>不自量力却又悲壮宏大的追逐；其手杖化为桃林（邓林）。另《大荒北经》又载夸父为应龙所杀——同一人物两种死法，正是"书成众手"的痕迹。</p>
+  </div>
+  <div class="myth">
+    <h4>精卫填海</h4>
+    <p class="orig">"炎帝之少女，名曰女娃。女娃游于东海，溺而不返，故为精卫，常衔西山之木石，以堙于东海。"（《北山经·发鸠山》）</p>
+    <p>弱小生命对抗浩瀚命运的永恒象征——化为小鸟，也要一石一木去填平吞噬自己的大海。</p>
+  </div>
+  <div class="myth">
+    <h4>刑天舞干戚</h4>
+    <p class="orig">"刑天与帝至此争神，帝断其首，葬之常羊之山。乃以乳为目，以脐为口，操干戚以舞。"（《海外西经》）</p>
+    <p>头被砍掉仍以乳为目、以脐为口继续挥舞盾与斧——陶渊明"刑天舞干戚，猛志固常在"即咏此不屈之魂。</p>
+  </div>
+  <div class="myth">
+    <h4>鲧禹治水</h4>
+    <p class="orig">"洪水滔天。鲧窃帝之息壤以堙洪水，不待帝命。帝令祝融杀鲧于羽郊。鲧复生禹，帝乃命禹卒布土以定九州。"（《海内经》）</p>
+    <p>中国治水神话的源头：鲧盗息壤失败被诛，其腹中生禹，禹终成大业——失败与继承、牺牲与新生的原型叙事。</p>
+  </div>
+  <p style="font-size:14.5px;color:var(--ink-soft);margin-top:18px">其余重要母题还有：<em class="k">共工怒触不周山</em>（天倾西北、地陷东南）、<em class="k">黄帝战蚩尤</em>（应龙蓄水、女魃止雨）、<em class="k">后羿射日</em>之背景（帝俊赐羿彤弓）、<em class="k">大禹杀相柳</em>、<em class="k">羲和浴日 / 常羲浴月</em>等。</p>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+  <div class="sec-head"><span class="no">捌</span><h2>神兽异怪图鉴</h2><span class="en">Bestiary</span></div>
+  <p>《山海经》最令人着迷之处，是那400余种光怪陆离的生灵。它们往往"见则如何"——是吉兆或凶兆的征验符号，也是后世小说、影视、游戏取之不尽的灵感源。</p>
+  <div class="grid g2">
+    <div class="beast"><div class="em">🦊</div><div><h4>九尾狐</h4><p>青丘之山，"其状如狐而九尾，其音如婴儿，能食人；食者不蛊"。先秦本为祥瑞（王者兴则至），后渐妖化。</p><span class="src">《南山经·青丘》</span></div></div>
+    <div class="beast"><div class="em">🐦</div><div><h4>凤凰</h4><p>丹穴之山，五色之鸟，首文曰"德"、翼曰"义"、背曰"礼"、膺曰"仁"、腹曰"信"，"见则天下安宁"。</p><span class="src">《南山经·丹穴》</span></div></div>
+    <div class="beast"><div class="em">🐲</div><div><h4>烛龙（烛九阴）</h4><p>人面蛇身而赤，身长千里；睁眼为昼、闭眼为夜，呼吸成冬夏、成风雨。</p><span class="src">《大荒北经》</span></div></div>
+    <div class="beast"><div class="em">🐐</div><div><h4>狰 / 讙 / 类</h4><p>各类兆异之兽，如"类"自为牝牡、食之不妒；"讙"一目三尾，食之已瘅。</p><span class="src">《西山经》</span></div></div>
+    <div class="beast"><div class="em">🐗</div><div><h4>穷奇</h4><p>状如牛（一说虎），猬毛，音如犬吠，食人。后世列为"四凶"之一，象征凶恶悖逆。</p><span class="src">《西山经/海内北经》</span></div></div>
+    <div class="beast"><div class="em">🦅</div><div><h4>毕方</h4><p>状如鹤，一足，青质赤纹白喙，"见则其邑有讹火"——火灾之兆的独脚神鸟。</p><span class="src">《西山经/海外南经》</span></div></div>
+    <div class="beast"><div class="em">🐎</div><div><h4>鹿蜀（甪端类）</h4><p>杻阳之山，状如马而白首，虎纹赤尾，音如谣歌，"佩之宜子孙"。</p><span class="src">《南山经·杻阳》</span></div></div>
+    <div class="beast"><div class="em">🐍</div><div><h4>相柳（相繇）</h4><p>共工之臣，九首人面蛇身，所触之地成沼泽；被禹所杀，血腥不可生谷。</p><span class="src">《海外北经/大荒北经》</span></div></div>
+    <div class="beast"><div class="em">🐉</div><div><h4>应龙</h4><p>有翼之龙，助黄帝杀蚩尤、夸父，后不能上天致南方多雨；旱时作其形以祈雨。</p><span class="src">《大荒东经》</span></div></div>
+    <div class="beast"><div class="em">🦌</div><div><h4>驺吾（驺虞）</h4><p>林氏国之珍兽，虎躯五彩，尾长于身，日行千里的仁兽，乘之寿千岁。</p><span class="src">《海内北经》</span></div></div>
+    <div class="beast"><div class="em">🐴</div><div><h4>白泽</h4><p>（后世附会）知天下鬼神之名、能言人语的通灵神兽，黄帝巡狩东海得之——中国志怪谱系的重要形象。</p><span class="src">神话衍生</span></div></div>
+    <div class="beast"><div class="em">🐟</div><div><h4>文鳐鱼 / 鯥 / 何罗鱼</h4><p>诸多鱼类异兽：文鳐鱼状如鲤而有翼，夜飞，见则天下大穰（丰收）。</p><span class="src">《西山经/南山经》</span></div></div>
+  </div>
+  <p style="font-size:14px;color:var(--ink-soft);margin-top:14px">※ 部分emoji仅为示意，非原书图像。后世常并称的"四凶"——<em class="k">混沌、穷奇、梼杌、饕餮</em>——其源头多可追溯至《山海经》及《左传》《神异经》的互文演变。</p>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+  <div class="sec-head"><span class="no">玖</span><h2>殊方异国：海外的奇民</h2><span class="en">Strange Lands</span></div>
+  <p>《海外经》《大荒经》描绘了数十个奇异邦国，每一个都是一则微型神话，也折射出先民对"远方他者"的想象：</p>
+  <table>
+    <thead><tr><th>异国</th><th>特征</th><th>出处</th></tr></thead>
+    <tbody>
+      <tr><td class="c">羽民国</td><td>身生羽毛，能飞不能远，卵生</td><td>海外南经</td></tr>
+      <tr><td class="c">贯胸国</td><td>胸有大孔，可穿杖抬行</td><td>海外南经</td></tr>
+      <tr><td class="c">女子国</td><td>无男，浴于黄池即孕（女娲遗风）</td><td>海外西/大荒西经</td></tr>
+      <tr><td class="c">丈夫国</td><td>皆男无女，衣冠带剑</td><td>海外西经</td></tr>
+      <tr><td class="c">三首国 / 三身国</td><td>一身三首 / 一首三身</td><td>海外南经</td></tr>
+      <tr><td class="c">长臂国 / 长股国</td><td>臂长垂地入水取鱼 / 腿长如高跷</td><td>海外南经</td></tr>
+      <tr><td class="c">聂耳国（儋耳）</td><td>耳大垂肩，行则以手托耳</td><td>海外北经</td></tr>
+      <tr><td class="c">奇肱国</td><td>一臂三目，善作机巧，能造飞车</td><td>海外西经</td></tr>
+      <tr><td class="c">不死国 / 轩辕国</td><td>其民不死；人面蛇身、寿八百</td><td>海外南/大荒南经</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+  <div class="sec-head"><span class="no">拾</span><h2>失落的《山海图》</h2><span class="en">The Lost Maps</span></div>
+  <p>古有"左图右史"之说。学界普遍认为《山海经》<em class="k">先有图、后有文</em>——文字本是对一批古图的解说词，这也解释了书中大量"方食其头""正在捕鱼"的进行时描写。陶渊明《读山海经》组诗即咏："泛览周王传，流观山海图。"</p>
+  <div class="grid g2">
+    <div class="card"><h4>古图的四种推测</h4>
+      <p><b>禹鼎说</b>：本于大禹铸九鼎象九州之图。</p>
+      <p><b>地图说</b>：上古地理地图册的图解。</p>
+      <p><b>壁画说</b>：屈原见此类壁画而作《天问》。</p>
+      <p><b>巫图说</b>：古巫师祭祖招魂禳灾所用巫图巫辞。</p>
+    </div>
+    <div class="card"><h4>图本的流传</h4>
+      <p>南朝张僧繇绘、宋舒雅重绘的10卷242幅图 —— <em class="k">已失传</em>。</p>
+      <p>现存最早为明代<b>胡文焕本、蒋应镐本</b>。</p>
+      <p>清代<b>吴任臣图本</b>最早流传最广；<b>汪绂本</b>407幅多别出心裁。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section id="s11">
+  <div class="sec-head"><span class="no">拾壹</span><h2>它到底是什么书：性质之争</h2><span class="en">What Genre</span></div>
+  <p>两千年来，人们始终难以给《山海经》"归类"，历代书目归属出入极大——这本身就是它独特价值的证明：</p>
+  <div class="grid g2">
+    <div class="card"><h4>① 地理学著作</h4><p>刘歆《上山海经表》首倡；王庸称其为"中国原始之地志，最古地图之残迹"。</p></div>
+    <div class="card"><h4>② 神话类著作</h4><p>袁珂："匪特史地之权舆，亦神话之渊府"——现存保存中国古代神话最多的著作。</p></div>
+    <div class="card"><h4>③ 小说类</h4><p>《四库全书总目》将其归入小说类，视为志怪之祖。</p></div>
+    <div class="card"><h4>④ 巫覡 / 方士之书</h4><p>鲁迅、袁行霈主张——书中充斥祭祀、巫医、禳灾内容，是巫文化的产物。</p></div>
+  </div>
+  <p style="font-size:14.5px;color:var(--ink-soft)">此外还有"氏族社会志""以山为经的方物志""神话政治地理书"等说法。若承认它<em class="k">非一人一时之作</em>，这些看似矛盾的性质便都能调和——它本就是多种知识层累叠加的产物。</p>
+</section>
+
+<!-- 12 -->
+<section id="s12">
+  <div class="sec-head"><span class="no">拾贰</span><h2>价值、影响与研究门径</h2><span class="en">Legacy</span></div>
+  <div class="grid g2">
+    <div class="card"><h4>文学的母胎</h4><p>屈原《天问》《九歌》、陶渊明《读山海经》、李贺乃至《西游记》《封神演义》《聊斋》以降的志怪传统，皆自此取火。</p></div>
+    <div class="card"><h4>神话学的根据地</h4><p>研究中国上古神话，《山海经》是不可绕过的第一手材料——茅盾、闻一多、袁珂的神话学奠基皆以此为核心文本。</p></div>
+    <div class="card"><h4>科技史的活化石</h4><p>最早的系统矿物记载、丰富的动植物名录、原始的天文历法（十日十二月）与医药知识。</p></div>
+    <div class="card"><h4>当代文化IP</h4><p>《大鱼海棠》《哪吒》等动画、大量游戏与国潮设计的取材宝库，持续激活着这套上古符号系统。</p></div>
+  </div>
+
+  <h4 style="font-family:'Kaiti SC',serif;color:var(--gold);font-size:19px;margin-top:26px">◆ 想深入，读哪几本</h4>
+  <table>
+    <thead><tr><th>版本 / 著作</th><th>作者</th><th>特点</th></tr></thead>
+    <tbody>
+      <tr><td class="c">山海经传（注）</td><td>晋 · 郭璞</td><td>今传本祖注，最早最重要的注本，附《图赞》</td></tr>
+      <tr><td class="c">山海经新校正</td><td>清 · 毕沅</td><td>清代校勘代表作，考订地理</td></tr>
+      <tr><td class="c">山海经笺疏</td><td>清 · 郝懿行</td><td>清代集大成注疏，考据精详</td></tr>
+      <tr><td class="c">山海经校注 / 校译</td><td>今 · 袁珂</td><td>当代最权威通行本，神话学视角，注译兼备（入门首选）</td></tr>
+      <tr><td class="c">中国古代神话</td><td>今 · 袁珂</td><td>把散见的山海经神话系统化梳理，配合阅读极佳</td></tr>
+    </tbody>
+  </table>
+  <div class="q" style="margin-top:22px">阅读建议：初读从袁珂《山海经校注》入门（有注有译）；想看神话全貌，配《中国古代神话》；对图像感兴趣，找吴任臣或汪绂图本；做考据再上郭璞注、郝懿行笺疏。先读《大荒经》与《海经》抓神话骨架，再回看《山经》体会地理博物之趣。</div>
+</section>
+
+<div class="divider">✦ ✦ ✦</div>
+
+</main>
+
+<footer>
+  <p>《山海经》深度研究报告 · 由霸道企鹅🐧整理 · 2026-07-19</p>
+  <p>主要参考：《方志百科全书》、香港中国文化研究院、《中国大百科全书》、袁珂《山海经校注》相关研究综述。</p>
+</footer>
+
+</body>
+</html>
