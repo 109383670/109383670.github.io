@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>星神谱系细化图 · 长白山幻想记</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280;
+    --line:#e5e7eb; --core:#7c5cff; --star:#2f7ff0; --cold:#13b5b1;
+    --evil:#e5484d; --rite:#f59e0b; --ref:#8a8f98;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--ink);font-size:14px}
+  header{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+  header h1{margin:0;font-size:18px}
+  header p{margin:4px 0 0;color:var(--muted);font-size:12.5px}
+  #wrap{display:flex;height:calc(100vh - 64px)}
+  #left{flex:1;position:relative;overflow:hidden}
+  #right{width:340px;border-left:1px solid var(--line);background:var(--panel);
+         padding:16px;overflow:auto}
+  svg{width:100%;height:100%;display:block;cursor:grab}
+  .node circle{cursor:pointer;stroke:#fff;stroke-width:1.5}
+  .node text{pointer-events:none;font-size:11px;fill:var(--ink);
+             paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+  .edge{stroke:#c3c8d0;stroke-width:1.2;opacity:.55}
+  .edge.hl{stroke:#3b3f4a;opacity:.95;stroke-width:1.8}
+  .node.dim{opacity:.18}
+  .edge.dim{opacity:.06}
+  .node.hl circle{stroke:#222;stroke-width:2.5}
+  #controls{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);
+            border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+            box-shadow:0 2px 8px rgba(0,0,0,.06);max-width:280px}
+  #controls input{width:200px;padding:6px 8px;border:1px solid var(--line);
+                 border-radius:7px;font-size:13px;outline:none}
+  #controls input:focus{border-color:var(--star)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .lg{display:flex;align-items:center;gap:5px;font-size:11.5px;cursor:pointer;
+      padding:2px 6px;border-radius:6px;border:1px solid var(--line);user-select:none}
+  .lg.off{opacity:.35;text-decoration:line-through}
+  .dot{width:11px;height:11px;border-radius:50%}
+  #detail h2{margin:0 0 4px;font-size:16px}
+  #detail .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;
+              color:#fff;margin-bottom:8px}
+  #detail .row{margin:7px 0;line-height:1.55}
+  #detail .k{color:var(--muted);font-size:12px}
+  #detail a{color:var(--star);text-decoration:none;display:block;padding:3px 0}
+  #detail a:hover{text-decoration:underline}
+  .hint{color:var(--muted);font-size:12.5px;line-height:1.6}
+  .empty{color:var(--muted);font-size:13px;margin-top:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ 星神谱系 / 北天寒夜神群 · 细化图</h1>
+  <p>聚焦卧勒多赫赫星神谱系与「冬冷星宿」体系 — 拖拽排布 · 点节点看详情 · 点出处可打开素材文件</p>
+</header>
+<div id="wrap">
+  <div id="left">
+    <div id="controls">
+      <input id="search" placeholder="搜索神名 / 星座 / 职能…">
+      <div class="legend" id="legend"></div>
+    </div>
+    <svg id="graph"></svg>
+  </div>
+  <aside id="right">
+    <div id="detail">
+      <p class="hint">点击左侧任意节点查看星神详情（职能、对应现代星座、出处素材文件）。<br>
+      在搜索框输入关键字可高亮相关节点。</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+const BASE = "file:///Users/shuai/Documents/obsidian/创作/长白山幻想记/素材/";
+
+const GROUPS = {
+  core:{name:"创世核心", color:"var(--core)"},
+  star:{name:"卧勒多星神谱系", color:"var(--star)"},
+  cold:{name:"冬冷星宿(概念)", color:"var(--cold)"},
+  evil:{name:"恶神阵营", color:"var(--evil)"},
+  rite:{name:"仪式 / 体系", color:"var(--rite)"},
+  ref :{name:"对照体系", color:"var(--ref)"}
+};
+
+// id, label, group, modern(现代星座), role, srcs[素材文件], note
+const NODES = [
+  {id:"abka", label:"阿布卡赫赫", group:"core", modern:"天界主神",
+   role:"创世三姐妹之长，天母；眼生日月与‘小七星’；天宫大战善神领袖",
+   srcs:["长白山萨满神话素材.md","满族星祭与《天宫大战》星神全档（补全版）.md"],
+   note:"满语‘阿布卡恩都里’，后期被男性化。无专属素材文件，出处分见上。"},
+  {id:"bana", label:"巴那姆赫赫", group:"core", modern:"地母",
+   role:"创世三姐妹之二，辖地；身化山岩清泉、万兽魂魄",
+   srcs:["长白山萨满神话素材.md"], note:"又称巴那吉额姆。"},
+  {id:"ole", label:"卧勒多赫赫", group:"core", modern:"布星女神 / 穹宇妈妈",
+   role:"创世三姐妹之三；星袋生七星，星祭主祭对象；萨满重要护佑神",
+   srcs:["卧勒多妈妈（赫赫）.md","「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md","满族星祭与《天宫大战》星神全档（补全版）.md","雪祭的众神.md"],
+   note:"人身鸟翅、背星袋。新萨满‘学乌云’先祷祭她。"},
+
+  {id:"nadn1", label:"那丹那拉呼", group:"star", modern:"昴宿 Pleiades / 金牛座",
+   role:"七女星，冬令领星；布星女神的星图；报冬讯、领冬令众星",
+   srcs:["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md","满族星祭与《天宫大战》星神全档（补全版）.md","萨满祭祀.md"],
+   note:"满族‘祭冷星’候其升东天烧‘星桥’。清宫文献称那丹岱珲=七仙女。"},
+  {id:"nadn2", label:"那丹乌斯哈", group:"star", modern:"北斗七星 / 大熊座",
+   role:"七星北斗；方位、节令、禳灾主星",
+   srcs:["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md","满族星祭与《天宫大战》星神全档（补全版）.md"],
+   note:"⚠️ 与那丹那拉呼(七女星/昴)易混：都带‘七’，天差地别。"},
+  {id:"tum", label:"突姆火神", group:"star", modern:"南天小星",
+   role:"火母 / 秋千女神(车库)；光毛火发化群星",
+   srcs:["突姆火神.md"], note:"天宫大战中化群星助阵。"},
+  {id:"jgulu", label:"者固鲁", group:"star", modern:"护眼星 / 白芍药花星",
+   role:"护日月、刺射耶鲁里",
+   srcs:["依尔哈女神-芍药花星-西斯林.md","捌排凌-神魔大战高潮.md"], note:"又称恩都里僧固。"},
+  {id:"xili", label:"西离妈妈", group:"star", modern:"鱼星 / 鲤拐子星",
+   role:"追耶鲁里入水、宇宙鱼星辰",
+   srcs:["捌排凌-神魔大战高潮.md","满族星祭与《天宫大战》星神全档（补全版）.md"], note:""},
+  {id:"taqi", label:"塔其妈妈", group:"star", modern:"仙后座（计时星）",
+   role:"昼夜计时、辨向",
+   srcs:["捌排凌-神魔大战高潮.md","满族星祭与《天宫大战》星神全档（补全版）.md","「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], note:"翻斛斗为一宿。"},
+  {id:"xingke", label:"兴克里", group:"star", modern:"鼠星 / 迎日神",
+   role:"引太阳光照暗夜",
+   srcs:["捌排凌-神魔大战高潮.md"], note:""},
+  {id:"deng", label:"德登", group:"star", modern:"登高 / 诱敌星",
+   role:"阿布卡赫赫之脚；洞测寰宇、诱耶鲁里落网",
+   srcs:["捌排凌-神魔大战高潮.md","萨满祭祀.md"], note:""},
+  {id:"manjun", label:"雪神曼君", group:"star", modern:"寒星 / 雪星",
+   role:"北方季节、雪之由来（曼君乌延哈达）",
+   srcs:["雪神曼君女神.md"], note:""},
+  {id:"wuxi", label:"乌西哈布鲁古", group:"star", modern:"三耳六眼灵兽",
+   role:"横卧苍天寻耶鲁里",
+   srcs:["捌排凌-神魔大战高潮.md"], note:""},
+  {id:"baifu", label:"白腹/白脖号鸟", group:"star", modern:"阿布卡赫赫侍女",
+   role:"采九纹石、歇九叉神树",
+   srcs:["捌排凌-神魔大战高潮.md","满族星祭与《天宫大战》星神全档（补全版）.md"], note:""},
+  {id:"gasiha", label:"嘎思哈", group:"star", modern:"大鹰星 / 星鸟",
+   role:"卧顿嘎思哈，星鸟",
+   srcs:["满族星祭与《天宫大战》星神全档（补全版）.md"], note:""},
+  {id:"shaodan", label:"芍丹乌西哈", group:"star", modern:"芍药花星",
+   role:"芍药花星（与依尔哈花神同源/关联）",
+   srcs:["依尔哈女神-芍药花星-西斯林.md","满族星祭与《天宫大战》星神全档（补全版）.md"], note:"星神全档中单列；与依尔哈女神(花神)可视为同一神格的不同星象化身。"},
+  {id:"tangbai", label:"堂白太罗", group:"star", modern:"七星首星",
+   role:"北斗首星",
+   srcs:["满族星祭与《天宫大战》星神全档（补全版）.md"], note:""},
+  {id:"nadanh", label:"纳丹岱珲", group:"star", modern:"七仙女 / 北斗变体",
+   role:"七仙女神话，北斗的满族变体",
+   srcs:["满族星祭与《天宫大战》星神全档（补全版）.md"], note:"清宫文献‘那丹岱珲/那丹岱瑚里’=七仙女，即七星神仙。"},
+
+  {id:"dongleng", label:"冬冷星宿", group:"cold", modern:"北天冬夜星群泛称",
+   role:"司寒司夜的穹宇神群泛称（非单星、非三百女神）",
+   srcs:["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], note:"含七女星、北斗、斛斗星、三星等。"},
+  {id:"hudou", label:"斛斗星", group:"cold", modern:"仙后座（罗锅星）",
+   role:"徐姓多祭的星",
+   srcs:["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], note:""},
+  {id:"sanxing", label:"三星", group:"cold", modern:"参宿",
+   role:"计时星",
+   srcs:["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], note:""},
+
+  {id:"yelu", label:"耶鲁里", group:"evil", modern:"九头恶魔",
+   role:"黑暗/混沌/毁灭；败魂不灭→满尼/满盖",
+   srcs:["满族星祭与《天宫大战》星神全档（补全版）.md","捌排凌-神魔大战高潮.md","玖腓凌-结局.md"], note:"天宫大战全篇反派。"},
+  {id:"xisilin", label:"西斯林", group:"evil", modern:"风神→男性野神",
+   role:"原为善(风神、护阵)，贪睡被逐→投耶鲁里；吞光致天宇黑暗",
+   srcs:["依尔哈女神-芍药花星-西斯林.md"], note:"‘恶魔的帮凶’弧光。"},
+
+  {id:"xingji", label:"星祭 / 背灯祭", group:"rite", modern:"仪式",
+   role:"冬夜九堆火柱‘星桥’、冰砌祭星坛、七女星升东天",
+   srcs:["满族萨满祭祀详考报告.md","萨满祭祀.md"], note:"详见祭祀大报告。⚠️ 内含「星桥」：九堆火柱，七女星升东天烧之以通天——它是仪式装置，不是神祇。"},
+  {id:"xuewu", label:"学乌云", group:"rite", modern:"萨满传承制",
+   role:"教乌云/学乌云/落乌云学院制培训；卧勒多护佑职能",
+   srcs:["学乌云.md"], note:"新萨满学乌云先祷祭卧勒多妈妈。"},
+
+  {id:"xuanwu", label:"玄武七宿", group:"ref", modern:"汉族二十八宿(北)",
+   role:"斗牛女虚危室壁，主冬主水主藏；与冬冷星宿气质可对照，学术分属两传统",
+   srcs:["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], note:"⚠️ 满族‘七星’=北斗；汉族‘北方七宿’=七座宿，别混。"}
+];
+
+// [source, target, 关系]
+const EDGES = [
+  ["abka","bana","创世姊妹"], ["abka","ole","创世姊妹"], ["bana","ole","创世姊妹"],
+  ["abka","nadn2","眼生小七星"],
+  ["ole","nadn1","统辖"], ["ole","nadn2","统辖"], ["ole","tum","统辖"],
+  ["ole","jgulu","统辖"], ["ole","xili","统辖"], ["ole","taqi","统辖"],
+  ["ole","xingke","统辖"], ["ole","deng","统辖"], ["ole","manjun","统辖"],
+  ["ole","wuxi","统辖"], ["ole","baifu","统辖"], ["ole","gasiha","统辖"],
+  ["ole","shaodan","统辖"], ["ole","tangbai","统辖"], ["ole","nadanh","统辖"],
+  ["nadn1","nadn2","并列互补(非统辖)"],
+  ["dongleng","nadn1","包含"], ["dongleng","nadn2","包含"],
+  ["dongleng","hudou","包含"], ["dongleng","sanxing","包含"],
+  ["hudou","taqi","同仙后座/计时"], ["sanxing","taqi","计时关联"],
+  ["xingji","ole","礼拜主神"], ["xingji","nadn1","礼拜"], ["xingji","nadn2","礼拜"],
+  ["xuewu","ole","祷祭护佑"],
+  ["yelu","ole","敌对"], ["yelu","nadn1","敌对"], ["yelu","nadn2","敌对"],
+  ["jgulu","yelu","刺射"], ["xisilin","yelu","被利用"], ["xisilin","ole","失守(吞光)"],
+  ["tangbai","nadn2","北斗首星"], ["nadanh","nadn2","北斗变体"],
+  ["xuanwu","dongleng","气质对照(分属两传统)"]
+];
+
+// ---------- 力导向 ----------
+const svg = document.getElementById("graph");
+const W = svg.clientWidth || 900, H = svg.clientHeight || 640;
+const ns = "http://www.w3.org/2000/svg";
+let nodes = NODES.map((n,i)=>({...n, x:W/2+Math.cos(i)*220+Math.random()*20,
+                               y:H/2+Math.sin(i*1.7)*200+Math.random()*20,
+                               vx:0, vy:0}));
+const idmap = {}; nodes.forEach(n=>idmap[n.id]=n);
+let edges = EDGES.map(([s,t,r])=>({s:idmap[s], t:idmap[t], r}));
+const neigh = {}; nodes.forEach(n=>neigh[n.id]=new Set());
+edges.forEach(e=>{neigh[e.s.id].add(e.t.id);neigh[e.t.id].add(e.s.id);});
+
+const nodeG = document.createElementNS(ns,"g");
+const edgeG = document.createElementNS(ns,"g");
+svg.appendChild(edgeG); svg.appendChild(nodeG);
+
+const edgeEls = edges.map(e=>{
+  const l = document.createElementNS(ns,"line");
+  l.setAttribute("class","edge");
+  edgeG.appendChild(l); return l;
+});
+const nodeEls = nodes.map(n=>{
+  const g = document.createElementNS(ns,"g"); g.setAttribute("class","node");
+  const c = document.createElementNS(ns,"circle");
+  const r = n.group==="core"?16 : n.group==="evil"?14 : n.group==="cold"?12 : 11;
+  c.setAttribute("r",r);
+  c.style.fill = getComputedStyle(document.documentElement)
+                 .getPropertyValue(GROUPS[n.group].color.replace("var(","").replace(")",""));
+  const t = document.createElementNS(ns,"text");
+  t.setAttribute("text-anchor","middle");
+  t.setAttribute("dy", r+12); t.textContent = n.label;
+  g.appendChild(c); g.appendChild(t);
+  nodeG.appendChild(g); return {g,c,t};
+});
+
+let fixed=null;
+function step(){
+  const k=0.02, rep=1600, damp=0.85;
+  nodes.forEach(a=>{ if(a===fixed) return;
+    let fx=0, fy=0;
+    nodes.forEach(b=>{ if(a===b) return;
+      let dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy+0.01, d=Math.sqrt(d2);
+      let f=rep/d2; fx+=dx/d*f; fy+=dy/d*f;
+    });
+    edges.forEach(e=>{ if(e.s===a||e.t===a){ const b=e.s===a?e.t:e.s;
+      let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)+0.01;
+      let f=k*(d-110); fx+=dx/d*f; fy+=dy/d*f; }});
+    fx += (W/2-a.x)*0.003; fy += (H/2-a.y)*0.003;
+    a.vx=(a.vx+fx)*damp; a.vy=(a.vy+fy)*damp;
+    a.x+=a.vx; a.y+=a.vy;
+    a.x=Math.max(40,Math.min(W-40,a.x)); a.y=Math.max(40,Math.min(H-40,a.y));
+  });
+}
+function render(){
+  edges.forEach((e,i)=>{ const l=edgeEls[i];
+    l.setAttribute("x1",e.s.x); l.setAttribute("y1",e.s.y);
+    l.setAttribute("x2",e.t.x); l.setAttribute("y2",e.t.y); });
+  nodes.forEach((n,i)=>{ const g=nodeEls[i].g;
+    g.setAttribute("transform",`translate(${n.x},${n.y})`); });
+}
+let raf;
+function loop(){ for(let i=0;i<4;i++) step(); render(); raf=requestAnimationFrame(loop); }
+loop();
+setTimeout(()=>{cancelAnimationFrame(raf);}, 2600); // 稳定后停
+
+// ---------- 交互 ----------
+function colorOf(g){ return getComputedStyle(document.documentElement)
+    .getPropertyValue(GROUPS[g].color.replace("var(","").replace(")","")); }
+
+nodeEls.forEach((obj,i)=>{
+  const n=nodes[i];
+  obj.g.addEventListener("click", ev=>{ ev.stopPropagation(); select(n); });
+  obj.g.addEventListener("mousedown", ev=>{ ev.stopPropagation(); fixed=n;
+     const move=ev2=>{ const r=svg.getBoundingClientRect();
+        n.x=ev2.clientX-r.left; n.y=ev2.clientY-r.top; };
+     const up=()=>{ fixed=null; window.removeEventListener("mousemove",move);
+                    window.removeEventListener("mouseup",up); raf=requestAnimationFrame(loop);
+                    setTimeout(()=>cancelAnimationFrame(raf),1500); };
+     window.addEventListener("mousemove",move); window.addEventListener("mouseup",up);
+  });
+});
+
+function select(n){
+  const keep = new Set([n.id, ...neigh[n.id]]);
+  nodes.forEach((m,i)=> nodeEls[i].g.classList.toggle("dim", !keep.has(m.id)));
+  edges.forEach((e,i)=>{ const on = (e.s.id===n.id||e.t.id===n.id);
+     edgeEls[i].classList.toggle("hl",on); edgeEls[i].classList.toggle("dim",!on); });
+  showDetail(n);
+}
+function clearSel(){
+  nodes.forEach((m,i)=> nodeEls[i].g.classList.remove("dim"));
+  edges.forEach((e,i)=>{ edgeEls[i].classList.remove("hl"); edgeEls[i].classList.remove("dim"); });
+}
+svg.addEventListener("click", clearSel);
+
+function showDetail(n){
+  const d=document.getElementById("detail");
+  const links = n.srcs.map(s=>`<a href="${BASE+encodeURIComponent(s)}" target="_blank">📄 ${s.replace('.md','')}</a>`).join("");
+  d.innerHTML = `
+    <h2>${n.label}</h2>
+    <span class="tag" style="background:${colorOf(n.group)}">${GROUPS[n.group].name}</span>
+    <div class="row"><span class="k">对应现代星座：</span>${n.modern}</div>
+    <div class="row"><span class="k">职能 / 神格：</span><br>${n.role}</div>
+    ${n.note?`<div class="row"><span class="k">备注：</span><br>${n.note}</div>`:""}
+    <div class="row"><span class="k">出处素材（点击打开）：</span>${links}</div>`;
+}
+
+// 搜索
+const search=document.getElementById("search");
+search.addEventListener("input", ()=>{
+  const q=search.value.trim().toLowerCase();
+  if(!q){ clearSel(); return; }
+  const hit=new Set();
+  nodes.forEach((n,i)=>{ const ok = (n.label+n.modern+n.role+(n.note||"")).toLowerCase().includes(q);
+     nodeEls[i].g.classList.toggle("dim",!ok); if(ok) hit.add(n.id); });
+  edges.forEach((e,i)=> edgeEls[i].classList.toggle("dim", !(hit.has(e.s.id)&&hit.has(e.t.id))));
+});
+
+// 图例
+const legend=document.getElementById("legend");
+const offGroups=new Set();
+Object.entries(GROUPS).forEach(([k,v])=>{
+  const el=document.createElement("div"); el.className="lg";
+  el.innerHTML=`<span class="dot" style="background:${v.color}"></span>${v.name}`;
+  el.addEventListener("click", ()=>{
+    if(offGroups.has(k)){ offGroups.delete(k); el.classList.remove("off"); }
+    else { offGroups.add(k); el.classList.add("off"); }
+    nodes.forEach((n,i)=> nodeEls[i].g.style.display = offGroups.has(n.group)?"none":"");
+    edges.forEach((e,i)=> edgeEls[i].style.display =
+       (offGroups.has(e.s.group)||offGroups.has(e.t.group))?"none":"");
+  });
+  legend.appendChild(el);
+});
+</script>
+</body>
+</html>

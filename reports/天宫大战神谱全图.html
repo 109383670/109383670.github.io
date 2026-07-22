@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>天宫大战神谱全图 · 长白山幻想记（补全版）</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280;
+    --line:#e5e7eb;
+    --core:#7c5cff; --star:#2f7ff0; --asun:#e8590c; --bana:#16a085;
+    --donghai:#0ca678; --amita:#f06595; --hebu:#868e96; --tuohu:#fab005;
+    --abka39:#845ef7; --ole42:#74c0fc; --xiu28:#20c997; --evil:#e5484d;
+    --rite:#f59e0b; --cold:#1098ad; --ref:#8a8f98; --beast:#d35400;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--ink);font-size:14px}
+  header{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+  header h1{margin:0;font-size:18px}
+  header p{margin:4px 0 0;color:var(--muted);font-size:12.5px}
+  #wrap{display:flex;height:calc(100vh - 64px)}
+  #left{flex:1;position:relative;overflow:hidden}
+  #right{width:350px;border-left:1px solid var(--line);background:var(--panel);
+         padding:16px;overflow:auto}
+  svg{width:100%;height:100%;display:block;cursor:grab}
+  .node circle{cursor:pointer;stroke:#fff;stroke-width:1.5}
+  .node text{pointer-events:none;font-size:11px;fill:var(--ink);
+             paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+  .edge{stroke:#c3c8d0;stroke-width:1.2;opacity:.5}
+  .edge.hl{stroke:#3b3f4a;opacity:.95;stroke-width:1.8}
+  .node.dim{opacity:.15}
+  .edge.dim{opacity:.05}
+  .node.hl circle{stroke:#222;stroke-width:2.5}
+  #controls{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);
+            border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+            box-shadow:0 2px 8px rgba(0,0,0,.06);max-width:300px}
+  #controls input{width:210px;padding:6px 8px;border:1px solid var(--line);
+                 border-radius:7px;font-size:13px;outline:none}
+  #controls input:focus{border-color:var(--star)}
+  .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .lg{display:flex;align-items:center;gap:5px;font-size:11.5px;cursor:pointer;
+      padding:2px 6px;border-radius:6px;border:1px solid var(--line);user-select:none}
+  .lg.off{opacity:.35;text-decoration:line-through}
+  .dot{width:11px;height:11px;border-radius:50%}
+  #detail h2{margin:0 0 4px;font-size:16px}
+  #detail .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;
+              color:#fff;margin-bottom:8px}
+  #detail .row{margin:7px 0;line-height:1.55}
+  #detail .k{color:var(--muted);font-size:12px}
+  #detail a{color:var(--star);text-decoration:none;display:block;padding:3px 0}
+  #detail a:hover{text-decoration:underline}
+  .hint{color:var(--muted);font-size:12.5px;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <h1>⭐ 天宫大战神谱全图 · 长白山幻想记（补全版）</h1>
+  <p>补全《满族星祭与《天宫大战》星神全档（补全版）》全部具名神 — 拖拽排布 · 点节点看详情 · 点出处可打开素材 · 搜索 · 阵营筛选</p>
+</header>
+<div id="wrap">
+  <div id="left">
+    <div id="controls">
+      <input id="search" placeholder="搜索神名 / 职能 / 现代星座…">
+      <div class="legend" id="legend"></div>
+    </div>
+    <svg id="graph"></svg>
+  </div>
+  <aside id="right">
+    <div id="detail">
+      <p class="hint">点击左侧节点查看神祇详情（职能、对应现代星座、出处素材）。<br>
+      搜索框输入关键字高亮相关节点。⚠️ 群体节点（亲随39/辅星42/二十八宿）以 note 列全名。</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+const BASE = "file:///Users/shuai/Documents/obsidian/创作/长白山幻想记/素材/";
+
+const GROUPS = {"core": {"name": "创世三女神", "color": "var(--core)"}, "astar": {"name": "卧勒多星神谱 / 星祭主星", "color": "var(--star)"}, "asun": {"name": "日月·四方·自然·护佑女神", "color": "var(--asun)"}, "bana": {"name": "巴那姆赫赫从神(27具名)", "color": "var(--bana)"}, "donghai": {"name": "东海女神水系(24)", "color": "var(--donghai)"}, "amita": {"name": "阿米塔疾病生育神(18)", "color": "var(--amita)"}, "hebu": {"name": "合布离死亡游魂神(10)", "color": "var(--hebu)"}, "tuohu": {"name": "托户离·查依芬·自然神群", "color": "var(--tuohu)"}, "abka39": {"name": "阿布卡赫赫亲随(39具名)", "color": "var(--abka39)"}, "ole42": {"name": "卧勒多辅星女神(42)", "color": "var(--ole42)"}, "xiu28": {"name": "二十八宿(满语对照)", "color": "var(--xiu28)"}, "evil": {"name": "恶神阵营", "color": "var(--evil)"}, "rite": {"name": "仪式 / 体系", "color": "var(--rite)"}, "cold": {"name": "冬冷星宿(概念)", "color": "var(--cold)"}, "ref": {"name": "对照体系(汉族)", "color": "var(--ref)"}, "beast": {"name": "灵兽·神话生物", "color": "var(--beast)"}};
+
+const NODES = [{"id": "abka", "label": "阿布卡赫赫", "group": "core", "modern": "天界主神", "role": "创世三姐妹之长，天母；眼生日月与小七星；天宫大战善神领袖", "srcs": ["长白山萨满神话素材.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "满语阿布卡恩都里，后期被男性化。无专属素材文件，出处分见上。"}, {"id": "bana", "label": "巴那姆赫赫", "group": "core", "modern": "地母", "role": "创世三姐妹之二，辖地；身化山岩清泉、万兽魂魄", "srcs": ["长白山萨满神话素材.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "又称巴那吉额姆。"}, {"id": "ole", "label": "卧勒多赫赫", "group": "core", "modern": "布星女神 / 穹宇妈妈", "role": "创世三姐妹之三；星袋生七星，星祭主祭对象；萨满护佑神", "srcs": ["卧勒多妈妈（赫赫）.md", "「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md", "满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": "人身鸟翅、背星袋。新萨满学乌云先祷祭她。"}, {"id": "nadn1", "label": "那丹那拉呼", "group": "astar", "modern": "昴宿 Pleiades / 金牛座", "role": "七女星，冬令领星；报冬讯、领冬令众星", "srcs": ["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md", "满族星祭与《天宫大战》星神全档（补全版）.md", "萨满祭祀.md"], "note": "满族祭冷星候其升东天烧星桥。清宫文献称那丹岱珲=七仙女。"}, {"id": "nadn2", "label": "那丹乌斯哈", "group": "astar", "modern": "北斗七星 / 大熊座", "role": "七星北斗；方位、节令、禳灾主星", "srcs": ["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "⚠️ 与那丹那拉呼(七女星/昴)易混：都带七，天差地别。"}, {"id": "tum", "label": "突姆火神", "group": "astar", "modern": "南天小星", "role": "火母 / 秋千女神(车库)；光毛火发化群星", "srcs": ["突姆火神.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "天宫大战中化群星助阵。"}, {"id": "jgulu", "label": "者固鲁", "group": "astar", "modern": "护眼星 / 白芍药花星", "role": "护日月、刺射耶鲁里", "srcs": ["依尔哈女神-芍药花星-西斯林.md", "捌排凌-神魔大战高潮.md"], "note": "又称恩都里僧固。"}, {"id": "xili", "label": "西离妈妈", "group": "astar", "modern": "鱼星 / 鲤拐子星", "role": "追耶鲁里入水、宇宙鱼星辰", "srcs": ["捌排凌-神魔大战高潮.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "taqi", "label": "塔其妈妈", "group": "astar", "modern": "仙后座（计时星）", "role": "昼夜计时、辨向", "srcs": ["捌排凌-神魔大战高潮.md", "满族星祭与《天宫大战》星神全档（补全版）.md", "「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], "note": "翻斛斗为一宿。"}, {"id": "xingke", "label": "兴克里", "group": "astar", "modern": "鼠星 / 迎日神", "role": "引太阳光照暗夜", "srcs": ["捌排凌-神魔大战高潮.md"], "note": ""}, {"id": "deng", "label": "德登", "group": "astar", "modern": "登高 / 诱敌星", "role": "阿布卡赫赫之脚；洞测寰宇、诱耶鲁里落网", "srcs": ["捌排凌-神魔大战高潮.md", "萨满祭祀.md"], "note": ""}, {"id": "manjun", "label": "雪神曼君", "group": "astar", "modern": "寒星 / 雪星", "role": "北方季节、雪之由来（曼君乌延哈达）", "srcs": ["雪神曼君女神.md"], "note": ""}, {"id": "gasiha", "label": "嘎思哈", "group": "astar", "modern": "大鹰星 / 星鸟", "role": "卧顿嘎思哈，星鸟", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "shaodan", "label": "芍丹乌西哈", "group": "astar", "modern": "芍药花星", "role": "芍药花星（与依尔哈花神同源/关联）", "srcs": ["依尔哈女神-芍药花星-西斯林.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "与依尔哈女神(花神)可视为同一神格的不同星象化身。"}, {"id": "tangbai", "label": "堂白太罗", "group": "astar", "modern": "七星首星", "role": "北斗首星", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "nadanh", "label": "纳丹岱珲", "group": "astar", "modern": "七仙女 / 北斗变体", "role": "七仙女神话，北斗的满族变体", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "清宫文献那丹岱珲/那丹岱瑚里=七仙女，即七星神仙。"}, {"id": "shun", "label": "顺（舜安波）", "group": "asun", "modern": "太阳女神", "role": "太阳神格", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "biya", "label": "毕牙", "group": "asun", "modern": "月亮女神", "role": "月亮神格", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "yageha", "label": "雅格哈", "group": "asun", "modern": "百草女神 / 天生女神", "role": "百草、医药神格（清单出现两次）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "yierha", "label": "依尔哈", "group": "asun", "modern": "花神", "role": "制香云、护天穹", "srcs": ["依尔哈女神-芍药花星-西斯林.md"], "note": ""}, {"id": "walege", "label": "洼勒格", "group": "asun", "modern": "西方女神", "role": "西方方位神", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "delige", "label": "德立格（德里给奥木）", "group": "asun", "modern": "东方女神 / 人首鱼身", "role": "东方、东海女神；破冰送阳光生命水", "srcs": ["雪祭的众神.md", "萨满祭祀.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "总图称德立克妈妈。"}, {"id": "amalege", "label": "阿玛勒格", "group": "asun", "modern": "北方女神", "role": "北方方位神", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "zhulege", "label": "朱勒格", "group": "asun", "modern": "南方女神", "role": "南方方位神", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "dulunba", "label": "都伦巴", "group": "asun", "modern": "中位女神", "role": "中位方位神", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "doukai", "label": "都凯", "group": "asun", "modern": "女门神", "role": "门户守护", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "kunzhe", "label": "昆哲勒", "group": "asun", "modern": "九彩神鸟", "role": "织九彩战裙、救阿布卡赫赫", "srcs": ["玖腓凌-结局.md"], "note": ""}, {"id": "baifu", "label": "白腹 / 白脖厚嘴号鸟", "group": "asun", "modern": "天母侍女", "role": "采九纹石、歇九叉神树", "srcs": ["捌排凌-神魔大战高潮.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "qiqidan", "label": "其其旦", "group": "asun", "modern": "盗火女神", "role": "阿布卡恩都里红瘤→私盗神火→化拖亚拉哈怪兽", "srcs": ["玖腓凌-结局.md", "满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": "恶转善的盗火女神。"}, {"id": "nvsaman", "label": "女大萨满", "group": "asun", "modern": "人类始母神", "role": "通晓神界兽界、抚安世界", "srcs": ["玖腓凌-结局.md"], "note": ""}, {"id": "fotuo", "label": "佛托妈妈", "group": "asun", "modern": "柳始母 / 子孙娘娘", "role": "生育繁衍、换索锁", "srcs": ["满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": "又称佛朵/佛立佛多鄂谟锡。"}, {"id": "aoduoxi", "label": "奥朵西", "group": "asun", "modern": "牧云女神（三侍女）", "role": "牧云", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "huolh", "label": "霍洛浑", "group": "asun", "modern": "侍女", "role": "阿布卡赫赫侍女", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "huolk", "label": "霍洛昆", "group": "asun", "modern": "侍女", "role": "阿布卡赫赫侍女", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "xique", "label": "大侍女喜鹊", "group": "asun", "modern": "侍女 / 传信", "role": "侍女、传信", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "ciwei", "label": "二侍女刺猬", "group": "asun", "modern": "侍女", "role": "侍女", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "aga", "label": "阿嘎妈妈", "group": "asun", "modern": "雨神", "role": "司雨", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "edun", "label": "额顿妈妈", "group": "asun", "modern": "风神", "role": "司风", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "womina", "label": "窝米纳", "group": "asun", "modern": "百虫草木神", "role": "司百虫草木", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "gurtai", "label": "古尔苔", "group": "asun", "modern": "取神火化黑鸟", "role": "取神火→化黑鸟", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "aoqin", "label": "敖钦大神", "group": "asun", "modern": "大神", "role": "天宫大战神系大神（职司未详）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "duo", "label": "多喀霍", "group": "asun", "modern": "石中火女神", "role": "石中光热、生育、隐秘创世能量", "srcs": ["多喀霍女神.md"], "note": ""}, {"id": "nimo", "label": "尼莫妈妈", "group": "asun", "modern": "雪神（主祭）", "role": "瑞雪、部落总祭主神；骑双白鹿披雪山皮斗篷", "srcs": ["雪祭的众神.md", "满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": ""}, {"id": "daimin", "label": "代敏妈妈", "group": "asun", "modern": "鹰神 / 萨满母神", "role": "司火、哺育女萨满", "srcs": ["萨满祭祀.md", "满族萨满祭祀详考报告.md"], "note": ""}, {"id": "tuoya", "label": "拖亚拉哈", "group": "asun", "modern": "盗火女神（怪兽）", "role": "其其旦盗火运火中被烧成虎目豹头鹰爪火豹，送火种", "srcs": ["满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": ""}, {"id": "futejin", "label": "福特锦", "group": "asun", "modern": "大力女神", "role": "四头六臂八足、劳动英雄", "srcs": ["捌排凌-神魔大战高潮.md"], "note": ""}, {"id": "boe", "label": "博额德音姆", "group": "asun", "modern": "已故女萨满", "role": "骑九叉神鹿传神谕；记忆神、歌舞神", "srcs": ["九叉神鹿.md"], "note": ""}, {"id": "lu", "label": "九叉神鹿", "group": "asun", "modern": "神圣坐骑", "role": "通天/通地/通幽冥", "srcs": ["九叉神鹿.md"], "note": ""}, {"id": "ya", "label": "九色花翅大嘴巨鸭", "group": "asun", "modern": "破冰神禽", "role": "背阿布卡赫赫出冰天、啄冰洞", "srcs": ["九色花翅大嘴巨鸭.md"], "note": ""}, {"id": "sanbai", "label": "三百女神", "group": "asun", "modern": "创世神系（虚指）", "role": "《天宫大战》母系神国；高荷红考定三百为虚指非确指", "srcs": ["三百女神.md", "满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "含天地水火、日月星辰、动植万类母系神；星神只是其中一支。"}, {"id": "bana_0", "label": "班达妈妈玛发", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司班达妈妈玛发之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_1", "label": "谷壑神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司谷壑之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_2", "label": "洞窟神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司洞窟之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_3", "label": "鬼府神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司鬼府之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_4", "label": "山巅神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司山巅之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_5", "label": "河流神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司河流之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_6", "label": "江湖神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司江湖之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_7", "label": "山峦神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司山峦之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_8", "label": "林莽神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司林莽之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_9", "label": "指路神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司指路之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_10", "label": "沙丘神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司沙丘之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_11", "label": "雪域神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司雪域之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_12", "label": "碱滩神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司碱滩之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_13", "label": "石林神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司石林之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_14", "label": "地火神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司地火之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_15", "label": "旱神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司旱之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_16", "label": "虫神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司虫之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_17", "label": "地瘟神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司地瘟之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_18", "label": "土运神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司土运之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_19", "label": "地藏神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司地藏之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_20", "label": "植育神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司植育之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_21", "label": "地被神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司地被之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_22", "label": "窝棚神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司窝棚之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_23", "label": "穴室神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司穴室之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_24", "label": "窖神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司窖之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_25", "label": "树神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司树之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "bana_26", "label": "万牲万禽神", "group": "bana", "modern": "地母从神", "role": "巴那吉额姆（地母）亲随，司万牲万禽之职", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "dh_0", "label": "海豹", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_1", "label": "海熊", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_2", "label": "鱼", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_3", "label": "龟", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_4", "label": "蛇", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_5", "label": "蛙", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_6", "label": "蜥蜴", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_7", "label": "海岛", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_8", "label": "海风", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_9", "label": "海石", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_10", "label": "海草（花）女神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_11", "label": "追日神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_12", "label": "送日神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_13", "label": "海豹神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_14", "label": "海熊神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_15", "label": "鱼神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_16", "label": "龟神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_17", "label": "海蛇神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_18", "label": "蛙神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_19", "label": "海风神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_20", "label": "礁石神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_21", "label": "海鸟草卉神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_22", "label": "蜥蜴神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "dh_23", "label": "岛鬼值日神", "group": "donghai", "modern": "东海水系", "role": "东海女神德里给奥姆水系（11）/ 德力给奥母下属（13）之一", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "雪祭的众神.md"], "note": ""}, {"id": "amita_m", "label": "阿米塔妈妈", "group": "amita", "modern": "疾病生育神", "role": "司疾病生育（神群之主）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_0", "label": "离苏", "group": "amita", "modern": "疾病生育神", "role": "司肺喘（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_1", "label": "丘琴", "group": "amita", "modern": "疾病生育神", "role": "司腰酸（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_2", "label": "安班", "group": "amita", "modern": "疾病生育神", "role": "司腿疾（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_3", "label": "塔户", "group": "amita", "modern": "疾病生育神", "role": "阿米塔妈妈神群具名神", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_4", "label": "邦离", "group": "amita", "modern": "疾病生育神", "role": "司下泻（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_5", "label": "米牙", "group": "amita", "modern": "疾病生育神", "role": "司生蛆（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_6", "label": "卡古", "group": "amita", "modern": "疾病生育神", "role": "司头疮（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_7", "label": "难奇", "group": "amita", "modern": "疾病生育神", "role": "司心痛（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_8", "label": "阿米", "group": "amita", "modern": "疾病生育神", "role": "司苦（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_9", "label": "阿勒", "group": "amita", "modern": "疾病生育神", "role": "司暴疼（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_10", "label": "胡吉", "group": "amita", "modern": "疾病生育神", "role": "司眼盲（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_11", "label": "库鲁", "group": "amita", "modern": "疾病生育神", "role": "司口歪（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_12", "label": "班克恩", "group": "amita", "modern": "疾病生育神", "role": "司心颤（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_13", "label": "图库", "group": "amita", "modern": "疾病生育神", "role": "司冻馁（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_14", "label": "沙浑", "group": "amita", "modern": "疾病生育神", "role": "司呆痴（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_15", "label": "混泌", "group": "amita", "modern": "疾病生育神", "role": "司生育（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_16", "label": "库伦", "group": "amita", "modern": "疾病生育神", "role": "司难产（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "am_17", "label": "堵离", "group": "amita", "modern": "疾病生育神", "role": "司晕厥（阿米塔妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hebu_m", "label": "合布离妈妈", "group": "hebu", "modern": "死亡游魂神", "role": "司死亡游魂（神群之主）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_0", "label": "布凡", "group": "hebu", "modern": "死亡游魂神", "role": "司游魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_1", "label": "布安", "group": "hebu", "modern": "死亡游魂神", "role": "司生魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_2", "label": "班哥", "group": "hebu", "modern": "死亡游魂神", "role": "司招魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_3", "label": "毕亚金", "group": "hebu", "modern": "死亡游魂神", "role": "司夜亡魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_4", "label": "毛新", "group": "hebu", "modern": "死亡游魂神", "role": "司失主魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_5", "label": "宏克", "group": "hebu", "modern": "死亡游魂神", "role": "司寻落魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_6", "label": "波叶", "group": "hebu", "modern": "死亡游魂神", "role": "司久敬魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_7", "label": "都七", "group": "hebu", "modern": "死亡游魂神", "role": "司转生魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_8", "label": "鄂林", "group": "hebu", "modern": "死亡游魂神", "role": "司降生新魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "hb_9", "label": "莫音", "group": "hebu", "modern": "死亡游魂神", "role": "司冤诉魂（合布离妈妈神群）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "th_m", "label": "托户离妈妈", "group": "tuohu", "modern": "光明女神", "role": "主光明、照耀、眼明、心亮、温暖（神群之主）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "th_0", "label": "安班", "group": "tuohu", "modern": "光明神", "role": "托户离女神系：主光明、照耀、眼明、心亮、温暖", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "th_1", "label": "阿吉", "group": "tuohu", "modern": "光明神", "role": "托户离女神系：主光明、照耀、眼明、心亮、温暖", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "th_2", "label": "图门", "group": "tuohu", "modern": "光明神", "role": "托户离女神系：主光明、照耀、眼明、心亮、温暖", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_m", "label": "查依芬妈妈", "group": "tuohu", "modern": "寿护神", "role": "司寿（神群之主）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_0", "label": "女寿", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_1", "label": "男寿", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_2", "label": "老寿", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_3", "label": "小寿", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_4", "label": "兽寿", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_5", "label": "禽寿", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "cf_6", "label": "万命护寿神", "group": "tuohu", "modern": "寿护神", "role": "查依芬妈妈神群：司寿护命", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": ""}, {"id": "shanyun", "label": "山·云·雷·闪·雪·雨·虹等 42 尊神", "group": "tuohu", "modern": "自然神群", "role": "山云雷闪雪雨虹等 42 尊神 + 月星光乌鸦喜鹊灵鸠 6 尊（群体，具名见上方各节点）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "书中以类统列，未逐一名；已在阿嘎(雨)、额顿(风)、窝米纳(百虫草木)、古尔苔、敖钦、奥朵西、喜鹊、刺猬等节点单列。"}, {"id": "abka39", "label": "阿布卡赫赫亲随 39 位（具名）", "group": "abka39", "modern": "天界侍神群", "role": "具名 39 位：上天10 德林·温金·布罕·美梅·秋罕·察林·布雅·留肯·齐齐·顿顿；中天10 其敏·木林·乌达·麦阿·文兴·缶由·岔布·曼音·徐运·乌鲁；下天10 夹加·巴那·乌林·音达·没音·瓦卡·顿云·毕钦·布温·萨林；巡天9 满鲁赫·达其布·乌布锦·达林布·其雅其·木及吉·忙嘎亚（原记9位，文列7名）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "全档未给具体神职，故以群体节点呈现，避免39节点爆炸。"}, {"id": "ole42", "label": "卧勒多辅星女神 42 位", "group": "ole42", "modern": "辅星神群", "role": "书中未列具体名，统称辅星女神（群体节点）", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "全档未给具体名，以群体节点呈现。"}, {"id": "xiu28", "label": "二十八宿（满语对照）", "group": "xiu28", "modern": "汉族二十八宿 · 满族星祭可对照", "role": "角木蛟(鸡马达)·亢金龙(卡木图立)·氐土貉·房日兔(佛勒马浑)·心月狐(新都必)·尾火虎(威萨哈)·箕水豹(鸡拉哈)·斗木獬(得木图)·牛金牛(牛哈)·女土蝠(你勒何)·虚日鼠(恒吉立)·危月燕(威灭)·室火猪(射尖)·壁水獝(八七他)·奎木狼(奎你何)·娄金狗(落打浑)·胃土雉(佛胡莫)·昴日鸡/七女星(莫库)·毕月乌(冰西哈)·觜火猴(射不牛)·参水猿(射波牛)·井木犴(京西秃)·鬼金羊(魁你)·柳土獐(拉哈)·星日马(西莫利)·张月鹿(我泊乎)·翼火蛇(衣莫何)·轸水蚓(真登)", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md"], "note": "满语星神术语：usiha=星；nadan=七；narhun baibula=北斗七星神。汉族二十八宿与满族星祭体系可直接对读。"}, {"id": "yelu", "label": "耶鲁里", "group": "evil", "modern": "九头恶魔", "role": "黑暗/混沌/毁灭；败魂不灭→满尼/满盖", "srcs": ["满族星祭与《天宫大战》星神全档（补全版）.md", "捌排凌-神魔大战高潮.md", "玖腓凌-结局.md"], "note": "天宫大战全篇反派。"}, {"id": "xisilin", "label": "西斯林", "group": "evil", "modern": "风神→男性野神", "role": "原为善(风神、护阵)，贪睡被逐→投耶鲁里；吞光致天宇黑暗", "srcs": ["依尔哈女神-芍药花星-西斯林.md"], "note": "恶魔的帮凶弧光。"}, {"id": "manni", "label": "满尼 / 满盖", "group": "evil", "modern": "耶鲁里败魂", "role": "耶鲁里被击败后散出的败魂所化，仍时时出世危害世间", "srcs": ["玖腓凌-结局.md"], "note": ""}, {"id": "xingji", "label": "星祭 / 背灯祭", "group": "rite", "modern": "仪式", "role": "冬夜九堆火柱星桥、冰砌祭星坛、七女星升东天", "srcs": ["满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": "⚠️ 含「星桥」：九堆火柱，七女星升东天烧之以通天——它是仪式装置，非神祇。"}, {"id": "xuewu", "label": "学乌云", "group": "rite", "modern": "萨满传承制", "role": "教乌云/学乌云/落乌云学院制培训；卧勒多护佑职能", "srcs": ["学乌云.md"], "note": "新萨满学乌云先祷祭卧勒多妈妈。"}, {"id": "xueji", "label": "雪祭", "group": "rite", "modern": "部落总祭", "role": "尼莫妈妈主祭 + 25 铺神主神-辅神结构", "srcs": ["雪祭的众神.md", "满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": ""}, {"id": "huoji", "label": "火祭", "group": "rite", "modern": "祭火", "role": "代敏妈妈(鹰神)首请、跳鹰舞；拖亚拉哈送火种", "srcs": ["满族萨满祭祀详考报告.md", "萨满祭祀.md"], "note": ""}, {"id": "dongleng", "label": "冬冷星宿", "group": "cold", "modern": "北天冬夜星群泛称", "role": "司寒司夜的穹宇神群泛称（非单星、非三百女神）", "srcs": ["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], "note": "含七女星、北斗、斛斗星、三星等。"}, {"id": "hudou", "label": "斛斗星", "group": "cold", "modern": "仙后座（罗锅星）", "role": "徐姓多祭的星", "srcs": ["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], "note": ""}, {"id": "sanxing", "label": "三星", "group": "cold", "modern": "参宿", "role": "计时星", "srcs": ["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], "note": ""}, {"id": "xuanwu", "label": "玄武七宿", "group": "ref", "modern": "汉族二十八宿(北)", "role": "斗牛女虚危室壁，主冬主水主藏；与冬冷星宿气质可对照，学术分属两传统", "srcs": ["「冬冷星宿」考——满族星祭中的北天寒夜神群，及其与北斗、七女星.md"], "note": "⚠️ 满族七星=北斗；汉族北方七宿=七座宿，别混。"}];
+
+const EDGES = [["abka", "bana", "姊妹"], ["abka", "ole", "姊妹"], ["bana", "ole", "姊妹"], ["ole", "nadn1", "统辖"], ["ole", "nadn2", "统辖"], ["ole", "tum", "统辖"], ["ole", "jgulu", "统辖"], ["ole", "xili", "统辖"], ["ole", "taqi", "统辖"], ["ole", "xingke", "统辖"], ["ole", "deng", "统辖"], ["ole", "manjun", "统辖"], ["ole", "gasiha", "统辖"], ["ole", "shaodan", "统辖"], ["ole", "tangbai", "统辖"], ["ole", "nadanh", "统辖"], ["abka", "shun", "统领/衍生"], ["abka", "biya", "统领/衍生"], ["abka", "yageha", "统领/衍生"], ["abka", "yierha", "统领/衍生"], ["abka", "walege", "统领/衍生"], ["abka", "delige", "统领/衍生"], ["abka", "amalege", "统领/衍生"], ["abka", "zhulege", "统领/衍生"], ["abka", "dulunba", "统领/衍生"], ["abka", "doukai", "统领/衍生"], ["abka", "kunzhe", "统领/衍生"], ["abka", "baifu", "统领/衍生"], ["abka", "qiqidan", "统领/衍生"], ["abka", "nvsaman", "统领/衍生"], ["abka", "fotuo", "统领/衍生"], ["abka", "aoduoxi", "统领/衍生"], ["abka", "huolh", "统领/衍生"], ["abka", "huolk", "统领/衍生"], ["abka", "xique", "统领/衍生"], ["abka", "ciwei", "统领/衍生"], ["abka", "aga", "统领/衍生"], ["abka", "edun", "统领/衍生"], ["abka", "womina", "统领/衍生"], ["abka", "gurtai", "统领/衍生"], ["abka", "aoqin", "统领/衍生"], ["abka", "duo", "统领/衍生"], ["abka", "nimo", "统领/衍生"], ["abka", "daimin", "统领/衍生"], ["abka", "tuoya", "统领/衍生"], ["abka", "futejin", "统领/衍生"], ["abka", "boe", "统领/衍生"], ["abka", "lu", "统领/衍生"], ["abka", "ya", "统领/衍生"], ["abka", "sanbai", "统领/衍生"], ["bana", "bana_0", "亲随"], ["bana", "bana_1", "亲随"], ["bana", "bana_2", "亲随"], ["bana", "bana_3", "亲随"], ["bana", "bana_4", "亲随"], ["bana", "bana_5", "亲随"], ["bana", "bana_6", "亲随"], ["bana", "bana_7", "亲随"], ["bana", "bana_8", "亲随"], ["bana", "bana_9", "亲随"], ["bana", "bana_10", "亲随"], ["bana", "bana_11", "亲随"], ["bana", "bana_12", "亲随"], ["bana", "bana_13", "亲随"], ["bana", "bana_14", "亲随"], ["bana", "bana_15", "亲随"], ["bana", "bana_16", "亲随"], ["bana", "bana_17", "亲随"], ["bana", "bana_18", "亲随"], ["bana", "bana_19", "亲随"], ["bana", "bana_20", "亲随"], ["bana", "bana_21", "亲随"], ["bana", "bana_22", "亲随"], ["bana", "bana_23", "亲随"], ["bana", "bana_24", "亲随"], ["bana", "bana_25", "亲随"], ["bana", "bana_26", "亲随"], ["delige", "dh_0", "水系从属"], ["delige", "dh_1", "水系从属"], ["delige", "dh_2", "水系从属"], ["delige", "dh_3", "水系从属"], ["delige", "dh_4", "水系从属"], ["delige", "dh_5", "水系从属"], ["delige", "dh_6", "水系从属"], ["delige", "dh_7", "水系从属"], ["delige", "dh_8", "水系从属"], ["delige", "dh_9", "水系从属"], ["delige", "dh_10", "水系从属"], ["delige", "dh_11", "水系从属"], ["delige", "dh_12", "水系从属"], ["delige", "dh_13", "水系从属"], ["delige", "dh_14", "水系从属"], ["delige", "dh_15", "水系从属"], ["delige", "dh_16", "水系从属"], ["delige", "dh_17", "水系从属"], ["delige", "dh_18", "水系从属"], ["delige", "dh_19", "水系从属"], ["delige", "dh_20", "水系从属"], ["delige", "dh_21", "水系从属"], ["delige", "dh_22", "水系从属"], ["delige", "dh_23", "水系从属"], ["amita_m", "am_0", "神群"], ["amita_m", "am_1", "神群"], ["amita_m", "am_2", "神群"], ["amita_m", "am_3", "神群"], ["amita_m", "am_4", "神群"], ["amita_m", "am_5", "神群"], ["amita_m", "am_6", "神群"], ["amita_m", "am_7", "神群"], ["amita_m", "am_8", "神群"], ["amita_m", "am_9", "神群"], ["amita_m", "am_10", "神群"], ["amita_m", "am_11", "神群"], ["amita_m", "am_12", "神群"], ["amita_m", "am_13", "神群"], ["amita_m", "am_14", "神群"], ["amita_m", "am_15", "神群"], ["amita_m", "am_16", "神群"], ["amita_m", "am_17", "神群"], ["hebu_m", "hb_0", "神群"], ["hebu_m", "hb_1", "神群"], ["hebu_m", "hb_2", "神群"], ["hebu_m", "hb_3", "神群"], ["hebu_m", "hb_4", "神群"], ["hebu_m", "hb_5", "神群"], ["hebu_m", "hb_6", "神群"], ["hebu_m", "hb_7", "神群"], ["hebu_m", "hb_8", "神群"], ["hebu_m", "hb_9", "神群"], ["th_m", "th_0", "神群"], ["th_m", "th_1", "神群"], ["th_m", "th_2", "神群"], ["cf_m", "cf_0", "神群"], ["cf_m", "cf_1", "神群"], ["cf_m", "cf_2", "神群"], ["cf_m", "cf_3", "神群"], ["cf_m", "cf_4", "神群"], ["cf_m", "cf_5", "神群"], ["cf_m", "cf_6", "神群"], ["abka", "shanyun", "衍生"], ["abka", "abka39", "亲随"], ["ole", "ole42", "辅星"], ["ole", "xiu28", "星象对照"], ["yelu", "ole", "敌对"], ["yelu", "nadn1", "敌对"], ["yelu", "nadn2", "敌对"], ["xisilin", "yelu", "被利用"], ["xisilin", "ole", "失守(吞光)"], ["yelu", "manni", "败魂"], ["xingji", "ole", "礼拜主神"], ["xingji", "nadn1", "礼拜"], ["xingji", "nadn2", "礼拜"], ["xuewu", "ole", "祷祭护佑"], ["xueji", "nimo", "主祭"], ["huoji", "daimin", "首请"], ["huoji", "tuoya", "送火"], ["dongleng", "nadn1", "包含"], ["dongleng", "nadn2", "包含"], ["dongleng", "hudou", "包含"], ["dongleng", "sanxing", "包含"], ["hudou", "taqi", "同仙后座/计时"], ["sanxing", "taqi", "计时关联"], ["xuanwu", "dongleng", "气质对照(分属两传统)"]];
+
+const svg = document.getElementById("graph");
+const W = svg.clientWidth || 900, H = svg.clientHeight || 640;
+const ns = "http://www.w3.org/2000/svg";
+const BIG = new Set(["core","abka39","ole42","xiu28","bana","donghai","amita","hebu","tuohu"]);
+let nodes = NODES.map((n,i)=>({...n,
+  x:W/2+Math.cos(i)*240+Math.random()*20, y:H/2+Math.sin(i*1.7)*220+Math.random()*20,
+  vx:0, vy:0}));
+const idmap = {}; nodes.forEach(n=>idmap[n.id]=n);
+let edges = EDGES.map(([s,t,r])=>({s:idmap[s], t:idmap[t], r}));
+const neigh = {}; nodes.forEach(n=>neigh[n.id]=new Set());
+edges.forEach(e=>{neigh[e.s.id].add(e.t.id);neigh[e.t.id].add(e.s.id);});
+
+const nodeG = document.createElementNS(ns,"g");
+const edgeG = document.createElementNS(ns,"g");
+svg.appendChild(edgeG); svg.appendChild(nodeG);
+
+const edgeEls = edges.map(e=>{
+  const l = document.createElementNS(ns,"line");
+  l.setAttribute("class","edge"); edgeG.appendChild(l); return l;
+});
+const nodeEls = nodes.map(n=>{
+  const g = document.createElementNS(ns,"g"); g.setAttribute("class","node");
+  const c = document.createElementNS(ns,"circle");
+  const r = n.group==="core"?16 : n.group==="evil"?14 : BIG.has(n.group)?12 : 10;
+  c.setAttribute("r",r);
+  c.style.fill = getComputedStyle(document.documentElement)
+                 .getPropertyValue(GROUPS[n.group].color.replace("var(","").replace(")",""));
+  const t = document.createElementNS(ns,"text");
+  t.setAttribute("text-anchor","middle"); t.setAttribute("dy", r+12); t.textContent = n.label;
+  g.appendChild(c); g.appendChild(t); nodeG.appendChild(g); return {g,c,t};
+});
+
+let fixed=null;
+function step(){
+  const k=0.02, rep=1700, damp=0.85;
+  nodes.forEach(a=>{ if(a===fixed) return;
+    let fx=0, fy=0;
+    nodes.forEach(b=>{ if(a===b) return;
+      let dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy+0.01, d=Math.sqrt(d2);
+      let f=rep/d2; fx+=dx/d*f; fy+=dy/d*f; });
+    edges.forEach(e=>{ if(e.s===a||e.t===a){ const b=e.s===a?e.t:e.s;
+      let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)+0.01;
+      let f=k*(d-110); fx+=dx/d*f; fy+=dy/d*f; }});
+    fx += (W/2-a.x)*0.003; fy += (H/2-a.y)*0.003;
+    a.vx=(a.vx+fx)*damp; a.vy=(a.vy+fy)*damp;
+    a.x+=a.vx; a.y+=a.vy;
+    a.x=Math.max(40,Math.min(W-40,a.x)); a.y=Math.max(40,Math.min(H-40,a.y));
+  });
+}
+function render(){
+  edges.forEach((e,i)=>{ const l=edgeEls[i];
+    l.setAttribute("x1",e.s.x); l.setAttribute("y1",e.s.y);
+    l.setAttribute("x2",e.t.x); l.setAttribute("y2",e.t.y); });
+  nodes.forEach((n,i)=> nodeEls[i].g.setAttribute("transform",`translate(${n.x},${n.y})`));
+}
+let raf;
+function loop(){ for(let i=0;i<4;i++) step(); render(); raf=requestAnimationFrame(loop); }
+loop();
+setTimeout(()=>{cancelAnimationFrame(raf);}, 3200);
+
+function colorOf(g){ return getComputedStyle(document.documentElement)
+    .getPropertyValue(GROUPS[g].color.replace("var(","").replace(")","")); }
+
+nodeEls.forEach((obj,i)=>{
+  const n=nodes[i];
+  obj.g.addEventListener("click", ev=>{ ev.stopPropagation(); select(n); });
+  obj.g.addEventListener("mousedown", ev=>{ ev.stopPropagation(); fixed=n;
+     const move=ev2=>{ const r=svg.getBoundingClientRect();
+        n.x=ev2.clientX-r.left; n.y=ev2.clientY-r.top; };
+     const up=()=>{ fixed=null; window.removeEventListener("mousemove",move);
+                    window.removeEventListener("mouseup",up); raf=requestAnimationFrame(loop);
+                    setTimeout(()=>cancelAnimationFrame(raf),1500); };
+     window.addEventListener("mousemove",move); window.addEventListener("mouseup",up);
+  });
+});
+function select(n){
+  const keep = new Set([n.id, ...neigh[n.id]]);
+  nodes.forEach((m,i)=> nodeEls[i].g.classList.toggle("dim", !keep.has(m.id)));
+  edges.forEach((e,i)=>{ const on=(e.s.id===n.id||e.t.id===n.id);
+     edgeEls[i].classList.toggle("hl",on); edgeEls[i].classList.toggle("dim",!on); });
+  showDetail(n);
+}
+function clearSel(){
+  nodes.forEach((m,i)=> nodeEls[i].g.classList.remove("dim"));
+  edges.forEach((e,i)=>{ edgeEls[i].classList.remove("hl"); edgeEls[i].classList.remove("dim"); });
+}
+svg.addEventListener("click", clearSel);
+function showDetail(n){
+  const d=document.getElementById("detail");
+  const links = n.srcs.map(s=>`<a href="${BASE+encodeURIComponent(s)}" target="_blank">📄 ${s.replace('.md','')}</a>`).join("");
+  d.innerHTML = `<h2>${n.label}</h2>
+    <span class="tag" style="background:${colorOf(n.group)}">${GROUPS[n.group].name}</span>
+    <div class="row"><span class="k">对应现代星座：</span>${n.modern}</div>
+    <div class="row"><span class="k">职能 / 神格：</span><br>${n.role}</div>
+    ${n.note?`<div class="row"><span class="k">备注：</span><br>${n.note}</div>`:""}
+    <div class="row"><span class="k">出处素材（点击打开）：</span>${links}</div>`;
+}
+const search=document.getElementById("search");
+search.addEventListener("input", ()=>{
+  const q=search.value.trim().toLowerCase();
+  if(!q){ clearSel(); return; }
+  const hit=new Set();
+  nodes.forEach((n,i)=>{ const ok=(n.label+n.modern+n.role+(n.note||"")).toLowerCase().includes(q);
+     nodeEls[i].g.classList.toggle("dim",!ok); if(ok) hit.add(n.id); });
+  edges.forEach((e,i)=> edgeEls[i].classList.toggle("dim", !(hit.has(e.s.id)&&hit.has(e.t.id))));
+});
+const legend=document.getElementById("legend");
+const offGroups=new Set();
+Object.entries(GROUPS).forEach(([k,v])=>{
+  const el=document.createElement("div"); el.className="lg";
+  el.innerHTML=`<span class="dot" style="background:${v.color}"></span>${v.name}`;
+  el.addEventListener("click", ()=>{
+    if(offGroups.has(k)){ offGroups.delete(k); el.classList.remove("off"); }
+    else { offGroups.add(k); el.classList.add("off"); }
+    nodes.forEach((n,i)=> nodeEls[i].g.style.display = offGroups.has(n.group)?"none":"");
+    edges.forEach((e,i)=> e.style.display =
+       (offGroups.has(e.s.group)||offGroups.has(e.t.group))?"none":"");
+  });
+  legend.appendChild(el);
+});
+</script>
+</body>
+</html>
