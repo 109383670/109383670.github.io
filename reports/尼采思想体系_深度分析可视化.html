@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>尼采思想体系 · 深度分析可视化</title>
+<style>
+  :root{ --bg:#0f1626; --panel:#13203a; --panel2:#1d2c4a; --txt:#e7edf6; --muted:#93a4c3;
+         --line:#2a3a5c; --accent:#e0b643; --accent2:#5fb0e8; }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--txt);
+       display:flex;flex-direction:column;height:100vh;overflow:hidden}
+  header{padding:9px 18px;background:linear-gradient(90deg,#0b1220,#16213a);border-bottom:1px solid var(--line);
+         display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:700;flex:0 0 auto}
+  .stats{display:flex;gap:13px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+  .stats b{color:var(--accent);font-size:14px}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tab{background:var(--panel);color:var(--muted);border:1px solid var(--line);padding:6px 13px;border-radius:18px;cursor:pointer;font-size:13px}
+  .tab.active{background:var(--accent);color:#241c02;border-color:var(--accent);font-weight:700}
+  .topsearch{margin-left:auto;display:flex;align-items:center;gap:8px}
+  #search{background:var(--panel);border:1px solid var(--line);color:var(--txt);padding:6px 12px;border-radius:18px;font-size:13px;width:220px;outline:none}
+  #search:focus{border-color:var(--accent2)}
+  #matchInfo{font-size:12px;color:var(--muted);min-width:54px}
+  #prog{height:3px;background:transparent}
+  #progBar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .08s}
+  .body{flex:1;display:flex;min-height:0}
+  #side{width:280px;flex:0 0 auto;background:var(--panel);border-right:1px solid var(--line);overflow:auto;padding:14px 8px}
+  #side h2{font-size:12px;color:var(--muted);margin:4px 10px 10px;letter-spacing:1px}
+  .toc-item{display:block;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--muted);border-left:2px solid transparent;text-decoration:none}
+  .toc-item:hover{background:var(--panel2);color:var(--txt)}
+  .toc-item.lvl2{font-weight:600;color:#cdd9ef;font-size:13.5px}
+  .toc-item.lvl3{padding-left:22px;font-size:12.5px}
+  .toc-item.lvl4{padding-left:36px;font-size:12px;color:#8294b5}
+  .toc-item.active{background:#1b2c4d;color:var(--accent);border-left-color:var(--accent)}
+  #main{flex:1;overflow:auto;position:relative}
+  article{max-width:820px;margin:0 auto;padding:30px 40px 120px;line-height:1.85;font-size:16px}
+  article h1{font-size:26px;margin:0 0 6px;color:#fff;border-bottom:2px solid var(--accent);padding-bottom:12px}
+  article h2{font-size:21px;margin:34px 0 12px;color:var(--accent);border-left:4px solid var(--accent);padding-left:12px}
+  article h3{font-size:17.5px;margin:26px 0 10px;color:#bcd4f5}
+  article h4{font-size:15.5px;margin:20px 0 8px;color:#9fc0ec}
+  article p{margin:11px 0;color:#dde6f2}
+  article strong{color:#ffe08a}
+  article em{color:#cdb4ff;font-style:italic}
+  article blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--accent2);background:#0e1a30;border-radius:0 8px 8px 0;color:#b9c8e0;font-size:14.5px}
+  article blockquote p{margin:5px 0;color:#b9c8e0}
+  article ul,article ol{margin:10px 0;padding-left:26px}
+  article li{margin:5px 0}
+  article code{background:#0b1424;padding:1px 6px;border-radius:5px;font-size:13.5px;color:#f4b860}
+  article table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13.5px}
+  article th,article td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+  article th{background:#16243f;color:#cfe0fb;font-weight:700}
+  article tr:nth-child(even) td{background:#101a30}
+  article hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+  mark{background:#f4d35e;color:#1a1300;border-radius:3px;padding:0 1px}
+  .toTop{position:fixed;right:22px;bottom:22px;background:var(--panel2);border:1px solid var(--line);color:var(--txt);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;display:none;z-index:5}
+  .toTop:hover{border-color:var(--accent)}
+  #concept{display:none;overflow:auto;padding:18px;height:100%}
+  #concept.show{display:block}
+  #cwrap{max-width:820px;margin:0 auto}
+  #cwrap h2{font-size:15px;color:var(--accent);margin:0 0 4px}
+  #cwrap .chint{font-size:12.5px;color:var(--muted);margin:0 0 10px;line-height:1.6}
+  #svgbox{width:100%;background:#0c1424;border:1px solid var(--line);border-radius:14px}
+  .cnode{cursor:pointer}
+  .cnode circle{transition:.18s}
+  .cnode:hover circle{stroke:#fff;stroke-width:3}
+  .cnode text{fill:#06283d;font-weight:700;font-family:-apple-system,"PingFang SC",sans-serif;text-anchor:middle;pointer-events:none}
+  .cnode .sub{fill:#0b2c44;font-weight:600;font-size:11px}
+  .edge{stroke:#3a4d72;stroke-width:1.4;transition:.15s}
+  .edge.hot{stroke:var(--accent2);stroke-width:3}
+  .legend{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.7}
+  @media(max-width:760px){ #side{display:none} article{padding:20px 16px 100px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>🔱 尼采思想体系 · 深度分析</h1>
+  <div class="stats" id="stats"></div>
+  <div class="tabs">
+    <div class="tab active" data-v="read">阅读</div>
+    <div class="tab" data-v="concept">概念图</div>
+  </div>
+  <div class="topsearch">
+    <input id="search" placeholder="搜索正文…">
+    <span id="matchInfo"></span>
+  </div>
+</header>
+<div id="prog"><div id="progBar"></div></div>
+<div class="body">
+  <nav id="side"><h2>目录</h2><div id="toc"></div></nav>
+  <main id="main"><article id="content"><h1 id="sec-0">尼采思想体系 · 深度分析</h1>
+<blockquote>
+<p>整理于 2026-07-25。不是提纲，是分析。</p>
+</blockquote>
+<hr />
+<h2 id="sec-1">第一块：核心概念集群（深度拆解）</h2>
+<p>尼采的概念不是孤立的——它们像一组互相咬合的齿轮。以下按思想暴发顺序展开，每进入一个新概念，都建立在前面概念的基础上。</p>
+<hr />
+<h3 id="sec-2">一、日神与酒神：《悲剧的诞生》的底层二元结构</h3>
+<p>这是尼采整个哲学的地基。他不从&quot;什么是真理&quot;出发，他从<strong>人类的两种艺术冲动</strong>出发。</p>
+<h4 id="sec-3">日神（阿波罗）—— 梦境</h4>
+<p>日神是光明之神，也是造型艺术之神。尼采抓住的核心是：<strong>日神创造美的幻象，让人能活下去。</strong></p>
+<ul>
+<li>日神冲动产生的是<strong>个体化原理</strong>：每个存在者是分离的、有边界的、有形的。雕塑、史诗、绘画都是日神艺术——它们给出清晰的形式和边界。</li>
+<li>日神的美学体验像<strong>梦</strong>。在梦里，每个人都有属于自己的世界，安全、有序、可辨识。</li>
+<li>日神的法则：<strong>适度、克制、对个体界限的遵守。</strong> 类似于&quot;中庸&quot;——不越界，不出格。</li>
+<li><strong>核心功能</strong>：遮盖。把人生的恐怖用美的外观盖住。希腊人不是天真地快乐——他们太知道生存有多可怕了（命运无常、死亡随时降临），所以他们需要奥林匹斯众神的光辉来遮住深渊。</li>
+</ul>
+<p>尼采的原话逻辑链：希腊人深切感受到了生存的恐怖 → 为了能够活下去 → 他们必须在恐怖面前放置奥林匹斯众神的光辉梦境 → 日神艺术诞生。</p>
+<h4 id="sec-4">酒神（狄奥尼索斯）—— 迷醉</h4>
+<p>酒神是丰收之神、葡萄酒之神。日神遮盖痛苦，酒神<strong>直面痛苦并在痛苦中获得狂喜</strong>。</p>
+<ul>
+<li>酒神冲动<strong>打破个体化原理</strong>。在酒神祭中，人与人之间的界限消融了，个体回归到太一（原始统一体）。奴隶和自由人一起跳舞，禁忌被打破。</li>
+<li>酒神状态是<strong>痛苦与狂喜交织</strong>：个体被解体的同时，感受到自己与宇宙生命本体的融合。个体的毁灭不是损失——是对更高存在的回归。</li>
+<li>酒神的美学体验像<strong>醉</strong>。音乐是酒神艺术——不通过形象，直接触及情感和意志的核心。</li>
+<li><strong>这是尼采哲学中最激进的肯定</strong>：连毁灭和痛苦都要说&quot;是&quot;，因为在毁灭中生命本身被感受到了。</li>
+</ul>
+<h4 id="sec-5">希腊悲剧 = 日神 + 酒神的结合</h4>
+<p>希腊悲剧不是&quot;悲伤的故事&quot;。它的运作机制：</p>
+<ul>
+<li>酒神合唱队：代表酒神精神——集体的、迷狂的、打破个体边界的。合唱队是悲剧的母体。</li>
+<li>日神舞台形象：代表日神精神——个体的、有形的、美的外观。演员和对话是酒神体验的&quot;梦境翻译&quot;。</li>
+<li><strong>悲剧的体验</strong>：观众通过合唱队进入酒神状态（打破个体、感受太一），然后通过舞台上的日神形象<strong>看到</strong>这种体验。你在看，但你看的东西就是你自己的深层本质。</li>
+</ul>
+<p>尼采的关键论证：<strong>希腊悲剧不是让人&quot;净化&quot;情感（亚里士多德的 catharsis），而是让人在个体的毁灭中感受到生命的不可摧毁。</strong> 悲剧英雄死了，但生命本身被肯定了。</p>
+<h4 id="sec-6">苏格拉底—— 杀死悲剧的凶手</h4>
+<p>尼采把苏格拉底和欧里庇得斯看成悲剧的敌人：</p>
+<ul>
+<li>欧里庇得斯把酒神合唱队砍掉了，把悲剧变成了心理剧——角色在舞台上&quot;讲道理&quot;</li>
+<li>苏格拉底是理论乐观主义的化身：以为理性可以穿透一切、修正一切。&quot;知识=美德=幸福&quot;——三等式</li>
+<li><strong>苏格拉底式的人</strong>相信：思想循着因果律可以直达存在的最深处，思想不仅能认识存在，甚至能<strong>修正</strong>存在</li>
+<li>酒神被赶走后，悲剧死了。西方文明从那时起走了一条岔路——用理性压制生命本能</li>
+</ul>
+<p>尼采后期调整了日神/酒神的对立：他把两者都理解为<strong>醉</strong>的不同类型。日神的醉产生视觉、造型的幻觉；酒神的醉激发整个情感系统的奔腾。但二元结构始终在——这是他思想的第一推动力。</p>
+<hr />
+<h3 id="sec-7">二、上帝死了：《快乐的科学》§125 的疯人寓言</h3>
+<p>不是欢呼，不是宣告，是一个<strong>寓言</strong>。理解这个寓言的形式比理解字面意思更重要。</p>
+<h4 id="sec-8">寓言的场景</h4>
+<ul>
+<li><strong>说话的人</strong>：一个疯子。不是哲学家，不是先知，是疯子。</li>
+<li><strong>说话的对象</strong>：市场上的无神论者——他们不信上帝，却按照基督教道德生活、做生意。他们听见疯子喊&quot;上帝死了&quot;，<strong>笑话他</strong>。</li>
+<li><strong>疯子做的事</strong>：大白天提着灯笼，喊着&quot;我找上帝！&quot;然后当众宣布&quot;上帝死了！是我们杀死了他！你们和我都是凶手！&quot;</li>
+</ul>
+<p>尼采的精妙之处：<strong>听众不信上帝，但他们也没意识到上帝死后他们失去了什么。</strong> 他们以为&quot;不信上帝&quot;只是换了一套信仰，没意识到整个价值体系的基座已经垮了。疯子的&quot;疯&quot;在于他看见了别人假装没看见的东西——虚无主义的来临。</p>
+<h4 id="sec-9">&quot;我们杀死了上帝&quot;的几层含义</h4>
+<p>这不是一个神学命题，是一个文明诊断：</p>
+<ol>
+<li><p><strong>基督教本身的自我毁灭</strong>：基督教的&quot;求真意志&quot;发展出了科学，科学反过来杀死了基督教。基督教的道德说&quot;你要诚实、要追求真理&quot;——这个诚实的意志最终发现上帝只是一个假设，于是基督教自己生产了自己的掘墓人。</p>
+</li>
+<li><p><strong>最高价值的自行贬黜</strong>（海德格尔的概括）：不是某个人推翻了上帝，是西方形而上学的整个&quot;真实世界&quot;概念体系自己瓦解了。柏拉图说真实世界在理念那边 → 基督教说真实世界在天堂那边 → 康德说真实世界在物自体那边 → 到了尼采，&quot;真实世界&quot;本身变成了寓言。</p>
+</li>
+<li><p><strong>失去上帝后没有人能立刻填补那个位置</strong>：疯子问——&quot;我们杀了上帝之后，用什么水来洗掉血迹？有什么赎罪仪式？这件事对我们来说太大了！&quot;无神论者们以为取代上帝就够了。但事实上，<strong>所有建立在&quot;上帝存在&quot;基础上的东西——道德、意义、目的、秩序——全部失去了地基。</strong></p>
+</li>
+</ol>
+<h4 id="sec-10">虚无主义的双重面孔</h4>
+<p>上帝之死必然导向虚无主义——&quot;最高价值的自行贬黜&quot;，&quot;目标缺失&quot;。</p>
+<p>但尼采区分了两条路：</p>
+<p><strong>消极虚无主义</strong>（末人的道路）：</p>
+<ul>
+<li>&quot;一切都一样&quot;</li>
+<li>放弃追求伟大，缩进小快乐、小安全</li>
+<li>&quot;我们发明了幸福&quot;</li>
+<li>精神力量的衰退和颓废</li>
+</ul>
+<p><strong>积极虚无主义</strong>（超人的道路）：</p>
+<ul>
+<li>把旧价值的废墟清空——不是为了&quot;什么都不信&quot;，而是为了<strong>重新创造</strong></li>
+<li>虚无主义是一个过渡阶段——你必须先穿过它</li>
+<li>&quot;人是需要被克服的东西&quot;</li>
+</ul>
+<p>关键在于，上帝死后，<strong>人不能换一个神来拜</strong>——科学、理性、国家主义都不是答案。人必须在没有任何外部担保的情况下，自己成为价值的创造者。</p>
+<h4 id="sec-11">疯子最后的动作</h4>
+<p>寓言结尾：疯子把灯笼摔碎在地上，说：&quot;我来得太早了，我的时候还没到。&quot;然后他走进各个教堂，唱起 Requiem aeternam deo（&quot;上帝安魂曲&quot;）。</p>
+<p>疯子不是来宣告胜利的。他是来预告一场还没人理解的灾难。他说&quot;我来得太早&quot;——因为虚无主义的大潮还没真正到来。但他在教堂里唱安魂曲，因为<strong>上帝确实死了，他为上帝守灵</strong>。</p>
+<p>尼采不是说&quot;没有上帝了所以我们自由了&quot;。他是说：没有上帝了，<strong>如果我们不成为自己的神，我们就完了。</strong></p>
+<hr />
+<h3 id="sec-12">三、永恒轮回：生命需要重量的思想实验</h3>
+<p>永恒轮回是尼采最激进的概念，也是他自己最不敢面对的概念——查拉图斯特拉一开始甚至不愿意把这个想法说出口。</p>
+<h4 id="sec-13">首次提出：《快乐的科学》§341 &quot;最大的重量&quot;</h4>
+<p>原文（据《快乐的科学》孙周兴译本重述）：</p>
+<blockquote>
+<p>假如在某一天或某个夜晚，一个恶魔潜入你最孤寂的寂寞中，对你说：&quot;你正在过的和曾经过过的这一生，你将不得不再过一次，并且再过无数次。其中不会有任何新鲜的东西。你生命中的每一个痛苦、每一个快乐、每一个念头和每一声叹息，以及一切大得无法言说和微不足道的事情，都必然以相同的顺序返回你身上——以至这只蜘蛛和这缕月光，以至此刻和此处的我。存在的永恒沙漏将翻来覆去地转动，而你，微尘中的微尘，与之同在。&quot;</p>
+</blockquote>
+<p>然后尼采抛出了两个可能的回应——<strong>这是整个思想实验的核心张力：</strong></p>
+<blockquote>
+<p>你不会扑倒在地、咬牙切齿、诅咒这样说话的恶魔吗？还是说，你曾经经历过一个无比壮丽的时刻，在那时刻里你回答恶魔说：&quot;你是一个神，我从未听过比这更神圣的话！&quot;</p>
+</blockquote>
+<p>不是&quot;永恒轮回是不是真的&quot;，而是<strong>你怎么回答</strong>。你的回答揭示了你生命的质量。</p>
+<h4 id="sec-14">为什么需要永恒轮回</h4>
+<p>这是尼采对&quot;上帝死了&quot;之后的价值真空的直接回应。他问了一个很实际的问题：</p>
+<p><strong>基督教给生命提供了意义担保</strong>——有天堂、有最后审判、善恶终有报。上帝死了之后，谁来担保你这一生有意义？</p>
+<p>尼采的解决方案不是找一个新担保。他把问题反过来了：<strong>如果你这一生将无限重复，没有任何东西被担保——你还能对它说&quot;是&quot;吗？</strong></p>
+<p>如果能，你就不需要担保。你本身就是担保。</p>
+<h4 id="sec-15">两个层面：宇宙论 vs 伦理学</h4>
+<p>尼采一度试图从物理学上论证永恒轮回——如果时间是无限的而物质粒子是有限的，所有排列组合必然无限重复。这个论证在科学上站不住脚，但这不是重点。</p>
+<p>重点是<strong>伦理功能</strong>：永恒轮回替代了基督教的&quot;最后审判&quot;。</p>
+<ul>
+<li>旧模式：你做一件事 → 上帝最终会审判 → 善有善报恶有恶报</li>
+<li>新模式：你做一件事 → 这件事将永远重复 → <strong>每一秒你都在自我审判</strong></li>
+</ul>
+<p>如果你的每一刻都将被无限重复——你还会做出你现在正在做的选择吗？如果你犹豫了，说明此刻不值得永恒。<strong>如果你能对恶魔说&quot;你是神&quot;，说明你的生命够重、够亮、够真。</strong></p>
+<h4 id="sec-16">从&quot;最大的重负&quot;到&quot;最高的肯定公式&quot;</h4>
+<p>永恒轮回不是从一开始就是快乐的学说。尼采自己经历了从恐惧到肯定的转变。</p>
+<ul>
+<li><strong>起初</strong>：&quot;最大的重负&quot;——这个想法可以压垮一个人</li>
+<li><strong>中途</strong>：查拉图斯特拉不愿意说出口——&quot;你是知道这个的，但你并没有说出它！&quot;（他的动物对他说）</li>
+<li><strong>最终</strong>：&quot;最高的肯定公式&quot;——对生命的绝对肯定，对一切的&quot;是&quot;</li>
+</ul>
+<p>这个转变不是靠想通的。是<strong>活出来</strong>的。你必须先活出一个配得上永恒轮回的瞬间，然后你才能对恶魔说&quot;是&quot;。</p>
+<h4 id="sec-17">amor fati（热爱命运）</h4>
+<p>永恒轮回的实践形态就是爱命运——<strong>不只想接受好的部分，连最丑陋、最痛苦、最失败的部分一起说&quot;是&quot;。</strong></p>
+<p>尼采在《瞧这个人》中写道：</p>
+<blockquote>
+<p>我衡量伟大的公式是&quot;热爱命运&quot;：不想要任何不同的东西，不在前头、不在后头、不在所有的永恒里。不仅仅忍受必然性——更不要掩盖它……而要<strong>热爱它</strong>。</p>
+</blockquote>
+<p>这是尼采精神的最闪光处，也是目前为止最违背人类本能的想法。不是&quot;克服痛苦&quot;，是&quot;连痛苦一起爱&quot;。</p>
+<hr />
+<h3 id="sec-18">四、权力意志：生命不是求生存，是求超越</h3>
+<p>权力意志是尼采哲学的本体论地基，也是最容易被政治化误读的概念。</p>
+<h4 id="sec-19">错的读法：权力=政治/支配</h4>
+<p>&quot;权力意志&quot;在德文中是 Wille zur Macht。Macht 不是政治权力（Herrschaft/Gewalt）。这个&quot;权力&quot;更接近 <strong>&quot;能够&quot;</strong>——能够创造、能够克服、能够成为更多。</p>
+<h4 id="sec-20">对的读法：权力=自我克服</h4>
+<p>尼采反对两套当时占主导的生物学/哲学观点：</p>
+<p><strong>1. 反对达尔文：生命不是&quot;生存竞争&quot;</strong></p>
+<p>尼采认为达尔文搞反了。生命不是在被动地&quot;适应环境以求生存&quot;，而是在主动地<strong>征服环境以求扩张</strong>。&quot;生存&quot;只是手段，&quot;超越自身&quot;才是目的。他写道：&quot;生命的总体状况不是匮乏和饥饿，而是富有、丰饶，甚至是荒唐的挥霍——有斗争的地方，是为权力而斗争。&quot;</p>
+<p><strong>2. 反对叔本华：意志不是&quot;求生存&quot;</strong></p>
+<p>叔本华说世界的本质是盲目的&quot;生存意志&quot;——所有生物都在努力活着，但活着的本质是痛苦。尼采反击：如果只是求生存，人为什么要创造艺术？为什么有人愿意为信念而死？意志追求的不可能是自我保存（那太可怜了），意志追求的是**&quot;更多&quot;**。</p>
+<h4 id="sec-21">权力意志是什么</h4>
+<p>权力意志不是一种东西，是一种<strong>动力关系</strong>。</p>
+<ul>
+<li>每一个存在者都在向外扩张它的力量范围</li>
+<li>&quot;成为你自己&quot;不是一个静止的目标——是你通过不断克服你此刻的样子而成为的你还没有成为的样子</li>
+<li>权力意志不是&quot;我有多少权力&quot;，是**&quot;我在成为更多的过程中&quot;**</li>
+</ul>
+<p>尼采在《善恶的彼岸》§13 中写道：</p>
+<blockquote>
+<p>一个生物首先想要的是<strong>释放</strong>自己的力量——生命本身就是权力意志。</p>
+</blockquote>
+<p><strong>最关键的理解</strong>：权力意志的主体不是&quot;人&quot;，是<strong>力量本身</strong>。人不是&quot;拥有&quot;权力意志——人是权力意志的一个组织形态。你身体里的每一个细胞、每一种驱力，都在争夺主导权。你的&quot;自我&quot;不过是这些驱力之间暂时的权力平衡。</p>
+<h4 id="sec-22">透视主义作为权力意志的认识论版本</h4>
+<p>每一个存在者都从自己的视角看世界。没有&quot;上帝视角&quot;。<strong>没有事实，只有解释。</strong></p>
+<p>但这不是&quot;所以一切都是主观的&quot;——这是&quot;所以我们必须积累尽可能多的视角&quot;。</p>
+<blockquote>
+<p>学会以多种多样的眼光来看事物，这恰恰是客观性。——《论道德的谱系》3.12</p>
+</blockquote>
+<p>客观性不是没有观点——客观性是有<strong>很多</strong>观点，并且能自由地在它们之间移动。</p>
+<hr />
+<h3 id="sec-23">五、主人道德与奴隶道德：《论道德的谱系》的价值反转论证</h3>
+<p>这是尼采最&quot;危险&quot;的概念群，也是他论证最系统的地方。《论道德的谱系》（1887）由三篇论文组成，构造了一个完整的道德史分析。</p>
+<h4 id="sec-24">第一篇：&quot;好与坏&quot;、&quot;善与恶&quot;</h4>
+<p>尼采的起点是一个语言学的发现：在所有语言中，表示&quot;好&quot;的词都起源于表示&quot;高贵的&quot;&quot;强大的&quot;&quot;富有的&quot;的词。</p>
+<p><strong>主人道德的发生逻辑：</strong></p>
+<ul>
+<li>贵族（强大的、有力量的）看自己 → &quot;我是好的&quot;（gut）</li>
+<li>然后看那些不是自己的人 → &quot;他们是低劣的&quot;（schlecht，坏的/差的/不足的）</li>
+<li><strong>路径：先肯定自己，再否定他者。</strong> &quot;好&quot;是自我肯定的产物，&quot;坏&quot;是事后对比的产物。</li>
+</ul>
+<p><strong>奴隶道德的发生逻辑（关键反转）：</strong></p>
+<ul>
+<li>弱者（被压迫的）看贵族 → &quot;他们是恶的&quot;（böse，邪恶的/有罪的）</li>
+<li>然后看自己 → &quot;我们跟他们不一样，所以我们善良&quot;（gut，善良的/正义的）</li>
+<li><strong>路径：先否定他者，再通过对照肯定自己。</strong> &quot;善&quot;是他者否定的产物，是<strong>对他者的想象性复仇</strong>。</li>
+</ul>
+<p>这是尼采的核心论证：<strong>我们现在认为的&quot;道德&quot;（谦卑、怜悯、自我牺牲、平等）不是在肯定什么好——是在证明&quot;我比欺负我的人善良&quot;。</strong> 这是一次巨大的价值翻转：犹太-基督教把贵族的好（高贵、权力、骄傲）变成了恶（傲慢、压迫），把弱者的弱（无助、胆怯、卑微）变成了善（谦卑、温顺、虔诚）。</p>
+<h4 id="sec-25">怨恨（Ressentiment）作为创造性的力量</h4>
+<p>Ressentiment 是法语词，尼采故意用这个词来指一种特殊的心理机制：</p>
+<ul>
+<li>不是&quot;恨&quot;——恨是可以直接表达的、有对象的</li>
+<li><strong>怨恨是被压抑的仇恨</strong>，是没有能力直接报复时产生的替代性满足</li>
+<li>弱者在现实中打不过强者 → 在想象中重新定义价值：强者是恶的，弱者是善的 → <strong>在道德领域&quot;赢了&quot;</strong></li>
+<li>怨恨是&quot;奴隶道德&quot;的发动机——所有那些&quot;你们虽然有钱有势但你们灵魂贫瘠&quot;的说辞，都是怨恨的产品</li>
+</ul>
+<p>这不是说弱者&quot;不应该&quot;恨。尼采在分析<strong>怨恨生产出了什么</strong>：它生产出了整部基督教的道德体系——禁欲主义理想、原罪、最后审判、天堂补偿。这些都是怨恨的形而上学版本。</p>
+<h4 id="sec-26">第二篇：&quot;罪疚&quot;、&quot;坏良心&quot;及相关问题</h4>
+<p>尼采在这里分析了&quot;坏良心&quot;（bad conscience，德语 schlechtes Gewissen）的起源：</p>
+<ul>
+<li>人从兽性状态被&quot;驯化&quot;进入文明社会 → 所有向外发泄的侵略本能被堵住 → 被迫倒转向内 → <strong>人开始攻击自己</strong></li>
+<li>&quot;坏良心&quot;本质上是<strong>内化的残忍</strong>。你不是不对别人残忍了——你是开始对你自己残忍</li>
+<li>基督教把这个内化的残忍进一步强化：你不仅做错了，你<strong>本身就是错的</strong>（原罪论）。你被亏欠的债无限扩大，直到你永远还不起</li>
+</ul>
+<h4 id="sec-27">第三篇：禁欲主义理想意味着什么</h4>
+<p>尼采最后的追问：为什么人宁愿<strong>想要虚无</strong>，也不愿<strong>什么都不想要</strong>？</p>
+<p>答案是：禁欲主义理想（苦行、自我否定、对生命的敌意）给生命提供了<strong>意义</strong>。哪怕这个意义是&quot;你活着是为了死后赎罪&quot;，它至少给了你一个活着的理由。面对虚无主义的深渊——一切都没有意义——人宁愿选择一个<strong>否定生命的意义</strong>，也不愿面对彻底的<strong>无意义</strong>。</p>
+<p>这是尼采最悲观的洞见：人对意义的渴望如此强烈，以至于愿意用<strong>敌视生命本身的意义</strong>来填补空洞。基督教、叔本华的悲观主义、现代科学主义——全部是禁欲主义理想的变种。</p>
+<p>而权力意志的解放意味着：<strong>不再需要一个否定生命的意义来当麻醉药。</strong> 你能够在没有意义担保的情况下，自己为自己的生命赋予意义。</p>
+<hr />
+<h3 id="sec-28">六、超人和末人：《查拉图斯特拉如是说》的人格化两极</h3>
+<p>如果说前面的所有概念都是诊断和分析，那么超人和末人就是<strong>回应方案的人格化</strong>。</p>
+<h4 id="sec-29">查拉图斯特拉的结构性角色</h4>
+<p>查拉图斯特拉不是尼采本人。他是一个文学角色——古代波斯先知，下山传道。</p>
+<p>关键理解：<strong>查拉图斯特拉说的很多话不代表尼采的&quot;最终结论&quot;。</strong> 把&quot;超人&quot;&quot;永恒轮回&quot;&quot;权力意志&quot;从查拉图斯特拉嘴里直接摘出来当&quot;尼采的教义&quot;是错的。查拉图斯特拉本人也在学习、经历失败——第一卷他下山的听众完全不理他；第二卷他发现自己没准备好；第三卷他才被永恒轮回压垮后重新站起来。</p>
+<p><strong>尼采让他的思想在查拉图斯特拉身上&quot;发生&quot;</strong>——不是在论文里论证，是在一个角色的生命中展开。</p>
+<h4 id="sec-30">精神三变：骆驼 → 狮子 → 孩子</h4>
+<p>这是《查拉图斯特拉如是说》第一卷的开场，尼采给出了人的精神蜕变的三个阶段：</p>
+<p><strong>骆驼（&quot;你应该&quot;）：</strong></p>
+<ul>
+<li>负重的动物，跪下来等待被装载</li>
+<li>驼着&quot;你应当&quot;——传统、道德、父母的期望、社会规范</li>
+<li>骆驼不是虚伪的，它是<strong>认真的</strong>。它真的在背负，真的想做好。但它没有自己的&quot;我要&quot;。</li>
+<li>它能在沙漠中走得很远——但你走的方向不是你选的</li>
+</ul>
+<p><strong>狮子（&quot;我要&quot;）：</strong></p>
+<ul>
+<li>狮子面对一条叫&quot;你应当&quot;的巨龙——龙的每一片鳞片上都有一个&quot;你应该&quot;</li>
+<li>狮子的工作不是创造——是<strong>夺取自由</strong></li>
+<li>狮子说&quot;我要&quot;来夺取&quot;我要&quot;的权利</li>
+<li>狮子不能创造新价值——但它能把旧价值的压制撕开一个口子</li>
+<li>你不是狮子就不能成为孩子——你必须先对传统说&quot;不&quot;，才能对生命说&quot;是&quot;</li>
+</ul>
+<p><strong>孩子（&quot;我是&quot;）：</strong></p>
+<ul>
+<li>孩子是<strong>无辜和遗忘</strong>，是一个新的开始，是一个游戏，是一个自己滚动的轮子，是一个第一次的运动，是一个神圣的肯定</li>
+<li>孩子不否定任何东西，不反抗任何东西——它只是<strong>创造</strong></li>
+<li>骆驼扛、狮子撕、孩子<strong>做</strong></li>
+<li>精神从&quot;你应该&quot;走到&quot;我要&quot;再走到&quot;我是&quot;——从被定义到夺取自由到自我立法</li>
+</ul>
+<p>你的精神三变到了哪一步？这是个活的问题，不是学术问题。</p>
+<h4 id="sec-31">超人：悬在绳子上的意义</h4>
+<p>尼采给超人的定义很朴素但很激进：</p>
+<blockquote>
+<p>我教你们超人。人是一种应该被克服的东西。你们做了什么来克服人呢？</p>
+</blockquote>
+<ul>
+<li>超人<strong>不是漫威英雄</strong>。不是更强大的人类，是<strong>对人类的克服</strong>——一个不同类型的生命</li>
+<li>人是猴子到超人之间的一根绳索——人是桥而不是终点。伟大不在于&quot;到达&quot;，伟大在于<strong>你是一座桥</strong></li>
+<li>&quot;超人即大地的意义&quot;——不是天国的意义，不是来世的意义，是<strong>此岸</strong>的意义。超人说：忠于大地，不要相信向你们讲超尘世希望的人</li>
+</ul>
+<p>尼采不是让你&quot;成为超人&quot;。他是说：<strong>你活着的方向应该指向超越你现在所是的方向。</strong> 超人不是一个可到达的目的地——它是一个引力点，让你的生命有朝向。</p>
+<h4 id="sec-32">末人：最终的人类</h4>
+<p>末人是超人最尖锐的对照物：</p>
+<ul>
+<li>&quot;人人平等，谁感觉不同就自己进疯人院&quot;</li>
+<li>&quot;我们有小快乐：白天有小快乐，晚上有小快乐——但我们重视健康&quot;</li>
+<li>&quot;人们不再贫穷也不再富有：两者都太麻烦了。谁还想统治呢？谁还想服从呢？两者都太麻烦了&quot;</li>
+<li>&quot;我们发明了幸福&quot;——然后末人眨眨眼睛</li>
+</ul>
+<p>末人不是坏人。末人是<strong>放弃了&quot;成为更多&quot;的人</strong>。末人的世界是舒适的、平等的、卫生的——没有暴君也没有圣人，没有人想当暴君也没有人想当圣人。</p>
+<p>尼采对末人的描述是讽刺性的，但你可以看出来真正的恐怖在哪：<strong>末人的世界很像是我们现在追求的理想社会。</strong> 如果末人的世界真的来临了，你可能感觉良好——但那恰恰是你已经成了末人的证据。</p>
+<hr />
+<h3 id="sec-33">七、概念之间的咬合关系</h3>
+<p>以上六个概念不是并列的。它们有一个逻辑链条：</p>
+<pre><code>日神/酒神二元结构
+    ↓
+苏格拉底理性主义杀死酒神 → 西方文明走上岔路
+    ↓
+基督教的&quot;上帝&quot;是这条岔路的终点 → 基督教的求真意志反噬自身
+    ↓
+上帝死了 → 虚无主义来临
+    ↓
+虚无主义必须被克服 → 两条路
+    ↓              ↓
+消极（末人）   积极（永恒轮回作为价值标尺）
+                    ↓
+         权力意志是克服虚无主义的动力
+                    ↓
+         超人 = 权力意志的人格化 = 对永恒轮回说&quot;是&quot;的人
+</code></pre>
+<p>每个概念都在解决上一个概念的问题，同时又产生新的张力。尼采一直在螺旋上升，不是线性展开。</p>
+<hr />
+<h2 id="sec-34">第二块：思想分期——尼采打了多少次自己的脸</h2>
+<p>尼采不是系统哲学家。他是一个经历了多个<strong>自身克服</strong>的思想家。分期不是学术习惯，是理解他的必要条件——<strong>不知道该观点属于哪个时期的尼采，就等于在读不同的人。</strong></p>
+<h3 id="sec-35">早期（1869-1876）：瓦格纳和叔本华的学徒</h3>
+<p>这时期的尼采是巴塞尔大学的古典语文学教授，深受叔本华哲学和瓦格纳音乐的影响。</p>
+<p><strong>信仰体系：</strong></p>
+<ul>
+<li>艺术可以拯救人生 → 悲剧是最高艺术形式</li>
+<li>瓦格纳是当代埃斯库罗斯 → 瓦格纳的音乐剧将复活希腊悲剧精神</li>
+<li>叔本华的意志形而上学是真理基底</li>
+</ul>
+<p><strong>关键著作：</strong></p>
+<ul>
+<li>《悲剧的诞生》（1872）：核心命题——&quot;只有作为审美现象，此在与世界才永远有充分的理由&quot;（只有在被当成艺术品来看时，生存本身才有了永远的正当性）</li>
+<li>《不合时宜的考察》（1873-1876）：四篇战斗檄文，批判当时的德国文化</li>
+</ul>
+<p><strong>后来的尼采怎么看这时期的自己：</strong>
+他后悔两件事：</p>
+<ol>
+<li>用叔本华的形而上学语言来表达自己的发现——&quot;它散发着讨厌的黑格尔气味&quot;</li>
+<li>把瓦格纳当成文化复兴的希望——后来瓦格纳成了他最大的敌人</li>
+</ol>
+<h3 id="sec-36">中期（1878-1882）：自由精神的启蒙</h3>
+<p>和瓦格纳决裂是尼采思想的分水岭。1878年拜罗伊特音乐节上，尼采看到瓦格纳变成了德意志民族主义的偶像——对他来说，这是艺术的背叛。</p>
+<p><strong>身份转变：</strong> 从形而上学家变成&quot;心理学者&quot;和&quot;自由的精灵&quot;。</p>
+<p><strong>风格转变：</strong> 从论说体变成格言体。这不是偶然的——格言体意味着你不给出体系，你给出<strong>一击</strong>。尼采相信深刻的东西不能长篇论证，只能一击即中。</p>
+<p><strong>核心操作：</strong></p>
+<ul>
+<li>把所有&quot;理想&quot;还原为&quot;人性的，太人性的&quot;——爱情是什么？占有欲。道德是什么？习惯。真理是什么？有用的谎言。</li>
+<li>用冰冷的心理学拆解一切神圣和崇高</li>
+<li>这是尼采的&quot;启蒙运动阶段&quot;——但他启蒙的方式不是用理性，是用怀疑</li>
+</ul>
+<p><strong>关键著作：</strong></p>
+<ul>
+<li>《人性的，太人性的》（1878）：献给伏尔泰。用格言轰炸所有传统价值。&quot;人的精神越深刻，就越需要面具。&quot;</li>
+<li>《朝霞》（1881）：更系统地拆解道德偏见的起源。道德不是&quot;对的事&quot;，是&quot;大家一直这样做的事&quot;。在这一阶段，尼采表现为一个冷静甚至戏谑的观察者——不像早期那么热情，也不像晚期那么暴烈。</li>
+<li>《快乐的科学》（1882）：<ul>
+<li>永恒轮回首次提出（§341）</li>
+<li>上帝之死首次宣布（§108 + §125 疯人寓言）</li>
+<li>科学是&quot;快乐的&quot;——不是压抑的、苦行的求真理，而是像游戏一样的探索</li>
+<li>这本书是尼采从&quot;解构&quot;到&quot;重建&quot;的桥梁，上帝死了，永恒轮回第一次露面，超人和权力意志还没出场，但地基已经打好了</li>
+</ul>
+</li>
+</ul>
+<h3 id="sec-37">晚期（1883-1888）：查拉图斯特拉到自毁</h3>
+<p>最后五年是尼采创作的核聚变。1888年一年内他完成了五本书，然后在1889年1月精神崩溃。</p>
+<p><strong>核心推进：</strong></p>
+<ul>
+<li>不再满足于拆解旧价值，他要<strong>创建新价值</strong></li>
+<li>查拉图斯特拉是他&quot;为自己写的圣经&quot;</li>
+<li>《善恶的彼岸》体系化了权力意志和透视主义</li>
+<li>《论道德的谱系》给出了最严谨的道德批判论证</li>
+<li>《偶像的黄昏》《敌基督》是燃烧弹级别的批判</li>
+<li>《瞧这个人》（1888年10月写，12月完成）——&quot;我为什么如此智慧/聪明/写出好书/就是命运&quot;，写完两个月后疯了</li>
+</ul>
+<p><strong>晚期尼采的激进性：</strong>
+他不再扮演哲学教授。他以先知、立法者、炸弹的身份出场。这是他最精彩的阶段，也是最容易被误读的阶段。</p>
+<hr />
+<h2 id="sec-38">第三块：尼采-荣格交叉点（深度对照）</h2>
+<p>这是对你（李帅）最有操作价值的部分。荣格不是尼采的评论者——荣格是尼采的<strong>深层继承人</strong>。荣格自己的理论体系中有太多直接从尼采那里拿来的东西，又做了关键性的改造。</p>
+<h3 id="sec-39">历史事实</h3>
+<p>荣格在医学院期间大量阅读尼采。在自传《回忆·梦·反思》中，他提到尼采是他思想成熟过程中最重要的哲学家。1934年到1938年，荣格和他的学生们在苏黎世用了五年时间<strong>逐句研讨</strong>《查拉图斯特拉如是说》，发表了大量研讨记录。这不是学者在做学问，这是分析师在分析一个&quot;病例&quot;——在荣格看来，尼采是被无意识内容吞没的典型案例。</p>
+<h3 id="sec-40">直接对接（概念层面）</h3>
+<table>
+<thead>
+<tr>
+  <th>尼采</th>
+  <th>荣格</th>
+  <th>同构性分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>日神（梦境、个体化、秩序）</td>
+  <td>意识、人格面具</td>
+  <td>都是&quot;界定者&quot;——给出边界、形式、秩序。日神给出美的外观，意识给出自我认同</td>
+</tr>
+<tr>
+  <td>酒神（迷醉、打破个体、混沌）</td>
+  <td>无意识、阴影、集体无意识</td>
+  <td>都是&quot;拆解者&quot;——打破个体的边界，让你重新融入更大的整体。酒神让你回太一，无意识让你看见你不是你以为的那个人</td>
+</tr>
+<tr>
+  <td>超人</td>
+  <td>自性化（Individuation）</td>
+  <td>结构同构：都是&quot;成为完整的自己&quot;的过程。尼采说&quot;成为你自己&quot;，荣格说&quot;整合人格的所有层面&quot;</td>
+</tr>
+<tr>
+  <td>权力意志</td>
+  <td>心理能量（力比多的广义版）</td>
+  <td>荣格把弗洛伊德的性力比多扩展为普遍的生命能量——直接来自尼采的&quot;权力意志&quot;概念</td>
+</tr>
+<tr>
+  <td>永恒轮回</td>
+  <td>曼荼罗（圆）</td>
+  <td>圆是尼采的最肯定公式，圆是荣格的自性象征。曼荼罗画圆代表人格的整合达到了一种整体性。尼采在《查拉图斯特拉如是说》结尾看到&quot;正午的永恒&quot;——曼荼罗的意象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-41">关键差异：神去了哪里</h3>
+<p>这是尼采和荣格的分岔路口，也是理解荣格对尼采的&quot;修正&quot;最关键的钥匙。</p>
+<p><strong>尼采：把神赶走，人自己当神。</strong></p>
+<p>上帝死了 → 外部意义担保消失了 → 人必须以权力意志自己创造价值 → 超人</p>
+<p>人是孤单的，面对永恒的轮回，没有外部救援。你能否在没有任何担保的情况下，对生命说&quot;是&quot;——这是尼采的最终问题。</p>
+<p><strong>荣格：把神内化，神在你里面。</strong></p>
+<p>上帝死了，但上帝意象（God-image）没有消失——它从外部投射<strong>撤回到了无意识中</strong>。</p>
+<p>在荣格看来，尼采的&quot;上帝死了&quot;不是真的没有神。是<strong>人对神的外部信仰崩溃了，但神的心理意象退回了无意识</strong>。这就是为什么尼采自己梦到神、看到神——查拉图斯特拉不是尼采&quot;编的&quot;，是尼采的无意识&quot;塞给他&quot;的。</p>
+<p>荣格在1939年写道：</p>
+<blockquote>
+<p>尼采宣告上帝死了，但他自己成了精神病。他体验到了上帝意象从意识层面的隐退——这是一个真实发生在他身上的心理事件。他没能整合这个事件，所以他被它所吞没。</p>
+</blockquote>
+<p><strong>对荣格来说，尼采犯了一个致命错误：他试图靠意识的力量（权力意志）独自对抗无意识的涌入，而没有和它整合。</strong></p>
+<p>尼采的新上帝是超人——但他无法&quot;成为&quot;超人。他只能&quot;写&quot;超人。写作成了一个咒语，一个抵抗。查拉图斯特拉不是尼采的自性化成果——查拉图斯特拉是尼采<strong>在纸面上完成的、在现实中没能完成的整合</strong>。</p>
+<p>他的精神崩溃——在荣格看来这不是意外。这是无意识的反噬。你喊出了所有无意识的声音（权力意志、酒神、超人、永恒轮回），但你没能把它们和意识整合——你被它们淹没了。</p>
+<h3 id="sec-42">荣格对尼采的&quot;纠偏&quot;</h3>
+<table>
+<thead>
+<tr>
+  <th>议题</th>
+  <th>尼采方案</th>
+  <th>荣格方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>如何面对无意识</td>
+  <td>用意志征服——权力意志克服一切</td>
+  <td>与之对话——积极想象、梦的分析</td>
+</tr>
+<tr>
+  <td>&quot;超越&quot;的方向</td>
+  <td>克服——打碎旧我，成为更强的自己</td>
+  <td>整合——拥抱阴影，成为更完整的自己</td>
+</tr>
+<tr>
+  <td>神的位置</td>
+  <td>驱逐——上帝死了，人自己创造意义</td>
+  <td>内化——上帝从外部撤回内部，在梦里和你说话</td>
+</tr>
+<tr>
+  <td>最后的行动</td>
+  <td>写、摧毁、重估、宣告——向外的爆发</td>
+  <td>梦、对话、画曼荼罗、炼金术——向内的工作</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-43">对你的直接意义</h3>
+<p>你在深度使用荣格的框架（梦境分析、自性化、阿尼玛、曼荼罗）。尼采是荣格的<strong>上游</strong>。</p>
+<p><strong>几个开放问题：</strong></p>
+<ol>
+<li><p><strong>你是&quot;克服&quot;型还是&quot;整合&quot;型？</strong> 你的内在对话——大帅和小帅、咒语系统——更接近荣格的&quot;整合内在人格&quot;还是尼采的&quot;克服弱小的自己&quot;？或者两者在同时进行？</p>
+</li>
+<li><p><strong>查拉图斯特拉是你的什么？</strong> 你在写&quot;长白山幻想记&quot;——那里面的角色在哪个意义上延续了查拉图斯特拉的角色——你不是尼采但你外化了一个声音？</p>
+</li>
+<li><p><strong>永恒轮回 vs 曼荼罗</strong>：你在&quot;画圆&quot;梦里看到了完整性——那是荣格式的曼荼罗。尼采的永恒轮回告诉你要<strong>对每一个当下说&quot;是&quot;</strong>。这两个东西在你身上怎么对表？</p>
+</li>
+</ol>
+<hr />
+<p><em>整理于 2026-07-25 · 第一版</em></p>
+</article></main>
+  <section id="concept">
+    <div id="cwrap">
+      <h2>核心概念集群 · 互相咬合的齿轮</h2>
+      <p class="chint">尼采的概念不是孤立的——它们像一组互相咬合的齿轮，每个新概念都建立在前面之上。点击任意节点，跳转到对应章节正文。<b style="color:var(--accent2)">中心「概念咬合」是枢纽</b>，连接全部概念。</p>
+      <svg id="svgbox" viewBox="0 0 760 480" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="legend">边的含义：外圈为递进链（日神/酒神→上帝之死→永恒轮回→权力意志→主奴道德→超人/末人，每环建立在前者之上）；中心「概念咬合」连接所有概念；权力意志↔主奴道德、永恒轮回↔超人、上帝之死↔主奴道德为关键咬合。</div>
+    </div>
+  </section>
+</div>
+<button class="toTop" id="toTop" title="回到顶部">↑</button>
+
+<script>
+const TOC = [{"level": 1, "text": "尼采思想体系 · 深度分析"}, {"level": 2, "text": "第一块：核心概念集群（深度拆解）"}, {"level": 3, "text": "一、日神与酒神：《悲剧的诞生》的底层二元结构"}, {"level": 4, "text": "日神（阿波罗）—— 梦境"}, {"level": 4, "text": "酒神（狄奥尼索斯）—— 迷醉"}, {"level": 4, "text": "希腊悲剧 = 日神 + 酒神的结合"}, {"level": 4, "text": "苏格拉底—— 杀死悲剧的凶手"}, {"level": 3, "text": "二、上帝死了：《快乐的科学》§125 的疯人寓言"}, {"level": 4, "text": "寓言的场景"}, {"level": 4, "text": "&quot;我们杀死了上帝&quot;的几层含义"}, {"level": 4, "text": "虚无主义的双重面孔"}, {"level": 4, "text": "疯子最后的动作"}, {"level": 3, "text": "三、永恒轮回：生命需要重量的思想实验"}, {"level": 4, "text": "首次提出：《快乐的科学》§341 &quot;最大的重量&quot;"}, {"level": 4, "text": "为什么需要永恒轮回"}, {"level": 4, "text": "两个层面：宇宙论 vs 伦理学"}, {"level": 4, "text": "从&quot;最大的重负&quot;到&quot;最高的肯定公式&quot;"}, {"level": 4, "text": "amor fati（热爱命运）"}, {"level": 3, "text": "四、权力意志：生命不是求生存，是求超越"}, {"level": 4, "text": "错的读法：权力=政治/支配"}, {"level": 4, "text": "对的读法：权力=自我克服"}, {"level": 4, "text": "权力意志是什么"}, {"level": 4, "text": "透视主义作为权力意志的认识论版本"}, {"level": 3, "text": "五、主人道德与奴隶道德：《论道德的谱系》的价值反转论证"}, {"level": 4, "text": "第一篇：&quot;好与坏&quot;、&quot;善与恶&quot;"}, {"level": 4, "text": "怨恨（Ressentiment）作为创造性的力量"}, {"level": 4, "text": "第二篇：&quot;罪疚&quot;、&quot;坏良心&quot;及相关问题"}, {"level": 4, "text": "第三篇：禁欲主义理想意味着什么"}, {"level": 3, "text": "六、超人和末人：《查拉图斯特拉如是说》的人格化两极"}, {"level": 4, "text": "查拉图斯特拉的结构性角色"}, {"level": 4, "text": "精神三变：骆驼 → 狮子 → 孩子"}, {"level": 4, "text": "超人：悬在绳子上的意义"}, {"level": 4, "text": "末人：最终的人类"}, {"level": 3, "text": "七、概念之间的咬合关系"}, {"level": 2, "text": "第二块：思想分期——尼采打了多少次自己的脸"}, {"level": 3, "text": "早期（1869-1876）：瓦格纳和叔本华的学徒"}, {"level": 3, "text": "中期（1878-1882）：自由精神的启蒙"}, {"level": 3, "text": "晚期（1883-1888）：查拉图斯特拉到自毁"}, {"level": 2, "text": "第三块：尼采-荣格交叉点（深度对照）"}, {"level": 3, "text": "历史事实"}, {"level": 3, "text": "直接对接（概念层面）"}, {"level": 3, "text": "关键差异：神去了哪里"}, {"level": 3, "text": "荣格对尼采的&quot;纠偏&quot;"}, {"level": 3, "text": "对你的直接意义"}];
+const STATS = {"cjk": 8599, "h2": 3, "h3": 15, "h4": 25, "block": 8, "table": 2, "head": 44};
+const CG = {"nodes": [{"id": 0, "label": "日神/酒神", "sub": "悲剧的诞生", "sec": 2, "x": 380, "y": 65, "c": "#e07b53"}, {"id": 1, "label": "上帝死了", "sub": "虚无主义起点", "sec": 7, "x": 540, "y": 157, "c": "#e0b643"}, {"id": 2, "label": "永恒轮回", "sub": "最大重量", "sec": 12, "x": 540, "y": 343, "c": "#c98fe0"}, {"id": 3, "label": "权力意志", "sub": "自我克服", "sec": 18, "x": 380, "y": 435, "c": "#5fb0e8"}, {"id": 4, "label": "主人/奴隶道德", "sub": "价值反转", "sec": 23, "x": 220, "y": 343, "c": "#7bcf7b"}, {"id": 5, "label": "超人/末人", "sub": "人格两极", "sec": 28, "x": 220, "y": 157, "c": "#e88fb0"}, {"id": 6, "label": "概念咬合", "sub": "齿轮枢纽", "sec": 33, "x": 380, "y": 250, "c": "#f4d35e"}], "edges": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [3, 4], [2, 5], [1, 4]]};
+
+document.getElementById('stats').innerHTML =
+  '<span><b>'+STATS.cjk.toLocaleString()+'</b> 字</span>'+
+  '<span><b>'+STATS.h2+'</b> 大块</span>'+
+  '<span><b>'+STATS.head+'</b> 标题</span>'+
+  '<span><b>'+STATS.h4+'</b> 子节</span>'+
+  '<span><b>'+STATS.table+'</b> 表格</span>';
+
+const tocBox=document.getElementById('toc');
+TOC.forEach((h,i)=>{
+  const a=document.createElement('a');
+  a.className='toc-item lvl'+h.level;
+  a.textContent=h.text;
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const el=document.getElementById('sec-'+i);
+    if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+  tocBox.appendChild(a);
+});
+
+const main=document.getElementById('main');
+const tocLinks=[...document.querySelectorAll('.toc-item')];
+const headingEls=TOC.map((h,i)=>document.getElementById('sec-'+i)).filter(Boolean);
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      const idx=+en.target.id.split('-')[1];
+      tocLinks.forEach(l=>l.classList.remove('active'));
+      if(tocLinks[idx]) tocLinks[idx].classList.add('active');
+    }
+  });
+},{root:main,rootMargin:'0px 0px -75% 0px',threshold:0});
+headingEls.forEach(h=>obs.observe(h));
+
+const progBar=document.getElementById('progBar');
+main.addEventListener('scroll',()=>{
+  const max=main.scrollHeight-main.clientHeight;
+  const p=max>0?main.scrollTop/max:0;
+  progBar.style.width=(p*100)+'%';
+  document.getElementById('toTop').style.display=main.scrollTop>400?'block':'none';
+});
+document.getElementById('toTop').addEventListener('click',()=>main.scrollTo({top:0,behavior:'smooth'}));
+
+const content=document.getElementById('content');
+function clearMarks(){
+  content.querySelectorAll('mark').forEach(m=>{
+    const t=document.createTextNode(m.textContent); m.parentNode.replaceChild(t,m);
+  });
+  content.normalize();
+}
+document.getElementById('search').addEventListener('input',e=>{
+  const q=e.target.value.trim(); clearMarks();
+  const info=document.getElementById('matchInfo');
+  if(!q){info.textContent='';return;}
+  const lower=q.toLowerCase();
+  const walker=document.createTreeWalker(content,NodeFilter.SHOW_TEXT,null);
+  const nodes=[];let n;
+  while(n=walker.nextNode()){ if(n.parentNode && /^(MARK|SCRIPT|STYLE)$/.test(n.parentNode.tagName))continue; nodes.push(n); }
+  let count=0;
+  nodes.forEach(node=>{
+    const lv=node.nodeValue.toLowerCase(); if(lv.indexOf(lower)<0)return;
+    const frag=document.createDocumentFragment(); let idx=0;
+    while(true){
+      const p=lv.indexOf(lower,idx); if(p<0)break;
+      if(p>idx)frag.appendChild(document.createTextNode(node.nodeValue.slice(idx,p)));
+      const mk=document.createElement('mark'); mk.textContent=node.nodeValue.slice(p,p+q.length); frag.appendChild(mk); count++;
+      idx=p+q.length;
+    }
+    if(idx<node.nodeValue.length)frag.appendChild(document.createTextNode(node.nodeValue.slice(idx)));
+    node.parentNode.replaceChild(frag,node);
+  });
+  info.textContent=count+' 处';
+  const first=content.querySelector('mark'); if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+const svg=document.getElementById('svgbox');
+const SVGNS='http://www.w3.org/2000/svg';
+const byId={}; CG.nodes.forEach(n=>byId[n.id]=n);
+function neighborsOf(id){const s=new Set();CG.edges.forEach(e=>{if(e[0]===id)s.add(e[1]);if(e[1]===id)s.add(e[0]);});return s;}
+function buildGraph(){
+  CG.edges.forEach(e=>{
+    const a=byId[e[0]],b=byId[e[1]];
+    const ln=document.createElementNS(SVGNS,'line');
+    ln.setAttribute('x1',a.x);ln.setAttribute('y1',a.y);ln.setAttribute('x2',b.x);ln.setAttribute('y2',b.y);
+    ln.setAttribute('class','edge');ln.dataset.a=e[0];ln.dataset.b=e[1];
+    svg.appendChild(ln);
+  });
+  CG.nodes.forEach(nd=>{
+    const g=document.createElementNS(SVGNS,'g');
+    g.setAttribute('class','cnode');g.dataset.id=nd.id;
+    const r=nd.id===6?44:34;
+    const c=document.createElementNS(SVGNS,'circle');
+    c.setAttribute('cx',nd.x);c.setAttribute('cy',nd.y);c.setAttribute('r',r);
+    c.setAttribute('fill',nd.c);c.setAttribute('stroke','#0c1424');c.setAttribute('stroke-width','2');
+    g.appendChild(c);
+    const lines=nd.label.split('\n');
+    lines.forEach((ln,i)=>{
+      const t=document.createElementNS(SVGNS,'text');
+      t.setAttribute('x',nd.x);
+      t.setAttribute('y',nd.y-(lines.length-1)*9 + i*18 + 5);
+      t.setAttribute('font-size', nd.id===6?13:13);
+      t.textContent=ln; g.appendChild(t);
+    });
+    const sub=document.createElementNS(SVGNS,'text');
+    sub.setAttribute('class','sub');
+    sub.setAttribute('x',nd.x);sub.setAttribute('y',nd.y+r-6);
+    sub.textContent=nd.sub; g.appendChild(sub);
+    g.addEventListener('click',()=>jumpTo(nd.sec));
+    g.addEventListener('mouseenter',()=>highlight(nd.id,true));
+    g.addEventListener('mouseleave',()=>highlight(nd.id,false));
+    svg.appendChild(g);
+  });
+}
+function highlight(id,on){
+  const nb=neighborsOf(id);
+  svg.querySelectorAll('.edge').forEach(e=>{
+    const hot=on&&((+e.dataset.a===id&&nb.has(+e.dataset.b))||(+e.dataset.b===id&&nb.has(+e.dataset.a)));
+    e.classList.toggle('hot',!!hot);
+  });
+  svg.querySelectorAll('.cnode').forEach(g=>{
+    const gid=+g.dataset.id;
+    if(on&&gid!==id&&!nb.has(gid))g.style.opacity=0.35; else g.style.opacity=1;
+  });
+}
+buildGraph();
+
+function jumpTo(secIdx){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('concept').classList.remove('show');
+  document.querySelector('.tab[data-v="read"]').classList.add('active');
+  const el=document.getElementById('sec-'+secIdx);
+  if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),60);
+}
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.getElementById('concept').classList.remove('show');
+    t.classList.add('active');
+    if(t.dataset.v==='concept'){document.getElementById('concept').classList.add('show');}
+  });
+});
+</script>
+</body>
+</html>

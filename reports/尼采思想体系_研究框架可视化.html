@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>尼采思想体系 · 研究框架可视化</title>
+<style>
+  :root{ --bg:#0f1626; --panel:#13203a; --panel2:#1d2c4a; --txt:#e7edf6; --muted:#93a4c3;
+         --line:#2a3a5c; --accent:#e0b643; --accent2:#5fb0e8; }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--txt);
+       display:flex;flex-direction:column;height:100vh;overflow:hidden}
+  header{padding:9px 18px;background:linear-gradient(90deg,#0b1220,#16213a);border-bottom:1px solid var(--line);
+         display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:700;flex:0 0 auto}
+  .stats{display:flex;gap:13px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+  .stats b{color:var(--accent);font-size:14px}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tab{background:var(--panel);color:var(--muted);border:1px solid var(--line);padding:6px 13px;border-radius:18px;cursor:pointer;font-size:13px}
+  .tab.active{background:var(--accent);color:#241c02;border-color:var(--accent);font-weight:700}
+  .topsearch{margin-left:auto;display:flex;align-items:center;gap:8px}
+  #search{background:var(--panel);border:1px solid var(--line);color:var(--txt);padding:6px 12px;border-radius:18px;
+          font-size:13px;width:220px;outline:none}
+  #search:focus{border-color:var(--accent2)}
+  #matchInfo{font-size:12px;color:var(--muted);min-width:54px}
+  #prog{height:3px;background:transparent}
+  #progBar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .08s}
+  .body{flex:1;display:flex;min-height:0}
+  #side{width:280px;flex:0 0 auto;background:var(--panel);border-right:1px solid var(--line);
+        overflow:auto;padding:14px 8px}
+  #side h2{font-size:12px;color:var(--muted);margin:4px 10px 10px;letter-spacing:1px}
+  .toc-item{display:block;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--muted);
+            border-left:2px solid transparent;text-decoration:none}
+  .toc-item:hover{background:var(--panel2);color:var(--txt)}
+  .toc-item.lvl2{font-weight:600;color:#cdd9ef;font-size:13.5px}
+  .toc-item.lvl3{padding-left:22px;font-size:12.5px}
+  .toc-item.active{background:#1b2c4d;color:var(--accent);border-left-color:var(--accent)}
+  #main{flex:1;overflow:auto;position:relative}
+  article{max-width:820px;margin:0 auto;padding:30px 40px 120px;line-height:1.85;font-size:16px}
+  article h1{font-size:26px;margin:0 0 6px;color:#fff;border-bottom:2px solid var(--accent);padding-bottom:12px}
+  article h2{font-size:21px;margin:34px 0 12px;color:var(--accent);border-left:4px solid var(--accent);padding-left:12px}
+  article h3{font-size:17.5px;margin:26px 0 10px;color:#bcd4f5}
+  article h4{font-size:15.5px;margin:20px 0 8px;color:#9fc0ec}
+  article p{margin:11px 0;color:#dde6f2}
+  article strong{color:#ffe08a}
+  article em{color:#cdb4ff;font-style:italic}
+  article blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--accent2);
+                     background:#0e1a30;border-radius:0 8px 8px 0;color:#b9c8e0;font-size:14.5px}
+  article blockquote p{margin:5px 0;color:#b9c8e0}
+  article ul,article ol{margin:10px 0;padding-left:26px}
+  article li{margin:5px 0}
+  article code{background:#0b1424;padding:1px 6px;border-radius:5px;font-size:13.5px;color:#f4b860}
+  article table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13.5px}
+  article th,article td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+  article th{background:#16243f;color:#cfe0fb;font-weight:700}
+  article tr:nth-child(even) td{background:#101a30}
+  article hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+  mark{background:#f4d35e;color:#1a1300;border-radius:3px;padding:0 1px}
+  .toTop{position:fixed;right:22px;bottom:22px;background:var(--panel2);border:1px solid var(--line);
+         color:var(--txt);width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:18px;display:none;z-index:5}
+  .toTop:hover{border-color:var(--accent)}
+  /* concept view */
+  #concept{display:none;overflow:auto;padding:18px;height:100%}
+  #concept.show{display:block}
+  #cwrap{max-width:820px;margin:0 auto}
+  #cwrap h2{font-size:15px;color:var(--accent);margin:0 0 4px}
+  #cwrap .chint{font-size:12.5px;color:var(--muted);margin:0 0 10px;line-height:1.6}
+  #svgbox{width:100%;background:#0c1424;border:1px solid var(--line);border-radius:14px}
+  .cnode{cursor:pointer}
+  .cnode circle{transition:.18s}
+  .cnode:hover circle{stroke:#fff;stroke-width:3}
+  .cnode text{fill:#06283d;font-weight:700;font-family:-apple-system,"PingFang SC",sans-serif;text-anchor:middle;pointer-events:none}
+  .cnode .sub{fill:#0b2c44;font-weight:600;font-size:11px}
+  .edge{stroke:#3a4d72;stroke-width:1.4;transition:.15s}
+  .edge.hot{stroke:var(--accent2);stroke-width:3}
+  .legend{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.7}
+  @media(max-width:760px){ #side{display:none} article{padding:20px 16px 100px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>🔱 尼采思想体系 · 研究框架</h1>
+  <div class="stats" id="stats"></div>
+  <div class="tabs">
+    <div class="tab active" data-v="read">阅读</div>
+    <div class="tab" data-v="concept">概念图</div>
+  </div>
+  <div class="topsearch">
+    <input id="search" placeholder="搜索正文…">
+    <span id="matchInfo"></span>
+  </div>
+</header>
+<div id="prog"><div id="progBar"></div></div>
+<div class="body">
+  <nav id="side"><h2>目录</h2><div id="toc"></div></nav>
+  <main id="main"><article id="content"><h1 id="sec-0">尼采思想体系 · 研究框架</h1>
+<blockquote>
+<p>按李帅的认知偏好组织：Ni 概念地图 → Ti 结构拆解 → Se 创作素材通道。附荣格交叉点。</p>
+</blockquote>
+<hr />
+<h2 id="sec-1">一、地图：著作与思想分期</h2>
+<p>尼采 1844-1900，著作可清晰分三期。<strong>他经常打自己早期的脸，不能把不同期的观点混用。</strong></p>
+<h3 id="sec-2">早期（1869-1876）：艺术形而上学时期</h3>
+<p>受叔本华和瓦格纳影响，以古典语文学为起点，相信艺术可以拯救人生。</p>
+<table>
+<thead>
+<tr>
+  <th>年份</th>
+  <th>著作</th>
+  <th>核心</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1872</td>
+  <td>《悲剧的诞生》</td>
+  <td>日神/酒神二元、艺术形而上学、苏格拉底批判</td>
+</tr>
+<tr>
+  <td>1873-76</td>
+  <td>《不合时宜的考察》（4篇）</td>
+  <td>历史对生命的利弊、教育家叔本华、瓦格纳</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-3">中期（1878-1882）：启蒙怀疑时期</h3>
+<p>与瓦格纳决裂，抛弃形而上学，转向心理学式的&quot;自由精神&quot;。风格从雄辩论说转为格言体。</p>
+<table>
+<thead>
+<tr>
+  <th>年份</th>
+  <th>著作</th>
+  <th>核心</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1878</td>
+  <td>《人性的，太人性的》</td>
+  <td>破除偶像、心理分析式道德批判</td>
+</tr>
+<tr>
+  <td>1881</td>
+  <td>《朝霞》</td>
+  <td>道德偏见拆解、&quot;习俗的道德&quot;</td>
+</tr>
+<tr>
+  <td>1882</td>
+  <td>《快乐的科学》</td>
+  <td><strong>永恒轮回首次提出</strong>（§341）、上帝之死、amor fati</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-4">晚期（1883-1888）：重估一切价值</h3>
+<p>最具原创性的爆发期。核心概念全部成熟。</p>
+<table>
+<thead>
+<tr>
+  <th>年份</th>
+  <th>著作</th>
+  <th>核心</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1883-85</td>
+  <td>《查拉图斯特拉如是说》</td>
+  <td>超人、末人、永恒轮回、权力意志（诗化表达）</td>
+</tr>
+<tr>
+  <td>1886</td>
+  <td>《善恶的彼岸》</td>
+  <td>权力意志（哲学化）、透视主义、主人/奴隶道德</td>
+</tr>
+<tr>
+  <td>1887</td>
+  <td>《论道德的谱系》</td>
+  <td>道德谱系学——&quot;好&quot;如何变成&quot;恶&quot;</td>
+</tr>
+<tr>
+  <td>1888</td>
+  <td>《偶像的黄昏》</td>
+  <td>十大偶像锤击——苏格拉底、理性、基督教...</td>
+</tr>
+<tr>
+  <td>1888</td>
+  <td>《敌基督》</td>
+  <td>基督教终极批判</td>
+</tr>
+<tr>
+  <td>1888</td>
+  <td>《瞧这个人》</td>
+  <td>自传——&quot;我为什么如此智慧/聪明/写出好书/就是命运&quot;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-5">⚠️ 遗稿与陷阱</h3>
+<ul>
+<li>《权力意志》<strong>不是成书</strong>——妹妹伊丽莎白用遗稿拼凑，夹带纳粹私货。引用前必须确认出自哪个笔记。</li>
+<li>可靠来源：科利版《尼采著作全集》（KSA）15卷 + 书信（KSB）8卷。中文权威译本是孙周兴主编的商务版/上海人民版。</li>
+</ul>
+<hr />
+<h2 id="sec-6">二、概念集群：互相对接的五角星</h2>
+<p>尼采的核心概念不是孤立的，它们互相定义、互相咬合。以下按概念网络组织。</p>
+<h3 id="sec-7">❶ 上帝死了 → 虚无主义 → 价值重估（起点）</h3>
+<p><strong>上帝死了不是欢呼，是诊断。</strong> 基督教上帝作为西方道德基础和意义来源的崩塌，必然导致虚无主义——&quot;最高价值的自行贬黜&quot;（海德格尔语）。</p>
+<p>尼采的三层含义：</p>
+<ol>
+<li>基督教信仰体系崩塌 → 一切建立在其上的道德失去根基</li>
+<li>理性主义传统对&quot;真实世界&quot;的信仰也是基督教的延续（柏拉图主义=民众的基督教）</li>
+<li>&quot;上帝&quot;死后的真问题是：<strong>人在没有外部担保的情况下，如何自己赋予生命意义？</strong></li>
+</ol>
+<p><strong>虚无主义的双重性：</strong></p>
+<ul>
+<li>消极虚无主义：没落、颓废、&quot;一切都一样&quot;</li>
+<li>积极虚无主义：清除废墟，为新的价值创造腾出空间</li>
+</ul>
+<p>→ 出路：<strong>重估一切价值</strong>。不是修补旧价值，是把整张桌子掀翻，用&quot;生命&quot;作为唯一的价值标准重新评价一切。</p>
+<h3 id="sec-8">❷ 权力意志（本体论层面）</h3>
+<p><strong>不是&quot;追求政治权力&quot;。</strong> 是生命的本质特征——<strong>自我超越的意志</strong>。</p>
+<p>核心要点：</p>
+<ul>
+<li>每一个生命体不是在追求&quot;生存&quot;，而是在追求&quot;更多&quot;——扩张、克服、超越自身</li>
+<li>反对达尔文的&quot;生存竞争&quot;：生命不是被动的适应，是主动的征服</li>
+<li>反对叔本华的&quot;生存意志&quot;：意志不追求自我保存（那太可怜了），意志追求&quot;更多权力&quot;</li>
+<li>&quot;权力意志&quot;不是thing，是process——不是在&quot;存在&quot;什么，而是在&quot;成为&quot;什么</li>
+<li>认识论含义：<strong>没有事实，只有解释。</strong> 一切&quot;真理&quot;都是权力意志的透视。连物理学定律都是&quot;解释&quot;，不是&quot;事实&quot;</li>
+</ul>
+<p>最容易误解的点：权力意志不是支配他人的权力。是<strong>自我克服</strong>——你对你自己生命的征服。</p>
+<h3 id="sec-9">❸ 主人道德 vs 奴隶道德（价值重估的操作层）</h3>
+<p>这是尼采最锋利的概念之一。</p>
+<p><strong>主人道德：</strong></p>
+<ul>
+<li>&quot;好&quot;= 高贵、强大、美丽、幸福、受神宠爱（<strong>先肯定自己，再定义他人为&quot;低劣&quot;</strong>）</li>
+<li>价值来自主体自己的肯定</li>
+<li>古希腊贵族、文艺复兴人</li>
+</ul>
+<p><strong>奴隶道德：</strong></p>
+<ul>
+<li>&quot;恶&quot;先被定义（那些强大的人是&quot;恶&quot;的），然后&quot;善&quot;= 不是他们那样（<strong>通过否定他者来定义自己</strong>）</li>
+<li>谦卑、怜悯、温顺、禁欲——弱者的生存策略被包装成道德优越</li>
+<li>基督教是奴隶道德的最高形式</li>
+</ul>
+<p><strong>关键反转（《论道德的谱系》核心论点）：</strong> 在道德史中，犹太-基督教完成了一次巨大的价值翻转——把贵族的&quot;好&quot;变成了&quot;恶&quot;，把弱者的弱小变成了&quot;善&quot;。这就是&quot;道德上的奴隶起义&quot;。</p>
+<h3 id="sec-10">❹ 永恒轮回（最高的肯定公式）</h3>
+<p>这不是宇宙论假说（虽然尼采有时候这样写）。这是<strong>思想实验</strong>：</p>
+<blockquote>
+<p>假如一个恶魔在你的至孤独至寂寞中对你说：&quot;你现在和过去的生活，就是你将来的生活。它将周而复始，不断重复，绝无新意...你愿意这样吗？&quot;——《快乐的科学》§341</p>
+</blockquote>
+<p>核心含义：</p>
+<ul>
+<li>如果你能对&quot;这一生将无限重复&quot;说<strong>是</strong>，你就在这一秒达到了对生命的最高肯定</li>
+<li>不能容忍未来轮回的当下 = 这个当下不应存在 → <strong>你必须让你的当下配得上永恒</strong></li>
+<li>永恒轮回是尼采用来替代&quot;最后审判&quot;的东西——你的每一个选择现在被无限重复，你永远是自己的裁判</li>
+<li><strong>amor fati（热爱命运）</strong>：不否定任何东西——包括痛苦、失败、丑陋——全部说&quot;是&quot;</li>
+</ul>
+<p>这是尼采思想中最亮的闪光，也是最难真正面对的部分。</p>
+<h3 id="sec-11">❺ 超人 / 末人（价值重估的人格载体）</h3>
+<p><strong>超人不是漫威英雄。</strong> 超人是一种<strong>对人类的克服</strong>。</p>
+<p>查拉图斯特拉的三变：</p>
+<ol>
+<li><strong>骆驼</strong>：背负&quot;你应该&quot;——传统、道德、义务</li>
+<li><strong>狮子</strong>：说&quot;我要&quot;——反抗&quot;你应当&quot;这条巨龙，夺回自由</li>
+<li><strong>孩子</strong>：说&quot;我是&quot;——无辜、遗忘、新的开始、自我运动的轮子</li>
+</ol>
+<p><strong>末人（最后的人）：</strong></p>
+<ul>
+<li>尼采对现代人的终极讽刺——平安、舒适、不冒犯任何人、&quot;我们发明了幸福&quot;</li>
+<li>&quot;他们白天有小快乐，晚上有小快乐——但是他们重视健康&quot;</li>
+<li>放弃了一切伟大和不凡 → &quot;人人平等，谁感觉不同就自己进疯人院&quot;</li>
+</ul>
+<p><strong>超人不是达到了某种境界的人，而是持续自我克服的过程。</strong> 像走钢丝的人——人的伟大在于他是桥而非目的。</p>
+<h3 id="sec-12">❻ 透视主义（认识论）</h3>
+<p><strong>&quot;没有事实，只有解释。&quot;</strong> ——尼采最被引用的话之一，也最被误读。</p>
+<p>含义：</p>
+<ul>
+<li>我们从不直接接触&quot;客观现实&quot;，一切认知都通过特定视角</li>
+<li>这不是&quot;一切都是主观的所以无所谓&quot;，而是：<strong>越多视角 = 越接近完整</strong></li>
+<li>客观性不是没有视角——是拥有尽可能多的视角并能在它们之间移动</li>
+<li>这是权力意志的认识论版本：去解释、去赋予意义，本身就是权力意志的表达</li>
+</ul>
+<hr />
+<h2 id="sec-13">三、尼采 → 荣格：交叉点图谱</h2>
+<p>这部分对你（李帅）最有用。荣格是尼采的深层继承者。</p>
+<h3 id="sec-14">直接关联</h3>
+<table>
+<thead>
+<tr>
+  <th>尼采概念</th>
+  <th>荣格对应</th>
+  <th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>日神/酒神</td>
+  <td>意识/无意识、阿尼玛/阿尼姆斯</td>
+  <td>荣格直接借用了这对概念。日神=意识的光明秩序，酒神=无意识的混沌创造力</td>
+</tr>
+<tr>
+  <td>超人</td>
+  <td>自性化（Individuation）</td>
+  <td>尼采的超人=自我克服，荣格的自性化=整合阴影成为完整的自己。目标同构</td>
+</tr>
+<tr>
+  <td>上帝死了</td>
+  <td>上帝意象的收回（God-image withdrawal）</td>
+  <td>荣格说尼采宣布上帝死了，其实是&quot;上帝意象&quot;从外在投射收回到了人内部</td>
+</tr>
+<tr>
+  <td>权力意志</td>
+  <td>心理能量/力比多</td>
+  <td>荣格把弗洛伊德的性力比多扩展为普遍心理能量，和尼采的权力意志高度平行</td>
+</tr>
+<tr>
+  <td>永恒轮回</td>
+  <td>曼荼罗/圆</td>
+  <td>尼采的永恒轮回图式与荣格的曼荼罗象征 — 都是对&quot;整体&quot;的象征性表达</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-15">关键差异</h3>
+<p>尼采和荣格都重视神话、都关注无意识、都认为理性不能穷尽生命——但：</p>
+<ul>
+<li><strong>尼采把&quot;神&quot;赶走，荣格把&quot;神&quot;内化</strong>：尼采说上帝死了，人类必须自己创造价值。荣格说上帝死了是因为上帝意象撤回到了无意识中——<strong>神没有消失，只是从&quot;外面&quot;搬到了&quot;里面&quot;</strong>。你的梦和共时性就是神在你内部的运作。</li>
+<li><strong>尼采的自我克服 vs 荣格的整合</strong>：尼采是克服——超越自身、打碎旧我。荣格是整合——拥抱阴影、和人格各层面和解。</li>
+<li><strong>荣格研究过查拉图斯特拉</strong>：1934-1938年，荣格与他的学生用五年时间逐句研讨《查拉图斯特拉如是说》，发表了大量研讨记录。在荣格看来，尼采是&quot;被无意识吞没的典型案例&quot;——尼采喊出了无意识的内容，但没能整合它，最终被反噬（精神崩溃）。</li>
+</ul>
+<hr />
+<h2 id="sec-16">四、创作素材通道（Se层）</h2>
+<p>直接可以用的：</p>
+<h3 id="sec-17">人物原型</h3>
+<table>
+<thead>
+<tr>
+  <th>尼采原型</th>
+  <th>可直接用于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>超人/末人</strong></td>
+  <td>对立角色张力谱系。超人=自我克服者，末人=满足于舒适者。可以塑造成双男主或师徒关系</td>
+</tr>
+<tr>
+  <td><strong>骆驼→狮子→孩子</strong></td>
+  <td>三阶段成长弧线。任何人物的精神蜕变都可以套用</td>
+</tr>
+<tr>
+  <td><strong>酒神的狂欢者</strong></td>
+  <td>&quot;个体化原理&quot;被打碎时的集体狂喜——适合写仪式、战斗高潮、神秘体验</td>
+</tr>
+<tr>
+  <td><strong>走钢丝的人</strong></td>
+  <td>查拉图斯特拉序言中的形象——人是悬在深渊上的绳索。极致的悲剧张力</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-18">世界观设定</h3>
+<table>
+<thead>
+<tr>
+  <th>尼采概念</th>
+  <th>设定化点子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>上帝死了</strong></td>
+  <td>故事里的世界观崩塌事件——旧神的死亡、旧秩序的崩塌、旧信仰的终结</td>
+</tr>
+<tr>
+  <td><strong>永恒轮回</strong></td>
+  <td>时间循环结构——如果角色发现他的一生将无限重复，他会怎么活？</td>
+</tr>
+<tr>
+  <td><strong>权力意志作为宇宙法则</strong></td>
+  <td>替代&quot;善恶&quot;二元对立的底层规则——世界不按道德运转，按力量的克服与被克服运转</td>
+</tr>
+<tr>
+  <td><strong>透视主义</strong></td>
+  <td>多视角叙事的技术合法性——每个POV角色都有平等的&quot;真理性&quot;，没有全知视角的特权</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-19">情结/冲突素材</h3>
+<table>
+<thead>
+<tr>
+  <th>尼采概念</th>
+  <th>个人对应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>奴隶道德的怨恨（ressentiment）</td>
+  <td>弱者通过想象性复仇获得虚假的优越感——可以对应你分析过的&quot;攀比&quot;情结</td>
+</tr>
+<tr>
+  <td>末人的幸福</td>
+  <td>&quot;白天有小快乐，晚上有小快乐，重视健康&quot;——对现代中产舒适的讽刺</td>
+</tr>
+<tr>
+  <td>狄奥尼索斯式肯定</td>
+  <td>对生命全部的&quot;是&quot;——包括丑陋、失败、痛苦。和你的污物转化直接对接</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-20">五、推荐阅读路线</h2>
+<p>如果真要读，按这个顺序——</p>
+<h3 id="sec-21">入门层（2-3本）</h3>
+<ol>
+<li><strong>《快乐的科学》</strong> — 最佳入口。格言体，轻盈但有深度，永恒轮回首次露面</li>
+<li><strong>《偶像的黄昏》</strong> — 尼采最浓缩的炸弹，十大章节锤十个偶像，一天读完</li>
+<li><strong>《瞧这个人》</strong> — 自传，狂妄但诚实，了解一下这个人为什么这样想</li>
+</ol>
+<h3 id="sec-22">核心层（2本）</h3>
+<ol start="4">
+<li><strong>《查拉图斯特拉如是说》</strong> — 尼采的&quot;圣经&quot;，诗化哲学。不需要一次读懂</li>
+<li><strong>《论道德的谱系》</strong> — 晚期最系统的著作，三篇论文论证严密</li>
+</ol>
+<h3 id="sec-23">进阶层（1-2本）</h3>
+<ol start="6">
+<li><strong>《善恶的彼岸》</strong> — 权力意志的哲学化表达，比查拉图斯特拉更&quot;硬&quot;</li>
+<li><strong>《悲剧的诞生》</strong> — 早期，回到起点看日神/酒神</li>
+</ol>
+<h3 id="sec-24">导读配合</h3>
+<ul>
+<li>德勒兹《尼采与哲学》 — 把尼采读成一种&quot;力量哲学&quot;，视角犀利</li>
+<li>萨弗兰斯基《尼采思想传记》 — 思想+生平，有温度</li>
+<li>国内：周国平的尼采研究（偏人生哲学），吴增定的尼采研究（偏政治哲学）</li>
+</ul>
+<h3 id="sec-25">⚠️ 避开</h3>
+<ul>
+<li>罗素《西方哲学史》中的尼采章节 — 充满偏见和误读</li>
+<li>任何把尼采和纳粹直接挂钩的通俗读物</li>
+<li>网上&quot;尼采十大名言&quot;</li>
+</ul>
+<hr />
+<h2 id="sec-26">六、和李帅的接驳点</h2>
+<table>
+<thead>
+<tr>
+  <th>李帅的认知结构</th>
+  <th>尼采可对接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Ni-Fi-Ti 闭环 → 缺 Se</td>
+  <td>尼采的&quot;权力意志&quot;强调<strong>创造</strong>——思考必须在行动中完成。和你的&quot;输出即动作&quot;原则天然共振</td>
+</tr>
+<tr>
+  <td>荣格深度用户</td>
+  <td>荣格就是尼采的继承者。读尼采是在读荣格的源头</td>
+</tr>
+<tr>
+  <td>写作 = 给 Se 出口</td>
+  <td>尼采的狄奥尼索斯精神 = 让身体说话。醉酒、舞蹈、音乐——全是对过度内省的反拨</td>
+</tr>
+<tr>
+  <td>暴露恐惧 → 完美主义</td>
+  <td>尼采：你不需要&quot;够格&quot;才创造。创造本身就是权力意志——你在创造的过程中成为你自己，不是&quot;先成为&quot;再创造</td>
+</tr>
+<tr>
+  <td>反面视角 → 结构性不配得感</td>
+  <td>尼采的透视主义：你的&quot;不够格&quot;是一个视角，不是事实。有别的视角可以看到不同的东西。越多视角 = 越接近完整</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>整理于 2026-07-25 · 基于多源搜索 + 荣格交叉分析</em></p>
+</article></main>
+  <section id="concept">
+    <div id="cwrap">
+      <h2>概念集群 · 互相对接的五角星</h2>
+      <p class="chint">尼采的核心概念不是孤立的——它们互相定义、互相咬合。点击任意节点，跳转到对应章节正文。<b style="color:var(--accent2)">中心「透视主义」是认识论地基</b>，支撑全部概念。</p>
+      <svg id="svgbox" viewBox="0 0 760 470" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="legend">边的含义：上帝之死→虚无主义→价值重估（起点）；重估的操作层=主人/奴隶道德；权力意志↔超人（人格载体）↔永恒轮回（最高肯定）；透视主义作为地基连系一切。</div>
+    </div>
+  </section>
+</div>
+<button class="toTop" id="toTop" title="回到顶部">↑</button>
+
+<script>
+const TOC = [{"level": 1, "text": "尼采思想体系 · 研究框架"}, {"level": 2, "text": "一、地图：著作与思想分期"}, {"level": 3, "text": "早期（1869-1876）：艺术形而上学时期"}, {"level": 3, "text": "中期（1878-1882）：启蒙怀疑时期"}, {"level": 3, "text": "晚期（1883-1888）：重估一切价值"}, {"level": 3, "text": "⚠️ 遗稿与陷阱"}, {"level": 2, "text": "二、概念集群：互相对接的五角星"}, {"level": 3, "text": "❶ 上帝死了 → 虚无主义 → 价值重估（起点）"}, {"level": 3, "text": "❷ 权力意志（本体论层面）"}, {"level": 3, "text": "❸ 主人道德 vs 奴隶道德（价值重估的操作层）"}, {"level": 3, "text": "❹ 永恒轮回（最高的肯定公式）"}, {"level": 3, "text": "❺ 超人 / 末人（价值重估的人格载体）"}, {"level": 3, "text": "❻ 透视主义（认识论）"}, {"level": 2, "text": "三、尼采 → 荣格：交叉点图谱"}, {"level": 3, "text": "直接关联"}, {"level": 3, "text": "关键差异"}, {"level": 2, "text": "四、创作素材通道（Se层）"}, {"level": 3, "text": "人物原型"}, {"level": 3, "text": "世界观设定"}, {"level": 3, "text": "情结/冲突素材"}, {"level": 2, "text": "五、推荐阅读路线"}, {"level": 3, "text": "入门层（2-3本）"}, {"level": 3, "text": "核心层（2本）"}, {"level": 3, "text": "进阶层（1-2本）"}, {"level": 3, "text": "导读配合"}, {"level": 3, "text": "⚠️ 避开"}, {"level": 2, "text": "六、和李帅的接驳点"}];
+const STATS = {"cjk": 3320, "h2": 6, "h3": 20, "block": 2, "table": 8, "head": 27};
+const CG = {"nodes": [{"id": 0, "label": "上帝之死\n→虚无主义\n→重估", "sub": "起点", "sec": 7, "x": 380, "y": 70, "c": "#e07b53"}, {"id": 1, "label": "权力意志", "sub": "本体论", "sec": 8, "x": 572, "y": 205, "c": "#5fb0e8"}, {"id": 2, "label": "主人/奴隶道德", "sub": "操作层", "sec": 9, "x": 481, "y": 398, "c": "#7bcf7b"}, {"id": 3, "label": "永恒轮回", "sub": "最高肯定", "sec": 10, "x": 279, "y": 398, "c": "#c98fe0"}, {"id": 4, "label": "超人/末人", "sub": "人格载体", "sec": 11, "x": 188, "y": 205, "c": "#e0b643"}, {"id": 5, "label": "透视主义", "sub": "认识论地基", "sec": 12, "x": 380, "y": 232, "c": "#f4d35e"}], "edges": [[0, 4], [0, 2], [0, 3], [1, 4], [1, 3], [1, 2], [3, 4], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4]]};
+
+// ---- header stats ----
+document.getElementById('stats').innerHTML =
+  '<span><b>'+STATS.cjk.toLocaleString()+'</b> 字</span>'+
+  '<span><b>'+STATS.h2+'</b> 章节</span>'+
+  '<span><b>'+STATS.head+'</b> 标题</span>'+
+  '<span><b>'+STATS.block+'</b> 引文</span>'+
+  '<span><b>'+STATS.table+'</b> 表格</span>';
+
+// ---- TOC ----
+const tocBox=document.getElementById('toc');
+TOC.forEach((h,i)=>{
+  const a=document.createElement('a');
+  a.className='toc-item lvl'+h.level;
+  a.textContent=h.text;
+  a.dataset.target='sec-'+i;
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const el=document.getElementById('sec-'+i);
+    if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+  tocBox.appendChild(a);
+});
+
+// ---- active TOC highlight ----
+const main=document.getElementById('main');
+const tocLinks=[...document.querySelectorAll('.toc-item')];
+const headingEls=TOC.map((h,i)=>document.getElementById('sec-'+i)).filter(Boolean);
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      const idx=+en.target.id.split('-')[1];
+      tocLinks.forEach(l=>l.classList.remove('active'));
+      if(tocLinks[idx]) tocLinks[idx].classList.add('active');
+    }
+  });
+},{root:main,rootMargin:'0px 0px -75% 0px',threshold:0});
+headingEls.forEach(h=>obs.observe(h));
+
+// ---- reading progress ----
+const progBar=document.getElementById('progBar');
+main.addEventListener('scroll',()=>{
+  const max=main.scrollHeight-main.clientHeight;
+  const p=max>0?main.scrollTop/max:0;
+  progBar.style.width=(p*100)+'%';
+  document.getElementById('toTop').style.display=main.scrollTop>400?'block':'none';
+});
+document.getElementById('toTop').addEventListener('click',()=>main.scrollTo({top:0,behavior:'smooth'}));
+
+// ---- search highlight ----
+const content=document.getElementById('content');
+function clearMarks(){
+  content.querySelectorAll('mark').forEach(m=>{
+    const t=document.createTextNode(m.textContent);
+    m.parentNode.replaceChild(t,m);
+  });
+  content.normalize();
+}
+document.getElementById('search').addEventListener('input',e=>{
+  const q=e.target.value.trim();
+  clearMarks();
+  const info=document.getElementById('matchInfo');
+  if(!q){info.textContent='';return;}
+  const lower=q.toLowerCase();
+  const walker=document.createTreeWalker(content,NodeFilter.SHOW_TEXT,null);
+  const nodes=[];let n;
+  while(n=walker.nextNode()){
+    if(n.parentNode && /^(MARK|SCRIPT|STYLE)$/.test(n.parentNode.tagName))continue;
+    nodes.push(n);
+  }
+  let count=0;
+  nodes.forEach(node=>{
+    const lv=node.nodeValue.toLowerCase();
+    if(lv.indexOf(lower)<0)return;
+    const frag=document.createDocumentFragment();
+    let idx=0;
+    while(true){
+      const p=lv.indexOf(lower,idx);
+      if(p<0)break;
+      if(p>idx)frag.appendChild(document.createTextNode(node.nodeValue.slice(idx,p)));
+      const mk=document.createElement('mark');
+      mk.textContent=node.nodeValue.slice(p,p+q.length);
+      frag.appendChild(mk); count++;
+      idx=p+q.length;
+    }
+    if(idx<node.nodeValue.length)frag.appendChild(document.createTextNode(node.nodeValue.slice(idx)));
+    node.parentNode.replaceChild(frag,node);
+  });
+  info.textContent=count+' 处';
+  const first=content.querySelector('mark');
+  if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+// ---- concept graph ----
+const svg=document.getElementById('svgbox');
+const SVGNS='http://www.w3.org/2000/svg';
+const byId={}; CG.nodes.forEach(n=>byId[n.id]=n);
+function neighborsOf(id){const s=new Set();CG.edges.forEach(e=>{if(e[0]===id)s.add(e[1]);if(e[1]===id)s.add(e[0]);});return s;}
+function buildGraph(){
+  // edges
+  CG.edges.forEach((e,ei)=>{
+    const a=byId[e[0]],b=byId[e[1]];
+    const ln=document.createElementNS(SVGNS,'line');
+    ln.setAttribute('x1',a.x);ln.setAttribute('y1',a.y);
+    ln.setAttribute('x2',b.x);ln.setAttribute('y2',b.y);
+    ln.setAttribute('class','edge');ln.dataset.a=e[0];ln.dataset.b=e[1];
+    svg.appendChild(ln);
+  });
+  // nodes
+  CG.nodes.forEach(nd=>{
+    const g=document.createElementNS(SVGNS,'g');
+    g.setAttribute('class','cnode');g.dataset.id=nd.id;
+    const r=nd.id===5?40:34;
+    const c=document.createElementNS(SVGNS,'circle');
+    c.setAttribute('cx',nd.x);c.setAttribute('cy',nd.y);c.setAttribute('r',r);
+    c.setAttribute('fill',nd.c);c.setAttribute('stroke','#0c1424');c.setAttribute('stroke-width','2');
+    g.appendChild(c);
+    const lines=nd.label.split('\n');
+    lines.forEach((ln,i)=>{
+      const t=document.createElementNS(SVGNS,'text');
+      t.setAttribute('x',nd.x);
+      t.setAttribute('y',nd.y-(lines.length-1)*9 + i*18 + 5);
+      t.setAttribute('font-size', nd.id===5?12:(i===0?13:11));
+      t.textContent=ln;
+      g.appendChild(t);
+    });
+    const sub=document.createElementNS(SVGNS,'text');
+    sub.setAttribute('class','sub');
+    sub.setAttribute('x',nd.x);sub.setAttribute('y',nd.y+r-6);
+    sub.textContent=nd.sub;
+    g.appendChild(sub);
+    g.addEventListener('click',()=>jumpTo(nd.sec));
+    g.addEventListener('mouseenter',()=>highlight(nd.id,true));
+    g.addEventListener('mouseleave',()=>highlight(nd.id,false));
+    svg.appendChild(g);
+  });
+}
+function highlight(id,on){
+  const nb=neighborsOf(id);
+  svg.querySelectorAll('.edge').forEach(e=>{
+    const hot=on&&((+e.dataset.a===id&&nb.has(+e.dataset.b))||(+e.dataset.b===id&&nb.has(+e.dataset.a)));
+    e.classList.toggle('hot',!!hot);
+  });
+  svg.querySelectorAll('.cnode').forEach(g=>{
+    const gid=+g.dataset.id;
+    if(on&&gid!==id&&!nb.has(gid))g.style.opacity=0.35;
+    else g.style.opacity=1;
+  });
+}
+buildGraph();
+
+// ---- tab switch + jump ----
+function jumpTo(secIdx){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('show'));
+  document.getElementById('concept').classList.remove('show');
+  document.querySelector('.tab[data-v="read"]').classList.add('active');
+  const el=document.getElementById('sec-'+secIdx);
+  if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),60);
+}
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('show'));
+    document.getElementById('concept').classList.remove('show');
+    t.classList.add('active');
+    const v=t.dataset.v;
+    if(v==='concept'){document.getElementById('concept').classList.add('show');}
+  });
+});
+</script>
+</body>
+</html>

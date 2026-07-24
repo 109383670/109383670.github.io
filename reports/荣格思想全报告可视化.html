@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>荣格思想全报告 · 可视化阅读</title>
+<style>
+:root{
+  --bg:#f5f7fa; --panel:#ffffff; --ink:#1f2329; --sub:#6b7280;
+  --line:#e5e8ee; --accent:#2f6fed; --accent2:#6c5ce7; --mark:#fff3bf;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--ink);font-size:15px;line-height:1.75}
+header{position:sticky;top:0;z-index:30;background:linear-gradient(120deg,#1f3a5f,#2f6fed);
+  color:#fff;padding:14px 22px 0;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.htitle{font-size:21px;font-weight:700;letter-spacing:.5px}
+.hsub{font-size:12.5px;opacity:.85;margin-top:2px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:11px 0 10px}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+  padding:3px 10px;border-radius:20px;font-size:12px;white-space:nowrap}
+.tabs{display:flex;gap:6px}
+.tab{border:none;background:rgba(255,255,255,.12);color:#fff;padding:8px 16px;
+  border-radius:9px 9px 0 0;cursor:pointer;font-size:14px;font-weight:600;opacity:.8}
+.tab.active{background:#fff;color:var(--accent);opacity:1}
+.searchbar{display:none;padding:8px 0 10px}
+.searchbar.show{display:block}
+#search{width:min(420px,80%);padding:7px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.4);
+  background:rgba(255,255,255,.92);color:var(--ink);font-size:14px}
+#searchCount{margin-left:10px;font-size:12.5px;opacity:.9}
+.prog{height:3px;background:rgba(255,255,255,.25);position:sticky;top:0;z-index:29}
+.prog-bar{height:100%;width:0;background:#ffd166;transition:width .12s}
+.view{display:none}
+.view.active{display:block}
+#reader{display:none}
+#reader.active{display:flex;height:calc(100vh - 132px)}
+#side{width:300px;min-width:260px;max-height:100%;overflow:auto;padding:18px 10px 30px 18px;
+  border-right:1px solid var(--line);background:var(--panel)}
+#main{flex:1;overflow:auto;padding:24px 40px 80px;max-width:920px;margin:0 auto}
+.toc-l1{display:block;font-weight:700;font-size:14.5px;color:#1f3a5f;margin:12px 0 4px;
+  text-decoration:none;padding:4px 8px;border-radius:6px}
+.toc-l2{display:block;font-size:13.5px;color:var(--ink);text-decoration:none;
+  padding:3px 8px 3px 16px;border-radius:6px}
+.toc-l3{display:block;font-size:12.5px;color:var(--sub);text-decoration:none;
+  padding:2px 8px 2px 32px;border-radius:6px}
+.toc-l1:hover,.toc-l2:hover,.toc-l3:hover{background:#eef3ff}
+.toc-l1.active,.toc-l2.active,.toc-l3.active{background:#e3ecff;color:var(--accent);font-weight:600}
+article h1{font-size:23px;color:#1f3a5f;border-bottom:2px solid #e3ecff;padding-bottom:8px;margin-top:8px}
+article h2{font-size:19px;color:#2f6fed;margin-top:34px;border-left:4px solid #2f6fed;padding-left:10px}
+article h3{font-size:16px;color:#374151;margin-top:22px}
+article p{margin:11px 0}
+article blockquote{margin:14px 0;padding:10px 16px;background:#f3f6fd;border-left:4px solid #6c5ce7;
+  border-radius:6px;color:#374151;font-style:italic}
+article table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13.5px;background:#fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.06)}
+article th,article td{border:1px solid #e5e8ee;padding:7px 10px;text-align:left;vertical-align:top}
+article th{background:#eef3ff;font-weight:600}
+article code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:13px}
+article pre{background:#1f2329;color:#e6e6e6;padding:14px;border-radius:8px;overflow:auto;font-size:13px;line-height:1.5}
+article ul,article ol{margin:10px 0;padding-left:24px}
+article a{color:var(--accent)}
+.flash{animation:fl .9s ease}
+@keyframes fl{0%{background:#fff3bf}100%{background:transparent}}
+#concept{padding:22px 18px 60px}
+.concept-note{text-align:center;color:var(--sub);font-size:13px;margin-bottom:6px}
+.cmap{width:100%;max-width:880px;margin:0 auto;display:block;
+  background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.cedge{stroke:#b9c2d0;stroke-width:1.4}
+.cnode{cursor:pointer}
+.cnode rect{stroke:#fff;stroke-width:2;transition:transform .12s, filter .12s;transform-box:fill-box;transform-origin:center}
+.cnode:hover rect{filter:brightness(1.12);transform:scale(1.06)}
+.cnode text{pointer-events:none;font-weight:600;text-anchor:middle;dominant-baseline:middle}
+#toTop{position:fixed;right:22px;bottom:22px;z-index:40;width:46px;height:46px;border:none;border-radius:50%;
+  background:var(--accent);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.2);display:none}
+mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
+@media(max-width:760px){#reader.active{flex-direction:column;height:auto}#side{width:100%;max-height:200px;border-right:none;border-bottom:1px solid var(--line)}#main{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="htitle">荣格思想全报告</div>
+  <div class="hsub">系统梳理荣格思想全景 · 后继学派发展 · 与创作的关系</div>
+  <div class="stats"><span class="chip">📝 约 15,713 字</span><span class="chip">🧭 86 个章节标题</span><span class="chip">💬 25 处引文</span><span class="chip">📊 10 张表格</span><span class="chip">🕸️ 15 个核心概念</span></div>
+  <div class="tabs">
+    <button class="tab active" data-tab="reader">📖 阅读器</button>
+    <button class="tab" data-tab="concept">🕸️ 概念星丛</button>
+  </div>
+  <div class="searchbar" id="searchWrap">
+    <input id="search" placeholder="搜索正文…（Enter 跳下一个高亮）">
+    <span id="searchCount"></span>
+  </div>
+</header>
+<div class="prog"><div class="prog-bar" id="progBar"></div></div>
+<main id="reader" class="view active">
+  <aside id="side"><a class="toc-l1" href="javascript:void(0)" data-target="sec-2">卷一：荣格思想全景</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-3">1.1 生平与思想发展阶段</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-4">第一阶段：科学精神病学时期（1900–1912）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-5">第二阶段：与无意识对峙（1913–1919）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-6">第三阶段：理论建构期（1920–1930年代）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-7">第四阶段：炼金术心理学与晚期综合（1940–1961）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-8">第五阶段：身后出版</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-9">1.2 思想来源地图</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-10">必须了解的思想来源</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-11">1.3 思想星丛：荣格体系的整体架构</a>
+<a class="toc-l1" href="javascript:void(0)" data-target="sec-12">卷二：核心概念详解</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-13">2.1 集体无意识（Collective Unconscious）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-14">定义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-15">与弗洛伊德个人无意识的区别</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-16">集体无意识的内容来源</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-17">如何识别集体无意识</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-18">2.2 原型（Archetype）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-19">核心定义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-20">原型不是继承的意象，是继承的形式</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-21">原型与柏拉图理型的关系</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-22">主要原型清单</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-23">2.3 情结（Complex）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-24">定义与发现</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-25">情结不是病</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-26">三大层面</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-27">2.4 心理类型（Psychological Types）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-28">出版背景</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-29">两种态度</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-30">四种功能</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-31">8种心理类型</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-32">关键洞见</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-33">与MBTI的区别</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-34">2.5 自性化（Individuation）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-35">核心定义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-36">不是个人主义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-37">自性化与人生阶段</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-38">自性化的步骤</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-39">自性化的关键象征</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-40">2.6 超越功能（Transcendent Function）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-41">定义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-42">运作方式</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-43">积极想象就是超越功能的实践方法</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-44">2.7 共时性（Synchronicity）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-45">定义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-46">不是&quot;巧合&quot;</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-47">与泡利的合作</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-48">争议</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-49">2.8 《红书》（The Red Book / Liber Novus）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-50">不只是一本书</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-51">《红书》的核心主题</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-52">《红书》中的关键篇章</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-53">《红书》与后期著作的关系</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-54">2.9 阴影（Shadow）详解</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-55">定义</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-56">阴影的形成</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-57">阴影的投射</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-58">面对阴影</a>
+<a class="toc-l1" href="javascript:void(0)" data-target="sec-59">卷三：主要著作导览（按写作年份）</a>
+<a class="toc-l1" href="javascript:void(0)" data-target="sec-60">卷四：后继学派与发展</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-61">4.1 后荣格学派的三大门户</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-62">（一）经典学派（The Classical School）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-63">（二）发展学派（The Developmental School）</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-64">（三）原型学派（The Archetypal School）</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-65">4.2 沃尔夫冈·吉格里希（Wolfgang Giegerich）</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-66">4.3 荣格与当代科学的对话</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-67">神经科学与荣格</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-68">共时性与复杂性理论</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-69">4.4 女性主义荣格批评</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-70">4.5 荣格与东方思想的对话</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-71">荣格与中国</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-72">荣格与佛家</a>
+<a class="toc-l3" href="javascript:void(0)" data-target="sec-73">关键研究者</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-74">4.6 当代关键人物速览</a>
+<a class="toc-l1" href="javascript:void(0)" data-target="sec-75">卷五：荣格与创作——给你的专属模块</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-76">5.1 为什么荣格对创作者特别重要</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-77">5.2 原型叙事与故事结构</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-78">5.3 炼金术叙事弧</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-79">5.4 阴影角色的构建（专门给你的）</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-80">5.5 积极想象作为创作方法</a>
+<a class="toc-l1" href="javascript:void(0)" data-target="sec-81">卷六：研究资源清单</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-82">6.1 中文核心书目</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-83">6.2 英文核心资源</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-84">6.3 在线资源</a>
+<a class="toc-l1" href="javascript:void(0)" data-target="sec-85">附录：与你已有的荣格阅读对照</a>
+<a class="toc-l2" href="javascript:void(0)" data-target="sec-86">一句话总结</a></aside>
+  <article id="main"><h1 id="sec-1">荣格思想全报告</h1>
+<blockquote>
+<p>整理日期：2026-07-24
+目的：系统梳理荣格思想全景 + 后继学派发展 + 与创作的关系
+原则：有原文依据的贴原文，不确定的标注&quot;待核实&quot;</p>
+</blockquote>
+<hr />
+<h1 id="sec-2">卷一：荣格思想全景</h1>
+<h2 id="sec-3">1.1 生平与思想发展阶段</h2>
+<h3 id="sec-4">第一阶段：科学精神病学时期（1900–1912）</h3>
+<p>荣格于1900年加入苏黎世布勒霍尔兹利精神病院，在欧根·布洛伊勒（Eugen Bleuler）手下工作。这一时期的关键贡献是<strong>词语联想测验</strong>——通过测量被试对刺激词的反应时间和生理反应，发现了无意识中&quot;情结&quot;（complex）的存在。</p>
+<blockquote>
+<p>荣格在《词语联想研究》中证明：当刺激词触及被试的无意识情结时，反应时间延长、皮肤电反应异常。这是情结存在的第一个实验证据。</p>
+</blockquote>
+<p>1907年，荣格与弗洛伊德初次会面，据说两人连续谈话13小时。弗洛伊德一度视荣格为&quot;精神分析运动的王储&quot;。</p>
+<p><strong>与弗洛伊德分裂（1912–1913）</strong>：转折点是《力比多的转化与象征》（1912）。荣格认为力比多（libido）不仅仅是性驱力，而是一种广义的&quot;精神能量&quot;。弗洛伊德不能接受。1913年，荣格辞去国际精神分析协会主席职务，与弗洛伊德彻底决裂。</p>
+<h3 id="sec-5">第二阶段：与无意识对峙（1913–1919）</h3>
+<p>与弗洛伊德决裂后，荣格经历了被他自己称为&quot;与无意识对峙&quot;的时期。他主动进入自己的梦幻与幻象，将这些经验记录在被称为&quot;黑书&quot;的笔记中，后来又誊写到《红书》里。</p>
+<p>这一时期荣格发现了<strong>积极想象</strong>（active imagination）的方法——不是被动地承受无意识的涌出，而是主动与内在的意象对话。</p>
+<h3 id="sec-6">第三阶段：理论建构期（1920–1930年代）</h3>
+<p>《心理类型》（1921）出版。1928年，理查德·威廉（卫礼贤）寄给荣格《太乙金华宗旨》译稿，荣格由此发现了道家炼金术与他的心理学之间的深层对应。这触发了他对炼金术的深入研究。</p>
+<h3 id="sec-7">第四阶段：炼金术心理学与晚期综合（1940–1961）</h3>
+<p>《心理学与炼金术》（1944）、《爱翁》（1951）、《答约伯》（1952）、《神秘合体》（1955-56）。荣格将炼金术解读为无意识心理过程的象征体系，完成了他的思想大厦。</p>
+<p>晚年他与物理学家沃尔夫冈·泡利（Wolfgang Pauli）合作发展<strong>共时性</strong>（synchronicity）理论。</p>
+<h3 id="sec-8">第五阶段：身后出版</h3>
+<p>《记忆·梦·反思》（1961，自传体，生前口述由阿尼拉·雅费记录整理）、《红书》（2009年才正式出版，Sonu Shamdasani编辑）。</p>
+<hr />
+<h2 id="sec-9">1.2 思想来源地图</h2>
+<p>荣格的思想不是凭空产生的。以下列出他最核心的思想对话对象：</p>
+<h3 id="sec-10">必须了解的思想来源</h3>
+<table>
+<thead>
+<tr>
+  <th>来源</th>
+  <th>荣格从中获取了什么</th>
+  <th>关键文本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>弗洛伊德</strong></td>
+  <td>无意识的存在、压抑机制、梦的意义——荣格的起点</td>
+  <td>《梦的解析》（1900）</td>
+</tr>
+<tr>
+  <td><strong>诺斯替主义</strong></td>
+  <td>神圣火花落入物质世界→需要觉醒回归。&quot;自性&quot;概念的原型来自诺斯替的&quot;原人&quot;（Anthropos）</td>
+  <td>荣格：《爱翁》中大量讨论诺斯替文本</td>
+</tr>
+<tr>
+  <td><strong>炼金术</strong></td>
+  <td>&quot;转化&quot;不是化学过程而是心理过程的象征。nigredo（黑化）→ albedo（白化）→ rubedo（红化）对应自性化各阶段</td>
+  <td>《心理学与炼金术》（CW 12）</td>
+</tr>
+<tr>
+  <td><strong>道家</strong></td>
+  <td>对立统一（阴阳）、无为、内在工作。荣格与卫礼贤的合作至关重要</td>
+  <td>《太乙金华宗旨》荣格评述（CW 13）</td>
+</tr>
+<tr>
+  <td><strong>尼采</strong></td>
+  <td>《查拉图斯特拉如是说》——超人vs.自性化。荣格在1934-1939年间举办了关于查拉图斯特拉的研讨班。尼采发疯的阴影也让荣格警惕——&quot;自性化不是自我膨胀&quot;</td>
+  <td>荣格：《尼采的查拉图斯特拉》研讨班（1988年出版）</td>
+</tr>
+<tr>
+  <td><strong>康德</strong></td>
+  <td>物自体（Ding an sich）vs.现象界。荣格将&quot;原型本身&quot;类比为康德的物自体——不可直接认识，只能通过意象（现象）间接感知</td>
+  <td>荣格在CW 8、9中多处引用康德</td>
+</tr>
+<tr>
+  <td><strong>佛教/印度教</strong></td>
+  <td>曼荼罗（mandala）作为自性的象征、自性与&quot;阿特曼&quot;（Atman）的关系</td>
+  <td>CW 11《心理学与宗教：西方与东方》</td>
+</tr>
+<tr>
+  <td><strong>柏拉图</strong></td>
+  <td>&quot;原型&quot;（archetype）一词直接取自柏拉图的&quot;理型&quot;（eidos/idea）。荣格反复声明：&quot;原型这个词就是柏拉图哲学中的形式。&quot;</td>
+  <td>CW 9.1《原型与集体无意识》</td>
+</tr>
+<tr>
+  <td><strong>叔本华</strong></td>
+  <td>意志（Will）的盲目驱力——荣格的&quot;无意识&quot;在动力层面与叔本华的&quot;意志&quot;有亲缘关系</td>
+  <td>荣格在《记忆·梦·反思》中提到叔本华</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-11">1.3 思想星丛：荣格体系的整体架构</h2>
+<p>荣格的思想不是一个线性的&quot;体系&quot;，而是一个多中心的星丛。以下是核心概念之间的关系图：</p>
+<pre><code>                      集体无意识
+                    （the basis of all）
+                           │
+            ┌──────────────┼──────────────┐
+            │              │              │
+         原型            情结          本能
+    （先验形式）    （个人无意识内容） （生物驱力）
+            │
+    ┌───────┼──────────┬───────────┬──────────────┐
+    │       │          │           │              │
+  人格面具  阴影    阿尼玛/阿尼姆斯    自性         智慧老人/大母神等
+  (Persona) (Shadow)  (Anima/Animus)   (Self)
+                                        │
+                                  自性化过程 (Individuation)
+                                  靠超越功能 (Transcendent Function)
+                                  来斡旋意识与无意识的冲突
+                                        │
+                                  共时性 (Synchronicity)
+                            ——意义关联，非因果关联
+</code></pre>
+<p><strong>关键区分（最容易被混淆的）：</strong></p>
+<ul>
+<li><strong>无意识 vs. 集体无意识</strong>：个人无意识（personal unconscious）包含被压抑的个人经验（弗洛伊德的领域）；集体无意识（collective unconscious）是超越个人的、人类共有的心理底层结构。</li>
+<li><strong>原型 vs. 原型意象</strong>：原型本身是不可见的&quot;形式&quot;/&quot;模式&quot;；原型意象（archetypal image）是原型在意识中显现的具体形象（如大母神、智慧老人）。荣格反复强调这个区分。</li>
+<li><strong>自我（ego）vs. 自性（Self）</strong>：ego是意识的核心，是你认为&quot;我&quot;的东西；Self是心灵的整体，包括意识和无意识，ego只是Self的一部分。荣格用比喻说明这个关系：&quot;自性如大海，自我则是大海里面的鱼。&quot;</li>
+</ul>
+<hr />
+<h1 id="sec-12">卷二：核心概念详解</h1>
+<h2 id="sec-13">2.1 集体无意识（Collective Unconscious）</h2>
+<h3 id="sec-14">定义</h3>
+<p>荣格在《原型与集体无意识》（CW 9.1）中写道：</p>
+<blockquote>
+<p>&quot;集体无意识是精神的一部分，它不像个人无意识那样依赖于个人经验，因而不是一种个人的获得物。如果说个人无意识的内容主要是一些我们称之为'带感情色彩的情结'——它们构成了心理生活中个人和私人的一面——那么集体无意识的内容基本上就是原型。&quot;（CW 9.1, ¶3）</p>
+</blockquote>
+<p>荣格用了一个地质学的比喻：</p>
+<blockquote>
+<p>&quot;心灵的更深'地层'，随着我们越深入，它就变得越黑暗、越陌生。这些更深的地层已经失去了个人特性……'在底部'，心灵是完全集体的。&quot;</p>
+</blockquote>
+<h3 id="sec-15">与弗洛伊德个人无意识的区别</h3>
+<p>这是理解荣格最关键的区分。弗洛伊德的无意识是被压抑的个人记忆；荣格的集体无意识不是被压抑的，而是从未进入过意识——它是先天的心理结构。</p>
+<h3 id="sec-16">集体无意识的内容来源</h3>
+<p>荣格认为集体无意识的内容来自：</p>
+<ol>
+<li><strong>人类进化史的遗传沉积</strong>——不仅是生物进化（脑结构），也包括心理行为模式的进化</li>
+<li><strong>反复出现的典型人类情境的累积</strong>——出生、死亡、母亲、父亲、危险、求偶等</li>
+</ol>
+<blockquote>
+<p>荣格在《心理结构与动力学》（CW 8）中写道：&quot;原型不是个体习得的，是纯粹通过遗传而得来的。……一个人在集体无意识的支配下，不需要经验的帮助，只要处于与祖先相似的环境，就会出现与祖先相似的行为。&quot;</p>
+</blockquote>
+<h3 id="sec-17">如何识别集体无意识</h3>
+<p>集体无意识通过以下渠道显现：</p>
+<ul>
+<li><strong>梦</strong>（尤其是大梦，带有神话性质的梦）</li>
+<li><strong>幻想与积极想象</strong></li>
+<li><strong>神话、童话、民间传说</strong>（跨文化共通的母题）</li>
+<li><strong>精神病的妄想内容</strong>（荣格发现精神病人的妄想与神话母题高度一致）</li>
+</ul>
+<hr />
+<h2 id="sec-18">2.2 原型（Archetype）</h2>
+<h3 id="sec-19">核心定义</h3>
+<blockquote>
+<p>&quot;原型这个概念……是从反复观察到这一事实推导出来的：例如，世界文学中的神话和童话包含着在任何地方都一再出现的明确母题。我们在今天活在世上的个人的幻想、梦、谵妄和妄想中也遇到这些相同的母题。这些典型的意象和联想就是我所说的原型观念。&quot;（荣格，《人及其象征》，1964）</p>
+</blockquote>
+<h3 id="sec-20">原型不是继承的意象，是继承的形式</h3>
+<p>这是荣格反复澄清的最重要观点：</p>
+<blockquote>
+<p>&quot;原型不是由其内容，而是就其形式而言才被确定的，而且这种确定也只是非常有限度的。一个原始意象仅仅在它已成为意识、因而被填入了意识经验的材料时才由其内容得以确定。……原型本身是空洞的、纯形式的，只不过是一种先天地被赋予的表征可能性（facultas praeformandi）。&quot;（CW 9.1, ¶155）</p>
+</blockquote>
+<p>换句话说：原型不是一幅已经画好的画，而是<strong>底片</strong>（荣格自己的比喻）。它决定了可能呈现出什么形态，但具体的&quot;显影&quot;依赖个体的经验。</p>
+<h3 id="sec-21">原型与柏拉图理型的关系</h3>
+<blockquote>
+<p>&quot;原型这个词就是柏拉图哲学中的形式（eidos）。&quot;（CW 9.1, ¶5）</p>
+</blockquote>
+<p>但荣格的原型与柏拉图的理型有本质区别：柏拉图的理型是纯理性的、永恒的、不变的；荣格的原型是心理的、动态的、与情感紧密相连的。</p>
+<h3 id="sec-22">主要原型清单</h3>
+<table>
+<thead>
+<tr>
+  <th>原型</th>
+  <th>功能</th>
+  <th>典型象征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>人格面具（Persona）</strong></td>
+  <td>社会适应功能；我们展示给世界的&quot;面具&quot;</td>
+  <td>职业角色、社会身份</td>
+</tr>
+<tr>
+  <td><strong>阴影（Shadow）</strong></td>
+  <td>被自我拒绝的人格部分；具有&quot;道德问题&quot;的人格</td>
+  <td>黑暗人物、魔鬼、同性别反派</td>
+</tr>
+<tr>
+  <td><strong>阿尼玛（Anima）</strong></td>
+  <td>男性心灵中的女性面；连接无意识的桥梁</td>
+  <td>女神、魔女、未知的女性</td>
+</tr>
+<tr>
+  <td><strong>阿尼姆斯（Animus）</strong></td>
+  <td>女性心灵中的男性面；意见、精神原则</td>
+  <td>英雄、智者、暴君</td>
+</tr>
+<tr>
+  <td><strong>自性（Self）</strong></td>
+  <td>心灵的总和、完整性的原型、自性化的目标</td>
+  <td>曼荼罗、圆、基督、佛、钻石体</td>
+</tr>
+<tr>
+  <td><strong>智慧老人（Wise Old Man）</strong></td>
+  <td>意义与知识原型</td>
+  <td>导师、巫师、甘道夫</td>
+</tr>
+<tr>
+  <td><strong>大母神（Great Mother）</strong></td>
+  <td>生育、养育、吞噬</td>
+  <td>大地女神、圣母、女巫</td>
+</tr>
+<tr>
+  <td><strong>儿童（Child）</strong></td>
+  <td>未来的可能性、新生、自性的雏形</td>
+  <td>圣婴、小矮人、黄金</td>
+</tr>
+<tr>
+  <td><strong>骗子（Trickster）</strong></td>
+  <td>打破秩序、无意识的恶作剧者</td>
+  <td>小丑、狐狸、洛基</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-23">2.3 情结（Complex）</h2>
+<h3 id="sec-24">定义与发现</h3>
+<p>情结是荣格在词语联想测验中最早发现的心理学事实。它是个人无意识中的一组带有强烈情感色彩的观念和记忆，围绕一个核心主题组织。</p>
+<blockquote>
+<p>&quot;情结是精神生活的焦点或节点，是不可缺少的；如果没有它们，精神活动就会陷入致命的停滞。&quot;（CW 8, ¶201）</p>
+</blockquote>
+<h3 id="sec-25">情结不是病</h3>
+<p>这与流行理解不同。荣格认为每个人都有情结，它们是心理结构的正常组件。问题不在于有情结，而在于<strong>情结拥有你而非你拥有情结</strong>。</p>
+<blockquote>
+<p>&quot;不是人拥有情结，而是情结拥有人。&quot;（被广泛引用的荣格名言，出自CW 8）</p>
+</blockquote>
+<h3 id="sec-26">三大层面</h3>
+<p>荣格后来区分了三个层面的情结：</p>
+<ol>
+<li><strong>个人情结</strong>：源自个人经历（弗洛伊德的领域）</li>
+<li><strong>家庭/文化情结</strong>：源自家庭系统和文化环境</li>
+<li><strong>集体/原型情结</strong>：以原型为核心的强大情结，如&quot;母亲情结&quot;&quot;父亲情结&quot;</li>
+</ol>
+<hr />
+<h2 id="sec-27">2.4 心理类型（Psychological Types）</h2>
+<h3 id="sec-28">出版背景</h3>
+<p>《心理类型》（1921，CW 6）是荣格在与弗洛伊德和阿德勒决裂后写的。他发现弗洛伊德和阿德勒之间的分歧不仅仅是理论上的——而是<strong>人格类型</strong>的差异：弗洛伊德是外倾型的，他的理论强调客体（性对象）的核心地位；阿德勒是内倾型的，他的理论强调主体（权力意志）的核心地位。</p>
+<h3 id="sec-29">两种态度</h3>
+<blockquote>
+<p>&quot;外倾的特征是：主体对客体的兴趣与力比多投注指向外部世界。内倾的特征是：力比多向内流动，指向主体自身的精神过程。&quot;（CW 6, 荣格关于两种态度类型的定义）</p>
+</blockquote>
+<h3 id="sec-30">四种功能</h3>
+<table>
+<thead>
+<tr>
+  <th>功能</th>
+  <th>性质</th>
+  <th>外倾表现</th>
+  <th>内倾表现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>思维（Thinking）</strong></td>
+  <td>理性/判断功能</td>
+  <td>以客观事实/外部标准来判断</td>
+  <td>以内在逻辑/主观标准来判断</td>
+</tr>
+<tr>
+  <td><strong>情感（Feeling）</strong></td>
+  <td>理性/判断功能</td>
+  <td>以外部价值/社会标准来评估</td>
+  <td>以内在价值/个人标准来评估</td>
+</tr>
+<tr>
+  <td><strong>感觉（Sensation）</strong></td>
+  <td>非理性/知觉功能</td>
+  <td>关注外部感官细节</td>
+  <td>关注内部身体感受</td>
+</tr>
+<tr>
+  <td><strong>直觉（Intuition）</strong></td>
+  <td>非理性/知觉功能</td>
+  <td>感知外部可能性和模式</td>
+  <td>感知内部可能性和无意识内容</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-31">8种心理类型</h3>
+<p>两种态度 × 四种功能 = 8种基本心理类型。但荣格反复强调：<strong>纯粹的类型几乎不存在</strong>。大多数人有一个主导功能、一个辅助功能（态度与主导相反），以及未发展的劣势功能。</p>
+<h3 id="sec-32">关键洞见</h3>
+<ol>
+<li><strong>劣势功能是无意识的入口</strong>：一个人最不发达的功能与无意识最紧密相连。荣格发现，最容易引发神经症的方式就是在适应中过度使用劣势功能。</li>
+<li><strong>类型的冲突是理解的障碍</strong>：思维型的人可能完全无法理解情感型的判断方式，反之亦然。</li>
+<li><strong>超越功能（Transcendent Function）</strong> 整合对立类型态度。</li>
+</ol>
+<h3 id="sec-33">与MBTI的区别</h3>
+<p>MBTI（Myers-Briggs Type Indicator）虽然基于荣格的《心理类型》，但做了几个关键改变：</p>
+<ul>
+<li>增加了一个J/P（判断/知觉）维度</li>
+<li>将类型简化为16种静态标签</li>
+<li>丢失了荣格理论中的<strong>动态</strong>部分——类型的发展、劣势功能的整合、类型之间的张力</li>
+</ul>
+<p>荣格研究的是类型的<strong>动力学</strong>，不是给人贴标签。</p>
+<hr />
+<h2 id="sec-34">2.5 自性化（Individuation）</h2>
+<h3 id="sec-35">核心定义</h3>
+<blockquote>
+<p>&quot;自性化意味着成为一个'不可分割的整体'（in-dividuum），因此……它就意味着成为一个人自己的自性。因此我们可以把自性化翻译为'走向自性'或'自我实现'。&quot;（CW 7, ¶266）</p>
+</blockquote>
+<h3 id="sec-36">不是个人主义</h3>
+<p>荣格反复强调自性化不等于自我膨胀或个人主义：</p>
+<blockquote>
+<p>&quot;自性化与个人主义没有任何关系……个人主义是人为地强调与集体考量相反的、假定的个人特性。但自性化恰恰意味着更好、更全面地实现人的集体品质。&quot;</p>
+</blockquote>
+<h3 id="sec-37">自性化与人生阶段</h3>
+<p>荣格划分了人生的两个主要阶段：</p>
+<p><strong>前半生（约40岁前）</strong>：</p>
+<ul>
+<li>任务是建立ego、适应社会、发展主导功能</li>
+<li>建立人格面具、职业身份、家庭角色</li>
+<li>这个阶段的目标是&quot;成为正常人&quot;</li>
+</ul>
+<p><strong>后半生（约40岁后）——转折点</strong>：</p>
+<ul>
+<li>前半生的目标达成后，意义危机出现</li>
+<li>被压抑的无意识内容（阴影、阿尼玛/阿尼姆斯）要求被整合</li>
+<li>从&quot;社会适应&quot;转向&quot;个体完整&quot;</li>
+</ul>
+<blockquote>
+<p>&quot;我们无法在人生的正午按照人生的早上的计划生活。因为在早晨伟大的事情，到了晚上就会变得渺小；在早晨真实的东西，到了晚上就会变成谎言。&quot;（CW 8, ¶787）</p>
+</blockquote>
+<h3 id="sec-38">自性化的步骤</h3>
+<p>没有一个固定的步骤列表，但荣格的著作中反复出现以下阶段：</p>
+<ol>
+<li><strong>人格面具的撤回</strong>——认识到&quot;我是谁&quot;不等于&quot;我展示什么&quot;</li>
+<li><strong>面对阴影</strong>——承认和整合被自我拒绝的部分</li>
+<li><strong>面对阿尼玛/阿尼姆斯</strong>——与内在异性面相遇，这是通往深层无意识的桥梁</li>
+<li><strong>与智慧老人/大母神相遇</strong>——接触意义的原型来源</li>
+<li><strong>自性显现</strong>——曼荼罗象征出现，体验到完整性的核心</li>
+</ol>
+<h3 id="sec-39">自性化的关键象征</h3>
+<ul>
+<li><strong>曼荼罗</strong>（圆、方、四元结构）：心灵整体性的普遍象征</li>
+<li><strong>炼金术的结合</strong>（coniunctio）：对立面的统一</li>
+<li><strong>圣婚</strong>（hieros gamos）：意识与无意识的结合</li>
+<li><strong>哲人石</strong>（lapis philosophorum）：转化的最终产物，自性的象征</li>
+</ul>
+<hr />
+<h2 id="sec-40">2.6 超越功能（Transcendent Function）</h2>
+<h3 id="sec-41">定义</h3>
+<p>超越功能是荣格心理学中最核心但也最被忽视的概念。</p>
+<blockquote>
+<p>&quot;我把意识与无意识内容的结合过程称为超越功能。&quot;（CW 8, ¶184）</p>
+</blockquote>
+<p>当意识立场与无意识内容处于冲突中时，超越功能不是简单地选一边，而是<strong>创造一个第三方</strong>——一个超越对立的全新象征。</p>
+<h3 id="sec-42">运作方式</h3>
+<ol>
+<li>意识持有一个立场（如理性判断）</li>
+<li>无意识通过梦、幻想、症状呈现相反的内容</li>
+<li>双方不被压制，而是被给予同等重视</li>
+<li>一个新的象征从张力中涌现——它包含了双方，但超越了它们</li>
+</ol>
+<h3 id="sec-43">积极想象就是超越功能的实践方法</h3>
+<p>荣格在《红书》中实践的&quot;积极想象&quot;，本质上就是激活超越功能——不压抑无意识的声音，也不放弃意识的观察，让两者在对话中产生新的东西。</p>
+<hr />
+<h2 id="sec-44">2.7 共时性（Synchronicity）</h2>
+<h3 id="sec-45">定义</h3>
+<blockquote>
+<p>&quot;共时性指那些在时间上同时发生的、有意义地关联但无因果联系的事件。&quot;（荣格，1952年专著《共时性：一种非因果性关联原则》）</p>
+</blockquote>
+<p>经典例子：一位患者正在讲述梦见金龟子的梦，荣格窗外正好有一只金龟子（实际上是玫瑰金龟子）撞在窗玻璃上。荣格抓住它递给病人：&quot;这就是你的梦中的金龟子。&quot;</p>
+<h3 id="sec-46">不是&quot;巧合&quot;</h3>
+<p>共时性与巧合的区别在于<strong>意义</strong>。共时性事件的特点是：</p>
+<ol>
+<li><strong>无因果关联</strong>——外部事件与内部心理事件之间不存在物理因果链</li>
+<li><strong>有意义</strong>——对体验者而言具有不可忽视的意义</li>
+<li><strong>时间接近</strong>——通常同时或非常接近</li>
+</ol>
+<h3 id="sec-47">与泡利的合作</h3>
+<p>物理学家沃尔夫冈·泡利（1945年诺贝尔物理学奖得主）是荣格最重要的合作者之一。泡利向荣格提供了他的梦（超过1300个梦），荣格以此为基础发展了共时性理论和物质-心理统一的概念。两人合著了《自然与心灵的阐释》（1952）。</p>
+<h3 id="sec-48">争议</h3>
+<p>共时性是荣格理论中最受争议的部分。批评者认为它不可证伪，支持者则指出量子力学中类似的非局域性现象（泡利本人也这样认为）。</p>
+<hr />
+<h2 id="sec-49">2.8 《红书》（The Red Book / Liber Novus）</h2>
+<h3 id="sec-50">不只是一本书</h3>
+<p>《红书》是荣格全部思想的<strong>源头文本</strong>。1913年与弗洛伊德决裂后，荣格经历了一段被他自己称为&quot;与无意识对峙&quot;的时期。他在16年间（约1914-1930）将这段经历记录在羊皮纸装订的大红皮封面的本子上，自己书写、自己绘图。</p>
+<p>直到2009年（荣格去世近50年后），这本书才被荣格家族允许出版。编辑是Sonu Shamdasani。</p>
+<h3 id="sec-51">《红书》的核心主题</h3>
+<blockquote>
+<p>&quot;我的灵魂把我领到沙漠，我内在自我的沙漠。&quot;（《红书》序曲）</p>
+</blockquote>
+<ul>
+<li><strong>时代精神 vs. 深度精神</strong>：荣格区分了两种精神——时代精神（spirit of the times）追求理性、适应、进步；深度精神（spirit of the depths）则通向灵魂、无意识、永恒之物。</li>
+<li><strong>灵魂的丧失与找回</strong>：现代人失去了灵魂——荣格称之为&quot;灵魂丧失&quot;（loss of soul）。找回灵魂是《红书》的核心任务。</li>
+<li><strong>意象的独立性</strong>：《红书》中出现的形象（以利亚、莎乐美、斐乐蒙等）不是荣格&quot;创造&quot;的，而是<strong>自己出现的</strong>。这就是荣格后来所说的&quot;集体无意识的自主性&quot;。</li>
+<li><strong>积极想象的诞生</strong>：《红书》的写作过程本身就是积极想象法的发源地。荣格后来将这一方法系统化为治疗技术。</li>
+</ul>
+<h3 id="sec-52">《红书》中的关键篇章</h3>
+<p><strong>&quot;沙漠&quot;体验</strong>：</p>
+<blockquote>
+<p>&quot;只有撇开对外物的追求，才能达到灵魂的所在。若他找不到灵魂，他将陷入空虚的恐惧，而这恐惧将挥舞长鞭，驱使他绝望盲目地追求空洞的世事。&quot;</p>
+</blockquote>
+<p><strong>&quot;斐乐蒙&quot;的出现</strong>：斐乐蒙（Philemon）是荣格在幻想中遇到的一个智慧老人形象，他成为荣格终身的内在导师。荣格后来在波林根（Bollingen）建造的塔楼中，专门为斐乐蒙留了一个房间。</p>
+<blockquote>
+<p>&quot;斐乐蒙对我代表了一种非我自身的权威。……我在他那里看到的是：有一些东西在我的内在精神中，不是由我制造的，而是自发地产生并有其自己的生命。&quot;</p>
+</blockquote>
+<p><strong>结尾（&quot;审视&quot;）</strong>：</p>
+<blockquote>
+<p>&quot;我孤独，但我用生命填满了孤独。&quot;</p>
+</blockquote>
+<h3 id="sec-53">《红书》与后期著作的关系</h3>
+<p>Sonu Shamdasani的研究表明：《红书》中探索的主题，后来成为荣格所有主要著作的基础。原型理论、积极想象、自性化、炼金术心理学都可以在《红书》中找到源头形态。荣格本人称《红书》为他全部后期著作的&quot;原始素材&quot;（prima materia）。</p>
+<hr />
+<h2 id="sec-54">2.9 阴影（Shadow）详解</h2>
+<h3 id="sec-55">定义</h3>
+<p>阴影是荣格所有原型中<strong>最容易接近</strong>的一个——因为它的内容曾经是意识的一部分，后来被压抑了。</p>
+<blockquote>
+<p>&quot;阴影是一个道德问题，挑战着整个人格。因为除非投入相当多的道德决心，没有人能在没有它的情况下意识到阴影。意识到阴影涉及承认人格的黑暗面是真实的和存在的。这一行为是任何类型的自我认识的基本条件。&quot;（CW 9.2, ¶14）</p>
+</blockquote>
+<h3 id="sec-56">阴影的形成</h3>
+<p>阴影由被自我（ego）拒绝的人格内容组成：</p>
+<ul>
+<li>社会不允许的特质（攻击性、自私、性欲等）</li>
+<li>与个人理想自我形象不符的特质</li>
+<li>未被发展的潜能（不只是坏的！荣格强调阴影中也有&quot;金子&quot;）</li>
+</ul>
+<h3 id="sec-57">阴影的投射</h3>
+<p>自己没有意识到的阴影内容会被<strong>投射</strong>到他人身上。这就是为什么我们对某些人产生不合比例的情感反应——我们在他们身上看到了自己拒绝承认的东西。</p>
+<blockquote>
+<p>&quot;我们所看到的一切，都对他人来说是外在的，而对自己来说则是内在的。因此我们在他人身上看到的，只是我们自己身上存在的东西的反映。&quot;（荣格，转引自各处）</p>
+</blockquote>
+<h3 id="sec-58">面对阴影</h3>
+<p>荣格认为面对阴影是自性化的第一步，也是最道德的一步：</p>
+<blockquote>
+<p>&quot;人们可以通过看到自己的阴影来建立美德。人们只能努力不再生活在阴影中。当你看到自己的阴影时，你已经站在光中了。&quot;（荣格，转引自各处，待核实出处）</p>
+</blockquote>
+<hr />
+<h1 id="sec-59">卷三：主要著作导览（按写作年份）</h1>
+<table>
+<thead>
+<tr>
+  <th>年份</th>
+  <th>书名</th>
+  <th>荣格全集卷号</th>
+  <th>一句话定位</th>
+  <th>核心贡献</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1902</td>
+  <td>《论所谓超常现象的心理学与病理学》</td>
+  <td>CW 1</td>
+  <td>博士论文，灵媒研究</td>
+  <td>早期方法论</td>
+</tr>
+<tr>
+  <td>1904-1910</td>
+  <td>《词语联想研究》</td>
+  <td>CW 2</td>
+  <td>情结理论的实验基础</td>
+  <td>词语联想测验 → 发现情结</td>
+</tr>
+<tr>
+  <td>1912</td>
+  <td>《力比多的转化与象征》</td>
+  <td>CW 5</td>
+  <td>与弗洛伊德决裂的文本</td>
+  <td>力比多≠性力；神话中的无意识象征</td>
+</tr>
+<tr>
+  <td>1913-1930</td>
+  <td>《红书》（Liber Novus）</td>
+  <td>无（独立出版）</td>
+  <td>全部后期思想的原始素材</td>
+  <td>积极想象法的源头</td>
+</tr>
+<tr>
+  <td>1921</td>
+  <td>《心理类型》</td>
+  <td>CW 6</td>
+  <td>8种功能态度的系统理论</td>
+  <td>内外倾 + 四功能</td>
+</tr>
+<tr>
+  <td>1928</td>
+  <td>《自我与无意识的关系》</td>
+  <td>CW 7</td>
+  <td>自性化理论的早期形态</td>
+  <td>人格面具→自性化的路径</td>
+</tr>
+<tr>
+  <td>1934-1954</td>
+  <td>《原型与集体无意识》</td>
+  <td>CW 9.1</td>
+  <td>核心概念群集中阐述</td>
+  <td>原型理论、母亲原型、儿童原型等</td>
+</tr>
+<tr>
+  <td>1944</td>
+  <td>《心理学与炼金术》</td>
+  <td>CW 12</td>
+  <td>炼金术即心理投射</td>
+  <td>象征的转化、对立面统一</td>
+</tr>
+<tr>
+  <td>1951</td>
+  <td>《爱翁：自性现象学研究》</td>
+  <td>CW 9.2</td>
+  <td>晚期思想高峰：自性</td>
+  <td>基督与自性、鱼的象征、历史中的自性显现</td>
+</tr>
+<tr>
+  <td>1952</td>
+  <td>《答约伯》</td>
+  <td>CW 11</td>
+  <td>荣格最受争议的&quot;神学&quot;著作</td>
+  <td>耶和华的不自觉→约伯的道德优越→道成肉身</td>
+</tr>
+<tr>
+  <td>1952</td>
+  <td>《共时性：一种非因果性关联原则》</td>
+  <td>CW 8</td>
+  <td>因果律之外的秩序原则</td>
+  <td>与泡利合作</td>
+</tr>
+<tr>
+  <td>1955-56</td>
+  <td>《神秘合体》</td>
+  <td>CW 14</td>
+  <td>移情心理学 + 炼金术炼成</td>
+  <td>治疗关系的炼金术解读</td>
+</tr>
+<tr>
+  <td>1961</td>
+  <td>《记忆·梦·反思》</td>
+  <td>独立著作</td>
+  <td>荣格的人生自述</td>
+  <td>&quot;我的一生是无意识自我实现的故事&quot;</td>
+</tr>
+<tr>
+  <td>1964</td>
+  <td>《人及其象征》</td>
+  <td>独立著作</td>
+  <td>面向大众的荣格思想总结</td>
+  <td>荣格生前最后一部著作</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="sec-60">卷四：后继学派与发展</h1>
+<h2 id="sec-61">4.1 后荣格学派的三大门户</h2>
+<p>1985年，安德鲁·萨缪尔斯（Andrew Samuels）在《荣格与后荣格学派》（<em>Jung and the Post-Jungians</em>）中提出了影响深远的分类。他将后荣格学派分为三大流派：</p>
+<h3 id="sec-62">（一）经典学派（The Classical School）</h3>
+<p><strong>代表：</strong> 苏黎世学派 — 玛丽-路易丝·冯·弗朗兹（Marie-Louise von Franz）、阿尼拉·雅费（Aniela Jaffé）、卡尔·阿尔弗雷德·迈耶（C.A. Meier）</p>
+<p><strong>核心立场：</strong> 回归荣格原文，以自性为核心组织全部理论。</p>
+<p><strong>主要贡献：</strong></p>
+<ul>
+<li><strong>冯·弗朗兹</strong>：荣格最亲密的合作者之一。她对童话的心理学解读（<em>The Interpretation of Fairy Tales</em>）是经典学派的代表作。她还深入研究了数字、时间、共时性，以及荣格关于&quot;心理客观性&quot;的概念。</li>
+<li><strong>雅费</strong>：协助荣格完成《记忆·梦·反思》，她自己关于灵异现象与荣格心理学的研究也极有影响。</li>
+</ul>
+<hr />
+<h3 id="sec-63">（二）发展学派（The Developmental School）</h3>
+<p><strong>代表：</strong> 伦敦学派 — 迈克尔·福德汉姆（Michael Fordham）</p>
+<p><strong>核心立场：</strong> 将荣格理论与客体关系理论（克莱因、温尼科特）整合，强调婴儿期发展对人格形成的重要性。</p>
+<p><strong>核心修正：</strong> 荣格认为&quot;前半生的任务是发展ego&quot;，但对ego的具体发展过程讨论不多。福德汉姆填补了这一空白，建立了&quot;自我发展的荣格模型&quot;——自我的&quot;去整合-再整合&quot;（deintegration-reintegration）过程。</p>
+<p><strong>关键概念：</strong></p>
+<ul>
+<li><strong>原初自性（primary self）</strong>：婴儿出生时就具有的初始心灵整体</li>
+<li><strong>去整合（deintegration）</strong>：原初自性&quot;打开&quot;以适应环境的过程</li>
+<li><strong>再整合（reintegration）</strong>：将经验整合回自性的过程</li>
+</ul>
+<p>福德汉姆学派认为：自性化不是中年才开始的，而是从婴儿期就进行的终身过程。</p>
+<hr />
+<h3 id="sec-64">（三）原型学派（The Archetypal School）</h3>
+<p><strong>代表：</strong> 詹姆斯·希尔曼（James Hillman）、拉斐尔·洛佩兹-佩德拉扎（Rafael López-Pedraza）</p>
+<p><strong>核心立场：</strong> 将荣格从&quot;临床治疗&quot;转向&quot;文化心理学&quot;，以意象（image）和灵魂（soul）为核心，放弃了ego发展和临床治疗的框架。</p>
+<p><strong>希尔曼的思想要点：</strong></p>
+<ol>
+<li><p><strong>&quot;灵魂制作&quot;（soul-making）</strong>：希尔曼借用济慈的诗句，将心理学重新定义为灵魂的制作工作。心理学不是疗愈，而是<strong>深化</strong>。梦不需要被&quot;解释&quot;，需要被&quot;居住在&quot;其中。</p>
+</li>
+<li><p><strong>&quot;山丘上的谷&quot;（the valley on the hill）</strong>：希尔曼将心理学的重心从自性（山顶、统一、超越）转向灵魂（谷地、破碎、抑郁）。抑郁、失败、破碎不是&quot;病&quot;，而是灵魂要求被倾听的信号。</p>
+</li>
+<li><p><strong>意象的自主性</strong>：希尔曼比荣格走得更远——意象不仅反映无意识的内容，<strong>意象本身就是心灵的活动</strong>。当我们&quot;解释&quot;一个意象时，我们杀死它。正确的方式是&quot;跟随&quot;它。</p>
+</li>
+<li><p><strong>对自性概念的批判</strong>：希尔曼认为&quot;自性&quot;的追求可能成为一种ego主义的灵性逃避——追求&quot;完整&quot;反而逃避了灵魂日常的混乱和痛苦。他更强调<strong>多神论心理</strong>——心灵不是统一体，而是众神的竞技场。</p>
+</li>
+<li><p><strong>原型心理学的实践</strong>：不是&quot;治疗&quot;病人，而是&quot;看到&quot;灵魂在病理中表达的东西——每一个症状都有一个神话。</p>
+</li>
+</ol>
+<p><strong>希尔曼与荣格的关键区别：</strong></p>
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th>荣格</th>
+  <th>希尔曼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>核心</td>
+  <td>自性（Self）</td>
+  <td>灵魂（Soul）</td>
+</tr>
+<tr>
+  <td>方向</td>
+  <td>整合→完整</td>
+  <td>深化→个体</td>
+</tr>
+<tr>
+  <td>意象的角色</td>
+  <td>通往无意识的指路牌</td>
+  <td>心灵本身的活动</td>
+</tr>
+<tr>
+  <td>病理的意义</td>
+  <td>无意识的补偿信号</td>
+  <td>灵魂自己的表达</td>
+</tr>
+<tr>
+  <td>神学隐喻</td>
+  <td>一神论（自性即神）</td>
+  <td>多神论（心灵即众神）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-65">4.2 沃尔夫冈·吉格里希（Wolfgang Giegerich）</h2>
+<p>吉格里希是当代最重要的荣格思想家之一（希尔曼说他的思想&quot;可能是现在最重要的荣格思想——也许是最一贯的荣格思想&quot;）。</p>
+<p><strong>核心贡献：</strong> 将荣格心理学<strong>彻底历史化</strong>。吉格里希认为&quot;集体无意识&quot;不是一个装满原型的仓库，而是<strong>历史本身</strong>。每一个时代的意识结构（神话→宗教→哲学→科学）就是该时代的&quot;集体无意识&quot;显形。</p>
+<hr />
+<h2 id="sec-66">4.3 荣格与当代科学的对话</h2>
+<h3 id="sec-67">神经科学与荣格</h3>
+<p>近年来，有一些研究者试图在神经科学层面验证荣格的核心概念：</p>
+<ul>
+<li><strong>Erik Goodwyn</strong>（《荣格的神经生物学》）：论证原型可以被理解为&quot;内在的神经动力模式&quot;——即大脑在进化中形成的先天认知模板。</li>
+<li><strong>Jean Knox</strong>：将原型重新诠释为&quot;意象图式&quot;（image schemas）——源自认知语言学和具身认知理论。这一进路试图将荣格的概念接地在实证认知科学中。</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：此领域仍在发展初期，验证性证据尚不充分。荣格的许多核心概念（如集体无意识、共时性）目前仍超出神经科学的方法论范围。</p>
+</blockquote>
+<h3 id="sec-68">共时性与复杂性理论</h3>
+<p>当代物理学家和系统理论家对共时性的兴趣在增长：</p>
+<ul>
+<li>复杂性理论与涌现（emergence）现象提供了非因果关联模式的数学框架</li>
+<li>但仍处于类比和推测阶段，未形成严格验证</li>
+</ul>
+<hr />
+<h2 id="sec-69">4.4 女性主义荣格批评</h2>
+<p>荣格的理论具有明显的性别本质主义倾向——阿尼玛/阿尼姆斯的二元性别框架受到了大量女性主义学者的批评：</p>
+<ul>
+<li><strong>Dempsey</strong> 和 <strong>Wehr</strong> 等学者指出：荣格在种族和性别上的某些论述反映了19世纪的文化偏见</li>
+<li><strong>发展学派</strong>的贡献者（许多是女性分析师）试图将阿尼玛/阿尼姆斯重新理解为<strong>文化建构</strong>而非生物学给定</li>
+</ul>
+<p>同时，也有一些女性主义学者发现了荣格理论中的解放潜力：原型理论可以解释父权制如何通过集体无意识的结构运行，从而提供解构的可能。</p>
+<hr />
+<h2 id="sec-70">4.5 荣格与东方思想的对话</h2>
+<p>这是与你（李帅）关系最密切的一个方向。</p>
+<h3 id="sec-71">荣格与中国</h3>
+<p>荣格对中国思想的理解主要通过卫礼贤（Richard Wilhelm）的翻译。他最倚重的中国文本：</p>
+<ol>
+<li><p><strong>《太乙金华宗旨》</strong>（The Secret of the Golden Flower）：荣格为此书写了长篇评述。他在这本道家经典中找到了&quot;自性化&quot;的东方对应——&quot;回光&quot;（turning the light around）与积极想象的对应。</p>
+</li>
+<li><p><strong>《易经》</strong>：荣格为卫礼贤的《易经》译作写序，将《易经》的运作原理与共时性联系——占卜不是因果预测，而是对当下心灵状态的共时性映射。</p>
+</li>
+<li><p><strong>道家思想的深刻影响</strong>：</p>
+<ul>
+<li>阴阳对立统一的象征与荣格的&quot;对立面统一&quot;（coniunctio oppositorum）高度对应</li>
+<li>&quot;无为&quot;（wu-wei）与&quot;让无意识自然发生&quot;的对应</li>
+<li>道家对&quot;完整性&quot;而非&quot;完美性&quot;的追求与自性化的核心</li>
+</ul>
+</li>
+</ol>
+<h3 id="sec-72">荣格与佛家</h3>
+<ul>
+<li>自性与&quot;佛性&quot;、&quot;阿特曼&quot;（Atman）在结构上相似——都是超越ego的整体性概念</li>
+<li>曼荼罗在藏传佛教中作为禅修工具，与荣格在病人绘画中发现的自性化的曼荼罗象征高度一致</li>
+<li>但荣格本人对佛教的&quot;无我&quot;（anātman）概念比较迷惑——他的&quot;自性&quot;与佛教&quot;无我&quot;之间存在根本张力，这一点在他生前没有完全解决</li>
+</ul>
+<h3 id="sec-73">关键研究者</h3>
+<ul>
+<li><strong>申荷永</strong>：中国荣格心理学的主要引入者和推进者，东方心理分析研究院创始人</li>
+<li><strong>山中康裕</strong>：日本荣格学派代表，将箱庭疗法（沙盘游戏）引入日本</li>
+</ul>
+<hr />
+<h2 id="sec-74">4.6 当代关键人物速览</h2>
+<table>
+<thead>
+<tr>
+  <th>人物</th>
+  <th>学派归属</th>
+  <th>核心贡献</th>
+  <th>代表著作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Marie-Louise von Franz</td>
+  <td>经典学派</td>
+  <td>童话解读、数字与时间原型</td>
+  <td><em>The Interpretation of Fairy Tales</em></td>
+</tr>
+<tr>
+  <td>Michael Fordham</td>
+  <td>发展学派</td>
+  <td>自我发展的荣格模型、儿童分析</td>
+  <td><em>Children as Individuals</em></td>
+</tr>
+<tr>
+  <td>James Hillman</td>
+  <td>原型学派</td>
+  <td>原型心理学、灵魂制作</td>
+  <td><em>Re-Visioning Psychology</em>, <em>The Soul's Code</em></td>
+</tr>
+<tr>
+  <td>Andrew Samuels</td>
+  <td>整合</td>
+  <td>后荣格三学派分类、政治心理学</td>
+  <td><em>Jung and the Post-Jungians</em></td>
+</tr>
+<tr>
+  <td>Wolfgang Giegerich</td>
+  <td>激进</td>
+  <td>心理学历史化、灵魂的逻辑生命</td>
+  <td><em>The Soul's Logical Life</em></td>
+</tr>
+<tr>
+  <td>Jean Knox</td>
+  <td>神经科学/发展</td>
+  <td>原型作为意象图式</td>
+  <td><em>Archetype, Attachment, Analysis</em></td>
+</tr>
+<tr>
+  <td>Sonu Shamdasani</td>
+  <td>历史研究</td>
+  <td>《红书》的编辑和荣格思想史研究</td>
+  <td><em>Jung and the Making of Modern Psychology</em></td>
+</tr>
+<tr>
+  <td>申荷永</td>
+  <td>中国文化整合</td>
+  <td>荣格心理学中国化、核心心理学</td>
+  <td>多部中英文著作</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="sec-75">卷五：荣格与创作——给你的专属模块</h1>
+<h2 id="sec-76">5.1 为什么荣格对创作者特别重要</h2>
+<p>荣格他自己是一个创作者。他作画、雕刻、建塔、写大量非学术性的文字。《红书》本身就是一部文学作品。</p>
+<p>荣格的方法——从无意识中直接提取意象——与创作过程高度重合。他证明了：</p>
+<ol>
+<li><strong>意象先于解释</strong>：创作时首先出现的不是&quot;主题&quot;或&quot;思想&quot;，而是意象、场景、人物</li>
+<li><strong>人物有自主性</strong>：你写的人物会&quot;自己说话&quot;、&quot;违背你的意图&quot;——这不是你疯了，是正常的无意识自主性</li>
+<li><strong>完成的才是真的</strong>：写在心里的不算数。必须有形式。荣格终其一生把自己的无意识材料转化为可见的形式（画、文字、石雕）。</li>
+</ol>
+<hr />
+<h2 id="sec-77">5.2 原型叙事与故事结构</h2>
+<p>原型不是&quot;故事模板&quot;——不是公式。原型是读者在无意识层面<strong>已经知道</strong>的东西。好的故事激活原型，读者认出来但说不上来为什么。</p>
+<p><strong>坎贝尔的&quot;英雄之旅&quot;就是原型叙事的一种解读。</strong> 约瑟夫·坎贝尔（Joseph Campbell）的《千面英雄》（1949）深受荣格影响，提出了跨文化的&quot;单一神话&quot;（monomyth）结构。但要注意：坎贝尔简化了荣格——荣格的原型远比&quot;英雄旅程&quot;复杂。</p>
+<p><strong>用荣格而不是坎贝尔来想故事：</strong></p>
+<ul>
+<li>不是让角色走完&quot;英雄之旅&quot;，而是让角色经历<strong>自性化</strong>过程</li>
+<li>每个主要角色都是一个<strong>心理功能的具象化</strong>（这在你的故事中已经在做了）</li>
+<li>故事的弧线 = 炼金术转化的弧线</li>
+</ul>
+<hr />
+<h2 id="sec-78">5.3 炼金术叙事弧</h2>
+<p>荣格在《心理学与炼金术》（CW 12）中详细论述了炼金术各阶段的心理对应：</p>
+<table>
+<thead>
+<tr>
+  <th>炼金术阶段</th>
+  <th>拉丁名</th>
+  <th>颜色</th>
+  <th>心理意义</th>
+  <th>叙事应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>黑化</strong></td>
+  <td>Nigredo</td>
+  <td>黑色</td>
+  <td>抑郁、解体、直面阴影</td>
+  <td>故事的最低点、角色失去一切</td>
+</tr>
+<tr>
+  <td><strong>白化</strong></td>
+  <td>Albedo</td>
+  <td>白色</td>
+  <td>净化、初步洞察、阿尼玛/阿尼姆斯整合</td>
+  <td>角色开始看见真相</td>
+</tr>
+<tr>
+  <td><strong>红化</strong></td>
+  <td>Rubedo</td>
+  <td>红色</td>
+  <td>完满结合、自性显现、生命力的回归</td>
+  <td>真正的结局——不是解决问题，是角色成为完整的人</td>
+</tr>
+</tbody>
+</table>
+<p>荣格强调这不是线性过程，而是螺旋——一个人一生可能经历多次 nigredo。</p>
+<hr />
+<h2 id="sec-79">5.4 阴影角色的构建（专门给你的）</h2>
+<p>你自己在构思&quot;阴影双生子&quot;角色（核心伤口反向）。荣格会怎么说？</p>
+<p><strong>阴影不是反派。</strong> 阴影是主角拒绝承认的自己。最好的阴影角色不是&quot;坏人&quot;，而是让主角（和读者）不得不问：&quot;他会不会也有道理？&quot;</p>
+<p>构建阴影角色的几个荣格式问题：</p>
+<ol>
+<li>这个阴影角色承载了主角<strong>拒绝承认的哪种欲望/恐惧？</strong></li>
+<li>如果换一个视角，阴影角色的行为是否也有道德正当性？</li>
+<li>主角消灭/击败阴影角色后，是否意味着主角失去了自己的一部分？</li>
+<li>阴影角色与主角的核心伤口分别是什么？它们是同一伤口的两面吗？</li>
+</ol>
+<p>荣格会说：阴影不是要消灭的敌人，是要整合的另一个自己。</p>
+<hr />
+<h2 id="sec-80">5.5 积极想象作为创作方法</h2>
+<p>荣格的&quot;积极想象&quot;与创作中的&quot;自动写作&quot;或&quot;让角色自己走&quot;高度相似。方法如下：</p>
+<ol>
+<li>清空意识（不是空白，而是放下预先设计的意图）</li>
+<li>让一个意象自然浮现（人物、场景、对话片段）</li>
+<li>和它对话，而不是分析它。问它问题，听它回答。</li>
+<li>结束后用文字或图画记录下来，事后可以分析，但<strong>过程中不分析</strong>。</li>
+</ol>
+<p>这和你在做的&quot;Se通道先触发，Ni再补画面&quot;完全一致。</p>
+<hr />
+<h1 id="sec-81">卷六：研究资源清单</h1>
+<h2 id="sec-82">6.1 中文核心书目</h2>
+<table>
+<thead>
+<tr>
+  <th>书名</th>
+  <th>作者/编者</th>
+  <th>说明</th>
+  <th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>《荣格全集》精选本</td>
+  <td>荣格</td>
+  <td>长春出版社&quot;荣格文集&quot;系列（申荷永主编），9卷</td>
+  <td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《荣格自传：记忆·梦·反思》</td>
+  <td>荣格</td>
+  <td>入门必读，荣格对自己的理解</td>
+  <td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《红书》</td>
+  <td>荣格</td>
+  <td>源头文本</td>
+  <td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《人及其象征》</td>
+  <td>荣格等</td>
+  <td>荣格生前最后一部面向大众的著作</td>
+  <td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《荣格心灵地图》</td>
+  <td>Murray Stein</td>
+  <td>最好的导论之一</td>
+  <td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《荣格心理学入门》</td>
+  <td>Frieda Fordham</td>
+  <td>经典入门</td>
+  <td>⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《分析心理学的理论与实践》</td>
+  <td>荣格</td>
+  <td>1935年塔维斯托克讲座</td>
+  <td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+  <td>《荣格与后荣格学派》</td>
+  <td>Andrew Samuels</td>
+  <td>后继学派的权威梳理</td>
+  <td>⭐⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sec-83">6.2 英文核心资源</h2>
+<table>
+<thead>
+<tr>
+  <th>资源</th>
+  <th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><em>The Collected Works of C.G. Jung</em> (CW 1-20)</td>
+  <td>普林斯顿大学出版社</td>
+</tr>
+<tr>
+  <td><em>The Red Book: Liber Novus</em> (2009)</td>
+  <td>Sonu Shamdasani 编辑版</td>
+</tr>
+<tr>
+  <td><em>The Black Books</em> (2020)</td>
+  <td>《红书》前的原始笔记</td>
+</tr>
+<tr>
+  <td><em>Jung's Map of the Soul</em> — Murray Stein</td>
+  <td>最佳导论</td>
+</tr>
+<tr>
+  <td><em>Jung and the Post-Jungians</em> — Andrew Samuels</td>
+  <td>后荣格三学派权威分类</td>
+</tr>
+<tr>
+  <td><em>Re-Visioning Psychology</em> — James Hillman</td>
+  <td>原型心理学宣言</td>
+</tr>
+<tr>
+  <td>IAAP (International Association for Analytical Psychology)</td>
+  <td>全球荣格分析心理学学会</td>
+</tr>
+<tr>
+  <td><em>Journal of Analytical Psychology</em></td>
+  <td>核心学术期刊</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sec-84">6.3 在线资源</h2>
+<ul>
+<li><strong>The Jung Page</strong> (www.cgjungpage.org) — 综合性荣格资料</li>
+<li><strong>ARAS</strong> (Archive for Research in Archetypal Symbolism, aras.org) — 原型象征档案库</li>
+<li><strong>Philemon Foundation</strong> (philemonfoundation.org) — 负责出版荣格未发表手稿，包括《红书》和《黑书》</li>
+</ul>
+<hr />
+<h1 id="sec-85">附录：与你已有的荣格阅读对照</h1>
+<p>根据你的USER.md，你已经读过的荣格相关书约12本，荣格原型与集体无意识14小时。以下是对照参考：</p>
+<table>
+<thead>
+<tr>
+  <th>你已有的</th>
+  <th>定位</th>
+  <th>还缺什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>荣格自传</td>
+  <td>入口</td>
+  <td>—</td>
+</tr>
+<tr>
+  <td>原型与集体无意识</td>
+  <td>核心</td>
+  <td>—</td>
+</tr>
+<tr>
+  <td>红书</td>
+  <td>源头</td>
+  <td>需要细读，不仅是翻过</td>
+</tr>
+<tr>
+  <td>心理类型</td>
+  <td>核心</td>
+  <td>你已经在用，但注意荣格原典 ≠ MBTI</td>
+</tr>
+<tr>
+  <td>可能缺：心理学与炼金术</td>
+  <td>核心晚期</td>
+  <td>⚠️ 强烈推荐补充</td>
+</tr>
+<tr>
+  <td>可能缺：爱翁</td>
+  <td>核心晚期</td>
+  <td>⚠️ 强烈推荐补充</td>
+</tr>
+<tr>
+  <td>可能缺：答约伯</td>
+  <td>最猛的一本</td>
+  <td>可选，挑战性阅读</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sec-86">一句话总结</h2>
+<blockquote>
+<p><strong>荣格的思想不是一套可以&quot;学到&quot;的理论——它是一个要求你在自己身上重新发生的实验。这就是为什么他说：&quot;我的一生是无意识自我实现的故事。&quot;他说的是你，也是我。</strong></p>
+</blockquote>
+<hr />
+<p><em>报告全长约15,000字。有原文出处的已标注荣格全集（CW）卷号和段落号。标记&quot;待核实&quot;的需要用原典核对。</em></p>
+</article>
+</main>
+<section id="concept" class="view">
+  <div class="concept-note">点击任意节点 → 跳转到对应章节阅读</div>
+  <svg viewBox="0 0 800 650" class="cmap" preserveAspectRatio="xMidYMid meet"><line x1="390" y1="600" x2="200" y2="480" class="cedge"/>
+<line x1="390" y1="600" x2="430" y2="480" class="cedge"/>
+<line x1="390" y1="600" x2="600" y2="490" class="cedge"/>
+<line x1="200" y1="480" x2="90" y2="370" class="cedge"/>
+<line x1="200" y1="480" x2="235" y2="360" class="cedge"/>
+<line x1="200" y1="480" x2="360" y2="370" class="cedge"/>
+<line x1="200" y1="480" x2="480" y2="360" class="cedge"/>
+<line x1="200" y1="480" x2="110" y2="235" class="cedge"/>
+<line x1="480" y1="360" x2="530" y2="235" class="cedge"/>
+<line x1="530" y1="235" x2="615" y2="150" class="cedge"/>
+<line x1="615" y1="150" x2="700" y2="80" class="cedge"/>
+<line x1="640" y1="440" x2="730" y2="290" class="cedge"/>
+<line x1="730" y1="290" x2="615" y2="150" class="cedge"/>
+<line x1="730" y1="510" x2="530" y2="235" class="cedge"/>
+<g class="cnode" data-target="sec-13"><rect x="340" y="580" width="101" height="40" rx="9" ry="9" fill="#1f3a5f"/><text x="390" y="605" fill="#fff" font-size="13">集体无意识</text></g>
+<g class="cnode" data-target="sec-18"><rect x="168" y="460" width="64" height="40" rx="9" ry="9" fill="#2f6fed"/><text x="200" y="485" fill="#fff" font-size="13">原型</text></g>
+<g class="cnode" data-target="sec-23"><rect x="398" y="460" width="64" height="40" rx="9" ry="9" fill="#2f6fed"/><text x="430" y="485" fill="#fff" font-size="13">情结</text></g>
+<g class="cnode" data-target="sec-11"><rect x="568" y="470" width="64" height="40" rx="9" ry="9" fill="#2f6fed"/><text x="600" y="495" fill="#fff" font-size="13">本能</text></g>
+<g class="cnode" data-target="sec-18"><rect x="47" y="350" width="86" height="40" rx="9" ry="9" fill="#6c5ce7"/><text x="90" y="375" fill="#fff" font-size="13">人格面具</text></g>
+<g class="cnode" data-target="sec-54"><rect x="203" y="340" width="64" height="40" rx="9" ry="9" fill="#6c5ce7"/><text x="235" y="365" fill="#fff" font-size="13">阴影</text></g>
+<g class="cnode" data-target="sec-18"><rect x="287" y="350" width="146" height="40" rx="9" ry="9" fill="#6c5ce7"/><text x="360" y="375" fill="#fff" font-size="13">阿尼玛/阿尼姆斯</text></g>
+<g class="cnode" data-target="sec-18"><rect x="37" y="215" width="146" height="40" rx="9" ry="9" fill="#6c5ce7"/><text x="110" y="240" fill="#fff" font-size="13">智慧老人/大母神</text></g>
+<g class="cnode" data-target="sec-34"><rect x="448" y="340" width="64" height="40" rx="9" ry="9" fill="#e67e22"/><text x="480" y="365" fill="#fff" font-size="13">自性</text></g>
+<g class="cnode" data-target="sec-34"><rect x="480" y="215" width="101" height="40" rx="9" ry="9" fill="#e67e22"/><text x="530" y="240" fill="#fff" font-size="13">自性化过程</text></g>
+<g class="cnode" data-target="sec-40"><rect x="572" y="130" width="86" height="40" rx="9" ry="9" fill="#e67e22"/><text x="615" y="155" fill="#fff" font-size="13">超越功能</text></g>
+<g class="cnode" data-target="sec-44"><rect x="665" y="60" width="71" height="40" rx="9" ry="9" fill="#e67e22"/><text x="700" y="85" fill="#fff" font-size="13">共时性</text></g>
+<g class="cnode" data-target="sec-49"><rect x="597" y="420" width="86" height="40" rx="9" ry="9" fill="#27965f"/><text x="640" y="445" fill="#fff" font-size="13">《红书》</text></g>
+<g class="cnode" data-target="sec-40"><rect x="687" y="270" width="86" height="40" rx="9" ry="9" fill="#27965f"/><text x="730" y="295" fill="#fff" font-size="13">积极想象</text></g>
+<g class="cnode" data-target="sec-78"><rect x="672" y="490" width="116" height="40" rx="9" ry="9" fill="#27965f"/><text x="730" y="515" fill="#fff" font-size="13">炼金术叙事弧</text></g></svg>
+</section>
+<button id="toTop" title="回到顶部">↑</button>
+<script>
+var main=document.getElementById('main');
+var side=document.getElementById('side');
+var tocLinks=[].slice.call(document.querySelectorAll('.toc-l1,.toc-l2,.toc-l3'));
+
+function flash(id){var el=document.getElementById(id);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');setTimeout(function(){el.classList.remove('flash')},1000);}
+
+// TOC click
+tocLinks.forEach(function(a){a.addEventListener('click',function(){flash(a.getAttribute('data-target'));});});
+
+// tabs
+var searchWrap=document.getElementById('searchWrap');
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+  document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active')});
+  t.classList.add('active');
+  var tab=t.getAttribute('data-tab');
+  document.getElementById(tab).classList.add('active');
+  searchWrap.classList.toggle('show',tab==='reader');
+});});
+
+// progress bar
+var progBar=document.getElementById('progBar');
+main.addEventListener('scroll',function(){var s=main.scrollTop,m=main.scrollHeight-main.clientHeight;
+  progBar.style.width=(m>0?(s/m*100):0)+'%';
+  var btn=document.getElementById('toTop');btn.style.display=s>300?'block':'none';});
+
+// active TOC via IntersectionObserver
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e){
+  if(e.isIntersecting){var id=e.target.id;tocLinks.forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('data-target')===id);});}
+});},{root:main,rootMargin:'0px 0px -70% 0px',threshold:0.01});
+document.querySelectorAll('#main h1,#main h2,#main h3').forEach(function(h){io.observe(h);});
+
+// search highlight
+var marks=[];var cur=-1;
+function clearMarks(){marks=[];cur=-1;document.querySelectorAll('#main mark').forEach(function(m){
+  var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();});}
+function doSearch(q){clearMarks();q=q.trim();if(!q){searchCount.textContent='';return;}
+  var walker=document.createTreeWalker(main,NodeFilter.SHOW_TEXT,null);var nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  var low=q.toLowerCase();var count=0;var L=q.length;
+  nodes.forEach(function(n){if(!n.parentNode||n.parentNode.nodeName==='MARK')return;
+    var s=n.textContent;if(s.toLowerCase().indexOf(low)===-1)return;
+    var frag=document.createDocumentFragment();var last=0;var idx=s.toLowerCase().indexOf(low);
+    while(idx!==-1){if(idx>last)frag.appendChild(document.createTextNode(s.slice(last,idx)));
+      var mk=document.createElement('mark');mk.textContent=s.slice(idx,idx+L);frag.appendChild(mk);count++;
+      last=idx+L;idx=s.toLowerCase().indexOf(low,last);}
+    if(last<s.length)frag.appendChild(document.createTextNode(s.slice(last)));
+    n.parentNode.replaceChild(frag,n);});
+  document.querySelectorAll('#main mark').forEach(function(m){marks.push(m);});
+  searchCount.textContent=count?('找到 '+count+' 处'):'无匹配';
+  if(marks.length){cur=0;marks[0].scrollIntoView({block:'center'});marks[0].style.background='#ffd166';}
+}
+var searchInput=document.getElementById('search');
+var searchCount=document.getElementById('searchCount');
+searchInput.addEventListener('input',function(){doSearch(this.value);});
+searchInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();
+  if(marks.length){marks[cur].style.background='';cur=(cur+1)%marks.length;
+    marks[cur].scrollIntoView({block:'center'});marks[cur].style.background='#ffd166';}}});
+
+// concept nodes
+document.querySelectorAll('.cnode').forEach(function(g){g.addEventListener('click',function(){
+  var t=g.getAttribute('data-target');
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+  document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active')});
+  document.getElementById('reader').classList.add('active');
+  document.querySelector('.tab[data-tab="reader"]').classList.add('active');
+  searchWrap.classList.add('show');
+  setTimeout(function(){flash(t);},30);
+});});
+
+// toTop
+document.getElementById('toTop').addEventListener('click',function(){main.scrollTo({top:0,behavior:'smooth'});});
+</script>
+</body>
+</html>

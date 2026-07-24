@@ -13,6 +13,56 @@
       "thumbnail": "reports/荣格思想全报告/thumbnail.svg"
     },
     {
+      "id": "叔本华哲学深度研究报告可视化",
+      "type": "html",
+      "title": "叔本华哲学深度研究报告 · 可视化",
+      "summary": "叔本华意志哲学核心概念深度可视化 — 意志与表象、悲观主义、审美救赎",
+      "tags": ["哲学", "叔本华"],
+      "date": "2026-07-24",
+      "path": "reports/叔本华哲学深度研究报告可视化.html",
+      "thumbnail": null
+    },
+    {
+      "id": "尼采思想体系深度分析可视化",
+      "type": "html",
+      "title": "尼采思想体系 · 深度分析可视化",
+      "summary": "尼采核心概念深度可视化 — 超人、权力意志、永恒轮回、上帝之死",
+      "tags": ["哲学", "尼采"],
+      "date": "2026-07-24",
+      "path": "reports/尼采思想体系_深度分析可视化.html",
+      "thumbnail": null
+    },
+    {
+      "id": "尼采思想体系研究框架可视化",
+      "type": "html",
+      "title": "尼采思想体系 · 研究框架可视化",
+      "summary": "尼采思想研究框架全景可视化",
+      "tags": ["哲学", "尼采"],
+      "date": "2026-07-24",
+      "path": "reports/尼采思想体系_研究框架可视化.html",
+      "thumbnail": null
+    },
+    {
+      "id": "康德研究可视化",
+      "type": "html",
+      "title": "康德研究 · 知识图谱可视化",
+      "summary": "康德三大批判核心概念知识图谱 — 纯粹理性/实践理性/判断力",
+      "tags": ["哲学", "康德"],
+      "date": "2026-07-24",
+      "path": "reports/康德研究可视化.html",
+      "thumbnail": null
+    },
+    {
+      "id": "诗词歌赋可视化",
+      "type": "html",
+      "title": "诗词歌赋 · 可视化",
+      "summary": "中国诗词歌赋脉络可视化",
+      "tags": ["读书"],
+      "date": "2026-07-24",
+      "path": "reports/诗词歌赋可视化.html",
+      "thumbnail": null
+    },
+    {
       "id": "星神谱系细化图",
       "type": "html",
       "title": "星神谱系细化图 · 长白山幻想记",
