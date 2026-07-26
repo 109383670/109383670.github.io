@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>科学发现的逻辑 · 阅读笔记</title>
+<style>
+  :root {
+    --paper: #f5efe0;
+    --paper-dark: #ebe2cd;
+    --ink: #2c2416;
+    --ink-light: #5c4d3a;
+    --red: #b71c1c;
+    --red-light: #d32f2f;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --green: #2e7d32;
+    --blue: #1565c0;
+    --purple: #6a1b9a;
+    --teal: #00695c;
+    --line: #d4c5a9;
+    --shadow: 0 2px 16px rgba(44,36,22,.08);
+    --shadow-lg: 0 8px 40px rgba(44,36,22,.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", "Georgia", "Times New Roman", serif;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(21,101,192,.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 90%, rgba(183,28,28,.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(184,134,11,.04) 0%, transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  /* ===== 书签色带 ===== */
+  .ribbon {
+    position: relative;
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 30%, #1976d2 60%, #0d47a1 100%);
+    color: #fff;
+    text-align: center;
+    padding: 28px 20px 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(13,71,161,.25);
+  }
+  .ribbon::before {
+    content: '';
+    position: absolute;
+    top: -30px; left: -30px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,.06);
+    border-radius: 50%;
+  }
+  .ribbon::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .ribbon .atom {
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 6px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+  }
+  .ribbon h1 {
+    font-size: clamp(1.4rem, 5vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-shadow: 0 2px 4px rgba(0,0,0,.15);
+  }
+  .ribbon .sub {
+    font-size: .82rem;
+    opacity: .85;
+    margin-top: 4px;
+    letter-spacing: 3px;
+    font-style: italic;
+  }
+  .ribbon .orig {
+    font-size: .72rem;
+    opacity: .65;
+    margin-top: 2px;
+    letter-spacing: 1px;
+  }
+  .ribbon .tear {
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 12px;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--paper) 0px,
+      var(--paper) 8px,
+      #1565c0 8px,
+      #1565c0 16px
+    );
+    opacity: .5;
+  }
+
+  /* ===== 容器 ===== */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 24px 18px 60px;
+  }
+
+  /* ===== 章节标题 ===== */
+  .sec-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0d47a1;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--line);
+  }
+  .sec-title .icon { font-size: 1.3rem; }
+  .sec-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ===== 纸感卡片 ===== */
+  .card {
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1565c0, var(--gold), #1565c0);
+    border-radius: 8px 8px 0 0;
+    opacity: .7;
+  }
+
+  /* ===== 信息网格 ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .info-item {
+    text-align: center;
+    padding: 10px 8px;
+    background: rgba(255,253,245,.6);
+    border-radius: 6px;
+    border: 1px dashed var(--line);
+  }
+  .info-item .label {
+    font-size: .7rem;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+  }
+  .info-item .value {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #0d47a1;
+  }
+  .info-item .value.gold { color: var(--gold); }
+  .info-item .value.green { color: var(--green); }
+  .info-item .value.teal { color: var(--teal); }
+
+  .summary-box {
+    background: linear-gradient(135deg, #e3f2fd, #e8f0fe);
+    border-left: 4px solid #1565c0;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: .92rem;
+    line-height: 1.9;
+  }
+  .summary-box .tag-row {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+  .tag.red { background: #fdecea; color: var(--red); }
+  .tag.blue { background: #d1ecf1; color: #0c5460; }
+  .tag.gold { background: #fff3cd; color: #856404; }
+  .tag.green { background: #d4edda; color: var(--green); }
+  .tag.purple { background: #e8d5f5; color: var(--purple); }
+  .tag.teal { background: #e0f2f1; color: var(--teal); }
+
+  /* ===== 评分 ===== */
+  .rating {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+  .rating .star {
+    font-size: 1.2rem;
+    color: var(--gold);
+    filter: drop-shadow(0 1px 2px rgba(184,134,11,.2));
+  }
+
+  /* ===== 垂直时间线 ===== */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #1565c0, var(--gold), var(--teal), #6a1b9a, #1565c0);
+    border-radius: 1px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .tl-item:hover {
+    transform: translateX(3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .tl-item::before {
+    content: attr(data-num);
+    position: absolute;
+    left: -38px;
+    top: 14px;
+    width: 28px;
+    height: 28px;
+    background: #1565c0;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .72rem;
+    font-weight: 700;
+    font-family: "Georgia", serif;
+    box-shadow: 0 2px 8px rgba(21,101,192,.3);
+    z-index: 1;
+  }
+  .tl-item .tl-title {
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .tl-item .tl-desc {
+    font-size: .82rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .tl-item .tl-tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  /* ===== 金句摘抄 ===== */
+  .quote-card {
+    position: relative;
+    background: linear-gradient(135deg, #fffdf5, #fffaef);
+    border-left: 4px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 18px 16px 22px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .quote-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), transparent);
+  }
+  .quote-card .quote-text {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.9;
+    color: var(--ink);
+    padding-left: 12px;
+    border-left: 3px solid rgba(183,28,28,.15);
+    margin-left: 8px;
+  }
+  .quote-card .quote-meta {
+    margin-top: 10px;
+    font-size: .75rem;
+    color: var(--ink-light);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .quote-card .quote-meta .ch {
+    background: #1565c0;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: .7rem;
+    letter-spacing: .5px;
+  }
+  .quote-card .quote-meta .cat {
+    background: var(--paper-dark);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: .7rem;
+  }
+  .quote-card .red-bookmark {
+    position: absolute;
+    top: 12px; right: 16px;
+    width: 14px; height: 22px;
+    background: var(--red);
+    border-radius: 2px;
+    opacity: .3;
+    transform: rotate(-8deg);
+  }
+
+  /* ===== 知识点卡片 ===== */
+  .knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .know-card {
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .know-card .dot-bg {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 80px;
+    height: 80px;
+    background-image: radial-gradient(circle, var(--line) 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: .5;
+  }
+  .know-card .know-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .know-card h4 {
+    font-size: .92rem;
+    font-weight: 700;
+    color: #0d47a1;
+    margin-bottom: 6px;
+  }
+  .know-card p {
+    font-size: .82rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .know-card .know-tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* ===== 行动启发 ===== */
+  .action-card {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .action-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--green);
+  }
+  .action-card .action-num {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--green);
+    opacity: .25;
+    position: absolute;
+    top: 4px;
+    right: 12px;
+    font-family: "Georgia", serif;
+  }
+  .action-card h4 {
+    font-size: .92rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 4px;
+  }
+  .action-card p {
+    font-size: .82rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .action-card .src {
+    margin-top: 6px;
+    font-size: .72rem;
+    color: var(--green);
+    font-style: italic;
+  }
+
+  /* ===== 适合谁读 ===== */
+  .reader-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .reader-card {
+    text-align: center;
+    padding: 18px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    box-shadow: var(--shadow);
+    transition: transform .2s;
+  }
+  .reader-card:hover { transform: translateY(-3px); }
+  .reader-card .reader-icon { font-size: 2rem; margin-bottom: 6px; }
+  .reader-card h4 { font-size: .88rem; color: #0d47a1; margin-bottom: 4px; }
+  .reader-card p { font-size: .75rem; color: var(--ink-light); line-height: 1.6; }
+
+  /* ===== 页脚 ===== */
+  .footer {
+    text-align: center;
+    padding: 30px 16px;
+    font-size: .72rem;
+    color: var(--ink-light);
+    border-top: 1px dashed var(--line);
+    margin-top: 40px;
+    line-height: 2;
+  }
+  .footer .stamp {
+    display: inline-block;
+    border: 2px solid #1565c0;
+    color: #1565c0;
+    padding: 4px 16px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    transform: rotate(-3deg);
+    opacity: .6;
+    margin: 8px 0;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 480px) {
+    .container { padding: 16px 12px 40px; }
+    .card { padding: 14px 12px; }
+    .ribbon { padding: 20px 12px 18px; }
+    .ribbon h1 { font-size: 1.2rem; letter-spacing: 3px; }
+    .ribbon .sub { font-size: .72rem; }
+    .ribbon .orig { font-size: .65rem; }
+    .timeline { padding-left: 24px; }
+    .timeline::before { left: 10px; }
+    .tl-item::before { left: -30px; width: 22px; height: 22px; font-size: .62rem; }
+    .tl-item { padding: 10px 12px; }
+    .quote-card { padding: 12px 14px 12px 16px; }
+    .quote-card .quote-text { font-size: .9rem; }
+    .knowledge-grid { grid-template-columns: 1fr; }
+    .reader-grid { grid-template-columns: 1fr 1fr; }
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .sec-title { font-size: 1rem; }
+  }
+  @media (min-width: 481px) and (max-width: 768px) {
+    .container { padding: 20px 16px 50px; }
+    .knowledge-grid { grid-template-columns: repeat(2, 1fr); }
+    .reader-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 769px) {
+    .knowledge-grid { grid-template-columns: repeat(3, 1fr); }
+    .reader-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .ribbon { background: #1565c0 !important; -webkit-print-color-adjust: exact; }
+    .card, .tl-item, .quote-card, .action-card, .reader-card, .know-card {
+      box-shadow: none;
+      border: 1px solid #ccc;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 书签色带封面 ===== -->
+<div class="ribbon">
+  <div class="atom">⚛️</div>
+  <h1>科学发现的逻辑</h1>
+  <div class="sub">The Logic of Scientific Discovery</div>
+  <div class="orig">Logik der Forschung · 1934</div>
+  <div class="tear"></div>
+</div>
+
+<div class="container">
+
+<!-- ===== 一、内容简介 ===== -->
+<div class="sec-title"><span class="icon">📖</span> 一 · 内容简介</div>
+<div class="card">
+  <div class="info-grid">
+    <div class="info-item">
+      <div class="label">作者</div>
+      <div class="value">卡尔·波普尔</div>
+    </div>
+    <div class="info-item">
+      <div class="label">原版</div>
+      <div class="value teal">德文 1934</div>
+    </div>
+    <div class="info-item">
+      <div class="label">英译版</div>
+      <div class="value gold">1959 年</div>
+    </div>
+    <div class="info-item">
+      <div class="label">体裁</div>
+      <div class="value blue">科学哲学 · 认识论</div>
+    </div>
+    <div class="info-item">
+      <div class="label">核心贡献</div>
+      <div class="value">证伪主义</div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <strong>📚 中心思想：</strong>科学理论永远不能被最终证实，只能被证伪。一个理论的科学性标准在于其<strong>可证伪性</strong>——即逻辑上有可能被经验观察所驳倒。波普尔以"猜想与反驳"取代传统的"归纳—证实"模式，将科学理解为通过<strong>大胆假说、严格检验、不断淘汰错误</strong>而逼近真理的动态过程。
+    <div class="tag-row">
+      <span class="tag blue">证伪主义</span>
+      <span class="tag gold">科学哲学</span>
+      <span class="tag teal">认识论</span>
+      <span class="tag purple">批判理性主义</span>
+      <span class="tag green">方法论</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:12px;">
+    <div class="rating">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+    </div>
+    <div style="font-size:.78rem;color:var(--ink-light);margin-top:4px;">综合评分：<strong style="color:#0d47a1;">9.6 / 10</strong></div>
+  </div>
+
+  <div style="text-align:center;margin-top:10px;font-size:.88rem;line-height:1.8;">
+    <strong>💡 一句话全书核心概括：</strong><br>
+    <span style="color:#0d47a1;font-weight:700;">"科学的本质不在于证实，而在于证伪——可证伪性才是科学与非科学的分水岭。"</span>
+  </div>
+</div>
+
+<!-- ===== 二、章节脉络 ===== -->
+<div class="sec-title"><span class="icon">📑</span> 二 · 章节脉络（核心论题纵览）</div>
+<div class="card">
+  <div class="timeline">
+    <div class="tl-item" data-num="1">
+      <div class="tl-title">对归纳逻辑的批判</div>
+      <div class="tl-desc">传统经验主义认为科学知识通过归纳积累获得——观察越多，理论越可靠。波普尔指出：无论观察到多少只白天鹅，都不能逻辑地推导出"所有天鹅都是白的"；但只要发现一只黑天鹅，就足以推翻这个全称命题。归纳法在逻辑上根本不成立。</div>
+      <div class="tl-tags"><span class="tag gold">归纳问题</span><span class="tag blue">休谟难题</span></div>
+    </div>
+    <div class="tl-item" data-num="2">
+      <div class="tl-title">可证伪性原则</div>
+      <div class="tl-desc">一个理论是科学的，当且仅当它在逻辑上有可能被经验事实所证伪。占星术、弗洛伊德精神分析、阿德勒心理学之所以不是科学，不是因为它们"错了"，而是因为它们太灵活——任何事都能被解释为支持该理论，永远不可被驳倒。</div>
+      <div class="tl-tags"><span class="tag blue">划界标准</span><span class="tag gold">可证伪性</span></div>
+    </div>
+    <div class="tl-item" data-num="3">
+      <div class="tl-title">假说—演绎法</div>
+      <div class="tl-desc">科学不是从观察开始，而是从问题和大胆猜想开始。科学家提出假说（演绎），从中推导出可被检验的预测，然后设计实验试图"反驳"它。通过的假说暂时被接受，未通过的被淘汰。科学是"猜想与反驳"的循环。</div>
+      <div class="tl-tags"><span class="tag teal">猜想</span><span class="tag gold">反驳</span></div>
+    </div>
+    <div class="tl-item" data-num="4">
+      <div class="tl-title">理论先于观察</div>
+      <div class="tl-desc">观察总是"负载理论"的——我们不是被动记录感官数据，而是带着问题、概念框架和预期去感知世界。纯粹中性的观察语言并不存在。科学始于问题，而非始于观察。</div>
+      <div class="tl-tags"><span class="tag blue">理论负载</span><span class="tag gold">观察渗透理论</span></div>
+    </div>
+    <div class="tl-item" data-num="5">
+      <div class="tl-title">确证度与逼真度</div>
+      <div class="tl-desc">科学理论不能被"证实"，但可以被"确证"——即经受住严峻检验而未被证伪。波普尔提出"逼真度"概念：理论即使为假，也可能比旧理论更接近真理。科学的目标是获得内容更丰富、逼真度更高的假说。</div>
+      <div class="tl-tags"><span class="tag gold">逼真度</span><span class="tag teal">确证度</span></div>
+    </div>
+    <div class="tl-item" data-num="6">
+      <div class="tl-title">试错法</div>
+      <div class="tl-desc">科学进步的核心机制是"试错"（trial and error elimination）：提出问题 → 尝试性假说 → 消除错误 → 新问题。这不仅是科学的方法，也是生物进化和一切理性思维的基本模式。</div>
+      <div class="tl-tags"><span class="tag green">试错</span><span class="tag gold">方法论</span></div>
+    </div>
+    <div class="tl-item" data-num="7">
+      <div class="tl-title">三个世界理论</div>
+      <div class="tl-desc">波普尔提出存在三个相互作用的"世界"：世界一（物理客体）、世界二（主观意识）、世界三（客观知识——理论、问题、论证的自主世界）。世界三一旦产生，就具有自主性，可以成为被发现的对象。</div>
+      <div class="tl-tags"><span class="tag purple">三个世界</span><span class="tag blue">客观知识</span></div>
+    </div>
+    <div class="tl-item" data-num="8">
+      <div class="tl-title">批判理性主义</div>
+      <div class="tl-desc">理性不在于"拥有真理"，而在于"愿意接受批判"。波普尔主张用"批判讨论"取代"信仰之争"——任何理论，包括自己深信的理论，都应接受最严厉的批判。宽容异见是理性社会的基石。</div>
+      <div class="tl-tags"><span class="tag teal">批判</span><span class="tag gold">理性</span><span class="tag blue">宽容</span></div>
+    </div>
+    <div class="tl-item" data-num="9">
+      <div class="tl-title">知识的增长</div>
+      <div class="tl-desc">知识增长不是积累式的，而是革命式的——旧理论被更好的理论取代。新理论必须：①解释旧理论能解释的一切；②解释旧理论不能解释的某些事；③在额外内容上经受住检验。科学在不断"推翻—重建"中前进。</div>
+      <div class="tl-tags"><span class="tag gold">知识增长</span><span class="tag teal">科学革命</span></div>
+    </div>
+    <div class="tl-item" data-num="10">
+      <div class="tl-title">开放社会及其敌人</div>
+      <div class="tl-desc">波普尔将证伪主义延伸到政治哲学：封闭社会以"历史决定论"为基础，声称掌握历史规律；开放社会承认人类理性的有限性，主张通过渐进式社会工程和批判讨论来改善社会。极权主义的根源在于"知识的傲慢"。</div>
+      <div class="tl-tags"><span class="tag purple">开放社会</span><span class="tag gold">渐进工程</span><span class="tag blue">反极权</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 三、金句摘抄 ===== -->
+<div class="sec-title"><span class="icon">✍️</span> 三 · 金句摘抄（精选10条）</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"科学理论永远不能被最终证实，只能被证伪。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 2 章</span>
+    <span class="tag blue">可证伪性</span>
+    <span class="cat">全书核心命题</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"无论我们观察到多少只白天鹅，都不能证明'所有天鹅都是白的'；但只要发现一只黑天鹅，就足以推翻这个命题。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 1 章</span>
+    <span class="tag gold">归纳批判</span>
+    <span class="cat">黑天鹅悖论</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"理论先于观察。观察总是被理论所渗透。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 4 章</span>
+    <span class="tag teal">理论负载</span>
+    <span class="cat">认识论</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"科学始于问题，而非始于观察。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 4 章</span>
+    <span class="tag gold">科学起点</span>
+    <span class="cat">方法论</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"科学的本质不在于证实，而在于证伪。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 2 章</span>
+    <span class="tag blue">划界标准</span>
+    <span class="cat">全书精髓</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"猜想与反驳——这是科学进步的永恒节奏。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 3 章</span>
+    <span class="tag teal">猜想与反驳</span>
+    <span class="cat">科学动力学</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"一个理论如果什么都能解释，那它就什么也没有解释。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 2 章</span>
+    <span class="tag gold">解释力</span>
+    <span class="cat">对精神分析的批判</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"理性不在于拥有真理，而在于愿意接受批判。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 8 章</span>
+    <span class="tag teal">批判理性主义</span>
+    <span class="cat">理性定义</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"那些声称掌握历史规律的人，往往是开放社会最大的敌人。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 10 章</span>
+    <span class="tag purple">历史决定论</span>
+    <span class="cat">政治哲学</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"无知不是我们知识的障碍；自以为知才是。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 8 章</span>
+    <span class="tag gold">苏格拉底式无知</span>
+    <span class="cat">认识论谦逊</span>
+  </div>
+</div>
+
+<!-- ===== 四、核心知识 ===== -->
+<div class="sec-title"><span class="icon">💡</span> 四 · 核心知识体系</div>
+<div class="card">
+  <div class="knowledge-grid">
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🔺</div>
+      <h4>证伪主义</h4>
+      <p>科学理论的核心特征不是可证实性，而是<strong>可证伪性</strong>。一个理论如果逻辑上不可能被任何经验事实所驳倒，那它就不是科学。科学进步依赖于不断提出可证伪的假说，并通过严格检验淘汰错误。</p>
+      <div class="know-tags"><span class="tag blue">可证伪性</span><span class="tag gold">划界标准</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🔄</div>
+      <h4>归纳谬误</h4>
+      <p>从有限观察中归纳出普遍规律在逻辑上无效。再多的正面证据也不能证明一个全称命题，而一条反例就足以推翻它。科学不应追求"证实"，而应追求"证伪"——主动寻找反例。</p>
+      <div class="know-tags"><span class="tag gold">归纳问题</span><span class="tag blue">休谟</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🔬</div>
+      <h4>猜想与反驳</h4>
+      <p>科学四步法：①发现问题 → ②提出大胆猜想（假说）→ ③推导可检验的预测 → ④试图证伪。通过的假说暂时保留，未通过的被修正或抛弃。科学是"试错—淘汰"的动态过程。</p>
+      <div class="know-tags"><span class="tag teal">假说—演绎</span><span class="tag gold">方法论</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🧭</div>
+      <h4>理论负载</h4>
+      <p>观察不是中性的。我们总是带着已有的概念框架、问题和预期去感知世界。"纯粹的观察"是一个神话。科学始于问题，而非始于对感官数据的被动收集。</p>
+      <div class="know-tags"><span class="tag blue">观察渗透理论</span><span class="tag gold">认识论</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">⚠️</div>
+      <h4>思维误区</h4>
+      <p><strong>归纳迷信：</strong>以为证据积累等于真理逼近。<br><strong>证实偏见：</strong>只寻找支持自己观点的证据，忽略反例。<br><strong>不可证伪理论：</strong>什么都能解释的理论，实则什么都没解释。<br><strong>知识的傲慢：</strong>声称掌握了确定真理，拒绝接受批判。</p>
+      <div class="know-tags"><span class="tag red">证实偏见</span><span class="tag gold">知识傲慢</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">👥</div>
+      <h4>人性规律</h4>
+      <p>人天生倾向于确认而非证伪自己的信念（证实偏见）。理性思维是反人性的——它要求我们主动寻找反驳自己的证据。开放社会的建立，依赖于克服这种认知本能，培养"批判讨论"的文化。</p>
+      <div class="know-tags"><span class="tag teal">证实偏见</span><span class="tag blue">批判理性</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">📐</div>
+      <h4>逼真度理论</h4>
+      <p>理论即使为假，也可能比旧理论"更接近真理"。逼真度 = 已验证的真内容 + 尚未验证的新内容 − 已证伪的假内容。科学的目标不是获得绝对真理，而是不断提高逼真度。</p>
+      <div class="know-tags"><span class="tag gold">逼真度</span><span class="tag teal">真理观</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🌐</div>
+      <h4>三个世界</h4>
+      <p>世界一（物理）、世界二（心理）、世界三（客观知识）相互影响。世界三是自主的理论世界——一旦被创造出来，就有自己的问题和发展逻辑，可以独立于创造者被发现。</p>
+      <div class="know-tags"><span class="tag purple">三个世界</span><span class="tag blue">客观知识</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🏛️</div>
+      <h4>渐进社会工程</h4>
+      <p>反对"乌托邦社会工程"——试图通过暴力彻底重建社会。主张零碎的、试错的、可逆的社会改良：识别具体问题，提出小规模改革方案，试点检验，逐步推广。这是证伪主义在政治领域的应用。</p>
+      <div class="know-tags"><span class="tag purple">渐进工程</span><span class="tag gold">政治哲学</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 五、行动启发 ===== -->
+<div class="sec-title"><span class="icon">🚀</span> 五 · 行动启发（日常可落地）</div>
+
+<div class="action-card">
+  <div class="action-num">01</div>
+  <h4>🔍 主动寻找反例：练习"证伪思维"</h4>
+  <p>每当你形成了一个观点，不要只寻找支持它的证据——这是人性本能。刻意反过来：问自己"什么证据能证明我是错的？"找不到反例的观点，才值得坚持。</p>
+  <div class="src">📖 出处：第 1-2 章 — "归纳法的谬误"与"可证伪性原则"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">02</div>
+  <h4>📋 假说决策法：用"猜想—检验"代替"拍脑袋"</h4>
+  <p>做重要决定前（换工作、投资、人生选择），先写下你的"假说"——"我认为这样做会带来 X 结果"，然后列出什么条件下你会承认这个假说被证伪。提前设定退出条件，避免沉没成本陷阱。</p>
+  <div class="src">📖 出处：第 3 章 — "猜想与反驳"四步法</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">03</div>
+  <h4>🗣️ 组织批判讨论：建立"异见友好"环境</h4>
+  <p>在团队或家庭中，主动邀请反对意见："有没有人能找到这个方案的问题？"对提出批评的人表示感谢而非防卫。理性不在于你有多正确，而在于你多愿意被证伪。</p>
+  <div class="src">📖 出处：第 8 章 — "批判理性主义"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">04</div>
+  <h4>🧪 小步试错：用"渐进工程"替代"大跃进"</h4>
+  <p>改变习惯或推动项目时，不要追求一步到位。设计小规模实验（比如"先试一周"），快速验证效果，保留有效的，淘汰无效的。让数据说话，而非让信念主导。</p>
+  <div class="src">📖 出处：第 10 章 — "渐进社会工程"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">05</div>
+  <h4>📝 记录"错误日志"：把失败转化为知识</h4>
+  <p>每次犯错后，写下：我当时假设了什么？这个假设如何被证伪？下次如何更早发现？错误不是耻辱，而是知识增长的原材料。波普尔说："我们从错误中学习。"</p>
+  <div class="src">📖 出处：第 6 章 — "试错法"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">06</div>
+  <h4>⚖️ 警惕"不可证伪"：识别空洞理论</h4>
+  <p>当有人说"这个观点怎么都对"时，保持警惕。真正有价值的理论应该有明确边界——说清楚什么情况下它不成立。无法被证明错误的理论，往往也什么都解释不了。</p>
+  <div class="src">📖 出处：第 2 章 — "对精神分析的批判"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">07</div>
+  <h4>🎯 问题驱动：用"问题"而非"信息"开启思考</h4>
+  <p>不要盲目积累知识——先有问题，再有针对性地寻找答案。每天写下一个你真正想知道的问题，然后去寻找能反驳或支持它的证据。问题比答案更能驱动深度思考。</p>
+  <div class="src">📖 出处：第 4 章 — "科学始于问题"</div>
+</div>
+
+<!-- ===== 六、适合谁读 ===== -->
+<div class="sec-title"><span class="icon">🎯</span> 六 · 适合谁读</div>
+<div class="card">
+  <div class="reader-grid">
+    <div class="reader-card">
+      <div class="reader-icon">🔬</div>
+      <h4>科研工作者</h4>
+      <p>理解科学方法的本质，学会设计可证伪的实验，避免陷入"证实陷阱"</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">💡</div>
+      <h4>产品经理 / 创业者</h4>
+      <p>用"猜想—验证"方法论做产品决策，快速试错迭代，避免自嗨式创新</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">📊</div>
+      <h4>数据分析师</h4>
+      <p>警惕相关性≠因果性，主动寻找反例，避免用数据"证实"自己的预设</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🎓</div>
+      <h4>哲学 / 科学史爱好者</h4>
+      <p>理解20世纪最重要的科学哲学思想，认识科学革命背后的方法论变革</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">👨‍💼</div>
+      <h4>管理者 / 决策者</h4>
+      <p>培养批判性思维，建立"容错"组织文化，避免群体思维和确认偏见</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">💻</div>
+      <h4>程序员 / 工程师</h4>
+      <p>将"证伪"思维用于调试和测试——主动寻找代码的边界条件和失败模式</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">📰</div>
+      <h4>媒体从业者</h4>
+      <p>学会区分科学报道与伪科学宣传，识别"不可证伪"的虚假科学声明</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🌍</div>
+      <h4>公民社会参与者</h4>
+      <p>理解开放社会的哲学基础，培养理性讨论能力，抵御极端主义和意识形态操控</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页脚 ===== -->
+<div class="footer">
+  <div class="stamp">阅 读 笔 记</div>
+  <p>📖 科学发现的逻辑 · 阅读笔记</p>
+  <p>卡尔·波普尔 | The Logic of Scientific Discovery | Logik der Forschung</p>
+  <p style="margin-top:12px;font-size:.68rem;color:#bbb;">— END —</p>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>毛泽东语录 · 阅读笔记</title>
+<style>
+  :root {
+    --paper: #f5efe0;
+    --paper-dark: #ebe2cd;
+    --ink: #2c2416;
+    --ink-light: #5c4d3a;
+    --red: #b71c1c;
+    --red-light: #d32f2f;
+    --red-pale: #f8d7da;
+    --gold: #b8860b;
+    --gold-light: #d4a843;
+    --green: #2e7d32;
+    --blue: #1565c0;
+    --purple: #6a1b9a;
+    --bookmark: #c62828;
+    --line: #d4c5a9;
+    --shadow: 0 2px 16px rgba(44,36,22,.08);
+    --shadow-lg: 0 8px 40px rgba(44,36,22,.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", "Georgia", "Times New Roman", serif;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(184,134,11,.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(183,28,28,.05) 0%, transparent 50%),
+      var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  /* ===== 书签色带 ===== */
+  .ribbon {
+    position: relative;
+    background: linear-gradient(135deg, #b71c1c 0%, #c62828 30%, #d32f2f 60%, #b71c1c 100%);
+    color: #fff;
+    text-align: center;
+    padding: 28px 20px 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(183,28,28,.25);
+  }
+  .ribbon::before {
+    content: '';
+    position: absolute;
+    top: -30px; left: -30px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,.06);
+    border-radius: 50%;
+  }
+  .ribbon::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .ribbon .red-star {
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+  }
+  .ribbon h1 {
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,.15);
+  }
+  .ribbon .sub {
+    font-size: .85rem;
+    opacity: .85;
+    margin-top: 4px;
+    letter-spacing: 3px;
+  }
+  .ribbon .tear {
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 12px;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--paper) 0px,
+      var(--paper) 8px,
+      #c62828 8px,
+      #c62828 16px
+    );
+    opacity: .5;
+  }
+
+  /* ===== 容器 ===== */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 24px 18px 60px;
+  }
+
+  /* ===== 章节标题 ===== */
+  .sec-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--red);
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--line);
+  }
+  .sec-title .icon { font-size: 1.3rem; }
+  .sec-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ===== 纸感卡片 ===== */
+  .card {
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+    border-radius: 8px 8px 0 0;
+    opacity: .7;
+  }
+
+  /* ===== 信息网格 ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .info-item {
+    text-align: center;
+    padding: 10px 8px;
+    background: rgba(255,253,245,.6);
+    border-radius: 6px;
+    border: 1px dashed var(--line);
+  }
+  .info-item .label {
+    font-size: .7rem;
+    color: var(--ink-light);
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+  }
+  .info-item .value {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .info-item .value.gold { color: var(--gold); }
+  .info-item .value.green { color: var(--green); }
+  .info-item .value.blue { color: var(--blue); }
+
+  .summary-box {
+    background: linear-gradient(135deg, #fff8e1, #fff3d6);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: .92rem;
+    line-height: 1.9;
+  }
+  .summary-box .tag-row {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+  .tag.red { background: #fdecea; color: var(--red); }
+  .tag.gold { background: #fff3cd; color: #856404; }
+  .tag.green { background: #d4edda; color: var(--green); }
+  .tag.blue { background: #d1ecf1; color: #0c5460; }
+  .tag.purple { background: #e8d5f5; color: var(--purple); }
+
+  /* ===== 评分 ===== */
+  .rating {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .rating .star {
+    font-size: 1.2rem;
+    color: var(--gold);
+    filter: drop-shadow(0 1px 2px rgba(184,134,11,.2));
+  }
+
+  /* ===== 垂直时间线 ===== */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--red), var(--gold), var(--green), var(--blue), var(--red));
+    border-radius: 1px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .tl-item:hover {
+    transform: translateX(3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .tl-item::before {
+    content: attr(data-num);
+    position: absolute;
+    left: -38px;
+    top: 14px;
+    width: 28px;
+    height: 28px;
+    background: var(--red);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .72rem;
+    font-weight: 700;
+    font-family: "Georgia", serif;
+    box-shadow: 0 2px 8px rgba(183,28,28,.3);
+    z-index: 1;
+  }
+  .tl-item .tl-title {
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .tl-item .tl-desc {
+    font-size: .82rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .tl-item .tl-tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  /* ===== 金句摘抄 ===== */
+  .quote-card {
+    position: relative;
+    background: linear-gradient(135deg, #fffdf5, #fffaef);
+    border-left: 4px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 18px 16px 22px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .quote-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), transparent);
+  }
+  .quote-card .quote-text {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.9;
+    color: var(--ink);
+    padding-left: 12px;
+    border-left: 3px solid rgba(183,28,28,.15);
+    margin-left: 8px;
+  }
+  .quote-card .quote-meta {
+    margin-top: 10px;
+    font-size: .75rem;
+    color: var(--ink-light);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .quote-card .quote-meta .ch {
+    background: var(--red);
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: .7rem;
+    letter-spacing: .5px;
+  }
+  .quote-card .quote-meta .cat {
+    background: var(--paper-dark);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: .7rem;
+  }
+  .quote-card .red-bookmark {
+    position: absolute;
+    top: 12px; right: 16px;
+    width: 14px; height: 22px;
+    background: var(--red);
+    border-radius: 2px;
+    opacity: .3;
+    transform: rotate(-8deg);
+  }
+
+  /* ===== 知识点卡片 ===== */
+  .knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .know-card {
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .know-card .dot-bg {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 80px;
+    height: 80px;
+    background-image: radial-gradient(circle, var(--line) 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: .5;
+  }
+  .know-card .know-icon {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+  .know-card h4 {
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .know-card p {
+    font-size: .82rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .know-card .know-tags {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* ===== 行动启发 ===== */
+  .action-card {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .action-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--green);
+  }
+  .action-card .action-num {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--green);
+    opacity: .25;
+    position: absolute;
+    top: 4px;
+    right: 12px;
+    font-family: "Georgia", serif;
+  }
+  .action-card h4 {
+    font-size: .92rem;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 4px;
+  }
+  .action-card p {
+    font-size: .82rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+  .action-card .src {
+    margin-top: 6px;
+    font-size: .72rem;
+    color: var(--green);
+    font-style: italic;
+  }
+
+  /* ===== 适合谁读 ===== */
+  .reader-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .reader-card {
+    text-align: center;
+    padding: 18px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, #fffdf5, #faf3e0);
+    box-shadow: var(--shadow);
+    transition: transform .2s;
+  }
+  .reader-card:hover { transform: translateY(-3px); }
+  .reader-card .reader-icon { font-size: 2rem; margin-bottom: 6px; }
+  .reader-card h4 { font-size: .88rem; color: var(--red); margin-bottom: 4px; }
+  .reader-card p { font-size: .75rem; color: var(--ink-light); line-height: 1.6; }
+
+  /* ===== 页脚 ===== */
+  .footer {
+    text-align: center;
+    padding: 30px 16px;
+    font-size: .72rem;
+    color: var(--ink-light);
+    border-top: 1px dashed var(--line);
+    margin-top: 40px;
+    line-height: 2;
+  }
+  .footer .stamp {
+    display: inline-block;
+    border: 2px solid var(--red);
+    color: var(--red);
+    padding: 4px 16px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    transform: rotate(-3deg);
+    opacity: .6;
+    margin: 8px 0;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 480px) {
+    .container { padding: 16px 12px 40px; }
+    .card { padding: 14px 12px; }
+    .ribbon { padding: 20px 12px 18px; }
+    .ribbon h1 { font-size: 1.3rem; letter-spacing: 3px; }
+    .ribbon .sub { font-size: .72rem; }
+    .timeline { padding-left: 24px; }
+    .timeline::before { left: 10px; }
+    .tl-item::before { left: -30px; width: 22px; height: 22px; font-size: .62rem; }
+    .tl-item { padding: 10px 12px; }
+    .quote-card { padding: 12px 14px 12px 16px; }
+    .quote-card .quote-text { font-size: .9rem; }
+    .knowledge-grid { grid-template-columns: 1fr; }
+    .reader-grid { grid-template-columns: 1fr 1fr; }
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+    .sec-title { font-size: 1rem; }
+  }
+  @media (min-width: 481px) and (max-width: 768px) {
+    .container { padding: 20px 16px 50px; }
+    .knowledge-grid { grid-template-columns: repeat(2, 1fr); }
+    .reader-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 769px) {
+    .knowledge-grid { grid-template-columns: repeat(3, 1fr); }
+    .reader-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ===== 打印优化 ===== */
+  @media print {
+    body { background: #fff; }
+    .ribbon { background: #c62828 !important; -webkit-print-color-adjust: exact; }
+    .card, .tl-item, .quote-card, .action-card, .reader-card, .know-card {
+      box-shadow: none;
+      border: 1px solid #ccc;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 书签色带封面 ===== -->
+<div class="ribbon">
+  <div class="red-star">★</div>
+  <h1>毛 泽 东 语 录</h1>
+  <div class="sub">READING NOTES · 阅读笔记</div>
+  <div class="tear"></div>
+</div>
+
+<div class="container">
+
+<!-- ===== 一、内容简介 ===== -->
+<div class="sec-title"><span class="icon">📖</span> 一 · 内容简介</div>
+<div class="card">
+  <div class="info-grid">
+    <div class="info-item">
+      <div class="label">作者</div>
+      <div class="value">毛泽东</div>
+    </div>
+    <div class="info-item">
+      <div class="label">体裁</div>
+      <div class="value red">语录体 · 政治哲学</div>
+    </div>
+    <div class="info-item">
+      <div class="label">成书年代</div>
+      <div class="value gold">1964 年首版</div>
+    </div>
+    <div class="info-item">
+      <div class="label">章节数</div>
+      <div class="value">31 章</div>
+    </div>
+    <div class="info-item">
+      <div class="label">核心主题</div>
+      <div class="value red">革命 · 斗争 · 为人民服务</div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <strong>📚 中心思想：</strong>本书系统摘录了毛泽东同志在革命与建设各个时期的精辟论述，以"<strong>为人民服务</strong>"为宗旨内核，以"<strong>实事求是</strong>"为思想路线，以"<strong>独立自主、自力更生</strong>"为根本立场，深刻阐述了马克思主义中国化的基本原理，成为中国共产党和中国人民的思想武器与精神坐标。
+    <div class="tag-row">
+      <span class="tag red">政治哲学</span>
+      <span class="tag gold">革命理论</span>
+      <span class="tag green">方法论</span>
+      <span class="tag blue">群众路线</span>
+      <span class="tag purple">军事思想</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:12px;">
+    <div class="rating">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+    </div>
+    <div style="font-size:.78rem;color:var(--ink-light);margin-top:4px;">综合评分：<strong style="color:var(--red);">9.5 / 10</strong></div>
+  </div>
+
+  <div style="text-align:center;margin-top:10px;font-size:.88rem;line-height:1.8;">
+    <strong>💡 一句话全书核心概括：</strong><br>
+    <span style="color:var(--red);font-weight:700;">"从群众中来，到群众中去，实事求是，为人民服务。"</span>
+  </div>
+</div>
+
+<!-- ===== 二、章节脉络 ===== -->
+<div class="sec-title"><span class="icon">📑</span> 二 · 章节脉络（31章纵览）</div>
+<div class="card">
+  <div class="timeline">
+    <div class="tl-item" data-num="1">
+      <div class="tl-title">共产党</div>
+      <div class="tl-desc">共产党是无产阶级的先锋队，是人民利益的忠实代表。党除了工人阶级和最广大人民群众的利益，没有自己特殊的利益。</div>
+      <div class="tl-tags"><span class="tag red">党的领导</span><span class="tag red">先锋队</span></div>
+    </div>
+    <div class="tl-item" data-num="2">
+      <div class="tl-title">阶级与阶级斗争</div>
+      <div class="tl-desc">在阶级社会中，每个人都在一定的阶级地位中生活，各种思想无不打上阶级的烙印。阶级斗争是推动历史发展的直接动力。</div>
+      <div class="tl-tags"><span class="tag red">阶级论</span><span class="tag gold">历史观</span></div>
+    </div>
+    <div class="tl-item" data-num="3">
+      <div class="tl-title">社会主义道路</div>
+      <div class="tl-desc">只有社会主义能够救中国。中国必须走社会主义道路，这是历史的选择，也是人民的选择。</div>
+      <div class="tl-tags"><span class="tag red">社会主义</span><span class="tag gold">方向</span></div>
+    </div>
+    <div class="tl-item" data-num="4">
+      <div class="tl-title">民主集中制</div>
+      <div class="tl-desc">在民主基础上的集中，在集中指导下的民主。个人服从组织，少数服从多数，下级服从上级，全党服从中央。</div>
+      <div class="tl-tags"><span class="tag blue">组织原则</span><span class="tag red">集中统一</span></div>
+    </div>
+    <div class="tl-item" data-num="5">
+      <div class="tl-title">经济建设</div>
+      <div class="tl-desc">以农业为基础，以工业为主导，农轻重协调发展。自力更生，艰苦奋斗，建设独立的比较完整的工业体系和国民经济体系。</div>
+      <div class="tl-tags"><span class="tag green">经济</span><span class="tag gold">自力更生</span></div>
+    </div>
+    <div class="tl-item" data-num="6">
+      <div class="tl-title">军事建设</div>
+      <div class="tl-desc">我们的原则是党指挥枪，而决不容许枪指挥党。人民军队是执行革命政治任务的武装集团，全心全意为人民服务是其唯一宗旨。</div>
+      <div class="tl-tags"><span class="tag red">党指挥枪</span><span class="tag gold">人民军队</span></div>
+    </div>
+    <div class="tl-item" data-num="7">
+      <div class="tl-title">国际关系</div>
+      <div class="tl-desc">国家不分大小一律平等。反对帝国主义和霸权主义，支持被压迫民族和被压迫人民的解放斗争。</div>
+      <div class="tl-tags"><span class="tag blue">平等</span><span class="tag purple">反霸</span></div>
+    </div>
+    <div class="tl-item" data-num="8">
+      <div class="tl-title">文化教育</div>
+      <div class="tl-desc">我们的教育方针，应该使受教育者在德育、智育、体育几方面都得到发展，成为有社会主义觉悟的有文化的劳动者。</div>
+      <div class="tl-tags"><span class="tag green">教育</span><span class="tag blue">全面发展</span></div>
+    </div>
+    <div class="tl-item" data-num="9">
+      <div class="tl-title">纠正错误思想</div>
+      <div class="tl-desc">反对主观主义以整顿学风，反对宗派主义以整顿党风，反对党八股以整顿文风。批评与自我批评是解决人民内部矛盾的基本方法。</div>
+      <div class="tl-tags"><span class="tag gold">整风</span><span class="tag red">批评</span></div>
+    </div>
+    <div class="tl-item" data-num="10">
+      <div class="tl-title">调查研究</div>
+      <div class="tl-desc">没有调查就没有发言权。一切结论产生于调查情况的末尾，而不是在它的先头。实事求是是马克思主义的精髓。</div>
+      <div class="tl-tags"><span class="tag red">实事求是</span><span class="tag gold">调查</span></div>
+    </div>
+    <div class="tl-item" data-num="11">
+      <div class="tl-title">统一战线</div>
+      <div class="tl-desc">统一战线是中国革命和建设的一大法宝。团结一切可以团结的力量，调动一切积极因素，化消极因素为积极因素。</div>
+      <div class="tl-tags"><span class="tag red">统一战线</span><span class="tag gold">团结</span></div>
+    </div>
+    <div class="tl-item" data-num="12">
+      <div class="tl-title">武装斗争</div>
+      <div class="tl-desc">枪杆子里面出政权。革命的中心任务和最高形式是武装夺取政权，是战争解决问题。</div>
+      <div class="tl-tags"><span class="tag red">武装革命</span><span class="tag gold">政权</span></div>
+    </div>
+    <div class="tl-item" data-num="13">
+      <div class="tl-title">党的建设</div>
+      <div class="tl-desc">建设一个全国范围的、广大群众性的、思想上政治上组织上完全巩固的布尔什维克化的中国共产党。</div>
+      <div class="tl-tags"><span class="tag red">党建</span><span class="tag gold">布尔什维克</span></div>
+    </div>
+    <div class="tl-item" data-num="14">
+      <div class="tl-title">干部</div>
+      <div class="tl-desc">政治路线确定之后，干部就是决定的因素。德才兼备，又红又专。</div>
+      <div class="tl-tags"><span class="tag blue">干部路线</span><span class="tag red">德才兼备</span></div>
+    </div>
+    <div class="tl-item" data-num="15">
+      <div class="tl-title">青年</div>
+      <div class="tl-desc">世界是你们的，也是我们的，但是归根结底是你们的。你们青年人朝气蓬勃，正在兴旺时期，好像早晨八九点钟的太阳。</div>
+      <div class="tl-tags"><span class="tag gold">青年</span><span class="tag red">希望</span></div>
+    </div>
+    <div class="tl-item" data-num="16">
+      <div class="tl-title">妇女</div>
+      <div class="tl-desc">妇女能顶半边天。全国妇女起来之日，就是中国革命胜利之时。</div>
+      <div class="tl-tags"><span class="tag purple">妇女解放</span><span class="tag red">半边天</span></div>
+    </div>
+    <div class="tl-item" data-num="17">
+      <div class="tl-title">文化艺术</div>
+      <div class="tl-desc">古为今用，洋为中用。百花齐放，百家争鸣。文艺为工农兵服务，为社会主义服务。</div>
+      <div class="tl-tags"><span class="tag green">双百方针</span><span class="tag gold">文艺</span></div>
+    </div>
+    <div class="tl-item" data-num="18">
+      <div class="tl-title">学习</div>
+      <div class="tl-desc">读书是学习，使用也是学习，而且是更重要的学习。活到老，学到老。</div>
+      <div class="tl-tags"><span class="tag blue">学习</span><span class="tag gold">实践</span></div>
+    </div>
+    <div class="tl-item" data-num="19">
+      <div class="tl-title">自我批评</div>
+      <div class="tl-desc">自我批评是马列主义政党的不可缺少的武器，是马列主义方法论中最革命的最有生气的组成部分。</div>
+      <div class="tl-tags"><span class="tag red">批评与自我批评</span><span class="tag gold">党性</span></div>
+    </div>
+    <div class="tl-item" data-num="20">
+      <div class="tl-title">团结</div>
+      <div class="tl-desc">团结就是力量。不但要团结和自己意见相同的人，而且要善于团结那些和自己意见不同的人。</div>
+      <div class="tl-tags"><span class="tag red">团结</span><span class="tag gold">统一</span></div>
+    </div>
+    <div class="tl-item" data-num="21">
+      <div class="tl-title">革命乐观主义</div>
+      <div class="tl-desc">在战略上要藐视一切敌人，在战术上要重视一切敌人。前途是光明的，道路是曲折的。</div>
+      <div class="tl-tags"><span class="tag gold">乐观</span><span class="tag red">战略</span></div>
+    </div>
+    <div class="tl-item" data-num="22">
+      <div class="tl-title">为人民服务</div>
+      <div class="tl-desc">全心全意为人民服务。人总是要死的，但死的意义有不同。为人民利益而死，就比泰山还重。</div>
+      <div class="tl-tags"><span class="tag red">为人民服务</span><span class="tag gold">宗旨</span></div>
+    </div>
+    <div class="tl-item" data-num="23">
+      <div class="tl-title">爱国主义与国际主义</div>
+      <div class="tl-desc">爱国主义是具体的、历史的。国际主义是共产主义的世界观。中国人民的胜利，也是世界人民的胜利。</div>
+      <div class="tl-tags"><span class="tag red">爱国</span><span class="tag blue">国际主义</span></div>
+    </div>
+    <div class="tl-item" data-num="24">
+      <div class="tl-title">革命英雄主义</div>
+      <div class="tl-desc">一不怕苦，二不怕死。这个军队具有一往无前的精神，它要压倒一切敌人，而决不被敌人所屈服。</div>
+      <div class="tl-tags"><span class="tag red">英雄主义</span><span class="tag gold">一不怕苦二不怕死</span></div>
+    </div>
+    <div class="tl-item" data-num="25">
+      <div class="tl-title">勤俭节约</div>
+      <div class="tl-desc">勤俭办一切事业。节约是社会主义经济的基本原则之一。贪污和浪费是极大的犯罪。</div>
+      <div class="tl-tags"><span class="tag green">勤俭</span><span class="tag gold">节约</span></div>
+    </div>
+    <div class="tl-item" data-num="26">
+      <div class="tl-title">自力更生 · 艰苦奋斗</div>
+      <div class="tl-desc">自己动手，丰衣足食。艰苦奋斗是我们的政治本色。没有任何困难能够阻碍有志气有纪律的革命者的前进。</div>
+      <div class="tl-tags"><span class="tag red">自力更生</span><span class="tag gold">艰苦奋斗</span></div>
+    </div>
+    <div class="tl-item" data-num="27">
+      <div class="tl-title">实事求是</div>
+      <div class="tl-desc">"实事"就是客观存在的一切事物，"是"就是客观事物的内部联系，即规律性，"求"就是我们去研究。</div>
+      <div class="tl-tags"><span class="tag red">实事求是</span><span class="tag gold">思想路线</span></div>
+    </div>
+    <div class="tl-item" data-num="28">
+      <div class="tl-title">群众路线</div>
+      <div class="tl-desc">从群众中来，到群众中去。一切为了群众，一切依靠群众。群众是真正的英雄，而我们自己则往往是幼稚可笑的。</div>
+      <div class="tl-tags"><span class="tag red">群众路线</span><span class="tag gold">根本工作路线</span></div>
+    </div>
+    <div class="tl-item" data-num="29">
+      <div class="tl-title">民主革命</div>
+      <div class="tl-desc">中国革命必须分两步走：第一步是民主革命，第二步是社会主义革命。新民主主义革命是无产阶级领导的人民大众的反帝反封建的革命。</div>
+      <div class="tl-tags"><span class="tag red">新民主主义</span><span class="tag gold">革命两步走</span></div>
+    </div>
+    <div class="tl-item" data-num="30">
+      <div class="tl-title">社会主义革命</div>
+      <div class="tl-desc">社会主义革命是为了解放生产力。对农业、手工业和资本主义工商业的社会主义改造，是中国历史上最深刻最伟大的社会变革。</div>
+      <div class="tl-tags"><span class="tag red">社会主义改造</span><span class="tag green">解放生产力</span></div>
+    </div>
+    <div class="tl-item" data-num="31">
+      <div class="tl-title">共产主义理想</div>
+      <div class="tl-desc">共产主义是无产阶级整个思想体系，同时又是一种新的社会制度。共产主义理想是共产党人的精神支柱和政治灵魂。</div>
+      <div class="tl-tags"><span class="tag red">共产主义</span><span class="tag gold">理想</span><span class="tag purple">精神支柱</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 三、金句摘抄 ===== -->
+<div class="sec-title"><span class="icon">✍️</span> 三 · 金句摘抄（精选10条）</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"人民，只有人民，才是创造世界历史的动力。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 28 章</span>
+    <span class="tag gold">群众路线</span>
+    <span class="cat">人民史观</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"实事求是。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 27 章</span>
+    <span class="tag gold">思想路线</span>
+    <span class="cat">哲学精髓</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"没有调查就没有发言权。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 10 章</span>
+    <span class="tag gold">调查研究</span>
+    <span class="cat">实践论</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"全心全意为人民服务。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 22 章</span>
+    <span class="tag gold">根本宗旨</span>
+    <span class="cat">价值观</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"枪杆子里面出政权。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 12 章</span>
+    <span class="tag gold">武装斗争</span>
+    <span class="cat">革命论</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"从群众中来，到群众中去。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 28 章</span>
+    <span class="tag gold">群众路线</span>
+    <span class="cat">工作方法</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"前途是光明的，道路是曲折的。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 21 章</span>
+    <span class="tag gold">革命乐观主义</span>
+    <span class="cat">辩证法</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"世界是你们的，也是我们的，但是归根结底是你们的。你们青年人朝气蓬勃，正在兴旺时期，好像早晨八九点钟的太阳。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 15 章</span>
+    <span class="tag gold">青年寄语</span>
+    <span class="cat">希望</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"在战略上要藐视一切敌人，在战术上要重视一切敌人。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 21 章</span>
+    <span class="tag gold">战略战术</span>
+    <span class="cat">辩证思维</span>
+  </div>
+</div>
+
+<div class="quote-card">
+  <div class="red-bookmark"></div>
+  <div class="quote-text">"自己动手，丰衣足食。"</div>
+  <div class="quote-meta">
+    <span class="ch">第 26 章</span>
+    <span class="tag gold">自力更生</span>
+    <span class="cat">奋斗精神</span>
+  </div>
+</div>
+
+<!-- ===== 四、核心知识 ===== -->
+<div class="sec-title"><span class="icon">💡</span> 四 · 核心知识体系</div>
+<div class="card">
+  <div class="knowledge-grid">
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🔺</div>
+      <h4>核心理论</h4>
+      <p><strong>实事求是：</strong>从客观存在的事物出发，探求事物发展的内在规律，作为行动的向导。这是马克思主义中国化的精髓，是党的思想路线的核心。</p>
+      <div class="know-tags"><span class="tag red">思想路线</span><span class="tag gold">方法论</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🔄</div>
+      <h4>群众路线</h4>
+      <p>"一切为了群众，一切依靠群众，从群众中来，到群众中去。"这是党的根本工作路线，是历史唯物主义关于人民群众是历史创造者的原理在党的实际工作中的体现。</p>
+      <div class="know-tags"><span class="tag red">根本路线</span><span class="tag blue">人民史观</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">⚔️</div>
+      <h4>矛盾分析法</h4>
+      <p>任何事物都包含矛盾，主要矛盾决定事物的性质。看问题要分清主次，抓住主要矛盾和矛盾的主要方面。"两分法"是认识世界和改造世界的基本方法。</p>
+      <div class="know-tags"><span class="tag red">辩证法</span><span class="tag gold">两分法</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🎯</div>
+      <h4>独立自主</h4>
+      <p>立足于自身实际，依靠自己的力量进行革命和建设。独立自主、自力更生是毛泽东思想的活的灵魂之一，是从中国实际出发、依靠群众进行革命建设的必然结论。</p>
+      <div class="know-tags"><span class="tag red">自力更生</span><span class="tag gold">活的灵魂</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🧠</div>
+      <h4>思维误区</h4>
+      <p><strong>主观主义：</strong>脱离实际，凭主观想象办事。表现为教条主义和经验主义两种形式。<br><strong>本本主义：</strong>唯书不唯实，把理论当教条。<br><strong>片面性：</strong>只看一面，不看全面。</p>
+      <div class="know-tags"><span class="tag red">主观主义</span><span class="tag gold">教条主义</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">👥</div>
+      <h4>人性规律</h4>
+      <p>在阶级社会中，人性带有阶级性。但人民性是根本——"全心全意为人民服务"是最高的人性准则。人是可以改造的，正确的思想斗争可以激发人的积极性和创造性。</p>
+      <div class="know-tags"><span class="tag red">人民性</span><span class="tag gold">改造</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">📊</div>
+      <h4>实践论精髓</h4>
+      <p>实践—认识—再实践—再认识，循环往复，不断深化。理论来源于实践，又反过来指导实践。读书是学习，使用也是学习，而且是更重要的学习。</p>
+      <div class="know-tags"><span class="tag blue">实践论</span><span class="tag gold">认识论</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🔧</div>
+      <h4>矛盾转化律</h4>
+      <p>矛盾双方在一定条件下相互转化。坏事可以变成好事，困难可以变成动力。创造条件，促成矛盾向有利于革命和建设的方向转化。</p>
+      <div class="know-tags"><span class="tag red">矛盾论</span><span class="tag gold">转化</span></div>
+    </div>
+
+    <div class="know-card">
+      <div class="dot-bg"></div>
+      <div class="know-icon">🏛️</div>
+      <h4>统一战线论</h4>
+      <p>团结一切可以团结的力量，调动一切积极因素。统一战线是中国革命和建设的三大法宝之一（统一战线、武装斗争、党的建设）。</p>
+      <div class="know-tags"><span class="tag red">三大法宝</span><span class="tag gold">团结</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 五、行动启发 ===== -->
+<div class="sec-title"><span class="icon">🚀</span> 五 · 行动启发（日常可落地）</div>
+
+<div class="action-card">
+  <div class="action-num">01</div>
+  <h4>📝 每日三省：用"批评与自我批评"反思自己</h4>
+  <p>每天睡前花 5 分钟，回顾当日言行：做了什么值得肯定的事？有什么不足？明天如何改进？坚持写反思日记，持续迭代自我。</p>
+  <div class="src">📖 出处：第 19 章「自我批评」— "自我批评是马列主义政党的不可缺少的武器"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">02</div>
+  <h4>🔍 做决策前：先做"调查研究"</h4>
+  <p>遇到重要选择（换工作、投资、重大消费），不凭直觉拍脑袋。列出需要了解的信息清单，向有经验的人请教，查阅数据——没有调查就没有发言权。</p>
+  <div class="src">📖 出处：第 10 章「调查研究」— "没有调查就没有发言权"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">03</div>
+  <h4>🤝 处理分歧：用"团结—批评—团结"公式</h4>
+  <p>与人发生矛盾时，先表达团结意愿，再坦诚交换意见，最终在更高层次上达成团结。不回避矛盾，也不激化矛盾——从团结的愿望出发，经过批评或斗争，达到新的团结。</p>
+  <div class="src">📖 出处：第 20 章「团结」— "要团结那些和自己意见不同的人"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">04</div>
+  <h4>🎯 抓主要矛盾：用"二八法则"安排每日要事</h4>
+  <p>每天早晨列出所有待办，识别"主要矛盾"（最关键、影响最大的 1–2 件事），优先处理。次要事务可批量处理或委托他人。不要被琐事牵着走。</p>
+  <div class="src">📖 出处：第 2 章「阶级与阶级斗争」— 矛盾分析法</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">05</div>
+  <h4>💪 自力更生：建立"不依赖他人"的能力清单</h4>
+  <p>列出你在工作生活中依赖他人最多的领域（财务、技术、情绪等），逐项制定独立计划。能自己解决的绝不求助，能今天做的绝不推明天。自己动手，丰衣足食。</p>
+  <div class="src">📖 出处：第 26 章「自力更生 · 艰苦奋斗」— "自己动手，丰衣足食"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">06</div>
+  <h4>🌟 服务他人：每周做一件不求回报的好事</h4>
+  <p>帮同事解决一个技术问题、为家人做一顿饭、给朋友真诚的鼓励……不是为了回报，而是践行"全心全意为人民服务"的精神。利他行为会带来深层满足感。</p>
+  <div class="src">📖 出处：第 22 章「为人民服务」— "全心全意为人民服务"</div>
+</div>
+
+<div class="action-card">
+  <div class="action-num">07</div>
+  <h4>🔄 实践—认识循环：建立"行动→复盘→优化"闭环</h4>
+  <p>任何新技能、新项目，先行动再反思，再行动再反思。不要等"完全准备好"再开始，边干边学，在实践中深化认识。实践出真知。</p>
+  <div class="src">📖 出处：第 18 章「学习」— "使用也是学习，而且是更重要的学习"</div>
+</div>
+
+<!-- ===== 六、适合谁读 ===== -->
+<div class="sec-title"><span class="icon">🎯</span> 六 · 适合谁读</div>
+<div class="card">
+  <div class="reader-grid">
+    <div class="reader-card">
+      <div class="reader-icon">👨‍💼</div>
+      <h4>管理者 / 领导者</h4>
+      <p>学习群众路线、统一战线、干部管理，提升领导力与组织动员能力</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">📊</div>
+      <h4>战略分析师</h4>
+      <p>掌握矛盾分析法、战略思维、全局观，培养辩证决策能力</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">📝</div>
+      <h4>文字工作者</h4>
+      <p>体会简洁有力、直击要害的表达风格，提升写作功力</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🎓</div>
+      <h4>青年学生</h4>
+      <p>树立正确世界观、人生观、价值观，培养实事求是的思维习惯</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🏛️</div>
+      <h4>公职人员</h4>
+      <p>深刻理解"为人民服务"的宗旨，提升公共管理与群众工作能力</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🚀</div>
+      <h4>创业者</h4>
+      <p>学习独立自主、艰苦奋斗精神，掌握矛盾分析法解决商业难题</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🧠</div>
+      <h4>哲学爱好者</h4>
+      <p>深入研究实践论、矛盾论，理解马克思主义中国化的哲学基础</p>
+    </div>
+    <div class="reader-card">
+      <div class="reader-icon">🌍</div>
+      <h4>历史研究者</h4>
+      <p>第一手理解中国现代史的思想脉络与革命精神内核</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页脚 ===== -->
+<div class="footer">
+  <div class="stamp">阅 读 笔 记</div>
+  <p>📖 毛泽东语录 · 阅读笔记</p>
+  <p>本笔记仅供个人学习与交流参考</p>
+  <p style="margin-top:12px;font-size:.68rem;color:#bbb;">— END —</p>
+</div>
+
+</div>
+
+</body>
+</html>
