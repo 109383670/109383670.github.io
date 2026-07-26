@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国鬼怪调查报告</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --paper: #111114;
+    --paper2: #161620;
+    --ink: #c8c0d0;
+    --ink-light: #807890;
+    --accent: #8b0000;
+    --accent-light: #c41e3a;
+    --gold: #b8860b;
+    --gold-light: #daa520;
+    --blue: #4a90d9;
+    --green: #2d8659;
+    --border: #1e1e28;
+    --shadow: rgba(139,0,0,0.12);
+    --glow: rgba(184,134,11,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 16px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(180deg, #0a0a0a 0%, #0d0d12 30%, #120810 60%, #0a0a0a 100%);
+    color: #c8c0d0;
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='%238b0000' fill-opacity='0.02' text-anchor='middle' dominant-baseline='central'%3E%E9%AC%BC%3C/text%3E%3C/svg%3E");
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: -30px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 80px;
+    background: radial-gradient(ellipse, rgba(139,0,0,0.08), transparent);
+    filter: blur(25px);
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    position: relative;
+    background: linear-gradient(135deg, #daa520, #c8c0d0, #c41e3a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 30px rgba(139,0,0,0.15);
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+    position: relative;
+    color: var(--ink-light);
+  }
+  .hero .meta {
+    margin-top: 28px;
+    font-size: 0.85rem;
+    opacity: 0.5;
+    position: relative;
+  }
+  .hero .meta span { margin: 0 12px; }
+
+  /* ===== TOC ===== */
+  .toc {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .toc a {
+    text-decoration: none;
+    color: var(--ink-light);
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .toc a:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent-light);
+  }
+
+  /* ===== CONTAINER ===== */
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  section {
+    background: var(--paper);
+    margin-bottom: 32px;
+    padding: 36px 40px;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    border-left: 3px solid var(--accent);
+  }
+  section h2 {
+    font-size: 1.6rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.05em;
+  }
+  section h3 {
+    font-size: 1.2rem;
+    color: var(--accent-light);
+    margin: 28px 0 16px;
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+  }
+  section h4 {
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin: 20px 0 10px;
+  }
+  section p {
+    margin-bottom: 14px;
+    text-align: justify;
+    color: var(--ink);
+  }
+
+  /* ===== QUOTE ===== */
+  .quote {
+    background: var(--paper2);
+    border-left: 4px solid var(--gold);
+    padding: 16px 24px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--ink-light);
+    border-radius: 0 4px 4px 0;
+    position: relative;
+  }
+  .quote::before {
+    content: "❝";
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.2;
+    position: absolute;
+    top: -4px;
+    left: 8px;
+  }
+  .quote .source {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    margin-top: 8px;
+    font-style: normal;
+    opacity: 0.8;
+  }
+
+  /* ===== TABLE ===== */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+  }
+  tr:nth-child(even) td { background: var(--paper2); }
+  tr:hover td { background: rgba(139,0,0,0.08); }
+
+  /* ===== FLOW CHART ===== */
+  .flow-chart {
+    background: #050505;
+    color: var(--ink-light);
+    padding: 28px 24px;
+    border-radius: 6px;
+    margin: 20px 0;
+    font-family: "JetBrains Mono", "Menlo", monospace;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    overflow-x: auto;
+    white-space: pre;
+    border: 1px solid var(--border);
+  }
+  .flow-chart .arrow { color: var(--gold); }
+  .flow-chart .label { color: var(--accent-light); }
+  .flow-chart .key { color: var(--gold-light); }
+
+  /* ===== CARDS ===== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card {
+    background: var(--paper2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px var(--shadow);
+    border-color: var(--accent);
+  }
+  .card .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .card .card-body {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* ===== CALLOUT ===== */
+  .callout {
+    background: linear-gradient(135deg, var(--paper2), rgba(139,0,0,0.04));
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .callout .callout-label {
+    font-size: 0.8rem;
+    color: var(--accent-light);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  /* ===== SCHOLAR ROW ===== */
+  .scholar-row {
+    display: flex;
+    gap: 16px;
+    margin: 16px 0;
+    padding: 14px 18px;
+    background: var(--paper2);
+    border-radius: 4px;
+    border-left: 3px solid var(--blue);
+  }
+  .scholar-row .scholar-name {
+    font-weight: 700;
+    color: var(--blue);
+    min-width: 120px;
+    font-size: 0.95rem;
+  }
+  .scholar-row .scholar-text {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+  }
+
+  /* ===== TAGS ===== */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0 4px 4px 0;
+  }
+  .tag-red { background: rgba(196,30,58,0.15); color: var(--accent-light); }
+  .tag-blue { background: rgba(74,144,217,0.15); color: var(--blue); }
+  .tag-green { background: rgba(45,134,89,0.15); color: var(--green); }
+  .tag-gold { background: rgba(218,165,32,0.15); color: var(--gold-light); }
+
+  /* ===== HIGHLIGHT ===== */
+  strong { color: var(--gold-light); font-weight: 600; }
+
+  /* ===== CONCLUSION ===== */
+  .conclusion {
+    background: linear-gradient(135deg, #0a0a0a, #100810);
+    border-left: 3px solid var(--gold);
+  }
+  .conclusion h2 { color: var(--gold-light); border-bottom-color: rgba(255,255,255,0.08); }
+  .conclusion h3 { color: var(--accent-light); border-left-color: var(--gold); }
+  .conclusion p { color: var(--ink-light); }
+  .conclusion ol { color: var(--ink-light); }
+  .conclusion ol li { margin-bottom: 14px; }
+  .conclusion ol li strong { color: var(--gold-light); }
+  .conclusion .quote {
+    background: rgba(255,255,255,0.02);
+    border-left-color: var(--gold);
+    color: var(--ink);
+  }
+  .conclusion .quote .source { color: var(--gold-light); }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    text-align: center;
+    margin: 32px 0;
+    color: var(--accent);
+    font-size: 1.2rem;
+    letter-spacing: 1em;
+    opacity: 0.3;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-light);
+    font-size: 0.85rem;
+    background: var(--paper);
+    border-top: 1px solid var(--border);
+    opacity: 0.7;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    .hero { padding: 50px 20px 40px; }
+    .hero h1 { font-size: 2rem; }
+    .container { padding: 20px 12px; }
+    section { padding: 24px 18px; }
+    .toc { gap: 4px; }
+    .toc a { font-size: 0.72rem; padding: 3px 8px; }
+    .scholar-row { flex-direction: column; gap: 4px; }
+    .scholar-row .scholar-name { min-width: auto; }
+    .flow-chart { font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>中国鬼怪调查报告</h1>
+  <div class="subtitle">死了之后去哪、变成了什么——中国人两千年的鬼怪想象史</div>
+  <div class="meta">
+    <span>📅 2026.07.27</span>
+    <span>📖 原典+学术+跨文化</span>
+    <span>🔍 十维度深挖</span>
+  </div>
+</div>
+
+<!-- ===== TOC ===== -->
+<nav class="toc">
+  <a href="#intro">引言</a>
+  <a href="#s1">一·商周根源</a>
+  <a href="#s2">二·先秦分类</a>
+  <a href="#s3">三·死后世界</a>
+  <a href="#s4">四·佛教改造</a>
+  <a href="#s5">五·道教体系</a>
+  <a href="#s6">六·志怪传统</a>
+  <a href="#s7">七·民间类型</a>
+  <a href="#s8">八·僵尸赶尸</a>
+  <a href="#s9">九·节俗仪式</a>
+  <a href="#s10">十·跨文化</a>
+  <a href="#s11">结论</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== 引言 ===== -->
+<section id="intro">
+  <h2>引言：儒家不谈的，道家不关心的，鬼怪全包了</h2>
+  <p>儒家生死观说"未知生，焉知死"——不谈死后。道家神仙观说"能不能不死"——关心怎么避免死。但有一个问题两家都没正面回答：<strong>死了之后去哪？变成了什么？</strong></p>
+  <p>这个问题由鬼怪观念来回答。</p>
+  <p>鬼怪不是迷信的残留物，是中国人对"死后世界"两千年建构的产物。从商代的"人死为鬼"到佛教的六道轮回，从《左传》的厉鬼到蒲松龄的女鬼，从黄泉到酆都鬼城——每一层都是对"死亡"这个终极未知的想象性填充。</p>
+  <p>本报告追这条脉络，带原典引用，详实展开死后世界建构、民间鬼怪类型、志怪传统、佛教入华改造四条深挖线。与儒家生死观、道家神仙观两份报告对照阅读。</p>
+</section>
+
+<!-- ===== 一、商周根源 ===== -->
+<section id="s1">
+  <h2>一、商周根源：鬼字本义与魂魄分离</h2>
+
+  <h3>1.1 "鬼"字起源：人归为鬼</h3>
+  <p>甲骨文中的"鬼"字，字形是一个人戴着巨大的面具（或头部畸形），象征死后的异化状态。</p>
+  <div class="quote">
+    <strong>鬼，人所归为鬼。</strong>
+    <span class="source">——《说文解字》</span>
+  </div>
+  <p>许慎的解释直接点明：鬼是人的"归宿"。人死后回到的状态就是鬼。这个"归"字意味深长——死亡不是终结，是回归。</p>
+
+  <div class="scholar-row">
+    <div class="scholar-name">蒲慕州<br><small>《早期中国的鬼》</small></div>
+    <div class="scholar-text">甲骨文中的"鬼"字最初可能指死去的祖先。在商代，鬼不一定带有负面含义——祖先鬼是受祭祀的对象，是可以沟通的。"鬼"从"祖先"变成"恐惧对象"，是因为人们开始区分"正常死亡的鬼"（安宁）和"非正常死亡的鬼"（怨厉）——后者才是后世鬼怪故事的源头。</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>阶段</th><th>"鬼"的含义</th><th>情感色彩</th></tr></thead>
+      <tbody>
+        <tr><td>商代</td><td>死去的祖先</td><td>中性偏正（受祭祀）</td></tr>
+        <tr><td>西周</td><td>泛指死者灵魂</td><td>中性</td></tr>
+        <tr><td>春秋战国</td><td>非正常死亡者的怨灵</td><td>负面（恐惧对象）</td></tr>
+        <tr><td>汉代以后</td><td>与"神"对立，鬼=阴/邪</td><td>负面</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">关键判断</div>
+    <p style="margin:0">"鬼"一开始不是坏东西。商代祖先鬼是保护者，不是威胁。鬼变成恐惧对象，是因为人们开始区分"正常死亡的鬼"和"非正常死亡的鬼"——后者才是后世鬼怪故事的源头。</p>
+  </div>
+
+  <h3>1.2 魂魄分离：中国人的灵魂结构</h3>
+  <p>中国人不是只有一个灵魂——<strong>至少有两个</strong>。</p>
+  <div class="quote">
+    <strong>魂气归于天，形魄归于地。</strong>
+    <span class="source">——《礼记·祭义》</span>
+  </div>
+  <div class="quote">
+    <strong>人生始化曰魄，既生魄，阳曰魂。</strong>
+    <span class="source">——《左传·昭公七年》</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>属性</th><th>魂</th><th>魄</th></tr></thead>
+      <tbody>
+        <tr><td>性质</td><td>阳</td><td>阴</td></tr>
+        <tr><td>来源</td><td>天</td><td>地</td></tr>
+        <tr><td>死后去向</td><td>归天（上升）</td><td>归地（下沉）</td></tr>
+        <tr><td>功能</td><td>精神、意识、思维</td><td>身体、感官、本能</td></tr>
+        <tr><td>离体表现</td><td>飞散（游魂）</td><td>沉滞（守尸）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>这套理论的历史意义：(1) 解释了鬼的不同类型——魂散魄存=守尸鬼，魄散魂存=游魂；(2) 为招魂术提供了理论基础；(3) 为佛教轮回观的传入铺了路。</p>
+
+  <h3>1.3 商代黄泉：最早的死后世界</h3>
+  <div class="quote">
+    <strong>不及黄泉，无相见也。</strong>
+    <span class="source">——《左传·隐公元年》</span>
+  </div>
+  <p>商人相信死后灵魂去"黄泉"——地下的水域。殷墟王陵腰坑穿透地下水，为灵魂铺设通往黄泉的道路。</p>
+  <div class="callout">
+    <div class="callout-label">关键缺口</div>
+    <p style="margin:0">商代鬼世界<strong>没有审判</strong>。没有冥界法庭，没有善恶报应，没有轮回。鬼就是鬼，祖先就是祖先——死后世界是人间的简单延续。这个缺口，后来被佛教和道教填上了。</p>
+  </div>
+</section>
+
+<!-- ===== 二、先秦分类 ===== -->
+<section id="s2">
+  <h2>二、先秦鬼怪分类：从《左传》到《山海经》</h2>
+
+  <h3>2.1 《左传》：中国最早的鬼故事——伯有为厉</h3>
+  <div class="quote">
+    子产曰："匹夫匹妇<strong>强死</strong>，其魂魄犹能冯依于人，以为<strong>淫厉</strong>。况良霄……三世从政，其用物也弘矣，其取精也多矣……而强死，能为鬼，不亦宜乎？"
+    <span class="source">——《左传·昭公七年》</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>要素</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>"强死"=非正常死亡</td><td>伯有被杀，非自然死亡，所以变成厉鬼</td></tr>
+        <tr><td>魂魄强度与生前地位相关</td><td>"用物精多则魂魄强"——贵族的鬼比平民厉害</td></tr>
+        <tr><td>鬼能复仇</td><td>伯有化为厉鬼后杀死了仇人</td></tr>
+        <tr><td>鬼可安抚</td><td>子产为伯有立后祭祀，鬼就不再作祟</td></tr>
+        <tr><td>"鬼有所归，乃不为厉"</td><td>鬼有归宿不闹事，无归宿才变厉鬼</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.2 鬼神四分法</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>类别</th><th>含义</th><th>例子</th></tr></thead>
+      <tbody>
+        <tr><td>天神</td><td>天上的神灵</td><td>上帝、日神、月神</td></tr>
+        <tr><td>地祇</td><td>地上的神灵</td><td>山川之神、土地神</td></tr>
+        <tr><td>人鬼</td><td>死去的祖先</td><td>先王、先公</td></tr>
+        <tr><td>物魅</td><td>非人类的精怪</td><td>魑魅魍魉</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.3 魑魅魍魉：四类精怪</h3>
+  <div class="quote">
+    <strong>魑魅罔两，莫能逢之。</strong>
+    <span class="source">——《左传·宣公三年》</span>
+  </div>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">魑（chī）</div><div class="card-body">山中猛兽化精，形似龙而无角</div></div>
+    <div class="card"><div class="card-title">魅（mèi）</div><div class="card-body">物老成精，能迷人</div></div>
+    <div class="card"><div class="card-title">魍（wǎng）</div><div class="card-body">水中暗影之怪</div></div>
+    <div class="card"><div class="card-title">魉（liǎng）</div><div class="card-body">山川之精，形貌不定</div></div>
+  </div>
+</section>
+
+<!-- ===== 三、死后世界 ===== -->
+<section id="s3">
+  <h2>三、死后世界建构：黄泉→蒿里→泰山→酆都</h2>
+
+  <div class="flow-chart"><span class="label">死后世界地理演变</span>：
+黄泉（商代） <span class="arrow">→</span> 蒿里（战国-汉） <span class="arrow">→</span> 泰山治鬼（汉-魏晋） <span class="arrow">→</span> <span class="key">酆都鬼城（唐宋以后）</span>
+   地下水域          里名/墓地          山岳冥府            地狱体系</div>
+
+  <h3>3.1 黄泉：地下的水</h3>
+  <p>商代的死后世界。墓坑就是入口，陪葬品就是死后物资。</p>
+
+  <h3>3.2 蒿里：死者的里</h3>
+  <div class="quote">
+    蒿里谁家地，聚敛魂魄无贤愚。
+    <span class="source">——汉乐府《蒿里》</span>
+  </div>
+  <div class="quote">
+    鬼伯一何相催促，人命不得少踟蹰。
+    <span class="source">——汉乐府《蒿里》</span>
+  </div>
+  <p>蒿里从地名变成冥界——有了管理者"鬼伯"（催命的鬼吏）。死后世界从"模糊的地下"变成了"有具体地点、有管理者的冥府"。</p>
+
+  <h3>3.3 泰山治鬼：山岳冥府</h3>
+  <div class="quote">
+    中国人死者，魂归于岱（泰）山地也。
+    <span class="source">——《博物志》</span>
+  </div>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">五岳之首</div><div class="card-body">帝王封禅之地，天神所居</div></div>
+    <div class="card"><div class="card-title">东方=日出</div><div class="card-body">东方主生也主死（生死一体）</div></div>
+    <div class="card"><div class="card-title">蒿里在泰山脚下</div><div class="card-body">地名与山岳合流</div></div>
+  </div>
+  <p>泰山府君→东岳大帝，掌管生死。泰山治鬼持续数百年，直到佛教地狱观念普及后才被十殿阎罗体系取代——但东岳大帝在民间至今仍是冥界最高神之一。</p>
+
+  <h3>3.4 酆都鬼城：地狱体系</h3>
+  <div class="quote">
+    酆都北阴大帝，主罗酆山。
+    <span class="source">——陶弘景《真灵位业图》（第七层）</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>要素</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>主神</td><td>酆都北阴大帝</td></tr>
+        <tr><td>冥界结构</td><td>十八层地狱+六桥（金、银、铜、铁、奈何、迷魂）</td></tr>
+        <tr><td>判官</td><td>崔判官、黑白无常、牛头马面</td></tr>
+        <tr><td>入口</td><td>鬼门关</td></tr>
+        <tr><td>出口</td><td>转世投胎（六道）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.5 十殿阎罗：佛道融合的冥界官僚</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>殿</th><th>阎罗</th><th>职能</th></tr></thead>
+      <tbody>
+        <tr><td>第一殿</td><td>秦广王</td><td>接引亡魂，判定去向</td></tr>
+        <tr><td>第二殿</td><td>楚江王</td><td>活大地狱</td></tr>
+        <tr><td>第三殿</td><td>宋帝王</td><td>黑绳大地狱</td></tr>
+        <tr><td>第四殿</td><td>五官王</td><td>合大地狱</td></tr>
+        <tr><td>第五殿</td><td><strong>阎罗王</strong></td><td>叫唤大地狱（最知名）</td></tr>
+        <tr><td>第六殿</td><td>卞城王</td><td>大叫唤地狱</td></tr>
+        <tr><td>第七殿</td><td>泰山王</td><td>烦恼地狱（泰山治鬼遗存）</td></tr>
+        <tr><td>第八殿</td><td>都市王</td><td>大热恼地狱</td></tr>
+        <tr><td>第九殿</td><td>平等王</td><td>阿鼻地狱</td></tr>
+        <tr><td>第十殿</td><td>转轮王</td><td>转世投胎</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <div class="callout-label">关键判断</div>
+    <p style="margin:0">十殿阎罗是<strong>佛教中国化的典型产物</strong>——印度阎摩被拆成十个，泰山府君编入第七殿，酆都大帝在更高层级统领。外来信仰与本土传统的制度性融合，不是简单替代。</p>
+  </div>
+</section>
+
+<!-- ===== 四、佛教改造 ===== -->
+<section id="s4">
+  <h2>四、佛教入华的改造：六道轮回重构中国冥界</h2>
+
+  <h3>4.1 六道轮回：鬼只是六分之一</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>道</th><th>性质</th><th>是否苦</th></tr></thead>
+      <tbody>
+        <tr><td>天道</td><td>天界众生</td><td>乐（但非永恒）</td></tr>
+        <tr><td>人道</td><td>人类</td><td>苦乐参半</td></tr>
+        <tr><td>阿修罗道</td><td>有天福无天德</td><td>嫉妒苦</td></tr>
+        <tr><td>畜生道</td><td>动物</td><td>愚痴苦</td></tr>
+        <tr><td><span class="tag tag-red">饿鬼道</span></td><td>鬼的一种</td><td>饥渴苦</td></tr>
+        <tr><td><span class="tag tag-red">地狱道</span></td><td>罪受尽才能出</td><td>极苦</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <div class="callout-label">根本改变</div>
+    <p style="margin:0">中国原本的"鬼"=所有死者。佛教传入后，"鬼"只是六道之一——<strong>死亡不再必然等于做鬼</strong>。死后去向取决于业力——善业升天，恶业下地狱，中品转生人道。</p>
+  </div>
+
+  <h3>4.2 阎罗王：印度神的中国化</h3>
+  <div class="flow-chart"><span class="label">阎罗王中国化过程</span>：
+传入初期（汉魏）<span class="arrow">→</span> 佛教经典中的冥界之王，仅在佛教徒中流传
+  <span class="arrow">↓</span>
+南北朝 <span class="arrow">→</span> 进入民间信仰，与泰山府君并存
+  <span class="arrow">↓</span>
+唐代 <span class="arrow">→</span> 信仰大盛，编入十殿阎罗，与道教冥神融合
+  <span class="arrow">↓</span>
+宋以后 <span class="arrow">→</span> <span class="key">完全中国化：说中国话、穿中国官服、按中国官僚制度审判</span></div>
+  <p>中国的阎罗王更像阴间的县太爷——翻生死簿、审案、判刑、放人投胎。冥界就是阴间的衙门。</p>
+
+  <h3>4.3 中元节：佛道融合的鬼节</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>佛教</th><th>道教</th></tr></thead>
+      <tbody>
+        <tr><td>源头</td><td>目连救母（盂兰盆会）</td><td>地官赦罪（中元法会）</td></tr>
+        <tr><td>对象</td><td>七世父母、饿鬼</td><td>一切亡魂</td></tr>
+        <tr><td>逻辑</td><td>供僧功德回向亡者</td><td>地官赦免亡魂罪过</td></tr>
+        <tr><td>仪式</td><td>放焰口、施食</td><td>做法事、烧纸</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="scholar-row">
+    <div class="scholar-name">太史文<br><small>《中国中元节》</small></div>
+    <div class="scholar-text">中元节是佛教中国化最成功的案例。目连救母满足儒家"孝道"，盂兰盆仪式提供道教"赦罪"功能。三教在一个节日完美融合——佛教提供叙事，道教提供仪式框架，儒家提供伦理动机。</div>
+  </div>
+
+  <h3>4.4 烧纸钱：冥界经济体系</h3>
+  <p>活人烧纸钱→亡者在冥界有钱花。烧纸扎房舍车马→亡者在冥界有房有车。本质是"跨世界交易"——活人用象征性物质换取亡者安宁。</p>
+</section>
+
+<!-- ===== 五、道教体系 ===== -->
+<section id="s5">
+  <h2>五、道教的神仙-鬼怪体系：把鬼纳入官僚管理</h2>
+
+  <h3>5.1 道教的鬼怪分类</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>类别</th><th>性质</th><th>管理者</th></tr></thead>
+      <tbody>
+        <tr><td>鬼仙</td><td>修炼未成、阴中超脱</td><td>道教仙品最低等</td></tr>
+        <tr><td>善鬼</td><td>正常死亡、受祭祀</td><td>城隍/土地管理</td></tr>
+        <tr><td>厉鬼</td><td>非正常死亡、无祭祀</td><td>需驱除或安抚</td></tr>
+        <tr><td>邪鬼</td><td>妖邪附体</td><td>需驱邪术</td></tr>
+        <tr><td>冥鬼</td><td>在冥界受审</td><td>十殿阎罗管理</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>5.2 城隍与土地：基层鬼神管理</h3>
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--gold-light);">
+      <div class="card-title">城隍</div>
+      <div class="card-body">城市保护神，兼阴间地方官。掌管一城之阴阳。= 阴间市长</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-title">土地公</div>
+      <div class="card-body">村落级基层神灵。人死后第一站去土地庙报到。= 阴间村长</div>
+    </div>
+  </div>
+  <p><strong>道教鬼神管理的逻辑：</strong>完全模仿人间官僚制度——城隍=市长，土地=村长，阎罗=法官，东岳大帝=冥界最高领导。鬼有户籍、有辖区、有管理者。不在册的鬼=非法滞留，需驱除。</p>
+
+  <h3>5.3 驱邪术</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>方法</th><th>原理</th><th>场景</th></tr></thead>
+      <tbody>
+        <tr><td>画符</td><td>符箓蕴含神力</td><td>贴门上、佩身上、焚化饮服</td></tr>
+        <tr><td>念咒</td><td>语言具有法力</td><td>驱邪、招魂、保护</td></tr>
+        <tr><td>步罡踏斗</td><td>仪式性步法，沟通天地</td><td>开坛做法、调动神兵</td></tr>
+        <tr><td>掐诀</td><td>手指结印，象征神灵授权</td><td>配合念咒</td></tr>
+        <tr><td>剑诀</td><td>以剑指鬼，斩邪除妖</td><td>驱邪现场</td></tr>
+        <tr><td>度牒</td><td>给鬼发"通行证"</td><td>超度亡魂</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>驱邪逻辑：</strong>不是消灭鬼，而是"管理"鬼——合法的鬼有户籍安居，非法的鬼被驱除或超度。道士就是阴阳两界的"公务员"。</p>
+</section>
+
+<!-- ===== 六、志怪传统 ===== -->
+<section id="s6">
+  <h2>六、志怪传统：从干宝到蒲松龄</h2>
+
+  <h3>6.1 魏晋：《搜神记》——志怪开山</h3>
+  <div class="quote">
+    及其著述，亦足以发明神道之不诬也。
+    <span class="source">——干宝《搜神记·序》</span>
+  </div>
+  <p>干宝不是在写小说——他是在记录"真实"的鬼神事件，以证明神道不虚。</p>
+
+  <h4>韩凭夫妇——爱情+冤屈+自然感应</h4>
+  <div class="quote">
+    韩凭为宋康王舍人，妻何氏美，王夺之……凭乃自杀。妻乃阴腐其衣，王与之登台，遂自投台下……遗书曰："愿以尸骨赐凭合葬。"王怒，弗听。使里人埋之，冢相望也。宿昔之间，便有大梓木生于二冢之端……屈体相就，根交于下，枝错于上。又有鸳鸯，雌雄各一，恒栖树上，交颈悲鸣。宋人哀之，遂号其木曰相思树。
+    <span class="source">——《搜神记·卷十一》</span>
+  </div>
+
+  <h4>紫玉——人鬼之恋的最早范式</h4>
+  <div class="quote">
+    吴王夫差小女名曰紫玉……女悦之，私交信问，许为之妻……王怒，不与。玉结气死。……重归，吊于墓前。玉魂从墓出，见重流涕……要重还冢。三日三夜，尽夫妇之礼。……玉赠重以明珠。
+    <span class="source">——《搜神记·卷十六》</span>
+  </div>
+  <p><strong>魏晋志怪的鬼怪特征：</strong>鬼不可怕——它们是冤屈的、哀婉的、有情感的。鬼与人可沟通、可恋爱、可交易。奠定了中国鬼故事的"温情"基调。</p>
+
+  <h3>6.2 唐代：《太平广记》——鬼怪分类学</h3>
+  <p>500卷，近7000则，汉代至宋初志怪总集。第一次系统性的鬼怪分类学。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>卷类</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>神类</td><td>各地神灵显灵</td></tr>
+        <tr><td>鬼类</td><td>人鬼恋、鬼复仇、鬼作祟</td></tr>
+        <tr><td>妖怪类</td><td>狐妖、蛇妖、树怪</td></tr>
+        <tr><td>再生类</td><td>死而复生</td></tr>
+        <tr><td>报应类</td><td>善恶报应</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.3 蒲松龄《聊斋志异》：鬼怪文学巅峰</h3>
+  <p>491篇。蒲松龄在家门口开茶馆，请路人讲故事——"搜神洞冥，编撰成书"。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>类型</th><th>代表篇目</th><th>特征</th></tr></thead>
+      <tbody>
+        <tr><td>女鬼</td><td>聂小倩、连琐、小谢</td><td>美丽、善良、重情——鬼比人可爱</td></tr>
+        <tr><td>女妖</td><td>婴宁（狐）、青凤（狐）</td><td>天真烂漫、敢爱敢恨</td></tr>
+        <tr><td>厉鬼</td><td>画皮、梅女</td><td>恐怖、复仇心重</td></tr>
+        <tr><td>阴差</td><td>席方平</td><td>揭露冥界官僚腐败</td></tr>
+        <tr><td>鬼官</td><td>考弊司</td><td>讽刺科举制度</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>画皮——最恐怖的鬼故事</h4>
+  <div class="quote">
+    窗中窥见一狞鬼，面翠色，齿巉巉如锯。铺人皮于榻上，执彩笔而绘之。
+    <span class="source">——《聊斋志异·画皮》</span>
+  </div>
+  <p>"画皮"成为汉语核心隐喻：外表美丽、内里狰狞。</p>
+
+  <p><strong>蒲松龄的鬼怪观：</strong>鬼怪大多比人可爱、比人有情。借鬼狐写人性——<strong>"鬼比人善，妖比人真。"</strong></p>
+
+  <h3>6.4 纪晓岚《阅微草堂笔记》：理性派的鬼故事</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>《聊斋志异》</th><th>《阅微草堂笔记》</th></tr></thead>
+      <tbody>
+        <tr><td>风格</td><td>文学性强，描写细腻</td><td>简练克制，如新闻简报</td></tr>
+        <tr><td>鬼怪形象</td><td>丰富多情，有个性</td><td>功能性强，较少个性化</td></tr>
+        <tr><td>目的</td><td>通过鬼狐写人性</td><td>通过鬼事寓劝戒</td></tr>
+        <tr><td>态度</td><td>浪漫同情</td><td>理性克制</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>志怪传统演变：</strong>干宝"证明鬼神存在"→《太平广记》分类整理→蒲松龄"鬼比人可爱"→纪晓岚"鬼事寓教训"——从"记录真实"变成"借鬼写人"。</p>
+</section>
+
+<!-- ===== 七、民间鬼怪类型 ===== -->
+<section id="s7">
+  <h2>七、民间鬼怪类型全景：每种鬼的行为逻辑</h2>
+
+  <h3>7.1 缢鬼（吊死鬼）</h3>
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div class="card-title" style="color:var(--accent-light);">行为逻辑</div>
+      <div class="card-body">找替身——诱导另一个上吊，自己才能投胎解脱</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div class="card-title" style="color:var(--accent-light);">外貌</div>
+      <div class="card-body">舌头伸出很长，面色青紫，在僻静处游荡</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div class="card-title" style="color:var(--accent-light);">深层含义</div>
+      <div class="card-body">反映对自杀的恐惧和道德判断——自杀者不得安宁</div>
+    </div>
+  </div>
+
+  <h3>7.2 水鬼</h3>
+  <p>溺水死者的鬼魂。与缢鬼类似——需要在水中找替身，把游泳者拖下水淹死，自己才能投胎。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>地区</th><th>名称</th><th>特征</th></tr></thead>
+      <tbody>
+        <tr><td>全国</td><td>水鬼</td><td>拖人下水</td></tr>
+        <tr><td>福建</td><td>水猴</td><td>形似猴子，力大</td></tr>
+        <tr><td>日本</td><td>河童</td><td>头顶有水盘，喜食黄瓜</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>社会功能：</strong>警告孩子不要去危险水域游泳。鬼故事=安全教育。</p>
+
+  <h3>7.3 厉鬼（怨鬼）</h3>
+  <div class="flow-chart"><span class="label">厉鬼复仇模式</span>：
+含冤而死 <span class="arrow">→</span> 怨气凝形 <span class="arrow">→</span> 寻找仇人
+<span class="arrow">→</span> 复仇（杀死或折磨） <span class="arrow">→</span> <span class="key">了结心愿后消散/被超度</span></div>
+  <p><strong>深层逻辑：</strong>弱势群体的"正义幻想"——当现实法律不能惩治恶人时，厉鬼代替法律执行正义。"冤有头债有主"——厉鬼只找仇人，不伤无辜。这是民间朴素正义观的投射。</p>
+
+  <h3>7.4 游魂（孤魂野鬼）</h3>
+  <p>没有后代祭祀、无处可归的鬼魂。对应社会中的无家可归者。中元节施食本质上是慈善行为在超自然层面的投射。</p>
+
+  <h3>7.5 替身鬼</h3>
+  <p>需要找到替身才能投胎转世的鬼。"我死得惨，别人也得同样死，我才能走"——反映对非正常死亡的恐惧。死亡方式成为一种"债务"。</p>
+
+  <h3>7.6 鬼怪类型总表</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>鬼类</th><th>死因</th><th>行为</th><th>驱动</th><th>化解方式</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-green">善鬼</span></td><td>正常死亡</td><td>安居受祭</td><td>无害</td><td>后代祭祀</td></tr>
+        <tr><td><span class="tag tag-red">缢鬼</span></td><td>上吊</td><td>找替身</td><td>解脱投胎</td><td>做法超度</td></tr>
+        <tr><td><span class="tag tag-red">水鬼</span></td><td>溺水</td><td>拖人下水</td><td>找替身</td><td>做法超度</td></tr>
+        <tr><td><span class="tag tag-gold">疫鬼</span></td><td>瘟疫</td><td>散布疾病</td><td>无差别</td><td>驱疫仪式</td></tr>
+        <tr><td><span class="tag tag-red">厉鬼</span></td><td>冤死</td><td>复仇</td><td>报仇</td><td>仇人受惩/超度</td></tr>
+        <tr><td><span class="tag tag-blue">游魂</span></td><td>无后代</td><td>游荡受食</td><td>求供养</td><td>中元施食</td></tr>
+        <tr><td><span class="tag tag-red">替身鬼</span></td><td>非正常</td><td>找替身</td><td>投胎</td><td>替身出现/超度</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 八、僵尸 ===== -->
+<section id="s8">
+  <h2>八、僵尸与赶尸：中国特有的"死尸不安"</h2>
+
+  <h3>8.1 中国僵尸 vs 西方吸血鬼</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>中国僵尸</th><th>西方吸血鬼</th></tr></thead>
+      <tbody>
+        <tr><td>活力来源</td><td>阴气/尸气</td><td>吸血</td></tr>
+        <tr><td>行动方式</td><td>蹦跳前行</td><td>正常行走</td></tr>
+        <tr><td>弱点</td><td>桃木剑、糯米、墨斗线、符</td><td>十字架、大蒜、阳光</td></tr>
+        <tr><td>成因</td><td>埋葬地阴气重/猫跳过尸体</td><td>被咬感染</td></tr>
+        <tr><td>目标</td><td>无差别攻击</td><td>吸血为生</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.2 僵尸分类</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>等级</th><th>名称</th><th>特征</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="tag tag-blue">紫僵</span></td><td>尸体发紫，不能动</td></tr>
+        <tr><td>2</td><td><span class="tag tag-blue">白僵</span></td><td>尸体发白，能缓慢移动</td></tr>
+        <tr><td>3</td><td><span class="tag tag-gold">毛僵</span></td><td>长出体毛，力大速度快</td></tr>
+        <tr><td>4</td><td><span class="tag tag-gold">飞僵</span></td><td>能飞行，有法力</td></tr>
+        <tr><td>5</td><td><span class="tag tag-red">游尸</span></td><td>随意游走，不局限墓地</td></tr>
+        <tr><td>6</td><td><span class="tag tag-red">伏尸</span></td><td>伏藏千年，与天地同寿</td></tr>
+        <tr><td>7</td><td><span class="tag tag-red">不化骨</span></td><td>永不腐烂，最强大</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.3 湘西赶尸</h3>
+  <p>湘西多山，交通不便，外出者死在他乡，运尸困难——赶尸匠用术法让尸体自己走回故乡安葬。</p>
+  <div class="flow-chart"><span class="label">赶尸匠选拔</span>：
+① 望太阳转圈，停下后指出东南西北
+② 扛重物训练
+③ 深夜去坟山找师父放的梧桐叶（练胆量）
+<span class="arrow">↓</span>
+入门后学画符、"三十六功"等手艺</div>
+  <p><strong>赶尸的文化意义：</strong>(1) 落叶归根——客死他乡者必须回家；(2) 对尸体的恐惧与敬畏——尸体有"不安"的可能；(3) 民间术法体系——与道教茅山术有关。</p>
+  <div class="callout">
+    <div class="callout-label">僵尸传说的根源</div>
+    <p style="margin:0">中国人对"尸体"有特殊恐惧——尸体如果得不到妥善安葬，就可能"不安"而变成僵尸。<strong>安葬=让死者真正死去。</strong>不安葬=死者卡在生死之间。</p>
+  </div>
+</section>
+
+<!-- ===== 九、节俗仪式 ===== -->
+<section id="s9">
+  <h2>九、节俗与仪式：活人怎么跟鬼打交道</h2>
+
+  <h3>9.1 三大鬼节</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>节日</th><th>日期</th><th>来源</th><th>核心活动</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-green">清明节</span></td><td>冬至后105天</td><td>儒家祭祖</td><td>扫墓、祭祖</td></tr>
+        <tr><td><span class="tag tag-red">中元节</span></td><td>七月十五</td><td>佛教盂兰盆+道教中元</td><td>烧纸、施食、超度</td></tr>
+        <tr><td><span class="tag tag-gold">寒衣节</span></td><td>十月初一</td><td>民间信仰</td><td>烧纸衣给亡者</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>三个鬼节的逻辑差异：</strong>清明=儒家式（扫墓，维持血缘关系）；中元=佛道式（超度，解决亡者苦难）；寒衣=民间式（送衣物，照顾死后生活）。三种逻辑并存，反映三教融合的宗教生态。</p>
+
+  <h3>9.2 招魂复礼：最早的鬼仪式</h3>
+  <div class="quote">
+    "复"——人刚死时，家属持死者衣物登上屋顶，面向北方呼喊死者的名字，请求魂魄回来。
+    <span class="source">——《礼记·礼运》</span>
+  </div>
+  <p><strong>招魂逻辑：</strong>魂=生命本质；魄=身体本质。人死=魂魄分离。魂能叫回来与魄重新结合，人就能复活——至少理论上可能。屈原《招魂》就是这套仪式的文学化表达。</p>
+</section>
+
+<!-- ===== 十、跨文化 ===== -->
+<section id="s10">
+  <h2>十、跨文化对比：中国鬼 vs 日本妖怪 vs 西方幽灵</h2>
+
+  <h3>10.1 中国鬼 vs 日本妖怪</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>中国</th><th>日本</th></tr></thead>
+      <tbody>
+        <tr><td>体系</td><td>鬼=人死后灵魂</td><td>妖怪=万物有灵（含神/兽/器物）</td></tr>
+        <tr><td>情感</td><td>哀怨、冤屈、复仇</td><td>调皮、恐怖、有时可爱</td></tr>
+        <tr><td>化objects</td><td>万物可成精（狐狸、蛇、树）</td><td>付丧神（器物成妖）</td></tr>
+        <tr><td>代表形象</td><td>女鬼、狐妖、僵尸</td><td>天狗、河童、雪女</td></tr>
+        <tr><td>现代转化</td><td>鬼片（港式恐怖片）</td><td>动漫（妖怪手表、鬼灭之刃）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>关键差异：</strong>中国鬼的核心是"人死为鬼"——鬼是人的延续。日本妖怪的核心是"万物有灵"——妖不一定是人变的。<strong>中国鬼更"重情"（冤、恨、爱），日本妖怪更"重趣"（怪、奇、异）。</strong></p>
+
+  <h3>10.2 中国鬼 vs 西方幽灵</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>中国</th><th>西方</th></tr></thead>
+      <tbody>
+        <tr><td>鬼的本质</td><td>魂魄分离后的残留</td><td>灵魂脱离身体</td></tr>
+        <tr><td>审判</td><td>有（十殿阎罗）</td><td>有（上帝审判）</td></tr>
+        <tr><td>去向</td><td>六道轮回/消散</td><td>天堂/地狱/炼狱</td></tr>
+        <tr><td>与活人关系</td><td>可沟通（祭祀、托梦）</td><td>通常不可沟通</td></tr>
+        <tr><td>驱鬼方式</td><td>道士做法、符箓</td><td>神父驱魔、十字架</td></tr>
+        <tr><td>鬼的形态</td><td>可有实体（可触摸）</td><td>通常为透明幻影</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>最根本差异：西方的鬼等上帝审判，中国的鬼等阎罗发落。</strong>西方鬼面对的是全知全能的上帝——一次性审判，进天堂或地狱。中国鬼面对的是官僚系统——有户籍、有审判流程、有投胎出口、可以被活人干预（祭祀/超度/烧纸）。</p>
+</section>
+
+<!-- ===== 演变链条 ===== -->
+<section>
+  <h2>附录：演变链条总图</h2>
+  <div class="flow-chart"><span class="label">商代</span>：人死为鬼 → 黄泉 → 祖先在帝左右 → 无审判
+  <span class="arrow">↓ 鬼字本义=人所归</span>
+<span class="label">周代</span>：魂魄分离 → 魂归天/魄归地 → 招魂复礼
+  <span class="arrow">↓ 概念细化</span>
+<span class="label">春秋战国</span>：《左传》厉鬼 → 伯有化厉 → 魑魅魍魉 → 山海经异兽
+  <span class="arrow">↓ 冥界地理化</span>
+<span class="label">汉代</span>：黄泉→蒿里→泰山治鬼 → "鬼伯"管理
+  <span class="arrow">↓ 志怪文学兴起</span>
+<span class="label">魏晋</span>：《搜神记》→ 韩凭/紫玉 → 鬼有情、可沟通
+  <span class="arrow">↓ 佛教入华</span>
+<span class="label">南北朝-隋唐</span>：六道轮回→饿鬼道→阎罗王→中元节
+  <span class="arrow">↓ 道教体系化</span>
+<span class="label">唐宋</span>：酆都鬼城→十殿阎罗→城隍土地→驱邪术
+  <span class="arrow">↓ 鬼怪文学巅峰</span>
+<span class="label">清代</span>：《聊斋志异》→ 女鬼/狐妖/厉鬼 → "鬼比人善"
+  <span class="arrow">↓ 民间类型化</span>
+<span class="label">民间</span>：缢鬼/水鬼/疫鬼/厉鬼/游魂/替身/僵尸
+  <span class="arrow">↓ 跨文化</span>
+<span class="key">现代：港式鬼片 → 日本妖怪学 → 全球恐怖文化</span></div>
+</section>
+
+<!-- ===== 核心结论 ===== -->
+<section id="s11" class="conclusion">
+  <h2>核心结论：五个判断</h2>
+
+  <ol>
+    <li><strong>鬼怪观念是"死后世界的想象性填充"。</strong>儒家不谈死后，道家追求不死——但大多数人还是会死。死了之后去哪？变成什么？鬼怪观念就是对这个问题两千年的想象性填充——从黄泉到酆都，从魂魄分离到六道轮回，每一层都是在用想象力对抗死亡的未知。</li>
+
+    <li><strong>中国鬼怪体系的底色是"魂魄分离"。</strong>中国人不是只有一个灵魂——魂（阳/天/意识）和魄（阴/地/身体）的分离与组合，决定了鬼的不同类型。这套理论是中国独有的——西方只有一个"soul"，日本只有一个"霊"。</li>
+
+    <li><strong>佛教入华是鬼怪观念的分水岭。</strong>佛教之前，中国鬼世界没有审判、没有轮回、没有地狱体系。佛教带来了六道轮回、业力报应、阎罗王、十八层地狱——彻底重构了中国冥界。但不是替代而是融合——泰山府君编入十殿阎罗，中元节融合佛道两教。<strong>中国鬼怪体系是"本土底色+佛教框架+道教管理"的三层叠加。</strong></li>
+
+    <li><strong>志怪文学塑造了中国人对鬼的想象。</strong>从干宝到蒲松龄，志怪文学不是单纯"记录"——它在<strong>创造</strong>鬼的形象。聂小倩让人相信女鬼是美的善的，画皮让人相信鬼可以伪装。中国人对鬼的复杂情感（怕又爱看、怕又同情），本质上是志怪文学塑造的。</li>
+
+    <li><strong>中国鬼怪体系的根本特征是"官僚化"。</strong>西方的鬼等上帝审判，日本的妖怪自成体系，中国的鬼——<strong>在体制内流转</strong>。冥界有官僚系统（十殿阎罗），有基层管理（城隍土地），有户籍制度，有审判流程，有投胎出口。鬼不是自由的——它有辖区、有管理者、有出路。<strong>中国的鬼世界，就是阴间的人间——有官、有民、有法、有情。</strong></li>
+  </ol>
+</section>
+
+<!-- ===== 三份报告对照表 ===== -->
+<section class="conclusion">
+  <h2>附：三份报告对照表（儒家/道家/鬼怪）</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>儒家生死观</th><th>道家神仙观</th><th>鬼怪观念</th></tr></thead>
+      <tbody>
+        <tr><td>核心问题</td><td>怎么面对死？</td><td>能不能不死？</td><td><strong>死后去哪？变成什么？</strong></td></tr>
+        <tr><td>根源</td><td>周公制礼→孔子改造</td><td>楚巫+齐方仙道+商周灵魂不死</td><td><strong>商代"人死为鬼"+魂魄分离</strong></td></tr>
+        <tr><td>对死亡</td><td>存而不论</td><td>挑战/克服</td><td><strong>详细建构死后世界</strong></td></tr>
+        <tr><td>灵魂观</td><td>不谈</td><td>元神出体</td><td><strong>魂魄分离，魂归天魄归地</strong></td></tr>
+        <tr><td>超越方式</td><td>三不朽（被记住）</td><td>长生久视（不死）</td><td><strong>轮回/超度/祭祀</strong></td></tr>
+        <tr><td>死后世界</td><td>不谈</td><td>不关心（追求不死）</td><td><strong>黄泉→蒿里→泰山→酆都</strong></td></tr>
+        <tr><td>管理者</td><td>不谈</td><td>三清四御（管仙）</td><td><strong>阎罗王/东岳大帝/城隍土地</strong></td></tr>
+        <tr><td>核心经典</td><td>《论语》《礼记》《左传》</td><td>《道德经》《庄子》《抱朴子》《悟真篇》</td><td><strong>《左传》《搜神记》《聊斋志异》</strong></td></tr>
+        <tr><td>历史影响</td><td>礼法制度</td><td>科技+养生</td><td><strong>节俗+文学+民间信仰</strong></td></tr>
+        <tr><td>根本精神</td><td>接受死亡</td><td>挑战死亡</td><td><strong>想象死亡</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <p>中国鬼怪调查报告 · 2026年7月27日</p>
+  <p style="margin-top:6px; opacity:0.6;">原典文本梳理 + 学术文献检索 + 跨文化对比 · 与儒家生死观、道家神仙观报告对照阅读</p>
+</div>
+
+</body>
+</html>

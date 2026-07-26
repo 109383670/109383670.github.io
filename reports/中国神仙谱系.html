@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国神仙谱系</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141e;
+  --border: #2a2a3a;
+  --accent: #d4a017;
+  --accent2: #c41e3a;
+  --text: #e0e0e0;
+  --muted: #8888a0;
+  --cat1: #4a3f6b;
+  --cat2: #8b6914;
+  --cat3: #1a3a5c;
+  --cat4: #2d6a4f;
+  --cat5: #5c3a1a;
+  --cat6: #8b0000;
+  --cat7: #4a4a6b;
+  --cat8: #6b4a3f;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "PingFang SC", "Noto Serif SC", serif;
+  line-height: 1.6;
+  padding: 20px;
+}
+.header {
+  text-align: center;
+  padding: 40px 20px;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 30px;
+}
+.header h1 { font-size: 2.4em; color: var(--accent); letter-spacing: 0.1em; }
+.header p { color: var(--muted); margin-top: 8px; font-size: 0.95em; }
+.tabs {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 30px;
+}
+.tab-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em;
+  font-family: inherit; transition: all 0.2s;
+}
+.tab-btn:hover { border-color: var(--accent); background: #1a1a2a; }
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: #000; }
+.panel { display: none; }
+.panel.active { display: block; }
+.cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.cat-icon {
+  width: 44px; height: 44px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4em; font-weight: bold;
+}
+.cat-title { font-size: 1.5em; font-weight: bold; }
+.cat-desc { color: var(--muted); font-size: 0.9em; margin-left: 12px; }
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px; margin-bottom: 40px;
+}
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px; transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--accent); }
+.card-name { font-size: 1.15em; font-weight: bold; color: var(--accent); margin-bottom: 4px; }
+.card-alias { color: var(--muted); font-size: 0.85em; margin-bottom: 10px; }
+.card-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 0.88em; }
+.card-label { min-width: 60px; color: var(--muted); flex-shrink: 0; }
+.card-value { color: var(--text); }
+table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.88em; }
+th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+th { background: #1a1a2a; color: var(--accent); }
+tr:hover { background: #1a1a2a; }
+.yama-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 30px; }
+.yama-card { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--cat3); border-radius: 8px; padding: 14px; }
+.yama-num { color: var(--accent); font-weight: bold; font-size: 0.85em; }
+.yama-name { font-size: 1.1em; font-weight: bold; margin: 4px 0; }
+.yama-func { color: var(--muted); font-size: 0.85em; }
+.stats { display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
+.stat-box { text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 24px; }
+.stat-num { font-size: 1.8em; font-weight: bold; color: var(--accent); }
+.stat-label { color: var(--muted); font-size: 0.82em; }
+.tree { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; font-family: monospace; font-size: 0.88em; white-space: pre-wrap; color: var(--text); }
+.footer { text-align: center; color: var(--muted); padding: 30px 0; border-top: 1px solid var(--border); font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>中国神仙谱系</h1>
+  <p>种类 · 等级 · 名称 · 分类大全 | 八大谱系 + 四附录</p>
+</div>
+
+<div class="stats">
+  <div class="stat-box"><div class="stat-num">9</div><div class="stat-label">创世神</div></div>
+  <div class="stat-box"><div class="stat-num">13</div><div class="stat-label">道教最高</div></div>
+  <div class="stat-box"><div class="stat-num">18</div><div class="stat-label">天庭官僚</div></div>
+  <div class="stat-box"><div class="stat-num">40+</div><div class="stat-label">星宿</div></div>
+  <div class="stat-box"><div class="stat-num">25</div><div class="stat-label">仙人</div></div>
+  <div class="stat-box"><div class="stat-num">30+</div><div class="stat-label">民间俗神</div></div>
+  <div class="stat-box"><div class="stat-num">15</div><div class="stat-label">冥界</div></div>
+  <div class="stat-box"><div class="stat-num">30+</div><div class="stat-label">佛教</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPanel('p1')">创世神</button>
+  <button class="tab-btn" onclick="showPanel('p2')">道教最高</button>
+  <button class="tab-btn" onclick="showPanel('p3')">天庭官僚</button>
+  <button class="tab-btn" onclick="showPanel('p4')">星宿</button>
+  <button class="tab-btn" onclick="showPanel('p5')">仙人</button>
+  <button class="tab-btn" onclick="showPanel('p6')">民间俗神</button>
+  <button class="tab-btn" onclick="showPanel('p7')">冥界</button>
+  <button class="tab-btn" onclick="showPanel('p8')">佛教</button>
+  <button class="tab-btn" onclick="showPanel('p9')">封神榜</button>
+  <button class="tab-btn" onclick="showPanel('p10')">神兽·关系图</button>
+</div>
+
+<div id="p1" class="panel active">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat1)">创</div><div><div class="cat-title">上古创世神谱系</div><div class="cat-desc">按宇宙创生顺序</div></div></div>
+  <div class="grid" id="grid1"></div>
+</div>
+
+<div id="p2" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat2)">道</div><div><div class="cat-title">道教最高神谱系</div><div class="cat-desc">三清·四御·五方五老</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">三清</h3>
+  <table id="sanqing"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">四御</h3>
+  <table id="siyu"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">五方五老</h3>
+  <table id="wufang"></table>
+</div>
+
+<div id="p3" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat3)">天</div><div><div class="cat-title">天庭官僚谱系</div><div class="cat-desc">按天庭职能分</div></div></div>
+  <div class="grid" id="grid3"></div>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">四大天王</h3>
+  <table id="tianwang"></table>
+</div>
+
+<div id="p4" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat4)">星</div><div><div class="cat-title">星宿神谱系</div><div class="cat-desc">按星象分</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">二十八星宿</h3>
+  <table id="stars28"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">北斗七星</h3>
+  <table id="beidou"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">南斗六星</h3>
+  <table id="nandou"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">福禄寿三星</h3>
+  <table id="fulushou"></table>
+  <div class="grid" id="grid4"></div>
+</div>
+
+<div id="p5" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat4)">仙</div><div><div class="cat-title">仙人谱系</div><div class="cat-desc">按道教仙品等级分</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">五仙品</h3>
+  <table id="xianpin"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">八仙</h3>
+  <table id="baxian"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">其他著名仙人</h3>
+  <table id="xianren"></table>
+</div>
+
+<div id="p6" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat5)">民</div><div><div class="cat-title">民间俗神谱系</div><div class="cat-desc">按人间生活需求分</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">财神</h3>
+  <table id="caishen"></table>
+  <div class="grid" id="grid6"></div>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">门神</h3>
+  <table id="menshen"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">行业神</h3>
+  <table id="hangye"></table>
+</div>
+
+<div id="p7" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat6)">冥</div><div><div class="cat-title">冥界神谱系</div><div class="cat-desc">按冥界官僚体系分</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">十殿阎罗</h3>
+  <div class="yama-grid" id="yama-grid"></div>
+  <div class="grid" id="grid7"></div>
+</div>
+
+<div id="p8" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat7)">佛</div><div><div class="cat-title">佛教入华神仙谱系</div><div class="cat-desc">佛教神祇在中国信仰体系中的定位</div></div></div>
+  <div class="grid" id="grid8"></div>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">十八罗汉</h3>
+  <table id="luohan18"></table>
+</div>
+
+<div id="p9" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat8)">封</div><div><div class="cat-title">《封神演义》八部365位正神</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">八部结构</h3>
+  <table id="babu"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">五岳大帝</h3>
+  <table id="wuyue"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">其他重要封神</h3>
+  <table id="fengshen_other"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">天罡三十六星</h3>
+  <table id="tiangang"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">地煞七十二星</h3>
+  <table id="disha"></table>
+</div>
+
+<div id="p10" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--cat1)">兽</div><div><div class="cat-title">神兽·关系图</div></div></div>
+  <h3 style="color:var(--accent);margin-bottom:10px;">四灵</h3>
+  <table id="siling"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">龙生九子</h3>
+  <table id="longjuzi"></table>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">玉帝系统关系图</h3>
+  <div class="tree" id="tree1"></div>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">道教修炼系统</h3>
+  <div class="tree" id="tree2"></div>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">封神系统</h3>
+  <div class="tree" id="tree3"></div>
+  <h3 style="color:var(--accent);margin:20px 0 10px;">《真灵位业图》七阶</h3>
+  <table id="zhenling"></table>
+</div>
+
+<div class="footer">
+  中国神仙谱系 · 2026年7月27日 · 八大谱系 + 四附录<br>
+  与《道家神仙观调查报告》互补：报告重脉络，谱系重条目
+</div>
+
+<script>
+function makeCard(i){return `<div class="card"><div class="card-name">${i.name}</div><div class="card-alias">别名：${i.alias||''}</div>${i.src?`<div class="card-row"><span class="card-label">出处</span><span class="card-value">${i.src}</span></div>`:''}${i.func?`<div class="card-row"><span class="card-label">职能</span><span class="card-value">${i.func}</span></div>`:''}${i.origin?`<div class="card-row"><span class="card-label">来历</span><span class="card-value">${i.origin}</span></div>`:''}${i.level?`<div class="card-row"><span class="card-label">等级</span><span class="card-value">${i.level}</span></div>`:''}${i.weak?`<div class="card-row"><span class="card-label">弱点</span><span class="card-value">${i.weak}</span></div>`:''}${i.lit?`<div class="card-row"><span class="card-label">文学</span><span class="card-value">${i.lit}</span></div>`:''}</div>`}
+function makeTable(h,r){let s='<thead><tr>';h.forEach(e=>s+=`<th>${e}</th>`);s+='</tr></thead><tbody>';r.forEach(e=>{s+='<tr>';e.forEach(c=>s+=`<td>${c}</td>`);s+='</tr>'});return s+'</tbody>'}
+
+const D={
+p1:[
+{name:"盘古",alias:"盘古氏、混沌氏",src:"《三五历记》《述异记》",func:"开天辟地——化生万物",origin:"天地混沌如鸡子，盘古生其中",level:"创世神——最高"},
+{name:"女娲",alias:"女娲氏、娲皇、地母",src:"《山海经》《淮南子》《风俗通义》",func:"造人、补天、高禖（婚姻之神）",origin:"黄帝之后。抟土造人，炼五色石补天",level:"创世神——顶级"},
+{name:"伏羲",alias:"太昊、宓羲、庖牺氏",src:"《周易》《淮南子》《史记》",func:"画八卦、造书契、教渔猎",origin:"东方天帝，与女娲为兄妹/夫妻",level:"创世神——三皇之首"},
+{name:"神农",alias:"炎帝、烈山氏",src:"《史记》《淮南子》",func:"尝百草、教稼穑——医药与农业之神",origin:"南方天帝",level:"创世神——三皇之一"},
+{name:"燧人",alias:"燧人氏、遂皇",src:"《韩非子·五蠹》",func:"钻木取火——火神",origin:"三皇之一",level:"创世神"},
+{name:"共工",alias:"康回",src:"《山海经》《淮南子》",func:"水神——怒触不周山",origin:"与颛顼争帝失败，天柱折",level:"上古大神"},
+{name:"夸父",alias:"不详",src:"《山海经·海外北经》",func:"追日——巨神",origin:"与日逐走，渴死化为邓林",level:"上古神人"},
+{name:"精卫",alias:"炎帝之女、女娃",src:"《山海经·北山经》",func:"填海——执念之鸟",origin:"炎帝小女溺于东海，化为精卫鸟",level:"上古神鸟"},
+{name:"刑天",alias:"形天",src:"《山海经·海外西经》",func:"与帝争——无头战神",origin:"被斩首，以乳为目以脐为口，执干戚而舞",level:"上古战神"},
+],
+sanqing:[["元始天尊","玉清大帝、天宝君","宇宙本源，象征'道'的先天状态"],["灵宝天尊","上清大帝、灵宝君","象征'道'的运行，掌经教"],["道德天尊","太清大帝、太上老君","象征'道'的教化，掌道德教令"]],
+siyu:[["玉皇大帝","昊天金阙至尊玉皇大帝","三界主宰——总管三界十方"],["紫微大帝","中天紫微北极太皇大帝","掌星辰日月四时"],["勾陈大帝","勾陈上宫南极天皇大帝","统御万星"],["后土皇地祇","承天效法后土皇地祇","掌阴阳生育万物之美"]],
+wufang:[["东方","青灵始老君","东方青帝"],["南方","丹灵真老君","南方赤帝"],["中央","元灵元老君","中央黄帝"],["西方","皓灵皇老君","西方白帝"],["北方","五灵玄老君","北方黑帝"]],
+p3:[
+{name:"玉皇大帝",alias:"玉帝、昊天上帝、天公",func:"三界最高统治者",origin:"光严妙乐国太子",level:"四御之首"},
+{name:"王母娘娘",alias:"西王母、金母、瑶池金母",func:"女仙之首——掌蟠桃园",origin:"《山海经》半人半兽→汉代定型"},
+{name:"东王公",alias:"东华帝君、木公",func:"男仙之首——与西王母对应",origin:"东方男神之长"},
+{name:"太白金星",alias:"李长庚",func:"玉帝钦差——传达旨意、招安",level:"天庭文臣"},
+{name:"太上老君",alias:"老子、道德天尊化身",func:"炼丹、法宝制造——天庭首席技术顾问",origin:"三清之道德天尊的化身",level:"三清之一"},
+{name:"二郎神",alias:"杨戬、灌口二郎",func:"司法战神——天庭第一战将",origin:"玉帝外甥",level:"天庭战神"},
+{name:"哪吒",alias:"哪吒三太子、三坛海会大神",func:"天庭先锋战将",origin:"李靖三子，莲花化身"},
+{name:"托塔天王李靖",alias:"李天王",func:"天庭兵马大元帅",origin:"陈塘关总兵→肉身成圣"},
+{name:"天蓬元帅",alias:"猪八戒（贬后）",func:"掌管天河八万水军",level:"天庭水军统帅"},
+{name:"四值功曹",alias:"年月日时功曹",func:"掌管年月日时——天庭时间管理"},
+{name:"六丁六甲",alias:"六丁神将、六甲神将",func:"天庭护法神将——护卫传令"},
+{name:"九天玄女",alias:"九天娘娘、玄女",func:"兵法战争之神——授兵书",origin:"西王母之使/弟子"},
+{name:"碧霞元君",alias:"泰山老奶奶、天仙玉女",func:"庇佑众生——泰山女神"},
+],
+tianwang:[["增长天王 魔礼青","青光天王","掌青光宝剑——职风"],["持国天王 魔礼红","碧玉天王","掌碧玉琵琶——职调"],["多闻天王 魔礼海","混元天王","掌混元珍珠伞——职雨"],["广目天王 魔礼寿","紫金天王","掌紫金龙花狐貂——职顺"]],
+stars28:[
+["东方青龙","角木蛟·亢金龙·氐土貉·房日兔·心月狐·尾火虎·箕水豹"],
+["南方朱雀","井木犴·鬼金羊·柳土獐·星日马·张月鹿·翼火蛇·轸水蚓"],
+["西方白虎","奎木狼·娄金狗·胃土雉·昴日鸡·毕月乌·觜火猴·参水猿"],
+["北方玄武","斗木豸·牛金牛·女土蝠·虚日鼠·危月燕·室火猪·壁水貐"],
+],
+beidou:[["天枢","贪狼星","正神/桃花"],["天璇","巨门星","黑暗/口舌"],["天玑","禄存星","福禄/食禄"],["天权","文曲星","文章/功名"],["玉衡","廉贞星","秩序/桃花"],["开阳","武曲星","武功/财"],["摇光","破军星","破坏/消耗"]],
+nandou:[["天府星","帝座/财库"],["天梁星","寿星/荫"],["天机星","智慧/谋略"],["天同星","福气/享乐"],["天相星","官印/衣食"],["七杀星","权力/战斗"]],
+fulushou:[["福星","福德星君","赐福"],["禄星","禄德星君","加官进禄"],["寿星","南极仙翁","赐寿"]],
+grid4:[
+{name:"文曲星",alias:"文昌帝君、梓潼帝君",func:"掌功名禄籍——读书人之守护神"},
+{name:"武曲星",alias:"武德星君",func:"掌武功战事"},
+{name:"太岁",alias:"岁君、太岁星君",func:"掌岁——本命年冲犯太岁"},
+],
+xianpin:[["1","天仙","飞升天界，位列仙班"],["2","神仙","超脱尘世，游名山大川"],["3","地仙","居陆地，长生不死未飞升"],["4","人仙","修炼有成，延年益寿"],["5","鬼仙","鬼魂修炼成仙——阴中超脱"]],
+baxian:[
+["铁拐李","李玄","铁拐、葫芦","借尸还魂——跛足"],
+["汉钟离","钟离权","芭蕉扇","汉代将军遇仙得道"],
+["张果老","张果","渔鼓、纸驴","唐代道士，倒骑驴"],
+["吕洞宾","吕岩、纯阳子","纯阳剑","唐代进士，钟离权度化"],
+["何仙姑","何琼","荷花","唐代广州女子食云母成仙"],
+["蓝采和","不详","花篮","唐代行吟者，半男半女"],
+["韩湘子","韩湘","横笛","韩愈侄孙，善吹箫"],
+["曹国舅","曹佾","玉板","宋代曹皇后之弟"],
+],
+xianren:[
+["镇元子","镇元大仙","《西游记》","地仙之祖——人参果树主"],
+["赤松子","不详","《列仙传》","神农时雨师"],
+["容成公","不详","《列仙传》","黄帝师——御女术之祖"],
+["广成子","不详","《庄子》《封神》","黄帝问道之师——崆峒山"],
+["彭祖","彭铿","《列仙传》","活八百岁——长寿之祖"],
+["黄帝","轩辕氏","《史记》","乘龙升天——华夏始祖"],
+["鬼谷子","王诩","《鬼谷子》","兵法/纵横家之祖"],
+["黄大仙","黄初平","《神仙传》","金华——叱石成羊"],
+["陈抟","希夷先生","《宋史》","睡仙——一睡百日"],
+["张三丰","张君宝","《明史》","武当祖师——太极拳"],
+],
+caishen:[
+["赵公明","武财神、玄坛真君","统管招宝纳珍招财利市","《封神》封正一龙虎玄坛真君"],
+["关羽","关帝、关圣帝君","忠义之神→武财神","三国关羽→历代加封至帝"],
+["比干","文财神","公正无私——无心故不偏","商代忠臣被挖心"],
+["范蠡","陶朱公","商人之祖——聚散有道","春秋越国大夫"],
+],
+grid6:[
+{name:"灶神",alias:"灶王爷、东厨司命",func:"监督一家人善恶——腊月二十三上天汇报",level:"家神"},
+{name:"城隍",alias:"城隍爷",func:"城池守护神——兼管阴间司法",origin:"多为当地忠烈名臣死后充任"},
+{name:"土地公",alias:"土地神、福德正神",func:"守护一方土地——最基层地域神",level:"地方小神"},
+{name:"妈祖",alias:"天妃、天后、林默娘",func:"海上保护神——护佑航海",origin:"宋代福建林默娘"},
+{name:"月老",alias:"月下老人",func:"掌婚姻——用红绳系男女脚"},
+{name:"送子娘娘",alias:"注生娘娘",func:"赐子——掌生育"},
+{name:"和合二仙",alias:"寒山、拾得",func:"婚姻和合——掌感情和睦"},
+{name:"文昌帝君",alias:"梓潼帝君",func:"掌功名禄籍——读书人之守护神"},
+{name:"钟馗",alias:"鬼王、赐福镇宅圣君",func:"捉鬼——驱邪镇宅",origin:"唐代进士，貌丑落榜撞死"},
+],
+menshen:[["秦琼","秦叔宝","唐代名将→门神"],["尉迟恭","尉迟敬德","唐代名将→门神"],["神荼","不详","《山海经》上古门神"],["郁垒","不详","《山海经》上古门神"],["钟馗","赐福镇宅圣君","唐代——捉鬼门神"]],
+hangye:[["木工","鲁班","春秋鲁国巧匠"],["医药","华佗/孙思邈","三国/唐代名医"],["酿酒","杜康","黄帝时造酒人"],["文字","仓颉","黄帝史官——造字"],["战争","蚩尤","上古战神"],["蚕桑","蚕神/马头娘","蜀地传说"],["航海","妈祖","宋代"],["屠宰","张飞","三国"],["娼妓","管仲","春秋——设女闾"],["贼盗","时迁","水浒"]],
+grid7:[
+{name:"判官",alias:"崔判官、文判、武判",func:"审判亡魂、查阅生死簿"},
+{name:"黑白无常",alias:"七爷八爷、谢必安/范无救",func:"拘拿亡魂"},
+{name:"牛头马面",alias:"阿傍/罗刹",func:"冥界巡逻、押送亡魂"},
+{name:"孟婆",alias:"孟婆神",func:"奈何桥递汤——忘记前世"},
+{name:"地藏王菩萨",alias:"地藏菩萨",func:"'地狱不空誓不成佛'——幽冥教主",level:"佛教四大菩萨之一——冥界最高"},
+],
+grid8:[
+{name:"观世音菩萨",alias:"观音、观自在",func:"大慈大悲——救苦救难、送子",origin:"印度男性菩萨→中国化为女性",level:"佛教四大菩萨"},
+{name:"文殊菩萨",alias:"文殊师利",func:"大智——智慧第一"},
+{name:"普贤菩萨",alias:"遍吉",func:"大行——行愿第一"},
+{name:"弥勒佛",alias:"未来佛、布袋和尚",func:"未来佛——接班人",origin:"印度弥勒→中国化为布袋和尚"},
+{name:"韦陀",alias:"韦驮菩萨",func:"护法——寺院守卫"},
+],
+luohan18:[
+[1,"宾头卢突罗阇","长眉罗汉"],[2,"迦诺迦伐蹉","喜庆罗汉"],[3,"迦诺迦跋厘堕阇","举钵罗汉"],
+[4,"苏频陀","托塔罗汉"],[5,"诺矩罗","静坐罗汉"],[6,"跋陀罗","过江罗汉"],
+[7,"迦理迦","骑象罗汉"],[8,"伐阇罗弗多罗","笑狮罗汉"],[9,"戍博迦","开心罗汉"],
+[10,"半托迦","探手罗汉"],[11,"罗怙罗","沉思罗汉（佛子）"],[12,"那伽犀那","挖耳罗汉"],
+[13,"因揭陀","布袋罗汉"],[14,"伐那婆斯","芭蕉罗汉"],[15,"阿氏多","长眉罗汉"],
+[16,"注荼半托迦","看门罗汉"],[17,"庆友","降龙罗汉"],[18,"宾头卢","伏虎罗汉"],
+],
+babu:[
+["雷部","九天应元雷声普化天尊 闻仲","掌雷罚恶"],
+["火部","南方三炁火德星君 罗宣","掌火"],
+["瘟部","主掌瘟㾮昊天大帝 吕岳","掌瘟疫"],
+["斗部","坎宫斗母 金灵圣母","掌星斗"],
+["群星列宿","（斗部下属）","掌星象"],
+["三山五岳","炳灵公黄天化+五岳大帝","掌山岳"],
+["布雨兴云","水德星君鲁雄+四水部","掌水雨"],
+["善恶之神","日游神/夜游神/增福神等","察人间善恶"],
+],
+wuyue:[
+["东岳泰山","天齐仁圣大帝","黄飞虎"],
+["南岳衡山","司天昭圣大帝","崇黑虎"],
+["中岳嵩山","中天崇圣大帝","闻聘"],
+["北岳恒山","安天玄圣大帝","崔英"],
+["西岳华山","金天愿圣大帝","蒋雄"],
+],
+fengshen_other:[
+["三界首领八部清福正神","柏鉴","总管"],
+["紫微大帝","姬伯邑考","北极紫微"],
+["金龙如意正一龙虎玄坛真君","赵公明","财神"],
+["感应随世仙姑","云霄·琼霄·碧霄","送子/护产"],
+["执年岁君太岁","殷郊","太岁"],
+["甲子太岁","杨任","太岁"],
+["分水将军","申公豹","分水"],
+["四大天王","魔礼青/红/海/寿","风调雨顺"],
+["哼哈二将","郑伦·陈奇","镇守山门"],
+["主痘碧霞元君","余化龙","痘神"],
+["冰消瓦解之神","飞廉·恶来","冰消瓦解"],
+],
+tiangang:[
+["1","天魁星","高衍"],["2","天罡星","黄真"],["3","天机星","卢昌"],["4","天闲星","纪丙"],
+["5","天勇星","姚公孝"],["6","天雄星","施桧"],["7","天猛星","孙乙"],["8","天威星","李豹"],
+["9","天英星","朱义"],["10","天贵星","陈坎"],["11","天富星","黎仙"],["12","天满星","方保"],
+["13","天孤星","詹秀"],["14","天伤星","李洪仁"],["15","天玄星","王龙茂"],["16","天健星","邓玉"],
+["17","天暗星","李新"],["18","天祐星","徐正道"],["19","天空星","典通"],["20","天速星","吴旭"],
+["21","天异星","吕自成"],["22","天煞星","任来聘"],["23","天微星","龚清"],["24","天究星","单百招"],
+["25","天退星","高可"],["26","天寿星","戚成"],["27","天剑星","王虎"],["28","天平星","卜同"],
+["29","天罪星","姚公"],["30","天损星","唐天正"],["31","天败星","申礼"],["32","天牢星","闻杰"],
+["33","天慧星","张智雄"],["34","天暴星","毕德"],["35","天哭星","刘达"],["36","天巧星","程三益"],
+],
+disha:[
+["1","地魁星","陈继真"],["2","地煞星","黄景元"],["3","地勇星","贾成"],["4","地杰星","呼百颜"],
+["5","地雄星","鲁修德"],["6","地威星","须成"],["7","地英星","孙祥"],["8","地奇星","王平"],
+["9","地猛星","柏有患"],["10","地文星","革高"],["11","地正星","考鬲"],["12","地辟星","李燧"],
+["13","地阖星","刘衡"],["14","地强星","夏祥"],["15","地暗星","余惠"],["16","地轴星","鲍龙"],
+["17","地会星","鲁芝"],["18","地佐星","黄丙庆"],["19","地祐星","张奇"],["20","地灵星","郭巳"],
+["21","地兽星","金南道"],["22","地微星","陈元"],["23","地慧星","车坤"],["24","地暴星","桑成道"],
+["25","地默星","周庚"],["26","地猖星","齐公"],["27","地狂星","霍之元"],["28","地飞星","叶中"],
+["29","地走星","顾宗"],["30","地巧星","李昌"],["31","地明星","方吉"],["32","地进星","徐吉"],
+["33","地退星","樊焕"],["34","地满星","卓公"],["35","地遂星","孔成"],["36","地周星","姚金秀"],
+["37","地隐星","宁三益"],["38","地异星","余知"],["39","地理星","童贞"],["40","地俊星","袁鼎相"],
+["41","地乐星","汪祥"],["42","地捷星","耿颜"],["43","地速星","邢三鸾"],["44","地镇星","姜忠"],
+["45","地羁星","孔天兆"],["46","地魔星","李跃"],["47","地妖星","龚倩"],["48","地幽星","段清"],
+["49","地伏星","门道正"],["50","地僻星","祖林"],["51","地空星","萧电"],["52","地孤星","吴四玉"],
+["53","地全星","匡玉"],["54","地短星","蔡公"],["55","地角星","蓝虎"],["56","地囚星","宋禄"],
+["57","地藏星","关斌"],["58","地平星","龙成"],["59","地损星","黄乌"],["60","地奴星","孔道灵"],
+["61","地察星","张焕"],["62","地恶星","李信"],["63","地魂星","徐山"],["64","地数星","葛方"],
+["65","地阴星","焦龙"],["66","地刑星","秦祥"],["67","地壮星","武衍公"],["68","地劣星","范斌"],
+["69","地健星","叶景昌"],["70","地耗星","姚烨"],["71","地贼星","孙吉"],["72","地狗星","陈梦庚"],
+],
+siling:[
+["龙","鳞虫之长","角似鹿头似驼眼似兔项似蛇","司水行雨·帝王象征"],
+["凤","羽虫之长","鸡头燕颔蛇颈龟背鱼尾","百鸟之王·祥瑞"],
+["麒麟","仁兽","麋身牛尾一角","太平盛世之兆"],
+["龟","四灵之一","长寿","占卜·长寿"],
+],
+longjuzi:[
+["赑屃","龟形","驼碑——石碑底座"],
+["螭吻","鱼龙","屋脊吞脊——避火"],
+["蒲牢","龙形","钟上兽钮——声音大"],
+["狴犴","虎形","狱门——掌刑"],
+["饕餮","兽形","青铜器纹——贪食"],
+["蚆夏","龟形","桥柱——避水"],
+["睚眦","龙身豺首","刀剑吞口——好杀"],
+["狻猊","狮形","香炉——好烟火"],
+["椒图","螺蚌","门环——避邪"],
+],
+zhenling:[
+["第一阶","上清","元始天尊、上皇先生"],
+["第二阶","上清","玉晨大道君、太极金阙帝君"],
+["第三阶","太清","太上老君、金阙帝君"],
+["第四阶","太清","太清真人、张道陵"],
+["第五阶","正一","葛玄、许逊"],
+["第六阶","正一","马鸣生、阴长生"],
+["第七阶","酆都","酆都北阴大帝——冥界"],
+],
+};
+
+document.getElementById('grid1').innerHTML=D.p1.map(makeCard).join('');
+document.getElementById('sanqing').innerHTML=makeTable(['名称','别名','职能'],D.sanqing);
+document.getElementById('siyu').innerHTML=makeTable(['名称','全称','职能'],D.siyu);
+document.getElementById('wufang').innerHTML=makeTable(['方位','名称','别名'],D.wufang);
+document.getElementById('grid3').innerHTML=D.p3.map(makeCard).join('');
+document.getElementById('tianwang').innerHTML=makeTable(['名称','别名','职能'],D.tianwang);
+document.getElementById('stars28').innerHTML=makeTable(['四方','七宿'],D.stars28);
+document.getElementById('beidou').innerHTML=makeTable(['星位','名称','职能'],D.beidou);
+document.getElementById('nandou').innerHTML=makeTable(['星位','职能'],D.nandou);
+document.getElementById('fulushou').innerHTML=makeTable(['名称','别名','职能'],D.fulushou);
+document.getElementById('grid4').innerHTML=D.grid4.map(makeCard).join('');
+document.getElementById('xianpin').innerHTML=makeTable(['品级','名称','特征'],D.xianpin);
+document.getElementById('baxian').innerHTML=makeTable(['名称','别名','法器','来历'],D.baxian);
+document.getElementById('xianren').innerHTML=makeTable(['名称','别名','出处','特征'],D.xianren);
+document.getElementById('caishen').innerHTML=makeTable(['名称','别名','职能','来历'],D.caishen);
+document.getElementById('grid6').innerHTML=D.grid6.map(makeCard).join('');
+document.getElementById('menshen').innerHTML=makeTable(['名称','别名','来历'],D.menshen);
+document.getElementById('hangye').innerHTML=makeTable(['行业','神名','来历'],D.hangye);
+document.getElementById('yama-grid').innerHTML=[
+[1,'秦广王','接引亡魂，判定去向'],[2,'楚江王','活大地狱'],[3,'宋帝王','黑绳大地狱'],
+[4,'五官王','合大地狱'],[5,'阎罗王','叫唤大地狱'],[6,'卞城王','大叫唤地狱'],
+[7,'泰山王','烦恼地狱'],[8,'都市王','大热恼地狱'],[9,'平等王','阿鼻地狱'],[10,'转轮王','转世投胎'],
+].map(r=>`<div class="yama-card"><div class="yama-num">第${r[0]}殿</div><div class="yama-name">${r[1]}</div><div class="yama-func">${r[2]}</div></div>`).join('');
+document.getElementById('grid7').innerHTML=D.grid7.map(makeCard).join('');
+document.getElementById('grid8').innerHTML=D.grid8.map(makeCard).join('');
+document.getElementById('luohan18').innerHTML=makeTable(['序号','名称','特征'],D.luohan18);
+document.getElementById('babu').innerHTML=makeTable(['部别','主神','职能'],D.babu);
+document.getElementById('wuyue').innerHTML=makeTable(['山岳','封号','人物'],D.wuyue);
+document.getElementById('fengshen_other').innerHTML=makeTable(['封号','人物','职能'],D.fengshen_other);
+document.getElementById('tiangang').innerHTML=makeTable(['序号','星名','对应'],D.tiangang);
+document.getElementById('disha').innerHTML=makeTable(['序号','星名','对应'],D.disha);
+document.getElementById('siling').innerHTML=makeTable(['名称','身份','外貌','职能'],D.siling);
+document.getElementById('longjuzi').innerHTML=makeTable(['名称','形态','职能'],D.longjuzi);
+document.getElementById('zhenling').innerHTML=makeTable(['阶','位次','代表神'],D.zhenling);
+document.getElementById('tree1').textContent=
+`玉皇大帝 ── 王母娘娘
+  ├── 紫微大帝
+  ├── 勾陈大帝
+  ├── 后土皇地祇
+  ├── 太白金星（文臣）
+  ├── 太上老君（三清化身·顾问）
+  ├── 托塔天王李靖 ── 哪吒
+  ├── 二郎神杨戬（外甥）
+  ├── 天蓬元帅（水军）
+  ├── 四大天王
+  ├── 六丁六甲
+  ├── 四值功曹
+  └── 二十八星宿`;
+document.getElementById('tree2').textContent=
+`三清（最高）
+  ├── 四御（行政）
+  │    ├── 玉皇大帝 ── 天庭官僚
+  │    ├── 紫微大帝 ── 星宿
+  │    ├── 勾陈大帝 ── 万星
+  │    └── 后土 ── 大地
+  ├── 五方五老
+  └── 仙人（修炼者）
+       ├── 天仙（飞升）
+       ├── 神仙（超脱）
+       ├── 地仙（陆地）
+       ├── 人仙（延年）
+       └── 鬼仙（阴超）`;
+document.getElementById('tree3').textContent=
+`鸿钧老祖
+  ├── 老子（人教）
+  ├── 元始天尊（阐教）── 十二金仙 ── 哪吒/杨戬等
+  └── 通天教主（截教）── 万仙来朝
+→ 封神榜365位正神 → 天庭官僚`;
+
+function showPanel(id){
+document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

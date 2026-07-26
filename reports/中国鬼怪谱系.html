@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国鬼怪谱系</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141e;
+  --border: #2a2a3a;
+  --accent: #c41e3a;
+  --accent2: #d4a017;
+  --text: #e0e0e0;
+  --muted: #8888a0;
+  --cat1: #8b0000;
+  --cat2: #2d6a4f;
+  --cat3: #4a3f6b;
+  --cat4: #6b4a3f;
+  --cat5: #1a3a5c;
+  --cat6: #5c3a1a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "PingFang SC", "Noto Serif SC", serif;
+  line-height: 1.6;
+  padding: 20px;
+}
+.header {
+  text-align: center;
+  padding: 40px 20px;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 30px;
+}
+.header h1 {
+  font-size: 2.4em;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.header p {
+  color: var(--muted);
+  margin-top: 8px;
+  font-size: 0.95em;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+.tab-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.tab-btn:hover { border-color: var(--accent); background: #1a1a2a; }
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* 谱系标题 */
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.cat-icon {
+  width: 44px; height: 44px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.cat-title { font-size: 1.5em; font-weight: bold; }
+.cat-desc { color: var(--muted); font-size: 0.9em; margin-left: 12px; }
+
+/* 卡片网格 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--accent); }
+.card-name {
+  font-size: 1.15em;
+  font-weight: bold;
+  color: var(--accent2);
+  margin-bottom: 4px;
+}
+.card-alias { color: var(--muted); font-size: 0.85em; margin-bottom: 10px; }
+.card-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 0.88em;
+}
+.card-label {
+  min-width: 60px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.card-value { color: var(--text); }
+
+/* 僵尸等级表 */
+.level-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.level-table th, .level-table td {
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.9em;
+}
+.level-table th {
+  background: var(--cat4);
+  color: #fff;
+  font-weight: bold;
+}
+.level-table tr:nth-child(even) { background: #1a1a2a; }
+
+/* 十殿阎罗 */
+.yama-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 30px;
+}
+.yama-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--cat5);
+  border-radius: 8px;
+  padding: 14px;
+}
+.yama-num { color: var(--accent2); font-weight: bold; font-size: 0.85em; }
+.yama-name { font-size: 1.1em; font-weight: bold; margin: 4px 0; }
+.yama-func { color: var(--muted); font-size: 0.85em; }
+
+/* 附录表格 */
+.appendix-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.88em;
+}
+.appendix-table th, .appendix-table td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+}
+.appendix-table th {
+  background: #1a1a2a;
+  color: var(--accent2);
+}
+.appendix-table tr:hover { background: #1a1a2a; }
+
+/* 速查表 */
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.counter-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.counter-method { color: var(--accent2); font-weight: bold; }
+.counter-target { color: var(--text); font-size: 0.9em; }
+.counter-reason { color: var(--muted); font-size: 0.82em; margin-top: 4px; }
+
+/* 统计栏 */
+.stats {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.stat-box {
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+.stat-num { font-size: 1.8em; font-weight: bold; color: var(--accent); }
+.stat-label { color: var(--muted); font-size: 0.82em; }
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.85em;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>中国鬼怪谱系</h1>
+  <p>种类 · 类型 · 名称 · 分类大全 | 六大谱系 100+ 条目</p>
+</div>
+
+<div class="stats">
+  <div class="stat-box"><div class="stat-num">24</div><div class="stat-label">人鬼</div></div>
+  <div class="stat-box"><div class="stat-num">15</div><div class="stat-label">妖精</div></div>
+  <div class="stat-box"><div class="stat-num">9</div><div class="stat-label">魅魍</div></div>
+  <div class="stat-box"><div class="stat-num">11</div><div class="stat-label">僵尸</div></div>
+  <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">冥界</div></div>
+  <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">器物</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPanel('p1')">人鬼谱系</button>
+  <button class="tab-btn" onclick="showPanel('p2')">妖精谱系</button>
+  <button class="tab-btn" onclick="showPanel('p3')">魅魍谱系</button>
+  <button class="tab-btn" onclick="showPanel('p4')">僵尸谱系</button>
+  <button class="tab-btn" onclick="showPanel('p5')">冥界体系</button>
+  <button class="tab-btn" onclick="showPanel('p6')">器物化生</button>
+  <button class="tab-btn" onclick="showPanel('p7')">西游记妖</button>
+  <button class="tab-btn" onclick="showPanel('p8')">三十六鬼</button>
+  <button class="tab-btn" onclick="showPanel('p9')">山海经兽</button>
+  <button class="tab-btn" onclick="showPanel('p10')">克制速查</button>
+</div>
+
+<!-- 谱系一：人鬼 -->
+<div id="p1" class="panel active">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat1)">鬼</div>
+    <div>
+      <div class="cat-title">人鬼谱系</div>
+      <div class="cat-desc">按死法/死因分类</div>
+    </div>
+  </div>
+  <div class="grid" id="grid1"></div>
+</div>
+
+<!-- 谱系二：妖精 -->
+<div id="p2" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat2)">妖</div>
+    <div>
+      <div class="cat-title">妖精谱系</div>
+      <div class="cat-desc">按本体物种分类</div>
+    </div>
+  </div>
+  <div class="grid" id="grid2"></div>
+</div>
+
+<!-- 谱系三：魅魍 -->
+<div id="p3" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat3)">魅</div>
+    <div>
+      <div class="cat-title">魅魍谱系</div>
+      <div class="cat-desc">自然精怪 · 山川水木之精</div>
+    </div>
+  </div>
+  <div class="grid" id="grid3"></div>
+</div>
+
+<!-- 谱系四：僵尸 -->
+<div id="p4" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat4)">尸</div>
+    <div>
+      <div class="cat-title">僵尸谱系</div>
+      <div class="cat-desc">按尸变等级分 · 八级递进</div>
+    </div>
+  </div>
+  <table class="level-table">
+    <thead><tr><th>等级</th><th>名称</th><th>外貌</th><th>行为</th><th>弱点</th></tr></thead>
+    <tbody id="zombie-tbody"></tbody>
+  </table>
+  <div class="grid" id="grid4"></div>
+</div>
+
+<!-- 谱系五：冥界 -->
+<div id="p5" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat5)">冥</div>
+    <div>
+      <div class="cat-title">冥界体系</div>
+      <div class="cat-desc">按职能分 · 冥界官僚系统</div>
+    </div>
+  </div>
+  <h3 style="color:var(--accent2);margin:20px 0 10px;">十殿阎罗</h3>
+  <div class="yama-grid" id="yama-grid"></div>
+  <h3 style="color:var(--accent2);margin:20px 0 10px;">冥界众神</h3>
+  <div class="grid" id="grid5"></div>
+</div>
+
+<!-- 谱系六：器物 -->
+<div id="p6" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat6)">器</div>
+    <div>
+      <div class="cat-title">器物化生谱系</div>
+      <div class="cat-desc">非生物成精 · 万物有灵</div>
+    </div>
+  </div>
+  <div class="grid" id="grid6"></div>
+</div>
+
+<!-- 附录：西游记 -->
+<div id="p7" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat2)">西</div>
+    <div><div class="cat-title">《西游记》妖怪谱系</div></div>
+  </div>
+  <h3 style="color:var(--accent2);margin-bottom:10px;">妖王级</h3>
+  <table class="appendix-table" id="xyj1"></table>
+  <h3 style="color:var(--accent2);margin:20px 0 10px;">中层妖王</h3>
+  <table class="appendix-table" id="xyj2"></table>
+</div>
+
+<!-- 附录：三十六鬼 -->
+<div id="p8" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat1)">36</div>
+    <div><div class="cat-title">三十六鬼（佛教系统）</div><div class="cat-desc">《正法念经》《钟馗斩鬼传》</div></div>
+  </div>
+  <table class="appendix-table" id="ghost36"></table>
+</div>
+
+<!-- 附录：山海经 -->
+<div id="p9" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--cat3)">山</div>
+    <div><div class="cat-title">《山海经》异兽精选</div></div>
+  </div>
+  <table class="appendix-table" id="shanhaijing"></table>
+</div>
+
+<!-- 附录：克制速查 -->
+<div id="p10" class="panel">
+  <div class="cat-header">
+    <div class="cat-icon" style="background:var(--accent)">克</div>
+    <div><div class="cat-title">核心克制方法速查</div></div>
+  </div>
+  <div class="counter-grid" id="counter-grid"></div>
+</div>
+
+<div class="footer">
+  中国鬼怪谱系 · 2026年7月27日 · 六大谱系 100+条目<br>
+  与《中国鬼怪调查报告》互补：报告重脉络，谱系重条目
+</div>
+
+<script>
+const data = {
+  // 人鬼
+  p1: [
+    {name:"善鬼",alias:"正鬼、家鬼",src:"《礼记·祭义》《左传》",look:"与生前无异，面色安详",act:"安居受祭，不害人，偶尔托梦",drive:"无害——正常死亡、有后代祭祀",weak:"无需克制——妥善祭祀即可安居",lit:"《聊斋》中大量善鬼形象"},
+    {name:"缢鬼",alias:"吊死鬼、上吊鬼",src:"《聊斋志异》《阅微草堂笔记》",look:"舌头伸出很长，面色青紫，在僻静处游荡",act:"找替身——诱导另一个上吊",drive:"解脱投胎——非正常死亡者困在死法中",weak:"桃木、符箓、超度法事",lit:"《聊斋志异·缢鬼》"},
+    {name:"水鬼",alias:"溺鬼、落水鬼、水猴子",src:"《明斋小识》《聊斋志异》",look:"全身浮肿、皮肤发白、头发湿乱",act:"在水中拖人下水淹死，找替身",drive:"找替身投胎",weak:"符箓、超度、避开水域",lit:"《聊斋志异·水莽鬼》"},
+    {name:"厉鬼",alias:"怨鬼、淫厉、强死鬼",src:"《左传·昭公七年》",look:"面目狰狞，红发圆眼，手持铁叉",act:"复仇——寻找害死自己的人报仇",drive:"含冤而死，怨气凝形",weak:"仇人受惩后消散；可被超度安抚",lit:"《左传》伯有化厉、《聊斋》梅女"},
+    {name:"游魂",alias:"孤魂野鬼、无主孤魂、野鬼",src:"民间信仰、佛教施食传统",look:"透明飘忽、衣衫褴褛",act:"游荡受食——无后代祭祀，无处可归",drive:"求供养",weak:"无攻击性——施食即可安抚",lit:"中元节施食仪式的来源"},
+    {name:"替身鬼",alias:"替死鬼、找替身",src:"《续子不语》《广异记》",look:"因死法而异——缢鬼舌长、水鬼浮肿",act:"找替身——让另一个人以同样方式死亡",drive:"投胎——非正常死亡者的'死亡债务'",weak:"替身出现后自然消解；可被超度",lit:"《续子不语》"},
+    {name:"产鬼",alias:"产妇鬼",src:"《夷坚志》",look:"女性形象，面色苍白，腹部有血迹",act:"找另一个产妇做替身",drive:"难产而死，需另一产妇同样方式死才能投胎",weak:"超度法事、符箓",lit:"《夷坚志》产鬼故事"},
+    {name:"疫鬼",alias:"疟鬼、瘟鬼、病鬼",src:"《论衡·订鬼》《异闻总录》《谐铎》",look:"面色灰败，周身笼罩病气",act:"散布瘟疫和疾病",drive:"瘟疫中死者的怨气",weak:"驱疫仪式、焚香、熏艾、符箓",lit:"《谐铎·病鬼》"},
+    {name:"伥鬼",alias:"伥、虎伥",src:"《趼廛笔记》《太平广记》《北梦琐言》",look:"样貌如人，半夜眼睛发光，男左手无小指，女右手无小指",act:"被虎吃后变伥鬼，引诱他人给老虎吃",drive:"为虎服务——虎是主人",weak:"乌梅、杨梅引之（嗜酸）；杀虎则伥散",lit:"《趼廛笔记》《广异记》"},
+    {name:"饿鬼",alias:"饥鬼",src:"睡虎地秦简《日书》《佛说盂兰盆经》",look:"腹大如鼓、颈细如针——永远吃不饱",act:"永远饥饿，食物入口化为火炭",drive:"生前贪嫉——业力使然",weak:"供僧功德回向、放焰口、施食",lit:"《佛说盂兰盆经》目连救母"},
+    {name:"殇鬼",alias:"小儿鬼、夜啼鬼、短命鬼",src:"民间信仰",look:"小孩模样，面色苍白",act:"夜间啼哭，纠缠活人",drive:"未成年夭折，怨气不散",weak:"超度、安镇符",lit:"民间'夜啼郎'传说"},
+    {name:"大头鬼",alias:"大头鬼",src:"《阅微草堂笔记》《鬼趣图》",look:"头异常巨大，身体瘦小",act:"出现吓人，一般不害人",drive:"不详",weak:"不详",lit:"《阅微草堂笔记》"},
+    {name:"长鬼",alias:"长人鬼",src:"《搜神记》《幽明录》《晋书》",look:"身材出奇高大——巨人鬼",act:"出现即为异象，一般不害人",drive:"不详",weak:"不详",lit:"《搜神记》《晋书》"},
+    {name:"无头鬼",alias:"獝狂",src:"《汉书音义》《后汉书·礼仪志》",look:"没有头，提着自己的头颅",act:"游荡，寻找自己的头",drive:"被斩首而死，头身分离",weak:"将头与身合葬",lit:"《聊斋志异》关公显圣"},
+    {name:"膏肓鬼",alias:"病入膏肓之鬼",src:"《左传·成公十年》",look:"小儿模样——'公梦疾为二竖子'",act:"藏在膏与肓之间，药力不到",drive:"疾病的拟人化——病入膏肓不可治",weak:"无法驱除",lit:"《左传》晋景公病入膏肓"},
+    {name:"多头鬼",alias:"双头鬼、九头鬼、丛头鬼",src:"《耳食录》",look:"多个头颅——两个到九个不等",act:"头多嘴多，争吵不休",drive:"不详",weak:"不详",lit:"《耳食录》"},
+    {name:"聻",alias:"鬼之鬼",src:"《淞滨琐话》《宣室志》《聊斋志异》",look:"不详",act:"鬼死后变成聻——'人死为鬼，鬼死为聻'",drive:"自然转化——鬼也会死",weak:"不详",lit:"《聊斋志异》《宣室志》"},
+    {name:"煞神",alias:"殃神、回煞",src:"《子不语》《夜谭随录》《醉茶志怪》",look:"红发圆眼，长丈余，手持铁叉",act:"人死后回煞日出现——死者魂魄回家",drive:"死后返家",weak:"避煞（家人当日外出回避）",lit:"《子不语》煞神受枷"},
+    {name:"水莽鬼",alias:"蛊毒鬼",src:"《聊斋志异·水莽鬼》",look:"不详",act:"误食水莽草而死，变成水莽鬼，引诱他人误食",drive:"找替身",weak:"解毒、超度",lit:"《聊斋志异·水莽鬼》"},
+    {name:"刀劳鬼",alias:"不详",src:"《搜神记》",look:"不详",act:"以刀伤人——非正常死亡者的怨气",drive:"被刀杀死后的怨气",weak:"不详",lit:"《搜神记》"},
+    {name:"伤魂鸟",alias:"不详",src:"《拾遗记》",look:"鸟形",act:"伤者的魂魄化为鸟",drive:"战死者的魂魄",weak:"不详",lit:"《拾遗记》"},
+    {name:"守财鬼",alias:"守财奴鬼",src:"民间传说",look:"守在生前财物旁",act:"死后仍守着生前钱财不放",drive:"贪婪——生前执念",weak:"超度、散财",lit:"民间故事"},
+    {name:"食鞋鬼",alias:"不详",src:"宋《鬼董》",look:"不详",act:"吃人的鞋子",drive:"不详——怪癖",weak:"不详",lit:"《鬼董》"},
+    {name:"鬼母",alias:"鬼姑神",src:"任昉《述异记》",look:"虎头龙足，蟒目蛟眉",act:"'能产天、地、鬼。一产十鬼，朝产之，暮食之'",drive:"本能——生育与吞噬",weak:"不详",lit:"《述异记》"},
+  ],
+  // 妖精
+  p2: [
+    {name:"狐妖",alias:"狐狸精、狐仙、九尾狐、天狐",src:"《山海经》《玄中记》《搜神记》《聊斋志异》",look:"美丽男女——幻化人形；本相为狐狸",act:"幻化人形、魅惑人类、与人恋爱",drive:"修炼成仙或采补阳气",weak:"黄犬、照妖镜、道士符箓",lit:"《聊斋》婴宁、青凤；《封神》妲己"},
+    {name:"蛇妖",alias:"蛇精、蛇仙",src:"《聊斋志异》《白蛇传》",look:"美丽女子——幻化人形；本相为蛇",act:"修炼化形、与人恋爱",drive:"修道或报恩",weak:"雄黄酒、符箓、法海金钵",lit:"《白蛇传》白娘子、小青"},
+    {name:"猫妖",alias:"猫鬼、金华猫、猫又",src:"《隋书》《朝野佥载》《坚瓠集》",look:"猫形，年老后变大。金华猫可幻化人形",act:"夜间作祟、使人疾病。猫鬼可被驱使害人",drive:"猫老成精",weak:"符箓、杀猫破法",lit:"《坚瓠集》金华猫"},
+    {name:"鼠精",alias:"鼠妖",src:"《云仙散录》",look:"鼠形变大",act:"偷食、捣乱",drive:"活太久成精",weak:"猫、符箓",lit:"《云仙散录》"},
+    {name:"虎妖",alias:"虎精、䝙人",src:"《搜神记》《封神演义》",look:"虎形或半人半虎",act:"吃人、化虎作祟。使伥鬼为其服务",drive:"虎老成精/人化虎",weak:"武力、符箓",lit:"《搜神记》䝙人"},
+    {name:"猿精",alias:"白猿、通臂猿猴、申阳公",src:"《搜神记》《封神演义》《西游记》",look:"猿猴形态，可幻化人形",act:"力大、好色——抢夺妇女",drive:"修炼或好色",weak:"法术",lit:"《陈巡检梅岭失妻记》；《西游记》孙悟空"},
+    {name:"鱼妖",alias:"鲛人、鱼精",src:"《搜神记》《山海经》",look:"人鱼——上半身人、下半身鱼",act:"织绢、泣珠。善良不害人",drive:"水族修炼",weak:"离水",lit:"《搜神记》南海鲛人；《西游记》灵感大王"},
+    {name:"蛤蟆精",alias:"蟾蜍精",src:"《史记》《淮南子》",look:"巨大蛤蟆",act:"吞食月亮——月蚀的神话解释",drive:"天文现象的拟人化",weak:"不详",lit:"《史记》《淮南子》《月蚀》"},
+    {name:"蜘蛛精",alias:"不详",src:"《西游记》《异苑·蜘蛛魅》",look:"美丽女子——幻化人形；本相为巨大蜘蛛",act:"吐丝缠人、吸食精气",drive:"修炼",weak:"火、法术",lit:"《西游记》盘丝洞七蜘蛛精"},
+    {name:"蝎子精",alias:"不详",src:"《西游记》《葫芦兄弟》",look:"人形，带蝎尾",act:"用毒针伤人",drive:"修炼",weak:"鸡（天敌）、法术",lit:"《西游记》蝎子精"},
+    {name:"树精",alias:"木魅、树怪",src:"《阅微草堂笔记》《聊斋志异》",look:"树形态或幻化人形",act:"树下魅人、使人迷路",drive:"树活太老成精",weak:"砍伐、火烧、符箓",lit:"《聊斋》聂小倩中树妖姥姥"},
+    {name:"花妖",alias:"花精、芭蕉精",src:"《湖海新闻夷坚续志》",look:"美丽女子——花化人形",act:"魅惑人类，善歌舞",drive:"花修炼成精",weak:"花谢则妖灭",lit:"《聊斋》香玉、葛巾"},
+    {name:"龟精",alias:"灵龟老妖",src:"《续西游记》",look:"巨龟形态",act:"水中作祟",drive:"龟长寿成精",weak:"法术",lit:"《续西游记》灵龟老妖"},
+    {name:"蛟",alias:"蛟龙",src:"《八仙得道传》周处除三害",look:"似龙无角——蛇身四足",act:"兴风作浪、制造洪水",drive:"蛇修炼向龙转化中间态",weak:"剑斩、法术",lit:"周处除三害"},
+    {name:"旱魃",alias:"旱妖、魃",src:"《诗经》《山海经》",look:"女性形象——黄帝之女。后演变为僵尸变种",act:"所到之处大旱——吸干水分",drive:"旱灾的拟人化",weak:"驱旱仪式、焚烧",lit:"《诗经》《山海经》《钵中莲》"},
+  ],
+  // 魅魍
+  p3: [
+    {name:"魑",alias:"螭",src:"《左传·宣公三年》杜预注",look:"形似龙而无角——山林猛兽化精",act:"在深山害人——山鬼",drive:"山林异气所生",weak:"不详",lit:"《左传》"},
+    {name:"魅",alias:"老魅",src:"《说文》《左传》",look:"百物之精华——外貌姣好",act:"以美貌迷惑人",drive:"百物日久吸收天地精华",weak:"照妖镜",lit:"《洛阳伽蓝记》'狐魅'"},
+    {name:"魍魉",alias:"罔两、罔阆",src:"《淮南子》《搜神记》",look:"如三岁小儿，色赤黑，目赤、耳长、发润",act:"喜食亡者肝。水中害人",drive:"颛顼幼子所化——水中精怪",weak:"不详",lit:"《淮南子》《搜神记》"},
+    {name:"山魈",alias:"独脚鬼、山臊、山精",src:"《抱朴子·登涉》《神异经》《聊斋志异》",look:"形如小儿，独足向后",act:"夜间害人、偷盗、恶作剧",drive:"山中精怪",weak:"符箓、铜镜",lit:"《聊斋志异·山魈》"},
+    {name:"罔象",alias:"不详",src:"《搜神记》《酉阳杂俎》",look:"不详——水中之怪",act:"水中作祟",drive:"水中之精",weak:"不详",lit:"《搜神记》"},
+    {name:"羵羊",alias:"土中之怪",src:"《搜神记》《国语》",look:"羊形——土中挖出",act:"土中之怪",drive:"土中精气所化",weak:"不详",lit:"《搜神记》"},
+    {name:"夔",alias:"夔牛、雷兽",src:"《山海经·大荒东经》",look:"一足牛形——无角，苍色",act:"出现即风雨——雷鸣之声",drive:"雷电的拟人化",weak:"黄帝以皮为鼓",lit:"《山海经》"},
+    {name:"地狼",alias:"犀犬",src:"《尸子》",look:"狼形——地下挖出",act:"土中之怪",drive:"地中精气",weak:"不详",lit:"《尸子》"},
+    {name:"鬼车",alias:"九头鸟",src:"《岭表录异》",look:"九头之鸟——夜间飞行",act:"掠走小孩、吸人精气",drive:"妖鸟",weak:"火光、犬吠",lit:"《岭表录异》"},
+  ],
+  // 僵尸
+  p4_extra: [
+    {name:"干麂子",alias:"矿洞僵尸",src:"《续子不语》",look:"矿洞中的僵尸",act:"和人乞烟吸",drive:"云南矿洞中的尸体",weak:"不详",lit:"《续子不语》"},
+    {name:"牛僵尸",alias:"不详",src:"《子不语》",look:"牛的尸体尸变",act:"不详",drive:"牛死后尸变",weak:"不详",lit:"《子不语》"},
+  ],
+  // 僵尸等级
+  zombies: [
+    ["1","紫僵","尸体发紫，不能动","初步尸变，尚无攻击力","焚烧即可"],
+    ["2","白僵","尸体发白，能缓慢移动","行动迟缓，力弱","桃木、糯米"],
+    ["3","绿僵","尸体发绿","比白僵快，带尸毒","桃木、墨斗线"],
+    ["4","毛僵","长出体毛","力大速度快，不怕阳光","墨斗线、符"],
+    ["5","飞僵","可飞行","有法力，能飞天","符、剑、法术"],
+    ["6","游尸","随意游走","不局限墓地，四处游荡","高级法术"],
+    ["7","伏尸","伏藏千年","与天地同寿，极强大","几乎无法消灭"],
+    ["8","不化骨","永不腐烂","最强大——骨骼成精","几乎无法消灭"],
+  ],
+  // 十殿阎罗
+  yama: [
+    ["1","秦广王","接引亡魂，判定去向"],
+    ["2","楚江王","活大地狱"],
+    ["3","宋帝王","黑绳大地狱"],
+    ["4","五官王","合大地狱"],
+    ["5","阎罗王","叫唤大地狱（最知名）"],
+    ["6","卞城王","大叫唤地狱"],
+    ["7","泰山王","烦恼地狱（泰山治鬼遗存）"],
+    ["8","都市王","大热恼地狱"],
+    ["9","平等王","阿鼻地狱"],
+    ["10","转轮王","转世投胎"],
+  ],
+  // 冥界众神
+  p5: [
+    {name:"判官",alias:"崔判官、文判、武判",src:"《聊斋志异》《西游记》",look:"官服，手持生死簿和笔",act:"审判亡魂、查阅生死簿、判定善恶",drive:"冥界官僚——职能",weak:"无——体制内神灵",lit:"《聊斋》席方平；《西游记》崔判官添寿"},
+    {name:"钟馗",alias:"鬼王、赐福镇宅圣君",src:"《唐逸史》《钟馗斩鬼传》",look:"豹头环眼，铁面虬髯，穿官服",act:"捉鬼——专门吃鬼。驱邪镇宅",drive:"唐玄宗梦中见其捉鬼",weak:"无——正神",lit:"《钟馗斩鬼传》"},
+    {name:"黑白无常",alias:"七爷八爷、谢必安（白）、范无救（黑）",src:"民间信仰",look:"白无常——高瘦白袍戴高帽吐长舌；黑无常——矮胖黑袍",act:"拘拿亡魂——阳寿尽时来索命",drive:"冥界差役",weak:"无",lit:"民间传说"},
+    {name:"牛头马面",alias:"阿傍（牛头）、罗刹（马面）",src:"佛教经典、民间信仰",look:"牛头人身/马头人身",act:"冥界巡逻、押送亡魂、执行刑罚",drive:"冥界差役",weak:"无",lit:"《西游记》"},
+    {name:"夜叉",alias:"药叉",src:"佛教经典、《宜室志》",look:"凶恶面目——可飞行（飞天夜叉）",act:"冥界巡逻、护卫佛法",drive:"佛教护法——半鬼半神",weak:"佛法",lit:"《聊斋》女夜叉"},
+    {name:"罗刹",alias:"罗刹女",src:"佛教经典、《阅微草堂笔记》",look:"美女或恶鬼——可变形",act:"食人——恶鬼。罗刹女可与人婚配",drive:"佛教恶鬼",weak:"佛法",lit:"《西游记》铁扇公主"},
+    {name:"孟婆",alias:"孟婆神",src:"民间信仰",look:"老妇人",act:"在奈何桥上递汤——让亡魂忘记前世",drive:"冥界职能",weak:"无",lit:"民间传说"},
+    {name:"五通神",alias:"五圣、五郎神",src:"中国传说",look:"五个兄弟——可幻化人形",act:"迷惑妇女、使人发财（代价是运势）",drive:"淫祠邪神",weak:"正法驱除",lit:"《聊斋》五通；《夷坚志》"},
+    {name:"鬼王",alias:"不详",src:"《搜神后记》《聊斋志异》",look:"威猛——鬼中首领",act:"统领鬼众",drive:"冥界中层管理",weak:"无",lit:"《聊斋志异》"},
+  ],
+  // 器物
+  p6: [
+    {name:"付丧神",alias:"器物精、物怪",src:"中国民间信仰",look:"器物本体长出眼口手足",act:"器物放置百年成精，夜间活动",drive:"万物有灵——器物老旧成精",weak:"破坏本体",lit:"日本百鬼夜行付丧神（源头中国）"},
+    {name:"画中精",alias:"画妖、画中美人",src:"《聊斋志异》",look:"画中人物——可走出画卷",act:"画中美人走出画卷与人相爱",drive:"画家笔墨有灵",weak:"画卷被毁则灭",lit:"《聊斋》画壁"},
+    {name:"镜灵",alias:"古镜精",src:"《古镜记》",look:"镜中显像",act:"古镜通灵——可照妖、可通冥",drive:"铜镜老旧成精",weak:"镜碎则灭",lit:"《古镜记》"},
+    {name:"土偶",alias:"泥孩、盟器婢子",src:"《聊斋志异》《谐铎》",look:"泥塑人偶——可活动",act:"泥偶成精，夜间活动",drive:"陪葬品/祭器有灵",weak:"打碎",lit:"《聊斋》土偶；《谐铎》泥傀儡"},
+    {name:"赑屃精",alias:"龙龟精",src:"《酉阳杂俎》《子不语》",look:"龙首龟身——石碑底座成精",act:"石雕成精，夜间活动",drive:"石雕年久有灵",weak:"破坏本体",lit:"《酉阳杂杵》《子不语》"},
+  ],
+  // 西游记妖王
+  xyj1: [
+    ["牛魔王","白牛","翠云山·芭蕉洞","孙悟空结拜兄弟"],
+    ["红孩儿","牛妖","火云洞","牛魔王之子"],
+    ["铁扇公主","罗刹女","翠云山·芭蕉洞","牛魔王之妻"],
+    ["六耳猕猴","猕猴","不详","假冒悟空"],
+    ["九灵元圣","九头狮子","竹节山·九曲盘桓洞","太乙救苦天尊坐骑"],
+    ["大鹏金翅雕","金翅大鹏","狮驼城","如来舅父"],
+    ["青狮精","狮子","狮驼岭","文殊菩萨坐骑"],
+    ["白象精","象","狮驼岭","普贤菩萨坐骑"],
+  ],
+  xyj2: [
+    ["白骨夫人","白骨","白虎岭","无背景"],
+    ["黄风怪","黄毛貂鼠","黄风岭","灵吉菩萨收伏"],
+    ["蝎子精","蝎子","毒敌山·琵琶洞","昴日星官收伏"],
+    ["百眼魔君","蜈蚣","黄花观","毗蓝婆菩萨收伏"],
+    ["赛太岁","金毛犼","麒麟山·獬豸洞","观音菩萨坐骑"],
+    ["青牛精","青牛","金兜山·金兜洞","太上老君坐骑"],
+    ["黄眉怪","黄眉童子","小雷音寺","弥勒佛童子"],
+    ["金角大王","金","平顶山·莲花洞","太上老君童子"],
+    ["银角大王","银","平顶山·莲花洞","太上老君童子"],
+    ["黑熊精","黑熊","黑风山·黑风洞","观音菩萨收伏"],
+    ["玉兔精","玉兔","天竺国","嫦娥玉兔"],
+    ["灵感大王","金鱼","通天河","观音莲花池金鱼"],
+    ["蜘蛛精（七姐妹）","蜘蛛","盘丝洞","百眼魔君师妹"],
+    ["三大仙","虎/鹿/羊","车迟国","虎力/鹿力/羊力大仙"],
+  ],
+  // 三十六鬼
+  ghost36: [
+    [1,"镫焰鬼","如灯火焰，忽明忽灭"],[2,"膏血鬼","以膏血为食"],[3,"肉食鬼","食人肉"],
+    [4,"罗刹鬼","食人恶鬼"],[5,"饿鬼","永远饥饿"],[6,"厉鬼","含冤而死"],
+    [7,"魇鬼","压人睡眠"],[8,"魅鬼","迷惑人"],[9,"魍魉鬼","水中之怪"],
+    [10,"老魅鬼","老物成精"],[11,"山鬼","山中精怪"],[12,"水鬼","水中溺鬼"],
+    [13,"火鬼","火灾死者"],[14,"风鬼","风中作祟"],[15,"土鬼","土中之怪"],
+    [16,"雷鬼","雷击死者"],[17,"疫鬼","散布瘟疫"],[18,"疟鬼","使人患疟疾"],
+    [19,"虎鬼","虎害死者"],[20,"狼鬼","狼害死者"],[21,"虫鬼","毒虫害人"],
+    [22,"蛇鬼","蛇害死者"],[23,"鸟鬼","鸟精怪"],[24,"鱼鬼","鱼精怪"],
+    [25,"树鬼","树精怪"],[26,"石鬼","石头成精"],[27,"草鬼","草妖"],
+    [28,"花鬼","花妖"],[29,"器鬼","器物成精"],[30,"宅鬼","宅中作祟"],
+    [31,"路鬼","路上害人"],[32,"墓鬼","墓地作祟"],[33,"产鬼","难产死者"],
+    [34,"伥鬼","虎伥"],[35,"缢鬼","上吊死者"],[36,"溺鬼","溺水死者"],
+  ],
+  // 山海经
+  shanhaijing: [
+    ["毕方","《山海经·海外南经》","如鹤，一足，红纹白喙","出现即火灾"],
+    ["九尾狐","《山海经·南山经》","狐，九尾","佩之宜子孙"],
+    ["蛊雕","《山海经·南山经》","如雕而有角，音如婴儿","食人"],
+    ["长右","《山海经·南山经》","如禺而四耳","见则大水"],
+    ["何罗鱼","《山海经·北山经》","一首十身","音如吠犬"],
+    ["当康","《山海经·东次四经》","如猪，有牙","见则大丰年"],
+    ["化蛇","《山海经》","人面豺身，鸟翼蛇行","见则大水"],
+    ["狰","《山海经·西山经》","如豹，五尾一角","音如击石"],
+    ["朱厌","《山海经·西山经》","如猿，白头赤足","见则大战"],
+    ["穷奇","《山海经》","如牛，猬毛，音如獆狗","食人"],
+    ["蠃鱼","《山海经·西山经》","鱼身鸟翼，音如鸳鸯","见则大水"],
+    ["鸣蛇","《山海经·中次二经》","蛇身四翼","见则大旱"],
+    ["飞头蛮","《搜神记》","头夜间飞离身体","食虫露"],
+    ["相柳","《山海经·海外北经》","九头蛇","所到之处成泽国"],
+  ],
+  // 克制
+  counter: [
+    {method:"桃木剑",target:"僵尸、鬼怪",reason:"桃木辟邪——五行属木，生发之气"},
+    {method:"糯米",target:"僵尸",reason:"糯米吸阴气"},
+    {method:"墨斗线",target:"僵尸",reason:"墨斗为木匠法器，弹线为界"},
+    {method:"符箓",target:"鬼怪、邪祟",reason:"道教符箓蕴含神力"},
+    {method:"雄黄酒",target:"蛇妖",reason:"雄黄解毒驱蛇"},
+    {method:"照妖镜",target:"妖精",reason:"铜镜照出本相"},
+    {method:"焚烧",target:"僵尸、纸人",reason:"火克阴"},
+    {method:"鸡鸣",target:"鬼怪、僵尸",reason:"阳气复生——鬼属阴"},
+    {method:"经文/咒语",target:"鬼怪",reason:"佛法/道法驱邪"},
+    {method:"超度法事",target:"孤魂、厉鬼",reason:"帮助亡魂安息投胎"},
+    {method:"杀虎",target:"伥鬼",reason:"虎死则伥散"},
+    {method:"黄犬",target:"狐妖",reason:"犬克狐"},
+    {method:"昴日星官/鸡",target:"蝎子精",reason:"天克"},
+  ],
+};
+
+function makeCard(item) {
+  return `<div class="card">
+    <div class="card-name">${item.name}</div>
+    <div class="card-alias">别名：${item.alias}</div>
+    <div class="card-row"><span class="card-label">出处</span><span class="card-value">${item.src}</span></div>
+    <div class="card-row"><span class="card-label">外貌</span><span class="card-value">${item.look}</span></div>
+    <div class="card-row"><span class="card-label">行为</span><span class="card-value">${item.act}</span></div>
+    <div class="card-row"><span class="card-label">驱动</span><span class="card-value">${item.drive}</span></div>
+    <div class="card-row"><span class="card-label">弱点</span><span class="card-value">${item.weak}</span></div>
+    <div class="card-row"><span class="card-label">文学</span><span class="card-value">${item.lit}</span></div>
+  </div>`;
+}
+
+function makeTable(headers, rows) {
+  let html = '<thead><tr>';
+  headers.forEach(h => html += `<th>${h}</th>`);
+  html += '</tr></thead><tbody>';
+  rows.forEach(r => {
+    html += '<tr>';
+    r.forEach(c => html += `<td>${c}</td>`);
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  return html;
+}
+
+// 填充
+document.getElementById('grid1').innerHTML = data.p1.map(makeCard).join('');
+document.getElementById('grid2').innerHTML = data.p2.map(makeCard).join('');
+document.getElementById('grid3').innerHTML = data.p3.map(makeCard).join('');
+document.getElementById('grid4').innerHTML = data.p4_extra.map(makeCard).join('');
+document.getElementById('grid5').innerHTML = data.p5.map(makeCard).join('');
+document.getElementById('grid6').innerHTML = data.p6.map(makeCard).join('');
+
+// 僵尸等级
+document.getElementById('zombie-tbody').innerHTML = data.zombies.map(r => 
+  `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`
+).join('');
+
+// 十殿阎罗
+document.getElementById('yama-grid').innerHTML = data.yama.map(r =>
+  `<div class="yama-card"><div class="yama-num">第${r[0]}殿</div><div class="yama-name">${r[1]}</div><div class="yama-func">${r[2]}</div></div>`
+).join('');
+
+// 附录表格
+document.getElementById('xyj1').innerHTML = makeTable(['名称','本体','地点','背景'], data.xyj1);
+document.getElementById('xyj2').innerHTML = makeTable(['名称','本体','地点','背景'], data.xyj2);
+document.getElementById('ghost36').innerHTML = makeTable(['序号','名称','特征'], data.ghost36);
+document.getElementById('shanhaijing').innerHTML = makeTable(['名称','出处','外貌','特征'], data.shanhaijing);
+
+// 克制
+document.getElementById('counter-grid').innerHTML = data.counter.map(c =>
+  `<div class="counter-card"><div class="counter-method">${c.method}</div><div class="counter-target">克制：${c.target}</div><div class="counter-reason">${c.reason}</div></div>`
+).join('');
+
+// Tab 切换
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

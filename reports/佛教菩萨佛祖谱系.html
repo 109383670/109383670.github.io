@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佛教菩萨佛祖等级体系谱系</title>
+<style>
+:root{--bg:#0a0a0f;--card:#14141e;--border:#2a2a3a;--accent:#d4a017;--accent2:#c41e3a;--text:#e0e0e0;--muted:#8888a0;--c1:#4a3f6b;--c2:#8b6914;--c3:#1a3a5c;--c4:#2d6a4f;--c5:#5c3a1a;--c6:#8b0000;--c7:#4a4a6b;--c8:#6b4a3f;--c9:#3a1a3a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:"PingFang SC","Noto Serif SC",serif;line-height:1.6;padding:20px}
+.header{text-align:center;padding:40px 20px;border-bottom:2px solid var(--accent);margin-bottom:30px}
+.header h1{font-size:2.4em;color:var(--accent);letter-spacing:0.1em}
+.header p{color:var(--muted);margin-top:8px;font-size:0.95em}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:30px}
+.tab-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:8px;cursor:pointer;font-size:0.95em;font-family:inherit;transition:all 0.2s}
+.tab-btn:hover{border-color:var(--accent);background:#1a1a2a}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#000}
+.panel{display:none}.panel.active{display:block}
+.cat-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.cat-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4em;font-weight:bold}
+.cat-title{font-size:1.5em;font-weight:bold}
+.cat-desc{color:var(--muted);font-size:0.9em;margin-left:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color 0.2s}
+.card:hover{border-color:var(--accent)}
+.card-name{font-size:1.15em;font-weight:bold;color:var(--accent);margin-bottom:4px}
+.card-alias{color:var(--muted);font-size:0.85em;margin-bottom:10px}
+.card-row{display:flex;gap:8px;margin-bottom:6px;font-size:0.88em}
+.card-label{min-width:60px;color:var(--muted);flex-shrink:0}
+.card-value{color:var(--text)}
+table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:0.88em}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+th{background:#1a1a2a;color:var(--accent)}
+tr:hover{background:#1a1a2a}
+.section-title{color:var(--accent);font-size:1.2em;margin:20px 0 10px}
+.quote{background:#1a1a2a;border-left:4px solid var(--accent);padding:12px 16px;margin:10px 0;font-style:italic;color:var(--text);border-radius:4px}
+.flow{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;font-family:monospace;font-size:0.85em;white-space:pre-wrap;color:var(--text)}
+.ladder{display:flex;flex-direction:column;gap:4px;margin-bottom:30px}
+.ladder-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:12px;border-left:4px solid var(--accent)}
+.ladder-level{min-width:80px;font-weight:bold;color:var(--accent);font-size:0.9em}
+.ladder-name{font-weight:bold}
+.ladder-desc{color:var(--muted);font-size:0.85em;margin-left:auto}
+.footer{text-align:center;color:var(--muted);padding:30px 0;border-top:1px solid var(--border);font-size:0.85em}
+.stage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:30px}
+.stage-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;border-top:4px solid var(--accent)}
+.stage-num{color:var(--accent);font-size:0.8em;font-weight:bold}
+.stage-name{font-size:1.05em;font-weight:bold;margin:2px 0}
+.stage-desc{color:var(--muted);font-size:0.82em}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>佛教菩萨佛祖等级体系谱系</h1>
+  <p>种类 · 等级 · 名称 · 职能大全 | 五章 + 附录</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPanel('p1')">佛</button>
+  <button class="tab-btn" onclick="showPanel('p2')">菩萨阶位</button>
+  <button class="tab-btn" onclick="showPanel('p3')">菩萨名号</button>
+  <button class="tab-btn" onclick="showPanel('p4')">罗汉声闻</button>
+  <button class="tab-btn" onclick="showPanel('p5')">护法天神</button>
+  <button class="tab-btn" onclick="showPanel('p6')">修证体系</button>
+  <button class="tab-btn" onclick="showPanel('p7')">关系图</button>
+</div>
+
+<div id="p1" class="panel active">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1)">佛</div><div><div class="cat-title">佛的谱系</div><div class="cat-desc">三身·三世·五方·十号</div></div></div>
+
+  <div class="section-title">三身佛</div>
+  <table id="sanshen"></table>
+  <div class="quote">一月三身：法身是体，报身是相，化身是用。三身不异。</div>
+
+  <div class="section-title">竖三世佛（时间）</div>
+  <table id="sshi"></table>
+
+  <div class="section-title">横三世佛（空间）</div>
+  <table id="hshi"></table>
+
+  <div class="section-title">五方佛（密教）</div>
+  <table id="wfang"></table>
+  <div class="quote">五方佛即五智如来的化现，对应五蕴、五烦恼转五智。</div>
+
+  <div class="section-title">如来十号</div>
+  <table id="shihao"></table>
+
+  <div class="section-title">其他重要佛</div>
+  <div class="grid" id="fo_grid"></div>
+</div>
+
+<div id="p2" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c2)">位</div><div><div class="cat-title">菩萨五十二阶位</div><div class="cat-desc">从发心到成佛的完整阶梯</div></div></div>
+
+  <div class="section-title">十信位（外凡——信心建立）</div>
+  <div class="stage-grid" id="x_xin"></div>
+
+  <div class="section-title">十住位（内凡——心安住）</div>
+  <div class="stage-grid" id="x_zhu"></div>
+
+  <div class="section-title">十行位（利他行）</div>
+  <div class="stage-grid" id="x_xing"></div>
+
+  <div class="section-title">十回向位（回己功德）</div>
+  <div class="stage-grid" id="x_xiang"></div>
+
+  <div class="section-title">十地位（圣者——登地菩萨）</div>
+  <div class="stage-grid" id="x_di"></div>
+
+  <div class="section-title">等觉与妙觉</div>
+  <table id="dengjiao"></table>
+  <div class="quote">从初发心到成佛，三大阿僧祇劫。初地至七地为第一阿僧祇劫，八地至十地为第二阿僧祇劫，等觉至妙觉为第三阿僧祇劫。</div>
+</div>
+
+<div id="p3" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c4)">萨</div><div><div class="cat-title">菩萨名号谱系</div><div class="cat-desc">四大·八大·其他重要菩萨</div></div></div>
+
+  <div class="section-title">四大菩萨</div>
+  <div class="grid" id="si_da"></div>
+
+  <div class="section-title">八大菩萨</div>
+  <table id="ba_da"></table>
+
+  <div class="section-title">其他重要菩萨</div>
+  <div class="grid" id="qita"></div>
+
+  <div class="section-title">观音三十三化身</div>
+  <table id="guanyin"></table>
+</div>
+
+<div id="p4" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c5)">罗</div><div><div class="cat-title">罗汉/声闻谱系</div><div class="cat-desc">四果四向·十八罗汉·五百罗汉</div></div></div>
+
+  <div class="section-title">四果四向（声闻乘修证阶位）</div>
+  <table id="siguo"></table>
+  <div class="quote">四向四果合称"四双八辈"——声闻乘的八种圣者。</div>
+
+  <div class="section-title">阿罗汉三义</div>
+  <table id="alohan"></table>
+
+  <div class="section-title">十八罗汉</div>
+  <table id="luohan18"></table>
+
+  <div class="section-title">缘觉/辟支佛</div>
+  <table id="piyu"></table>
+</div>
+
+<div id="p5" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c6)">护</div><div><div class="cat-title">护法天神谱系</div><div class="cat-desc">天龙八部·二十四诸天·韦驮伽蓝</div></div></div>
+
+  <div class="section-title">天龙八部</div>
+  <table id="babu"></table>
+
+  <div class="section-title">二十四诸天</div>
+  <table id="zhutian"></table>
+
+  <div class="section-title">韦驮菩萨</div>
+  <div class="grid" id="weito"></div>
+
+  <div class="section-title">伽蓝菩萨（关公）</div>
+  <div class="grid" id="qialan"></div>
+</div>
+
+<div id="p6" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c7)">证</div><div><div class="cat-title">修证体系总览</div><div class="cat-desc">六道→佛的完整阶梯</div></div></div>
+
+  <div class="section-title">六道众生 → 佛</div>
+  <div class="flow">六道众生（天·人·阿修罗·畜生·饿鬼·地狱）
+    ↓ 修行
+七贤位（五停心·别相念·总相念·暖·顶·忍·世第一法）
+    ↓ 证初果
+四果四向（须陀洹→斯陀含→阿那含→阿罗汉）— 声闻乘
+    ↓ 发菩提心
+十信 → 十住 → 十行 → 十回向（外凡→内凡→贤位）
+    ↓ 登初地
+十地菩萨（欢喜地→法云地）— 圣者位
+    ↓ 等觉
+等觉菩萨（一生补处——如弥勒）
+    ↓ 断尽最后一品无明
+妙觉 = 佛</div>
+
+  <div class="section-title">三乘果位对比</div>
+  <table id="sancheng"></table>
+  <div class="quote">"唯有一乘法，无二亦无三"——《法华经》。三乘是方便说，究竟只有一乘——佛乘。</div>
+
+  <div class="section-title">五十二位次速查</div>
+  <table id="suocha"></table>
+</div>
+
+<div id="p7" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c9)">图</div><div><div class="cat-title">神祇关系图</div></div></div>
+  <div class="flow" id="tree1"></div>
+  <div class="section-title">菩萨阶位流</div>
+  <div class="flow" id="tree2"></div>
+  <div class="section-title">声闻果位流</div>
+  <div class="flow" id="tree3"></div>
+  <div class="section-title">护法体系</div>
+  <div class="flow" id="tree4"></div>
+</div>
+
+<div class="footer">
+  佛教菩萨佛祖等级体系谱系 · 2026年7月27日<br>
+  与佛家调查报告、中国神仙谱系、中国鬼怪谱系互补
+</div>
+
+<script>
+function makeCard(i){return `<div class="card"><div class="card-name">${i.name}</div><div class="card-alias">${i.alias||''}</div>${i.rows?i.rows.map(r=>`<div class="card-row"><span class="card-label">${r[0]}</span><span class="card-value">${r[1]}</span></div>`).join(''):''}</div>`}
+function makeTable(h,r){let s='<thead><tr>';h.forEach(e=>s+=`<th>${e}</th>`);s+='</tr></thead><tbody>';r.forEach(e=>{s+='<tr>';e.forEach(c=>s+=`<td>${c}</td>`);s+='</tr>'});return s+'</tbody>'}
+function makeStage(arr){return arr.map((e,i)=>`<div class="stage-card"><div class="stage-num">第${i+1}位</div><div class="stage-name">${e[0]}</div><div class="stage-desc">${e[1]}</div></div>`).join('')}
+function showPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
+
+document.getElementById('sanshen').innerHTML=makeTable(['身','含义','比喻','代表佛'],[['法身','真理本身、宇宙实相——无形无相','月之体','毗卢遮那佛（大日如来）'],['报身','修功德圆满所感果报身——庄严相好','月之光','卢舍那佛'],['应化身','为度化众生随类化现身——有生有灭','月之影','释迦牟尼佛']]);
+document.getElementById('sshi').innerHTML=makeTable(['佛','时段','含义'],[['燃灯佛','过去佛','为释迦牟尼授记的前世佛'],['释迦牟尼佛','现在佛','贤劫第四佛，佛教教主'],['弥勒佛','未来佛','释迦灭度后下生成佛']]);
+document.getElementById('hshi').innerHTML=makeTable(['佛','方位','净土','职能'],[['药师佛','东方','琉璃净土','消灾延寿、治病度苦'],['释迦牟尼佛','中央','娑婆世界','佛教教主、说法度生'],['阿弥陀佛','西方','极乐净土','接引念佛众生往生']]);
+document.getElementById('wfang').innerHTML=makeTable(['方位','佛名','智慧','手印','色'],[['中央','毗卢遮那佛（大日如来）','法界体性智','说法印','白'],['东方','阿閦佛（不动佛）','大圆镜智','触地印','青/蓝'],['南方','宝生佛','平等性智','与愿印','黄/金'],['西方','阿弥陀佛','妙观察智','禅定印','赤/红'],['北方','不空成就佛','成所作智','施无畏印','绿']]);
+document.getElementById('shihao').innerHTML=makeTable(['序','号','含义'],[[1,'如来','乘真如之道来成正觉'],[2,'应供','福慧圆满，应受人天供养'],[3,'正遍知','正确普遍地知一切法'],[4,'明行足','三明与身口意行圆满'],[5,'善逝','善入涅槃，不再退回轮回'],[6,'世间解','彻底了解世间一切'],[7,'无上士','至高无上，无人能超'],[8,'调御丈夫','善于调伏教化众生'],[9,'天人师','天人众生的导师'],[10,'佛/世尊','觉悟者/世出世间最尊贵者']]);
+document.getElementById('fo_grid').innerHTML=[
+{name:'大日如来',alias:'Vairocana · 密教教主',rows:[['职能','法身佛——密教最高'],['经典','《大日经》《金刚顶经》']]},
+{name:'卢舍那佛',alias:'Locana · 报身佛',rows:[['职能','报身佛——华严教主'],['经典','《华严经》']]},
+{name:'阿弥陀佛',alias:'Amitābha · 西方教主',rows:[['职能','接引念佛众生往生极乐'],['经典','净土三经'],['胁侍','观世音+大势至']]},
+{name:'药师佛',alias:'Bhaiṣajyaguru · 东方教主',rows:[['职能','消灾延寿、治病度苦'],['经典','《药师经》'],['胁侍','日光+月光菩萨']]},
+{name:'燃灯佛',alias:'Dīpaṃkara · 过去佛',rows:[['职能','为释迦牟尼授记'],['经典','《金刚经》']]},
+{name:'弥勒佛',alias:'Maitreya · 未来佛',rows:[['职能','兜率天待降——未来成佛'],['经典','《弥勒上生经》']]},
+{name:'多宝佛',alias:'Prabhūtaratna',rows:[['职能','法华经中涌出——证明法华'],['经典','《法华经·见宝塔品》']]},
+{name:'阿閦佛',alias:'Akṣobhya · 不动佛',rows:[['职能','东方妙喜世界教主——不动怒'],['经典','《阿閦佛国经》']]}].map(makeCard).join('');
+
+document.getElementById('x_xin').innerHTML=makeStage([['信心','信佛智慧，初发菩提心'],['念心','常念三宝'],['精进心','精勤修善'],['慧心','智慧渐增'],['定心','心安住一境'],['不退心','道心不退'],['回向心','回己功德向众生'],['护法心','护持正法'],['戒心','持戒清净'],['愿心','发大愿度生']]);
+document.getElementById('x_zhu').innerHTML=makeStage([['发心住','初住不退，菩提心发'],['治地住','净治心地'],['修行住','修六度万行'],['生贵住','生于佛家，法王子位'],['方便具足住','善巧方便具足'],['正心住','心正直不偏'],['不退住','道心坚固'],['童真住','清净无染'],['法王子住','堪为佛子'],['灌顶住','受灌顶，堪行佛事']]);
+document.getElementById('x_xing').innerHTML=makeStage([['欢喜行','令生欢喜'],['饶益行','利益众生不求回报'],['无嗔恨行','怨亲平等'],['无尽行','度生无尽'],['离痴乱行','不为境乱'],['善现行','随类化度'],['无著行','心无所著'],['尊重行','令他尊重'],['善法行','圆满善法'],['真实行','言行真实']]);
+document.getElementById('x_xiang').innerHTML=makeStage([['救一切众生离众生相回向','度生不著相'],['不坏回向','坚固不坏'],['等一切佛回向','学三世佛'],['至一切处回向','遍一切处'],['无尽功德藏回向','功德无尽'],['随顺平等善根回向','平等善根增长'],['随顺等观一切众生回向','同体大悲'],['真如相回向','回向真如'],['无缚无著解脱回向','心无缚著'],['法界无量回向','无量无边']]);
+document.getElementById('x_di').innerHTML=makeStage([['欢喜地','初证圣性，破分别我执'],['离垢地','身口意清净'],['发光地','智慧光显'],['焰慧地','智焰烧烦恼'],['难胜地','世出世智不违'],['现前地','缘起性空现前'],['远行地','超越二乘'],['不动地','无相无功用'],['善慧地','四无碍辩'],['法云地','法身普荫一切']]);
+document.getElementById('dengjiao').innerHTML=makeTable(['位','名称','含义'],[['51','等觉','与佛相等，仅差一品无明——一生补处'],['52','妙觉','究竟成佛，无明断尽，万德圆满']]);
+
+document.getElementById('si_da').innerHTML=[
+{name:'文殊菩萨',alias:'Mañjuśrī · 大智',rows:[['道场','山西五台山'],['表法','智慧第一——斩烦恼剑'],['标识','青狮、宝剑、经卷']]},
+{name:'普贤菩萨',alias:'Samantabhadra · 大行',rows:[['道场','四川峨眉山'],['表法','行愿第一——十大愿王'],['标识','六牙白象']]},
+{name:'观世音菩萨',alias:'Avalokiteśvara · 大悲',rows:[['道场','浙江普陀山'],['表法','救苦救难——千处祈求千处应'],['标识','莲花、净瓶、杨柳枝']]},
+{name:'地藏王菩萨',alias:'Kṣitigarbha · 大愿',rows:[['道场','安徽九华山'],['表法','地狱不空誓不成佛'],['标识','锡杖、宝珠']]}].map(makeCard).join('');
+document.getElementById('ba_da').innerHTML=makeTable(['序','菩萨','职能'],[[1,'文殊菩萨','智慧'],[2,'普贤菩萨','行愿'],[3,'观世音菩萨','慈悲'],[4,'地藏王菩萨','大愿'],[5,'大势至菩萨','智光——阿弥陀佛胁侍'],[6,'虚空藏菩萨','福智虚空——满众生愿'],[7,'除盖障菩萨','除一切障碍'],[8,'弥勒菩萨','慈心——未来佛']]);
+document.getElementById('qita').innerHTML=[
+{name:'大势至菩萨',alias:'Mahāsthāmaprāpta',rows:[['职能','阿弥陀佛右胁侍'],['特点','以智慧光普照一切'],['净土三圣','阿弥陀佛+观音+大势至']]},
+{name:'日光菩萨',alias:'Sūryaprabha',rows:[['职能','药师佛左胁侍——日光遍照'],['净土','东方琉璃净土']]},
+{name:'月光菩萨',alias:'Candraprabha',rows:[['职能','药师佛右胁侍——月光遍照'],['净土','东方琉璃净土']]},
+{name:'维摩诘菩萨',alias:'Vimalakīrti',rows:[['身份','在家菩萨'],['特点','示疾说法，辩才无碍'],['经典','《维摩诘经》']]},
+{name:'善财童子',alias:'Sudhana',rows:[['事迹','五十三参求法'],['意义','参学典范'],['经典','《入法界品》']]},
+{name:'龙树菩萨',alias:'Nāgārjuna',rows:[['身份','八宗共祖'],['贡献','大乘中观创立者'],['尊称','第二佛陀']]},
+{name:'世亲菩萨',alias:'Vasubandhu',rows:[['身份','千部论主'],['贡献','唯识宗创立者之一'],['经典','《俱舍论》《唯识二十论》']]},
+{name:'莲花生大士',alias:'Padmasambhava',rows:[['身份','藏传宁玛派祖师'],['贡献','密法入藏'],['派别','宁玛派根本传承']]}].map(makeCard).join('');
+document.getElementById('guanyin').innerHTML=makeTable(['类别','化身'],[['佛身','佛身、辟支佛身、声闻身'],['天身','梵王、帝释、自在天、大自在天、天大将军、毗沙门'],['人身','小王、长者、居士、宰官、婆罗门、比丘、比丘尼、优婆塞、优婆夷、长者妇女、居士妇女、宰官妇女、婆罗门妇女、童男、童女'],['八部身','天、龙、夜叉、乾闼婆、阿修罗、迦楼罗、紧那罗、摩睺罗伽'],['特殊','执金刚神身'],['民间三十三观音','杨柳、龙头、持经、圆光、游戏、白衣、莲卧、泷见、施药、鱼篮、德王、水月、一叶、青颈、威德、延命、众宝、岩户、能静、阿耨、阿摩提、叶衣、琉璃、多罗尊、蛤蜊、六时、普悲、马郎妇、合掌、一如、不二、持莲、洒水']]);
+
+document.getElementById('siguo').innerHTML=makeTable(['果位','名称','含义','断除'],[[1,'须陀洹（预流）','初果——入流，最多七返人天','三结：身见、戒禁取、疑'],[2,'斯陀含（一来）','二果——一往来人天','三结+薄贪嗔痴'],[3,'阿那含（不还）','三果——不还欲界','五下分结尽'],[4,'阿罗汉','四果——漏尽，入涅槃','十结尽']]);
+document.getElementById('alohan').innerHTML=makeTable(['义','含义'],[['杀贼','杀尽烦恼贼'],['应供','应受人天供养'],['不生','入涅槃，不再受生']]);
+document.getElementById('luohan18').innerHTML=makeTable(['序','名称','特征'],[[1,'宾头卢突罗阇','坐鹿罗汉——长眉'],[2,'迦诺迦伐蹉','喜庆罗汉'],[3,'迦诺迦跋厘堕阇','举钵罗汉'],[4,'苏频陀','托塔罗汉'],[5,'诺矩罗','静坐罗汉'],[6,'跋陀罗','过江罗汉'],[7,'迦理迦','骑象罗汉'],[8,'伐阇罗弗多罗','笑狮罗汉'],[9,'戍博迦','开心罗汉'],[10,'半托迦','探手罗汉'],[11,'罗怙罗','沉思罗汉——佛之子'],[12,'那伽犀那','挖耳罗汉'],[13,'因揭陀','布袋罗汉'],[14,'伐那婆斯','芭蕉罗汉'],[15,'阿氏多','长眉罗汉'],[16,'注荼半托迦','看门罗汉'],[17,'庆友','降龙罗汉'],[18,'宾头卢','伏虎罗汉']]);
+document.getElementById('piyu').innerHTML=makeTable(['类别','含义'],[['缘觉','观十二因缘而悟道——无佛出世时自悟'],['声闻','闻佛说法而悟道——有佛出世时得度'],['辟支佛','高于阿罗汉（自悟vs闻法），低于佛（不度众生）']]);
+
+document.getElementById('babu').innerHTML=makeTable(['序','名称','含义','首领'],[[1,'天','天界众生','帝释天'],[2,'龙','蛇形神灵——掌水雨','龙王'],[3,'夜叉','飞行鬼神——勇健','毗沙门天王'],[4,'乾闼婆','天界乐师——香神','帝释天乐师'],[5,'阿修罗','好战天神','阿修罗王'],[6,'迦楼罗','金翅鸟——以龙为食','迦楼罗王'],[7,'紧那罗','歌神——人首马身','紧那罗王'],[8,'摩睺罗伽','大蟒神——地龙','摩睺罗伽王']]);
+document.getElementById('zhutian').innerHTML=makeTable(['序','天神','职能'],[[1,'大梵天王','娑婆世界主——千眼四面'],[2,'帝释天','忉利天之主——三十三天主'],[3,'多闻天王','北方护法——财宝之神'],[4,'持国天王','东方护法——护持国土'],[5,'增长天王','南方护法——令众生增长善根'],[6,'广目天王','西方护法——以净眼观察'],[7,'密迹金刚','佛的护法金刚——执金刚杵'],[8,'大自在天','湿婆——三千界主'],[9,'散脂大将','夜叉大将——护持北方'],[10,'大辩才天','智慧辩才之女神'],[11,'大功德天','功德财富之女神'],[12,'韦驮天','护法菩萨——寺院守护'],[13,'地天','大地女神'],[14,'菩提树神','守护菩提树的女神'],[15,'鬼子母','儿童守护神——原食鬼后改护法'],[16,'摩利支天','阳炎女神——隐形避险'],[17,'日天','日神'],[18,'月天','月神'],[19,'水天','水神'],[20,'风天','风神'],[21,'火天','火神'],[22,'阎摩罗王','冥界之主——十殿阎罗之首'],[23,'紧那罗王','歌神之首'],[24,'紫微大帝','道教神转入——星主']]);
+document.getElementById('weito').innerHTML=[{name:'韦驮菩萨',alias:'南无护法韦驮尊天菩萨',rows:[['职位','佛舍利守护——寺院护法'],['形象','年轻武将，甲胄庄严，执金刚杵'],['方位','面朝大雄宝殿（背对弥勒）'],['传说','佛涅槃时捷疾鬼盗佛牙，韦驮追回']]}].map(makeCard).join('');
+document.getElementById('qialan').innerHTML=[{name:'伽蓝菩萨（关公）',alias:'护法神——寺院守护',rows:[['原型','关羽（三国）'],['入佛','天台智顗大师度化关羽为护法'],['职能','与韦驮并列为寺院两大护法']]}].map(makeCard).join('');
+
+document.getElementById('sancheng').innerHTML=makeTable(['乘','修行者','最高果位','特点'],[['声闻乘','闻佛说法者','阿罗汉','自了汉——断烦恼、入涅槃'],['缘觉乘','观因缘者','辟支佛','无师自悟——不度众生'],['菩萨乘','发菩提心者','佛','自度度他——三大阿僧祇劫']]);
+document.getElementById('suocha').innerHTML=makeTable(['阶段','位次','性质','所断'],[['外凡','十信','信位——信心建立','伏烦恼'],['内凡','十住·十行·十回向','贤位——修六度','伏见思惑'],['圣者','初地—十地','圣位——证法身','分断无明'],['等觉','等觉','一生补处','仅一品生相无明未断'],['妙觉','妙觉','佛——究竟觉','无明断尽']]);
+
+document.getElementById('tree1').textContent=
+`佛（妙觉）
+  ├── 法身 — 毗卢遮那佛（大日如来）
+  ├── 报身 — 卢舍那佛
+  └── 应化身 — 释迦牟尼佛
+        ├── 胁侍：文殊（左·智）+ 普贤（右·行）
+        ├── 西方三圣：阿弥陀 + 观音 + 大势至
+        ├── 东方三圣：药师 + 日光 + 月光
+        └── 华严三圣：毗卢遮那 + 文殊 + 普贤`;
+document.getElementById('tree2').textContent=
+`十信 → 十住 → 十行 → 十回向 → 十地 → 等觉 → 妙觉（佛）
+  外凡    内凡      贤位      圣者位    补处    究竟
+  伏烦恼  伏见思惑            分断无明          无明尽`;
+document.getElementById('tree3').textContent=
+`须陀洹（初果）→ 斯陀含（二果）→ 阿那含（三果）→ 阿罗汉（四果）
+  入流          一来          不还          漏尽
+  断三结        薄贪嗔        五下分结尽    十结尽`;
+document.getElementById('tree4').textContent=
+`天龙八部 → 二十/二十四诸天 → 韦驮·伽蓝（寺院护法）
+  天·龙·夜叉·乾闼婆·阿修罗·迦楼罗·紧那罗·摩睺罗伽
+  帝释天·梵天·四大天王·阎罗王·鬼子母·韦驮……`;
+</script>
+</body>
+</html>

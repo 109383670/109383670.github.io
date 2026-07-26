@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>藏传佛教调查报告</title>
+<style>
+:root{--bg:#0a0a0f;--card:#14141e;--border:#2a2a3a;--accent:#d4a017;--accent2:#c41e3a;--text:#e0e0e0;--muted:#8888a0;--c1:#4a3f6b;--c2:#8b6914;--c3:#1a3a5c;--c4:#2d6a4f;--c5:#5c3a1a;--c6:#8b0000;--c7:#4a4a6b;--c8:#6b4a3f;--c9:#3a1a3a;--c10:#1a2a3a;--c11:#2a3a1a;--c12:#3a2a1a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:"PingFang SC","Noto Serif SC",serif;line-height:1.6;padding:20px}
+.header{text-align:center;padding:40px 20px;border-bottom:2px solid var(--accent);margin-bottom:30px}
+.header h1{font-size:2.4em;color:var(--accent);letter-spacing:0.1em}
+.header p{color:var(--muted);margin-top:8px;font-size:0.95em}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:30px}
+.tab-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 20px;border-radius:8px;cursor:pointer;font-size:0.95em;font-family:inherit;transition:all 0.2s}
+.tab-btn:hover{border-color:var(--accent);background:#1a1a2a}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#000}
+.panel{display:none}.panel.active{display:block}
+.cat-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.cat-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4em;font-weight:bold}
+.cat-title{font-size:1.5em;font-weight:bold}
+.cat-desc{color:var(--muted);font-size:0.9em;margin-left:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color 0.2s}
+.card:hover{border-color:var(--accent)}
+.card-name{font-size:1.15em;font-weight:bold;color:var(--accent);margin-bottom:4px}
+.card-alias{color:var(--muted);font-size:0.85em;margin-bottom:10px}
+.card-row{display:flex;gap:8px;margin-bottom:6px;font-size:0.88em}
+.card-label{min-width:60px;color:var(--muted);flex-shrink:0}
+.card-value{color:var(--text)}
+table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:0.88em}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+th{background:#1a1a2a;color:var(--accent)}
+tr:hover{background:#1a1a2a}
+.section-title{color:var(--accent);font-size:1.2em;margin:20px 0 10px}
+.quote{background:#1a1a2a;border-left:4px solid var(--accent);padding:12px 16px;margin:10px 0;font-style:italic;color:var(--text);border-radius:4px}
+.flow{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;font-family:monospace;font-size:0.85em;white-space:pre-wrap;color:var(--text)}
+.footer{text-align:center;color:var(--muted);padding:30px 0;border-top:1px solid var(--border);font-size:0.85em}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>藏传佛教调查报告</h1>
+  <p>历史脉络 · 教派体系 · 修炼方法 · 政教制度 | 十二章 + 附录</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPanel('p1')">前弘期</button>
+  <button class="tab-btn" onclick="showPanel('p2')">后弘期</button>
+  <button class="tab-btn" onclick="showPanel('p3')">宁玛派</button>
+  <button class="tab-btn" onclick="showPanel('p4')">噶举派</button>
+  <button class="tab-btn" onclick="showPanel('p5')">萨迦派</button>
+  <button class="tab-btn" onclick="showPanel('p6')">格鲁派</button>
+  <button class="tab-btn" onclick="showPanel('p7')">活佛转世</button>
+  <button class="tab-btn" onclick="showPanel('p8')">密法修炼</button>
+  <button class="tab-btn" onclick="showPanel('p9')">因明显教</button>
+  <button class="tab-btn" onclick="showPanel('p10')">政教关系</button>
+  <button class="tab-btn" onclick="showPanel('p11')">重要人物</button>
+  <button class="tab-btn" onclick="showPanel('p12')">艺术文化</button>
+  <button class="tab-btn" onclick="showPanel('p13')">藏汉对比</button>
+</div>
+
+<div id="p1" class="panel active">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1)">前</div><div><div class="cat-title">前弘期：佛教传入西藏</div><div class="cat-desc">约640—841年</div></div></div>
+  <div class="section-title">松赞干布与佛教初入</div>
+  <table id="t01"></table>
+  <div class="section-title">师君三尊</div>
+  <table id="t02"></table>
+  <div class="section-title">桑耶寺（约779年）</div>
+  <div class="grid" id="g01"></div>
+  <div class="section-title">译经运动</div>
+  <table id="t03"></table>
+  <div class="section-title">朗达玛灭佛（838—842年）</div>
+  <table id="t04"></table>
+  <div class="quote">朗达玛灭佛的直接后果：密教因不依赖寺院和经典（口耳相传），反而比显教存活得更好——这决定了后弘期藏传佛教"重密轻显"的底色。</div>
+</div>
+
+<div id="p2" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c2)">后</div><div><div class="cat-title">后弘期：复兴与教派分流</div><div class="cat-desc">978年起</div></div></div>
+  <div class="section-title">上路弘法（古格王朝）</div>
+  <table id="t05"></table>
+  <div class="section-title">阿底峡尊者（982—1054）</div>
+  <div class="grid" id="g02"></div>
+  <div class="section-title">下路弘法</div>
+  <table id="t06"></table>
+  <div class="section-title">四大教派</div>
+  <table id="t07"></table>
+  <div class="quote">阿底峡的贡献不只是传法，是重建藏传佛教的秩序——告诉藏人显教是密教的基础，不能跳过显教直接修密。</div>
+</div>
+
+<div id="p3" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c3)">宁</div><div><div class="cat-title">宁玛派（红教）</div><div class="cat-desc">最古老 · 大圆满 · 伏藏</div></div></div>
+  <div class="section-title">概况</div>
+  <div class="grid" id="g03"></div>
+  <div class="section-title">九乘次第</div>
+  <table id="t08"></table>
+  <div class="section-title">大圆满（Dzogchen）</div>
+  <div class="grid" id="g04"></div>
+  <div class="section-title">伏藏（Terma）</div>
+  <table id="t09"></table>
+  <div class="section-title">重要人物</div>
+  <table id="t10"></table>
+</div>
+
+<div id="p4" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c4)">噶</div><div><div class="cat-title">噶举派（白教）</div><div class="cat-desc">大手印 · 密勒日巴 · 转世制度</div></div></div>
+  <div class="section-title">传承</div>
+  <div class="flow">帝洛巴 → 那洛巴 → 玛尔巴 → 密勒日巴 → 冈波巴 → 四大八小</div>
+  <div class="section-title">玛尔巴 · 密勒日巴 · 冈波巴</div>
+  <div class="grid" id="g05"></div>
+  <div class="quote">密勒日巴的故事是藏传佛教中最动人的叙事：一个造下杀业的凡人，通过苦修和上师瑜伽，一世成佛。</div>
+  <div class="section-title">四大八小</div>
+  <table id="t11"></table>
+  <div class="section-title">大手印与那洛六法</div>
+  <table id="t12"></table>
+  <div class="section-title">噶玛巴转世制度</div>
+  <div class="grid" id="g06"></div>
+</div>
+
+<div id="p5" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c5)">萨</div><div><div class="cat-title">萨迦派（花教）</div><div class="cat-desc">道果法 · 昆氏家族 · 元朝帝师</div></div></div>
+  <div class="section-title">概况</div>
+  <div class="grid" id="g07"></div>
+  <div class="section-title">道果法</div>
+  <table id="t13"></table>
+  <div class="section-title">萨迦班智达与八思巴</div>
+  <table id="t14"></table>
+  <div class="section-title">萨迦政权（1260—1354）</div>
+  <table id="t15"></table>
+</div>
+
+<div id="p6" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c6)">格</div><div><div class="cat-title">格鲁派（黄教）</div><div class="cat-desc">宗喀巴改革 · 达赖班禅 · 学修制度</div></div></div>
+  <div class="section-title">宗喀巴与宗教改革</div>
+  <div class="grid" id="g08"></div>
+  <div class="section-title">菩提道次第广论</div>
+  <table id="t16"></table>
+  <div class="section-title">学修制度</div>
+  <table id="t17"></table>
+  <div class="section-title">达赖喇嘛系统</div>
+  <table id="t18"></table>
+  <div class="section-title">班禅系统</div>
+  <table id="t19"></table>
+  <div class="section-title">六大寺</div>
+  <table id="t20"></table>
+</div>
+
+<div id="p7" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c7)">转</div><div><div class="cat-title">活佛转世制度</div><div class="cat-desc">起源 · 程序 · 金瓶掣签</div></div></div>
+  <div class="section-title">起源与逻辑</div>
+  <table id="t21"></table>
+  <div class="section-title">寻访认定程序</div>
+  <table id="t22"></table>
+  <div class="section-title">金瓶掣签</div>
+  <table id="t23"></table>
+  <div class="section-title">大活佛系统</div>
+  <table id="t24"></table>
+</div>
+
+<div id="p8" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c8)">密</div><div><div class="cat-title">密法修炼体系</div><div class="cat-desc">四加行 · 本尊 · 气脉明点 · 大手印大圆满</div></div></div>
+  <div class="section-title">四加行（共同前行）</div>
+  <table id="t25"></table>
+  <div class="section-title">本尊修法</div>
+  <table id="t26"></table>
+  <div class="section-title">常见本尊</div>
+  <table id="t27"></table>
+  <div class="section-title">气脉明点</div>
+  <table id="t28"></table>
+  <div class="section-title">大手印 vs 大圆满</div>
+  <table id="t29"></table>
+  <div class="section-title">那洛六法</div>
+  <table id="t30"></table>
+</div>
+
+<div id="p9" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c9)">明</div><div><div class="cat-title">藏传因明与显教学修</div><div class="cat-desc">辩经 · 五部大论 · 格西学位</div></div></div>
+  <div class="section-title">因明传统</div>
+  <table id="t31"></table>
+  <div class="section-title">辩经制度</div>
+  <table id="t32"></table>
+  <div class="section-title">格鲁派五部大论</div>
+  <table id="t33"></table>
+  <div class="section-title">格西学位</div>
+  <table id="t34"></table>
+</div>
+
+<div id="p10" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c10)">政</div><div><div class="cat-title">教派政教关系</div><div class="cat-desc">元·明·清·现代</div></div></div>
+  <div class="section-title">萨迦派与元朝</div>
+  <table id="t35"></table>
+  <div class="section-title">帕竹噶举与明朝</div>
+  <table id="t36"></table>
+  <div class="section-title">格鲁派与清朝</div>
+  <table id="t37"></table>
+  <div class="section-title">1959年后</div>
+  <table id="t38"></table>
+</div>
+
+<div id="p11" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c11)">人</div><div><div class="cat-title">重要人物谱</div></div></div>
+  <table id="t39"></table>
+</div>
+
+<div id="p12" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c12)">艺</div><div><div class="cat-title">艺术与文化</div><div class="cat-desc">唐卡 · 坛城 · 藏戏 · 六字真言</div></div></div>
+  <div class="section-title">唐卡</div>
+  <table id="t40"></table>
+  <div class="section-title">坛城</div>
+  <table id="t41"></table>
+  <div class="section-title">其他艺术形式</div>
+  <table id="t42"></table>
+  <div class="section-title">六字真言</div>
+  <table id="t43"></table>
+  <div class="quote">嗡嘛呢叭咪吽——观世音菩萨心咒。藏族人从早到晚念诵、刻石、挂幡、转经——将整个生活融入修行。</div>
+</div>
+
+<div id="p13" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1)">比</div><div><div class="cat-title">藏传 vs 汉传佛教</div></div></div>
+  <table id="t44"></table>
+</div>
+
+<div class="footer">
+  藏传佛教调查报告 · 2026年7月27日<br>
+  与佛家调查报告、佛教菩萨佛祖谱系、中国神仙谱系、中国鬼怪谱系互补
+</div>
+
+<script>
+function makeCard(i){return `<div class="card"><div class="card-name">${i.name}</div><div class="card-alias">${i.alias||''}</div>${i.rows?i.rows.map(r=>`<div class="card-row"><span class="card-label">${r[0]}</span><span class="card-value">${r[1]}</span></div>`).join(''):''}</div>`}
+function makeTable(h,r){let s='<thead><tr>';h.forEach(e=>s+=`<th>${e}</th>`);s+='</tr></thead><tbody>';r.forEach(e=>{s+='<tr>';e.forEach(c=>s+=`<td>${c}</td>`);s+='</tr>'});return s+'</tbody>'}
+function showPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
+
+document.getElementById('t01').innerHTML=makeTable(['事件','时间','内容'],[['统一吐蕃','约620年','建立王朝，创制藏文'],['迎尺尊公主','约632年','带来释迦八岁等身像'],['迎文成公主','641年','带来释迦十二岁等身像（今在大昭寺）'],['建大昭寺小昭寺','约647年','拉萨成为佛教中心'],['派吞弥桑布扎','约630年','赴印度学梵文，创制藏文']]);
+document.getElementById('t02').innerHTML=makeTable(['人物','身份','贡献'],[['寂护','那烂陀寺学者','设计桑耶寺、翻译经典、建僧团——显教基础'],['莲花生','印度密教大师','降服苯教神灵转护法、传密法、埋伏藏——密教基础'],['赤松德赞','吐蕃赞普','政治支持、确立佛教国教地位']]);
+document.getElementById('g01').innerHTML=[{name:'桑耶寺',alias:'约779年建成',rows:[['地位','西藏第一座剃度僧人出家寺院'],['布局','中央须弥山+四方四大部洲+八小洲'],['建筑','底层藏式·中层汉式·顶层印式'],['首批','"七觉士"——首批藏人出家僧']]}].map(makeCard).join('');
+document.getElementById('t03').innerHTML=makeTable(['译师','贡献'],[['毗卢遮那','藏人首批译师，翻译大圆满经典'],['遍照护','翻译中观、唯识经典'],['嘎瓦·华泽','翻译般若、华严经典']]);
+document.getElementById('t04').innerHTML=makeTable(['事件','内容'],[['背景','寺院占大量土地，僧侣免税，王权与贵族冲突'],['措施','停译经、封寺院、毁佛像、迫僧还俗'],['结果','842年朗达玛被僧人刺杀，吐蕃分裂，百年黑暗'],['影响','密法因口耳相传存活——决定后弘期"重密轻显"']]);
+
+document.getElementById('t05').innerHTML=makeTable(['事件','时间','内容'],[['古格王益西沃','约975年','派藏人赴印度学法'],['仁钦桑布','978年','赴克什米尔学法，译密续百余部——"洛钦"'],['迎请阿底峡','1042年','古格王迎请，时年60岁']]);
+document.getElementById('g02').innerHTML=[{name:'阿底峡尊者',alias:'982—1054 · 噶当派祖师',rows:[['身份','印度超戒寺住持，孟加拉王子'],['在藏','1042—1054，辗转阿里卫藏传法'],['核心著作','《菩提道灯论》——三士道次第'],['影响','整顿佛教混乱，建立显密次第'],['弟子','仲敦巴——建热振寺，创噶当派']]}].map(makeCard).join('');
+document.getElementById('t06').innerHTML=makeTable(['事件','内容'],[['卢梅·楚臣喜饶','978年从安多返回卫藏，恢复戒律传承'],['建寺院网络','重建卫藏佛教寺院，恢复僧团'],['特点','主要恢复显教和戒律，非密法']]);
+document.getElementById('t07').innerHTML=makeTable(['教派','时间','创始人','标志色','核心教法'],[['宁玛','11世纪','莲花生传承','红','大圆满'],['噶举','11世纪','玛尔巴→密勒日巴→冈波巴','白','大手印'],['萨迦','11世纪','昆·贡却杰布','花','道果法'],['格鲁','15世纪','宗喀巴','黄','菩提道次第']]);
+
+document.getElementById('g03').innerHTML=[{name:'宁玛派',alias:'Nyingma · 红教 · 最古老',rows:[['名称','"宁玛"=古旧'],['传承','莲花生大士——未中断的密法'],['特点','不依赖寺院，重伏藏、重实修、重瑜伽士']]}].map(makeCard).join('');
+document.getElementById('t08').innerHTML=makeTable(['层次','乘','内容'],[['下三乘','声闻·缘觉·菩萨','出离心——小乘/大乘基础'],['事部乘','事部','外部仪轨清净'],['行部乘','行部','内外兼修'],['瑜伽部乘','瑜伽部','内观本尊'],['内三乘','玛哈瑜伽·阿努瑜伽·阿底瑜伽','无上密——大圆满最高']]);
+document.getElementById('g04').innerHTML=[{name:'大圆满',alias:'Dzogchen · 宁玛最高教法',rows:[['核心','直指心性本净——众生本具佛性'],['三要点','见（直指）·修（无修之修）·行（任运自然）'],['与大手印区别','从"空分"入手（本净），大手印从"明分"入手'],['传承','心传·持明表示传·口耳传']]}].map(makeCard).join('');
+document.getElementById('t09').innerHTML=makeTable(['字段','内容'],[['起源','莲花生预见浊世，将法本圣物埋藏'],['发掘者','伏藏师——特定时机被发现'],['三大伏藏','上师伏藏（莲师）·法身伏藏·空行伏藏'],['意义','每个时代有新教法涌现——保持传承活力']]);
+document.getElementById('t10').innerHTML=makeTable(['人物','年代','贡献'],[['莲花生','8世纪','入藏传密法、建桑耶寺、埋伏藏'],['龙钦巴','1308—1364','大圆满集大成者——《七宝藏》'],['吉美林巴','1729—1798','发掘《龙钦心髓》——最通行实修法本'],['敦珠法王','1904—1987','宁玛法王，流亡后重建传承'],['顶果钦哲','1910—1991','二十世纪最伟大宁玛大师之一']]);
+
+document.getElementById('g05').innerHTML=[
+{name:'玛尔巴',alias:'1012—1097 · 在家瑜伽士',rows:[['身份','三次赴印求法',''],['传法','口耳相传，传大手印、那洛六法'],['特点','不建寺院、不剃度——在家传承']]},
+{name:'密勒日巴',alias:'1040—1123 · 苦修成就者',rows:[['生平','家产被霸占→学黑咒复仇→忏悔→苦修→证道'],['苦修','山洞数十年，仅以荨麻为食，身体变绿'],['传法','道歌（dohā）——《十万道歌》'],['地位','西藏最受爱戴的瑜伽士——"罪人成佛"典范']]},
+{name:'冈波巴',alias:'1079—1153 · 制度化者',rows:[['贡献','将噶举口耳传承与噶当派次第结合'],['核心著作','《解脱庄严宝大乘菩提道次第论》'],['四大弟子','分别创立四大支系']]}].map(makeCard).join('');
+document.getElementById('t11').innerHTML=makeTable(['四大支系','创立者','特点'],[['噶玛噶举','杜松钦巴','首创活佛转世——噶玛巴'],['帕竹噶举','帕木竹巴','曾统治西藏(1354—1618)'],['拔戎噶举','拔戎巴','较早衰落'],['止贡噶举','止贡觉巴','止贡替寺']]).replace('</tbody>','')+makeTable(['八小支系（帕竹分支）','创立者'],[['直贡','觉巴·仁钦贝'],['达隆','达隆塘巴'],['竹巴','林热·白玛多吉'],['雅桑','雅桑巴'],['绰浦','贾擦'],['玛仓','玛仓·喜饶僧格'],['叶巴','叶巴·木觉巴'],['修赛','修赛·楚臣僧格']]).replace('<thead><tr>','').replace('</tr></thead>','');
+document.getElementById('t12').innerHTML=makeTable(['法','内容'],[['大手印四瑜伽','专一→离戏→一味→无修'],['那洛六法','拙火·幻身·梦瑜伽·光明·中阴·迁识']]);
+document.getElementById('g06').innerHTML=[{name:'噶玛巴转世',alias:'人类最早的活佛转世制度',rows:[['起源','1288年正式确认——杜松钦巴转世'],['黑冠','第二世获元帝赐黑帽——"黑帽派"'],['现任','第十七世噶玛巴·邬金钦列多杰']]}].map(makeCard).join('');
+
+document.getElementById('g07').innerHTML=[{name:'萨迦派',alias:'Sakya · 花教 · 道果法',rows:[['创立','昆·贡却杰布(1034—1102)，1073年建萨迦寺'],['名称','"萨迦"=灰白色的土地'],['标志','红白黑三色条纹（三怙主）'],['传承','家族传承（昆氏）——叔侄相传'],['核心','道果法——显密圆通']]}].map(makeCard).join('');
+document.getElementById('t13').innerHTML=makeTable(['字段','内容'],[['核心','"道果不二"——道即是果'],['三续','基位续（本具佛性）→道位续（修行）→果位续（成佛）'],['特点','显密兼修——先显后密，严格次第'],['三现分','不净→觉受→清净——修行体验系统分类']]);
+document.getElementById('t14').innerHTML=makeTable(['人物','年代','贡献'],[['萨迦班智达','1182—1251','《萨迦格言》。1247年与蒙古阔端汗会盟——西藏纳入蒙古势力'],['八思巴','1235—1280','10岁赴凉州。1260年被忽必烈封帝师。创八思巴文']]);
+document.getElementById('t15').innerHTML=makeTable(['字段','内容'],[['时间','1260—1354——西藏第一次政教合一'],['体制','萨迦法王为宗教领袖，帝师兼领宣政院事'],['元朝关系','元朝设宣政院管理西藏'],['衰落','1354年被帕竹噶举推翻']]);
+
+document.getElementById('g08').innerHTML=[{name:'宗喀巴',alias:'Tsongkhapa · 1357—1419 · 格鲁派祖师',rows:[['背景','14世纪戒律松弛、密法滥用'],['改革','①严格戒律（黄帽）②显密次第③系统学修'],['核心著作','《菩提道次第广论》《密宗道次第广论》'],['建寺','1409年建甘丹寺'],['三大寺','甘丹(1409)·哲蚌(1416)·色拉(1419)']]}].map(makeCard).join('');
+document.getElementById('t16').innerHTML=makeTable(['字段','内容'],[['结构','三士道：下士（畏恶趣→皈依）·中士（畏轮回→出离）·上士（发菩提心→六度）'],['三核心','出离心→菩提心→空性见'],['止观章','最后两章详述止观双运——最系统禅修教材'],['来源','继承阿底峡《菩提道灯论》']]);
+document.getElementById('t17').innerHTML=makeTable(['阶段','内容','时间'],[['入寺','幼年学藏文、背仪轨','—'],['显宗五部大论','现观/入中/俱舍/释量/律经','约15年'],['格西学位','拉然巴/措然巴/林赛/多然巴','—'],['密法修学','获格西后入上下密院','约3-5年'],['总计','显密圆通','约20-25年']]);
+document.getElementById('t18').innerHTML=makeTable(['字段','内容'],[['起源','根敦朱巴(1391—1474)——后追认为一世达赖'],['转世','袭用噶举派转世制度'],['尊号','1578年俺答汗赐索南嘉措"达赖喇嘛"'],['五世','1617—1682，1642年建甘丹颇章政权'],['六世','仓央嘉措——"不负如来不负卿"'],['十四世','丹增嘉措，1935年生，1959年流亡印度']]);
+document.getElementById('t19').innerHTML=makeTable(['字段','内容'],[['起源','克珠杰(1385—1438)——后追认为一世班禅'],['尊号','1645年固始汗赐"班禅博克多"'],['地位','阿弥陀佛化身——格鲁派第二号'],['十世','确吉坚赞，1938—1989，留在中国'],['十一世','确吉杰布，1995年生，金瓶掣签认定']]);
+document.getElementById('t20').innerHTML=makeTable(['寺院','位置','建立','特点'],[['甘丹寺','拉萨','1409','宗喀巴亲建——祖寺'],['哲蚌寺','拉萨','1416','规模最大——历代达赖驻地'],['色拉寺','拉萨','1419','辩经最著名'],['扎什伦布寺','日喀则','1447','根敦朱巴建——班禅驻地'],['塔尔寺','青海','1560','宗喀巴诞生地'],['拉卜楞寺','甘肃','1709','安多地区最大']]);
+
+document.getElementById('t21').innerHTML=makeTable(['字段','内容'],[['起源','噶玛噶举派，1288年——噶玛巴·攘迥多吉'],['逻辑','菩萨可自主选择投生——愿力受生非业力'],['解决','教派领导权继承——避免分裂、保持连续性'],['基础','菩萨乘"愿力受生"理论']]);
+document.getElementById('t22').innerHTML=makeTable(['步骤','内容'],[['①预示','前世圆寂前的预言（方向、地名、父母名）'],['②占卜','询问护法神、高僧降神'],['③观湖','观察拉姆拉错等圣湖湖面景象'],['④寻访','秘密寻访候选灵童'],['⑤测试','辨认前世遗物（念珠、法器）'],['⑥确认','逐级上报，大活佛需中央政府批准'],['⑦金瓶掣签','大活佛须公开掣签认定'],['⑧坐床','正式坐床典礼']]);
+document.getElementById('t23').innerHTML=makeTable(['字段','内容'],[['设立','1792年乾隆帝颁布《钦定藏内善后章程二十九条》'],['原因','防止贵族操纵活佛转世'],['方法','候选灵童名字写于象牙签，放入金瓶公开掣签'],['适用','达赖、班禅、章嘉、哲布尊丹巴'],['现状','中华人民共和国沿用']]);
+document.getElementById('t24').innerHTML=makeTable(['活佛','教派','地位','驻地'],[['达赖喇嘛','格鲁','西藏最高——观世音化身','拉萨/达兰萨拉'],['班禅额尔德尼','格鲁','第二——阿弥陀佛化身','日喀则'],['噶玛巴','噶举','噶举最高——三世诸佛化身','楚布寺/达兰萨拉'],['章嘉呼图克图','格鲁','内蒙古最高','青海/五台山/北京'],['哲布尊丹巴','格鲁','外蒙古最高','库伦(乌兰巴托)']]);
+
+document.getElementById('t25').innerHTML=makeTable(['加行','修法','数量','功能'],[['皈依发心','念诵皈依文、发菩提心','十万','建立与三宝连接'],['金刚萨埵百字明','观想+念百字明咒','十万','忏悔业障'],['供曼达','供养宇宙曼达','十万','积聚福慧资粮'],['上师瑜伽','观想上师与本尊无二','十万','与上师心相续融合']]);
+document.getElementById('t26').innerHTML=makeTable(['阶段','内容'],[['生起次第','观想本尊、坛城、持咒——转化庸俗显现为清净'],['圆满次第','收摄观想，修气脉明点——证悟光明心']]);
+document.getElementById('t27').innerHTML=makeTable(['本尊','类别','职能'],[['金刚萨埵','忏悔','净除业障'],['四臂观音','慈悲','与观音相应'],['绿度母','救度','消除恐惧、速疾救难'],['白度母','延寿','延寿、消病'],['文殊菩萨','智慧','增长智慧'],['马头明王','忿怒','降魔'],['普巴金刚','忿怒','遣除障碍'],['胜乐金刚','母续','最高密法之一'],['密集金刚','父续','最高密法之一'],['时轮金刚','无上瑜伽','预言、天文、历算'],['大威德金刚','忿怒文殊','格鲁派主修']]);
+document.getElementById('t28').innerHTML=makeTable(['概念','内容'],[['气','生命能量——在脉道中流动'],['脉','气的通道——中脉/左脉/右脉，共七万二千'],['明点','气的精华——位于脉轮中'],['中脉','中央直脉——会阴到顶轮'],['拙火','脐轮生热——烧业气、生俱生喜乐'],['宝瓶气','闭气修法——将气压入中脉'],['四喜四空','拙火从顶轮降下时的四级喜乐与空性']]);
+document.getElementById('t29').innerHTML=makeTable(['维度','大手印（噶举）','大圆满（宁玛）'],[['入手','从"明分"——心的明觉','从"空分"——心性本净'],['传承','帝洛巴→那洛巴→玛尔巴','莲花生→秘密传承→伏藏'],['核心','四瑜伽（专一→离戏→一味→无修）','直指心性、且却（直断）、脱噶（顿超）'],['特点','重视实修体验，渐进','重视直指，一念认取'],['究极','同一——心性本净、轮涅不二','同一——心性本净、轮涅不二']]);
+document.getElementById('t30').innerHTML=makeTable(['法','内容'],[['拙火','脐轮生热——烧业气、生俱生喜'],['幻身','证知身体为幻——不执著色身'],['梦瑜伽','知梦为梦→控制梦境→梦中修行'],['光明','睡眠中认取母光明——证悟心性'],['中阴','死后中阴境界引导——证悟或往生'],['迁识（颇瓦）','意识从顶轮射出——自主往生净土']]);
+
+document.getElementById('t31').innerHTML=makeTable(['字段','内容'],[['起源','桑普寺(1073年)——后弘期因明中心'],['量论','陈那《集量论》、法称《释量论》'],['特点','不只逻辑学，是认识论和修行体系'],['辩经','格鲁派核心教学方法——通过辩论深入教理']]);
+document.getElementById('t32').innerHTML=makeTable(['字段','内容'],[['形式','一立一破——站立者提问，坐者回答，击掌跺脚'],['内容','围绕五部大论的义理辩论'],['目的','以理破执——不是争输赢'],['制度','每日固定时间辩经，考试以辩经形式进行']]);
+document.getElementById('t33').innerHTML=makeTable(['经典','作者','内容','学修时间'],[['《现观庄严论》','弥勒','般若经注释——修行阶位','约4年'],['《入中论》','月称','中观正见——空性哲学','约3年'],['《俱舍论》','世亲','阿毗达磨——宇宙观、心理分析','约2年'],['《释量论》','法称','因明——逻辑、认识论','约3年'],['《律经本论》','功德光','戒律——僧团规范','约3年']]);
+document.getElementById('t34').innerHTML=makeTable(['级别','含义','考取方式'],[['拉然巴','最高——"拉萨的格西"','大祈愿法会辩论'],['措然巴','"法会的格西"','法会上考取'],['林塞','"寺院的格西"','本寺考取'],['多然巴','"寺门的格西"','较低级别']]);
+
+document.getElementById('t35').innerHTML=makeTable(['字段','内容'],[['关系','萨迦派帝师兼领宣政院事——政教合一'],['元朝角色','通过萨迦派管理西藏——帝师制度'],['八思巴','被忽必烈封帝师，创八思巴文']]);
+document.getElementById('t36').innerHTML=makeTable(['字段','内容'],[['帕竹政权','1354年推翻萨迦，建帕竹第悉政权'],['明朝政策','"多封众建"——封各派首领，不扶持单一教派'],['大宝法王','明朝封噶玛巴为"大宝法王"——沿用至今']]);
+document.getElementById('t37').innerHTML=makeTable(['字段','内容'],[['甘丹颇章','1642年五世达赖在固始汗支持下建政权'],['达赖封号','1653年顺治帝正式册封'],['班禅封号','1713年康熙帝册封五世班禅'],['驻藏大臣','1727年清朝始设——代表中央管理西藏'],['金瓶掣签','1792年乾隆帝设立——控制大活佛认定']]);
+document.getElementById('t38').innerHTML=makeTable(['事件','时间','内容'],[['达赖流亡','1959年','达赖流亡印度达兰萨拉，建流亡政府'],['寺院改革','1960年代','民主改革，废除封建特权'],['文化大革命','1966—1976','寺院遭破坏，宗教活动停止'],['改革开放','1978年后','寺院修复，宗教活动恢复'],['现状','当代','修复数千座，僧尼数万——面临现代化挑战']]);
+
+document.getElementById('t39').innerHTML=makeTable(['人物','年代','教派','核心贡献'],[['莲花生','8世纪','宁玛','入藏传密法、建桑耶寺、埋伏藏'],['寂护','8世纪','—','设计桑耶寺、建僧团、译经典'],['毗卢遮那','8世纪','宁玛','藏人首批译师，译大圆满经典'],['仁钦桑布','958—1055','—','后弘期大译师，译密续百余部'],['阿底峡','982—1054','噶当','入藏整顿佛教、《菩提道灯论》'],['玛尔巴','1012—1097','噶举','三次赴印求法，传大手印'],['密勒日巴','1040—1123','噶举','苦修成就者，《十万道歌》'],['冈波巴','1079—1153','噶举','制度化，著《解脱庄严宝》'],['萨迦班智达','1182—1251','萨迦','《萨迦格言》，与蒙古会盟'],['八思巴','1235—1280','萨迦','元朝帝师，创八思巴文'],['布顿大师','1290—1364','—','编纂藏文大藏经目录'],['龙钦巴','1308—1364','宁玛','大圆满集大成者，《七宝藏》'],['宗喀巴','1357—1419','格鲁','宗教改革，《菩提道次第广论》'],['根敦朱巴','1391—1474','格鲁','一世达赖，建扎什伦布寺'],['五世达赖','1617—1682','格鲁','建甘丹颇章政权，扩建布达拉宫'],['仓央嘉措','1683—1706','格鲁','六世达赖——诗人'],['十世班禅','1938—1989','格鲁','留在中国，爱国宗教领袖'],['十四世达赖','1935—','格鲁','流亡印度，1989年诺贝尔和平奖'],['十七世噶玛巴','1985—','噶举','2000年出走印度']]);
+
+document.getElementById('t40').innerHTML=makeTable(['字段','内容'],[['定义','藏式卷轴画——可卷起携带，游牧民族的移动佛龛'],['颜料','矿物颜料（金/银/珊瑚/绿松石/朱砂/青金石）+ 植物颜料'],['分类','国唐(彩绘)·金唐·黑唐·红唐·堆绣·刺绣'],['题材','佛·菩萨·本尊·护法·坛城·高僧传记·医学·天文'],['要求','严格按《造像度量经》比例——不能自由发挥'],['开光','完成后须开光加持——否则只是画非圣物']]);
+document.getElementById('t41').innerHTML=makeTable(['字段','内容'],[['定义','佛菩萨的宫殿图——宇宙秩序的象征'],['沙坛城','彩色细沙漏制——数日完成后摧毁——"成住坏空"演示'],['立体坛城','铜铸或木雕——如时轮金刚坛城'],['功能','修法时观想所用——生起次第核心工具'],['意义','从混乱的凡夫世界进入有序的觉悟世界']]);
+document.getElementById('t42').innerHTML=makeTable(['形式','内容'],[['藏戏','起源于宗教舞蹈——戴面具表演佛本生故事和高僧传记'],['擦擦','模制泥塑小佛塔或佛像——装藏于佛塔或供于山崖'],['玛尼石','刻六字真言的石板——堆放于山口路口'],['经幡','印经文咒语的彩色布旗——五色对应五方佛'],['转经筒','内装经文的圆筒——转一周等于念一遍经'],['酥油花','彩色酥油雕塑——塔尔寺正月十五展出']]);
+document.getElementById('t43').innerHTML=makeTable(['字','含义'],[['嗡','身——佛的身密'],['嘛','语——佛的语密'],['呢','意——佛的意密'],['叭','功德——佛的功德'],['咪','事业——佛的事业'],['吽','总结——摄一切功德']]);
+
+document.getElementById('t44').innerHTML=makeTable(['维度','藏传佛教','汉传佛教'],[['传入','7世纪（松赞干布）','1世纪（汉明帝）'],['经典语言','藏文（从梵文译）','汉文（从梵文/西域语译）'],['教义侧重','显密圆通——重密法','显教为主——禅净主流'],['修炼制度','寺院系统学修（格鲁20年）','禅堂/念佛堂——无统一次第'],['活佛转世','有——独特传承制度','无'],['因明辩经','核心教学方法','较少使用'],['密法','无上瑜伽密续（即身成佛）','唐密后失传'],['与政治','长期政教合一','总体政教分离'],['艺术','唐卡、坛城、擦擦','书法、水墨、木刻佛经'],['代表经典','《菩提道次第广论》《龙钦心髓》','《金刚经》《坛经》']]);
+</script>
+</body>
+</html>

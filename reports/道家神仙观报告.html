@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>道家神仙观调查报告</title>
+<style>
+  :root {
+    --bg: #0a0a12;
+    --paper: #111120;
+    --paper2: #161628;
+    --ink: #c8c0d8;
+    --ink-light: #8880a0;
+    --accent: #6c5ce7;
+    --accent-light: #a29bfe;
+    --gold: #fdcb6e;
+    --red: #e17055;
+    --blue: #74b9ff;
+    --green: #55efc4;
+    --border: #2d2d44;
+    --shadow: rgba(108,92,231,0.15);
+    --glow: rgba(253,203,110,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 16px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 40%, #16213e 70%, #0f3460 100%);
+    color: #e8d5b7;
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ctext x='50%25' y='50%25' font-size='50' fill='%23fdcb6e' fill-opacity='0.025' text-anchor='middle' dominant-baseline='central'%3E道%3C/text%3E%3C/svg%3E");
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: -50px; left: 50%;
+    transform: translateX(-50%);
+    width: 300px; height: 100px;
+    background: radial-gradient(ellipse, rgba(253,203,110,0.1), transparent);
+    filter: blur(30px);
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    position: relative;
+    background: linear-gradient(135deg, #fdcb6e, #e8d5b7, #a29bfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 30px rgba(253,203,110,0.2);
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+    position: relative;
+    color: var(--ink-light);
+  }
+  .hero .meta {
+    margin-top: 28px;
+    font-size: 0.85rem;
+    opacity: 0.5;
+    position: relative;
+  }
+  .hero .meta span { margin: 0 12px; }
+
+  /* ===== TOC ===== */
+  .toc {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .toc a {
+    text-decoration: none;
+    color: var(--ink-light);
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .toc a:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent-light);
+  }
+
+  /* ===== CONTAINER ===== */
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  section {
+    background: var(--paper);
+    margin-bottom: 32px;
+    padding: 36px 40px;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    border-left: 3px solid var(--accent);
+  }
+  section h2 {
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.05em;
+  }
+  section h3 {
+    font-size: 1.2rem;
+    color: var(--accent-light);
+    margin: 28px 0 16px;
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+  }
+  section h4 {
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin: 20px 0 10px;
+  }
+  section p {
+    margin-bottom: 14px;
+    text-align: justify;
+    color: var(--ink);
+  }
+
+  /* ===== QUOTE ===== */
+  .quote {
+    background: var(--paper2);
+    border-left: 4px solid var(--gold);
+    padding: 16px 24px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--ink-light);
+    border-radius: 0 4px 4px 0;
+    position: relative;
+  }
+  .quote::before {
+    content: "❝";
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.3;
+    position: absolute;
+    top: -4px;
+    left: 8px;
+  }
+  .quote .source {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-top: 8px;
+    font-style: normal;
+    opacity: 0.8;
+  }
+
+  /* ===== TABLE ===== */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+  }
+  tr:nth-child(even) td { background: var(--paper2); }
+  tr:hover td { background: rgba(108,92,231,0.1); }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+    margin: 24px 0;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), var(--accent), var(--border));
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -28px; top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--gold), 0 0 10px var(--gold);
+  }
+  .tl-item .tl-era {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .tl-item .tl-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 2px 0 6px;
+    color: var(--ink);
+  }
+  .tl-item .tl-desc {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+  }
+  .tl-item .tl-source {
+    font-size: 0.8rem;
+    color: var(--blue);
+    margin-top: 4px;
+  }
+
+  /* ===== FLOW CHART ===== */
+  .flow-chart {
+    background: #0a0a12;
+    color: var(--ink-light);
+    padding: 28px 24px;
+    border-radius: 6px;
+    margin: 20px 0;
+    font-family: "JetBrains Mono", "Menlo", monospace;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    overflow-x: auto;
+    white-space: pre;
+    border: 1px solid var(--border);
+  }
+  .flow-chart .arrow { color: var(--gold); }
+  .flow-chart .label { color: var(--accent-light); }
+  .flow-chart .key { color: var(--green); }
+
+  /* ===== CARDS ===== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card {
+    background: var(--paper2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px var(--shadow);
+    border-color: var(--accent);
+  }
+  .card .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .card .card-body {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* ===== CALLOUT ===== */
+  .callout {
+    background: linear-gradient(135deg, var(--paper2), rgba(108,92,231,0.05));
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .callout .callout-label {
+    font-size: 0.8rem;
+    color: var(--red);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  /* ===== SCHOLAR ROW ===== */
+  .scholar-row {
+    display: flex;
+    gap: 16px;
+    margin: 16px 0;
+    padding: 14px 18px;
+    background: var(--paper2);
+    border-radius: 4px;
+    border-left: 3px solid var(--blue);
+  }
+  .scholar-row .scholar-name {
+    font-weight: 700;
+    color: var(--blue);
+    min-width: 120px;
+    font-size: 0.95rem;
+  }
+  .scholar-row .scholar-text {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+  }
+
+  /* ===== TAGS ===== */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0 4px 4px 0;
+  }
+  .tag-red { background: rgba(225,112,85,0.15); color: var(--red); }
+  .tag-blue { background: rgba(116,185,255,0.15); color: var(--blue); }
+  .tag-green { background: rgba(85,239,196,0.15); color: var(--green); }
+  .tag-gold { background: rgba(253,203,110,0.15); color: var(--gold); }
+
+  /* ===== HIGHLIGHT ===== */
+  strong { color: var(--gold); font-weight: 600; }
+
+  /* ===== CONCLUSION ===== */
+  .conclusion {
+    background: linear-gradient(135deg, #0a0a12, #1a1a2e);
+    border-left: 3px solid var(--gold);
+  }
+  .conclusion h2 { color: var(--gold); border-bottom-color: rgba(255,255,255,0.1); }
+  .conclusion h3 { color: var(--accent-light); border-left-color: var(--gold); }
+  .conclusion p { color: var(--ink-light); }
+  .conclusion ol { color: var(--ink-light); }
+  .conclusion ol li { margin-bottom: 14px; }
+  .conclusion ol li strong { color: var(--gold); }
+  .conclusion .quote {
+    background: rgba(255,255,255,0.03);
+    border-left-color: var(--gold);
+    color: var(--ink);
+  }
+  .conclusion .quote .source { color: var(--gold); }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    text-align: center;
+    margin: 32px 0;
+    color: var(--accent);
+    font-size: 1.2rem;
+    letter-spacing: 1em;
+    opacity: 0.4;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-light);
+    font-size: 0.85rem;
+    background: var(--paper);
+    border-top: 1px solid var(--border);
+    opacity: 0.7;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    .hero { padding: 50px 20px 40px; }
+    .hero h1 { font-size: 2rem; }
+    .container { padding: 20px 12px; }
+    section { padding: 24px 18px; }
+    .toc { gap: 4px; }
+    .toc a { font-size: 0.72rem; padding: 3px 8px; }
+    .scholar-row { flex-direction: column; gap: 4px; }
+    .scholar-row .scholar-name { min-width: auto; }
+    .flow-chart { font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>道家神仙观调查报告</h1>
+  <div class="subtitle">从楚巫飞升到内丹成真——一条两千年的修炼脉络</div>
+  <div class="meta">
+    <span>📅 2026.07.27</span>
+    <span>📖 原典+学术+跨学派</span>
+    <span>🔍 十维度深挖</span>
+  </div>
+</div>
+
+<!-- ===== TOC ===== -->
+<nav class="toc">
+  <a href="#intro">引言</a>
+  <a href="#s1">一·先秦源头</a>
+  <a href="#s2">二·老庄根基</a>
+  <a href="#s3">三·黄老过渡</a>
+  <a href="#s4">四·汉代成型</a>
+  <a href="#s5">五·外丹</a>
+  <a href="#s6">六·内丹</a>
+  <a href="#s7">七·修炼方法</a>
+  <a href="#s8">八·神仙谱系</a>
+  <a href="#s9">九·三教互动</a>
+  <a href="#s10">十·学者路径</a>
+  <a href="#s11">结论</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== 引言 ===== -->
+<section id="intro">
+  <h2>引言：神仙不是一个人的发明</h2>
+  <p>儒家生死观回答的是"怎么面对死"，道家神仙观回答了一个更野心勃勃的问题：<strong>"能不能不死？"</strong></p>
+  <p>这个问题从商代灵魂不死的原始信仰里长出来，经楚巫的飞升想象、齐方士的海上寻仙、老庄的哲学奠基、汉代道教的制度化、魏晋外丹的狂热实践、唐宋内丹的理性回归——两千年的反复试错，才形成我们今天看到的"道家神仙观"。</p>
+  <p>本报告追这条脉络，带原典引用，详实展开修炼方法、神仙谱系、外丹与内丹四条深挖线。</p>
+</section>
+
+<!-- ===== 一、先秦源头 ===== -->
+<section id="s1">
+  <h2>一、先秦源头：三股活水汇成"不死"观念</h2>
+
+  <h3>1.1 商代灵魂不死：死后升天的原始信仰</h3>
+  <p>商人相信死后灵魂去"黄泉"，祖先"陟降在帝左右"（《诗经·大雅·文王》）。但商人死后世界是地下的——魂魄往下走。</p>
+  <div class="callout">
+    <div class="callout-label">关键转折</div>
+    <p style="margin:0">从"地下黄泉"到"天上飞升"的观念转向，发生在周代。周人"天命观"把"天"提升为最高存在，死后灵魂的去向也从"往下"变成了"往上"。</p>
+  </div>
+  <div class="quote">
+    文王陟降，在帝左右。
+    <span class="source">——《诗经·大雅·文王》</span>
+  </div>
+  <p>这是<strong>天上死后世界</strong>的最早文字记录。商人信仰的底色——人死为鬼，鬼有知，灵魂不死——没有消失，只是改变了方向。</p>
+
+  <h3>1.2 楚文化：巫觋传统与飞升想象</h3>
+  <p>闻一多在《道教的精神》中率先提出：道教的源头不在北方，而在南方的楚巫传统。</p>
+
+  <div class="quote">
+    驾飞龙兮北征，邅吾道兮洞庭。……乘龙兮辚辚，高驰兮冲天。
+    <span class="source">——《楚辞·九歌·湘君》</span>
+  </div>
+  <div class="quote">
+    魂兮归来！君无下此幽都些。
+    <span class="source">——《楚辞·招魂》</span>
+  </div>
+
+  <p>屈原的"游仙"幻想不是文学修辞——四川大学宗教学研究指出，<strong>"游仙"是先秦成仙模式之一</strong>，巫觋通过仪式性飞行（神游）达到与神灵沟通的境界。</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">巫觋飞升</div>
+      <div class="card-body">通过仪式进入迷狂状态，灵魂暂时离体飞升——"逍遥游"的原型</div>
+    </div>
+    <div class="card">
+      <div class="card-title">人神交通</div>
+      <div class="card-body">降神、附体——神灵可直接降临巫觋之身</div>
+    </div>
+    <div class="card">
+      <div class="card-title">招魂术</div>
+      <div class="card-body">灵魂离体后需要被招回——后世"存思"修炼的源头</div>
+    </div>
+    <div class="card">
+      <div class="card-title">飞升靠技术</div>
+      <div class="card-body">不是道德修养，是仪式技术——后世修炼术的原始逻辑</div>
+    </div>
+  </div>
+
+  <div class="scholar-row">
+    <div class="scholar-name">闻一多<br><small>《道教的精神》</small></div>
+    <div class="scholar-text">道教的前身是楚地巫教。巫觋的飞升术、招魂术、降神术是道教修炼法的原始形态。老子、庄子的哲学是对巫教经验的理性化总结——不是哲学创造了神仙观，是神仙观的经验催生了哲学表达。</div>
+  </div>
+
+  <h3>1.3 齐国方仙道：海上仙山与不死药</h3>
+  <div class="quote">
+    宋毋忌、正伯侨、充尚、羡门高最后皆燕人，为方仙道，<strong>形解销化，依于鬼神之事</strong>。
+    <span class="source">——《史记·封禅书》</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>要素</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>仙山</td><td>蓬莱、方丈、瀛洲——海中三神山</td></tr>
+        <tr><td>不死药</td><td>仙山上有不死之药</td></tr>
+        <tr><td>方士</td><td>专门从事寻仙、炼药的技术人员</td></tr>
+        <tr><td>形解销化</td><td>一种修炼/解脱技术（具体含义有争议）</td></tr>
+        <tr><td>仙人</td><td>已得不死药、居住仙山的存在</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>齐威王、齐宣王、燕昭王都曾派人入海求蓬莱仙山。秦始皇统一后，遣徐福率童男童女入海求仙——<strong>方仙道从地方信仰上升为国家行动</strong>。</p>
+  <p><strong>方仙道的历史意义：</strong>第一次把"不死"从神话想象变成了可操作的技术目标——找仙山、求仙药。虽然仙山始终没找到，但"不死可求"的观念从此深入人心。</p>
+
+  <h3>1.4 《山海经》：不死民与羽人</h3>
+  <div class="quote">
+    不死民在其东，其为人黑色，寿，不死。
+    <span class="source">——《山海经·海外南经》</span>
+  </div>
+  <div class="quote">
+    羽民国在其东南，其为人长颊，身生羽。
+    <span class="source">——《山海经·海外南经》</span>
+  </div>
+  <p><strong>"羽"成为仙人的标志符号</strong>——后世道教称仙人为"羽客""羽士""羽化"。马王堆汉墓帛画中，墓主已绘制为带翼飞升的形象。</p>
+
+  <h3>1.5 饶宗颐：不死药的域外来源说</h3>
+  <div class="scholar-row">
+    <div class="scholar-name">饶宗颐<br><small>《塞种与Soma》</small></div>
+    <div class="scholar-text">中国早期的不死药观念，可能受中亚塞种人饮用 Haoma/Soma（不死之饮）的影响。塞种人在先秦活跃于西域，不死药概念可能通过丝绸之路传入中原。道教神仙观可能不是纯本土的，而是多元文化交汇的结果。</div>
+  </div>
+</section>
+
+<!-- ===== 二、老庄 ===== -->
+<section id="s2">
+  <h2>二、老子与庄子：从哲学到修炼的根基</h2>
+
+  <h3>2.1 老子：谷神不死的哲学表述</h3>
+  <div class="quote">
+    <strong>谷神不死，是谓玄牝。玄牝之门，是谓天地根。绵绵若存，用之不勤。</strong>
+    <span class="source">——《道德经·第六章》</span>
+  </div>
+  <p>老子本意：道是永恒存在的。后世道教解读："谷神不死"=<strong>可以修炼到不死</strong>。</p>
+  <div class="quote">
+    是谓深根固柢，<strong>长生久视</strong>之道。
+    <span class="source">——《道德经·第五十九章》</span>
+  </div>
+  <p>这四个字成为道教修炼的终极目标。</p>
+  <div class="quote">
+    致虚极，守静笃。万物并作，吾以观复。
+    <span class="source">——《道德经·第十六章》</span>
+  </div>
+  <p>后世道教解读：这是<strong>内丹修炼的核心心法</strong>——致虚守静就是入定，观复就是内观气机运行。</p>
+
+  <div class="callout">
+    <div class="callout-label">关键问题</div>
+    <p style="margin:0">老庄是哲学，不是修炼手册。但老庄哲学描述的境界与修炼体验高度吻合——后世道教不是"误读"老庄，而是发现老庄哲学可以解释修炼体验，两者形成了双向建构。</p>
+  </div>
+
+  <h3>2.2 庄子：真人、至人、神人——仙人的哲学原型</h3>
+
+  <h4>神人——藐姑射之山</h4>
+  <div class="quote">
+    <strong>藐姑射之山，有神人居焉。肌肤若冰雪，淖约若处子，不食五谷，吸风饮露，乘云气，御飞龙，而游乎四海之外；其神凝，使物不疵疠而年谷熟。</strong>
+    <span class="source">——《庄子·逍遥游》</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>庄子描述</th><th>后世修炼对应</th></tr></thead>
+      <tbody>
+        <tr><td>不食五谷</td><td>→ 辟谷术</td></tr>
+        <tr><td>吸风饮露</td><td>→ 服气术</td></tr>
+        <tr><td>乘云气，御飞龙</td><td>→ 飞升术</td></tr>
+        <tr><td>神凝</td><td>→ 守一定力</td></tr>
+        <tr><td>肌肤若冰雪</td><td>→ 形体变化</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>真人——大宗师</h4>
+  <div class="quote">
+    <strong>古之真人，其寝不梦，其觉无忧，其食不甘，其息深深。真人之息以踵，众人之息以喉。</strong>
+    <span class="source">——《庄子·大宗师》</span>
+  </div>
+  <p>"踵息"——后世内丹修炼解读为<strong>气沉丹田、直达涌泉</strong>的深层次呼吸法。</p>
+  <div class="quote">
+    古之真人，不知悦生，不知恶死。其出不欣，其入不距。翛然而往，翛然而来而已矣。
+    <span class="source">——《庄子·大宗师》</span>
+  </div>
+
+  <h4>坐忘——修炼方法的哲学原型</h4>
+  <div class="quote">
+    颜回曰："回坐忘矣。"仲尼蹴然曰："何谓坐忘？"颜回曰："<strong>堕肢体，黜聪明，离形去知，同于大通</strong>，此谓坐忘。"
+    <span class="source">——《庄子·大宗师》</span>
+  </div>
+
+  <h4>心斋</h4>
+  <div class="quote">
+    "若一志，无听之以耳而听之以心，无听之以心而听之以气。……<strong>唯道集虚。虚者，心斋也。</strong>"
+    <span class="source">——《庄子·人间世》</span>
+  </div>
+
+  <h3>2.3 三家生死观对比</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>儒家</th><th>道家（庄子）</th><th>佛家</th></tr></thead>
+      <tbody>
+        <tr><td>核心态度</td><td>存而不论</td><td><strong>齐生死</strong></td><td>厌离生死</td></tr>
+        <tr><td>对生</td><td>重现世</td><td>不悦亦不恶</td><td>视为苦</td></tr>
+        <tr><td>对死</td><td>不谈</td><td>不惧亦不拒</td><td>视为解脱机会</td></tr>
+        <tr><td>超越方式</td><td>三不朽（被记住）</td><td><strong>与道合一（不死）</strong></td><td>涅槃（超越轮回）</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 三、黄老 ===== -->
+<section id="s3">
+  <h2>三、黄老道家：从哲学到方术的过渡</h2>
+
+  <h3>3.1 黄帝崇拜：修炼成仙的原型</h3>
+  <div class="quote">
+    黄帝采首山铜，铸鼎于荆山下。鼎既成，有龙垂胡髯下迎黄帝。黄帝上骑，群臣后宫从上者七十余人，龙乃上去。
+    <span class="source">——《史记·封禅书》</span>
+  </div>
+  <p>铸鼎=炼丹前身，乘龙=飞升典型方式。确立了<strong>"修炼→飞升"</strong>的基本叙事结构。</p>
+
+  <h3>3.2 马王堆帛书：考古实证</h3>
+  <p>1973年长沙马王堆三号汉墓出土帛书，为西汉初年修炼实践提供考古实证：</p>
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--gold);">
+      <div class="card-title">《却谷食气篇》</div>
+      <div class="card-body">中国现存最早的辟谷专著。详细记载辟谷期间的食物替代和减量方法。</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-title">《导引图》</div>
+      <div class="card-body">帛画44式导引动作。模仿动物：鸟伸、熊经、鹞背、猿呼、龙登。早于五禽戏数百年。</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title">《十问》《合阴阳》</div>
+      <div class="card-body">房中术文献，讨论房事养生。最早的性医学文献。</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--blue);">
+      <div class="card-title">《黄帝四经》</div>
+      <div class="card-body">黄老道家核心文献。养神、保性、守一。</div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-label">马王堆的意义</div>
+    <p style="margin:0">西汉初年（公元前168年），修炼技术已形成体系——辟谷、导引、房中、养神四术并存。不是理论推测，是<strong>实际操作的文本</strong>。</p>
+  </div>
+
+  <h3>3.3 汉武帝求仙：从民间进入宫廷</h3>
+  <div class="quote">
+    李少君言上曰："祠灶则致物，致物而丹砂可化为黄金，黄金成以为饮食器则益寿，益寿而海中蓬莱仙者可见，见之以封禅则不死，黄帝是也。"
+    <span class="source">——《史记·封禅书》</span>
+  </div>
+  <div class="flow-chart"><span class="label">李少君的修炼链条</span>：
+祠灶 <span class="arrow">→</span> 致物 <span class="arrow">→</span> 丹砂化黄金 <span class="arrow">→</span> 黄金做饮食器
+<span class="arrow">→</span> 益寿 <span class="arrow">→</span> 见蓬莱仙人 <span class="arrow">→</span> 封禅 <span class="arrow">→</span> <span class="key">不死</span></div>
+  <p>方士栾大被封为五利将军、天道将军、地士将军，妻以卫长公主——方士地位达到顶峰。<strong>求仙从个人行为变成了国家工程。</strong></p>
+</section>
+
+<!-- ===== 四、汉代成型 ===== -->
+<section id="s4">
+  <h2>四、汉代道教成型：从方术到宗教</h2>
+
+  <h3>4.1 《太平经》：最早系统化的道教经典</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">神仙等级</div>
+      <div class="card-body">天神、地祇、人仙分级管理</div>
+    </div>
+    <div class="card">
+      <div class="card-title">承负说</div>
+      <div class="card-body">祖先善恶影响子孙——道教特有因果观</div>
+    </div>
+    <div class="card">
+      <div class="card-title">善恶报应</div>
+      <div class="card-body">行善延寿成仙，作恶短寿</div>
+    </div>
+    <div class="card">
+      <div class="card-title">太平理想</div>
+      <div class="card-body">天下太平、万物各得其所</div>
+    </div>
+  </div>
+
+  <h3>4.2 张道陵天师道：宗教组织建立</h3>
+  <p>东汉顺帝时（约126-144年），张道陵在四川鹤鸣山创立正一盟威之道。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>制度创新</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>二十四治</td><td>二十四个传教区，类似教区制度</td></tr>
+        <tr><td>祭酒</td><td>各级宗教领袖</td></tr>
+        <tr><td>三官手书</td><td>忏悔仪式：上书天官、地官、水官</td></tr>
+        <tr><td>老子=太上老君</td><td>哲学家老子第一次被神化为最高神</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <div class="callout-label">关键转折</div>
+    <p style="margin:0">张道陵把分散的方术整合为有组织、有经典、有神谱、有仪式的<strong>制度宗教</strong>。从此道教不再是"方术"，而是"道教会"。</p>
+  </div>
+
+  <h3>4.3 《周易参同契》：丹经之祖</h3>
+  <div class="quote">
+    乾坤者，易之门户，众卦之父母。坎离匡廓，运毂正轴，牝牡四卦，以为橐龠。
+    <span class="source">——《周易参同契》</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>概念</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td>乾坤</td><td>天地、鼎炉</td></tr>
+        <tr><td>坎离</td><td>水火、铅汞</td></tr>
+        <tr><td>橐龠</td><td>风箱、呼吸/火候</td></tr>
+        <tr><td>火候</td><td>加热的节奏和温度控制</td></tr>
+        <tr><td>周期</td><td>周易卦象对应炼丹时间周期</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>《参同契》的深层逻辑：</strong>宇宙运行规律（周易卦象）= 物质变化规律（铅汞反应）= 生命修炼规律（气机运转）。天人合一不是哲学口号，是可操作的技术公式。</p>
+  <p><strong>争议：</strong>《参同契》到底讲外丹还是内丹？后世两派都尊奉它——这种文本多义性使其成为外丹和内丹的共同经典。</p>
+
+  <h3>4.4 神仙传记传统</h3>
+  <p><strong>《列仙传》</strong>（东汉）——第一部神仙传记，71位神仙。<strong>《神仙传》</strong>（葛洪）——84位神仙。</p>
+  <div class="quote">
+    仙人无种。
+    <span class="source">——葛洪《神仙传》</span>
+  </div>
+  <p><strong>道教最激进的主张：神性是可获得的，不是先赋的。</strong>任何人通过正确修炼都可以成仙。</p>
+</section>
+
+<!-- ===== 五、外丹 ===== -->
+<section id="s5">
+  <h2>五、外丹：烧铅炼汞的千年实践</h2>
+
+  <h3>5.1 葛洪《抱朴子·内篇》：外丹集大成</h3>
+
+  <h4>金丹论——物性转移</h4>
+  <div class="quote">
+    <strong>金丹之为物，烧之愈久，变化愈妙。黄金入火，百炼不消，埋之毕天不朽。服此二物，炼人身体，故能令人不老不死。</strong>
+    <span class="source">——《抱朴子·内篇·金丹》</span>
+  </div>
+  <div class="flow-chart"><span class="label">葛洪的逻辑</span>：
+黄金在火中百炼不消、埋在地下永世不朽
+<span class="arrow">↓</span>
+服食金丹 = 把黄金的不朽性质转移到人体
+<span class="arrow">↓</span>
+<span class="key">人可以不老不死</span>
+
+<span class="label">"物性转移"理论</span>——不朽物质的性质可传递给人体。
+从现代科学看完全错误，但其逻辑结构是自洽的。</div>
+
+  <h4>仙药分级</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>品级</th><th>药物</th><th>效果</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-gold">上品</span></td><td>丹砂、黄金、白银、诸芝</td><td>飞升成仙</td></tr>
+        <tr><td><span class="tag tag-blue">中品</span></td><td>玉石、云母、明珠</td><td>延年益寿</td></tr>
+        <tr><td><span class="tag tag-green">下品</span></td><td>草木之药</td><td>去病强身</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>葛洪认为草木药只能延寿，不能成仙——成仙必须靠矿物丹药，因为草木会腐烂，不具备"不朽"性质。正是这个"自洽"导致了后世帝王服丹中毒的悲剧。</p>
+
+  <h4>葛洪的实证精神</h4>
+  <p>葛洪不是骗子，是严肃的实验者。他记录了大量化学反应（丹砂分解、铅氧化还原、铜铁置换等），是中国化学史先驱。李约瑟称其为<strong>"中国最伟大的实验科学家之一"</strong>。</p>
+
+  <h3>5.2 陶弘景与茅山派</h3>
+  <p>陶弘景（456-536年），《真诰》记录杨羲、许谧等人降神启示，构建上清派修炼体系：</p>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">存思守一</div><div class="card-body">内观身神，冥想修炼</div></div>
+    <div class="card"><div class="card-title">诵经</div><div class="card-body">诵读《大洞真经》，以声通气</div></div>
+    <div class="card"><div class="card-title">服气</div><div class="card-body">吞咽元气，内养精神</div></div>
+    <div class="card"><div class="card-title">步罡踏斗</div><div class="card-body">仪式性步法，沟通天地</div></div>
+  </div>
+  <p><strong>陶弘景的转向意义：</strong>从葛洪的"外在炼丹"转向"内在修炼"——上清派存思法是外丹到内丹的过渡形态。</p>
+
+  <h3>5.3 《真灵位业图》：第一个系统神仙等级表</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>层级</th><th>主神</th><th>位置</th><th>性质</th></tr></thead>
+      <tbody>
+        <tr><td>第一层</td><td>元始天尊</td><td>上清</td><td>最高天神</td></tr>
+        <tr><td>第二层</td><td>玉晨大道君</td><td>上清</td><td>第二天神</td></tr>
+        <tr><td>第三层</td><td>太极金阙帝君</td><td>上清</td><td>第三天神</td></tr>
+        <tr><td>第四层</td><td>太清太上老君</td><td>太清</td><td>老子神化</td></tr>
+        <tr><td>第五层</td><td>张奉</td><td></td><td>中层管理</td></tr>
+        <tr><td>第六层</td><td>张道陵</td><td></td><td>中层管理</td></tr>
+        <tr><td>第七层</td><td>酆都北阴大帝</td><td></td><td>冥界之主</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>散乱的神仙第一次被组织为等级分明的官僚体系——<strong>天庭是人间的镜像</strong>。后世神仙谱系虽不断扩充，基本框架沿用了陶弘景的七层结构。</p>
+
+  <h3>5.4 外丹的衰落：帝王服丹致死</h3>
+  <div class="callout">
+    <div class="callout-label">⚠ 历史教训</div>
+    <p style="margin:0">丹药主要成分是铅、汞、砷——全是剧毒物质。唐代至少五位帝王服丹致死。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>帝王</th><th>卒年</th><th>情况</th></tr></thead>
+      <tbody>
+        <tr><td>太宗李世民</td><td>649</td><td>服胡僧长生药，暴疾而亡</td></tr>
+        <tr><td>宪宗李纯</td><td>820</td><td>服金丹，脾气暴烈，被宦官杀死</td></tr>
+        <tr><td>穆宗李恒</td><td>824</td><td>服金丹中毒</td></tr>
+        <tr><td>武宗李炎</td><td>846</td><td>服金丹中毒</td></tr>
+        <tr><td>宣宗李忱</td><td>859</td><td>服长生药，疽发背死</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>"大唐药丸"</strong>——五位帝王用生命证明了外丹的致命缺陷。</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title" style="color:var(--red);">帝王服丹致死</div>
+      <div class="card-body">最高级别的"实验"反复失败</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title" style="color:var(--red);">理论矛盾</div>
+      <div class="card-body">如果丹药能成仙，为什么炼丹师自己死了？</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title" style="color:var(--red);">成本高昂</div>
+      <div class="card-body">炼丹需大量贵金属，非普通人能负担</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-title" style="color:var(--red);">佛教竞争</div>
+      <div class="card-body">禅定法无需外物，更安全更普世</div>
+    </div>
+  </div>
+
+  <h3>5.5 外丹的学术评估</h3>
+  <div class="scholar-row">
+    <div class="scholar-name">李约瑟<br><small>《中国科学技术史》</small></div>
+    <div class="scholar-text">道教炼丹术是世界上最早的实验化学。道士们在追求长生过程中，无意中积累了大量化学知识——火药的发明就源于炼丹实验。虽然目标（长生不死）是错误的，但方法（实验操作、观察记录）具有科学精神。</div>
+  </div>
+</section>
+
+<!-- ===== 六、内丹 ===== -->
+<section id="s6">
+  <h2>六、内丹：身心即鼎炉的修炼革命</h2>
+
+  <h3>6.1 基本原理：外丹术语的内在翻译</h3>
+  <div class="quote">
+    自身自有长生药，何须向外去寻求。
+    <span class="source">——内丹核心口诀</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>外丹术语</th><th>内丹对应</th></tr></thead>
+      <tbody>
+        <tr><td>鼎炉</td><td>人体（下丹田为鼎，上丹田为炉）</td></tr>
+        <tr><td>铅</td><td>精（肾/水/坎）</td></tr>
+        <tr><td>汞</td><td>神（心/火/离）</td></tr>
+        <tr><td>火候</td><td>呼吸节奏与意念强度</td></tr>
+        <tr><td>金丹</td><td>精炁神凝结的"圣胎"</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>内丹是对外丹的"翻译"——把所有外在的炼丹元素翻译为内在的生理和心理过程。</p>
+
+  <h3>6.2 陈抟《无极图》：五阶段修炼次第</h3>
+  <div class="flow-chart"><span class="label">陈抟五阶段</span>：
+① 炼精化炁 <span class="arrow">→</span> ② 炼炁化神 <span class="arrow">→</span> ③ 炼神还虚
+<span class="arrow">→</span> ④ 炼虚合道 <span class="arrow">→</span> ⑤ <span class="key">复归无极</span></div>
+  <p>后世所有内丹流派都以此为基础框架。陈抟另一贡献是<strong>将《易经》与内丹结合</strong>——用卦象描述气机运行。</p>
+
+  <h3>6.3 钟吕内丹体系：四阶段详解</h3>
+
+  <h4>第一阶段：筑基</h4>
+  <p>补漏筑基——修复已损耗的精炁神，恢复到"乾卦"（纯阳）状态。</p>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">断欲保精</div><div class="card-body">节欲，减少精气消耗</div></div>
+    <div class="card"><div class="card-title">调息养气</div><div class="card-body">呼吸训练，积蓄元气</div></div>
+    <div class="card"><div class="card-title">积德修心</div><div class="card-body">道德修养，心神安定</div></div>
+  </div>
+  <p><strong>时间：百日到三年不等。</strong>如果身体亏损严重，先要"修补"——就像修补漏水的容器，才能装水。</p>
+
+  <h4>第二阶段：炼精化炁</h4>
+  <p>将后天之精转化为先天之炁，运行于小周天（任督二脉循环）。</p>
+  <div class="flow-chart"><span class="label">小周天循环</span>：
+意守下丹田 <span class="arrow">→</span> 积精生气 <span class="arrow">→</span> 气满自溢
+<span class="arrow">→</span> 沿督脉上升（背后） <span class="arrow">→</span> 过头顶 <span class="arrow">→</span> 沿任脉下降（胸前）
+<span class="arrow">→</span> <span class="key">回到丹田</span>（一个循环完成）</div>
+  <p><strong>标志："阳光三现"</strong>——眼前出现三次光明，表示精已化炁。时间：百日。</p>
+
+  <h4>第三阶段：炼炁化神</h4>
+  <p>炁与神融合，运行于大周天（全身经络循环），结成"圣胎"。</p>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">炁通奇经八脉</div><div class="card-body">全身气机贯通</div></div>
+    <div class="card"><div class="card-title">神炁相抱</div><div class="card-body">凝结为"圣胎"（内在金丹）</div></div>
+    <div class="card"><div class="card-title">胎息</div><div class="card-body">呼吸微细到几乎停止</div></div>
+  </div>
+  <p><strong>标志："六根震动"</strong>——身体出现六种生理反应。时间：十月（喻为"十月怀胎"）。</p>
+
+  <h4>第四阶段：炼神还虚</h4>
+  <p>圣胎温养成熟，神出体外——"出神"。长期温养（哺乳），神可离体，自在游历。</p>
+  <p><strong>标志：可在定中出神，灵魂离体游历。</strong>时间：三年。</p>
+
+  <h4>第五阶段：炼虚合道</h4>
+  <p>神与虚合一，与道同体。打破一切界限，与宇宙同体——形神俱妙，随机显化。时间：九年（达摩面壁之喻）。</p>
+  <div class="quote">
+    打破虚空为了当，无拘无束自在仙。
+    <span class="source">——内丹终极境界</span>
+  </div>
+
+  <h3>6.4 张伯端《悟真篇》：南宗经典</h3>
+  <div class="quote">
+    虚心实腹义俱深，只为虚心要识心。莫若炼铅先实腹，且教守取满堂金。
+    <span class="source">——《悟真篇》</span>
+  </div>
+  <p>"虚心"=修性（心神）；"实腹"=修命（精气）。张伯端主张<strong>先命后性</strong>——先炼精气，再炼心神。</p>
+
+  <h3>6.5 南宗 vs 北宗</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>南宗（张伯端）</th><th>北宗（王重阳）</th></tr></thead>
+      <tbody>
+        <tr><td>修炼顺序</td><td>先命后性</td><td>先性后命</td></tr>
+        <tr><td>入手重点</td><td>精气（身体）</td><td>清静（心性）</td></tr>
+        <tr><td>娶妻</td><td>可以有家室</td><td>出家禁欲</td></tr>
+        <tr><td>风格</td><td>渐修</td><td>顿悟偏多</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.6 内丹的生理学解读</h3>
+  <div class="callout">
+    <div class="callout-label">注意</div>
+    <p style="margin:0">内丹是修炼体验的内省描述，不是现代生理学。两者存在映射可能，但不能简单等同。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>内丹概念</th><th>可能的生理对应</th></tr></thead>
+      <tbody>
+        <tr><td>炼精化炁</td><td>性激素转化、神经内分泌调节</td></tr>
+        <tr><td>小周天</td><td>自主神经调节、脊髓-脑循环</td></tr>
+        <tr><td>胎息</td><td>极低代谢状态（类似龟息）</td></tr>
+        <tr><td>六根震动</td><td>深度冥想中的神经放电</td></tr>
+        <tr><td>出神</td><td>解离状态或深度催眠</td></tr>
+        <tr><td>圣胎</td><td>新的神经回路模式建立</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 七、修炼方法全景 ===== -->
+<section id="s7">
+  <h2>七、修炼方法全景：五条技术线</h2>
+
+  <h3>7.1 服食：吃下不死</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>阶段</th><th>内容</th><th>代表文献</th></tr></thead>
+      <tbody>
+        <tr><td>先秦</td><td>草木药（芝、参、苓）</td><td>《山海经》"甘木"</td></tr>
+        <tr><td>汉代</td><td>矿物药（丹砂、黄金、玉）</td><td>《神农本草经》</td></tr>
+        <tr><td>魏晋</td><td>合成丹药（铅汞丹）</td><td>《抱朴子·内篇》</td></tr>
+        <tr><td>唐以后</td><td>逐渐衰落，转为医药</td><td>《千金方》《本草纲目》</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>7.2 辟谷：不吃也能活</h3>
+  <div class="quote">
+    食谷者智而夭，食气者神而寿。
+    <span class="source">——道教口诀</span>
+  </div>
+  <p>马王堆《却谷食气篇》是最早辟谷文献。现代评估：短期间歇性断食有益（激活自噬），但"只服气不进食"长期执行会致命。</p>
+
+  <h3>7.3 导引行气：动起来的修炼</h3>
+  <div class="quote">
+    吹呴呼吸，吐故纳新，熊经鸟伸，为寿而已矣。此导引之士，养形之人，彭祖寿考者之所好也。
+    <span class="source">——《庄子·刻意》</span>
+  </div>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">小周天</div><div class="card-body">气沿任督二脉循环（前降后升）</div></div>
+    <div class="card"><div class="card-title">大周天</div><div class="card-body">气通奇经八脉，全身循环</div></div>
+    <div class="card"><div class="card-title">胎息</div><div class="card-body">口鼻呼吸微细到几乎停止，以内呼吸维持生命</div></div>
+  </div>
+
+  <h3>7.4 房中术：最争议的一条线</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>阶段</th><th>特征</th></tr></thead>
+      <tbody>
+        <tr><td>先秦</td><td>马王堆帛书《十问》《合阴阳》——最早文献</td></tr>
+        <tr><td>汉代</td><td>《汉书·艺文志》著录房中八家</td></tr>
+        <tr><td>魏晋</td><td>葛洪认为房中是"小术"，非成仙正途</td></tr>
+        <tr><td>唐宋</td><td>与内丹双修结合</td></tr>
+        <tr><td>明清</td><td>逐渐被边缘化</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="quote">
+    房中之术十余家……其法皆要以还精补脑为其大端。……然此术皆小术，不足以长生。
+    <span class="source">——《抱朴子·内篇·微旨》</span>
+  </div>
+
+  <h3>7.5 存思守一：道教版的冥想</h3>
+  <h4>《黄庭经》身神体系</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>部位</th><th>身神</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>脑（泥丸）</td><td>泥丸君</td><td>总理诸神</td></tr>
+        <tr><td>心</td><td>心神丹元</td><td>主神明</td></tr>
+        <tr><td>肝</td><td>肝神龙烟</td><td>主魂</td></tr>
+        <tr><td>肺</td><td>肺神皓华</td><td>主魄</td></tr>
+        <tr><td>脾</td><td>脾神常在</td><td>主意</td></tr>
+        <tr><td>肾</td><td>肾神玄冥</td><td>主志</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="quote">
+    上有魂灵下关元，左为少阳右太阴，后有密户前生门，出日入月呼吸存。
+    <span class="source">——《黄庭内景经》</span>
+  </div>
+
+  <h3>7.6 内丹如何统合五条线</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>原始技术</th><th>内丹整合</th></tr></thead>
+      <tbody>
+        <tr><td>服食</td><td>"自身自有长生药"——精炁神就是最好的药</td></tr>
+        <tr><td>辟谷</td><td>炼精化炁阶段自然辟谷（气满不思食）</td></tr>
+        <tr><td>导引行气</td><td>小周天、大周天就是高级导引</td></tr>
+        <tr><td>房中术</td><td>双修法（部分流派），或转化为"断欲保精"</td></tr>
+        <tr><td>存思守一</td><td>意守丹田、内观气机就是存思的延续</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>内丹是道教修炼方法的集大成。</strong>不是某一条线的延续，而是五条线的融合。</p>
+</section>
+
+<!-- ===== 八、神仙谱系 ===== -->
+<section id="s8">
+  <h2>八、神仙谱系：从散仙到天庭官僚体系</h2>
+
+  <h3>8.1 早期：散仙无体系</h3>
+  <p>《列仙传》中的71位神仙各自独立，互不统属。仙人多为平民出身（工匠、樵夫、渔夫），成仙方式各异，<strong>没有组织化的天庭</strong>。</p>
+
+  <h3>8.2 唐宋定型：三清-四御体系</h3>
+
+  <h4>三清——最高神</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>神名</th><th>居所</th><th>化身</th></tr></thead>
+      <tbody>
+        <tr><td>元始天尊</td><td>玉清境</td><td>洪元时期</td></tr>
+        <tr><td>灵宝天尊</td><td>上清境</td><td>混元时期</td></tr>
+        <tr><td>道德天尊（太上老君）</td><td>太清境</td><td>太初时期</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>三清的哲学含义：</strong>"道"的三种显现——元始天尊=宇宙创生之始，灵宝天尊=万物化生之期，道德天尊=教化人间之世。老子完成了"哲学家→最高神"的转化。</p>
+
+  <h4>四御——次级天帝</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>神名</th><th>职能</th></tr></thead>
+      <tbody>
+        <tr><td>玉皇大帝</td><td>总理三界十方</td></tr>
+        <tr><td>中天紫微北极大帝</td><td>掌管日月星辰</td></tr>
+        <tr><td>勾陈上宫天皇大帝</td><td>掌管天地人三才</td></tr>
+        <tr><td>后土皇地祇</td><td>掌管山川土地</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <div class="callout-label">民间 vs 道教</div>
+    <p style="margin:0">民间把玉皇当作最高神（"老天爷"），道教内部以三清为最高。玉皇是三清之下的"执行总裁"。</p>
+  </div>
+
+  <h3>8.3 仙品分级</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>品级</th><th>特征</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-gold">天仙</span></td><td>飞升天界，有官职</td></tr>
+        <tr><td><span class="tag tag-blue">地仙</span></td><td>长住人间，不死不灭</td></tr>
+        <tr><td><span class="tag tag-green">神仙</span></td><td>有神通，可飞升</td></tr>
+        <tr><td>人仙</td><td>延年益寿，未脱离轮回</td></tr>
+        <tr><td>鬼仙</td><td>阴中超脱，鬼中仙</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.4 全真道 vs 正一道</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>全真道</th><th>正一道</th></tr></thead>
+      <tbody>
+        <tr><td>起源</td><td>王重阳（金代）</td><td>张道陵（东汉）</td></tr>
+        <tr><td>神仙观</td><td>重内丹成真，三教合一</td><td>重符箓斋醮，沟通神灵</td></tr>
+        <tr><td>出家</td><td>出家禁欲</td><td>可有家室</td></tr>
+        <tr><td>修炼</td><td>清静修真</td><td>符箓、科仪</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 九、三教互动 ===== -->
+<section id="s9">
+  <h2>九、三教互动与竞争</h2>
+
+  <h3>9.1 佛教对道教的刺激</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>佛教元素</th><th>道教回应</th></tr></thead>
+      <tbody>
+        <tr><td>轮回观念</td><td>道教发展出"五道轮回"和"承负"说</td></tr>
+        <tr><td>禅定修法</td><td>存思吸收了数息、观空等技术</td></tr>
+        <tr><td>佛经体系</td><td>道教开始系统编纂《道藏》</td></tr>
+        <tr><td>僧团制度</td><td>道教建立宫观制度和出家制度</td></tr>
+        <tr><td>因果报应</td><td>道教强调"积德行善"与成仙的关系</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>9.2 儒道两种超越死亡的方案</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>儒家</th><th>道家</th></tr></thead>
+      <tbody>
+        <tr><td>超越方式</td><td>三不朽（被记住）</td><td><strong>长生久视（不死）</strong></td></tr>
+        <tr><td>身体观</td><td>身体是父母的遗产</td><td>身体是鼎炉，可以炼化</td></tr>
+        <tr><td>死后</td><td>存而不论</td><td>尸解、飞升、羽化</td></tr>
+        <tr><td>核心态度</td><td>接受死亡</td><td><strong>挑战死亡</strong></td></tr>
+        <tr><td>修炼方向</td><td>修身（道德）</td><td>修炼（技术）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>根本差异：儒家向"社会"寻求超越，道家向"自身"寻求超越。</strong>一个向外，一个向内。</p>
+
+  <h3>9.3 三教合一</h3>
+  <div class="quote">
+    儒门释户道相通，三教从来一祖风。
+    <span class="source">——王重阳</span>
+  </div>
+</section>
+
+<!-- ===== 十、学者 ===== -->
+<section id="s10">
+  <h2>十、近现代学者研究路径</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>学者</th><th>代表作</th><th>核心论点</th></tr></thead>
+      <tbody>
+        <tr><td><strong>闻一多</strong></td><td>《道教的精神》</td><td>道教源于楚地巫教，巫觋飞升术是修炼法原始形态</td></tr>
+        <tr><td><strong>饶宗颐</strong></td><td>《塞种与Soma》</td><td>不死药观念可能受中亚塞种人影响，非纯本土</td></tr>
+        <tr><td><strong>陈国符</strong></td><td>《道藏源流考》</td><td>道藏文献学奠基之作</td></tr>
+        <tr><td><strong>卿希泰</strong></td><td>《中国道教通史》</td><td>通史框架，从汉代到现代的系统叙事</td></tr>
+        <tr><td><strong>葛兆光</strong></td><td>《道教与中国文化》</td><td>道教是中华文化的"背面"——被精英排斥但深植民间</td></tr>
+        <tr><td><strong>李约瑟</strong></td><td>《中国科学技术史》道教卷</td><td>炼丹术是世界最早的实验化学</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flow-chart"><span class="label">学者路径图</span>：
+闻一多（1940s）<span class="arrow">→</span> 楚巫源头说 <span class="arrow">→</span> 巫觋体验是修炼法原型
+    <span class="arrow">↓</span>
+饶宗颐 <span class="arrow">→</span> 不死药域外来源 <span class="arrow">→</span> 神仙观可能非纯本土
+    <span class="arrow">↓</span>
+陈国符（1949）<span class="arrow">→</span> 道藏文献学 <span class="arrow">→</span> 文本基础梳理
+    <span class="arrow">↓</span>
+卿希泰（1980s）<span class="arrow">→</span> 通史框架 <span class="arrow">→</span> 历史脉络系统化
+    <span class="arrow">↓</span>
+葛兆光（1990s）<span class="arrow">→</span> 文化史视角 <span class="arrow">→</span> 道教是中华文化的"背面"
+    <span class="arrow">↓</span>
+李约瑟 <span class="arrow">→</span> 科学史定位 <span class="arrow">→</span> <span class="key">炼丹术=实验化学先驱</span></div>
+</section>
+
+<!-- ===== 演变链条 ===== -->
+<section>
+  <h2>附录：演变链条总图</h2>
+  <div class="flow-chart"><span class="label">商代</span>：灵魂不死 → 黄泉 → 祖先在帝左右
+  <span class="arrow">↓ 方向转折</span>
+<span class="label">周代</span>：天命观 → 天上死后世界 → "文王陟降"
+  <span class="arrow">↓ 楚文化</span>
+<span class="label">楚巫</span>：巫觋飞升 → 神游 → 招魂 → 《楚辞》
+  <span class="arrow">↓ 齐文化</span>
+<span class="label">方仙道</span>：海上仙山 → 不死药 → 方士 → 形解销化
+  <span class="arrow">↓ 哲学奠基</span>
+<span class="label">老子</span>：谷神不死 → 长生久视 → 致虚守静
+  <span class="arrow">↓</span>
+<span class="label">庄子</span>：真人/至人/神人 → 坐忘/心斋 → 齐生死
+  <span class="arrow">↓ 神话原型</span>
+<span class="label">山海经</span>：不死民/羽民 → "羽"=仙人符号
+  <span class="arrow">↓ 制度化</span>
+<span class="label">黄帝崇拜</span>：铸鼎乘龙升天 → "人可成仙"叙事范本
+  <span class="arrow">↓ 黄老过渡</span>
+<span class="label">马王堆帛书</span>：辟谷+导引+房中+养神 → 四术并存
+  <span class="arrow">↓ 宫廷推动</span>
+<span class="label">汉武帝</span>：李少君/栾大 → 求仙成国家工程
+  <span class="arrow">↓ 宗教成立</span>
+<span class="label">张道陵</span>：天师道 → 老子=太上老君 → 制度宗教
+  <span class="arrow">↓ 理论系统化</span>
+<span class="label">太平经</span>：神仙等级+善恶报应+承负说
+  <span class="arrow">↓ 丹经之祖</span>
+<span class="label">魏伯阳</span>：铅汞+火候+周易卦象
+  <span class="arrow">↓ 外丹集大成</span>
+<span class="label">葛洪</span>：金丹论+仙药分级+物性转移
+  <span class="arrow">↓ 神仙谱系化</span>
+<span class="label">陶弘景</span>：真灵位业图 → 七层神仙等级表
+  <span class="arrow">↓ 存思发展</span>
+<span class="label">黄庭经</span>：身神体系+存思守一
+  <span class="arrow">↓ 外丹衰落</span>
+<span class="label">唐代</span>：帝王服丹致死（五位）→ 信任崩溃
+  <span class="arrow">↓ 内丹兴起</span>
+<span class="label">陈抟</span>：五阶段修炼次第
+  <span class="arrow">↓ 体系完善</span>
+<span class="label">钟吕</span>：筑基→炼精化炁→炼炁化神→炼神还虚→炼虚合道
+  <span class="arrow">↓ 经典确立</span>
+<span class="label">张伯端</span>：先命后性 → 南宗
+  <span class="arrow">↓ 三教融合</span>
+<span class="label">王重阳</span>：先性后命 → 三教合一 → 北宗
+  <span class="arrow">↓ 谱系定型</span>
+<span class="label">唐宋</span>：三清-四御-玉皇 → 天庭官僚体系
+  <span class="arrow">↓ 现代研究</span>
+<span class="key">闻一多→楚巫 | 饶宗颐→域外 | 李约瑟→科学史</span></div>
+</section>
+
+<!-- ===== 修炼方法全景表 ===== -->
+<section>
+  <h2>附录：修炼方法全景表</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>方法</th><th>原理</th><th>代表文献</th><th>现代评估</th></tr></thead>
+      <tbody>
+        <tr><td><strong>服食</strong></td><td>不朽物质性质可转移</td><td>《抱朴子·内篇》</td><td>矿物丹药=重金属中毒；草木药有药用价值</td></tr>
+        <tr><td><strong>辟谷</strong></td><td>断食转以气为能源</td><td>马王堆《却谷食气篇》</td><td>短期断食有益，长期不食危险</td></tr>
+        <tr><td><strong>导引</strong></td><td>肢体运动+呼吸调理气血</td><td>马王堆导引图、《庄子》</td><td>有健身价值，类似太极/气功</td></tr>
+        <tr><td><strong>行气</strong></td><td>呼吸控制调节自主神经</td><td>《庄子》"踵息"</td><td>深呼吸有放松效果；胎息待验证</td></tr>
+        <tr><td><strong>房中术</strong></td><td>性能量转化和回收</td><td>马王堆《十问》《合阴阳》</td><td>含早期性医学成分；"还精补脑"不成立</td></tr>
+        <tr><td><strong>存思守一</strong></td><td>内观身神达到精神专一</td><td>《黄庭经》《真诰》</td><td>类似冥想/正念，有心理效果</td></tr>
+        <tr><td><strong>外丹</strong></td><td>铅汞经火候炼制为金丹</td><td>《参同契》《抱朴子》</td><td>伟大化学实验，致命医疗实践</td></tr>
+        <tr><td><strong>内丹</strong></td><td>人体为鼎炉，精炁神为药物</td><td>《悟真篇》《灵宝毕法》</td><td>最系统的身心修炼体系</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 核心结论 ===== -->
+<section id="s11" class="conclusion">
+  <h2>核心结论：五个判断</h2>
+
+  <ol>
+    <li><strong>道家神仙观是三股活水汇流的结果。</strong>楚巫（飞升体验）+ 齐方仙道（不死药）+ 商周灵魂不死（死后世界）——三股活水在战国到汉代汇流，形成了"人可以不死"的基本信念。老子庄子不是神仙观的发明者，是对已有信仰经验的哲学升华。</li>
+
+    <li><strong>从外丹到内丹是一次"范式转移"。</strong>外丹失败不只是技术失败，是整个世界观的失败——"物性转移"理论被证伪。内丹把所有外在元素翻译为内在的生理心理过程，使修炼从"依赖外在物质"变成"开发内在资源"。这是道教思想的理性化。</li>
+
+    <li><strong>修炼方法的演进是"做减法"的过程。</strong>早期五术并行，内丹出现后五术被整合为一个系统。从杂多到统一，从外在到内在——这是修炼方法演进的基本方向。</li>
+
+    <li><strong>神仙谱系模仿了人间官僚制度。</strong>从陶弘景七层结构到唐宋三清四御，天庭始终是人间的镜像。但"散仙"传统的持续存在（如八仙），也保留了对自由超越的向往——不受管辖的仙人，是对官僚制度的潜在反抗。</li>
+
+    <li><strong>道家神仙观的根本精神是"挑战死亡"。</strong>儒家接受死亡，追求社会性不朽。佛家厌离生死，追求超越轮回。道家最激进——<strong>不接受死亡是终点</strong>。这个主张驱动了两千年的实验——化学实验（外丹）、生理实验（辟谷/导引/房中）、心理实验（存思/内丹）。</li>
+  </ol>
+
+  <div class="quote" style="font-size:1.05rem; padding:20px 28px;">
+    道教包含了世界上最勇敢的实验精神——尽管目标错了，但过程产生了真正的知识。
+    <span class="source">——李约瑟</span>
+  </div>
+</section>
+
+<!-- ===== 儒道对照 ===== -->
+<section class="conclusion">
+  <h2>附：与儒家生死观对照</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>维度</th><th>儒家</th><th>道家</th></tr></thead>
+      <tbody>
+        <tr><td>根源</td><td>周公制礼 → 孔子改造</td><td>楚巫+齐方仙道+商周灵魂不死 → 老庄哲学化</td></tr>
+        <tr><td>对死亡</td><td>存而不论</td><td><strong>挑战/克服</strong></td></tr>
+        <tr><td>超越方式</td><td>三不朽（社会记忆）</td><td>长生久视（个体超越）</td></tr>
+        <tr><td>身体观</td><td>身体是父母遗产</td><td>身体是修炼鼎炉</td></tr>
+        <tr><td>修炼方向</td><td>修身（道德）→ 俟命</td><td>修炼（技术）→ 改命</td></tr>
+        <tr><td>核心经典</td><td>《论语》《礼记》《左传》</td><td>《道德经》《庄子》《抱朴子》《悟真篇》</td></tr>
+        <tr><td>历史影响</td><td>制度文化（礼法）</td><td>科技（化学/医学）+ 养生文化</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider">◆ ◆ ◆</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <p>道家神仙观调查报告 · 2026年7月27日</p>
+  <p style="margin-top:6px; opacity:0.6;">原典文本梳理 + 学术文献检索 + 跨学派对比 · 与儒家生死观报告对照阅读</p>
+</div>
+
+</body>
+</html>
