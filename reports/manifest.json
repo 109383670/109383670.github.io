@@ -3,6 +3,19 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "三十六计",
+      "type": "html",
+      "title": "三十六计 · 人生用",
+      "summary": "三十六计不仅是兵法，更是人生策略——从胜战计到败战计，六套三十六策，每一策都对应着人生中的决策时刻。",
+      "tags": [
+        "兵法",
+        "策略"
+      ],
+      "date": "2026-07-27",
+      "path": "reports/三十六计.html",
+      "thumbnail": "reports/thumbnails/三十六计.svg"
+    },
+    {
       "id": "禅宗调查报告",
       "type": "html",
       "title": "禅宗调查报告——从印度禅定到中国禅宗",
