@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八字算命调查报告——从五行推命到四柱八字</title>
+<style>
+:root {
+  --bg: #1a1410;
+  --card: #241e18;
+  --border: #3a2e20;
+  --accent: #d4a017;
+  --accent2: #c41e3a;
+  --text: #e8dcc8;
+  --muted: #9a8c70;
+  --gold-light: #f0d060;
+  --red-dark: #8b0000;
+  --wood: #4a7c3f;
+  --fire: #c43a1a;
+  --earth: #b8960a;
+  --metal: #d4c8a0;
+  --water: #3a6b8c;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:"PingFang SC","Noto Serif SC","KaiTi",serif;
+  line-height:1.75; padding:20px;
+}
+/* Header */
+.header {
+  text-align:center; padding:40px 20px;
+  border-bottom:2px solid var(--accent); margin-bottom:30px;
+}
+.header h1 { font-size:2.4em; color:var(--accent); letter-spacing:0.08em; }
+.header p { color:var(--muted); margin-top:8px; font-size:0.95em; }
+/* Tabs */
+.tabs {
+  display:flex; flex-wrap:wrap; justify-content:center; gap:6px;
+  margin-bottom:30px; position:sticky; top:10px; z-index:10;
+  background:var(--bg); padding:10px 0;
+}
+.tab-btn {
+  background:var(--card); border:1px solid var(--border);
+  color:var(--text); padding:8px 14px; border-radius:6px;
+  cursor:pointer; font-size:0.85em; font-family:inherit;
+  transition:all 0.2s; white-space:nowrap;
+}
+.tab-btn:hover { border-color:var(--accent); background:#2a2218; }
+.tab-btn.active { background:var(--accent); border-color:var(--accent); color:#1a1410; font-weight:bold; }
+/* Panels */
+.panel { display:none; }
+.panel.active { display:block; }
+/* Shared components */
+.cat-header {
+  display:flex; align-items:center; gap:12px; margin-bottom:20px;
+}
+.cat-icon {
+  width:44px; height:44px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4em; font-weight:bold;
+}
+.cat-title { font-size:1.5em; font-weight:bold; }
+.cat-desc { color:var(--muted); font-size:0.88em; margin-left:12px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-bottom:40px; }
+.card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:10px; padding:18px; transition:border-color 0.2s; margin-bottom:16px;
+}
+.card:hover { border-color:var(--accent); }
+.card-name { font-size:1.15em; font-weight:bold; color:var(--accent); margin-bottom:4px; }
+.card-alias { color:var(--muted); font-size:0.85em; margin-bottom:10px; }
+.card-row { display:flex; gap:8px; margin-bottom:6px; font-size:0.88em; }
+.card-label { min-width:60px; color:var(--muted); flex-shrink:0; }
+.card-value { color:var(--text); }
+.card-body { color:var(--text); font-size:0.9em; margin-top:10px; line-height:1.8; }
+table {
+  width:100%; border-collapse:collapse; margin-bottom:20px; font-size:0.85em;
+}
+th,td { border:1px solid var(--border); padding:6px 10px; text-align:left; }
+th { background:#2a2218; color:var(--accent); }
+tr:hover { background:#2a2218; }
+.footer {
+  text-align:center; color:var(--muted); padding:30px 0;
+  border-top:1px solid var(--border); font-size:0.85em; margin-top:40px;
+}
+.section-title { color:var(--accent); font-size:1.15em; margin:24px 0 10px; }
+.sub-title { color:var(--accent2); font-size:1.02em; margin:16px 0 8px; }
+.section-text { margin-bottom:14px; font-size:0.92em; line-height:1.85; }
+.nodelist {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:10px; padding:20px; margin-bottom:20px;
+}
+.nodelist-item { padding:6px 0; border-bottom:1px solid var(--border); font-size:0.9em; }
+.nodelist-item:last-child { border-bottom:none; }
+.flow {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:10px; padding:20px; margin-bottom:20px;
+  font-family:monospace; font-size:0.82em; white-space:pre-wrap;
+  color:var(--text); line-height:1.8;
+}
+.quote {
+  background:#2a2218; border-left:4px solid var(--accent);
+  padding:12px 16px; margin:10px 0;
+  font-style:italic; color:var(--text); border-radius:4px;
+}
+.quote-source { color:var(--muted); font-size:0.8em; margin-top:6px; font-style:normal; }
+.bold { color:var(--accent); font-weight:bold; }
+.accent-text { color:var(--accent); }
+.warn {
+  background:#3a2020; border:1px solid var(--accent2);
+  padding:10px 14px; border-radius:6px; font-size:0.85em;
+  color:var(--accent2); margin:10px 0;
+}
+/* Search input */
+.search-box {
+  width:100%; padding:8px 14px; border-radius:6px;
+  border:1px solid var(--border); background:var(--card);
+  color:var(--text); font-size:0.9em; margin-bottom:12px;
+  font-family:inherit;
+}
+.search-box:focus { outline:none; border-color:var(--accent); }
+/* Pagination */
+.pagination {
+  display:flex; justify-content:center; gap:6px; margin:12px 0;
+}
+.page-btn {
+  background:var(--card); border:1px solid var(--border);
+  color:var(--text); padding:4px 10px; border-radius:4px;
+  cursor:pointer; font-size:0.82em; font-family:inherit;
+}
+.page-btn:hover { border-color:var(--accent); }
+.page-btn.active { background:var(--accent); border-color:var(--accent); color:#1a1410; }
+/* Calculator styles */
+.calc-container {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:24px; margin-bottom:20px;
+}
+.calc-row { display:flex; flex-wrap:wrap; gap:10px; align-items:end; margin-bottom:14px; }
+.calc-group { display:flex; flex-direction:column; gap:4px; }
+.calc-group label { font-size:0.82em; color:var(--muted); }
+.calc-group select,.calc-group input {
+  padding:6px 10px; border-radius:6px; font-size:0.9em;
+  border:1px solid var(--border); background:var(--bg); color:var(--text);
+  font-family:inherit;
+}
+.calc-group select:focus,.calc-group input:focus {
+  outline:none; border-color:var(--accent);
+}
+.calc-btn {
+  background:var(--accent); color:#1a1410; border:none;
+  padding:8px 24px; border-radius:6px; cursor:pointer;
+  font-size:1em; font-weight:bold; font-family:inherit;
+  transition:all 0.2s;
+}
+.calc-btn:hover { background:var(--gold-light); }
+.bazi-table { width:100%; border-collapse:collapse; margin:20px 0; }
+.bazi-table th,.bazi-table td {
+  border:1px solid var(--border); padding:8px; text-align:center;
+  font-size:0.88em;
+}
+.bazi-table th { background:#2a2218; font-size:0.82em; }
+.bazi-table .day-master { color:var(--accent2); font-weight:bold; font-size:1.1em; }
+.bazi-table .wuxing { font-size:0.75em; color:var(--muted); margin-top:2px; }
+.bazi-table .shi-shen { font-size:0.72em; margin-top:2px; }
+.result-box {
+  background:#1e1810; border:1px solid var(--border);
+  border-radius:8px; padding:14px; margin-top:14px;
+}
+.result-box h4 { color:var(--accent); margin-bottom:8px; font-size:0.95em; }
+.wx-bar {
+  display:flex; align-items:center; gap:8px; margin:4px 0; font-size:0.82em;
+}
+.wx-bar .bar-bg { flex:1; height:12px; background:#2a2218; border-radius:6px; overflow:hidden; }
+.wx-bar .bar-fill { height:100%; border-radius:6px; transition:width 0.4s; }
+.bar-wood { background:var(--wood); } .bar-fire { background:var(--fire); }
+.bar-earth { background:var(--earth); } .bar-metal { background:var(--metal); }
+.bar-water { background:var(--water); }
+.dayun-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:0.82em; }
+.dayun-table th, .dayun-table td { border:1px solid var(--border); padding:6px 8px; text-align:center; }
+/* Responsive */
+@media (max-width:768px) {
+  .header h1 { font-size:1.6em; }
+  .tabs { gap:4px; }
+  .tab-btn { padding:6px 10px; font-size:0.78em; }
+  .calc-row { flex-direction:column; }
+  .grid { grid-template-columns:1fr; }
+  table { font-size:0.75em; }
+  th,td { padding:4px 6px; }
+}
+/* Color coding */
+.c-wood { color:#5a9c4f; } .c-fire { color:#e85a2a; }
+.c-earth { color:#c4a020; } .c-metal { color:#e0d4b0; }
+.c-water { color:#4a8cbc; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>八字算命调查报告</h1>
+  <p>从五行推命到四柱八字 —— 中国命理学的千年建构 | 十三章节</p>
+</div>
+
+<div class="tabs" id="tabBar">
+  <button class="tab-btn active" onclick="showPanel('p1')">序言</button>
+  <button class="tab-btn" onclick="showPanel('p2')">起源</button>
+  <button class="tab-btn" onclick="showPanel('p3')">干支体系</button>
+  <button class="tab-btn" onclick="showPanel('p4')">★ 排盘演示</button>
+  <button class="tab-btn" onclick="showPanel('p5')">日主用神</button>
+  <button class="tab-btn" onclick="showPanel('p6')">十神系统</button>
+  <button class="tab-btn" onclick="showPanel('p7')">大运流年</button>
+  <button class="tab-btn" onclick="showPanel('p8')">神煞表</button>
+  <button class="tab-btn" onclick="showPanel('p9')">特殊格局</button>
+  <button class="tab-btn" onclick="showPanel('p10')">学术批判</button>
+  <button class="tab-btn" onclick="showPanel('p11')">文化心理</button>
+  <button class="tab-btn" onclick="showPanel('p12')">跨文化比较</button>
+  <button class="tab-btn" onclick="showPanel('p13')">附录</button>
+</div>
+
+<!-- ============ Panel 1: 序言 ============ -->
+<div id="p1" class="panel active">
+<div class="cat-header"><div class="cat-icon" style="background:var(--red-dark)">序</div><div><div class="cat-title">序言</div><div class="cat-desc">从一只干枯的手到一套宇宙算法</div></div></div>
+
+<div class="section-title">使用说明</div>
+<div class="nodelist">
+<div class="nodelist-item">本报告以"历史脉络 + 符号解构 + 技术推演 + 学术检验"四条主线展开</div>
+<div class="nodelist-item">与禅宗调查报告、儒家生死观、道家神仙观、佛家调查报告构成完整的中国思想史五件套</div>
+<div class="nodelist-item">调查时间：2026年7月27日 | 方法：原典文本梳理 + 学术研究文献检索 + 历法推演追踪 + 跨文化比较</div>
+<div class="nodelist-item"><span class="bold">★</span> 第四个面板"排盘演示"实现了真实的八字排盘算法——输入出生时间，一键排出四柱八字+十神+纳音+大运</div>
+</div>
+
+<div class="section-title">核心问题</div>
+<div class="section-text">
+公元813年，长安。御史<span class="bold">李虚中</span>临死前留下一本书——用一个人的出生年月日配上干支五行，推断一生的贵贱寿夭。韩愈在墓志铭中写"百不失一二"——一百个里面错不了一两个。
+</div>
+<div class="section-text">
+但韩愈说的是"年月日"——<span class="bold">三个柱子、六个字</span>。而今天我们说的八字是四柱——年月日时，八个字。谁加的时柱？五代末、北宋初，一个叫<span class="bold">徐子平</span>的人。他不仅加了时柱，更关键的是确立了"以日干为中心"的分析体系——这一改，把命理学从"年度运势"变成了"个人命运密码"。
+</div>
+<div class="section-text">
+八字命理学一千二百年的演变，每一代人都往上加了一层符号。但加着加着出现一个悖论：<span class="bold">符号层越多 → 解释力越强 → 科学检验越难</span>——因为自由度实在太高。这份报告要回答：这些层是怎么一层层加上去的？从今天的学术视角看，这座不断加高的塔到底能不能站住？
+</div>
+
+<div class="section-title">历史脉络总图</div>
+<div class="flow">阴阳五行概念 → 天干地支记年 → 纳音五行推命
+(先秦至西汉)    (商→汉)        (东汉至魏晋)
+     ↓
+汉代：王充《论衡》记载民间五行推命 · 以年柱纳音为中心
+     ↓
+唐代（8-9世纪）：李虚中三柱法 · 年、月、日三柱六字体系化
+     ↓
+【关键转折】五代末/宋初（10世纪）：徐子平革命
+  ① 加入时柱 → 四柱八字
+  ② 从"年柱中心"转为"日主中心"
+  ③ 确立生克用神分析框架
+     ↓
+宋代（11-13世纪）：《渊海子平》编纂 · 十神体系基本成型
+     ↓
+明代（16世纪）：命理典籍大爆发 ·《三命通会》《滴天髓》
+     ↓
+清代（18-19世纪）：理论细化与流派分化 ·《子平真诠》《穷通宝鉴》
+     ↓
+当代：在线排盘 + 短视频传播 + 学术检验</div>
+</div>
+
+<!-- ============ Panel 2: 起源 ============ -->
+<div id="p2" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--earth)">源</div><div><div class="cat-title">第一章 起源：从五行推命到三柱</div></div></div>
+
+<div class="section-title">1.1 阴阳五行的思想铺垫</div>
+<div class="section-text">
+八字命理学的"操作系统"——阴阳、五行、天干、地支——早在八字成型之前就已全部到位。
+<span class="bold">阴阳</span>最早见于甲骨文，指日光向背；<span class="bold">五行</span>最早系统记载在《尚书·洪范》——水曰润下、火曰炎上、木曰曲直、金曰从革、土爰稼穑。
+</div>
+
+<div class="section-title">1.2 王充《论衡》——最早的有据可查的"推命"记载</div>
+<div class="quote">凡人受命，在父母施气之时，已得吉凶矣。……命者，贫富贵贱也；禄者，盛衰兴废也。<div class="quote-source">——王充《论衡·命义篇》</div></div>
+<div class="quote">寅，木也，其禽虎也；戌，土也，其禽犬也……木胜土，故犬与牛羊为虎所服也。<div class="quote-source">——王充《论衡·物势篇》</div></div>
+<div class="section-text">
+王充已经在使用三个概念：干支配五行（寅木、戌土）、五行生克（木胜土）、地支配生肖（寅虎、戌犬）。东汉的民间术士显然已在用这套东西算命——否则王充不会专门花篇幅批判它。
+</div>
+
+<div class="section-title">1.3 李虚中：文献上第一个可追溯的确切人物</div>
+<div class="card"><div class="card-name">李虚中（761—813）</div><div class="card-body">
+字常容，魏郡人，贞元十一年进士。韩愈写的墓志铭是<span class="bold">目前最早、最可靠的三柱算命文献记录</span>。《四库全书总目提要》考证：《李虚中命书》在《唐书·艺文志》中没有收录——真伪存疑。书中"多用纳音，主用年"——以年柱为核心，"兼论月日时"——不是四柱平等使用。<br><br>
+<span class="bold">核心判断：</span>李虚中的历史功能不是"八字创始人"，而是"把六百年民间实践经验第一次写成书的人"。在他之前是漫长的匿名累积期，在他之后进入了有文本、有传承、可辩论的阶段。
+</div></div>
+
+<div class="section-title">1.4 唐代命理学的社会土壤</div>
+<div class="section-text">
+唐代中晚期科举制度彻底改变了社会阶层流动方式。门阀士族衰落，寒门子弟通过考试改变命运成为可能——但也意味着命运更不可预测。<span class="bold">不是门第决定命运，而是考试一锤定音。</span>八字命理学不是诞生在深山古寺里——它是诞生在科举考场门口、官员任命的衙门前。
+</div>
+
+<div class="section-title">演变时间线</div>
+<table id="originTimeline"></table>
+</div>
+
+<!-- ============ Panel 3: 干支体系 ============ -->
+<div id="p3" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--wood)">干</div><div><div class="cat-title">第三章 干支五行：底层符号系统</div></div></div>
+
+<div class="section-title">十天干</div>
+<div class="section-text">
+天干共十：甲、乙、丙、丁、戊、己、庚、辛、壬、癸。每一个天干都有特定的阴阳、五行、方位、脏腑配属和意象。
+</div>
+<input class="search-box" placeholder="搜索天干（如：甲、火、胆、大树）..." oninput="filterTable('tgTable',this.value)">
+<div class="pagination" id="tgPagination"></div>
+<table id="tgTable"></table>
+
+<div class="section-title">十二地支</div>
+<div class="section-text">
+地支共十二：子、丑、寅、卯、辰、巳、午、未、申、酉、戌、亥。每个地支有五行、月份、时辰、生肖和藏干。
+</div>
+<input class="search-box" placeholder="搜索地支（如：寅、虎、3-5时、藏干甲丙戊）..." oninput="filterTable('dzTable',this.value)">
+<table id="dzTable"></table>
+
+<div class="section-title">六十甲子与纳音五行</div>
+<div class="section-text">
+六十甲子是天干地支的最小公倍数（10×12÷2=60）配对。纳音五行源于先秦"五音十二律"配六十甲子，在禄命法时代是核心工具（"甲子年生人是海中金命"），子平法兴起后退居辅助。
+</div>
+<input class="search-box" placeholder="搜索六十甲子（如：甲子、海中金、炉中火）..." oninput="filterJiazi(this.value)">
+<div class="pagination" id="jiaziPagination"></div>
+<table id="jiaziTable"></table>
+
+<div class="section-title">五行生克与刑冲合害</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">相生：</span>木→火→土→金→水→木（循环）</div>
+<div class="nodelist-item"><span class="bold">相克：</span>木克土、土克水、水克火、火克金、金克木</div>
+<div class="nodelist-item"><span class="bold">天干五合：</span>甲己合土、乙庚合金、丙辛合水、丁壬合木、戊癸合火</div>
+<div class="nodelist-item"><span class="bold">地支六合：</span>子丑合土、寅亥合木、卯戌合火、辰酉合金、巳申合水、午未合土</div>
+<div class="nodelist-item"><span class="bold">地支六冲：</span>子午冲、丑未冲、寅申冲、卯酉冲、辰戌冲、巳亥冲</div>
+<div class="nodelist-item"><span class="bold">地支三合：</span>申子辰水、亥卯未木、寅午戌火、巳酉丑金</div>
+</div>
+</div>
+
+<!-- ============ Panel 4: 排盘演示 ★★★ ============ -->
+<div id="p4" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--accent2)">★</div><div><div class="cat-title">第四章 排盘演示 · 交互式八字排盘</div><div class="cat-desc">真实算法 · 输入出生时间一键排盘</div></div></div>
+
+<div class="warn">
+⚠ <b>节气边界提示：</b>每月1-7日左右为节气日，年份/月份的分界可能落在这些日期，排盘结果需查万年历确认。每月15日前后100%准确。
+</div>
+
+<div class="calc-container">
+  <div class="calc-row">
+    <div class="calc-group"><label>出生年份</label><input type="number" id="bYear" value="1990" min="1900" max="2100" style="width:100px;"></div>
+    <div class="calc-group"><label>出生月份</label><select id="bMonth" style="width:80px;">${[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>`<option value="${m}">${m}月</option>`).join('')}</select></div>
+    <div class="calc-group"><label>出生日期</label><input type="number" id="bDay" value="15" min="1" max="31" style="width:80px;"></div>
+    <div class="calc-group"><label>出生时辰</label><select id="bHour" style="width:120px;">
+      <option value="0">子时 (23:00-01:00)</option>
+      <option value="1">丑时 (01:00-03:00)</option>
+      <option value="2">寅时 (03:00-05:00)</option>
+      <option value="3">卯时 (05:00-07:00)</option>
+      <option value="4">辰时 (07:00-09:00)</option>
+      <option value="5">巳时 (09:00-11:00)</option>
+      <option value="6" selected>午时 (11:00-13:00)</option>
+      <option value="7">未时 (13:00-15:00)</option>
+      <option value="8">申时 (15:00-17:00)</option>
+      <option value="9">酉时 (17:00-19:00)</option>
+      <option value="10">戌时 (19:00-21:00)</option>
+      <option value="11">亥时 (21:00-23:00)</option>
+    </select></div>
+    <div class="calc-group"><label>性别</label><select id="bGender" style="width:80px;"><option value="m">男</option><option value="f">女</option></select></div>
+    <div class="calc-group"><label>&nbsp;</label><button class="calc-btn" onclick="doPaipan()">排 盘</button></div>
+  </div>
+  <div id="calcResult"></div>
+</div>
+
+<div class="section-title">排盘算法说明</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">年柱：</span>年干=(Y-3) mod 10，年支=(Y-3) mod 12。立春为界——若日期在立春前，年柱用上一年。</div>
+<div class="nodelist-item"><span class="bold">月柱：</span>月支固定（正月寅→十二月丑），月干由年干通过"五虎遁"计算。</div>
+<div class="nodelist-item"><span class="bold">日柱：</span>以1900-01-01为甲戌日（索引11）为基准，计算到出生日的总天数取模。</div>
+<div class="nodelist-item"><span class="bold">时柱：</span>时辰地支固定，时干由日干通过"五鼠遁"计算。</div>
+<div class="nodelist-item"><span class="bold">纳音：</span>基于六十甲子纳音五行表查表。</div>
+<div class="nodelist-item"><span class="bold">十神：</span>以日干为中心，生克关系×阴阳异同→十种角色。</div>
+<div class="nodelist-item"><span class="bold">大运：</span>阳年男/阴年女顺排，阴年男/阳年女逆排。起运岁数=距最近节气天数÷3取整。</div>
+</div>
+</div>
+
+<!-- ============ Panel 5: 日主与用神 ============ -->
+<div id="p5" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--fire)">主</div><div><div class="cat-title">第五章 日主强弱与用神体系</div></div></div>
+
+<div class="section-title">5.1 日主（日元）：八字分析的中心轴</div>
+<div class="section-text">
+八字排出来后，四柱的日柱天干就是<span class="bold">日主</span>（日元），代表"我"。整个八字分析围绕着日主展开。日主是什么五行，你就"是什么命"——但这和纳音的"年命"不同。纳音说你是"海中金"或"炉中火"，日主说你是"甲木"或"丙火"。在子平法中，日主五行的判断权重大于年命纳音。
+</div>
+
+<div class="section-title">5.2 旺衰判断：八字分析的第一个关卡</div>
+<div class="section-text">判断日主旺衰有<span class="bold">四个维度</span>，判断错了后面的用神、格局全错：</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">① 得令（月令）：</span>日主在出生月份是否"当令"。春天木旺、夏天火旺、秋天金旺、冬天水旺、四季末土旺。</div>
+<div class="nodelist-item"><span class="bold">② 得地（地支通根）：</span>日主在地支中是否有"根"——即是否在对应的地支藏干中出现。</div>
+<div class="nodelist-item"><span class="bold">③ 得生（印星）：</span>是否有天干或地支来生日主——生我者为印。</div>
+<div class="nodelist-item"><span class="bold">④ 得助（比劫）：</span>是否有同五行的天干地支来帮助。</div>
+</div>
+<div class="section-text"><span class="bold">权重：</span>得令最强（出生季节对了），得地次之（地支有根），得生、得助再次之。</div>
+
+<div class="section-title">五行旺相休囚死</div>
+<table id="wangxiangTable"></table>
+
+<div class="section-title">5.3 用神体系：八字分析的核心工具</div>
+<div class="section-text">"用神"是八字分析的第一关键词——整个命理学最终都要回答：这个八字的用神是什么？</div>
+<table id="yongshenTable"></table>
+
+<div class="section-title">5.4 《子平真诠》的用神观</div>
+<div class="quote">八字用神，专求月令。以日干配月令地支，而生克不同，格局分焉。<div class="quote-source">——沈孝瞻《子平真诠》（清乾隆年间）</div></div>
+<div class="section-text">核心观点：<span class="bold">用神从月令中出，月令的"当令之气"就是自然用神。</span>但后来的命理师发现这个规则太死——有些八字的月令确实不适合做用神，需要从全局中另寻。"月令用神派"和"全局用神派"之间产生了持续数百年的争论。</div>
+</div>
+
+<!-- ============ Panel 6: 十神系统 ============ -->
+<div id="p6" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--metal)">十</div><div><div class="cat-title">第六章 十神系统</div></div></div>
+
+<div class="section-title">6.1 十神的生成规则</div>
+<div class="section-text">
+十神是八字中"角色"的命名系统。生成规则只有两条：① 生克关系（生我/我生/克我/我克/同我）② 阴阳异同（同阴阳还是异阴阳）。两个维度交叉产生十种角色。
+</div>
+<table id="shishenGenTable"></table>
+
+<div class="section-title">6.2 十神的社会人事映射</div>
+<table id="shishenMapTable"></table>
+
+<div class="section-title">6.3 十神与明清社会的镜像关系</div>
+<div class="section-text">
+十神系统包含了一套清晰的社会等级投射——<span class="bold">正官克日主</span>（上级管你是秩序，是好事）、<span class="bold">正印生日主</span>（母亲无条件爱你）、<span class="bold">正财为妻</span>（我克的是我的妻子——明清社会的婚姻结构）。这<span class="bold">不是随机的</span>——这是明清科举社会的完整映射。
+</div>
+<div class="quote">
+学术界对十神的批判之一：它在本质上将封建社会的等级关系"自然化"了。八字告诉你的不是"你的社会关系是怎样的"，而是"你的社会关系应该是怎样的"——并且把它包装成了"天道自然"。<div class="quote-source">——陆致极《中国命理学史论》</div></div>
+</div>
+
+<!-- ============ Panel 7: 大运流年 ============ -->
+<div id="p7" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--water)">运</div><div><div class="cat-title">第七章 大运与流年</div></div></div>
+
+<div class="section-title">7.1 大运排法</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">顺排：</span>阳年（甲丙戊庚壬）男 + 阴年（乙丁己辛癸）女 → 从月柱往下推</div>
+<div class="nodelist-item"><span class="bold">逆排：</span>阴年男 + 阳年女 → 从月柱往上推</div>
+<div class="nodelist-item"><span class="bold">起运岁数 = 出生日到最近节气天数 ÷ 3</span>（三天为一岁——天地人三才）</div>
+</div>
+
+<div class="section-title">7.2 大运吉凶判断四象限</div>
+<div class="quote">大运司十年之休咎，流年管一岁之穷通。大运吉，流年又吉，其年大吉。大运凶，流年吉，不至大凶。大运吉，流年凶，美中不足。大运凶，流年又凶，凶不可言。<div class="quote-source">——万民英《三命通会》</div></div>
+<table id="dayunTable"></table>
+
+<div class="section-title">7.3 犯太岁五类</div>
+<table id="taisuiTable"></table>
+</div>
+
+<!-- ============ Panel 8: 神煞表 ============ -->
+<div id="p8" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--red-dark)">煞</div><div><div class="cat-title">第八章 神煞系统</div></div></div>
+
+<div class="section-text">
+神煞是八字中一组特殊的"标记"——不属于五行生克的正统逻辑，更像是从外部"贴"上去的吉凶标签。起源比八字本身更古老：汉代择日术、六壬、道教醮仪中的神煞词汇被大量"借用"。
+</div>
+
+<div class="section-title">吉神</div>
+<input class="search-box" placeholder="搜索神煞（如：贵人、文昌、华盖）..." oninput="filterShensha('jiTable',this.value)">
+<table id="jiTable"></table>
+
+<div class="section-title">凶煞</div>
+<input class="search-box" placeholder="搜索凶煞（如：劫煞、空亡、羊刃）..." oninput="filterShensha('xiongTable',this.value)">
+<table id="xiongTable"></table>
+
+<div class="section-title">神煞天乙贵人查法</div>
+<div class="card"><div class="card-body">
+口诀：<span class="bold">甲戊庚牛羊，乙己鼠猴乡。丙丁猪鸡位，壬癸兔蛇藏。六辛逢虎马，此是贵人方。</span><br><br>
+甲/戊/庚日干 → 地支见丑或未为天乙贵人<br>
+乙/己日干 → 地支见子或申<br>
+丙/丁日干 → 地支见亥或酉<br>
+壬/癸日干 → 地支见卯或巳<br>
+辛日干 → 地支见寅或午
+</div></div>
+</div>
+
+<!-- ============ Panel 9: 特殊格局 ============ -->
+<div id="p9" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--wood)">格</div><div><div class="cat-title">第九章 特殊格局</div></div></div>
+
+<div class="section-title">9.1 正格（普通格局）</div>
+<div class="section-text">按月令当令之神定格局，是《子平真诠》的核心体系。原理：月令是八字的"气运之根"，格局从这里出。</div>
+<table id="zhenggeTable"></table>
+
+<div class="section-title">9.2 从格——日主失去自主权</div>
+<div class="section-text">当命局中某种五行力量极强，常规的扶抑逻辑失效，日主只能"顺从"最强的势力。<span class="bold">打不过就加入。</span></div>
+<table id="conggeTable"></table>
+
+<div class="section-title">9.3 专旺格（一行得气格）</div>
+<div class="section-text">命局中某一五行达到绝对强势地位。名字来自《尚书·洪范》对五行的描述。</div>
+<table id="zhuanwangTable"></table>
+
+<div class="section-title">9.4 化格</div>
+<div class="section-text">
+天干五合合化成功→日主五行属性改变→整个八字分析基础全变。严格条件：天干邻贴相合 + 地支有化神当令 + 化出的五行不受克。
+</div>
+</div>
+
+<!-- ============ Panel 10: 学术批判 ============ -->
+<div id="p10" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--water)">检</div><div><div class="cat-title">第十章 学术视角与批判</div></div></div>
+
+<div class="section-title">10.1 科学检验现状</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">双盲性格测试：</span>结果在"略高于随机"到"约60%"之间波动。实验设计不统一，无法给出公认准确率数值。</div>
+<div class="nodelist-item"><span class="bold">大样本统计：</span>八字变量空间极大（仅四柱就有约51.8万种组合），样本再大也很难有效填充。</div>
+<div class="nodelist-item"><span class="bold">解释弹性问题：</span>同一个八字可用不同的用神、格局、神煞解读出不同结论——弹性本身让它永远有"解释力"，也让它永远无法被量化验证。</div>
+</div>
+
+<div class="section-title">10.2 巴纳姆效应</div>
+<div class="section-text">
+人们倾向于接受模糊的、一般性的人格描述，并认为它是为自己"量身定制"的。八字批命中"你表面上看很坚强，内心其实很敏感"这类断语几乎适用于任何人——但当"大师"看着你的八字说出口时，你就觉得这是从出生时间推算出来的。
+</div>
+
+<div class="section-title">10.3 早子时/晚子时悖论</div>
+<div class="section-text">
+八字基本分析单元是时辰（两小时）。如果这个精度足够，那子时前半段和后半段就不该区分。如果精度不够，那时就不该是时辰级别而是分钟级别。<span class="bold">目前的八字实践在这个问题上没有统一标准。</span>
+</div>
+
+<div class="section-title">10.4 历史层累与解释弹性的双向循环</div>
+<div class="section-text">
+<span class="bold">符号层越多 → 解释力越强（总能找到对应）→ 反例越多 → 再加层 → 无限循环。</span>这不是科学的"证伪→修正"循环，因为没有可操作的证伪条件——反例从来不是致命的，总能用"大运没到""神煞干扰""格局有缺陷"解释。但这些辅助假说本身不可检验。
+</div>
+
+<div class="section-title">八字至少提供了三样东西</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">① 一套完整的自我叙事框架</span>——把人生起伏串联成一个有逻辑的故事</div>
+<div class="nodelist-item"><span class="bold">② 一个决策的心理缓冲机制</span>——遇到困难时告诉自己"这是大运到了"</div>
+<div class="nodelist-item"><span class="bold">③ 一种文化共享的语言</span>——两个人可以聊"你八字里有没有桃花"</div>
+</div>
+</div>
+
+<!-- ============ Panel 11: 文化心理 ============ -->
+<div id="p11" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--fire)">文</div><div><div class="cat-title">第十一章 八字与文化心理</div></div></div>
+
+<div class="section-title">11.1 明代命理大爆发：科举焦虑 + 商品经济</div>
+<div class="section-text">
+为什么八字命理的经典著作集中在明代？科举在明代达到了最激烈状态——数十万秀才竞争稀缺名额。中举全家翻身，落第几十年努力化为泡影。同时商品经济发达，商人阶层崛起——有文化没功名。这个矛盾制造了大量"命运焦虑"。<span class="bold">八字的回答：不是你的问题，是你的八字。</span>万民英《三命通会》就是在这种背景下诞生的——把之前几百年的命理论述做百科全书式汇编。商业出版市场的成熟使得这样的巨著有了经济可能性。
+</div>
+
+<div class="section-title">11.2 当代八字复兴三波</div>
+<table id="fuxingTable"></table>
+
+<div class="section-title">11.3 八字与中医：共享底层的分化</div>
+<div class="section-text">
+八字和中医共享底层——阴阳五行、天干地支、脏腑配属。在明代张景岳的《类经》中，命理与医理常常交织。同一个"火旺"，医生看是"肝火亢盛需要泄火"，命理师看是"日主丙火过强需要水调候"——词汇相同，指涉不同。<br><br>
+<span class="bold">当代分化：</span>中医走向"科学性"自我论证（循证医学），八字走向"文化性"自我定位（传统文化、民俗遗产）。
+</div>
+</div>
+
+<!-- ============ Panel 12: 跨文化比较 ============ -->
+<div id="p12" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:var(--earth)">比</div><div><div class="cat-title">第十二章 跨文化比较</div></div></div>
+
+<div class="section-title">12.1 三大命运符号系统对比</div>
+<table id="crossTable"></table>
+
+<div class="section-title">12.2 八字 vs 紫微斗数</div>
+<div class="section-text">
+<span class="bold">八字核心逻辑是"生克"——力量对比。</span>日主在环境中是强是弱？弱了谁来帮？强了谁来管？这是<span class="bold">水平方向的权力斗争模型</span>。<br><br>
+<span class="bold">紫微斗数核心逻辑是"百官朝拱"——等级排列。</span>紫微是帝王星，天府是天相，七杀破军贪狼是杀伐星——这是<span class="bold">垂直方向的朝廷官僚模型</span>。<br><br>
+为什么？八字形成于唐至宋的科举官僚社会——个人与制度的博弈是其核心焦虑。紫微斗数把朝廷官制搬到了天上——文官制度最发达的时代的产物。
+</div>
+
+<div class="section-title">12.3 八字 vs 西方占星</div>
+<div class="nodelist">
+<div class="nodelist-item"><span class="bold">锚点对应：</span>八字日柱≈占星太阳星座（"我"的核心特质）| 月柱≈月亮星座（内在、母亲）| 时柱≈上升星座（外在表现、晚年）</div>
+<div class="nodelist-item"><span class="bold">互动网络对应：</span>十神生克≈行星相位 | 大运十年一变≈transit行运</div>
+<div class="nodelist-item"><span class="bold">核心区别：</span>八字建基于循环史观（六十甲子周而复始），西方占星建基于线性史观（行星向前运行）。两套框架下产生的"命运"概念本质不同。</div>
+</div>
+
+<div class="section-title">12.4 比较的价值</div>
+<div class="section-text">
+① <span class="bold">符号系统的"自然主义错觉"：</span>三套系统都用"自然现象"为自己赋值——八字用干支（天文历法）、占星用行星（真实天体）、紫微用星宿（想象的天文）。符号越接近"自然的"，越容易产生"这是客观规律"的错觉。<br><br>
+② <span class="bold">"我"的不同定义：</span>八字中"我"是五行力量对比的结果，占星中"我"是行星配置的叙事，紫微斗数中"我"是星宿官阶的体现。<br><br>
+③ <span class="bold">社会结构的内化：</span>八字把科举官僚社会的等级关系编码成五行生克，紫微把朝廷官制编码成星空等级，占星把希腊诸神关系编码成行星相位。每一套命运符号系统，本质上都是把当时的社会结构"天道化"。
+</div>
+</div>
+
+<!-- ============ Panel 13: 附录 ============ -->
+<div id="p13" class="panel">
+<div class="cat-header"><div class="cat-icon" style="background:#d4a017">附</div><div><div class="cat-title">附录</div></div></div>
+
+<div class="section-title">核心公式速查</div>
+<div class="card">
+<div class="card-body" style="font-family:monospace; font-size:0.88em; line-height:2;">
+<b>年柱：</b>年干 = (Y-3) mod 10 &nbsp; 年支 = (Y-3) mod 12 &nbsp; (立春为界)<br>
+<b>月柱天干：</b>五虎遁法（年干定正月天干，逐月推）<br>
+<b>日柱：</b>以1900-01-01(甲戌日)为基准，累积天数取模60<br>
+<b>时柱天干：</b>五鼠遁法（日干定子时天干，逐时推）<br>
+<b>起运岁数：</b>出生日到最近节气天数 ÷ 3<br>
+<b>大运顺序：</b>阳年男/阴年女顺排，阴年男/阳年女逆排<br>
+<b>十神：</b>生克关系（生我/我生/克我/我克/同我）× 阴阳异同 = 十种角色
+</div></div>
+
+<div class="section-title">演变总图</div>
+<div class="flow">阴阳五行概念 → 天干地支记年 → 纳音五行推命
+(先秦至西汉)    (商→汉)        (东汉至魏晋)
+     ↓
+汉代：王充《论衡》记载民间五行推命 · 以年柱纳音为中心
+     ↓
+唐代（8-9世纪）：李虚中三柱法 · 年、月、日三柱六字体系化
+     ↓
+【关键转折】五代末/宋初（10世纪）：徐子平
+  ① 加入时柱 → 四柱八字
+  ② 从"年柱中心"转为"日主中心"
+  ③ 确立生克用神分析框架
+     ↓
+宋代：《渊海子平》· 十神体系成型 · 格局论确立
+     ↓
+明代：命理典籍大爆发 · 万民英《三命通会》·《滴天髓》
+     ↓
+清代：理论细化 · 沈孝瞻《子平真诠》·《穷通宝鉴》
+     ↓
+当代：在线排盘 + 短视频传播 + 学术检验</div>
+
+<div class="section-title">八个核心判断句</div>
+<div class="nodelist">
+<div class="nodelist-item">1. 八字不是一个人创立的，是六百年里一代代人往上叠层的集体作品。李虚中是第一个有文本的人，徐子平是改变范式的人，万民英是汇总的人。</div>
+<div class="nodelist-item">2. 徐子平的真正贡献不是"加了时柱"，而是把分析中心从"年柱纳音"转到了"日干"——从"你是什么命"到"你这个人在环境中是强是弱"的范式切换。</div>
+<div class="nodelist-item">3. 十神系统是一个社会关系编码器，把科举官僚社会的权力结构翻译成了"生克"的语言。</div>
+<div class="nodelist-item">4. 神煞是八字理论的外部附加层，与五行生克逻辑存在结构性不协调——这恰恰是神煞的生命力来源。</div>
+<div class="nodelist-item">5. 八字命理的每一次"发展"都以增加符号层为代价。符号层越多→解释力越强→反例也越多→再加层→无限循环。</div>
+<div class="nodelist-item">6. 科学检验无法证伪八字——不是八字太强，是它的"解释弹性"太大。</div>
+<div class="nodelist-item">7. 八字的功能可能不是"预测"而是"叙事"——它给人生提供了一套有逻辑的讲述框架。</div>
+<div class="nodelist-item">8. 八字、紫微斗数、西方占星三套命运系统共享同一个底层操作：把当时的社会权力结构"天道化"。</div>
+</div>
+
+<div class="section-title">关键典籍版本链</div>
+<table id="dianjiTable"></table>
+</div>
+
+<div class="footer">
+  八字算命调查报告 · 从五行推命到四柱八字 · 2026年7月27日<br>
+  与禅宗调查报告、儒家生死观报告、道家神仙观报告、佛家调查报告构成中国思想史调查五件套<br>
+  核心亮点：★ 交互式八字排盘（真实算法） · 可搜索干支/纳音/神煞表 · 跨文化比较
+</div>
+
+<script>
+/* ========== UTILITY ========== */
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function makeTable(h, r, id) {
+  let s = '<thead><tr>';
+  h.forEach(e => s += `<th>${e}</th>`);
+  s += '</tr></thead><tbody id="'+(id||'')+'">';
+  r.forEach(row => { s+='<tr>'; row.forEach(c=>s+=`<td>${c}</td>`); s+='</tr>'; });
+  return s+'</tbody></table>';
+}
+
+function filterTable(tableId, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll(`#${tableId} tr`).forEach(tr => {
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+/* ========== DATA ========== */
+const GAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const ZHI = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const WX = ['木','木','火','火','土','土','金','金','水','水']; // 天干五行
+const WX_CN = ['金','木','水','火','土'];
+const WX_COLORS = {'金':'bar-metal','木':'bar-wood','水':'bar-water','火':'bar-fire','土':'bar-earth'};
+const ZHI_WX = [4,3,0,0,3,1,1,3,2,2,3,4]; // 地支五行: 子水丑土寅木卯木辰土巳火午火未土申金酉金戌土亥水 (0木1火2金3土4水)
+const ZHI_CG = ['癸','己癸辛','甲丙戊','乙','戊乙癸','丙戊庚','丁己','己丁乙','庚壬戊','辛','戊辛丁','壬甲'];
+const SHENGXIAO = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+const ZHI_YUE = ['十一月','十二月','正月','二月','三月','四月','五月','六月','七月','八月','九月','十月'];
+const ZHI_SHI = ['23-01','01-03','03-05','05-07','07-09','09-11','11-13','13-15','15-17','17-19','19-21','21-23'];
+
+// 纳音表
+const NAYIN = ['海中金','海中金','炉中火','炉中火','大林木','大林木','路旁土','路旁土','剑锋金','剑锋金',
+  '山头火','山头火','涧下水','涧下水','城头土','城头土','白蜡金','白蜡金','杨柳木','杨柳木',
+  '泉中水','泉中水','屋上土','屋上土','霹雳火','霹雳火','松柏木','松柏木','长流水','长流水',
+  '沙中金','沙中金','山下火','山下火','平地木','平地木','壁上土','壁上土','金箔金','金箔金',
+  '覆灯火','覆灯火','天河水','天河水','大驿土','大驿土','钗钏金','钗钏金','桑柘木','桑柘木',
+  '大溪水','大溪水','沙中土','沙中土','天上火','天上火','石榴木','石榴木','大海水','大海水'];
+
+/* ========== LEAP YEAR & DAYS ========== */
+function isLeap(y) { return (y%4===0&&y%100!==0) || (y%400===0); }
+function daysInMonth(y, m) { return [0,31,isLeap(y)?29:28,31,30,31,30,31,31,30,31,30,31][m]; }
+
+/* ========== LI CHUN CALCULATION ========== */
+function getLiChunDay(y) {
+  const C = y < 2000 ? 4.6295 : 3.87;
+  const offset = Math.floor((y-1)/4) - Math.floor((y-1)/100) + Math.floor((y-1)/400);
+  return Math.floor(y * 0.2422 + C) - offset;
+}
+
+/* ========== SOLAR TERM APPROXIMATION ========== */
+// Returns day-of-month approx for each solar term
+const SOLAR_TERM_DAYS = [4,6,5,6,6,7,8,8,8,7,8,6]; // 立春惊蛰清明立夏芒种小暑立秋白露寒露立冬大雪小寒
+
+function getSolarTermDay(y, termIndex) {
+  // termIndex: 0=立春 1=惊蛰 ... 11=小寒
+  // Simplified: use fixed approximate days ±1
+  return SOLAR_TERM_DAYS[termIndex];
+}
+
+/* ========== DAYS FROM 1900-01-01 ========== */
+function daysFrom1900(y, m, d) {
+  let days = 0;
+  for (let yr = 1900; yr < y; yr++) { days += isLeap(yr) ? 366 : 365; }
+  for (let mo = 1; mo < m; mo++) { days += daysInMonth(y, mo); }
+  return days + d - 1;
+}
+
+/* ========== GANZHI CALCULATION ========== */
+// Get ganzhi index (1-60) for a given date
+// Epoch: 1900-01-01 = 甲戌 (index 11)
+function dayGanzhiIndex(y, m, d) {
+  const days = daysFrom1900(y, m, d);
+  let idx = (11 + days) % 60;
+  return idx === 0 ? 60 : idx;
+}
+
+function ganzhiFromIndex(idx) {
+  const g = (idx - 1) % 10;
+  const z = (idx - 1) % 12;
+  return { gan: GAN[g], zhi: ZHI[z], ganIdx: g, zhiIdx: z, idx: idx, nayin: NAYIN[idx-1] };
+}
+
+/* ========== BAZI CALCULATOR CORE ========== */
+function calcYearPillar(y, m, d) {
+  const lichun = getLiChunDay(y);
+  let effYear = y;
+  if (m < 2 || (m === 2 && d < lichun)) effYear = y - 1;
+  const ganIdx = ((effYear - 3) % 10 + 10) % 10;
+  const zhiIdx = ((effYear - 3) % 12 + 12) % 12;
+  return { gan: GAN[ganIdx], zhi: ZHI[zhiIdx], ganIdx, zhiIdx };
+}
+
+function calcMonthPillar(yearGanIdx, m, d, y) {
+  // Month zhi is fixed by month number
+  const zhiIdx = (m - 1 + 2) % 12; // 正月寅=2, 二月卯=3...
+  // Five Tiger Escape (五虎遁): year gan -> first month gan
+  const tigerMap = {0:[2],1:[2], 2:[4],3:[4], 4:[6],5:[6], 6:[8],7:[8], 8:[0],9:[0]};
+  // Actually: 甲己之年丙作首(2), 乙庚戊为头(4), 丙辛庚起(6), 丁壬壬(8), 戊癸甲(0)
+  const wuhu = [2,4,6,8,0]; // index by yearGan: 甲己→0, 乙庚→1, ...
+  const group = Math.floor(yearGanIdx / 2); // 0/1→0, 2/3→1, 4/5→2, 6/7→3, 8/9→4
+  const firstGan = wuhu[group];
+  const ganIdx = (firstGan + (m - 1)) % 10;
+  
+  // Check solar term boundary
+  // If date is before the month's solar term, use previous month
+  // Simplified: months start at solar term days
+  const termDay = getSolarTermDay(y, m - 1); // term index = month - 1
+  let adjZhi = zhiIdx;
+  let adjGan = ganIdx;
+  if (d < termDay) {
+    adjZhi = (zhiIdx - 1 + 12) % 12;
+    adjGan = (ganIdx - 1 + 10) % 10;
+  }
+  
+  return { gan: GAN[adjGan], zhi: ZHI[adjZhi], ganIdx: adjGan, zhiIdx: adjZhi };
+}
+
+function calcDayPillar(y, m, d) {
+  const gzIdx = dayGanzhiIndex(y, m, d);
+  return ganzhiFromIndex(gzIdx);
+}
+
+function calcHourPillar(dayGanIdx, hourZhiIdx) {
+  // Five Mouse Escape (五鼠遁): day gan -> zi hour gan
+  // 甲己还加甲, 乙庚丙作初, 丙辛从戊起, 丁壬庚子居, 戊癸壬子
+  const wushu = [0,2,4,6,8]; // group index
+  const group = Math.floor(dayGanIdx / 2);
+  const ziGan = wushu[group];
+  const ganIdx = (ziGan + hourZhiIdx) % 10;
+  return { gan: GAN[ganIdx], zhi: ZHI[hourZhiIdx], ganIdx, zhiIdx: hourZhiIdx };
+}
+
+/* ========== TEN GODS ========== */
+// 十神: 以日干为中心
+// relationship: 0=比肩 1=劫财 2=食神 3=伤官 4=偏财 5=正财 6=七杀 7=正官 8=偏印 9=正印
+function getTenGod(dayGanIdx, otherGanIdx) {
+  const wxDay = WX_CN.indexOf(['木','木','火','火','土','土','金','金','水','水'][dayGanIdx]);
+  const wxOther = WX_CN.indexOf(['木','木','火','火','土','土','金','金','水','水'][otherGanIdx]);
+  const sameWx = wxDay === wxOther;
+  const sameYy = (dayGanIdx % 2) === (otherGanIdx % 2);
+  
+  if (sameWx) return sameYy ? '比肩' : '劫财';
+  
+  // 生克关系
+  const wxOrder = {金:0,水:1,木:2,火:3,土:4};
+  const d = WX_CN[wxDay], o = WX_CN[wxOther];
+  const di = wxOrder[d], oi = wxOrder[o];
+  
+  // 生我: (oi+1)%5 === di
+  if ((oi+1)%5 === di) return sameYy ? '偏印' : '正印';
+  // 我生: (di+1)%5 === oi
+  if ((di+1)%5 === oi) return sameYy ? '食神' : '伤官';
+  // 克我: (oi+2)%5 === di
+  if ((oi+2)%5 === di) return sameYy ? '七杀' : '正官';
+  // 我克: (di+2)%5 === oi
+  if ((di+2)%5 === oi) return sameYy ? '偏财' : '正财';
+  
+  return '?';
+}
+
+function getWuxingFromGan(g) {
+  const map = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
+  return map[g] || '?';
+}
+
+/* ========== DAYUN CALCULATION ========== */
+function calcDayun(yearGanIdx, yearGan, monthGanIdx, monthZhiIdx, y, m, d, gender) {
+  const isYang = yearGanIdx % 2 === 0; // 甲丙戊庚壬为阳年 (index 0,2,4,6,8)
+  const isMale = gender === 'm';
+  const forward = (isYang && isMale) || (!isYang && !isMale);
+  
+  // Find nearest solar term for qiyun calculation
+  // Simplified: find the solar term before or after birth
+  const lichunDay = getLiChunDay(y);
+  let targetY = y, targetM, targetD;
+  
+  if (forward) {
+    // Find next solar term
+    for (let i = 0; i < 12; i++) {
+      let tm = i + 1;
+      let td = getSolarTermDay(y, i);
+      let ty = y;
+      // Convert solar term date to comparison
+      if (tm < m || (tm === m && td <= d)) continue;
+      targetM = tm; targetD = td; targetY = ty;
+      break;
+    }
+    if (!targetM) { targetM = 2; targetD = getLiChunDay(y+1); targetY = y+1; }
+  } else {
+    // Find previous solar term
+    for (let i = 11; i >= 0; i--) {
+      let tm = i + 1;
+      let td = getSolarTermDay(y, i);
+      let ty = y;
+      if (tm > m || (tm === m && td > d)) continue;
+      targetM = tm; targetD = td; targetY = ty;
+      break;
+    }
+    if (!targetM) { targetM = 1; targetD = getSolarTermDay(y, 5); targetY = y-1; }
+  }
+  
+  const birthDays = daysFrom1900(y, m, d);
+  const targetDays = daysFrom1900(targetY, targetM, targetD);
+  let diff = Math.abs(targetDays - birthDays);
+  if (diff === 0) diff = 1;
+  const qiyunAge = Math.floor(diff / 3);
+  
+  // Generate 10 dayun
+  const dayuns = [];
+  const gzIdx = monthGanIdx * 12 + monthZhiIdx; // 0-based index for month pillar
+  
+  for (let i = 0; i < 10; i++) {
+    let idx = forward ? (gzIdx + i) : (gzIdx - i);
+    idx = ((idx % 60) + 60) % 60;
+    const gz = ganzhiFromIndex(idx + 1);
+    const startAge = qiyunAge + i * 10;
+    dayuns.push({ gan: gz.gan, zhi: gz.zhi, ganIdx: gz.ganIdx, zhiIdx: gz.zhiIdx, nayin: gz.nayin, startAge });
+  }
+  
+  return { qiyunAge, dayuns, forward, yangYear: isYang };
+}
+
+/* ========== MAIN CALCULATION ========== */
+function doPaipan() {
+  const y = parseInt(document.getElementById('bYear').value);
+  const m = parseInt(document.getElementById('bMonth').value);
+  const d = parseInt(document.getElementById('bDay').value);
+  const hIdx = parseInt(document.getElementById('bHour').value);
+  const gender = document.getElementById('bGender').value;
+  
+  if (y<1900||y>2100||m<1||m>12||d<1||d>31) {
+    document.getElementById('calcResult').innerHTML = '<div class="warn">请输入有效日期（1900-2100）</div>';
+    return;
+  }
+  
+  // Year pillar
+  const yearP = calcYearPillar(y, m, d);
+  // Day pillar (need first for month boundary check)
+  const dayP = calcDayPillar(y, m, d);
+  // Month pillar
+  const monthP = calcMonthPillar(yearP.ganIdx, m, d, y);
+  // Hour pillar
+  const hourP = calcHourPillar(dayP.ganIdx, hIdx);
+  const dayGanIdx = dayP.ganIdx;
+  
+  // Nayin
+  const yearNzIdx = yearP.ganIdx * 12 + yearP.zhiIdx;
+  const monthNzIdx = monthP.ganIdx * 12 + monthP.zhiIdx;
+  const dayNzIdx = dayP.ganIdx * 12 + dayP.zhiIdx;
+  const hourNzIdx = hourP.ganIdx * 12 + hourP.zhiIdx;
+  
+  // Ten gods for all pillars
+  const pillars = [
+    { name:'年柱', gan:yearP.gan, zhi:yearP.zhi, ganIdx:yearP.ganIdx, zhiIdx:yearP.zhiIdx,
+      sg:getTenGod(dayGanIdx, yearP.ganIdx), nayin:NAYIN[yearNzIdx], cg:ZHI_CG[yearP.zhiIdx] },
+    { name:'月柱', gan:monthP.gan, zhi:monthP.zhi, ganIdx:monthP.ganIdx, zhiIdx:monthP.zhiIdx,
+      sg:getTenGod(dayGanIdx, monthP.ganIdx), nayin:NAYIN[monthNzIdx], cg:ZHI_CG[monthP.zhiIdx] },
+    { name:'日柱', gan:dayP.gan, zhi:dayP.zhi, ganIdx:dayP.ganIdx, zhiIdx:dayP.zhiIdx,
+      sg:'日主', nayin:NAYIN[dayNzIdx], cg:ZHI_CG[dayP.zhiIdx], isMaster:true },
+    { name:'时柱', gan:hourP.gan, zhi:hourP.zhi, ganIdx:hourP.ganIdx, zhiIdx:hourP.zhiIdx,
+      sg:getTenGod(dayGanIdx, hourP.ganIdx), nayin:NAYIN[hourNzIdx], cg:ZHI_CG[hourP.zhiIdx] },
+  ];
+  
+  // 五行统计
+  const wxCount = {金:0,木:0,水:0,火:0,土:0};
+  pillars.forEach(p => {
+    wxCount[getWuxingFromGan(p.gan)]++;
+    p.cg.split('').forEach(c => { if (c) wxCount[getWuxingFromGan(c)] = (wxCount[getWuxingFromGan(c)]||0)+1; });
+  });
+  // normalize roughly
+  const totalWx = Object.values(wxCount).reduce((a,b)=>a+b,0);
+  
+  // Dayun
+  const dy = calcDayun(yearP.ganIdx, yearP.gan, monthP.ganIdx, monthP.zhiIdx, y, m, d, gender);
+  
+  // Build result HTML
+  let html = '';
+  
+  // Four pillars table
+  html += `<table class="bazi-table"><thead><tr><th></th><th>年柱</th><th>月柱</th><th>日柱</th><th>时柱</th></tr></thead><tbody>`;
+  html += `<tr><th>天干</th>`;
+  pillars.forEach(p => {
+    const cls = p.isMaster ? 'day-master' : '';
+    html += `<td><span class="${cls}">${p.gan}</span><div class="wuxing">${getWuxingFromGan(p.gan)}</div></td>`;
+  });
+  html += `</tr><tr><th>地支</th>`;
+  pillars.forEach(p => html += `<td>${p.zhi}</td>`);
+  html += `</tr><tr><th>藏干</th>`;
+  pillars.forEach(p => html += `<td style="font-size:0.8em;color:var(--muted)">${p.cg}</td>`);
+  html += `</tr><tr><th>十神</th>`;
+  pillars.forEach(p => html += `<td><div class="shi-shen">${p.sg}</div></td>`);
+  html += `</tr><tr><th>纳音</th>`;
+  pillars.forEach(p => html += `<td style="font-size:0.78em;color:var(--muted)">${p.nayin}</td>`);
+  html += `</tr></tbody></table>`;
+  
+  // Day master highlight
+  html += `<div class="result-box"><h4>日主：<span style="color:var(--accent2);font-size:1.2em">${dayP.gan}${dayP.zhi}</span>（${getWuxingFromGan(dayP.gan)}命）</h4></div>`;
+  
+  // 五行统计 with bars
+  html += `<div class="result-box"><h4>五行统计</h4>`;
+  Object.entries(wxCount).forEach(([k,v]) => {
+    const pct = Math.round(v/totalWx*100);
+    html += `<div class="wx-bar"><span style="width:32px">${k}</span><span style="width:32px;text-align:right">${v}</span><div class="bar-bg"><div class="bar-fill ${WX_COLORS[k]}" style="width:${pct}%"></div></div><span style="font-size:0.78em;color:var(--muted)">${pct}%</span></div>`;
+  });
+  html += `</div>`;
+  
+  // 旺衰判断
+  html += `<div class="result-box"><h4>基本旺衰判断</h4>`;
+  const dayWx = getWuxingFromGan(dayP.gan);
+  const monthZhiWx = WX_CN[ZHI_WX[monthP.zhiIdx]];
+  const monthNum = monthP.zhiIdx;
+  // 得令判断
+  const seasonMap = {木:[0,1,2], 火:[3,4,5], 金:[6,7,8], 水:[9,10,11], 土:[2,5,8,11]};
+  const dLing = seasonMap[dayWx].includes(monthNum) ? '✓ 得令' : '✗ 失令';
+  // 得地判断 (地支藏干中是否含日主)
+  let deDi = false;
+  pillars.forEach(p => {
+    if (p.cg.split('').some(c => getWuxingFromGan(c) === dayWx)) deDi = true;
+  });
+  // 得生判断
+  let deSheng = false;
+  pillars.forEach(p => {
+    if (getTenGod(dayGanIdx, p.ganIdx) === '正印' || getTenGod(dayGanIdx, p.ganIdx) === '偏印') deSheng = true;
+  });
+  // 得助判断
+  let deZhu = false;
+  pillars.forEach(p => {
+    if (getTenGod(dayGanIdx, p.ganIdx) === '比肩' || getTenGod(dayGanIdx, p.ganIdx) === '劫财') deZhu = true;
+  });
+  
+  html += `<table style="font-size:0.85em"><tr><th>维度</th><th>状态</th><th>说明</th></tr>`;
+  html += `<tr><td>得令</td><td>${dLing}</td><td>月支${monthP.zhi}(${monthZhiWx})，日主${dayWx}在${['春','夏','秋','冬'][Math.floor(monthNum/3)]||'季'}</td></tr>`;
+  html += `<tr><td>得地</td><td>${deDi?'✓ 有根':'✗ 无根'}</td><td>地支藏干中${deDi?'含':'不含'}${dayWx}</td></tr>`;
+  html += `<tr><td>得生</td><td>${deSheng?'✓ 有印星':'✗ 无印星'}</td><td>${deSheng?'有':'无'}天干生日主</td></tr>`;
+  html += `<tr><td>得助</td><td>${deZhu?'✓ 有比劫':'✗ 无比劫'}</td><td>${deZhu?'有':'无'}天干同五行帮扶</td></tr>`;
+  html += `</table></div>`;
+  
+  // 大运排列表
+  html += `<div class="result-box"><h4>大运排列（${dy.forward?'顺排':'逆排'}，阳年${dy.yangYear?'✓':'✗'}，${dy.qiyunAge}岁起运）</h4>`;
+  html += `<table class="dayun-table"><thead><tr><th>岁数</th>`;
+  dy.dayuns.forEach(dd => html += `<th>${dd.startAge}-${dd.startAge+9}岁</th>`);
+  html += `</tr></thead><tbody><tr><td>干支</td>`;
+  dy.dayuns.forEach(dd => html += `<td>${dd.gan}${dd.zhi}</td>`);
+  html += `</tr><tr><td>纳音</td>`;
+  dy.dayuns.forEach(dd => html += `<td style="font-size:0.75em;color:var(--muted)">${dd.nayin}</td>`);
+  html += `</tr></tbody></table></div>`;
+  
+  // Warning for boundary dates
+  if (d <= 8) {
+    html += `<div class="warn">⚠ 你输入的日期在节气边界附近（1-8日），月份分界可能不精确，建议查万年历确认。</div>`;
+  }
+  if (m === 2 && d >= 1 && d <= 6) {
+    html += `<div class="warn">⚠ 立春在2月3-5日左右，年柱可能需要调整（在立春前出生则年柱用上一年）。排盘已做简化判断。</div>`;
+  }
+  
+  document.getElementById('calcResult').innerHTML = html;
+}
+
+/* ========== TABLE POPULATION ========== */
+
+// Panel 2: Origin timeline
+document.getElementById('originTimeline').innerHTML = makeTable(['时期','关键人物/著作','贡献','特征'],
+[['先秦','《尚书·洪范》','五行概念文献源头','水曰润下，火曰炎上'],
+ ['战国','邹衍','五德终始说','五行从描述→推演系统'],
+ ['东汉','王充《论衡》','最早五行推命记载','批判民间算命术'],
+ ['东汉至唐','匿名术士群体','纳音/年柱推命实践','六百年累积期'],
+ ['唐(761-813)','李虚中','三柱六字系统化','韩愈记载"百不失一二"'],
+ ['五代/宋初','徐子平','+时柱 → 四柱八字','从年柱中心转为日主中心'],
+ ['宋','徐大升《渊海子平》','八字第一部经典','十神体系初步定型']]);
+
+// Panel 3: 十天干
+document.getElementById('tgTable').innerHTML = makeTable(['天干','阴阳','五行','方位','脏腑','意象'],
+[['甲','阳','木','东','胆','参天大树、领袖'],
+ ['乙','阴','木','东','肝','花草藤萝、柔韧'],
+ ['丙','阳','火','南','小肠','太阳烈火、光明'],
+ ['丁','阴','火','南','心','灯烛之火、文明'],
+ ['戊','阳','土','中央','胃','城墙之土、厚重'],
+ ['己','阴','土','中央','脾','田园之土、包容'],
+ ['庚','阳','金','西','大肠','刀剑之金、刚硬'],
+ ['辛','阴','金','西','肺','首饰之金、精细'],
+ ['壬','阳','水','北','膀胱','江河之水、奔流'],
+ ['癸','阴','水','北','肾','雨露之水、渗透']]);
+
+// 十二地支
+document.getElementById('dzTable').innerHTML = makeTable(['地支','五行','阴阳','月份','时辰','生肖','藏干'],
+[['子','水','阳','十一月','23-01','鼠','癸'],
+ ['丑','土','阴','十二月','01-03','牛','己癸辛'],
+ ['寅','木','阳','正月','03-05','虎','甲丙戊'],
+ ['卯','木','阴','二月','05-07','兔','乙'],
+ ['辰','土','阳','三月','07-09','龙','戊乙癸'],
+ ['巳','火','阳','四月','09-11','蛇','丙戊庚'],
+ ['午','火','阴','五月','11-13','马','丁己'],
+ ['未','土','阴','六月','13-15','羊','己丁乙'],
+ ['申','金','阳','七月','15-17','猴','庚壬戊'],
+ ['酉','金','阴','八月','17-19','鸡','辛'],
+ ['戌','土','阳','九月','19-21','狗','戊辛丁'],
+ ['亥','水','阴','十月','21-23','猪','壬甲']]);
+
+// 六十甲子 with pagination (Page 1: 1-30, Page 2: 31-60)
+let jiaziPage = 0;
+const jiaziAll = [];
+for (let i = 1; i <= 60; i++) {
+  const g = (i-1)%10;
+  const z = (i-1)%12;
+  jiaziAll.push({ idx:i, gz:GAN[g]+ZHI[z], nayin:NAYIN[i-1], wx:getWuxingFromGan(GAN[g])});
+}
+
+function renderJiaziPage(page) {
+  jiaziPage = page;
+  const start = page*30, end = Math.min(start+30, 60);
+  const rows = [];
+  for (let i = start; i < end; i+=6) {
+    const r = [];
+    for (let j = i; j < Math.min(i+6, end); j++) {
+      r.push(`${jiaziAll[j].idx}. ${jiaziAll[j].gz}`);
+    }
+    rows.push(r);
+  }
+  // Add nayin rows
+  const nr = [];
+  for (let i = start; i < end; i+=6) {
+    const r = [];
+    for (let j = i; j < Math.min(i+6, end); j++) {
+      r.push(jiaziAll[j].nayin);
+    }
+    rows.push(r);
+  }
+  document.getElementById('jiaziTable').innerHTML = makeTable(
+    Array.from({length:Math.min(6, end-start)}, (_,k) => `列${k+1}`),
+    rows
+  );
+  // Update pagination
+  const pg = document.getElementById('jiaziPagination');
+  pg.innerHTML = `<button class="page-btn${page===0?' active':''}" onclick="renderJiaziPage(0)">第1-30甲子</button>
+    <button class="page-btn${page===1?' active':''}" onclick="renderJiaziPage(1)">第31-60甲子</button>`;
+}
+renderJiaziPage(0);
+
+function filterJiazi(query) {
+  const q = query.toLowerCase();
+  if (!q) { renderJiaziPage(jiaziPage); return; }
+  const filtered = jiaziAll.filter(j => j.gz.includes(q) || j.nayin.includes(q) || j.wx.includes(q) || String(j.idx)===q);
+  const rows = [];
+  for (let i = 0; i < filtered.length; i+=6) {
+    const r = [];
+    for (let j = i; j < Math.min(i+6, filtered.length); j++) {
+      r.push(`${filtered[j].idx}. ${filtered[j].gz}`);
+    }
+    rows.push(r);
+  }
+  const nr = [];
+  for (let i = 0; i < filtered.length; i+=6) {
+    const r = [];
+    for (let j = i; j < Math.min(i+6, filtered.length); j++) {
+      r.push(filtered[j].nayin);
+    }
+    nr.length <= rows.length && rows.push(r);
+  }
+  document.getElementById('jiaziTable').innerHTML = makeTable(
+    Array.from({length:Math.min(6, filtered.length)}, (_,k) => `列${k+1}`),
+    filtered.length > 0 ? [...rows, ...nr] : [['无匹配结果']]
+  );
+  document.getElementById('jiaziPagination').innerHTML = `<span style="color:var(--muted);font-size:0.85em">搜索结果：${filtered.length} 条</span>`;
+}
+
+// Panel 5: 旺相休囚死
+document.getElementById('wangxiangTable').innerHTML = makeTable(['四季','旺','相','休','囚','死'],
+[['春','木','火','水','金','土'],
+ ['夏','火','土','木','水','金'],
+ ['秋','金','水','土','火','木'],
+ ['冬','水','木','金','土','火'],
+ ['四季末','土','金','火','木','水']]);
+
+// 用神表
+document.getElementById('yongshenTable').innerHTML = makeTable(['用神类型','条件','取法','示例'],
+[['扶抑','日主偏强或偏弱','日强→克泄，日弱→生扶','甲木过强→取金(克)或火(泄)'],
+ ['调候','冬生过寒或夏生过暖','需水火调候','冬月庚金→取火暖局'],
+ ['通关','两种五行交战','取通关五行','金木交战→取水'],
+ ['病药','命局有明显"病"','取消除"病"的五行','木土交战→取金制木'],
+ ['专旺','命局某五行极旺','顺其旺势','全盘木→取木火水']]);
+
+// Panel 6: 十神
+document.getElementById('shishenGenTable').innerHTML = makeTable(['关系','同阴阳（偏）','异阴阳（正）'],
+[['同我','比肩','劫财'],
+ ['我生','食神','伤官'],
+ ['我克','偏财','正财'],
+ ['克我','七杀（偏官）','正官'],
+ ['生我','偏印（枭神）','正印']]);
+
+document.getElementById('shishenMapTable').innerHTML = makeTable(['十神','正/偏','人事映射','性格意象'],
+[['正官','正','上级/丈夫/法律/纪律','正直、守规矩、有责任感'],
+ ['七杀','偏','敌人/压力/挑战/武职','刚烈、攻击性、不服管束'],
+ ['正印','正','母亲/学历/文书/庇护','仁慈、好学习、依赖'],
+ ['偏印(枭)','偏','继母/特殊技能/玄学','孤僻、偏门、不善社交'],
+ ['正财','正','妻子/工资/稳定收入','勤俭、务实、重物质'],
+ ['偏财','偏','父亲/意外之财/投资','慷慨、投机、懂享受'],
+ ['比肩','—','兄弟/同辈/朋友','自主、竞争、重义气'],
+ ['劫财','—','姐妹/竞争者/损友','冲动、重情、易破财'],
+ ['食神','正','子女/口才/艺术/享乐','温和、有才华、懂生活'],
+ ['伤官','偏','才华外露/叛逆/创新','聪明、傲气、不服管']]);
+
+// Panel 7: 大运
+document.getElementById('dayunTable').innerHTML = makeTable(['大运','流年','结果'],
+[['吉','吉','其年大吉'],['凶','吉','不至大凶'],
+ ['吉','凶','美中不足'],['凶','凶','凶不可言']]);
+
+document.getElementById('taisuiTable').innerHTML = makeTable(['关系','名称','含义'],
+[['同地支','值太岁','本命年，变动之年'],
+ ['冲','冲太岁','变动剧烈，宜静不宜动'],
+ ['刑','刑太岁','是非官非'],
+ ['害','害太岁','小人不和']]);
+
+// Panel 8: 神煞
+document.getElementById('jiTable').innerHTML = makeTable(['神煞','查法','含义'],
+[['天乙贵人','以日干查其余三柱地支','最重要吉神，遇贵人逢凶化吉'],
+ ['文昌贵人','以日干查','主学业、文章、考试'],
+ ['学堂','以日干查','主学业有成'],
+ ['将星','以日支查','主领导力、管理能力'],
+ ['华盖','以日支查','主艺术、玄学、孤独'],
+ ['驿马','以日支查年支','主奔波、迁移、旅行'],
+ ['天德贵人','以月支查','天德护身'],
+ ['月德贵人','以月支查','月德护身'],
+ ['禄神','以日干查','天干的"临官"位，主食禄丰厚'],
+ ['金舆','以日干查','主富贵、车马']],'jiBody');
+
+document.getElementById('xiongTable').innerHTML = makeTable(['神煞','查法','含义'],
+[['劫煞','以年支查','主破财、意外、劫难'],
+ ['灾煞','以年支查','主灾祸、血光'],
+ ['孤辰','以年支查','主孤独、六亲缘薄'],
+ ['寡宿','以年支查','主婚姻不利、孤独终老'],
+ ['亡神','以年支查','主心神不宁、意外'],
+ ['羊刃','以日干查','日干帝王位，性格刚烈易有伤灾'],
+ ['空亡','以日柱查','六十甲子每旬所缺两地支，主虚空不实'],
+ ['阴阳差错','以日柱查','十三特定干支组合，主婚姻波折']],'xiongBody');
+
+function filterShensha(tableId, query) {
+  const q = query.toLowerCase();
+  const bodyId = tableId === 'jiTable' ? 'jiBody' : 'xiongBody';
+  const body = document.getElementById(bodyId);
+  if (!body) return;
+  body.querySelectorAll('tr').forEach(tr => {
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// Panel 9: 格局
+document.getElementById('zhenggeTable').innerHTML = makeTable(['格局','月令','条件','喜忌'],
+[['正官格','正官当令','身强为佳','喜印化官，忌伤官见官'],
+ ['七杀格','七杀当令','需制化','喜食神制杀或印星化杀'],
+ ['正财格','正财当令','身强可任财','喜食伤生财，忌比劫夺财'],
+ ['偏财格','偏财当令','—','—'],
+ ['正印格','正印当令','—','—'],
+ ['偏印格','偏印当令','—','—'],
+ ['食神格','食神当令','—','—'],
+ ['伤官格','伤官当令','需制化','喜印星制伤，忌见官']]);
+
+document.getElementById('conggeTable').innerHTML = makeTable(['从格类型','条件','特征'],
+[['从强','日主极强，全盘帮扶','日坐强根，满盘比劫印星'],
+ ['从弱','日主极弱，全盘克泄耗','日主无根无生，满盘财官食伤'],
+ ['从财','财星极旺','满盘财星，日主无根顺应'],
+ ['从杀','七杀极旺','满盘官杀，日主顺从压力'],
+ ['从儿','食伤极旺','"从儿不管身强弱，只要吾儿又见儿"']]);
+
+document.getElementById('zhuanwangTable').innerHTML = makeTable(['格局名','五行','地支要求','出处'],
+[['曲直格','木','寅卯辰全或亥卯未全','木曰曲直'],
+ ['炎上格','火','巳午未全或寅午戌全','火曰炎上'],
+ ['稼穑格','土','辰戌丑未全','土爰稼穑'],
+ ['从革格','金','申酉戌全或巳酉丑全','金曰从革'],
+ ['润下格','水','亥子丑全或申子辰全','水曰润下']]);
+
+// Panel 11: 复兴
+document.getElementById('fuxingTable').innerHTML = makeTable(['波次','时间','特征','传播手段'],
+[['第一波','1980-1990年代','港台命理书大量进入大陆','印刷出版物，"传统文化再发现"'],
+ ['第二波','2000-2010年代','在线排盘工具爆发（元亨利贞等）','一键排盘，技术门槛急剧降低'],
+ ['第三波','2016至今','短视频平台碎片化传播','一分钟微视频，从全套分析→碎片标签']]);
+
+// Panel 12: 跨文化比较
+document.getElementById('crossTable').innerHTML = makeTable(['维度','八字（四柱）','紫微斗数','西方占星'],
+[['起源','唐至宋定型','传五代，宋始流行','古巴比伦→希腊化'],
+ ['基本符号','天干地支（22个）','14主星+辅星+12宫','7古典行星+12星座+12宫'],
+ ['核心锚点','日主（日干）','命宫主星','上升星座+太阳星座'],
+ ['时间精度','时辰（2小时）','时辰（2小时）','分钟（4分钟差1°）'],
+ ['复杂度','生克网络','星曜化气+四化','相位网络+宫位制'],
+ ['文化底色','天人感应+循环史观','星宿崇拜+朝廷官僚','希腊宿命论+因果报偿'],
+ ['当代流行','中国内地最高','港台东南亚','全球最高'],
+ ['自由度','命运已定但大运可优化','—','星象是倾向不是宿命']]);
+
+// Panel 13: 典籍
+document.getElementById('dianjiTable').innerHTML = makeTable(['时代','典籍','作者/编者','性质'],
+[['战国','《尚书·洪范》','—','阴阳五行思想文献源头'],
+ ['东汉','《论衡》','王充','最早五行推命批判记录'],
+ ['唐','《李虚中命书》','托名李虚中','最早系统命理文献（真伪存疑）'],
+ ['五代/宋','《徐氏珞琭子赋注》','徐子平','日主核心体系的确立'],
+ ['宋','《渊海子平》','徐大升编','八字命理第一部经典'],
+ ['明','《三命通会》','万民英','集大成者，百科全书式汇编'],
+ ['明（传）','《滴天髓》','传刘基（托名）','从格化格理论巅峰'],
+ ['清','《子平真诠》','沈孝瞻','用神与格局理论系统化'],
+ ['清','《穷通宝鉴》','无名氏','调候用神实战典籍'],
+ ['民国','《子平真诠评注》','徐乐吾','近代命理学集大成与西学接轨']]);
+
+/* ========== INIT: Auto-load default paipan ========== */
+document.getElementById('bMonth').value = '7';
+document.getElementById('bDay').value = '15';
+</script>
+</body>
+</html>

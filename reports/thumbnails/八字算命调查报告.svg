@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0d1520"/>
+      <stop offset="100%" stop-color="#050810"/>
+    </radialGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#065f46"/></linearGradient>
+    <linearGradient id="fire" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#dc2626"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
+    <linearGradient id="earth" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/></linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c8a96e"/><stop offset="100%" stop-color="#8a7350"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#155e75"/></linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 五行轮盘 -->
+  <circle cx="200" cy="125" r="70" fill="none" stroke="#1a2535" stroke-width="0.5" opacity="0.5"/>
+  <g transform="translate(200, 125)">
+    <!-- 木 (上) -->
+    <line x1="0" y1="0" x2="0" y2="-65" stroke="url(#wood)" stroke-width="2" opacity="0.5"/>
+    <circle cx="0" cy="-50" r="8" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
+    <text x="0" y="-57" text-anchor="middle" fill="#6ee7b7" font-family="serif" font-size="10" opacity="0.6">木</text>
+    <!-- 火 (右上) -->
+    <line x1="0" y1="0" x2="48" y2="-43" stroke="url(#fire)" stroke-width="2" opacity="0.5"/>
+    <circle cx="37" cy="-33" r="8" fill="none" stroke="#dc2626" stroke-width="1.5" opacity="0.6"/>
+    <text x="37" y="-40" text-anchor="middle" fill="#fca5a5" font-family="serif" font-size="10" opacity="0.6">火</text>
+    <!-- 土 (右) -->
+    <line x1="0" y1="0" x2="62" y2="8" stroke="url(#earth)" stroke-width="2" opacity="0.5"/>
+    <circle cx="47" cy="6" r="8" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.6"/>
+    <text x="47" y="-1" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="10" opacity="0.6">土</text>
+    <!-- 金 (左下) -->
+    <line x1="0" y1="0" x2="42" y2="48" stroke="url(#metal)" stroke-width="2" opacity="0.5"/>
+    <circle cx="32" cy="36" r="8" fill="none" stroke="#c8a96e" stroke-width="1.5" opacity="0.6"/>
+    <text x="32" y="30" text-anchor="middle" fill="#e2c485" font-family="serif" font-size="10" opacity="0.6">金</text>
+    <!-- 水 (左上) -->
+    <line x1="0" y1="0" x2="-42" y2="-32" stroke="url(#water)" stroke-width="2" opacity="0.5"/>
+    <circle cx="-32" cy="-25" r="8" fill="none" stroke="#06b6d4" stroke-width="1.5" opacity="0.6"/>
+    <text x="-32" y="-31" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="10" opacity="0.6">水</text>
+    <!-- 中心 -->
+    <circle cx="0" cy="0" r="6" fill="url(#earth)" opacity="0.5"/>
+    <!-- 相生箭头 (弧形虚线太复杂，用小型连线) -->
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#f59e0b" stroke-width="0.3" opacity="0.2" stroke-dasharray="4 4"/>
+  </g>
+  <!-- 四柱 -->
+  <g transform="translate(200, 215)" opacity="0.4">
+    <rect x="-55" y="-12" width="24" height="24" rx="2" fill="none" stroke="#10b981" stroke-width="0.8"/>
+    <text x="-43" y="4" text-anchor="middle" fill="#6ee7b7" font-family="serif" font-size="9">年</text>
+    <rect x="-26" y="-12" width="24" height="24" rx="2" fill="none" stroke="#dc2626" stroke-width="0.8"/>
+    <text x="-14" y="4" text-anchor="middle" fill="#fca5a5" font-family="serif" font-size="9">月</text>
+    <rect x="3" y="-12" width="24" height="24" rx="2" fill="none" stroke="#f59e0b" stroke-width="0.8"/>
+    <text x="15" y="4" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="9">日</text>
+    <rect x="32" y="-12" width="24" height="24" rx="2" fill="none" stroke="#06b6d4" stroke-width="0.8"/>
+    <text x="44" y="4" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="9">时</text>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="14" font-weight="bold">八字算命 · 调查报告</text>
+</svg>

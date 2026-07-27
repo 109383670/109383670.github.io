@@ -3,6 +3,19 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "八字算命调查报告",
+      "type": "html",
+      "title": "八字算命 · 调查报告",
+      "summary": "从五行推命到四柱八字，追溯中国传统命理学的理论源流与推算体系。",
+      "tags": [
+        "命理",
+        "传统文化"
+      ],
+      "date": "2026-07-27",
+      "path": "reports/八字算命调查报告.html",
+      "thumbnail": "reports/thumbnails/八字算命调查报告.svg"
+    },
+    {
       "id": "孔门朋友圈",
       "type": "html",
       "title": "孔门朋友圈 · 关系网络",
