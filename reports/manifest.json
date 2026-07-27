@@ -3,6 +3,45 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "孔门朋友圈",
+      "type": "html",
+      "title": "孔门朋友圈 · 关系网络",
+      "summary": "可视化孔子与弟子们的社交关系网络，谁和谁交好、谁和谁理念相近，一张图看懂孔门。",
+      "tags": [
+        "儒学",
+        "关系图谱"
+      ],
+      "date": "2026-07-27",
+      "path": "reports/孔门朋友圈.html",
+      "thumbnail": "reports/thumbnails/孔门朋友圈.svg"
+    },
+    {
+      "id": "孔门RPG人物系统",
+      "type": "html",
+      "title": "孔门RPG · 人物系统",
+      "summary": "把孔门七十二弟子做成RPG角色系统——德、政、智三维属性，十大弟子各有专属技能树。",
+      "tags": [
+        "儒学",
+        "游戏化"
+      ],
+      "date": "2026-07-27",
+      "path": "reports/孔门RPG人物系统.html",
+      "thumbnail": "reports/thumbnails/孔门RPG人物系统.svg"
+    },
+    {
+      "id": "仁的星图",
+      "type": "html",
+      "title": "仁的星图 · 儒家道德体系",
+      "summary": "以「仁」为中心，义礼智信忠恕孝悌勇恭宽敏环绕，一张星图呈现儒家道德宇宙的完整结构。",
+      "tags": [
+        "儒学",
+        "哲学"
+      ],
+      "date": "2026-07-27",
+      "path": "reports/仁的星图.html",
+      "thumbnail": "reports/thumbnails/仁的星图.svg"
+    },
+    {
       "id": "三十六计",
       "type": "html",
       "title": "三十六计 · 人生用",

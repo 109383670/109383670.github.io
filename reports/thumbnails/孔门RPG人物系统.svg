@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1520"/>
+      <stop offset="100%" stop-color="#050810"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c8a96e"/>
+      <stop offset="100%" stop-color="#e2c485"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- RPG 状态栏风格 -->
+  <g transform="translate(200, 125)">
+    <!-- 属性条背景 -->
+    <rect x="-70" y="-40" width="140" height="6" rx="3" fill="#1a2030" opacity="0.6"/>
+    <rect x="-70" y="-25" width="140" height="6" rx="3" fill="#1a2030" opacity="0.6"/>
+    <rect x="-70" y="-10" width="140" height="6" rx="3" fill="#1a2030" opacity="0.6"/>
+    <!-- 属性条填充 -->
+    <rect x="-70" y="-40" width="95" height="6" rx="3" fill="url(#gold)" opacity="0.7"/>
+    <rect x="-70" y="-25" width="110" height="6" rx="3" fill="url(#purple)" opacity="0.7"/>
+    <rect x="-70" y="-10" width="80" height="6" rx="3" fill="url(#cyan)" opacity="0.7"/>
+    <!-- 属性标签 -->
+    <text x="-78" y="-36" fill="#c8a96e" font-family="serif" font-size="9" opacity="0.6">德</text>
+    <text x="-78" y="-21" fill="#a855f7" font-family="serif" font-size="9" opacity="0.6">智</text>
+    <text x="-78" y="-6" fill="#67e8f9" font-family="serif" font-size="9" opacity="0.6">政</text>
+  </g>
+  <!-- 孔子剪影 -->
+  <g opacity="0.25" transform="translate(200, 90)">
+    <circle cx="0" cy="-12" r="8" fill="url(#gold)"/>
+    <path d="M -10 -5 L 10 -5 L 12 15 L -12 15 Z" fill="url(#gold)"/>
+    <!-- 发髻 -->
+    <circle cx="0" cy="-20" r="4" fill="url(#gold)"/>
+  </g>
+  <!-- 弟子小点环绕 -->
+  <g opacity="0.4">
+    <circle cx="130" cy="180" r="3" fill="url(#gold)"/>
+    <circle cx="170" cy="190" r="3" fill="url(#purple)"/>
+    <circle cx="210" cy="192" r="3" fill="url(--cyan)"/>
+    <circle cx="250" cy="188" r="3" fill="url(--purple)"/>
+    <circle cx="280" cy="178" r="3" fill="url(--gold)"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#c8a96e" font-family="serif" font-size="15" font-weight="bold">孔门 RPG · 人物系统</text>
+</svg>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仁的星图</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"KaiTi","楷体","STKaiti","Ma Shan Zheng",serif;background:#0a0a14;color:#e8d5b7;margin:0;padding:0;}
+.back{position:fixed;top:16px;left:16px;color:#DEB887;text-decoration:none;font-size:13px;z-index:10;opacity:0.7;background:rgba(10,10,20,0.85);padding:6px 12px;border-radius:8px;}
+.back:hover{opacity:1;}
+#main{width:100vw;height:100vh;position:relative;display:flex;flex-direction:column;}
+#graphCanvas{flex:1;min-height:0;position:relative;overflow:hidden;}
+#timeline{flex-shrink:0;height:180px;background:rgba(20,15,10,0.9);border-top:1px solid rgba(205,133,63,0.25);overflow-x:auto;display:flex;align-items:center;padding:20px 40px;gap:0;}
+.tl-item{flex-shrink:0;text-align:center;position:relative;width:120px;}
+.tl-item .tl-year{font-size:11px;color:#7a6050;margin-bottom:4px;}
+.tl-item .tl-dot{width:12px;height:12px;border-radius:50%;background:#CD853F;margin:0 auto 8px;}
+.tl-item .tl-event{font-size:12px;color:#DEB887;line-height:1.5;}
+.tl-item .tl-line{position:absolute;top:16px;left:50%;width:100%;height:1px;background:rgba(205,133,63,0.2);z-index:-1;}
+.tl-item .tl-year-line{font-size:18px;color:rgba(205,133,63,0.3);position:absolute;top:-16px;left:50%;transform:translateX(-50%);}
+.info-panel{position:fixed;bottom:200px;left:50%;transform:translateX(-50%);background:rgba(20,15,10,0.95);border:1px solid rgba(205,133,63,0.5);border-radius:16px;padding:18px 24px;max-width:520px;text-align:center;pointer-events:none;opacity:0;transition:opacity 0.3s;backdrop-filter:blur(12px);z-index:5;}
+.info-panel.on{opacity:1;}
+.info-panel .cn{font-size:32px;color:#DEB887;margin-bottom:4px;}
+.info-panel .cd{font-size:13px;color:#a08070;line-height:1.7;}
+.info-panel .cf{font-size:11px;color:#7a6050;margin-top:4px;}
+.legend{position:fixed;top:20px;right:20px;background:rgba(20,15,10,0.85);border:1px solid rgba(205,133,63,0.3);border-radius:12px;padding:14px 18px;font-size:11px;color:#a08070;line-height:2;z-index:5;pointer-events:none;}
+.legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;}
+.hint{position:fixed;bottom:195px;left:50%;transform:translateX(-50%);font-size:11px;color:#5a4030;}
+.loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#DEB887;font-size:18px;}
+@media(max-width:800px){.legend{font-size:10px;top:50px;right:8px;padding:8px 12px;}#timeline{height:150px;}}
+</style>
+</head>
+<body>
+<a class="back" href="INDEX.html">← 返回</a>
+<div id="main">
+  <div id="graphCanvas"><div class="loading">🌌 正在绘制星图……</div></div>
+  <div class="legend">
+    <div><span class="dot" style="background:#FFD700"></span> 仁 — 北极星（核心）</div>
+    <div><span class="dot" style="background:#87CEEB"></span> 一级概念（道德实践）</div>
+    <div><span class="dot" style="background:#9370DB"></span> 二级概念（相关范畴）</div>
+    <div><span class="dot" style="background:#FF8C00"></span> 三级概念（延展领域）</div>
+    <div style="font-size:10px;margin-top:4px">圆大小=出现频次 | 连线粗细=关联强度</div>
+  </div>
+  <div class="info-panel" id="infoPanel"></div>
+  <div class="hint">🖱️ 拖拽节点 · 滚轮缩放 · 悬浮看详情 · 底部时间轴滚动浏览</div>
+  <div id="timeline"></div>
+</div>
+
+<script>
+(function(){
+  if(typeof d3==='undefined'){document.querySelector('.loading').textContent='⚠️ D3.js 加载失败，请检查网络连接';return;}
+
+  // 数据
+  var nodes=[
+    {id:'仁',g:0,f:109,desc:'《论语》最高概念。爱人、克己复礼为仁。众星拱之的北极星。',detail:'核心主张：爱人。颜回问仁，子曰克己复礼为仁。仲弓问仁，子曰己所不欲勿施于人。樊迟问仁曰爱人。有子曰孝弟为仁之本。'},
+    {id:'礼',g:1,f:75,desc:'社会规范与仪式体系。仁的内核须通过礼来外化。',detail:'不学礼无以立。礼之用和为贵。克己复礼为仁。非礼勿视勿听勿言勿动。'},
+    {id:'义',g:1,f:24,desc:'正当性、道义准则。行为的道德判断标准。',detail:'君子喻于义小人喻于利。不义而富且贵于我如浮云。见义不为无勇也。'},
+    {id:'智',g:1,f:25,desc:'智慧、明辨。知人、知言、知命的能力。',detail:'知者不惑。知之为知之不知为不知是知也。务民之义敬鬼神而远之可谓知矣。'},
+    {id:'信',g:1,f:38,desc:'诚信、言而有信。社会信任的基石。',detail:'人而无信不知其可。民无信不立。言必信行必果。'},
+    {id:'孝',g:1,f:19,desc:'孝敬父母。仁的起点和根本。',detail:'孝弟也者其为仁之本与。今之孝者是谓能养，不敬何以别乎。生事之以礼死葬之以礼。'},
+    {id:'忠',g:1,f:18,desc:'尽心尽力、真诚付出。对人对事的庄重态度。',detail:'为人谋而不忠乎。君使臣以礼臣事君以忠。夫子之道忠恕而已矣。'},
+    {id:'恕',g:1,f:12,desc:'推己及人。己所不欲勿施于人。',detail:'一言而可以终身行之者其恕乎。己所不欲勿施于人。躬自厚而薄责于人。'},
+    {id:'君子',g:2,f:107,desc:'理想人格的完整体现。仁、义、礼、智、信的全方位化身。',detail:'君子坦荡荡。君子喻于义。文质彬彬然后君子。君子和而不同。君子求诸己小人求诸人。'},
+    {id:'德',g:2,f:38,desc:'品德、为政以德。治理和修身的核心要素。',detail:'为政以德譬如北辰。德不孤必有邻。天生德于予。'},
+    {id:'学',g:2,f:65,desc:'学习与修养。知行合一的起点，贯穿一生的修行。',detail:'学而时习之。学而不思则罔。知之者不如好之者好之者不如乐之者。'},
+    {id:'道',g:2,f:89,desc:'大道、天道、人伦之道。终极追求。',detail:'朝闻道夕死可矣。士志于道。志于道据于德依于仁游于艺。'},
+    {id:'敬',g:2,f:12,desc:'敬畏、恭敬。礼的内在精神核心。',detail:'祭如在祭神如神在。执事敬。修己以敬。'},
+    {id:'勇',g:2,f:16,desc:'勇气、果敢。义之所在虽千万人吾往矣。',detail:'见义不为无勇也。勇者不惧。仁者必有勇。'},
+    {id:'乐',g:2,f:22,desc:'快乐、审美。仁者的内在生命状态。',detail:'知之者不如好之者好之者不如乐之者。在齐闻韶三月不知肉味。不改其乐。'},
+    {id:'政',g:2,f:41,desc:'为政与治国。修齐治平的实践场域。',detail:'不在其位不谋其政。其身正不令而行。道之以政齐之以刑民免而无耻。'},
+    {id:'天',g:2,f:32,desc:'天命、天道。超越性的终极维度。',detail:'五十而知天命。获罪于天无所祷也。死生有命富贵在天。'},
+    {id:'和',g:2,f:8,desc:'和谐、中和。礼的最高境界。',detail:'礼之用和为贵。君子和而不同。和为贵。'},
+    {id:'文',g:3,f:12,desc:'文化、文献、文采。修养的外在表现。',detail:'文质彬彬然后君子。郁郁乎文哉吾从周。夫子之文章可得而闻也。'},
+    {id:'质',g:3,f:8,desc:'质朴、本真。修养的内在根基。',detail:'质胜文则野文胜质则史。文质彬彬然后君子。'},
+    {id:'中庸',g:3,f:2,desc:'不偏不倚的中道。孔子自述的最高境界。',detail:'中庸之为德也其至矣乎民鲜久矣。过犹不及。'},
+    {id:'正名',g:3,f:4,desc:'名实相符。为政的逻辑起点。',detail:'名不正则言不顺言不顺则事不成。必也正名乎。'},
+    {id:'恭',g:3,f:10,desc:'恭敬、谦逊。处世待人的基本态度。',detail:'居处恭执事敬与人忠。恭近于礼远耻辱也。'},
+    {id:'让',g:3,f:8,desc:'谦让、礼让。政治与社会的润滑剂。',detail:'能以礼让为国乎何有。不能以礼让为国如礼何。其言不让是故哂之。'},
+    {id:'惠',g:3,f:10,desc:'恩惠、利民。为政的惠民原则。',detail:'君子惠而不费。因民之所利而利之。养民也惠。'},
+    {id:'小人',g:3,f:24,desc:'君子的反面对照。缺乏道德修养的人。',detail:'君子喻于义小人喻于利。小人长戚戚。小人比而不周。'},
+    {id:'善',g:3,f:14,desc:'善良、美好。道德判断的尺度。',detail:'择其善者而从之。见善如不及。德之流行速于置邮而传命。'},
+    {id:'知人',g:3,f:10,desc:'了解人性、辨别他人。智者的核心能力。',detail:'不患人之不己知患不知人也。不知言无以知人也。听其言而观其行。'}
+  ];
+
+  var links=[
+    {source:'仁',target:'礼',v:0.95},{source:'仁',target:'义',v:0.7},{source:'仁',target:'智',v:0.65},{source:'仁',target:'信',v:0.6},{source:'仁',target:'孝',v:0.8},
+    {source:'仁',target:'忠',v:0.5},{source:'仁',target:'恕',v:0.85},{source:'仁',target:'君子',v:0.7},{source:'仁',target:'德',v:0.5},{source:'仁',target:'学',v:0.4},
+    {source:'仁',target:'道',v:0.55},{source:'仁',target:'勇',v:0.5},{source:'仁',target:'乐',v:0.35},{source:'仁',target:'天',v:0.3},{source:'仁',target:'恭',v:0.45},{source:'仁',target:'善',v:0.4},
+    {source:'礼',target:'和',v:0.8},{source:'礼',target:'敬',v:0.6},{source:'礼',target:'君子',v:0.5},{source:'礼',target:'孝',v:0.7},{source:'礼',target:'政',v:0.5},
+    {source:'礼',target:'道',v:0.35},{source:'礼',target:'让',v:0.7},{source:'礼',target:'文',v:0.55},
+    {source:'义',target:'勇',v:0.7},{source:'义',target:'君子',v:0.6},{source:'义',target:'小人',v:0.55},
+    {source:'智',target:'学',v:0.6},{source:'智',target:'君子',v:0.4},{source:'智',target:'知人',v:0.75},{source:'智',target:'道',v:0.35},
+    {source:'信',target:'政',v:0.5},{source:'信',target:'君子',v:0.4},{source:'信',target:'学',v:0.3},
+    {source:'孝',target:'忠',v:0.5},{source:'孝',target:'政',v:0.35},
+    {source:'道',target:'德',v:0.6},{source:'道',target:'天',v:0.7},{source:'道',target:'学',v:0.5},{source:'道',target:'君子',v:0.5},{source:'道',target:'乐',v:0.4},{source:'道',target:'中庸',v:0.5},{source:'道',target:'善',v:0.4},
+    {source:'君子',target:'德',v:0.5},{source:'君子',target:'学',v:0.45},{source:'君子',target:'小人',v:0.75},{source:'君子',target:'文',v:0.55},{source:'君子',target:'质',v:0.55},{source:'君子',target:'正名',v:0.3},{source:'君子',target:'和',v:0.4},{source:'君子',target:'知人',v:0.35},
+    {source:'天',target:'德',v:0.45},{source:'学',target:'文',v:0.5},{source:'学',target:'知人',v:0.4},
+    {source:'乐',target:'和',v:0.5},{source:'政',target:'德',v:0.6},{source:'政',target:'正名',v:0.45},{source:'政',target:'惠',v:0.6},{source:'政',target:'让',v:0.3},{source:'政',target:'君子',v:0.4},{source:'政',target:'小人',v:0.3},
+    {source:'和',target:'中庸',v:0.55},{source:'恭',target:'敬',v:0.6},{source:'质',target:'文',v:0.65}
+  ];
+
+  // 尺寸
+  var canvas=document.getElementById('graphCanvas');
+  var W=canvas.clientWidth||window.innerWidth;
+  var H=canvas.clientHeight||window.innerHeight*0.8;
+  if(W<100)W=800; if(H<100)H=600;
+
+  canvas.innerHTML=''; // 清除 loading
+
+  var colors=['#FFD700','#87CEEB','#9370DB','#FF8C00'];
+  var sizeScale=d3.scaleSqrt().domain([0,110]).range([8,48]);
+  var cx=W/2, cy=H/2;
+
+  // 初始位置
+  nodes.forEach(function(n){
+    if(n.g===0){n.fx=cx;n.fy=cy;}
+    else if(n.g===1){
+      var i=nodes.filter(function(x){return x.g===1;}).indexOf(n);
+      n.x=cx+Math.min(W,H)*0.28*Math.cos(i*2*Math.PI/8-Math.PI/2);
+      n.y=cy+Math.min(W,H)*0.28*Math.sin(i*2*Math.PI/8-Math.PI/2);
+    }else if(n.g===2){
+      var i=nodes.filter(function(x){return x.g===2;}).indexOf(n);
+      n.x=cx+Math.min(W,H)*0.45*Math.cos(i*2*Math.PI/10-Math.PI/2);
+      n.y=cy+Math.min(W,H)*0.45*Math.sin(i*2*Math.PI/10-Math.PI/2);
+    }else{
+      var i=nodes.filter(function(x){return x.g===3;}).indexOf(n);
+      n.x=cx+Math.min(W,H)*0.58*Math.cos(i*2*Math.PI/9-Math.PI/2);
+      n.y=cy+Math.min(W,H)*0.58*Math.sin(i*2*Math.PI/9-Math.PI/2);
+    }
+  });
+
+  var svg=d3.select('#graphCanvas').append('svg')
+    .attr('width',W).attr('height',H)
+    .attr('viewBox','0 0 '+W+' '+H);
+
+  // 星空背景
+  for(var i=0;i<250;i++){
+    svg.append('circle')
+      .attr('cx',Math.random()*W).attr('cy',Math.random()*H)
+      .attr('r',Math.random()*1.5)
+      .attr('fill','rgba(255,255,200,'+(0.08+Math.random()*0.25)+')');
+  }
+
+  // 主图层
+  var g=svg.append('g');
+
+  // 缩放
+  var zoom=d3.zoom().scaleExtent([0.3,3]).on('zoom',function(e){
+    g.attr('transform',e.transform);
+  });
+  svg.call(zoom);
+
+  // 连线
+  var link=g.append('g').selectAll('line').data(links).join('line')
+    .attr('stroke',function(d){return 'rgba(255,215,0,'+(d.v*0.4+0.15)+')';})
+    .attr('stroke-width',function(d){return d.v*4;})
+    .attr('stroke-opacity',0.35);
+
+  // 节点组
+  var nodeGroup=g.append('g').selectAll('g').data(nodes).join('g')
+    .call(d3.drag()
+      .on('start',function(e,d){if(d.g!==0){d.fx=d.x;d.fy=d.y;}})
+      .on('drag',function(e,d){if(d.g!==0){d.fx=e.x;d.fy=e.y;}})
+      .on('end',function(e,d){if(d.g!==0){d.fx=null;d.fy=null;}}))
+    .on('mouseenter',function(e,d){
+      var p=document.getElementById('infoPanel');
+      var star=d.g===0?'⭐ ':d.g===1?'✦ ':d.g===2?'· ':'· ';
+      p.innerHTML='<div class="cn">'+star+d.id+'</div><div class="cd">'+(d.detail||d.desc)+'</div><div class="cf">《论语》中出现约 '+d.f+' 次</div>';
+      p.classList.add('on');
+    })
+    .on('mouseleave',function(){
+      document.getElementById('infoPanel').classList.remove('on');
+    });
+
+  // 光晕
+  nodeGroup.append('circle')
+    .attr('r',function(d){return sizeScale(d.f)+3;})
+    .attr('fill','none')
+    .attr('stroke',function(d){return colors[d.g];})
+    .attr('stroke-width',function(d){return d.g===0?2:1;})
+    .attr('stroke-opacity',0.13);
+
+  // 实心圆
+  nodeGroup.append('circle')
+    .attr('r',function(d){return sizeScale(d.f);})
+    .attr('fill',function(d){return colors[d.g];})
+    .attr('fill-opacity',0.55)
+    .attr('stroke',function(d){return colors[d.g];})
+    .attr('stroke-width',function(d){return d.g===0?3:1.5;});
+
+  // 标签
+  nodeGroup.append('text')
+    .text(function(d){return d.id;})
+    .attr('text-anchor','middle')
+    .attr('dy',function(d){return sizeScale(d.f)+14;})
+    .attr('fill',function(d){return colors[d.g];})
+    .attr('font-size',function(d){return d.g===0?20:d.g===1?14:12;});
+
+  // 力导向
+  var sim=d3.forceSimulation(nodes)
+    .force('link',d3.forceLink(links).id(function(d){return d.id;}).distance(130).strength(0.4))
+    .force('charge',d3.forceManyBody().strength(-350))
+    .force('center',d3.forceCenter(cx,cy))
+    .force('collision',d3.forceCollide().radius(function(d){return sizeScale(d.f)+8;}))
+    .on('tick',function(){
+      link.attr('x1',function(d){return d.source.x;})
+          .attr('y1',function(d){return d.source.y;})
+          .attr('x2',function(d){return d.target.x;})
+          .attr('y2',function(d){return d.target.y;});
+      nodeGroup.attr('transform',function(d){return 'translate('+d.x+','+d.y+')';});
+    });
+
+  // 时间轴
+  var timeline=[
+    {y:'前551',e:'孔子生于鲁国陬邑'},
+    {y:'前537',e:'十五志于学'},
+    {y:'前522',e:'三十而立·始教弟子'},
+    {y:'前518',e:'适周问礼于老子'},
+    {y:'前517',e:'鲁乱·孔子适齐'},
+    {y:'前515',e:'在齐闻韶·三月不知肉味'},
+    {y:'前500',e:'五十知天命·为鲁司寇'},
+    {y:'前498',e:'堕三都失败'},
+    {y:'前497',e:'开始周游列国（十四年）'},
+    {y:'前496',e:'适卫·匡地被围'},
+    {y:'前493',e:'过宋·桓魋伐树'},
+    {y:'前489',e:'陈蔡绝粮·君子固穷'},
+    {y:'前484',e:'返鲁·整理六经'},
+    {y:'前481',e:'颜回卒（41岁）'},
+    {y:'前480',e:'子路结缨而死（63岁）'},
+    {y:'前479',e:'孔子卒（73岁）'}
+  ];
+
+  var hl=['前551','前497','前484','前479'];
+  var tl=document.getElementById('timeline');
+  tl.innerHTML=timeline.map(function(t,i){
+    return '<div class="tl-item">'+
+      '<div class="tl-year-line">'+(i%3===0?'●':'')+'</div>'+
+      '<div class="tl-year">'+t.y+'</div>'+
+      '<div class="tl-dot"'+(hl.indexOf(t.y)>=0?' style="background:#FFD700;box-shadow:0 0 8px rgba(255,215,0,0.4)"':'')+'></div>'+
+      '<div class="tl-event">'+t.e+'</div>'+
+      '<div class="tl-line"></div>'+
+    '</div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>
