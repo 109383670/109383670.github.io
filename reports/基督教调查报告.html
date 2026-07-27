@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基督教调查报告——从犹太木匠到三位一体</title>
+<style>
+/* ====== CSS 变量体系 · 拜占庭马赛克风格 ====== */
+:root {
+  --bg: #0a0a17;
+  --card: #111128;
+  --card-alt: #151530;
+  --border: #2a2a4a;
+  --text: #e8e0d0;
+  --muted: #8888aa;
+  --primary: #1a3a5c;
+  --accent: #c9a84c;
+  --accent2: #8b1a2b;
+  --accent3: #4a6a9a;
+  --gold-light: #e8d08c;
+  --red-dark: #6b1018;
+  --highlight: #2a2a15;
+  --c1: #1a3a5c;
+  --c2: #8b6914;
+  --c3: #2d5a3f;
+  --c4: #5c2a4a;
+  --c5: #3a4a6b;
+  --c6: #6b3a1a;
+  --c7: #4a2a5c;
+  --c8: #2a5a5a;
+  --c9: #5c1a2a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:"PingFang SC","Noto Serif SC",serif; line-height:1.7; padding:20px; overflow-x:hidden; }
+.header { text-align:center; padding:50px 20px 40px; border-bottom:2px solid var(--accent); margin-bottom:30px; position:relative; }
+.header::after { content:''; position:absolute; bottom:-2px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:var(--accent2); }
+.header h1 { font-size:2.4em; color:var(--accent); letter-spacing:0.12em; }
+.header .subtitle { color:var(--muted); margin-top:10px; font-size:0.95em; }
+.header .tagline { color:var(--accent2); font-size:0.85em; margin-top:6px; font-style:italic; }
+
+/* ====== Tab 导航 ====== */
+.tabs { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:30px; }
+.tab-btn { background:var(--card); border:1px solid var(--border); color:var(--text); padding:10px 18px; border-radius:8px; cursor:pointer; font-size:0.9em; font-family:inherit; transition:all 0.2s; white-space:nowrap; }
+.tab-btn:hover { border-color:var(--accent); background:var(--card-alt); }
+.tab-btn.active { background:var(--accent); border-color:var(--accent); color:#0a0a17; font-weight:bold; }
+
+/* ====== 面板 ====== */
+.panel { display:none; }
+.panel.active { display:block; }
+.cat-header { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+.cat-icon { width:48px; height:48px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.5em; font-weight:bold; flex-shrink:0; }
+.cat-title { font-size:1.5em; font-weight:bold; color:var(--accent); }
+.cat-desc { color:var(--muted); font-size:0.88em; margin-left:12px; }
+
+/* ====== 卡片 & 布局 ====== */
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-bottom:30px; }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fill,minmax(480px,1fr)); gap:16px; margin-bottom:30px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; transition:border-color 0.2s; margin-bottom:16px; }
+.card:hover { border-color:var(--accent); }
+.card.name { font-size:1.15em; font-weight:bold; color:var(--accent); margin-bottom:4px; }
+.card-alias { color:var(--muted); font-size:0.85em; margin-bottom:10px; }
+.card-row { display:flex; gap:8px; margin-bottom:6px; font-size:0.88em; }
+.card-label { min-width:60px; color:var(--muted); flex-shrink:0; }
+.card-value { color:var(--text); }
+.card-body { color:var(--text); font-size:0.9em; margin-top:10px; line-height:1.7; }
+
+/* ====== 表格 ====== */
+table { width:100%; border-collapse:collapse; margin-bottom:24px; font-size:0.86em; }
+th,td { border:1px solid var(--border); padding:9px 14px; text-align:left; vertical-align:top; }
+th { background:var(--primary); color:var(--accent); font-weight:bold; }
+tr:hover { background:rgba(201,168,76,0.05); }
+tr:nth-child(even) { background:rgba(255,255,255,0.02); }
+
+/* ====== 文本区块 ====== */
+.footer { text-align:center; color:var(--muted); padding:30px 0; border-top:1px solid var(--border); font-size:0.85em; }
+.section-title { color:var(--accent); font-size:1.2em; margin:24px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.sub-title { color:var(--gold-light); font-size:1.05em; margin:18px 0 8px; }
+.section-text { margin-bottom:14px; font-size:0.92em; line-height:1.8; }
+.nodelist { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; }
+.nodelist h4 { color:var(--accent); margin-bottom:10px; }
+.nodelist-item { padding:7px 0; border-bottom:1px solid var(--border); font-size:0.9em; }
+.nodelist-item:last-child { border-bottom:none; }
+.flow { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; font-family:"SF Mono","Menlo",monospace; font-size:0.82em; white-space:pre-wrap; color:var(--text); line-height:1.8; }
+.quote { background:var(--highlight); border-left:4px solid var(--accent); padding:14px 18px; margin:12px 0; font-style:italic; color:var(--text); border-radius:0 6px 6px 0; }
+.quote-source { color:var(--muted); font-size:0.8em; margin-top:6px; font-style:normal; }
+.bold { color:var(--accent); font-weight:bold; }
+.accent-text { color:var(--accent); }
+.red-text { color:var(--accent2); }
+
+/* ====== 平行阅读器 ====== */
+.parallel-reader { margin:20px 0; }
+.parallel-scene-select { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.parallel-scene-btn { background:var(--card); border:1px solid var(--border); color:var(--text); padding:8px 16px; border-radius:6px; cursor:pointer; font-size:0.85em; font-family:inherit; transition:all 0.2s; }
+.parallel-scene-btn:hover { border-color:var(--accent); }
+.parallel-scene-btn.active { background:var(--accent); border-color:var(--accent); color:#0a0a17; font-weight:bold; }
+.parallel-columns { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.parallel-col { background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+.parallel-col-header { background:var(--primary); padding:10px 12px; font-weight:bold; color:var(--accent); font-size:0.85em; text-align:center; }
+.parallel-col-ref { padding:6px 12px; font-size:0.78em; color:var(--muted); text-align:center; border-bottom:1px solid var(--border); }
+.parallel-col-body { padding:14px; font-size:0.85em; line-height:1.7; min-height:120px; }
+.parallel-col-body .missing { color:var(--accent2); font-style:italic; }
+.parallel-col-body .diff { background:rgba(201,168,76,0.15); padding:1px 3px; border-radius:3px; }
+.parallel-scene-title { font-size:1.1em; color:var(--accent); margin-bottom:12px; text-align:center; }
+.parallel-note { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px 16px; margin-top:12px; font-size:0.85em; color:var(--muted); line-height:1.6; }
+.parallel-note strong { color:var(--accent); }
+
+/* ====== 卡片配色 ====== */
+.card-accent-red { border-left:3px solid var(--accent2); }
+.card-accent-gold { border-left:3px solid var(--accent); }
+.card-accent-blue { border-left:3px solid var(--accent3); }
+
+/* ====== 响应式 ====== */
+@media(max-width:768px) {
+  body { padding:10px; }
+  .header h1 { font-size:1.6em; }
+  .tabs { gap:5px; }
+  .tab-btn { padding:8px 14px; font-size:0.82em; }
+  .grid,.grid2 { grid-template-columns:1fr; }
+  .parallel-columns { grid-template-columns:1fr 1fr; }
+  .cat-header { flex-direction:column; align-items:flex-start; }
+  .cat-desc { margin-left:0; margin-top:4px; }
+}
+@media(max-width:480px) {
+  .parallel-columns { grid-template-columns:1fr; }
+  .parallel-scene-select { flex-direction:column; }
+  .parallel-scene-btn { text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== 头部 ====== -->
+<div class="header">
+  <h1>基督教调查报告</h1>
+  <div class="subtitle">从犹太木匠到三位一体——一套教义的千年建构史</div>
+  <div class="tagline">耶稣没写过一行字 · 十四章节 · 2026年7月27日</div>
+</div>
+
+<!-- ====== Tab 导航 ====== -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPanel('p0')">序言</button>
+  <button class="tab-btn" onclick="showPanel('p1')">犹太土壤</button>
+  <button class="tab-btn" onclick="showPanel('p2')">历史耶稣</button>
+  <button class="tab-btn" onclick="showPanel('p3')">保罗</button>
+  <button class="tab-btn" onclick="showPanel('p4')">正典化</button>
+  <button class="tab-btn" onclick="showPanel('p5')">三位一体</button>
+  <button class="tab-btn" onclick="showPanel('p6')">原罪救赎</button>
+  <button class="tab-btn" onclick="showPanel('p7')">东西分裂</button>
+  <button class="tab-btn" onclick="showPanel('p8')">宗教改革</button>
+  <button class="tab-btn" onclick="showPanel('p9')">现代裂变</button>
+  <button class="tab-btn" onclick="showPanel('p10')">文本批判</button>
+  <button class="tab-btn" onclick="showPanel('p11')">基督教与中国</button>
+  <button class="tab-btn" onclick="showPanel('p12')">中西比较</button>
+  <button class="tab-btn" onclick="showPanel('p13')">附录</button>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 0. 序言 ====== -->
+<!-- ================================================================================= -->
+<div id="p0" class="panel active">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1);color:var(--accent)">序</div><div><div class="cat-title">序言：耶稣之死问题</div><div class="cat-desc">核心问题：耶稣没写一行字，如何变成三位一体的？</div></div></div>
+
+  <div class="section-title">从一个历史事件开始</div>
+  <div class="section-text">
+    约公元30年，逾越节前夕，耶路撒冷。一个来自加利利拿撒勒的木匠，被罗马总督本丢·彼拉多判处钉十字架。罪名写在十字架上方：<span class="bold">"犹太人的王"</span>（INRI）。他的门徒四散逃命。他最核心的门徒彼得——那个说过"主啊，我愿意为你死"的人——在当天夜里三次否认自己认识他。<br><br>
+    <span class="bold">按任何历史常理，拿撒勒人耶稣的运动应该到此结束。但它没结束。</span><br><br>
+    不到一个月，这群逃散的门徒重新聚集，宣称耶稣已经从死里复活。三十年内，运动从耶路撒冷传到了罗马。三百年内，从被迫害的非法教派变成了罗马帝国的国教。两千年后，它是世界上最大的宗教，约24亿信徒。<br><br>
+    <span class="bold">怎么做到的？</span>
+  </div>
+
+  <div class="section-title">这份报告的立场</div>
+  <div class="section-text">
+    不是讲教义本身对不对，而是教义<span class="bold">怎么被做出来的</span>。每一步谁加了什么、为什么当时必须加、加完之后带来了什么新问题。基督教的核心特征：<span class="bold">创始人没有留下任何亲笔文字</span>。我们能得到的全部信息，都是别人写的。基督教不是一本经书长出来的，它是几百个"作者"在几百年里一层层叠出来的。
+  </div>
+
+  <div class="section-title">七个核心判断句预览</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">1.</span> 耶稣没写一行字——所有关于他的记载都是别人写的，且最早的文献不是福音书，是保罗书信。</div>
+    <div class="nodelist-item"><span class="bold">2.</span> "基督教"不是耶稣创立的——是保罗创立的。耶稣传的是"上帝国的福音"，保罗传的是"关于耶稣的福音"。</div>
+    <div class="nodelist-item"><span class="bold">3.</span> 三位一体不是在圣经里找到的教义——它是四百年论战、两场大公会议、无数次政治博弈的结果。</div>
+    <div class="nodelist-item"><span class="bold">4.</span> 尼西亚大公会议（325年）的历史意义不在于它"决定了真理"——而在于它第一次用皇帝的政治权威来决定神学问题。</div>
+    <div class="nodelist-item"><span class="bold">5.</span> 宗教改革没有"恢复原始基督教"——它创造了基督教的一种全新形态，路德自己都没料到后果。</div>
+    <div class="nodelist-item"><span class="bold">6.</span> 基督教的每一次分裂，表面上是教义分歧，深层结构是权力重新分配。</div>
+    <div class="nodelist-item"><span class="bold">7.</span> 基督教的历史不是"上帝拯救人类"的历史——它是人试图理解耶稣、定义耶稣、垄断耶稣解释权的历史。</div>
+  </div>
+
+  <div class="section-title">与前面报告的关系</div>
+  <div class="section-text">
+    本报告与儒家生死观调查、道家神仙观调查、佛家调查报告、禅宗调查报告、八字调查报告构成完整的中西思想史六件套。与前面几份不同：基督教的核心故事在西方，但这份报告始终带着"中国视角"——在第十二章（与中国思想比较）中会专门回答：基督教这套操作系统，和中国三教（儒道佛）到底有什么本质差异。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 1. 犹太土壤 ====== -->
+<!-- ================================================================================= -->
+<div id="p1" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c2);color:var(--accent)">土</div><div><div class="cat-title">第一章 犹太土壤——第二圣殿时期的弥赛亚期待</div><div class="cat-desc">三大教派 · 三种弥赛亚 · 施洗约翰</div></div></div>
+
+  <div class="section-title">1.1 为什么必须是犹太？</div>
+  <div class="section-text">基督教诞生于<span class="bold">第二圣殿时期</span>（公元前516—公元70年）的犹太社会。公元前63年庞培攻占耶路撒冷，犹太成为罗马附庸国。随后是大希律（公元前37—前4年）——以残暴和建筑狂著称的傀儡国王。耶稣出生时，犹太社会对罗马统治的仇恨已到沸点。</div>
+
+  <div class="section-title">三大教派 + 奋锐党</div>
+  <table id="sects"></table>
+
+  <div class="section-title">1.2 弥赛亚概念的三种类型</div>
+  <div class="section-text">在第二圣殿时期的犹太教中，"弥赛亚"（受膏者）不是单一概念。不同群体等待不同的弥赛亚——这在后来决定了耶稣的"弥赛亚身份"从一开始就是争议性的。</div>
+  <table id="messiah"></table>
+
+  <div class="section-title">1.3 施洗约翰：耶稣的"前身"</div>
+  <div class="section-text">
+    施洗约翰是比耶稣更"确定"的历史人物——约瑟夫斯在《犹太古史》中明确提到了他。耶稣自己在约翰手下受洗——四福音书都记载了此事，且按"尴尬度准则"，这件事不容易是早期教会编造的（如果耶稣比约翰更大，为什么接受约翰的洗礼？）。耶稣最早的几个门徒（安得烈、可能还有约翰和彼得）原先是施洗约翰的门徒（《约翰福音》1:35-42）。
+  </div>
+  <div class="quote">
+    施洗约翰是耶稣运动的"孵化器"。耶稣和约翰的"分手"——耶稣开始走自己的路——是基督教诞生的第一个结构性断裂。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 2. 历史耶稣 ====== -->
+<!-- ================================================================================= -->
+<div id="p2" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c3);color:var(--accent)">史</div><div><div class="cat-title">第二章 历史上的耶稣——学术史上的"断头台"</div><div class="cat-desc">施韦泽判断 · 四福音评估 · 三准则 · 学术史三波 · 平行阅读器</div></div></div>
+
+  <div class="section-title">2.1 阿尔伯特·施韦泽的判决（1906）</div>
+  <div class="quote">
+    两百年来每一个历史耶稣研究者声称"发现了真正的耶稣"，结果每个人都画出了自己的自画像。理性主义者画出了理性主义的耶稣，自由派画出了自由派的耶稣，社会主义者画出了社会主义的耶稣。历史耶稣研究不是在发现耶稣——是在发现研究者自己。
+    <div class="quote-source">——施韦泽《历史耶稣研究史》（George Tyrrell比喻：研究者低头往深井里看，看到的只是自己脸的倒影）</div>
+  </div>
+  <div class="section-text">施韦泽自己的结论更刺激：历史上的耶稣是一个<span class="bold">末世论先知</span>——世界末日在他那一代就该发生。它没发生。所以耶稣在终极意义上——<span class="bold">错了</span>。施韦泽后来几乎退出学术圈，去非洲当医生，1952年获诺贝尔和平奖。</div>
+
+  <div class="section-title">2.2 四福音书的历史学评估</div>
+  <table id="gospels"></table>
+  <div class="section-text"><span class="bold">"对观福音问题"（Synoptic Problem）：</span>马太、马可、路加三本福音书有大量平行叙事。马可福音约90%的内容在马太福音中出现了。学术界主流解释是<span class="bold">"二源假说"</span>：马可最早（马太和路加参考了马可）+ Q来源（马太和路加共享的另一份耶稣言论集，已失传）。</div>
+
+  <div class="section-title">2.3 三条历史学准则</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">尴尬度准则：</span>让早期教会"尴尬"的记载不太可能是编造的——施洗约翰给耶稣施洗（暗示耶稣在约翰"之下"）、彼得三次否认耶稣、妇女是空坟墓的第一目击者（古代妇女的见证不被采信）</div>
+    <div class="nodelist-item"><span class="bold">多重见证准则：</span>在多个独立来源中都出现的内容可信度更高——耶稣传"上帝之国"、耶稣与"罪人"吃饭、十二门徒的存在</div>
+    <div class="nodelist-item"><span class="bold">断裂准则：</span>与早期犹太教和早期基督教都"不一样"的内容更可能是耶稣自己的。但完全"独特"的东西太少</div>
+  </div>
+
+  <div class="section-title">2.4 学术史上的三波研究</div>
+  <table id="quests"></table>
+
+  <!-- ====== ★★★ 对观福音平行阅读器 ★★★ ====== -->
+  <div class="section-title">★★★ 对观福音平行阅读器 ★★★</div>
+  <div class="section-text">四本福音书对同一事件的记载往往不同。选择场景，四栏并排阅读，差异高亮标注。</div>
+
+  <div class="parallel-reader">
+    <div class="parallel-scene-select" id="sceneSelect"></div>
+    <div class="parallel-scene-title" id="sceneTitle"></div>
+    <div class="parallel-columns" id="parallelCols"></div>
+    <div class="parallel-note" id="parallelNote"></div>
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 3. 保罗 ====== -->
+<!-- ================================================================================= -->
+<div id="p3" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c4);color:var(--accent)">保</div><div><div class="cat-title">第三章 保罗——被忽略的第二创始人</div><div class="cat-desc">保罗书信早于福音书 · 大马士革 · 三大贡献 · 新保罗观</div></div></div>
+
+  <div class="section-title">3.1 保罗书信比福音书更早</div>
+  <div class="section-text">
+    <span class="bold">我们拥有的最早的基督教文献不是四福音书——是保罗的书信。</span>《帖撒罗尼迦前书》约写于公元50年（耶稣死后仅二十年）。《加拉太书》《哥林多前后书》《罗马书》约写于50年代中后期。最早的马可福音约在公元70年左右。<br><br>
+    <span class="bold">核心判断：保罗传的不是"耶稣传了什么"——他传的是"耶稣的死和复活意味着什么"。</span>
+  </div>
+
+  <div class="section-title">3.2 大马士革路上的"异象"</div>
+  <div class="section-text">
+    保罗原名扫罗，生于大数（今土耳其南部），罗马公民，法利赛人，曾在著名拉比迦玛列门下受教。他自己在《加拉太书》中描述："我又在犹太教中，比我本国许多同岁的人更有长进，为我祖宗的遗传更加热心。"<br><br>
+    然后发生了"大马士革事件"——保罗自己说是一次异象/启示（《加拉太书》1:15-16），《使徒行传》有三次不同描述的记载（第9、22、26章）。保罗"认为"自己直接从复活的耶稣获得启示——不是从彼得或雅各那里"学"来的，这使他在与耶路撒冷使徒的权力博弈中拥有了"独立授权"的权威。
+  </div>
+
+  <div class="section-title">3.3 保罗的核心贡献</div>
+
+  <div class="card card-accent-red"><div class="card-name">第一：废除割礼</div>
+  <div class="card-body">
+    保罗最激进的一个动作：<br>
+    <div class="quote">"我保罗告诉你们，若受割礼，基督就与你们无益了。"（加拉太书5:2）</div>
+    这句话在当时是炸裂性的。割礼是上帝与亚伯拉罕之约的"印记"（《创世记》17章），是犹太身份的最核心标志。耶路撒冷会议（约公元49年）解决了这个争议：外邦人信基督不需要割礼。这是基督教从"犹太教的一个教派"变成"独立的普世宗教"的关键转折。
+  </div></div>
+
+  <div class="card card-accent-gold"><div class="card-name">第二：因信称义</div>
+  <div class="card-body">
+    <div class="quote">"所以，我们看定了：人称义是因着信，不在乎遵行律法。"（罗马书3:28）</div>
+    保罗的论证逻辑：犹太人有一千年的律法传统，但他们也没有因此"称义"——所以律法本身不能救人。那外邦人为什么还要遵守律法？
+  </div></div>
+
+  <div class="card card-accent-blue"><div class="card-name">第三：基督论升级</div>
+  <div class="card-body">
+    "耶稣是主"（Kyrios Iēsous）——这个标题在罗马帝国有政治含义："主"（Kyrios）可以指皇帝。基督徒说"耶稣是主"，等于说"凯撒不是主"。《腓立比书》2:6-11的"基督赞美诗"是正典中最早把耶稣和上帝画等号的段落之一——"本有神的形象、不以自己与神同等为强夺的，反倒虚己"。
+  </div></div>
+
+  <div class="section-title">3.4 "新保罗观"（1977年至今）</div>
+  <div class="section-text">
+    <span class="bold">E.P. Sanders《保罗与巴勒斯坦犹太教》：</span>保罗批判的不是犹太教的"靠律法称义"——因为第一世纪犹太教没有这个教义。犹太教认为律法是上帝"恩典之约"的标记。保罗的逻辑是"从果推因"：既然基督来了，说明律法时代结束了。<br><br>
+    <span class="bold">James Dunn、N.T. Wright：</span>保罗批判的不是"律法"（Law），而是律法中把犹太人和外邦人分开的那些"边界标记"（boundary markers）——割礼、饮食规定、安息日。保罗关心的是外邦人能否平等地属于上帝的子民。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 4. 正典化 ====== -->
+<!-- ================================================================================= -->
+<div id="p4" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c5);color:var(--accent)">典</div><div><div class="cat-title">第四章 正典化——四福音是怎么选出来的</div><div class="cat-desc">文本丛林 · 马吉安 · 三大标准 · 爱任纽四风论 · 塔提安合参</div></div></div>
+
+  <div class="section-title">4.1 文本的丛林</div>
+  <div class="section-text">公元2世纪还没有"新约"。不同的基督教社区在读不同的"福音书"和"使徒书信"：</div>
+  <table id="textjungle"></table>
+
+  <div class="section-title">4.2 马吉安——第一个列出有效书单的人</div>
+  <div class="section-text">
+    马吉安（Marcion，约85—160年）约公元144年提出激进主张：旧约的上帝是创世者（Demiurge），不是耶稣和保罗所传的慈爱上帝。他列出书单：路加福音（删去旧约引用）+ 十封保罗书信（删去旧约引用）。罗马教会开除其教籍并退还捐款。<br><br>
+    <span class="bold">马吉安的历史作用（悖论）：</span>他是第一个提出"正典"这个概念的人。在他之前，教会没有"哪些书是权威的"意识——因为旧约本身就是权威。马吉安说"旧约不要了、新约只这几本"——教会被迫回答一个它之前没被问过的问题：<span class="bold">到底哪些书是"圣经"？</span>
+  </div>
+
+  <div class="section-title">4.3 正典的三大标准</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">① 使徒性（Apostolicity）：</span>该书必须出自使徒之手或与使徒有直接关联——马可是彼得的翻译、路加是保罗的同伴。但后来的学术研究发现，四福音书没有一本直接出自使徒之手。</div>
+    <div class="nodelist-item"><span class="bold">② 大公性（Catholicity）：</span>该书必须在全地教会中广泛被使用——不是某一个教派独有的。（循环论证：大多数用的就是正典，正典就是大多数用的）</div>
+    <div class="nodelist-item"><span class="bold">③ 正统性（Orthodoxy）：</span>该书内容必须符合"信仰的规范"（regula fidei）。（循环论证again：规范本身也是正典定义的）</div>
+  </div>
+  <div class="section-text"><span class="bold">最诚实的答案：</span>正典的最终确定是一个"共识涌现"的过程。公元367年，亚历山大的主教亚他那修在复活节牧函中列出新约27卷——和今天完全一致。393年希坡会议和397年迦太基会议正式确认。</div>
+
+  <div class="section-title">4.4 为什么是四本福音书？</div>
+  <div class="quote">
+    福音书不可能多于四本，也不可能少于四本——因为世界有四个方向、有四种风。教会是散布在全地的，福音的四重形式对应了启示录中四活物的四个脸面：狮子（马可）、人（路加）、牛（马太）、鹰（约翰）。
+    <div class="quote-source">——爱任纽《反异端》（约公元180年）</div>
+  </div>
+  <div class="section-text">这个论证在逻辑上并不牢靠，但达到了目的：<span class="bold">把"四重福音"从历史偶然升格为宇宙秩序。</span>与此同时，叙利亚人塔提安编了一本《四福音合参》（Diatessaron），把四本合成一本。这本合并本在叙利亚教会流行了约200年，直到5世纪才被强制替换。<span class="bold">为什么"合参"被淘汰？</span>因为它抹掉了四福音之间的差异——而爱任纽们认为"差异"本身就是神学意义：四个不同的见证比一个单一的见证更有说服力。</div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 5. 三位一体 ====== -->
+<!-- ================================================================================= -->
+<div id="p5" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c6);color:var(--accent)">三</div><div><div class="cat-title">第五章 教父时代——三位一体是怎么"算"出来的</div><div class="cat-desc">三个被淘汰的答案 · 尼西亚325 · 术语表 · 卡帕多西亚 · 奥古斯丁</div></div></div>
+
+  <div class="section-title">5.1 核心悖论</div>
+  <div class="section-text">早期基督徒面对根本性的逻辑问题：他们敬拜独一的上帝（犹太传统）、他们敬拜耶稣为主（新的信仰实践）、圣灵也在他们的敬拜中扮演关键角色。<span class="bold">如果耶稣是上帝，那上帝是"一个"还是"两个"？如果圣灵也是上帝——那是三个？</span>这个问题困扰了教会近四百年。三位一体的教义不是"发现"出来的——是"打"出来的。</div>
+
+  <div class="section-title">5.2 被淘汰的三个答案</div>
+  <table id="rejected"></table>
+
+  <div class="section-title">5.3 尼西亚大公会议（325年）</div>
+  <div class="section-text">
+    君士坦丁大帝召集约318名主教在小亚细亚的尼西亚城开会。背景：君士坦丁刚统一罗马帝国（324年击败李锡尼），需要一个统一的帝国。教会的分裂对这个统一是障碍。<span class="bold">君士坦丁关心的不是"三位一体对不对"，而是"教会别吵了，影响我治理帝国"。</span>
+  </div>
+  <div class="quote">
+    <strong>核心争论：</strong>圣子与圣父的关系。阿里乌派说"同质相似"（homoiousios），亚他那修派说"同质"（homoousios）。<br>一个希腊字母 i = 神的本质问题。时人讽刺："为了一个字母，整个帝国闹翻了。"
+  </div>
+  <div class="section-text">
+    <span class="bold">投票结果：</span>约318名主教中，只有2人拒绝签署尼西亚信经——阿里乌本人和塞巴斯特的优西比乌。阿里乌被放逐。<br><br>
+    <span class="bold">但故事没结束：</span>会议之后阿里乌派并没有消失——反而更强了。君士坦丁晚年转向了半阿里乌立场，临死前由阿里乌派主教施洗。亚他那修一生被流放了五次。381年君士坦丁堡大公会议再次确认并扩展了尼西亚信经，这才把三位一体论真正"钉死"。加上411年"圣灵从父和子发出"（Filioque）——后来引发了1054年东正教和天主教的分裂。
+  </div>
+
+  <div class="section-title">关键术语表</div>
+  <table id="terms"></table>
+
+  <div class="section-title">5.4 卡帕多西亚教父——最后的缝合</div>
+  <div class="section-text">
+    巴西尔（Basil of Caesarea）、尼撒的格里高利、纳西昂的格里高利——三位卡帕多西亚教父完成了三位一体论的"最后一公里"。关键贡献：<span class="bold">区分了ousia和hypostasis</span>——三位格共享同一个本质。比喻：彼得、保罗、约翰共享同一个"人性"——三个不同的人，一个共同的人性。
+  </div>
+
+  <div class="section-title">5.5 奥古斯丁《论三位一体》（399—419年）</div>
+  <div class="section-text">
+    奥古斯丁用拉丁文完成了从希腊到西方的平移。著名的<span class="bold">"心理类比"</span>：三位一体可以在人的灵魂中找到影像——
+  </div>
+  <table id="augustine_analogy"></table>
+  <div class="section-text">奥古斯丁自己也承认这只是一种"类比"（similitudo），不是完全的证明。但他完成了"西方教会在拉丁语世界不再依赖希腊概念就能讲清三位一体"的任务。</div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 6. 原罪救赎 ====== -->
+<!-- ================================================================================= -->
+<div id="p6" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c7);color:var(--accent)">罪</div><div><div class="cat-title">第六章 原罪论与救赎论</div><div class="cat-desc">三理论 · 奥古斯丁vs伯拉纠 · 安瑟伦补赎论</div></div></div>
+
+  <div class="section-title">6.1 多元救赎观——三个并行理论</div>
+  <table id="atonement"></table>
+
+  <div class="section-title">6.2 奥古斯丁 vs 伯拉纠——"会不会太便宜了？"</div>
+  <div class="section-text">
+    公元5世纪初，在罗马的一次聚会上，一个主教引用了奥古斯丁《忏悔录》里的一句话："将你所命的赐与我，然后命你所愿的。"英国修士伯拉纠听了很不安：如果人需要上帝先"赐与"才能遵行命令，那命令还有什么意义？
+  </div>
+  <table id="augustine_pelagius"></table>
+  <div class="section-text">
+    <span class="bold">伯拉纠为什么输了？</span><br>
+    ① <span class="bold">神学原因：</span>奥古斯丁的逻辑更"诚实"——如果人可以靠自由意志行善，那耶稣的十字架还有多少必要？如果原罪不遗传，那婴儿为什么需要洗礼？<br>
+    ② <span class="bold">政治原因：</span>公元410年哥特人洗劫了罗马城——"永恒之城"沦陷。伯拉纠的"你可以选择行善"听起来像一个残酷的笑话。奥古斯丁写了《上帝之城》回应——地上的一切都会灭亡，只有上帝的城是永恒的。<br>
+    ③ <span class="bold">权力原因：</span>奥古斯丁说服了罗马主教和皇帝。公元418年迦太基会议定伯拉纠为异端。
+  </div>
+
+  <div class="section-title">6.3 安瑟伦的"补赎论"——拉丁法律精神的极致</div>
+  <div class="section-text">
+    11世纪，坎特伯雷大主教安瑟伦写下《上帝为什么成为人》（Cur Deus Homo）。他的论证完全是拉丁法律思维：<br><br>
+    1. 人类犯罪 = 亏欠了上帝当得的荣耀（honor）<br>
+    2. 这个亏欠是<span class="bold">无限的</span>（因为得罪的是无限的上帝）<br>
+    3. 人类是<span class="bold">有限的</span>——无法偿还无限的债务<br>
+    4. 必须有一个<span class="bold">既是无限又是人类</span>的存在来偿还——上帝变成了人<br>
+    5. 耶稣（神人二性）的死是"超级剩余的功德"——他没有罪，所以产生功德"剩余"<br>
+    6. 这个剩余功德转给了信徒——满足（satisfaction）了上帝的公义<br><br>
+    安瑟伦的论证纯用逻辑推演——"搁置基督的事实，用理性证明为什么上帝必须变成人"（remoto Christo）。这在中世纪是一次方法论革命。后来被托马斯·阿奎那进一步完善，成为天主教救赎论的主流范式。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 7. 东西分裂 ====== -->
+<!-- ================================================================================= -->
+<div id="p7" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c8);color:var(--accent)">裂</div><div><div class="cat-title">第七章 东西教会大分裂——1054年</div><div class="cat-desc">和子句 · 三层原因 · 1204年 · 东正教独特道路</div></div></div>
+
+  <div class="section-title">7.1 《和子句》——一字之差</div>
+  <div class="section-text">
+    拉丁文版本的信经：圣灵从父<span class="bold">和子</span>发出（Filioque）。希腊文版本没有"和子"：圣灵从父发出。<br><br>
+    在希腊东方教会看来：三位一体中每一个位格的"独特性"通过"来源"来区分。如果圣灵也是从子发出的——那就模糊了每一个位格在三位一体中的独特"角色"。在拉丁西方教会看来：奥古斯丁已经解决了——圣灵是父和子之间的"爱"。<span class="bold">一句"和子"，吵了超过六百年。</span>
+  </div>
+
+  <div class="section-title">7.2 深层三原因</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">第一：教皇普世管辖权。</span>罗马教会认为罗马主教=彼得继承人=全教会的头。君士坦丁堡认为罗马主教是"同侪中居首"（primus inter pares），不是绝对权威。这是权力问题，不是神学问题。</div>
+    <div class="nodelist-item"><span class="bold">第二：文化差异。</span>西罗马帝国476年灭亡后，拉丁教会成了西方的唯一超国家组织。东罗马帝国（拜占庭）一直存在到1453年——皇帝始终是东方教会事实上的保护人和最高干预者。造就了两种截然不同的教会-国家关系模型。</div>
+    <div class="nodelist-item"><span class="bold">第三：礼仪差异。</span>西方神职人员独身 vs 东方已婚神父；西方用无酵饼 vs 东方用发酵面包——表面小事，背后是一整套不同的神学宇宙论。</div>
+  </div>
+
+  <div class="section-title">7.3 1204年——十字军洗劫君士坦丁堡</div>
+  <div class="section-text">
+    第四次十字军东征，因付不起威尼斯船费，被威尼斯总督恩里科·丹多洛"征用"，去攻打同为基督教城市的君士坦丁堡。十字军在圣索菲亚大教堂里放纵——把妓女放在祭坛上跳舞，用圣杯喝酒，抢走大量圣物运回西欧。<br><br>
+    <span class="bold">如果1054年的相互绝罚还能在几百年后"当作没发生"——那1204年的事情就彻底无可挽回了。</span>
+  </div>
+  <div class="quote">
+    直到今天，东正教普世牧首巴尔多禄茂一世在2004年（800周年纪念）和教皇约翰·保罗二世见面时，仍然说："1204年的记忆至今还在我们的血液里流淌。"
+  </div>
+
+  <div class="section-title">7.4 东正教的独特道路</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">① 神化（theōsis）：</span>救赎的目标不是"罪得赦免、死后上天堂"——而是"成为像上帝一样的人"。亚他那修公式："上帝成为人，是为了让人成为上帝"（借恩典的神化，非本体上的上帝）。</div>
+    <div class="nodelist-item"><span class="bold">② 否定神学（apophatic theology）：</span>上帝是什么，我们说不出来——我们只能说出上帝"不是什么"。伪狄奥尼修斯（约6世纪）：上帝超越一切言说和概念。</div>
+    <div class="nodelist-item"><span class="bold">③ 圣像神学：</span>726—843年的"圣像破坏之争"。大马士革的约翰论证：道成肉身改变了圣像的合法性——耶稣来了，上帝有了可见的、可描绘的人性。画耶稣不是偶像崇拜，是"道成肉身的宣告"。圣像被尊为"窗向永恒"（windows into eternity）。</div>
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 8. 宗教改革 ====== -->
+<!-- ================================================================================= -->
+<div id="p8" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c9);color:var(--accent)">改</div><div><div class="cat-title">第八章 宗教改革——路德不想革命，但革命发生了</div><div class="cat-desc">95条 · 唯独信心 · 加尔文TULIP · 再洗礼派 · 特伦托</div></div></div>
+
+  <div class="section-title">8.1 赎罪券——导火索</div>
+  <div class="section-text">
+    1517年10月31日，维滕贝格大学神学教授马丁·路德在城堡教堂大门上贴出《九十五条论纲》。原意是学术辩论的邀请，不是革命宣言。直接触发——多米尼克修士台彻尔在德国各地兜售赎罪券，为罗马修建圣彼得大教堂筹款：
+  </div>
+  <div class="quote">"当钱币在箱子里叮当作响，灵魂从炼狱中飞升天堂。"<div class="quote-source">——台彻尔的销售口号</div></div>
+
+  <div class="section-title">8.2 "唯独信心"——路德真正炸掉的东西</div>
+  <div class="section-text">
+    路德在《罗马书》1:17读到"义人必因信得生"——他在"塔楼经历"（Turmerlebnis）中突然明白了：<span class="bold">"上帝的公义"不是上帝用来惩罚人的标准——是上帝白白赐给人的礼物。</span>人不是因为"行了足够的善功"被称义——人是因为"信"而被"算作"义人（归算的义，imputed righteousness）。<br><br>
+    <span class="bold">"唯独信心"炸掉的不是赎罪券——是整个中世纪天主教的"善功-称义"体系。</span>赎罪券没用、弥撒献祭不能"增加恩典"、修士的苦修和朝圣全部作废、教皇宣称的"善功宝库"=不存在。
+  </div>
+
+  <div class="section-title">8.3 加尔文的预定论——"在创世之前"</div>
+  <div class="section-text">
+    约翰·加尔文（1509—1564），法国人，大半生在日内瓦度过。他的<span class="bold">双重预定论</span>是宗教改革中最"硬核"的教义：上帝在创世之前就已经"拣选"了一些人得救（选民）并"遗弃"了另一些人受永罚。人的行为不能影响这个决定。<br><br>
+    逻辑推导：①人的得救完全依赖上帝的恩典 → ②不是所有人都得救 → ③上帝决定了谁得救和谁不得救 → ④上帝的决定基于他自己的"主权意志" → ⑤预定在信之前。
+  </div>
+  <div class="section-title">加尔文主义五要点（TULIP）——1618—1619多特会议总结</div>
+  <table id="tulip"></table>
+
+  <div class="section-title">8.4 再洗礼派——宗教改革的"左翼"</div>
+  <div class="section-text">
+    再洗礼派走得更远：婴儿洗礼无效（只有成年信徒自愿受洗才算数）、政教分离、彻底的和平主义。他们在瑞士、德国、荷兰遭到<span class="bold">天主教和新教联手镇压</span>——1527年苏黎世市议会下令将再洗礼派信徒溺死。1535年明斯特暴动被镇压，两千人被杀。Rodney Stark的社会学模型：被迫害反而强化了群体内凝聚力——"悖论性生存优势"。
+  </div>
+
+  <div class="section-title">8.5 特伦托大公会议（1545—1563）——天主教的"反改革"</div>
+  <div class="section-text">
+    开了18年，断续25次会议。确认了被路德否定的全部教义：善功和信心并重、圣传和圣经同为权威、七项圣事有效、炼狱存在、教皇权威不可挑战。但同时清理了路德批判的弊端——禁止赎罪券商业化、要求主教必须住在自己的教区、建立神学院。<br><br>
+    <span class="bold">在某种意义上，路德改变了天主教——只是不是按照路德希望的方式。</span>
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 9. 现代裂变 ====== -->
+<!-- ================================================================================= -->
+<div id="p9" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1);color:var(--accent)">裂</div><div><div class="cat-title">第九章 现代裂变——自由派、基要派与灵恩运动</div><div class="cat-desc">高等批判 · 基要派 & 斯科普斯 · 灵恩运动 · 解放神学</div></div></div>
+
+  <div class="section-title">9.1 启蒙运动后的"高等批判"</div>
+  <div class="card"><div class="card-name">施莱尔马赫（1768—1834）——"现代神学之父"</div>
+  <div class="card-body">把宗教的本质从"一套教义"转移到<span class="bold">"绝对依赖感"</span>（Gefühl der schlechthinnigen Abhängigkeit）。基督教教义不是永恒不变的客观真理——是基督徒的宗教体验的<span class="bold">描述</span>。这个转向决定了整个19世纪自由派神学的方向。</div></div>
+  <div class="card"><div class="card-name">施特劳斯（1808—1874）</div>
+  <div class="card-body">1835年出版《耶稣传》（Das Leben Jesu），用"神话"概念解释福音书中的神迹——不是虚构，是以神话形式表达的宗教真理。当时这本书让他失去了图宾根大学的教职——但他的方法论影响了后面一百年的新约研究。</div></div>
+  <div class="card"><div class="card-name">F.C. 鲍尔（1792—1860）——图宾根学派创始人</div>
+  <div class="card-body">早期基督教是彼得派（犹太基督教）和保罗派（外邦基督教）之间的一场"斗争"——《使徒行传》的叙事是这场斗争的"和解版本"，不是第一手历史记录。</div></div>
+
+  <div class="section-title">9.2 基要主义的诞生 & 斯科普斯猴子审判（1925）</div>
+  <div class="section-text">
+    1910—1915年，十二卷《基要文集》（The Fundamentals）出版，由加州两位富有的石油商人资助，免费邮寄给全球数十万名教牧人员。奠定了基要主义五大核心：圣经无误、基督由童贞女所生、替代性赎罪、身体复活、神迹真实性。<br><br>
+    1925年田纳西州代顿市的"斯科普斯猴子审判"——高中生物老师因教进化论被起诉——基要派威廉·詹宁斯·布莱恩赢了官司（斯科普斯被判有罪），但输了舆论战：媒体把基要派嘲笑为反智的乡下人。
+  </div>
+
+  <div class="section-title">9.3 灵恩运动——20世纪最大的基督教新增量</div>
+  <div class="section-text">
+    1906年洛杉矶阿苏萨街（Azusa Street）——黑人牧师威廉·西摩带领的复兴聚会：说方言、医病、赶鬼——从洛杉矶传到全世界。到21世纪初，全球约5.84亿灵恩派/五旬节派基督徒（皮尤2011年），约占全球基督徒27%。<br><br>
+    <span class="bold">为什么能增长？</span>①体验优先于教义——不需读神学，直接在"当下"经历上帝；②赋予弱者权力——灵恩聚会中方言是"圣灵直接说话"；③全球南方的文化适配性——对灵界、医病、赶鬼的重视与传统世界观天然契合。
+  </div>
+
+  <div class="section-title">9.4 解放神学——"上帝偏爱穷人"</div>
+  <div class="section-text">
+    1971年，秘鲁神父古斯塔沃·古铁雷斯出版了《解放神学》。核心转向：<span class="bold">不从"罪人需要救恩"的个体维度切入——从"穷人需要解放"的社会结构维度切入。</span>"罪"不只是一个道德概念——也是一个制度化的现实（贫富悬殊、种族歧视、殖民主义都是"结构性的罪"）。圣经的"出埃及记"变成革命模板——上帝把一群奴隶从埃及带出来，不是因为他们信仰更纯正——是因为他们在受压迫。<br><br>
+    解放神学后来在拉丁美洲影响了所有"处境化神学"的方向：女性主义神学、黑人神学、本土神学、生态神学——全部从"处境"出发做神学。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 10. 圣经文本批判 ====== -->
+<!-- ================================================================================= -->
+<div id="p10" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c2);color:var(--accent)">经</div><div><div class="cat-title">第十章 圣经文本批判——一本书的两千年考古史</div><div class="cat-desc">西奈抄本 · 经文鉴别学 · 死海古卷 · Nag Hammadi · 方法工具</div></div></div>
+
+  <div class="section-title">10.1 我们手里有"原稿"吗？</div>
+  <div class="section-text">
+    <span class="bold">没有。</span>我们没有任何一卷新约的"原稿"（autograph）。我们有的是手抄本的拷贝、拷贝的拷贝——最早的马可福音完整抄本来自4世纪（西奈抄本Codex Sinaiticus），最早的保罗书信抄本P46约在公元200年左右。原稿和现存最早抄本之间：几十年到两百年不等。
+  </div>
+
+  <div class="section-title">10.2 "新约抄本之王"——西奈抄本</div>
+  <div class="section-text">
+    1844年，德国学者康斯坦丁·冯·蒂申多夫（Tischendorf）在西奈山圣凯瑟琳修道院发现了4世纪的圣经抄本。他在修士们用来生火的废纸堆中救下了一部分。这本抄本现藏于大英图书馆、俄罗斯国家图书馆和莱比锡大学图书馆——现存最古老完整新约抄本之一（另一个是梵蒂冈抄本Codex Vaticanus）。
+  </div>
+
+  <div class="section-title">10.3 经文鉴别学：找到"原始文本"</div>
+  <div class="section-text">
+    新约有超过40万个抄本差异（variant readings）——但绝大多数是无意义的拼写差异。
+  </div>
+  <table id="variant"></table>
+
+  <div class="section-title">10.4 死海古卷（1947年发现）</div>
+  <div class="section-text">
+    一个贝都因牧羊人在死海西北岸的昆兰洞穴中发现了陶罐——里面是两千年前的文本。<span class="bold">发现意义：</span>迄今为止最古老的旧约希伯来文手抄本（约公元前250年至公元前68年），比之前最古老的抄本早了约一千年；包含完整的《以赛亚书》卷轴——与10世纪马所拉文本高度一致但也有重要差异；昆兰社团的"社区规则"、《战争卷轴》等独家文献展示了第二圣殿时期犹太教惊人的多样性。<br><br>
+    死海古卷中没有出现耶稣或任何基督教内容——但这本身就是一个发现：基督教诞生前的犹太教已经拥有了很多后来被认为是"基督教创新"的概念（"新约""光明之子vs黑暗之子""圣灵的恩赐"在昆兰文献中都出现了）。
+  </div>
+
+  <div class="section-title">10.5 Nag Hammadi文献（1945年发现）</div>
+  <div class="section-text">
+    埃及农民挖肥料时发现密封陶罐——13本皮面抄本，52篇文本，主要是诺斯替派文献。最重要的发现——<span class="bold">《多马福音》完整版本</span>：114条耶稣语录，没有叙事框架，没有复活故事。Nag Hammadi让我们第一次听到了"输掉的那一方"用自己的话说话。Elaine Pagels《诺斯替福音书》（1979）揭示了早期基督教的多样性远比传统教会史承认的丰富。
+  </div>
+
+  <div class="section-title">10.6 文本批判的方法论工具</div>
+  <table id="textcrit"></table>
+  <div class="section-text"><span class="bold">Nestle-Aland希腊文新约（第28版，2012年）</span>是当前学术界的标准文本，也是大多数现代学术性圣经翻译所使用的底本。</div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 11. 基督教与中国 ====== -->
+<!-- ================================================================================= -->
+<div id="p11" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c3);color:var(--accent)">中</div><div><div class="cat-title">第十一章 基督教与中国——四次入华</div><div class="cat-desc">景教 · 也里可温 · 耶稣会礼仪之争 · 新教 · 现状</div></div></div>
+
+  <div class="section-title">四次入华时间线</div>
+
+  <div class="grid">
+    <div class="card card-accent-blue">
+      <div class="card-name">第一次 · 景教（635年入唐）</div>
+      <div class="card-body">
+        阿罗本（Alopen）从波斯来到长安，唐太宗派宰相房玄龄到西郊迎接。<br><br>
+        <strong>大秦景教流行中国碑</strong>（781年立，1625年出土于西安）——中国最早的基督教文献碑刻，世界文化遗产级文物。碑文用中文和叙利亚文双语，简述景教教义和历史。<br><br>
+        <strong>为什么消亡？</strong>唐武宗会昌灭佛（845年）——景教是"夷教"，灭佛时顺带被灭。本质原因：景教没有完成"本土化"，始终是一个波斯人的宗教，没有吸引核心中国精英。依附皇权的策略意味着皇帝不保护了就毫无自救能力。
+      </div>
+    </div>
+    <div class="card card-accent-gold">
+      <div class="card-name">第二次 · 也里可温（元代）</div>
+      <div class="card-body">
+        蒙文名称"也里可温"涵盖景教（聂派）和天主教（方济各会）。忽必烈的母亲唆鲁禾帖尼是景教徒。1294年方济各会传教士孟高维诺到达大都建立天主教第一座教堂。<br><br>
+        <strong>为什么消失了？</strong>完全依附于蒙古政权的宗教宽容政策。1368年明朝建立——蒙古人走了，"夷教"跟着一起走了。
+      </div>
+    </div>
+    <div class="card card-accent-red">
+      <div class="card-name">第三次 · 耶稣会（明末清初）<br>——最接近"成功"的一次</div>
+      <div class="card-body">
+        <strong>利玛窦（1552—1610）"合儒补儒"策略：</strong>穿儒服、读四书五经、把"上帝"译为儒家的"天"和"上帝"、允许祭祖祭孔（解释为文化礼仪而非宗教崇拜）。制作《坤舆万国全图》。徐光启、李之藻、杨廷筠——"中国天主教三大柱石"。<br><br>
+        <strong>礼仪之争——怎么断送的？</strong>后来多明我会反对宽容策略：祭祖是偶像崇拜！1704年教宗克勉十一世发布禁令。康熙大怒下旨禁教。1773年教宗解散耶稣会——利玛窦的"适应策略"就此消失。
+      </div>
+    </div>
+    <div class="card card-accent-blue">
+      <div class="card-name">第四次 · 新教（1807年至今）</div>
+      <div class="card-body">
+        <strong>马礼逊（1782—1834）</strong>——第一位到达中国的新教传教士。七年完成第一本中文圣经全译本（《神天圣书》），编著第一部汉英英汉字典。<br><br>
+        <strong>太平天国（1851—1864）：</strong>洪秀全宣称自己是"耶稣的弟弟"——约2000万人丧生。历史悖论：正是太平天国让基督教从"洋人的宗教"变成了潜在的政治威胁。<br><br>
+        <strong>近代教育和医疗：</strong>传教士建立了中国最早的现代化大学（燕京、圣约翰、齐鲁等）、最早的西医医院、最早的女子学校。
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">中国基督教现状</div>
+  <div class="section-text">
+    1949年后，吴耀宗等人发起"三自爱国运动委员会"（自治、自养、自传）。当前格局：三自教会（官方注册）在合法宗教活动场所框架下运转；家庭教会（未注册）数量难以精确统计。2018年中国官方白皮书称基督徒约3800万人，皮尤2011年估计约6000—7000万（含天主教徒），实际数字存在重大争议。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 12. 中西比较 ====== -->
+<!-- ================================================================================= -->
+<div id="p12" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c5);color:var(--accent)">比</div><div><div class="cat-title">第十二章 与中国思想的交汇与差异</div><div class="cat-desc">四教对照表 · 牟宗三判断 · 莱布尼茨易经事件</div></div></div>
+
+  <div class="section-title">12.1 四种"问题→答案"结构</div>
+  <div class="section-text">把基督教放在中国思想（儒道佛）旁边，对比底层叙事结构：</div>
+  <table id="fourfaiths"></table>
+  <div class="section-text">
+    <span class="bold">这一行值千金：基督教用"法庭"的比喻——你有罪、需要辩护、需要恩典。</span>佛家用"医院"——你有病（苦）、需要诊断（四圣谛）、需要治疗（八正道）。儒家用"学校"——你有成长空间、需要教育。道家用"自然"——你做作太多，需要卸掉。三种文化回答了三个不同的问题。它们不是在竞争"同一个问题的更好答案"——它们是在回答不同的问题。
+  </div>
+
+  <div class="section-title">12.2 道成肉身 vs 轮回</div>
+  <div class="section-text">
+    基督教"道成肉身"的核心预设是<span class="bold">一次性的历史事件</span>——公元1世纪的那位拿撒勒人耶稣里"成了肉身"，死了，复活了，不会再重复。佛教和道教的预设是<span class="bold">循环性的宇宙</span>——轮回、转世、阴阳消长。没有"一次性"的救世事件。<br><br>
+    <span class="bold">牟宗三的判断（《圆善论》）：</span>基督教是"外在超越"（上帝在宇宙之外，需要从外头进来拯救），中国文化是"内在超越"（天道在人的心性之中，需要向内觉悟）。他以此区别中西方文明的根本思维差异。
+  </div>
+
+  <div class="section-title">12.3 莱布尼茨与《易经》——跨文化闪电</div>
+  <div class="section-text">
+    1687年，比利时耶稣会士柏应理在巴黎出版了《中国哲学家孔子》（拉丁文翻译）。莱布尼茨——一个从未到过中国的德国哲学家——被《易经》卦象（通过耶稣会士白晋的来信传入）所震撼，从卦象中看到了一套二进制数学的雏形。<br><br>
+    莱布尼茨在1697年写信给白晋，提出惊人假设：<span class="bold">"伏羲的卦爻系统就是一套二进制编码。"</span>白晋回信告诉他——"对，而且如果把64卦从上到下排成二进制，得到的顺序完全对得上莱布尼茨的二进制算术系统。"（白晋-莱布尼茨通信，1701—1703年）<br><br>
+    <span class="bold">意义：</span>《易经》不是"科学的"——但它包含的符号逻辑可以被用来做科学。而一个从未见过中国的德国哲学家，通过一份拉丁文翻译和一组抽象的卦爻符号，看到了中国思想最深层的"形式结构"。
+  </div>
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== 13. 附录 ====== -->
+<!-- ================================================================================= -->
+<div id="p13" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--accent);color:var(--bg)">附</div><div><div class="cat-title">附录：典籍版本链 & 演变总图 & 九个核心判断句</div></div></div>
+
+  <div class="section-title">附录一：关键典籍版本链</div>
+  <table id="canon_chain"></table>
+
+  <div class="section-title">附录二：教义建构史演变总图（九层）</div>
+  <div class="flow">耶稣（约公元前4—公元30年）
+传道："上帝之国近了"，被钉十字架
+  ↓
+【第一层：保罗】约公元50—60年代
+把"耶稣传的"变成"关于耶稣的" · 因信称义 · 废除割礼 · 外邦人纳入
+  ↓
+【第二层：福音书】约公元65—110年
+把口头传统写成叙事文本
+马可→马太/路加（对观福音）→约翰（高基督论）
+  ↓
+【第三层：正典化】2—4世纪
+马吉安刺激出"正典"概念 · 爱任纽：四福音=四风
+367年亚他那修、393/397年会议确定27卷
+  ↓
+【第四层：三位一体】325/381年
+从"耶稣是不是上帝"到"同质"论战
+尼西亚会议(325)→君士坦丁堡会议(381)
+希腊哲学概念(ousia/hypostasis)入教义
+  ↓
+【第五层：救赎论】4—11世纪
+奥古斯丁(原罪+恩典论) vs 伯拉纠(自由意志)
+安瑟伦(补赎论,11世纪)——纯逻辑推导(remoto Christo)
+  ↓
+【第六层：东西分裂】1054年
+《和子句》之争+教皇管辖权+文化差异
+1204年第四次十字军洗劫君士坦丁堡——永久创伤
+  ↓
+【第七层：宗教改革】1517年以降
+路德：唯独信心→善功体系崩塌
+加尔文：预定论 · 特伦托：天主教反改革
+  ↓
+【第八层：现代裂变】18—21世纪
+高等批判(施特劳斯/鲍尔/施莱尔马赫)
+基要主义/自由派/灵恩派/解放神学
+全球南方的基督教大爆发</div>
+
+  <div class="section-title">附录三：九个核心判断句</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">1.</span> 耶稣没写一行字。所有关于他的记载都是别人写的——而且最早的文献不是福音书，是保罗书信（约公元50年）。</div>
+    <div class="nodelist-item"><span class="bold">2.</span> "基督教"不是耶稣创立的——是保罗创立的。从犹太教的一个末世论运动变成不要求割礼的普世宗教——这个转换是保罗操作的。</div>
+    <div class="nodelist-item"><span class="bold">3.</span> 三位一体不是在圣经里找到的——是四百年论战、两场大公会议的结果。圣经里没有"三位一体"这个词。尼西亚会议以投票方式决定，只有两票反对。</div>
+    <div class="nodelist-item"><span class="bold">4.</span> 尼西亚大公会议的真正意义不是"决定了真理"——而是树立了"皇帝的政治权威可以决定神学问题"的先例。</div>
+    <div class="nodelist-item"><span class="bold">5.</span> 路德不想革命。95条的初衷是学术辩论。历史重大转折往往不是由"想革命的人"完成的——是由一个愤怒的教授在教堂门上贴了一张辩论邀请信开始的。</div>
+    <div class="nodelist-item"><span class="bold">6.</span> 宗教改革没有"恢复原始基督教"——它创造了基督教的一种全新形态。"唯独圣经"如果严格执行，连新约正典本身的确定过程都站不住。</div>
+    <div class="nodelist-item"><span class="bold">7.</span> 基督教的每一次分裂——表面上是教义分歧，深层结构是权力重新分配。罗马教皇的管辖权、平信徒能不能读圣经——每一条教义争端下面都有"谁说了算"。</div>
+    <div class="nodelist-item"><span class="bold">8.</span> 圣经不是一本"从天而降的完美之书"——它是一本在两千年手抄、翻译、编辑、争论中留下来的文本。超过40万个抄本差异。最早的抄本和今天的圣经之间有真实可查的文本变化。</div>
+    <div class="nodelist-item"><span class="bold">9.</span> 基督教和中国的三教（儒道佛）在根本上是不同的"操作系统"。基督教用"法庭"比喻（罪→审判→恩典→称义），儒家用"学校"（教化→修身→成德），佛家用"医院"（苦→诊断→治疗→解脱）。它们不是在竞争"同一个问题的更好答案"——它们是在回答不同的问题。</div>
+  </div>
+</div>
+
+<!-- ====== Footer ====== -->
+<div class="footer">
+  基督教调查报告 · 从犹太木匠到三位一体 · 2026年7月27日<br>
+  原典文本梳理 + 学术史回顾 + 教义演变追踪 + 跨文化比较<br>
+  与儒家生死观调查、道家神仙观调查、佛家调查报告、禅宗调查报告、八字调查报告构成中西思想史六件套
+</div>
+
+<!-- ================================================================================= -->
+<!-- ====== JavaScript ====== -->
+<!-- ================================================================================= -->
+<script>
+// ====== Tab 切换 ======
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  var p = document.getElementById(id);
+  if (p) p.classList.add('active');
+  // activate matching tab button
+  var btns = document.querySelectorAll('.tab-btn');
+  var panelIdx = parseInt(id.replace('p',''));
+  // find the btn at the same index as panel number
+  // panels: p0-p13, tabs: same order
+  for (var i = 0; i < btns.length; i++) {
+    if (i === panelIdx && btns[i]) {
+      btns[i].classList.add('active');
+    }
+  }
+}
+
+// ====== 通用表格辅助 ======
+function makeTable(h, r) {
+  var s = '<thead><tr>';
+  h.forEach(function(e) { s += '<th>' + e + '</th>'; });
+  s += '</tr></thead><tbody>';
+  r.forEach(function(row) {
+    s += '<tr>';
+    row.forEach(function(c) { s += '<td>' + c + '</td>'; });
+    s += '</tr>';
+  });
+  return s + '</tbody>';
+}
+
+// ====== 1. 犹太土壤 - 教派表 ======
+function initSects() {
+  var el = document.getElementById('sects');
+  if (!el) return;
+  el.innerHTML = makeTable(['教派','身份','核心立场','与耶稣的关系'], [
+    ['法利赛人','律法专家、拉比','相信口头传统（→《塔木德》）、死人复活、天使存在','辩论最多——不是因为观点最远，恰恰因为最近'],
+    ['撒都该人','祭司贵族','只接受摩西五经，不信复活和天使，控制圣殿，与罗马合作','耶稣洁净圣殿直接威胁其经济基础'],
+    ['艾赛尼派','隐居昆兰的分离主义者','圣殿已被污染，等待两个弥赛亚（君王式+祭司式）','施洗约翰很可能与昆兰有渊源'],
+    ['奋锐党','激进抗罗分子','武力赶走罗马人','十二门徒中有"奋锐党的西门"——意味深长']
+  ]);
+}
+
+// 弥赛亚类型表
+function initMessiah() {
+  var el = document.getElementById('messiah');
+  if (!el) return;
+  el.innerHTML = makeTable(['类型','基础文本','特征','代表群体'], [
+    ['大卫式君王','《诗篇》2篇、《撒母耳记下》7章','军事+政治拯救者，推翻罗马统治','法利赛人、平民'],
+    ['末世人子','《但以理书》7:13-14','天上来的人物，末世审判者','启示文学传统'],
+    ['祭司式弥赛亚','《撒迦利亚书》','洁净圣殿、恢复纯正敬拜','昆兰社团（艾赛尼派）']
+  ]);
+}
+
+// ====== 2. 历史耶稣 - 福音书评估表 ======
+function initGospels() {
+  var el = document.getElementById('gospels');
+  if (!el) return;
+  el.innerHTML = makeTable(['福音书','成书时间','作者','原始语言','特征'], [
+    ['马可','约65-73年','匿名（传统归为彼得翻译马可）','希腊文','最早、最短、"弥赛亚的秘密"'],
+    ['马太','约80-90年','匿名（传统归为使徒马太）','希腊文','面向犹太读者，重视旧约应验'],
+    ['路加','约80-90年','匿名（传统归为路加医生）','希腊文','面向外邦读者，注重社会边缘人'],
+    ['约翰','约90-110年','匿名（传统归为使徒约翰）','希腊文','基督论最高，"我是"宣言']
+  ]);
+}
+
+// 学术三波表
+function initQuests() {
+  var el = document.getElementById('quests');
+  if (!el) return;
+  el.innerHTML = makeTable(['波次','时间','代表人物','核心方法与结论'], [
+    ['第一波·旧探求','1778—1906','莱马鲁斯、施特劳斯、勒南、施韦泽','莱马鲁斯：耶稣是政治弥赛亚失败了；施特劳斯：福音书是"神话"；施韦泽终结此波——耶稣是末世论先知，他错了'],
+    ['第二波·新探求','1953—1980s','凯瑟曼（布尔特曼弟子）','重启探索，反对"对历史耶稣一无所知"，核心方法论："断裂准则"'],
+    ['第三波·当代','1980s至今','Sanders、Crossan、N.T. Wright','Sanders：耶稣核心行为是圣殿事件不是教导；Crossan：耶稣是犬儒式智者；Wright：用"被掳的终结"替换"世界的终结"；最新："记忆研究"视角']
+  ]);
+}
+
+// ====== 3. 文本丛林表 ======
+function initTextJungle() {
+  var el = document.getElementById('textjungle');
+  if (!el) return;
+  el.innerHTML = makeTable(['文本','内容/立场','命运'], [
+    ['正典四福音（马太/马可/路加/约翰）','主流叙事','收入新约'],
+    ['多马福音','114条耶稣语录（无叙事），诺斯替倾向','1945年Nag Hammadi发现'],
+    ['彼得福音','以彼得第一人称叙事，幻影论色彩','断片存（8-9世纪抄本）'],
+    ['马利亚福音','抹大拉马利亚与彼得冲突','断片存'],
+    ['犹大福音','犹大是耶稣最忠心的门徒','1970年代发现，2006年翻译出版'],
+    ['希伯来人福音','犹太-基督教传统','已佚，仅教父引述']
+  ]);
+}
+
+// ====== 5. 被淘汰的三个答案表 ======
+function initRejected() {
+  var el = document.getElementById('rejected');
+  if (!el) return;
+  el.innerHTML = makeTable(['答案','代表人物','核心主张','被淘汰原因'], [
+    ['形态论（撒伯流主义）','撒伯流（3世纪初，罗马）','上帝只有一个位格，以三种"形态"或"面具"出现——像一个人换三套戏服','如果上帝只有一个位格，耶稣在十字架上喊"我的神，为什么离弃我"是谁在跟谁说话？自己跟自己表演？'],
+    ['嗣子论','拜占庭的狄奥多图斯（2世纪末）','耶稣原本是普通人，在受洗时被上帝"认领"为儿子','如果耶稣只是被认领的人，他的死有什么独特的拯救价值？他的复活有什么保证？'],
+    ['阿里乌派','阿里乌（约256—336年），亚历山大长老','圣子是受造物——"有一段时间他不存在"<br>逻辑：如果圣子是"生"出来的，那"生"之前他不存在','政治原因：君士坦丁需要一个统一的帝国——325年尼西亚会议以投票淘汰']
+  ]);
+}
+
+// 关键术语表
+function initTerms() {
+  var el = document.getElementById('terms');
+  if (!el) return;
+  el.innerHTML = makeTable(['术语（希腊文）','含义','在三位一体论中的角色'], [
+    ['ousia（οὐσία）','本质/本体','三位格共享的"东西"——一个ousia'],
+    ['hypostasis（ὑπόστασις）','位格','三个不同的"谁"——三个hypostases'],
+    ['homoousios（ὁμοούσιος）','同质','圣子和圣父有相同的本质——尼西亚信经关键词'],
+    ['homoiousios（ὁμοιούσιος）','同质相似','阿里乌派立场——差一个字母i，差了一个神学世界']
+  ]);
+}
+
+// 奥古斯丁心理类比表
+function initAugustineAnalogy() {
+  var el = document.getElementById('augustine_analogy');
+  if (!el) return;
+  el.innerHTML = makeTable(['灵魂官能','三位一体位格','功能'], [
+    ['记忆（memoria）','圣父','存在的源头'],
+    ['理解（intellectus）','圣子（道）','从父所"生"的智慧/道'],
+    ['意志（voluntas）','圣灵','从父和子所"出"的爱/联合']
+  ]);
+}
+
+// ====== 6. 救赎论三理论表 ======
+function initAtonement() {
+  var el = document.getElementById('atonement');
+  if (!el) return;
+  el.innerHTML = makeTable(['理论','代表人物/时代','核心逻辑','比喻'], [
+    ['赎价理论<br>(Ransom Theory)','奥利金、尼撒的格里高利','耶稣的死是付给撒旦的"赎金"——人类在亚当犯罪时被"卖"给了撒旦，耶稣把人类"买"了回来','鱼钩比喻：鱼饵=耶稣的人性，鱼钩=神性。撒旦吞了鱼饵，被鱼钩钩住'],
+    ['道德影响理论<br>(Moral Influence)','阿伯拉尔（12世纪）','耶稣的死不是"满足"任何一个存在——是上帝爱的终极展示。我们被这份爱感动而回应','不是法律交易，是爱的展示，通过感动来改变人心'],
+    ['基督得胜理论<br>(Christus Victor)','Gustaf Aulén（1931年总结）','耶稣的死和复活是"胜利"——战胜了罪、死亡和魔鬼的权势。重点不在"付了谁的赎价"——在"谁赢了战争"','战争叙事而非法庭叙事——最接近早期教会主流救赎观']
+  ]);
+}
+
+// 奥古斯丁vs伯拉纠对照表
+function initAugPel() {
+  var el = document.getElementById('augustine_pelagius');
+  if (!el) return;
+  el.innerHTML = makeTable(['维度','奥古斯丁','伯拉纠'], [
+    ['原罪','亚当的罪遗传给全人类——通过性行为传染','亚当的罪只影响亚当自己——原罪不遗传'],
+    ['自由意志','被罪完全败坏——不能自由选择行善','每个人都有能力选择行善——自由意志没有被罪败坏'],
+    ['恩典','必须——没有恩典，人连"想要行善"的念头都不会有','辅助性的——上帝给人律法、榜样、赦罪，但人必须自己选择遵行'],
+    ['婴儿施洗','必须——婴儿有原罪','不需——婴儿没有罪'],
+    ['结局','418年迦太基会议胜出——成为正统','被判为异端']
+  ]);
+}
+
+// ====== 8. TULIP表 ======
+function initTulip() {
+  var el = document.getElementById('tulip');
+  if (!el) return;
+  el.innerHTML = makeTable(['字母','英文','中文','含义'], [
+    ['T','Total depravity','全然败坏','人在罪的捆绑中，无力自救'],
+    ['U','Unconditional election','无条件的拣选','上帝拣选选民不是基于预知人的信心——是无条件的'],
+    ['L','Limited atonement','有限的救赎','基督的死只为选民——不是为全人类'],
+    ['I','Irresistible grace','不可抗拒的恩典','选民被呼召时，恩典不可抗拒'],
+    ['P','Perseverance of the saints','圣徒的恒忍','真正得救的人会坚持到底——永不失落']
+  ]);
+}
+
+// ====== 10. 经文差异表 ======
+function initVariant() {
+  var el = document.getElementById('variant');
+  if (!el) return;
+  el.innerHTML = makeTable(['经文','差异性质','说明'], [
+    ['马可福音16:9-20<br>（长篇结尾）','最早的马可抄本在16:8结束<br>——"她们就害怕"','加的结尾（约2世纪）+ 另一个短结尾。最早的抄本没有复活显现叙事'],
+    ['约翰福音7:53-8:11<br>（行淫妇人）','这个著名段落不在最早的约翰抄本中','后来插入——但在教会传统中已被广泛接受'],
+    ['约翰一书5:7-8<br>（三一证明文）','"在天上作见证的有三：父、道、圣灵"——这句是后来加的','伊拉斯谟在1522年版加的（Comma Johanneum），最早希腊抄本没有']
+  ]);
+}
+
+// 文本批判方法表
+function initTextCrit() {
+  var el = document.getElementById('textcrit');
+  if (!el) return;
+  el.innerHTML = makeTable(['类别','原则','说明'], [
+    ['外证','抄本年代','越早越好'],
+    ['外证','地理分布','独立成型的抄本在不同地区都有相同读法→可信度更高'],
+    ['外证','抄本"家族"','拜占庭文本型（Byzantine）、亚历山大文本型（Alexandrian）、西方文本型（Western）'],
+    ['内证','较难的读法优先<br>(lectio difficilior potior)','抄写员倾向于"修正"难懂的内容，所以更难读的版本更有可能是原始的'],
+    ['内证','较短的读法优先<br>(lectio brevior potior)','抄写员倾向于"补充"解释和细节'],
+    ['内证','不含神学和谐的读法优先','抄写员倾向于"调和"四福音中的矛盾']
+  ]);
+}
+
+// ====== 12. 四教对照表 ======
+function initFourFaiths() {
+  var el = document.getElementById('fourfaiths');
+  if (!el) return;
+  el.innerHTML = makeTable(['维度','基督教','佛家','儒家','道家'], [
+    ['核心问题','罪','苦','无序/无德','人为/矫饰'],
+    ['答案路径','救赎（恩典）','解脱（觉悟）','修身成德','自然无为'],
+    ['人的本态','堕落（需要救）','无明（需要醒）','可完善（需要修）','本真（需要返）'],
+    ['历史观','线性（创造→堕落→救赎→终结）','循环（轮回）','循环/退化（三代→今不如古）','退化（道散为器）'],
+    ['超越性','外在超越（上帝在创造之外）','内在超越（佛性在自我之内）','内在超越（天命在人心之内）','内在超越（道在万物之中）'],
+    ['救法','他力（上帝主动）','自力/他力并存（净土他力、禅宗自力）','自力（修身）','无为'],
+    ['核心比喻','法庭（称义/定罪）','医院（诊断病苦→药方）','学校（教化、成德）','流水（顺应自然）']
+  ]);
+}
+
+// ====== 13. 典籍版本链表 ======
+function initCanonChain() {
+  var el = document.getElementById('canon_chain');
+  if (!el) return;
+  el.innerHTML = makeTable(['时代','人物/事件','文本/著作','性质'], [
+    ['约公元50-60s','保罗','7封真迹书信（帖前/加/林前/林后/罗/腓/门）','最早的基督教文献'],
+    ['约公元65-110','福音书作者','四福音（马可→马太/路加→约翰）','正典福音书'],
+    ['约公元90-110','使徒教父','《十二使徒遗训》《革利免一书》','最早的教父文献'],
+    ['约公元144','马吉安','第一份新约正典','异端的挑战'],
+    ['约公元180','爱任纽','《反异端》','四福音合法性论证'],
+    ['325年','尼西亚会议','尼西亚信经','三位一体教义的第一次法定表达'],
+    ['约公元400','奥古斯丁','《忏悔录》《论三位一体》《上帝之城》','西方神学的基石'],
+    ['381年','君士坦丁堡会议','尼西亚-君士坦丁堡信经','三位一体论的最终确定'],
+    ['约1098年','安瑟伦','《上帝为什么成为人》','补赎论的经典表达'],
+    ['1517年','路德','95条论纲','宗教改革的起点'],
+    ['1536年','加尔文','《基督教要义》','改革宗神学的系统表达'],
+    ['1545-1563年','特伦托会议','特伦托会议文献','天主教反改革'],
+    ['1611年','钦定本翻译委员会','英王钦定本圣经（KJV）','最具文化影响力的英文译本'],
+    ['1971年','古铁雷斯','《解放神学》','处境化神学的范式转换']
+  ]);
+}
+
+// =================================================================================
+// ★★★ 对观福音平行阅读器 ★★★
+// =================================================================================
+var parallelScenes = [
+  {
+    title: '耶稣受洗',
+    refs: ['太3:13-17','可1:9-11','路3:21-22','约1:29-34'],
+    texts: [
+      '当下，<span class="diff">耶稣从加利利来到约旦河，见了约翰，要受他的洗。</span>约翰想要拦住他，说："我当受你的洗，你反倒上我这里来吗？"耶稣回答说："<span class="diff">你暂且许我，因为我们理当这样尽诸般的义。</span>"于是约翰许了他。耶稣受了洗，随即从水里上来。天忽然为他开了，他就看见神的灵仿佛鸽子降下，落在他身上。从天上有声音说："<span class="diff">这是我的爱子，我所喜悦的。</span>"',
+      '那时，耶稣从加利利的拿撒勒来，在约旦河里受了约翰的洗。他从水里一上来，就看见天裂开了，圣灵仿佛鸽子降在他身上。又有声音从天上来说："你是我的爱子，我喜悦你！"',
+      '众百姓都受了洗，耶稣也受了洗。<span class="diff">正祷告的时候，</span>天就开了，圣灵降临在他身上，形状仿佛鸽子；又有声音从天上来，说："你是我的爱子，我喜悦你。"',
+      '次日，<span class="diff">约翰看见耶稣来到他那里，</span>就说："<span class="diff">看哪，神的羔羊，除去世人罪孽的！</span>……我先前不认识他，如今我来用水施洗，为要叫他显明给以色列人。"约翰又作见证说："我曾看见圣灵，仿佛鸽子从天降下，住在他的身上。我先前不认识他，只是那差我来用水施洗的，对我说：‘你看见圣灵降下来，住在谁的身上，谁就是用圣灵施洗的。’我看见了，就证明这是神的儿子。"'
+    ],
+    note: '<strong>关键差异：</strong>马太是唯一记载约翰阻拦耶稣受洗的（"我当受你的洗"），反映了早期教会对"耶稣为什么需要受洗"的尴尬。路加增加了"正祷告的时候"这一细节。约翰福音没有直接描写耶稣受洗，而是通过施洗约翰的见证间接叙述——且加入了"神的羔羊"这一独特称号。'
+  },
+  {
+    title: '最后的晚餐',
+    refs: ['太26:17-30','可14:12-26','路22:7-38','约13-17'],
+    texts: [
+      '除酵节的第一天……到了晚上，耶稣和十二个门徒坐席。正吃的时候，耶稣说："我实在告诉你们：你们中间有一个人要卖我了。"……他们吃的时候，耶稣拿起饼来，祝福，就擘开，递给门徒，说："你们拿着吃，这是我的身体。"又拿起杯来，祝谢了，递给他们，说："<span class="diff">你们都喝这个，因为这是我立约的血，为多人流出来，使罪得赦。</span>"',
+      '……他们吃的时候，耶稣拿起饼来，祝福，就擘开，递给他们，说："你们拿着吃，这是我的身体。"又拿起杯来，祝谢了，递给他们，他们都喝了。耶稣说："<span class="diff">这是我立约的血，为多人流出来的。</span>"',
+      '……耶稣接过杯来，祝谢了，说："你们拿这个，大家分着喝。……"又拿起饼来，祝谢了，就擘开，递给他们，说："这是我的身体，为你们舍的，你们也应当如此行，为的是记念我。"饭后也照样拿起杯来，说："<span class="diff">这杯是用我血所立的新约，是为你们流出来的。</span>"',
+      '<span class="missing">约翰福音第13-17章记载了最后的晚餐场景（耶稣为门徒洗脚、"彼此相爱"的新命令、大祭司祷告），但没有设立圣餐的叙事。约翰福音用"生命的粮"（6:35-58）来阐述圣餐神学。</span>'
+    ],
+    note: '<strong>关键差异：</strong>马太独有"使罪得赦"的表述。路加独有"你们也应当如此行，为的是记念我"——这成为了后来圣餐礼仪的核心依据。约翰福音完全没有设立圣餐的叙事——取而代之的是为门徒洗脚的独特场景和长篇告别讲论（第14-17章）。四本福音书中对"设立圣餐"的最大差异在于约翰：它根本不提这件事。'
+  },
+  {
+    title: '耶稣被捕',
+    refs: ['太26:47-56','可14:43-52','路22:47-53','约18:1-12'],
+    texts: [
+      '说话之间，那十二个门徒里的犹大来了，并有许多人带着刀棒……犹大随即到耶稣跟前说："请拉比安"，就与他亲嘴。……有跟随耶稣的一个人伸手拔出刀来，将大祭司的仆人砍了一刀，削掉了他一个耳朵。耶稣对他说："收刀入鞘吧！凡动刀的，必死在刀下。"……<span class="diff">当下，门徒都离开他逃走了。</span>',
+      '……犹大来了……到耶稣跟前说："拉比"，便与他亲嘴。……<span class="diff">旁边站着的人，有一个拔出刀来，将大祭司的仆人砍了一刀，削掉了他一个耳朵。</span>……<span class="diff">有一个少年人，赤身披着一块麻布，跟随耶稣；众人就捉拿他。他却丢了麻布，赤身逃走了。</span>',
+      '……<span class="diff">耶稣对他说："犹大！你用亲嘴的暗号卖人子吗？"</span>……内中有一个人把大祭司的仆人砍了一刀，削掉了他的右耳。<span class="diff">耶稣说："到了这个地步，由他们吧！"就摸那人的耳朵，把他治好了。</span>',
+      '<span class="diff">犹大领了一队兵和祭司长并法利赛人的差役，拿着灯笼、火把、兵器，就来到园里。</span>耶稣知道将要临到自己的一切事，就出来对他们说："你们找谁？"他们回答说："找拿撒勒人耶稣。"耶稣说："<span class="diff">我就是。</span>"耶稣一说"我就是"，他们就退后倒在地上。……<span class="diff">西门彼得带着一把刀，就拔出来，将大祭司的仆人砍了一刀，削掉他的右耳……耶稣就对彼得说："收刀入鞘吧！我父所给我的那杯，我岂可不喝呢？"</span>'
+    ],
+    note: '<strong>关键差异：</strong>马可独有的"赤身少年逃跑"（可14:51-52）——可能是马可自己的自传性插笔，也可能是最早的"尴尬度"证据之一。路加独有耶稣治好了仆人的耳朵。约翰独有耶稣说"我就是"（egō eimi，神的自称）时士兵退后倒地的场景——这是约翰福音高基督论的典型体现。约翰明确指出拔刀的是彼得。'
+  },
+  {
+    title: '空的坟墓',
+    refs: ['太28:1-10','可16:1-8','路24:1-12','约20:1-18'],
+    texts: [
+      '安息日将尽，七日的头一日，天快亮的时候，抹大拉的马利亚和那个马利亚来看坟墓。忽然，地大震动，因为有主的使者从天上下来，把石头滚开，坐在上面。……天使对妇女说："不要害怕！……他已经复活了……"<span class="diff">妇女们就急忙离开坟墓，又害怕，又大大地欢喜，跑去要报给他的门徒。忽然，耶稣遇见她们，说："愿你们平安！"</span>',
+      '<span class="diff">她们进了坟墓，看见一个少年人坐在右边，穿着白袍，就甚惊恐。</span>那少年人对她们说："不要惊恐！……他已经复活了……"她们就出来，从坟墓那里逃跑，<span class="diff">又发抖，又惊奇，什么也不告诉人，因为她们害怕。</span><br><br><span class="missing">【注：最早的马可抄本在此结束。9-20节是后来加的结尾。】</span>',
+      '<span class="diff">七日的头一日，黎明的时候，</span>那些妇女带着所预备的香料来到坟墓前，看见石头已经从坟墓滚开了。她们就进去，只是不见主耶稣的身体。<span class="diff">忽然有两个人站在旁边，衣服放光。</span>……她们就想起耶稣的话来，便从坟墓那里回去，把这一切事告诉十一个使徒和其余的人。……<span class="diff">彼得起来，跑到坟墓前，低头往里看，见细麻布独在一处，就回去了，心里希奇所成的事。</span>',
+      '……抹大拉的马利亚看见石头从坟墓挪开了，就跑来见西门彼得……彼得和那门徒就出来，往坟墓那里去。……先到坟墓的那门徒也进去，看见就信了。……马利亚却站在坟墓外面哭。……<span class="diff">耶稣问她说："妇人，为什么哭？你找谁呢？"马利亚以为是看园的，就对他说："先生，若是你把他移了去……"耶稣说："马利亚！"马利亚就转过来，用希伯来话对他说："拉波尼！"</span>'
+    ],
+    note: '<strong>关键差异：</strong>马可福音在16:8戛然而止——"因为她们害怕"——最早的抄本没有复活显现叙事。马太有天使滚石和耶稣亲自向妇女显现。路加有彼得跑去看空坟墓的细节。约翰有最详细的抹大拉马利亚与复活耶稣相遇的对话——"马利亚！""拉波尼！"——四福音中最具个人性的复活显现叙事。'
+  },
+  {
+    title: '耶稣受试探',
+    refs: ['太4:1-11','可1:12-13','路4:1-13','约翰'],
+    texts: [
+      '当时，耶稣被圣灵引到旷野，受魔鬼的试探。他禁食四十昼夜，后来就饿了。<br><br><span class="diff">试探一：</span>"你若是神的儿子，可以吩咐这些石头变成食物。"<br>耶稣答："人活着，不是单靠食物……"<br><br><span class="diff">试探二：</span>魔鬼带他进了圣城，叫他站在殿顶上——"你若是神的儿子，可以跳下去……"<br>耶稣答："不可试探主你的神。"<br><br><span class="diff">试探三：</span>魔鬼带他上了一座最高的山——"你若俯伏拜我，我就把这一切都赐给你。"<br>耶稣答："当拜主你的神，单要侍奉他。"',
+      '圣灵就把耶稣催到旷野里去。他在旷野四十天，受撒旦的试探，并与野兽同在一处，<span class="diff">且有天使来伺候他。</span><br><br><span class="missing">马可福音仅用两节经文记载此事（1:12-13），没有展开试探的具体内容。</span>',
+      '耶稣被圣灵充满，从约旦河回来，圣灵将他引到旷野，四十天受魔鬼的试探。<br><br><span class="diff">试探一：</span>"你若是神的儿子，可以吩咐这块石头变成食物。"<br>耶稣答："人活着不是单靠食物……"<br><br><span class="diff">试探二：</span>魔鬼领他上了高山，霎时间把天下的万国都指给他看——"这一切权柄荣华我都要给你……你若在我面前下拜……"<br>耶稣答："当拜主你的神……"<br><br><span class="diff">试探三：</span>魔鬼带他进了耶路撒冷，叫他站在殿顶上——"你若是神的儿子，可以从这里跳下去……"<br>耶稣答："不可试探主你的神。"',
+      '<span class="missing">约翰福音没有记载耶稣受试探的叙事。</span>'
+    ],
+    note: '<strong>关键差异：</strong>马太和路加记载了三个试探，但<strong>第二和第三个试探的顺序不同</strong>：马太是"殿顶→万国"，路加是"万国→殿顶"。马太的最后一个试探（"万国荣华"）更接近"弥赛亚受试探"的高潮，这可能反映了马太的犹太读者取向。马可仅用两节一笔带过。约翰福音完全没有此叙事。马可独有"与野兽同在一处"——暗示重返伊甸园/弥赛亚和平的主题。'
+  },
+  {
+    title: '登山变像',
+    refs: ['太17:1-8','可9:2-8','路9:28-36','约翰'],
+    texts: [
+      '过了六天，耶稣带着彼得、雅各和雅各的兄弟约翰暗暗地上了高山，就在他们面前变了形像：脸面明亮如日头，衣裳洁白如光。忽然，有摩西、以利亚向他们显现，同耶稣说话。<span class="diff">彼得对耶稣说："主啊，我们在这里真好！你若愿意，我就在这里搭三座棚：一座为你，一座为摩西，一座为以利亚。"</span>说话之间，忽然有一朵光明的云彩遮盖他们，且有声音从云彩里出来说："这是我的爱子，我所喜悦的，你们要听他。"',
+      '过了六天，耶稣带着彼得、雅各、约翰暗暗地上了高山，就在他们面前变了形像：衣服放光，极其洁白，地上漂布的，没有一个能漂得那样白。忽然，有以利亚同摩西向他们显现，并且和耶稣说话。<span class="diff">彼得对耶稣说："拉比，我们在这里真好！可以搭三座棚：一座为你，一座为摩西，一座为以利亚。"彼得不知道说什么才好，因为他们甚是惧怕。</span>有一朵云彩来遮盖他们，又有声音从云彩里出来说："这是我的爱子，你们要听他。"',
+      '说了这话以后约有八天，耶稣带着彼得、约翰、雅各上山去祷告。<span class="diff">正祷告的时候，他的面貌就改变了，衣服洁白放光。</span>忽然有摩西、以利亚两个人，同耶稣说话；他们在荣光里显现，<span class="diff">谈论耶稣去世的事，就是他在耶路撒冷将要成的事。</span>彼得和他的同伴都打盹，既清醒了，就看见耶稣的荣光……<span class="diff">彼得对耶稣说："夫子，我们在这里真好！可以搭三座棚……"却说不知道所说的是什么。</span>',
+      '<span class="missing">约翰福音没有记载登山变像的叙事。但约翰福音1:14"道成了肉身……我们也见过他的荣光"可能暗指此事。</span>'
+    ],
+    note: '<strong>关键差异：</strong>路加独有"正祷告的时候"面貌改变——把变像事件和祷告联系在一起。路加独有摩西和以利亚"谈论耶稣去世的事"——即"出埃及"（exodos，希腊文），暗示耶稣的死是新出埃及。路加的"约有八天"与马太马可的"过了六天"不一致。马可独有"彼得不知道说什么才好，因为他们甚是惧怕"——典型的马可式诚实。马可独有"地上漂布的没有一个能漂得那样白"——生动的口语化描述。约翰福音没有此叙事。'
+  }
+];
+
+function buildParallelReader() {
+  var sel = document.getElementById('sceneSelect');
+  if (!sel) return;
+  var html = '';
+  for (var i = 0; i < parallelScenes.length; i++) {
+    html += '<button class="parallel-scene-btn' + (i === 0 ? ' active' : '') + '" onclick="showScene(' + i + ')">' + parallelScenes[i].title + '</button>';
+  }
+  sel.innerHTML = html;
+  showScene(0);
+}
+
+function showScene(idx) {
+  // Update buttons
+  var btns = document.querySelectorAll('#sceneSelect .parallel-scene-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle('active', i === idx);
+  }
+  var scene = parallelScenes[idx];
+  // Update title
+  var title = document.getElementById('sceneTitle');
+  if (title) title.textContent = scene.title;
+  // Update columns
+  var cols = document.getElementById('parallelCols');
+  var gospels = ['马太福音','马可福音','路加福音','约翰福音'];
+  var colHtml = '';
+  for (var j = 0; j < 4; j++) {
+    colHtml += '<div class="parallel-col">';
+    colHtml += '<div class="parallel-col-header">' + gospels[j] + '</div>';
+    colHtml += '<div class="parallel-col-ref">' + scene.refs[j] + '</div>';
+    colHtml += '<div class="parallel-col-body">' + scene.texts[j] + '</div>';
+    colHtml += '</div>';
+  }
+  if (cols) cols.innerHTML = colHtml;
+  // Update note
+  var note = document.getElementById('parallelNote');
+  if (note) note.innerHTML = scene.note;
+}
+
+// =================================================================================
+// 初始化所有表格
+// =================================================================================
+(function initAll() {
+  initSects();
+  initMessiah();
+  initGospels();
+  initQuests();
+  initTextJungle();
+  initRejected();
+  initTerms();
+  initAugustineAnalogy();
+  initAtonement();
+  initAugPel();
+  initTulip();
+  initVariant();
+  initTextCrit();
+  initFourFaiths();
+  initCanonChain();
+  buildParallelReader();
+})();
+</script>
+
+</body>
+</html>

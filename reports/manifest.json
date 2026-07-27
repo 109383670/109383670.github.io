@@ -3,6 +3,19 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "基督教调查报告",
+      "type": "html",
+      "title": "基督教调查报告——从犹太木匠到三位一体",
+      "summary": "从耶稣的犹太背景到三位一体教义的确立，追溯基督教从边缘教派到世界宗教的演变之路。",
+      "tags": [
+        "宗教",
+        "基督教"
+      ],
+      "date": "2026-07-27",
+      "path": "reports/基督教调查报告.html",
+      "thumbnail": "reports/thumbnails/基督教调查报告.svg"
+    },
+    {
       "id": "八字算命调查报告",
       "type": "html",
       "title": "八字算命 · 调查报告",
