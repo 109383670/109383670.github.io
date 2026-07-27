@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三十六计·人生用</title>
+<style>
+  :root {
+    --bg: #0d0f12;
+    --bg-card: #16191e;
+    --bg-card-hover: #1c2026;
+    --border: #2a2e36;
+    --border-hover: #3a3f4a;
+    --text: #e8e6e3;
+    --text-dim: #8a8680;
+    --text-faint: #555550;
+    --accent: #c8a96e;
+    --accent-dim: #8a7350;
+    --wrong: #c97264;
+    --right: #7a9a6d;
+    --category-colors: #c8a96e;
+  }
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  
+  /* ===== 顶部 ===== */
+  .header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+  
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center top, rgba(200,169,110,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(200,169,110,0.15);
+    margin-bottom: 10px;
+  }
+  
+  .header .subtitle {
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: var(--text-dim);
+    letter-spacing: 0.3em;
+  }
+  
+  .header .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--accent-dim);
+    margin: 25px auto;
+  }
+  
+  /* ===== 分类导航 ===== */
+  .category-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 20px 30px;
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,18,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .cat-btn {
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  
+  .cat-btn:hover {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+  }
+  
+  .cat-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  
+  /* ===== 计策网格 ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent-dim);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+  
+  .card:hover::before {
+    opacity: 1;
+  }
+  
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  
+  .card-num {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    font-family: "SF Mono", monospace;
+  }
+  
+  .card-cat {
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  
+  .card-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  
+  .card-original {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  
+  /* 折叠区 */
+  .card-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  
+  .card.expanded .card-detail {
+    max-height: 800px;
+  }
+  
+  .detail-section {
+    margin-bottom: 14px;
+  }
+  
+  .detail-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .label-wrong { color: var(--wrong); }
+  .label-right { color: var(--right); }
+  .label-comment { color: var(--accent); }
+  .label-story { color: #7a8fbd; }
+  
+  .detail-text {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  
+  .detail-comment {
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-weight: 500;
+    line-height: 1.6;
+    padding: 10px 14px;
+    background: rgba(200,169,110,0.06);
+    border-radius: 8px;
+    border-left: 2px solid var(--accent-dim);
+  }
+  
+  .detail-story {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    padding: 12px 14px;
+    background: rgba(122,143,189,0.08);
+    border-radius: 8px;
+    border-left: 2px solid #4a5a7a;
+  }
+  
+  .story-icon {
+    font-size: 0.7rem;
+    color: #7a8fbd;
+    margin-bottom: 4px;
+    letter-spacing: 0.1em;
+  }
+  
+  /* 展开/收起提示 */
+  .card-hint {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    text-align: center;
+    margin-top: 12px;
+    transition: opacity 0.2s;
+  }
+  
+  .card.expanded .card-hint { opacity: 0; }
+  .card:hover .card-hint { color: var(--accent-dim); }
+  
+  /* ===== 模态框（故事种子） ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .modal-overlay.active {
+    display: flex;
+  }
+  
+  .modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 40px;
+    position: relative;
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .modal-close:hover { color: var(--accent); }
+  
+  .modal h2 {
+    color: var(--accent);
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+  
+  .modal .modal-sub {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  
+  /* ===== 计策组合器 ===== */
+  .combiner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .combiner-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .combiner-box h3 {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .combiner-box p {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  
+  .combiner-selects {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .combiner-select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    min-width: 160px;
+  }
+  
+  .combiner-select:focus {
+    outline: none;
+    border-color: var(--accent-dim);
+  }
+  
+  .combiner-btn {
+    padding: 10px 28px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .combiner-btn:hover {
+    background: #d4b87e;
+    transform: translateY(-1px);
+  }
+  
+  .combiner-result {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(200,169,110,0.06);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent-dim);
+    text-align: left;
+    display: none;
+  }
+  
+  .combiner-result.active { display: block; }
+  
+  .combiner-result h4 {
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  
+  .combiner-result p {
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  
+  /* ===== 底部 ===== */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  
+  /* ===== 动画 ===== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .card {
+    animation: fadeIn 0.4s ease backwards;
+  }
+  
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+    .modal { padding: 24px; }
+    .category-nav { gap: 6px; }
+    .cat-btn { padding: 5px 12px; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>三十六计·人生用</h1>
+  <div class="divider"></div>
+  <div class="subtitle">古今对照 · 毒舌点评 · 故事种子</div>
+</div>
+
+<div class="category-nav" id="catNav">
+  <button class="cat-btn active" data-cat="all">全部</button>
+  <button class="cat-btn" data-cat="胜战计">胜战计</button>
+  <button class="cat-btn" data-cat="敌战计">敌战计</button>
+  <button class="cat-btn" data-cat="攻战计">攻战计</button>
+  <button class="cat-btn" data-cat="混战计">混战计</button>
+  <button class="cat-btn" data-cat="并战计">并战计</button>
+  <button class="cat-btn" data-cat="败战计">败战计</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="combiner">
+  <div class="combiner-box">
+    <h3>⚔️ 计策组合器</h3>
+    <p>选两条计策，生成一个复合策略故事大纲</p>
+    <div class="combiner-selects">
+      <select class="combiner-select" id="select1"></select>
+      <select class="combiner-select" id="select2"></select>
+    </div>
+    <button class="combiner-btn" id="combineBtn">生成故事大纲</button>
+    <div class="combiner-result" id="combineResult"></div>
+  </div>
+</div>
+
+<div class="footer">
+  萧何出品 · 半纸浮生载残躯 · 数据本地，无后端
+</div>
+
+<script>
+const STRATEGIES = [{"id":1,"name":"瞒天过海","original":"备周则意怠，常见则不疑。","category":"胜战计","wrong":"朋友圈装精致，所有人都知道你在演","right":"真做事时少说话，做完了再说","comment":"汇报是弱者的护身符。真正的瞒天过海不是骗人，是让结果自己说话。","storySeed":"一个程序员在离职前六个月默默写完了自己的创业产品，同事以为他在摸鱼。"},{"id":2,"name":"围魏救赵","original":"共敌不如分敌，敌阳不如敌阴。","category":"胜战计","wrong":"跟所有问题死磕，把自己累死","right":"找对方软肋一击，让问题自行瓦解","comment":"你不需要解决所有问题。找到那个一动全盘动的支点。","storySeed":"社区被开发商强拆，居民不抗争，而是挖出开发商的税务问题寄给税务局。"},{"id":3,"name":"借刀杀人","original":"敌已明，友未定，引友杀敌，不自出力。","category":"胜战计","wrong":"自己冲上去跟人对线，两败俱伤","right":"让规则、制度或他人的力量替你出手","comment":"最干净的刀永远不是自己手里的那把。","storySeed":"被上司打压的员工没有反击，而是让竞争对手公司发现了上司的数据造假。"},{"id":4,"name":"以逸待劳","original":"困敌之势，不以战。","category":"胜战计","wrong":"别人加班你也加班，比谁更卷","right":"养精蓄锐，等对手自己犯错","comment":"内卷是给没策略的人准备的。赢的人在看戏。","storySeed":"创业公司不跟大厂拼功能，等大厂自己产品线臃肿崩溃时捡客户。"},{"id":5,"name":"趁火打劫","original":"敌之害大，就势取利。","category":"胜战计","wrong":"落井下石还觉得自己很聪明","right":"对手内乱时抢占关键资源，不是报复是取利","comment":"趁火打劫和落井下石的区别：一个拿东西，一个图爽。你是哪个？","storySeed":"竞品公司核心团队集体离职，主角连夜挖走三个人，不是趁人之危，是各取所需。"},{"id":6,"name":"声东击西","original":"敌志乱萃，不虞，坤下兑上之象。","category":"胜战计","wrong":"说了太多假方向，连自己都忘了真方向","right":"表面上大张旗鼓做A，暗地里扎实推进B","comment":"声东击西最怕的不是被看穿，是自己声着声着当真了。","storySeed":"作家公开说要写科幻巨作，实际上偷偷完成了一部现实主义小说，出版时所有人都懵了。"},{"id":7,"name":"无中生有","original":"诳也，非诳也，实其所诳也。","category":"敌战计","wrong":"吹牛吹到自己都信了，但别人没信","right":"用虚构创造真实价值——所有小说都是无中生有","comment":"无中生有不是骗，是创造。你写的每个故事都是凭空造出来的真东西。","storySeed":"一个没人关注的小镇，被一个作家写成了文学圣地，游客蜂拥而至。"},{"id":8,"name":"暗度陈仓","original":"示之以动，利其静而有益，益动而巽。","category":"敌战计","wrong":"明面上也在搞，暗地里也在搞，两头都做不好","right":"正面佯攻吸引注意，主力从侧翼突破","comment":"别同时走两条路。一条是给别人看的，一条是自己真走的。","storySeed":"员工白天认真做本职工作，晚上用业余时间默默构建自己的产品。"},{"id":9,"name":"隔岸观火","original":"阳乖序乱，阴以待逆。","category":"敌战计","wrong":"看热闹不嫌事大，但看完发现火烧到自己了","right":"对手内斗时保持距离，等尘埃落定再出手","comment":"观火不是冷漠，是耐心。但别等太久，火灭了机会也没了。","storySeed":"行业三家巨头打价格战，第四家按兵不动，等三家都失血后全盘收购。"},{"id":10,"name":"笑里藏刀","original":"信而安之，阴以图之。","category":"敌战计","wrong":"表面客气背后捅刀，久了没人信你","right":"用善意降低对方防备，但刀不是用来伤人，是用来自保","comment":"真正的笑里藏刀，刀从来不出鞘。笑着把事办了，谁都没受伤。","storySeed":"新来的部门经理对所有人都笑眯眯的，三个月后架空了所有反对者，没有人察觉。"},{"id":11,"name":"李代桃僵","original":"势必有损，损阴以益阳。","category":"敌战计","wrong":"让别人替你背锅还觉得理所当然","right":"局部牺牲保全大局，而且要主动选牺牲什么","comment":"主动选择失去什么，比被动失去一切强。关键是你选的那块真的该死。","storySeed":"创业公司砍掉最赚钱但最耗精力的业务线，全员震惊，但创始人知道那是吸血鬼。"},{"id":12,"name":"顺手牵羊","original":"微隙在所必乘，微利在所必得。","category":"敌战计","wrong":"贪小便宜吃大亏，捡了芝麻丢西瓜","right":"做正事的路上，顺便捡到的都是利润","comment":"顺手牵羊的精髓在'顺手'——你本来就在走这条路。","storySeed":"出差见客户的路上，偶然路过一家小店，发现了改变行业认知的关键信息。"},{"id":13,"name":"打草惊蛇","original":"疑以叩实，察而后动。","category":"攻战计","wrong":"还没想清楚就行动，暴露了自己的意图","right":"先试探再行动，用小动作摸清对方底牌","comment":"打草是为了惊蛇，不是为了砍草。别把试探当成进攻。","storySeed":"投资人在公开场合随意问了一句某公司的技术架构，CEO的回答暴露了核心数据全靠外包。"},{"id":14,"name":"借尸还魂","original":"有用者，不可借；不能用者，求借。","category":"攻战计","wrong":"硬复活一个已经死透的东西，浪费时间","right":"用旧壳装新内容——废弃的资源换个方式用","comment":"死的东西反而最好用，因为没人盯着了。","storySeed":"一个废弃的工厂被改造成地下艺术空间，成了城市最火的文化地标。"},{"id":15,"name":"调虎离山","original":"待天以困之，用人以诱之。","category":"攻战计","wrong":"跟强势对手在对方地盘上硬刚","right":"把对手引出舒适区，在你不利的场地变成你有利","comment":"老虎离了山就是大猫。别在对方的主场打。","storySeed":"小公司不敢跟大厂比技术，于是把战场拉到用户体验和服务上——大厂最不擅长的地方。"},{"id":16,"name":"欲擒故纵","original":"逼则反兵，走则减势。","category":"攻战计","wrong":"放纵到对方真的跑了，追不回来","right":"给对方空间，让对方向你靠拢","comment":"紧握的拳头打不到人。松开手，对方反而走进来。","storySeed":"销售不推销，只给客户看效果，客户主动追问价格时才报。"},{"id":17,"name":"抛砖引玉","original":"类以诱之，击蒙也。","category":"攻战计","wrong":"抛了一块砖，对方扔回来一块更大的砖","right":"用小投入试探，引出对方更大的价值","comment":"砖要真的抛出去，不是假装抛。假装的东西引不出真玉。","storySeed":"作家在网上免费连载前三章，读者疯狂催更，出版社主动找上门签约。"},{"id":18,"name":"擒贼擒王","original":"摧其坚，夺其魁，以解其体。","category":"攻战计","wrong":"跟小喽啰缠斗一整天，精力全耗光了","right":"找到关键决策人/关键问题，一击致命","comment":"你一天80%的精力花在不重要的人和事上。先找到那个王。","storySeed":"社区维权不去跟物业吵，直接找到物业背后的开发商老板，一封信解决所有问题。"},{"id":19,"name":"釜底抽薪","original":"不敌其力，而消其势。","category":"混战计","wrong":"跟表面问题死磕，根上没动","right":"找到问题的能量来源，切断它","comment":"扬汤止沸不如釜底抽薪。但你得先找到薪在哪。","storySeed":"团队效率低不是因为不努力，主角直接取消了所有周会和汇报制度。"},{"id":20,"name":"混水摸鱼","original":"乘其阴乱，利其弱而无主。","category":"混战计","wrong":"自己把水搅浑，结果自己也看不清了","right":"混乱中保持清醒，趁乱取利","comment":"别自己制造混乱。等混乱来了，别人晕了你别晕。","storySeed":"行业大洗牌时，一个边缘小公司趁机招走了所有被裁的顶尖人才。"},{"id":21,"name":"金蝉脱壳","original":"存其形，完其势，友不疑，敌不动。","category":"混战计","wrong":"逃跑留下痕迹，被人追上来","right":"保持表面正常运行，实际已经转移","comment":"最好的退出是没人发现你走了。","storySeed":"创始人在公司运转最顺畅时悄悄转让股份，所有人以为他还在掌舵。"},{"id":22,"name":"关门捉贼","original":"小敌困之。","category":"混战计","wrong":"把门关了发现贼在里头有刀","right":"切断对方退路，让问题在可控范围内解决","comment":"关门之前先确认：你比贼更强吗？","storySeed":"老板发现核心员工在泄密，没有打草惊蛇，而是逐步缩小其权限范围，最后一次谈话解决。"},{"id":23,"name":"远交近攻","original":"形禁势格，利从近取，害以远隔。","category":"混战计","wrong":"跟远方的人称兄道弟，邻居反目成仇","right":"跟远处结盟，先解决近处的障碍","comment":"地缘政治的底层逻辑。你身边最危险的人，是你没处理的那个。","storySeed":"创业公司跟海外大厂签战略合作吓住本地竞争对手，然后逐个吃下本地市场。"},{"id":24,"name":"假道伐虢","original":"假地以行，利用之际，借路之名，行吞并之实。","category":"混战计","wrong":"借路的时候暴露了真实意图，被反杀","right":"用合理的借口通过，顺便达成真正目的","comment":"所有'顺便'都是设计好的。但设计感太强就不是顺便了。","storySeed":"公司以合作为名进入合作伙伴的供应链，三年后成了合作伙伴最大的竞争对手。"},{"id":25,"name":"偷梁换柱","original":"频更其阵，抽其劲旅，待其自败。","category":"并战计","wrong":"换东西的痕迹太明显，被发现后信任崩塌","right":"渐进式替换核心内容，等对方发现时木已成舟","comment":"最高级的替换是对方主动接受了你的版本。","storySeed":"新CEO用两年时间逐步替换所有部门负责人，董事会发现时公司文化已经完全改变。"},{"id":26,"name":"指桑骂槐","original":"大凌小者，警以诱之。","category":"并战计","wrong":"骂得太明显，所有人都知道你在骂谁","right":"表面上说A，实际上敲打B，B自己心里明白","comment":"指桑骂槐的最高境界：桑都觉得自己被骂了，槐还以为在夸自己。","storySeed":"领导在全员会上表扬了A团队的工作方式，B团队集体失眠了一周。"},{"id":27,"name":"假痴不癫","original":"假作不知而实知，假作不为而实不可为。","category":"并战计","wrong":"装傻装太久，真变傻了","right":"关键时刻装糊涂，暗中积累实力","comment":"装傻是门技术活。装得像的人，心里比谁都清楚。","storySeed":"公司里最不起眼的老员工，离职时带走了一整个核心客户群——他什么都看在眼里，从不表态。"},{"id":28,"name":"上屋抽梯","original":"假之以便，唆之使前，断其援应。","category":"并战计","wrong":"把人骗上来就翻脸，名声彻底臭了","right":"给对方一条路走，但这条路通向你要的方向","comment":"抽梯不是害人，是让对方只能往前走。但你要确保前方对双方都有利。","storySeed":"投资人给了创业团队充足资金但设了对赌条款——赢了大家都赢，输了团队出局。"},{"id":29,"name":"树上开花","original":"借局布势，力小势大。","category":"并战计","wrong":"借势借成了依赖，树倒了花也谢了","right":"用小力量借大平台造势，但根要扎在自己地里","comment":"花是借的，但开花的时间是你的。别让花期过了才发现树不是你的。","storySeed":"小作家被大V转发一篇文章，粉丝暴涨十倍，但他之前已经默默写了三年。"},{"id":30,"name":"反客为主","original":"乘隙插足，扼其主机，渐之进也。","category":"并战计","wrong":"太急了暴露意图，被主人赶出去","right":"逐步从帮忙到主导，让对方离不开你","comment":"反客为主的关键是'渐'。急了就是夺权，慢了就是奴才。","storySeed":"外包程序员慢慢接管了产品决策权，甲方发现时已经离不开他了。"},{"id":31,"name":"美人计","original":"兵强者，攻其将；将愚者，伐其情。","category":"败战计","wrong":"用美人计还动了真感情，自己先沦陷","right":"用情感纽带影响关键决策，但保持清醒","comment":"美人计的终点不是上床，是上心。谁先动情谁就输了。","storySeed":"商业谈判中，一方派出了最有魅力但最专业的代表，对方谈判者开始不自觉地让步。"},{"id":32,"name":"空城计","original":"虚者虚之，疑中生疑。","category":"败战计","wrong":"明明没实力还硬撑，对方一试就穿","right":"在对方多疑时故意示弱，让对方自己吓自己","comment":"空城计只对聪明人有用。蠢人直接冲进来你人就没了。","storySeed":"小公司被巨头盯上，CEO故意公开'扩张计划'暗示有充足资金，巨头犹豫后放弃收购。"},{"id":33,"name":"反间计","original":"疑中之疑，比之自内，不自失也。","category":"败战计","wrong":"玩间谍游戏，最后分不清谁是友谁是敌","right":"利用对方内部的猜疑，让对手自己瓦解","comment":"最高明的反间不是制造矛盾，是放大已有的矛盾。","storySeed":"主角发现了两个合伙人之间的暗中不和，没有挑拨，只是在合适时机让各自看到了对方的真实想法。"},{"id":34,"name":"苦肉计","original":"人不自害，受害必真；假真真假，间以得行。","category":"败战计","wrong":"自伤太重，伤好了但机会也没了","right":"用真实的代价换取对方的信任","comment":"苦肉计的苦必须是真的。假苦肉计一眼就被看穿。","storySeed":"创始人当众烧掉自己持有的全部股份以表决心，投资人当场决定追加投资。"},{"id":35,"name":"连环计","original":"将多兵众，不可以敌，使其自累，以杀其势。","category":"败战计","wrong":"计策太多环环相扣，自己先绕晕了","right":"每一步都给下一步铺路，形成连锁反应","comment":"连环计最怕中间断了一环。每环都要能独立成立。","storySeed":"主角用了三步：先让对手轻敌，再让对手犯错，最后让对手自己揭穿自己。每一步看起来都是独立的。"},{"id":36,"name":"走为上","original":"全师避之，左次无咎，未失常也。","category":"败战计","wrong":"什么都走，走到最后一事无成","right":"打不赢就走，走了是为了换个地方赢","comment":"走为上不是逃避，是战略转移。但你得知道走到哪去，不是瞎跑。","storySeed":"创业失败后主角没有硬撑，带着核心技术和团队去了新城市，两年后卷土重来。"}];
+
+let strategies = STRATEGIES;
+
+// 初始化
+function init() {
+  renderCards(strategies);
+  renderSelects(strategies);
+}
+
+function renderCards(list) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  list.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (i * 0.03) + 's';
+    card.innerHTML = `
+      <div class="card-head">
+        <span class="card-num">No.${String(s.id).padStart(2,'0')}</span>
+        <span class="card-cat">${s.category}</span>
+      </div>
+      <div class="card-name">${s.name}</div>
+      <div class="card-original">「${s.original}」</div>
+      <div class="card-hint">点击展开 ↓</div>
+      <div class="card-detail">
+        <div class="detail-section">
+          <div class="detail-label label-wrong">✗ 用错了</div>
+          <div class="detail-text">${s.wrong}</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label label-right">✓ 用对了</div>
+          <div class="detail-text">${s.right}</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label label-comment">◆ 萧何点评</div>
+          <div class="detail-comment">${s.comment}</div>
+        </div>
+        <div class="detail-section">
+          <div class="story-icon">📖 故事种子</div>
+          <div class="detail-story">${s.storySeed}</div>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
+    });
+    grid.appendChild(card);
+  });
+}
+
+function renderSelects(list) {
+  const s1 = document.getElementById('select1');
+  const s2 = document.getElementById('select2');
+  s1.innerHTML = '<option value="">选第一条计策</option>';
+  s2.innerHTML = '<option value="">选第二条计策</option>';
+  list.forEach(s => {
+    const o1 = document.createElement('option');
+    o1.value = s.id; o1.textContent = `${s.name}（${s.category}）`;
+    s1.appendChild(o1);
+    const o2 = document.createElement('option');
+    o2.value = s.id; o2.textContent = `${s.name}（${s.category}）`;
+    s2.appendChild(o2);
+  });
+}
+
+// 分类筛选
+document.getElementById('catNav').addEventListener('click', e => {
+  if (!e.target.classList.contains('cat-btn')) return;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const cat = e.target.dataset.cat;
+  const filtered = cat === 'all' ? strategies : strategies.filter(s => s.category === cat);
+  renderCards(filtered);
+});
+
+// 计策组合器
+document.getElementById('combineBtn').addEventListener('click', () => {
+  const id1 = parseInt(document.getElementById('select1').value);
+  const id2 = parseInt(document.getElementById('select2').value);
+  const result = document.getElementById('combineResult');
+  
+  if (!id1 || !id2) {
+    result.classList.add('active');
+    result.innerHTML = '<h4>⚠️ 选两条计策</h4><p>得选两条不同的计策才能组合。</p>';
+    return;
+  }
+  if (id1 === id2) {
+    result.classList.add('active');
+    result.innerHTML = '<h4>⚠️ 同一条不算组合</h4><p>选两条不同的计策，看看它们能碰撞出什么故事。</p>';
+    return;
+  }
+  
+  const s1 = strategies.find(s => s.id === id1);
+  const s2 = strategies.find(s => s.id === id2);
+  
+  const outlines = [
+    `主角先用「${s1.name}」制造假象，让对手放松警惕。当对手以为自己已经看穿局面时，主角突然祭出「${s2.name}」，在对手最没有防备的方向发起真正的进攻。${s1.comment} ${s2.comment}`,
+    `表面上是「${s1.name}」的套路，底子里藏着「${s2.name}」的真实意图。对手花了全部精力破解第一层，完全不知道第二层的存在。故事核心：${s1.storySeed} 但真正的转折是——${s2.storySeed}`,
+    `这是一个两幕结构。第一幕，主角用「${s1.name}」获得初步优势，但也暴露了弱点。第二幕，对手反扑，主角用「${s2.name}」完成绝杀。关键冲突：「${s1.name}」带来的优势同时也是陷阱。`,
+    `两个角色，各擅一计。A信奉「${s1.name}」，B信奉「${s2.name}」。他们相遇时，谁的计更高一筹？故事走向：${s1.name}的「${s1.right}」对上${s2.name}的「${s2.right}」，最终胜负取决于谁先被对方的计策困住。`
+  ];
+  
+  const pick = outlines[Math.floor(Math.random() * outlines.length)];
+  
+  result.classList.add('active');
+  result.innerHTML = `
+    <h4>${s1.name} + ${s2.name}</h4>
+    <p>${pick}</p>
+    <p style="margin-top:12px; color:var(--text-dim); font-size:0.82rem;">💡 每次点击会生成不同的大纲方向，可以反复尝试</p>
+  `;
+});
+
+// 启动
+init();
+</script>
+
+</body>
+</html>
