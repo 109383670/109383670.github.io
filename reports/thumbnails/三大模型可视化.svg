@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#1a1a3e"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </radialGradient>
+    <linearGradient id="prism" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="gear" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="compass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 模型1: 棱镜 -->
+  <g transform="translate(110, 125)">
+    <polygon points="0,-35 -30,20 30,20" fill="none" stroke="url(#prism)" stroke-width="1.5" opacity="0.5"/>
+    <polygon points="0,-35 -30,20 30,20" fill="url(#prism)" opacity="0.06"/>
+    <text x="0" y="35" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="9" opacity="0.5">棱镜</text>
+  </g>
+  <!-- 模型2: 齿轮 -->
+  <g transform="translate(200, 125)">
+    <circle cx="0" cy="0" r="32" fill="none" stroke="url(#gear)" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="20" fill="none" stroke="url(#gear)" stroke-width="1" opacity="0.3"/>
+    <g opacity="0.4" stroke="url(#gear)" stroke-width="1.5" fill="none">
+      <line x1="0" y1="-32" x2="0" y2="-38"/>
+      <line x1="0" y1="32" x2="0" y2="38"/>
+      <line x1="-32" y1="0" x2="-38" y2="0"/>
+      <line x1="32" y1="0" x2="38" y2="0"/>
+      <line x1="-22" y1="-22" x2="-27" y2="-27"/>
+      <line x1="22" y1="-22" x2="27" y2="-27"/>
+      <line x1="-22" y1="22" x2="-27" y2="27"/>
+      <line x1="22" y1="22" x2="27" y2="27"/>
+    </g>
+    <text x="0" y="48" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="9" opacity="0.5">传动</text>
+  </g>
+  <!-- 模型3: 指南针 -->
+  <g transform="translate(290, 125)">
+    <circle cx="0" cy="0" r="32" fill="none" stroke="url(#compass)" stroke-width="1.5" opacity="0.5"/>
+    <polygon points="0,-25 5,0 0,25 -5,0" fill="url(#compass)" opacity="0.3"/>
+    <circle cx="0" cy="0" r="3" fill="#f59e0b" opacity="0.6"/>
+    <text x="0" y="48" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="9" opacity="0.5">定向</text>
+  </g>
+  <!-- 连线 -->
+  <line x1="140" y1="125" x2="168" y2="125" stroke="#a855f7" stroke-width="0.5" opacity="0.2" stroke-dasharray="3 3"/>
+  <line x1="232" y1="125" x2="258" y2="125" stroke="#a855f7" stroke-width="0.5" opacity="0.2" stroke-dasharray="3 3"/>
+  <text x="200" y="270" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="14" font-weight="bold">三大模型 · 思维体定向理论</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a1a3e"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 荣格思想全报告已有曼荼罗，这个是可视化版本的变体 -->
+  <!-- 曼荼罗 -->
+  <circle cx="200" cy="125" r="75" fill="none" stroke="url(#accent)" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="200" cy="125" r="55" fill="none" stroke="url(#cyan)" stroke-width="1" opacity="0.4"/>
+  <circle cx="200" cy="125" r="35" fill="none" stroke="url(#accent)" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="200" cy="125" r="15" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="200" cy="125" r="4" fill="#f59e0b" opacity="0.8"/>
+  <!-- 四方位射线 -->
+  <line x1="200" y1="50" x2="200" y2="200" stroke="url(#accent)" stroke-width="0.5" opacity="0.2"/>
+  <line x1="125" y1="125" x2="275" y2="125" stroke="url(#accent)" stroke-width="0.5" opacity="0.2"/>
+  <line x1="147" y1="72" x2="253" y2="178" stroke="url(#cyan)" stroke-width="0.3" opacity="0.15"/>
+  <line x1="147" y1="178" x2="253" y2="72" stroke="url(#cyan)" stroke-width="0.3" opacity="0.15"/>
+  <!-- 心理类型四功能十字 -->
+  <text x="200" y="55" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="9" opacity="0.5">思维</text>
+  <text x="200" y="200" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="9" opacity="0.5">情感</text>
+  <text x="118" y="128" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="9" opacity="0.5">感觉</text>
+  <text x="282" y="128" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="9" opacity="0.5">直觉</text>
+  <text x="200" y="270" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="16" font-weight="bold">荣格思想全报告 · 可视化</text>
+</svg>

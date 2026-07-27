@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1525"/>
+      <stop offset="100%" stop-color="#080d18"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- Ni vs Ne 对比 -->
+  <!-- 左：Ni (收敛) -->
+  <g transform="translate(130, 125)">
+    <circle cx="0" cy="0" r="40" fill="none" stroke="url(--accent)" stroke-width="1.5" opacity="0.5"/>
+    <g opacity="0.5">
+      <line x1="-30" y1="-20" x2="0" y2="0" stroke="url(--accent)" stroke-width="0.8"/>
+      <line x1="-30" y1="0" x2="0" y2="0" stroke="url(--accent)" stroke-width="0.8"/>
+      <line x1="-30" y1="20" x2="0" y2="0" stroke="url(--accent)" stroke-width="0.8"/>
+      <line x1="-10" y1="-30" x2="0" y2="0" stroke="url(--accent)" stroke-width="0.8"/>
+      <line x1="10" y1="-30" x2="0" y2="0" stroke="url(--accent)" stroke-width="0.8"/>
+    </g>
+    <circle cx="0" cy="0" r="5" fill="url(#accent)" opacity="0.7"/>
+    <text x="0" y="55" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="14" font-weight="bold" opacity="0.7">Ni</text>
+  </g>
+  <!-- 右：Ne (发散) -->
+  <g transform="translate(270, 125)">
+    <circle cx="0" cy="0" r="5" fill="url(#cyan)" opacity="0.7"/>
+    <g opacity="0.5">
+      <line x1="0" y1="0" x2="30" y2="-20" stroke="url(#cyan)" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="30" y2="0" stroke="url(#cyan)" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="30" y2="20" stroke="url(#cyan)" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="10" y2="-30" stroke="url(#cyan)" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="-10" y2="-30" stroke="url(#cyan)" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="-25" y2="-15" stroke="url(#cyan)" stroke-width="0.8"/>
+    </g>
+    <circle cx="30" cy="-20" r="3" fill="#06b6d4" opacity="0.4"/>
+    <circle cx="30" cy="0" r="3" fill="#06b6d4" opacity="0.4"/>
+    <circle cx="30" cy="20" r="3" fill="#06b6d4" opacity="0.4"/>
+    <circle cx="10" cy="-30" r="3" fill="#06b6d4" opacity="0.4"/>
+    <circle cx="-10" cy="-30" r="3" fill="#06b6d4" opacity="0.4"/>
+    <text x="0" y="55" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="14" font-weight="bold" opacity="0.7">Ne</text>
+  </g>
+  <!-- VS -->
+  <text x="200" y="130" text-anchor="middle" fill="#5d6b85" font-family="serif" font-size="16" opacity="0.5">vs</text>
+  <text x="200" y="270" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="14" font-weight="bold">Ni vs Ne · 荣格直觉功能</text>
+</svg>

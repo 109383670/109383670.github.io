@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 竹简 -->
+  <g opacity="0.7">
+    <rect x="130" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.4"/>
+    <rect x="146" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.5"/>
+    <rect x="162" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.45"/>
+    <rect x="178" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.5"/>
+    <rect x="194" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.4"/>
+    <rect x="210" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.5"/>
+    <rect x="226" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.45"/>
+    <rect x="242" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.4"/>
+    <rect x="258" y="60" width="10" height="140" rx="2" fill="url(#accent)" opacity="0.5"/>
+  </g>
+  <!-- 竹简绳 -->
+  <line x1="125" y1="85" x2="275" y2="85" stroke="#a855f7" stroke-width="1" opacity="0.3"/>
+  <line x1="125" y1="175" x2="275" y2="175" stroke="#a855f7" stroke-width="1" opacity="0.3"/>
+  <!-- 天字 -->
+  <text x="200" y="145" text-anchor="middle" fill="#e6edf7" font-family="serif" font-size="28" font-weight="bold" opacity="0.7">仁</text>
+  <text x="200" y="270" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="17" font-weight="bold">儒家生死观报告</text>
+</svg>

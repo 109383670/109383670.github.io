@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1a1a3e"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 天庭阶梯 -->
+  <path d="M 150 220 L 170 200 L 190 180 L 210 160 L 230 140 L 250 120" stroke="url(#gold)" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M 250 220 L 230 200 L 210 180 L 190 160 L 170 140 L 150 120" stroke="url(#gold)" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <!-- 祥云 -->
+  <ellipse cx="130" cy="120" rx="30" ry="8" fill="url(#cloud)" opacity="0.4"/>
+  <ellipse cx="270" cy="110" rx="35" ry="9" fill="url(#cloud)" opacity="0.35"/>
+  <ellipse cx="200" cy="90" rx="40" ry="10" fill="url(#cloud)" opacity="0.3"/>
+  <!-- 仙/神字 -->
+  <text x="200" y="155" text-anchor="middle" fill="url(#gold)" font-family="serif" font-size="42" font-weight="bold" opacity="0.7">仙</text>
+  <!-- 星辰 -->
+  <circle cx="100" cy="80" r="1.5" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="300" cy="75" r="1.5" fill="#fbbf24" opacity="0.5"/>
+  <circle cx="320" cy="140" r="1" fill="#f59e0b" opacity="0.4"/>
+  <circle cx="80" cy="150" r="1" fill="#f59e0b" opacity="0.4"/>
+  <text x="200" y="270" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="17" font-weight="bold">中国神仙谱系</text>
+</svg>

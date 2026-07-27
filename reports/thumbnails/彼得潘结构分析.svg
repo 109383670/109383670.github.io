@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1525"/>
+      <stop offset="100%" stop-color="#0a0810"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 结构分析图 -->
+  <g transform="translate(200, 130)">
+    <!-- 章节块 -->
+    <rect x="-80" y="-30" width="30" height="20" rx="2" fill="url(#accent)" opacity="0.3" stroke="url(#accent)" stroke-width="0.5" opacity="0.5"/>
+    <rect x="-45" y="-30" width="30" height="20" rx="2" fill="url(#accent)" opacity="0.4" stroke="url(#accent)" stroke-width="0.5" opacity="0.5"/>
+    <rect x="-10" y="-30" width="30" height="20" rx="2" fill="url(#accent)" opacity="0.5" stroke="url(#accent)" stroke-width="0.5" opacity="0.5"/>
+    <rect x="25" y="-30" width="30" height="20" rx="2" fill="url(#accent)" opacity="0.4" stroke="url(#accent)" stroke-width="0.5" opacity="0.5"/>
+    <rect x="60" y="-30" width="20" height="20" rx="2" fill="url(#accent)" opacity="0.3" stroke="url(#accent)" stroke-width="0.5" opacity="0.5"/>
+    <!-- 连接线 -->
+    <line x1="-65" y1="-5" x2="-65" y2="20" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+    <line x1="-30" y1="-5" x2="-30" y2="15" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+    <line x1="5" y1="-5" x2="5" y2="25" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+    <line x1="40" y1="-5" x2="40" y2="15" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+    <line x1="70" y1="-5" x2="70" y2="20" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+    <!-- 分析节点 -->
+    <circle cx="-65" cy="25" r="3" fill="#10b981" opacity="0.4"/>
+    <circle cx="-30" cy="20" r="3" fill="#10b981" opacity="0.4"/>
+    <circle cx="5" cy="30" r="4" fill="#06b6d4" opacity="0.5"/>
+    <circle cx="40" cy="20" r="3" fill="#10b981" opacity="0.4"/>
+    <circle cx="70" cy="25" r="3" fill="#10b981" opacity="0.4"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#6ee7b7" font-family="serif" font-size="15" font-weight="bold">彼得·潘 · 结构分析</text>
+</svg>

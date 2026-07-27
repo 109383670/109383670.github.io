@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0a1a"/>
+      <stop offset="100%" stop-color="#0a0510"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 永恒轮回圆环 -->
+  <circle cx="200" cy="130" r="60" fill="none" stroke="url(#red)" stroke-width="2" opacity="0.6"/>
+  <circle cx="200" cy="130" r="45" fill="none" stroke="url(#dark)" stroke-width="1" opacity="0.4" stroke-dasharray="10 5"/>
+  <!-- 超人箭头向上 -->
+  <path d="M 200 80 L 200 50 M 192 58 L 200 50 L 208 58" stroke="url(#red)" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- 上帝之死 (断裂的十字) -->
+  <g opacity="0.3" transform="translate(140, 170)">
+    <line x1="0" y1="-15" x2="0" y2="15" stroke="#7c2d12" stroke-width="2"/>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="#7c2d12" stroke-width="2"/>
+    <line x1="-3" y1="-3" x2="3" y2="3" stroke="#dc2626" stroke-width="1"/>
+  </g>
+  <!-- 权力意志螺旋 -->
+  <path d="M 250 170 Q 270 160 270 180 Q 260 195 245 185 Q 240 175 250 170" fill="none" stroke="url(#red)" stroke-width="1.5" opacity="0.5"/>
+  <!-- 闪电 -->
+  <path d="M 195 100 L 205 115 L 198 117 L 210 135" stroke="url(#red)" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <text x="200" y="270" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="15" font-weight="bold">尼采思想体系 · 研究框架</text>
+</svg>

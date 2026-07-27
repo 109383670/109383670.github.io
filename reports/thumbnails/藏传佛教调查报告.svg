@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#2a1010"/>
+      <stop offset="100%" stop-color="#0a0808"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 金刚杵 -->
+  <g transform="translate(200, 125)">
+    <rect x="-4" y="-50" width="8" height="100" fill="url(#gold)" opacity="0.7"/>
+    <polygon points="-15,-55 15,-55 10,-45 -10,-45" fill="url(#gold)" opacity="0.8"/>
+    <polygon points="-15,55 15,55 10,45 -10,45" fill="url(#gold)" opacity="0.8"/>
+    <circle cx="0" cy="0" r="8" fill="url(#red)" opacity="0.6"/>
+  </g>
+  <!-- 转经轮圆环 -->
+  <circle cx="200" cy="125" r="65" fill="none" stroke="url(#red)" stroke-width="1.5" opacity="0.4" stroke-dasharray="8 4"/>
+  <circle cx="200" cy="125" r="50" fill="none" stroke="url(#gold)" stroke-width="1" opacity="0.3"/>
+  <!-- 火焰 -->
+  <path d="M 160 200 Q 165 185 170 195 Q 175 175 180 195 Q 185 180 190 200" stroke="url(#red)" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M 210 200 Q 215 185 220 195 Q 225 175 230 195 Q 235 180 240 200" stroke="url(#red)" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <text x="200" y="270" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="17" font-weight="bold">藏传佛教调查报告</text>
+</svg>

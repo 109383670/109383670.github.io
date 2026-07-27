@@ -14,7 +14,7 @@
       ],
       "date": "2026-07-27",
       "path": "reports/禅宗调查报告.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/禅宗调查报告.svg"
     },
     {
       "id": "希腊众神神谱",
@@ -28,7 +28,7 @@
       ],
       "date": "2026-07-27",
       "path": "reports/希腊众神神谱.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/希腊众神神谱.svg"
     },
     {
       "id": "太玄经象征研究",
@@ -42,7 +42,7 @@
       ],
       "date": "2026-07-27",
       "path": "reports/太玄经象征研究_可视化图表.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/太玄经象征研究.svg"
     },
     {
       "id": "道家神仙观报告",
@@ -54,7 +54,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/道家神仙观报告.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/道家神仙观报告.svg"
     },
     {
       "id": "藏传佛教调查报告",
@@ -66,7 +66,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/藏传佛教调查报告.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/藏传佛教调查报告.svg"
     },
     {
       "id": "科学发现的逻辑_阅读笔记",
@@ -78,7 +78,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/科学发现的逻辑_阅读笔记.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/科学发现的逻辑_阅读笔记.svg"
     },
     {
       "id": "毛泽东语录_阅读笔记",
@@ -90,7 +90,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/毛泽东语录_阅读笔记.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/毛泽东语录_阅读笔记.svg"
     },
     {
       "id": "儒家生死观报告",
@@ -102,7 +102,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/儒家生死观报告.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/儒家生死观报告.svg"
     },
     {
       "id": "佛教菩萨佛祖谱系",
@@ -121,7 +121,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/佛教菩萨佛祖谱系.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/佛教菩萨佛祖谱系.svg"
     },
     {
       "id": "中国鬼怪谱系",
@@ -140,7 +140,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/中国鬼怪谱系.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/中国鬼怪谱系.svg"
     },
     {
       "id": "中国鬼怪调查报告",
@@ -152,7 +152,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/中国鬼怪调查报告.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/中国鬼怪调查报告.svg"
     },
     {
       "id": "中国神仙谱系",
@@ -171,7 +171,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/中国神仙谱系.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/中国神仙谱系.svg"
     },
     {
       "id": "中国民间信仰调查报告",
@@ -183,7 +183,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/中国民间信仰调查报告.md",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/中国民间信仰调查报告.svg"
     },
     {
       "id": "社会性动物_阅读笔记",
@@ -195,7 +195,7 @@
       ],
       "date": "2026-07-26",
       "path": "reports/社会性动物_阅读笔记.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/社会性动物_阅读笔记.svg"
     },
     {
       "id": "诗词歌赋可视化",
@@ -207,7 +207,7 @@
       ],
       "date": "2026-07-24",
       "path": "reports/诗词歌赋可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/诗词歌赋可视化.svg"
     },
     {
       "id": "荣格思想全报告可视化",
@@ -221,7 +221,7 @@
       ],
       "date": "2026-07-24",
       "path": "reports/荣格思想全报告可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/荣格思想全报告可视化.svg"
     },
     {
       "id": "荣格思想全报告",
@@ -248,7 +248,7 @@
       ],
       "date": "2026-07-24",
       "path": "reports/康德研究可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/康德研究可视化.svg"
     },
     {
       "id": "尼采思想体系研究框架可视化",
@@ -261,7 +261,7 @@
       ],
       "date": "2026-07-24",
       "path": "reports/尼采思想体系_研究框架可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/尼采思想体系_研究框架可视化.svg"
     },
     {
       "id": "尼采思想体系深度分析可视化",
@@ -274,7 +274,7 @@
       ],
       "date": "2026-07-24",
       "path": "reports/尼采思想体系_深度分析可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/尼采思想体系_深度分析可视化.svg"
     },
     {
       "id": "叔本华哲学深度研究报告可视化",
@@ -287,7 +287,7 @@
       ],
       "date": "2026-07-24",
       "path": "reports/叔本华哲学深度研究报告可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/叔本华哲学深度研究报告可视化.svg"
     },
     {
       "id": "星神谱系细化图",
@@ -302,7 +302,7 @@
       ],
       "date": "2026-07-21",
       "path": "reports/星神谱系细化图.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/星神谱系细化图.svg"
     },
     {
       "id": "天宫大战神谱全图",
@@ -319,7 +319,7 @@
       ],
       "date": "2026-07-21",
       "path": "reports/天宫大战神谱全图.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/天宫大战神谱全图.svg"
     },
     {
       "id": "天宫大战",
@@ -338,7 +338,7 @@
       ],
       "date": "2026-07-20",
       "path": "reports/天宫大战.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/天宫大战.svg"
     },
     {
       "id": "山海经深度研究",
@@ -353,7 +353,7 @@
       ],
       "date": "2026-07-20",
       "path": "reports/山海经深度研究.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/山海经深度研究.svg"
     },
     {
       "id": "古代科举制度可视化",
@@ -365,7 +365,7 @@
       ],
       "date": "2026-07-11",
       "path": "reports/古代科举制度可视化.html",
-      "thumbnail": null
+      "thumbnail": "reports/thumbnails/古代科举制度可视化.svg"
     },
     {
       "id": "麦基故事可视化",
@@ -378,7 +378,7 @@
       ],
       "date": "2026-07-06",
       "path": "reports/麦基故事可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/麦基故事可视化.svg"
     },
     {
       "id": "麦基对白可视化",
@@ -391,7 +391,7 @@
       ],
       "date": "2026-07-06",
       "path": "reports/麦基对白可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/麦基对白可视化.svg"
     },
     {
       "id": "麦基人物可视化",
@@ -404,7 +404,7 @@
       ],
       "date": "2026-07-06",
       "path": "reports/麦基人物可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/麦基人物可视化.svg"
     },
     {
       "id": "三通道四位置咬合关系",
@@ -417,7 +417,7 @@
       ],
       "date": "2026-07-04",
       "path": "reports/三通道四位置咬合关系.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/三通道四位置咬合关系.svg"
     },
     {
       "id": "思考快与慢",
@@ -429,7 +429,7 @@
       ],
       "date": "2026-07-03",
       "path": "reports/思考，快与慢.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/思考，快与慢.svg"
     },
     {
       "id": "作品产出曲线_20260703",
@@ -441,7 +441,7 @@
       ],
       "date": "2026-07-03",
       "path": "reports/产出曲线_20260703.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/产出曲线_20260703.svg"
     },
     {
       "id": "三大模型可视化",
@@ -454,7 +454,7 @@
       ],
       "date": "2026-07-03",
       "path": "reports/三大模型可视化.html",
-      "thumbnail": "reports/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/三大模型可视化.svg"
     },
     {
       "id": "MBTI-与荣格原典中-Ni-与-Ne-的完整解释-区别对比及核心冲突",
@@ -466,7 +466,7 @@
       ],
       "date": "2026-06-29",
       "path": "reports/sample-report/MBTI 与荣格原典中 Ni 与 Ne 的完整解释、区别对比及核心冲突.html",
-      "thumbnail": "reports/sample-report/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/Ni-vs-Ne.svg"
     },
     {
       "id": "laorenyuhaishijianzhou",
@@ -478,7 +478,7 @@
       ],
       "date": "2026-06-22",
       "path": "reports/sample-report/老人与海时间轴网页.html",
-      "thumbnail": "reports/sample-report/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/老人与海时间轴.svg"
     },
     {
       "id": "laorenyuhaijiegou",
@@ -491,7 +491,7 @@
       ],
       "date": "2026-06-22",
       "path": "reports/sample-markdown/老人与海时间线总结.md",
-      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/老人与海时间线总结.svg"
     },
     {
       "id": "bidepan",
@@ -503,7 +503,7 @@
       ],
       "date": "2026-06-22",
       "path": "reports/sample-report/《彼得·潘》小说时间轴.html",
-      "thumbnail": "reports/sample-report/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/彼得潘时间轴.svg"
     },
     {
       "id": "bidepanjiegou",
@@ -516,7 +516,7 @@
       ],
       "date": "2026-06-22",
       "path": "reports/sample-markdown/《彼得·潘》小说结构分析.md",
-      "thumbnail": "reports/sample-markdown/thumbnail.svg"
+      "thumbnail": "reports/thumbnails/彼得潘结构分析.svg"
     }
   ]
 }

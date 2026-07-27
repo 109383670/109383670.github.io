@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1a2e"/>
+      <stop offset="100%" stop-color="#080f1a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 书本展开 -->
+  <g transform="translate(200, 130)">
+    <path d="M -80 -30 Q -80 -35 -75 -35 L -5 -35 L -5 30 L -75 30 Q -80 30 -80 25 Z" fill="#111827" stroke="url(#accent)" stroke-width="1" opacity="0.5"/>
+    <path d="M 5 -35 L 75 -35 Q 80 -35 80 -30 L 80 25 Q 80 30 75 30 L 5 30 Z" fill="#111827" stroke="url(#accent)" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="-35" x2="0" y2="30" stroke="url(#accent)" stroke-width="1.5" opacity="0.4"/>
+    <!-- 文字行 -->
+    <line x1="-65" y1="-20" x2="-15" y2="-20" stroke="#06b6d4" stroke-width="0.8" opacity="0.3"/>
+    <line x1="-65" y1="-10" x2="-20" y2="-10" stroke="#06b6d4" stroke-width="0.8" opacity="0.25"/>
+    <line x1="-65" y1="0" x2="-15" y2="0" stroke="#06b6d4" stroke-width="0.8" opacity="0.3"/>
+    <line x1="-65" y1="10" x2="-25" y2="10" stroke="#06b6d4" stroke-width="0.8" opacity="0.25"/>
+    <line x1="15" y1="-20" x2="65" y2="-20" stroke="#6366f1" stroke-width="0.8" opacity="0.3"/>
+    <line x1="15" y1="-10" x2="60" y2="-10" stroke="#6366f1" stroke-width="0.8" opacity="0.25"/>
+    <line x1="15" y1="0" x2="65" y2="0" stroke="#6366f1" stroke-width="0.8" opacity="0.3"/>
+    <line x1="15" y1="10" x2="55" y2="10" stroke="#6366f1" stroke-width="0.8" opacity="0.25"/>
+  </g>
+  <!-- 思考气泡 -->
+  <circle cx="200" cy="80" r="4" fill="url(#accent)" opacity="0.4"/>
+  <circle cx="200" cy="70" r="6" fill="url(#accent)" opacity="0.3"/>
+  <circle cx="200" cy="58" r="9" fill="url(#accent)" opacity="0.2"/>
+  <text x="200" y="270" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="16" font-weight="bold">科学发现的逻辑 · 阅读笔记</text>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#2a0a1a"/>
+      <stop offset="100%" stop-color="#0a0510"/>
+    </radialGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 永恒轮回 -->
+  <circle cx="200" cy="125" r="55" fill="none" stroke="url(#red)" stroke-width="2.5" opacity="0.7"/>
+  <!-- 轮回箭头 -->
+  <path d="M 255 125 A 55 55 0 0 1 200 180" fill="none" stroke="url(#red)" stroke-width="2" opacity="0.8"/>
+  <polygon points="200,180 208,172 206,184" fill="#f59e0b" opacity="0.7"/>
+  <!-- 超人塔 -->
+  <g opacity="0.5">
+    <polygon points="200,70 190,100 210,100" fill="url(#red)"/>
+    <line x1="200" y1="70" x2="200" y2="40" stroke="url(#red)" stroke-width="2"/>
+    <polygon points="200,40 195,48 205,48" fill="#f59e0b"/>
+  </g>
+  <!-- 权力意志波 -->
+  <path d="M 130 200 Q 150 190 170 200 Q 190 210 210 200 Q 230 190 250 200 Q 270 210 290 200" fill="none" stroke="url(#red)" stroke-width="1.5" opacity="0.4"/>
+  <path d="M 130 220 Q 150 210 170 220 Q 190 230 210 220 Q 230 210 250 220 Q 270 230 290 220" fill="none" stroke="#dc2626" stroke-width="1" opacity="0.3"/>
+  <!-- 上帝之死裂痕 -->
+  <path d="M 145 95 L 150 105 L 147 115 L 153 125" stroke="#7c2d12" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <text x="200" y="270" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="15" font-weight="bold">尼采思想体系 · 深度分析</text>
+</svg>

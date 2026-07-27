@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1a1a"/>
+      <stop offset="100%" stop-color="#050a0a"/>
+    </linearGradient>
+    <linearGradient id="mountain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 远山 -->
+  <path d="M 50 200 L 100 130 L 140 160 L 180 110 L 220 140 L 260 100 L 300 150 L 350 200 Z" fill="url(#mountain)" opacity="0.12" stroke="url(#mountain)" stroke-width="1" opacity="0.4"/>
+  <!-- 近山 -->
+  <path d="M 0 220 L 60 180 L 120 210 L 180 170 L 240 200 L 300 175 L 360 205 L 400 195 L 400 230 L 0 230 Z" fill="url(#mountain)" opacity="0.15"/>
+  <!-- 雾气 -->
+  <ellipse cx="100" cy="170" rx="50" ry="8" fill="url(#mist)" opacity="0.3"/>
+  <ellipse cx="280" cy="160" rx="55" ry="9" fill="url(#mist)" opacity="0.25"/>
+  <ellipse cx="200" cy="190" rx="70" ry="10" fill="url(#mist)" opacity="0.2"/>
+  <!-- 异兽剪影 -->
+  <g opacity="0.3" transform="translate(200, 145)">
+    <path d="M -15 0 Q -10 -15 0 -12 Q 10 -15 15 0 L 12 5 L -12 5 Z" fill="#10b981"/>
+    <circle cx="-5" cy="-5" r="1.5" fill="#fbbf24"/>
+    <circle cx="5" cy="-5" r="1.5" fill="#fbbf24"/>
+  </g>
+  <!-- 古文字 -->
+  <text x="80" y="100" fill="#10b981" font-family="serif" font-size="20" opacity="0.25">山</text>
+  <text x="310" y="120" fill="#06b6d4" font-family="serif" font-size="20" opacity="0.2">海</text>
+  <text x="200" y="270" text-anchor="middle" fill="#6ee7b7" font-family="serif" font-size="16" font-weight="bold">山海经深度研究</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1520"/>
+      <stop offset="100%" stop-color="#080d18"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 人际网络节点 -->
+  <g opacity="0.7">
+    <circle cx="200" cy="100" r="14" fill="url(#accent)" opacity="0.6"/>
+    <circle cx="130" cy="160" r="10" fill="#06b6d4" opacity="0.5"/>
+    <circle cx="270" cy="160" r="10" fill="#6366f1" opacity="0.5"/>
+    <circle cx="100" cy="210" r="7" fill="#06b6d4" opacity="0.4"/>
+    <circle cx="200" cy="210" r="8" fill="#a855f7" opacity="0.4"/>
+    <circle cx="300" cy="210" r="7" fill="#6366f1" opacity="0.4"/>
+    <!-- 连线 -->
+    <line x1="200" y1="100" x2="130" y2="160" stroke="url(#accent)" stroke-width="1" opacity="0.4"/>
+    <line x1="200" y1="100" x2="270" y2="160" stroke="url(#accent)" stroke-width="1" opacity="0.4"/>
+    <line x1="130" y1="160" x2="100" y2="210" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+    <line x1="130" y1="160" x2="200" y2="210" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+    <line x1="270" y1="160" x2="200" y2="210" stroke="#6366f1" stroke-width="0.5" opacity="0.3"/>
+    <line x1="270" y1="160" x2="300" y2="210" stroke="#6366f1" stroke-width="0.5" opacity="0.3"/>
+    <line x1="100" y1="210" x2="200" y2="210" stroke="#a855f7" stroke-width="0.5" opacity="0.2"/>
+    <line x1="200" y1="210" x2="300" y2="210" stroke="#a855f7" stroke-width="0.5" opacity="0.2"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="16" font-weight="bold">社会性动物 · 阅读笔记</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 香炉/香火 -->
+  <g transform="translate(200, 150)">
+    <ellipse cx="0" cy="40" rx="35" ry="6" fill="#f59e0b" opacity="0.15"/>
+    <path d="M -25 35 Q -25 15 -20 10 L 20 10 Q 25 15 25 35" fill="none" stroke="url(#warm)" stroke-width="1.5" opacity="0.5"/>
+    <!-- 香 -->
+    <line x1="-10" y1="10" x2="-10" y2="-30" stroke="url(#warm)" stroke-width="1.5" opacity="0.6"/>
+    <line x1="0" y1="10" x2="0" y2="-35" stroke="url(#warm)" stroke-width="1.5" opacity="0.6"/>
+    <line x1="10" y1="10" x2="10" y2="-30" stroke="url(#warm)" stroke-width="1.5" opacity="0.6"/>
+    <!-- 香烟 -->
+    <path d="M -10 -30 Q -15 -45 -5 -55 Q 5 -65 -5 -75" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+    <path d="M 0 -35 Q 5 -50 -5 -60 Q 5 -70 0 -80" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+    <path d="M 10 -30 Q 15 -45 5 -55 Q 15 -65 10 -75" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+    <!-- 香头火点 -->
+    <circle cx="-10" cy="-30" r="2" fill="#dc2626" opacity="0.8"/>
+    <circle cx="0" cy="-35" r="2" fill="#dc2626" opacity="0.8"/>
+    <circle cx="10" cy="-30" r="2" fill="#dc2626" opacity="0.8"/>
+  </g>
+  <!-- 纸钱/元宝 -->
+  <g opacity="0.3" transform="translate(320, 100)">
+    <path d="M -8 0 L 0 -5 L 8 0 L 4 5 L -4 5 Z" fill="#fbbf24"/>
+  </g>
+  <g opacity="0.25" transform="translate(80, 110)">
+    <path d="M -8 0 L 0 -5 L 8 0 L 4 5 L -4 5 Z" fill="#fbbf24"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="15" font-weight="bold">中国民间信仰调查报告</text>
+</svg>

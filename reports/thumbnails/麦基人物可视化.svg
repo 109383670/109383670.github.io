@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1525"/>
+      <stop offset="100%" stop-color="#0a0810"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 人物弧光 -->
+  <path d="M 120 180 Q 200 80 280 180" fill="none" stroke="url(#arc)" stroke-width="2.5" opacity="0.6"/>
+  <!-- 维度轴 -->
+  <line x1="100" y1="180" x2="300" y2="180" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+  <line x1="200" y1="60" x2="200" y2="200" stroke="url(#accent)" stroke-width="0.5" opacity="0.3"/>
+  <!-- 冲突点 -->
+  <circle cx="120" cy="180" r="5" fill="#dc2626" opacity="0.6"/>
+  <circle cx="200" cy="100" r="5" fill="#f59e0b" opacity="0.7"/>
+  <circle cx="280" cy="180" r="5" fill="#06b6d4" opacity="0.6"/>
+  <!-- 人物剪影 -->
+  <g opacity="0.3" transform="translate(200, 95)">
+    <circle cx="0" cy="-8" r="5" fill="url(#accent)"/>
+    <path d="M -7 0 L 7 0 L 10 15 L -10 15 Z" fill="url(#accent)"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="15" font-weight="bold">麦基《人物》核心技术</text>
+</svg>

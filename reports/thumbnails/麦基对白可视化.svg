@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1525"/>
+      <stop offset="100%" stop-color="#0a0810"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 对话气泡三层 -->
+  <g transform="translate(200, 125)">
+    <!-- 外层：文本层 -->
+    <path d="M -65 -35 Q -70 -35 -70 -30 L -70 15 Q -70 20 -65 20 L -20 20 L -15 30 L -10 20 L 65 20 Q 70 20 70 15 L 70 -30 Q 70 -35 65 -35 Z" fill="none" stroke="url(#accent)" stroke-width="1.5" opacity="0.4"/>
+    <!-- 中层：潜文本 -->
+    <path d="M -50 -20 Q -55 -20 -55 -15 L -55 5 Q -55 10 -50 10 L 50 10 Q 55 10 55 5 L 55 -15 Q 55 -20 50 -20 Z" fill="url(#accent)" opacity="0.08"/>
+    <!-- 内层：真意 -->
+    <circle cx="0" cy="-5" r="8" fill="url(#accent)" opacity="0.3"/>
+    <circle cx="0" cy="-5" r="3" fill="#06b6d4" opacity="0.6"/>
+  </g>
+  <!-- 角色声音 -->
+  <g opacity="0.4">
+    <circle cx="120" cy="100" r="4" fill="#06b6d4"/>
+    <circle cx="280" cy="105" r="4" fill="#a855f7"/>
+    <line x1="120" y1="100" x2="160" y2="115" stroke="#06b6d4" stroke-width="0.5" opacity="0.5"/>
+    <line x1="280" y1="105" x2="240" y2="115" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="15" font-weight="bold">麦基《对白》核心技术</text>
+</svg>

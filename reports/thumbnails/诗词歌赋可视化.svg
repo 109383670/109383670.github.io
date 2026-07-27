@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1520"/>
+      <stop offset="100%" stop-color="#0a0810"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 诗词卷轴 -->
+  <g transform="translate(200, 130)">
+    <rect x="-80" y="-50" width="160" height="100" rx="3" fill="#1a1520" stroke="url(#accent)" stroke-width="1" opacity="0.7"/>
+    <!-- 卷轴轴 -->
+    <rect x="-90" y="-55" width="10" height="110" rx="5" fill="url(#accent)" opacity="0.5"/>
+    <rect x="80" y="-55" width="10" height="110" rx="5" fill="url(#accent)" opacity="0.5"/>
+    <!-- 诗词行 -->
+    <text x="0" y="-25" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="14" opacity="0.7">诗</text>
+    <text x="0" y="-5" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="14" opacity="0.6">词</text>
+    <text x="0" y="15" text-anchor="middle" fill="#a855f7" font-family="serif" font-size="14" opacity="0.6">歌</text>
+    <text x="0" y="35" text-anchor="middle" fill="#6366f1" font-family="serif" font-size="14" opacity="0.6">赋</text>
+  </g>
+  <!-- 印章 -->
+  <rect x="245" y="100" width="20" height="20" rx="2" fill="none" stroke="#dc2626" stroke-width="1.5" opacity="0.5"/>
+  <text x="255" y="115" text-anchor="middle" fill="#dc2626" font-family="serif" font-size="10" opacity="0.5">印</text>
+  <text x="200" y="270" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="17" font-weight="bold">诗词歌赋 · 可视化</text>
+</svg>

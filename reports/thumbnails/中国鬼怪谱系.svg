@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1a1a"/>
+      <stop offset="100%" stop-color="#050a0a"/>
+    </linearGradient>
+    <linearGradient id="ghost" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 冥界月 -->
+  <circle cx="200" cy="100" r="35" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="210" cy="95" r="32" fill="#0d1a1a"/>
+  <!-- 鬼影 -->
+  <path d="M 160 220 Q 160 160 200 150 Q 240 160 240 220 L 235 215 L 230 220 L 225 215 L 220 220 L 215 215 L 210 220 L 205 215 L 200 220 L 195 215 L 190 220 L 185 215 L 180 220 L 175 215 L 170 220 L 165 215 Z"
+    fill="url(#ghost)" opacity="0.5"/>
+  <!-- 眼睛 -->
+  <circle cx="190" cy="175" r="3" fill="#10b981" opacity="0.8"/>
+  <circle cx="210" cy="175" r="3" fill="#10b981" opacity="0.8"/>
+  <!-- 幽灵粒子 -->
+  <circle cx="130" cy="120" r="2" fill="#10b981" opacity="0.4"/>
+  <circle cx="270" cy="110" r="2" fill="#10b981" opacity="0.3"/>
+  <circle cx="290" cy="160" r="1.5" fill="#06b6d4" opacity="0.3"/>
+  <circle cx="110" cy="170" r="1.5" fill="#06b6d4" opacity="0.3"/>
+  <text x="200" y="270" text-anchor="middle" fill="#6ee7b7" font-family="serif" font-size="17" font-weight="bold">中国鬼怪谱系</text>
+</svg>

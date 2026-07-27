@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1a2a3e"/>
+      <stop offset="100%" stop-color="#0a0a1a"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 禅圆 (ensō) -->
+  <circle cx="200" cy="130" r="70" fill="none" stroke="url(#accent)" stroke-width="6" stroke-linecap="round" opacity="0.85"
+    stroke-dasharray="380 60" stroke-dashoffset="-20" transform="rotate(-30 200 130)"/>
+  <circle cx="200" cy="130" r="6" fill="#06b6d4" opacity="0.6"/>
+  <text x="200" y="270" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="18" font-weight="bold">禅宗调查报告</text>
+</svg>
