@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《太玄经》象征体系——可视化图表集</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #8B4513;
+            --primary-light: #A0522D;
+            --accent: #D4A574;
+            --bg: #FAF6F0;
+            --bg-card: #FFFFFF;
+            --text: #2C2416;
+            --text-light: #6B5D4F;
+            --border: #E8DCC8;
+            --shadow: 0 2px 12px rgba(139, 69, 19, 0.08);
+            --shadow-hover: 0 4px 20px rgba(139, 69, 19, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* 顶部封面 */
+        .cover {
+            background: linear-gradient(135deg, #5D4037 0%, #8B4513 50%, #A0522D 100%);
+            color: #FAF6F0;
+            padding: 80px 40px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: "玄";
+            position: absolute;
+            font-size: 400px;
+            opacity: 0.08;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Noto Serif SC", serif;
+            font-weight: bold;
+        }
+
+        .cover h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            position: relative;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        .cover .subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .cover .meta {
+            font-size: 14px;
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .cover .divider {
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+            margin: 24px auto;
+            position: relative;
+        }
+
+        /* 导航栏 */
+        .nav {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: var(--accent);
+            color: var(--bg-card);
+        }
+
+        /* 主体内容 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* 图表卡片 */
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .chart-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .chart-header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .chart-number {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--bg-card);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .chart-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .chart-desc {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .chart-body {
+            background: #FFFEF9;
+            padding: 24px;
+            border-radius: 8px;
+            overflow-x: auto;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-body .mermaid {
+            width: 100%;
+        }
+
+        /* 说明文字 */
+        .chart-note {
+            margin-top: 16px;
+            padding: 16px;
+            background: #FFF8E7;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        /* 对应关系表 */
+        .mapping-table {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .mapping-table h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #F5EFE0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #FFF8E7;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: var(--primary);
+            color: var(--bg);
+            text-align: center;
+            padding: 32px 20px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin: 4px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* 目录卡片网格 */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .toc-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+        }
+
+        .toc-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .toc-item .num {
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .toc-item .name {
+            color: var(--text);
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .cover h1 { font-size: 28px; }
+            .cover .subtitle { font-size: 16px; }
+            .container { padding: 20px; }
+            .chart-card { padding: 20px; }
+            .chart-title { font-size: 20px; }
+            .nav { padding: 12px 20px; }
+        }
+
+        /* Mermaid 渲染样式调整 */
+        .mermaid {
+            font-family: "Noto Sans SC", "Source Han Sans SC", sans-serif !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="cover">
+    <h1>《太玄经》象征体系</h1>
+    <div class="divider"></div>
+    <div class="subtitle">可视化图表集</div>
+    <div class="meta">扬雄 · 西汉 · 三元象征系统 · 20 张 Mermaid 图表</div>
+</div>
+
+<!-- 导航 -->
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-title">太玄经象征研究 · 图表集</div>
+        <div class="nav-links">
+            <a href="#toc">目录</a>
+            <a href="#chart1">三方九州</a>
+            <a href="#chart5">三画符号</a>
+            <a href="#chart9">三元二元</a>
+            <a href="#chart10">玄范畴</a>
+            <a href="#chart16">三大传统</a>
+            <a href="#chart20">体系总览</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- 目录 -->
+    <section id="toc" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">目录</span>
+            <h2 class="chart-title">图表目录</h2>
+            <div class="chart-desc">本图表集共包含 20 张 Mermaid 图表，涵盖结构象征、符号数理、义理象征、思想史定位四大主题。</div>
+        </div>
+        <div class="toc-grid">
+            <a class="toc-item" href="#chart1"><div class="num">图 1</div><div class="name">研究总体框架思维导图</div></a>
+            <a class="toc-item" href="#chart2"><div class="num">图 2</div><div class="name">三方九州宇宙空间图式</div></a>
+            <a class="toc-item" href="#chart3"><div class="num">图 3</div><div class="name">方州部家四级结构生成图</div></a>
+            <a class="toc-item" href="#chart4"><div class="num">图 4</div><div class="name">八十一首生成逻辑流程图</div></a>
+            <a class="toc-item" href="#chart5"><div class="num">图 5</div><div class="name">三画符号象征内涵图</div></a>
+            <a class="toc-item" href="#chart6"><div class="num">图 6</div><div class="name">四重组合示例图</div></a>
+            <a class="toc-item" href="#chart7"><div class="num">图 7</div><div class="name">九赞循环与昼夜对应图</div></a>
+            <a class="toc-item" href="#chart8"><div class="num">图 8</div><div class="name">太玄数理体系图</div></a>
+            <a class="toc-item" href="#chart9"><div class="num">图 9</div><div class="name">三元法与二元法对比图</div></a>
+            <a class="toc-item" href="#chart10"><div class="num">图 10</div><div class="name">玄范畴的多重象征意义图</div></a>
+            <a class="toc-item" href="#chart11"><div class="num">图 11</div><div class="name">阴阳消长与四时配合循环图</div></a>
+            <a class="toc-item" href="#chart12"><div class="num">图 12</div><div class="name">五行配属与三才关系图</div></a>
+            <a class="toc-item" href="#chart13"><div class="num">图 13</div><div class="name">昼夜晦明盈虚三层循环嵌套图</div></a>
+            <a class="toc-item" href="#chart14"><div class="num">图 14</div><div class="name">太玄对魏晋玄学的影响路径图</div></a>
+            <a class="toc-item" href="#chart15"><div class="num">图 15</div><div class="name">太玄与邵雍先天学对比图</div></a>
+            <a class="toc-item" href="#chart16"><div class="num">图 16</div><div class="name">中国象征思维三大传统图</div></a>
+            <a class="toc-item" href="#chart17"><div class="num">图 17</div><div class="name">太玄与周易结构对比图</div></a>
+            <a class="toc-item" href="#chart18"><div class="num">图 18</div><div class="name">八十一首按方州分布总表图</div></a>
+            <a class="toc-item" href="#chart19"><div class="num">图 19</div><div class="name">研究进度甘特图</div></a>
+            <a class="toc-item" href="#chart20"><div class="num">图 20</div><div class="name">象征体系总览思维导图</div></a>
+        </div>
+    </section>
+
+    <!-- 图 1 -->
+    <section id="chart1" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 1</span>
+            <h2 class="chart-title">研究总体框架思维导图</h2>
+            <div class="chart-desc">展示《太玄经》象征体系研究的七章结构，从绪论到结论的完整脉络。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+mindmap
+  root((太玄经象征研究))
+    第一章 绪论
+      研究缘起
+      文献综述
+      研究方法
+      概念界定
+    第二章 成书背景
+      扬雄生平
+      西汉末思想气候
+      撰作动机
+      与周易老子关系
+    第三章 结构象征
+      三方九州图式
+      八十一首生成
+      方州部家四级
+      与周易对比
+    第四章 符号数理
+      三画符号系统
+      四重组合
+      九赞数理
+      三分法哲学
+    第五章 义理象征
+      玄范畴
+      阴阳消长
+      五行配属
+      循环象征
+    第六章 思想史定位
+      对魏晋玄学影响
+      与邵雍比较
+      象征思维传统
+    第七章 结论
+      主要发现
+      研究局限
+            </div>
+        </div>
+    </section>
+
+    <!-- 图 2 -->
+    <section id="chart2" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 2</span>
+            <h2 class="chart-title">三方九州宇宙空间图式</h2>
+            <div class="chart-desc">《太玄》以"三方九州"为基本框架，建构宇宙空间图式。三方对应天地人三才，每方三州对应始中终三时。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    X[玄] --> T[天方]
+    X --> E[地方]
+    X --> H[人方]
+
+    T --> T1[天之上州 始]
+    T --> T2[天之中州 中]
+    T --> T3[天之下州 终]
+
+    E --> E1[地之上州 始]
+    E --> E2[地之中州 中]
+    E --> E3[地之下州 终]
+
+    H --> H1[人之上州 始]
+    H --> H2[人之中州 中]
+    H --> H3[人之下州 终]
+
+    T1 --> P1[九部]
+    T2 --> P2[九部]
+    T3 --> P3[九部]
+    E1 --> P4[九部]
+    E2 --> P5[九部]
+    E3 --> P6[九部]
+    H1 --> P7[九部]
+    H2 --> P8[九部]
+    H3 --> P9[九部]
+
+    P1 --> S1[二十七家/首]
+    P2 --> S2[二十七家/首]
+    P3 --> S3[二十七家/首]
+    P4 --> S4[二十七家/首]
+    P5 --> S5[二十七家/首]
+    P6 --> S6[二十七家/首]
+    P7 --> S7[二十七家/首]
+    P8 --> S8[二十七家/首]
+    P9 --> S9[二十七家/首]
+
+    S1 --> TOTAL[共八十一首]
+    S2 --> TOTAL
+    S3 --> TOTAL
+    S4 --> TOTAL
+    S5 --> TOTAL
+    S6 --> TOTAL
+    S7 --> TOTAL
+    S8 --> TOTAL
+    S9 --> TOTAL
+
+    style X fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style T fill:#ffe6cc,stroke:#8B4513
+    style E fill:#d5e8d4,stroke:#8B4513
+    style H fill:#dae8fc,stroke:#8B4513
+    style TOTAL fill:#fff2cc,stroke:#8B4513,stroke-width:2px
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>3（方）× 3（州）× 3（部）× 3（家）= 81（首），是"三"的四次幂，体现了扬雄对"三"的数理崇拜。
+        </div>
+    </section>
+
+    <!-- 图 3 -->
+    <section id="chart3" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 3</span>
+            <h2 class="chart-title">方—州—部—家四级结构生成图</h2>
+            <div class="chart-desc">四级结构是《太玄》的核心创新，每一级对应一个象征维度，从宏观到微观、从抽象到具体。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    A["第一级 方<br/>天地人三才"] --> B["第二级 州<br/>始中终三时"]
+    B --> C["第三级 部<br/>现象类别"]
+    C --> D["第四级 家<br/>具体德性"]
+
+    A1["宇宙本体<br/>最抽象"] --> B1["时间维度<br/>较具体"]
+    B1 --> C1["现象展开<br/>更具体"]
+    C1 --> D1["德性落实<br/>最具体"]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:2px
+    style B fill:#ffe6cc,stroke:#8B4513,stroke-width:2px
+    style C fill:#fff2cc,stroke:#8B4513,stroke-width:2px
+    style D fill:#d5e8d4,stroke:#8B4513,stroke-width:2px
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>方对应宇宙本体（天、地、人三才），州对应时间维度（始、中、终三时），部对应现象类别，家对应具体德性。从方到家，象征意义层层递进。
+        </div>
+    </section>
+
+    <!-- 图 4 -->
+    <section id="chart4" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 4</span>
+            <h2 class="chart-title">八十一首生成逻辑流程图</h2>
+            <div class="chart-desc">八十一首按"初始—发展—转折—终穷"四个阶段展开，象征宇宙从本源到回归的完整循环。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    A["初始阶段<br/>第1-4首<br/>中、周、礥、闲"] --> B["发展阶段<br/>第5-40首<br/>少至乐"]
+    B --> C["转折阶段<br/>第41-60首<br/>争至强"]
+    C --> D["终穷阶段<br/>第61-81首<br/>睟至养"]
+    D -.->|循环回归| A
+
+    A --> A1["宇宙本源<br/>至中至纯"]
+    B --> B1["宇宙展开<br/>人事状态"]
+    C --> C1["宇宙冲突<br/>动态调整"]
+    D --> D1["宇宙完成<br/>回归养育"]
+
+    style A fill:#f9d5cc,stroke:#8B4513
+    style B fill:#ffe6cc,stroke:#8B4513
+    style C fill:#dae8fc,stroke:#8B4513
+    style D fill:#d5e8d4,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>八十一首形成循环结构——从"中"开始，经过展开、冲突、调整，最终回归到"养"（养育），象征宇宙的循环往复。这一循环不是简单重复，而是螺旋上升。
+        </div>
+    </section>
+
+    <!-- 图 5 -->
+    <section id="chart5" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 5</span>
+            <h2 class="chart-title">三画符号象征内涵图</h2>
+            <div class="chart-desc">"一、二、三"三画符号分别象征天、地、人，是《太玄》区别于《周易》阴阳二爻的根本所在。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[三画符号系统] --> B["一"]
+    A --> C["二"]
+    A --> D["三"]
+
+    B --> B1[天]
+    B --> B2[阳]
+    B --> B3[奇]
+    B --> B4[始]
+
+    C --> C1[地]
+    C --> C2[阴]
+    C --> C3[耦]
+    C --> C4[中]
+
+    D --> D1[人]
+    D --> D2[和]
+    D --> D3[参]
+    D --> D4[终]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style B fill:#fff2cc,stroke:#8B4513
+    style C fill:#dae8fc,stroke:#8B4513
+    style D fill:#d5e8d4,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>扬雄《玄数》："一以天，二以地，三以人。"三画符号是三元并立，区别于《周易》阴阳二爻的二元对待。
+        </div>
+    </section>
+
+    <!-- 图 6 -->
+    <section id="chart6" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 6</span>
+            <h2 class="chart-title">四重组合示例图（中、周、礥、闲四首）</h2>
+            <div class="chart-desc">每首由四重三画组成，从下到上为家、部、州、方。展示前四首的符号组合。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    subgraph 中首["中首 一一一一"]
+        A1["一 方位"]
+        A2["一 州位"]
+        A3["一 部位"]
+        A4["一 家位"]
+    end
+
+    subgraph 周首["周首 一一一二"]
+        B1["一 方位"]
+        B2["一 州位"]
+        B3["一 部位"]
+        B4["二 家位"]
+    end
+
+    subgraph 礥首["礥首 一一一三"]
+        C1["一 方位"]
+        C2["一 州位"]
+        C3["一 部位"]
+        C4["三 家位"]
+    end
+
+    subgraph 闲首["闲首 一一二一"]
+        D1["一 方位"]
+        D2["一 州位"]
+        D3["二 部位"]
+        D4["一 家位"]
+    end
+
+    style A1 fill:#fff2cc,stroke:#8B4513
+    style A2 fill:#fff2cc,stroke:#8B4513
+    style A3 fill:#fff2cc,stroke:#8B4513
+    style A4 fill:#fff2cc,stroke:#8B4513
+    style B4 fill:#dae8fc,stroke:#8B4513
+    style C4 fill:#d5e8d4,stroke:#8B4513
+    style D3 fill:#dae8fc,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>"中"首四重皆一，象征至中至纯，是宇宙本源；"周"首家位变二，象征周流之始；"礥"首家位变三，象征艰险；"闲"首部位变二，象征防卫。
+        </div>
+    </section>
+
+    <!-- 图 7 -->
+    <section id="chart7" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 7</span>
+            <h2 class="chart-title">九赞循环与昼夜对应图</h2>
+            <div class="chart-desc">每首九赞，从初一到上九，象征从夜到昼、从阴到阳的完整循环。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    A["初一<br/>夜半<br/>阴极"] --> B["次二<br/>夜<br/>阳始"]
+    B --> C["次三<br/>晨<br/>阳生"]
+    C --> D["次四<br/>朝<br/>阳盛"]
+    D --> E["次五<br/>日中<br/>阳极"]
+    E --> F["次六<br/>昃<br/>阳衰"]
+    F --> G["次七<br/>夕<br/>阴始"]
+    G --> H["次八<br/>夜<br/>阴长"]
+    H --> I["上九<br/>夜半<br/>阴盛"]
+    I -.->|循环| A
+
+    style A fill:#1a1a2e,color:#fff,stroke:#8B4513
+    style B fill:#16213e,color:#fff,stroke:#8B4513
+    style C fill:#0f3460,color:#fff,stroke:#8B4513
+    style D fill:#e94560,color:#fff,stroke:#8B4513
+    style E fill:#f5b461,color:#000,stroke:#8B4513
+    style F fill:#ec524b,color:#fff,stroke:#8B4513
+    style G fill:#533483,color:#fff,stroke:#8B4513
+    style H fill:#1a1a2e,color:#fff,stroke:#8B4513
+    style I fill:#0a0a0a,color:#fff,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>九赞循环对应一日时间，也对应一年节气。729 赞 ÷ 2 = 364.5，约等于一年 365 日，体现"以数配天"的象征企图。
+        </div>
+    </section>
+
+    <!-- 图 8 -->
+    <section id="chart8" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 8</span>
+            <h2 class="chart-title">太玄数理体系图（3 的幂次）</h2>
+            <div class="chart-desc">《太玄》的数理基于"三"的幂次递进，从三画到七百二十九赞，建构完整的数理体系。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[太玄数理体系] --> B["3的1次方 = 3<br/>三画/三方"]
+    A --> C["3的2次方 = 9<br/>九州/九赞"]
+    A --> D["3的3次方 = 27<br/>二十七部"]
+    A --> E["3的4次方 = 81<br/>八十一首"]
+    A --> F["3的6次方 = 729<br/>七百二十九赞"]
+
+    B --> B1[基本符号]
+    C --> C1[空间/时间单元]
+    D --> D1[现象类别]
+    E --> E1[结构单元]
+    F --> F1[完整循环]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style F fill:#fff2cc,stroke:#8B4513,stroke-width:2px
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>《周易》数理基于"二"（2的6次方=64），《太玄》数理基于"三"（3的4次方=81）。"二"强调对待转化，"三"强调并存调和。
+        </div>
+    </section>
+
+    <!-- 图 9 -->
+    <section id="chart9" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 9</span>
+            <h2 class="chart-title">三元法与二元法对比图</h2>
+            <div class="chart-desc">《太玄》三元法与《周易》二元法的根本差异：从对立到并存，从转化到调和。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    subgraph 二元法["二元法 周易"]
+        A1[阴阳对待]
+        A2[非此即彼]
+        A3[动态消长]
+        A4[转化思维]
+    end
+
+    subgraph 三元法["三元法 太玄"]
+        B1[天地人并立]
+        B2[亦此亦彼]
+        B3[静态调和]
+        B4[并存思维]
+    end
+
+    A1 -.->|对比| B1
+    A2 -.->|对比| B2
+    A3 -.->|对比| B3
+    A4 -.->|对比| B4
+
+    style 二元法 fill:#ffe6cc,stroke:#8B4513
+    style 三元法 fill:#d5e8d4,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>二元法重转化，三元法重并存。三元法的核心意义在于引入"第三方"——人，使宇宙不再是阴阳二元对待，而是天地人三元并存。
+        </div>
+    </section>
+
+    <!-- 图 10 -->
+    <section id="chart10" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 10</span>
+            <h2 class="chart-title">"玄"范畴的多重象征意义图</h2>
+            <div class="chart-desc">"玄"是《太玄》的最高范畴，兼具超越性、生成性、神圣性、统摄性、动力性五重象征意义。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[玄] --> B["幽摛万类<br/>超越性"]
+    A --> C["资陶虚无<br/>生成性"]
+    A --> D["关神明<br/>神圣性"]
+    A --> E["通同古今<br/>统摄性"]
+    A --> F["摛措阴阳<br/>动力性"]
+
+    B --> B1[不见形]
+    C --> C1[生乎规]
+    D --> D1[定摹]
+    E --> E1[开类]
+    F --> F1[发气]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style B fill:#fff2cc,stroke:#8B4513
+    style C fill:#d5e8d4,stroke:#8B4513
+    style D fill:#dae8fc,stroke:#8B4513
+    style E fill:#ffe6cc,stroke:#8B4513
+    style F fill:#e1d5e7,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>与《老子》"道"的生成性实体不同，《太玄》"玄"是象征性指向——它通过结构可以被象征性地把握，体现了扬雄的理性化努力。
+        </div>
+    </section>
+
+    <!-- 图 11 -->
+    <section id="chart11" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 11</span>
+            <h2 class="chart-title">阴阳消长与四时配合循环图</h2>
+            <div class="chart-desc">八十一首与一年四时配合，每季约 20 首，体现阴阳消长的循环。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    A["春 1-20首<br/>阳气始生"] --> B["夏 21-40首<br/>阳气盛极"]
+    B --> C["秋 41-60首<br/>阴气始生"]
+    C --> D["冬 61-81首<br/>阴气盛极"]
+    D -.->|循环| A
+
+    style A fill:#d5e8d4,stroke:#8B4513,stroke-width:2px
+    style B fill:#ffe6cc,stroke:#8B4513,stroke-width:2px
+    style C fill:#fff2cc,stroke:#8B4513,stroke-width:2px
+    style D fill:#dae8fc,stroke:#8B4513,stroke-width:2px
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>《太玄》的阴阳消长与《周易》有重要差异：在《周易》中阴阳消长是核心，在《太玄》中阴阳消长是辅助，服务于三元调和。
+        </div>
+    </section>
+
+    <!-- 图 12 -->
+    <section id="chart12" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 12</span>
+            <h2 class="chart-title">五行配属与三才关系图</h2>
+            <div class="chart-desc">《太玄》将五行纳入三元框架：天方含木火（阳），地方含金水（阴），人方含土（和）。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[三才] --> B[天方 阳]
+    A --> C[地方 阴]
+    A --> D[人方 和]
+
+    B --> B1[木 春]
+    B --> B2[火 夏]
+
+    C --> C1[金 秋]
+    C --> C2[水 冬]
+
+    D --> D1[土 长夏]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style B fill:#ffe6cc,stroke:#8B4513
+    style C fill:#dae8fc,stroke:#8B4513
+    style D fill:#d5e8d4,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>《太玄》"以三统五"——五行虽五，但统于三才。土对应人方，象征"和"居天地之间，使"中"成为象征中心而非地理中心。
+        </div>
+    </section>
+
+    <!-- 图 13 -->
+    <section id="chart13" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 13</span>
+            <h2 class="chart-title">昼夜晦明盈虚三层循环嵌套图</h2>
+            <div class="chart-desc">三种循环相互嵌套：昼夜嵌套于晦明，晦明嵌套于盈虚，盈虚嵌套于宇宙节律。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[循环象征] --> B["昼夜循环<br/>九赞"]
+    A --> C["晦明循环<br/>八十一首"]
+    A --> D["盈虚循环<br/>阴阳五行"]
+
+    B --> B1[一日]
+    C --> C1[一月]
+    D --> D1[一年]
+
+    B1 --> E[时间循环]
+    C1 --> E
+    D1 --> E
+
+    E --> F[宇宙节律]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style E fill:#fff2cc,stroke:#8B4513
+    style F fill:#d5e8d4,stroke:#8B4513,stroke-width:2px
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>循环象征否定了线性时间观，强调时间的循环性。每一循环都在更高层次上回归起点，体现"周而复始"与"日新"的统一。
+        </div>
+    </section>
+
+    <!-- 图 14 -->
+    <section id="chart14" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 14</span>
+            <h2 class="chart-title">《太玄》对魏晋玄学的影响路径图</h2>
+            <div class="chart-desc">《太玄》通过"玄"范畴、三才思想、理性化倾向三个方面间接影响魏晋玄学。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[太玄经] --> B[玄范畴]
+    A --> C[三才思想]
+    A --> D[理性化倾向]
+
+    B --> B1["魏晋玄学以玄为名"]
+    C --> C1["王弼圣人体无"]
+    C --> C2["郭象性分说"]
+    D --> D1["王弼得意忘言"]
+    D --> D2["郭象独化说"]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style B fill:#fff2cc,stroke:#8B4513
+    style C fill:#d5e8d4,stroke:#8B4513
+    style D fill:#dae8fc,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>《太玄》对魏晋玄学的影响是间接的、潜在的。魏晋玄学以《老》《庄》《易》为"三玄"，未将《太玄》纳入核心经典，但《太玄》提供了重要的思想先例。
+        </div>
+    </section>
+
+    <!-- 图 15 -->
+    <section id="chart15" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 15</span>
+            <h2 class="chart-title">《太玄》与邵雍先天学对比图</h2>
+            <div class="chart-desc">《太玄》以"三"为本，重静态结构；邵雍先天学以"二"为本，重动态转化。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    subgraph 太玄["太玄 扬雄"]
+        A1["基本单元 三"]
+        A2["结构 方州部家四级"]
+        A3["数理 3的4次方=81"]
+        A4["倾向 三才并立"]
+        A5["方式 静态调和"]
+        A6["影响 边缘化"]
+    end
+
+    subgraph 先天学["先天学 邵雍"]
+        B1["基本单元 二"]
+        B2["结构 太极两仪四象八卦"]
+        B3["数理 2的6次方=64"]
+        B4["倾向 阴阳消长"]
+        B5["方式 动态转化"]
+        B6["影响 主流"]
+    end
+
+    style 太玄 fill:#d5e8d4,stroke:#8B4513
+    style 先天学 fill:#ffe6cc,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>邵雍评价《太玄》："扬雄作《太玄》，准《易》也，然其数不及《易》之半。"这一评价反映了邵雍以"二"为本位的立场。
+        </div>
+    </section>
+
+    <!-- 图 16 -->
+    <section id="chart16" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 16</span>
+            <h2 class="chart-title">中国象征思维三大传统图</h2>
+            <div class="chart-desc">中国象征思维分为三大系统：易学（二元）、太玄（三元）、五行（五元），《太玄》是唯一系统的三元象征体系。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    A[中国象征思维传统] --> B["易学传统<br/>二元象征"]
+    A --> C["太玄传统<br/>三元象征"]
+    A --> D["五行传统<br/>五元象征"]
+
+    B --> B1[周易]
+    B --> B2[邵雍先天学]
+    B --> B3[明清易学]
+
+    C --> C1[扬雄太玄]
+    C --> C2[司马光潜虚]
+    C --> C3[明清太玄学]
+
+    D --> D1[洪范]
+    D --> D2[淮南子]
+    D --> D3[中医风水]
+
+    style A fill:#f9d5cc,stroke:#8B4513,stroke-width:3px
+    style B fill:#ffe6cc,stroke:#8B4513
+    style C fill:#d5e8d4,stroke:#8B4513,stroke-width:2px
+    style D fill:#dae8fc,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>太玄传统在中国思想史上是边缘化的，但在当代语境下，三元思维为非二元思维提供了重要的传统资源，具有重新发掘的价值。
+        </div>
+    </section>
+
+    <!-- 图 17 -->
+    <section id="chart17" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 17</span>
+            <h2 class="chart-title">《太玄》与《周易》结构对比图</h2>
+            <div class="chart-desc">从基本单元、卦/首数、爻/赞数、结构层级等七个维度对比两者。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart LR
+    subgraph 周易["周易"]
+        A1["基本单元 阴阳二爻"]
+        A2["卦数 64 2的6次方"]
+        A3["爻数 384"]
+        A4["结构 卦爻两级"]
+        A5["空间 八卦方位"]
+        A6["时间 六爻消长"]
+        A7["倾向 二元对待"]
+    end
+
+    subgraph 太玄["太玄"]
+        B1["基本单元 一二三三画"]
+        B2["首数 81 3的4次方"]
+        B3["赞数 729"]
+        B4["结构 方州部家四级"]
+        B5["空间 三方九州"]
+        B6["时间 九赞循环"]
+        B7["倾向 三元辩证"]
+    end
+
+    style 周易 fill:#ffe6cc,stroke:#8B4513
+    style 太玄 fill:#d5e8d4,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>《太玄》并非《周易》的简单扩充（从 64 到 81），而是思维方式的根本转变——从二元到三元，引入"第三方"——人。
+        </div>
+    </section>
+
+    <!-- 图 18 -->
+    <section id="chart18" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 18</span>
+            <h2 class="chart-title">八十一首按方州分布总表图</h2>
+            <div class="chart-desc">八十一首按三方九州分布，每州九首，每方二十七首。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+flowchart TD
+    subgraph 天方["天方 27首"]
+        T1["上州 中周礥闲少戾上干羡"]
+        T2["中州 差童增锐达交耎徯从"]
+        T3["下州 进释格夷乐争务事更"]
+    end
+
+    subgraph 地方["地方 27首"]
+        E1["上州 断毅装众密亲敛强睟盛"]
+        E2["中州 居法应迎遇灶大廓文礼"]
+        E3["下州 逃唐常度永昆减唫守翕"]
+    end
+
+    subgraph 人方["人方 27首"]
+        H1["上州 聚积饰疑沈内去晦瞀童"]
+        H2["中州 增锐达交耎徯从进释格"]
+        H3["下州 夷乐争务事更断毅装众"]
+    end
+
+    style 天方 fill:#ffe6cc,stroke:#8B4513
+    style 地方 fill:#dae8fc,stroke:#8B4513
+    style 人方 fill:#d5e8d4,stroke:#8B4513
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>八十一首的命名遵循一定原则，从首序看可分为初始、发展、转折、终穷四个阶段，象征宇宙从本源到回归的完整循环。
+        </div>
+    </section>
+
+    <!-- 图 19 -->
+    <section id="chart19" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 19</span>
+            <h2 class="chart-title">研究进度甘特图</h2>
+            <div class="chart-desc">研究共 12 周，分为文献准备、专题研究、比较与综合、撰写修改四个阶段。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+gantt
+    title 研究进度安排 共12周
+    dateFormat  YYYY-MM-DD
+    axisFormat  %m月%d日
+
+    section 文献准备
+    原典精读           :a1, 2026-08-01, 21d
+    研究文献综述       :a2, 2026-08-08, 21d
+
+    section 专题研究
+    结构象征研究       :b1, after a1, 14d
+    符号数理研究       :b2, after b1, 14d
+    义理象征研究       :b3, after b2, 10d
+
+    section 比较与综合
+    与周易比较         :c1, after b1, 7d
+    思想史定位         :c2, after b3, 7d
+
+    section 撰写修改
+    初稿撰写           :d1, after c2, 21d
+    修改定稿           :d2, after d1, 14d
+            </div>
+        </div>
+    </section>
+
+    <!-- 图 20 -->
+    <section id="chart20" class="chart-card">
+        <div class="chart-header">
+            <span class="chart-number">图 20</span>
+            <h2 class="chart-title">象征体系总览思维导图</h2>
+            <div class="chart-desc">总览《太玄》象征体系的全部内容，包括结构象征、符号数理、义理象征三大层面。</div>
+        </div>
+        <div class="chart-body">
+            <div class="mermaid">
+mindmap
+  root((太玄象征体系))
+    结构象征
+      三方九州
+        天方
+        地方
+        人方
+      四级嵌套
+        方 宇宙本体
+        州 时间维度
+        部 现象类别
+        家 具体德性
+      八十一首
+        初始 中周礥闲
+        发展 少至乐
+        转折 争至强
+        终穷 睟至养
+    符号数理
+      三画符号
+        一 天阳奇始
+        二 地阴耦中
+        三 人和参终
+      四重组合
+        家位
+        部位
+        州位
+        方位
+      数理体系
+        3的1次方 三
+        3的2次方 九
+        3的3次方 二十七
+        3的4次方 八十一
+        3的6次方 七百二十九
+    义理象征
+      玄范畴
+        超越性
+        生成性
+        统摄性
+        动力性
+      阴阳消长
+        春阳始生
+        夏阳盛极
+        秋阴始生
+        冬阴盛极
+      五行配属
+        天方 木火
+        地方 金水
+        人方 土
+      循环象征
+        昼夜循环
+        晦明循环
+        盈虚循环
+    核心特征
+      三分法
+        天地人并立
+        亦此亦彼
+        静态调和
+        并存思维
+      非二元
+        区别于周易
+        独立体系
+        边缘传统
+            </div>
+        </div>
+        <div class="chart-note">
+            <strong>说明：</strong>本图总览《太玄》象征体系的全部内容，核心特征是"三分法"——以天、地、人三才并立代替阴阳二元对待。
+        </div>
+    </section>
+
+    <!-- 对应关系表 -->
+    <section class="mapping-table">
+        <h2>图表与正文章节对应关系</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>图表编号</th>
+                    <th>对应正文章节</th>
+                    <th>用途</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>图 1</td><td>全文</td><td>研究总体框架</td></tr>
+                <tr><td>图 2</td><td>3.1</td><td>三方九州图式</td></tr>
+                <tr><td>图 3</td><td>3.3</td><td>四级结构解析</td></tr>
+                <tr><td>图 4</td><td>3.2</td><td>八十一首生成</td></tr>
+                <tr><td>图 5</td><td>4.1</td><td>三画符号内涵</td></tr>
+                <tr><td>图 6</td><td>4.2</td><td>四重组合示例</td></tr>
+                <tr><td>图 7</td><td>4.3</td><td>九赞循环</td></tr>
+                <tr><td>图 8</td><td>4.3</td><td>数理体系</td></tr>
+                <tr><td>图 9</td><td>4.4</td><td>三元与二元对比</td></tr>
+                <tr><td>图 10</td><td>5.1</td><td>玄范畴</td></tr>
+                <tr><td>图 11</td><td>5.2</td><td>阴阳四时</td></tr>
+                <tr><td>图 12</td><td>5.3</td><td>五行配属</td></tr>
+                <tr><td>图 13</td><td>5.4</td><td>三层循环</td></tr>
+                <tr><td>图 14</td><td>6.1</td><td>对魏晋玄学影响</td></tr>
+                <tr><td>图 15</td><td>6.2</td><td>与邵雍比较</td></tr>
+                <tr><td>图 16</td><td>6.3</td><td>象征思维传统</td></tr>
+                <tr><td>图 17</td><td>3.4</td><td>与周易对比</td></tr>
+                <tr><td>图 18</td><td>3.2</td><td>八十一首分布</td></tr>
+                <tr><td>图 19</td><td>研究方案</td><td>进度安排</td></tr>
+                <tr><td>图 20</td><td>全文</td><td>体系总览</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+    <p>《太玄经》象征体系——可视化图表集</p>
+    <p>扬雄 · 西汉 · 三元象征系统</p>
+    <p>共 20 张 Mermaid 图表 · 配套正文报告使用</p>
+</div>
+
+<script>
+    // 初始化 Mermaid
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+            primaryColor: '#fff2cc',
+            primaryTextColor: '#2C2416',
+            primaryBorderColor: '#8B4513',
+            lineColor: '#8B4513',
+            secondaryColor: '#ffe6cc',
+            tertiaryColor: '#FAF6F0',
+            fontFamily: '"Noto Sans SC", "Source Han Sans SC", sans-serif'
+        },
+        flowchart: {
+            curve: 'basis',
+            padding: 20
+        },
+        mindmap: {
+            padding: 20
+        }
+    });
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

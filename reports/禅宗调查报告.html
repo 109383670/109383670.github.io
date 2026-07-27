@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>禅宗调查报告——从印度禅定到中国禅宗</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141e;
+  --border: #2a2a3a;
+  --accent: #d4a017;
+  --accent2: #c41e3a;
+  --text: #e0e0e0;
+  --muted: #8888a0;
+  --c1: #4a3f6b;
+  --c2: #8b6914;
+  --c3: #1a3a5c;
+  --c4: #2d6a4f;
+  --c5: #5c3a1a;
+  --c6: #8b0000;
+  --c7: #4a4a6b;
+  --c8: #6b4a3f;
+  --c9: #3a1a3a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:"PingFang SC","Noto Serif SC",serif; line-height:1.6; padding:20px; }
+.header { text-align:center; padding:40px 20px; border-bottom:2px solid var(--accent); margin-bottom:30px; }
+.header h1 { font-size:2.4em; color:var(--accent); letter-spacing:0.1em; }
+.header p { color:var(--muted); margin-top:8px; font-size:0.95em; }
+.tabs { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:30px; }
+.tab-btn { background:var(--card); border:1px solid var(--border); color:var(--text); padding:10px 20px; border-radius:8px; cursor:pointer; font-size:0.95em; font-family:inherit; transition:all 0.2s; }
+.tab-btn:hover { border-color:var(--accent); background:#1a1a2a; }
+.tab-btn.active { background:var(--accent); border-color:var(--accent); color:#000; }
+.panel { display:none; }
+.panel.active { display:block; }
+.cat-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+.cat-icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.4em; font-weight:bold; }
+.cat-title { font-size:1.5em; font-weight:bold; }
+.cat-desc { color:var(--muted); font-size:0.9em; margin-left:12px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-bottom:40px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; transition:border-color 0.2s; margin-bottom:16px; }
+.card:hover { border-color:var(--accent); }
+.card-name { font-size:1.15em; font-weight:bold; color:var(--accent); margin-bottom:4px; }
+.card-alias { color:var(--muted); font-size:0.85em; margin-bottom:10px; }
+.card-row { display:flex; gap:8px; margin-bottom:6px; font-size:0.88em; }
+.card-label { min-width:60px; color:var(--muted); flex-shrink:0; }
+.card-value { color:var(--text); }
+.card-body { color:var(--text); font-size:0.9em; margin-top:10px; line-height:1.7; }
+table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:0.88em; }
+th,td { border:1px solid var(--border); padding:8px 12px; text-align:left; }
+th { background:#1a1a2a; color:var(--accent); }
+tr:hover { background:#1a1a2a; }
+.footer { text-align:center; color:var(--muted); padding:30px 0; border-top:1px solid var(--border); font-size:0.85em; }
+.section-title { color:var(--accent); font-size:1.2em; margin:20px 0 10px; }
+.sub-title { color:var(--accent2); font-size:1.05em; margin:16px 0 8px; }
+.section-text { margin-bottom:14px; font-size:0.92em; line-height:1.8; }
+.nodelist { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; }
+.nodelist h4 { color:var(--accent); margin-bottom:8px; }
+.nodelist-item { padding:6px 0; border-bottom:1px solid var(--border); font-size:0.9em; }
+.nodelist-item:last-child { border-bottom:none; }
+.flow { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; font-family:monospace; font-size:0.85em; white-space:pre-wrap; color:var(--text); }
+.quote { background:#1a1a2a; border-left:4px solid var(--accent); padding:12px 16px; margin:10px 0; font-style:italic; color:var(--text); border-radius:4px; }
+.quote-source { color:var(--muted); font-size:0.8em; margin-top:6px; font-style:normal; }
+.bold { color:var(--accent); font-weight:bold; }
+.accent-text { color:var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>禅宗调查报告</h1>
+  <p>从印度禅定到中国禅宗 —— 一场佛教内部的基因突变 | 十二章节</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showPanel('p1')">序言</button>
+  <button class="tab-btn" onclick="showPanel('p2')">印度源头</button>
+  <button class="tab-btn" onclick="showPanel('p3')">达摩</button>
+  <button class="tab-btn" onclick="showPanel('p4')">楞伽经</button>
+  <button class="tab-btn" onclick="showPanel('p5')">惠能革命</button>
+  <button class="tab-btn" onclick="showPanel('p6')">五家七宗</button>
+  <button class="tab-btn" onclick="showPanel('p7')">公案</button>
+  <button class="tab-btn" onclick="showPanel('p8')">看话vs默照</button>
+  <button class="tab-btn" onclick="showPanel('p9')">文字禅</button>
+  <button class="tab-btn" onclick="showPanel('p10')">文化与道家</button>
+  <button class="tab-btn" onclick="showPanel('p11')">学术研究</button>
+  <button class="tab-btn" onclick="showPanel('p12')">结语</button>
+</div>
+
+<!-- ============ 1. 序言 ============ -->
+<div id="p1" class="panel active">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1)">序</div><div><div class="cat-title">序言</div><div class="cat-desc">一个问题：佛教中最"反佛教"的一派</div></div></div>
+
+  <div class="section-title">使用说明</div>
+  <div class="nodelist">
+    <div class="nodelist-item">本报告以"历史脉络 + 核心思想 + 公案教学"三条主线展开</div>
+    <div class="nodelist-item">与儒家生死观报告、道家神仙观报告、佛家调查报告构成完整的中国思想史四件套</div>
+    <div class="nodelist-item">调查时间：2026年7月27日 | 方法：原典文本梳理 + 学术研究文献检索 + 敦煌文献利用 + 跨学派对比</div>
+  </div>
+
+  <div class="section-title">禅宗的悖论</div>
+  <div class="section-text">
+    禅宗有个奇怪的特征：它是佛教中最"反佛教"的一派。原始佛教讲究次第修行——戒定慧三学，八正道，四禅八定，一步一步来。禅宗却说"直指人心，见性成佛"，不需要这些。原始佛教尊重经典，三藏十二部浩如烟海。禅宗却说"不立文字，教外别传"——佛陀真正的法不在经书里。
+  </div>
+
+  <div class="quote">
+    德山宣鉴说："我这里无佛无祖，达摩是老臊胡，释迦老子是干屎橛，文殊普贤是担屎汉。"
+    <div class="quote-source">——德山宣鉴</div>
+  </div>
+
+  <div class="quote">
+    临济义玄说："逢佛杀佛，逢祖杀祖，逢罗汉杀罗汉。"
+    <div class="quote-source">——临济义玄</div>
+  </div>
+
+  <div class="quote">
+    丹霞天然把木佛劈了烧火取暖。
+    <div class="quote-source">——丹霞天然</div>
+  </div>
+
+  <div class="section-text">
+    这不是佛教徒能说的话。但说这话的人，是最核心的佛教徒。怎么解释？禅宗不是"反佛教"——它是佛教内部的一次<span class="bold">返祖冲动</span>：回到佛陀在菩提树下的那一刻——不是读经读出来的，不是打坐坐出来的，是直接看见的。禅宗要把这个"直接看见"的能力还给每个人。
+  </div>
+
+  <div class="section-text">
+    这份报告要回答：印度禅定怎么变成中国禅宗的？这场突变在每一个节点上做了什么？
+  </div>
+</div>
+
+<!-- ============ 2. 印度源头 ============ -->
+<div id="p2" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c2)">印</div><div><div class="cat-title">第一章 印度源头：禅那（dhyāna）传入中国</div></div></div>
+
+  <div class="section-title">1.1 禅那在印度的本义</div>
+  <div class="section-text">
+    "禅"是梵文 dhyāna（ध्यान）的音译简称，全译"禅那"，意译为"静虑"——在寂静中思虑。在印度佛教里，禅定是"共法"——外道也修禅定，佛教的独特性不在这里。佛教的"不共法"是<span class="bold">般若智慧</span>。禅定只是工具——把心静下来，然后观。
+  </div>
+
+  <div class="section-title">四禅八定</div>
+  <table id="sichan"></table>
+
+  <div class="section-title">1.2 安世高：禅数学传入中国</div>
+  <div class="section-text">公元148年，安世高到达洛阳，系统翻译禅数学。代表译作：《安般守意经》《阴持入经》《十二门经》。安世高的译文是中国禅法的<span class="bold">技术词汇库</span>——不能说安世高就是禅宗的始祖，但后来一切中国禅法都从他提供的词汇起步。</div>
+
+  <div class="section-title">安般守意六阶段</div>
+  <table id="anban"></table>
+
+  <div class="section-title">1.3 鸠摩罗什与《坐禅三昧经》</div>
+  <div class="section-text">公元401年鸠摩罗什入长安。他第一次将大乘空观融入禅修——禅不只是把心静下来，禅的本质是般若空的体现。这为禅宗后来的"定慧一体"埋下了<span class="bold">理论伏笔</span>。</div>
+  <div class="quote">若初习坐禅之人，心神驰散，不能自制。应当系心一处，或额上，或鼻端，或心中。若无异缘，心则得定。<div class="quote-source">——《坐禅三昧经》卷上</div></div>
+
+  <div class="section-title">1.4 慧远与庐山禅修团体</div>
+  <div class="section-text">公元381年慧远入庐山，组织中国历史上<span class="bold">第一个集体禅修团体</span>。慧远的禅法融合了两个东西：印度禅定的技术 + 中国道家"气""神"的概念。他把禅定状态描述为"气虚神朗"——用道家概念重新描述禅定体验，标志着印度禅法在中国第一轮本土化。</div>
+</div>
+
+<!-- ============ 3. 达摩 ============ -->
+<div id="p3" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c3)">达</div><div><div class="cat-title">第二章 达摩：传说与历史之间</div></div></div>
+
+  <div class="section-title">2.1 胡适《楞伽宗考》</div>
+  <div class="section-text">1935年胡适发表《楞伽宗考》：<span class="bold">把达摩从神坛拉下来，放到历史研究的地面上。</span></div>
+  <div class="quote">达摩的禅法是"理入"和"行入"——"藉教悟宗"，"凝住壁观"。这与后来的"不立文字""机锋棒喝"判若两派。达摩传授的是《楞伽经》，核心教法仍然是印度禅定的延续，不是中国禅宗的创立。<div class="quote-source">——胡适《楞伽宗考》</div></div>
+
+  <div class="section-title">楞伽宗传承线索</div>
+  <table id="lengqiezong"></table>
+
+  <div class="section-text">胡适的爆炸性结论：<span class="bold">神秀才是楞伽宗的正统传人。惠能是"楞伽革命"的产物</span>——他用《金刚经》取代《楞伽经》，改变了整个传承的教义基础。所谓"达摩传心法给惠能"的谱系，是惠能一系后来编造的。</div>
+
+  <div class="section-title">2.2 铃木大拙的反驳</div>
+  <div class="quote">胡适把禅宗看成可以用文献考据来还原的历史对象。但禅不是历史，禅是体验。你在那一瞬间看见了什么——考据没办法告诉你。而那一瞬间才是禅。<div class="quote-source">——铃木大拙《禅：答胡适》</div></div>
+  <div class="section-text">胡铃之争是禅宗研究史上最精彩的学术交锋。核心分歧：禅是可以用历史学方法研究的宗教现象，还是一种无法外化为学术对象的个人体验？</div>
+
+  <div class="section-title">2.3 达摩的历史面目</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">南天竺僧人</span>（一说是波斯人），约公元5世纪末到6世纪初入华</div>
+    <div class="nodelist-item"><span class="bold">经由海路到达广州</span>（不是"一苇渡江"的戏剧化版本），后被梁武帝迎请至建康</div>
+    <div class="nodelist-item"><span class="bold">与梁武帝的对话是一次失败的面试</span>——梁武帝问"朕造寺度僧无数，有何功德？"达摩答"并无功德"。帝不契</div>
+    <div class="nodelist-item"><span class="bold">少林寺面壁九年</span>的说法最早见于8世纪文献，可能是后世渲染</div>
+  </div>
+
+  <div class="section-title">2.4 二入四行：达摩禅的原貌</div>
+  <div class="quote">藉教悟宗，深信含生同一真性。客尘障故，令舍伪归真。凝住壁观，无自无他，凡圣等一。坚住不移，不随他教。与道冥符，寂然无为。<div class="quote-source">——达摩《二入四行论》</div></div>
+  <table id="sixing"></table>
+
+  <div class="section-title">2.5 传说的宗教功能</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">一苇渡江：</span>神迹化，增强祖师合法性</div>
+    <div class="nodelist-item"><span class="bold">面壁九年：</span>九年"默然无言"——为什么无言？建构了禅宗"不立文字"的叙事原型</div>
+    <div class="nodelist-item"><span class="bold">断臂求法：</span>慧可立雪断臂——求法要有"断臂"的决心</div>
+    <div class="nodelist-item"><span class="bold">只履西归：</span>达摩死后开棺只余一履——祖师没有死，只是"归"了</div>
+  </div>
+</div>
+
+<!-- ============ 4. 楞伽经 ============ -->
+<div id="p4" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c4)">楞</div><div><div class="cat-title">第三章 《楞伽经》阶段：从达摩到弘忍</div></div></div>
+
+  <div class="section-title">3.1 《楞伽经》的核心概念</div>
+  <div class="section-text">《楞伽经》全名《楞伽阿跋多罗宝经》，是如来藏系核心经典。达摩付嘱慧可"吾有《楞伽》四卷，可以印心"——传说不管真假，指出一个事实：<span class="bold">从达摩到弘忍，楞伽经是核心教典。</span></div>
+
+  <div class="sub-title">① 自性清净心 / 如来藏</div>
+  <div class="quote">如来藏自性清净，转三十二相入于一切众生身中。如大价宝垢衣所缠，如来之藏常住不变，亦复如是。<div class="quote-source">——《楞伽经》卷二</div></div>
+  <div class="section-text">修行不是"获得"什么，是"去掉"遮蔽。这就是禅宗"明心见性"的理论基石。</div>
+
+  <div class="sub-title">② 五法与三自性</div>
+  <div class="section-text">五法（名、相、分别、正智、如如）和三自性（遍计所执性、依他起性、圆成实性）的认识论体系：我们给事物起名字（名），执着于事物的样子（相），产生分别判断（分别）——这些都是虚妄的。要转成"正智"，契入"如如"（真如）。</div>
+
+  <div class="sub-title">③ 宗通与说通</div>
+  <div class="quote">佛告大慧：一切声闻缘觉菩萨有二种通相，谓宗通及说通……宗通者，谓缘自得胜进相，远离言说文字妄相……说通者，谓随众生心之所应，为说种种众具契经。<div class="quote-source">——《楞伽经》卷三</div></div>
+  <div class="section-text">这是禅宗"教外别传"的最早经典依据：<span class="bold">宗通</span>是内在的、超越文字的证悟；<span class="bold">说通</span>是用语言教化的方便。经书里的文字是"说通"，真正的法是"宗通"。</div>
+
+  <div class="section-title">3.2 祖师谱系</div>
+  <table id="zushixi"></table>
+
+  <div class="section-title">3.3 道信：引入般若</div>
+  <div class="section-text">道信祖师的突破是把《文殊说般若经》引入楞伽禅体系。"守一不移"：<span class="quote">守一不移者，以此空净眼，注意看一物。无间昼夜时，专精常不动。<div class="quote-source">——道信《入道安心要方便法门》</div></span></div>
+  <div class="section-text"><span class="bold">关键判断：</span>道信在楞伽宗的"如来藏"框架里开了一个般若的窗口。"心即是佛"的种子已经播下——只等惠能来让它发芽。</div>
+</div>
+
+<!-- ============ 5. 惠能革命 ============ -->
+<div id="p5" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c5)">惠</div><div><div class="cat-title">第四章 惠能革命：禅宗的"创世记"</div></div></div>
+
+  <div class="section-title">4.1 《坛经》——唯一被尊为"经"的中国人著作</div>
+  <div class="section-text">在佛教传统中，只有佛陀亲说的法才能叫"经"。唯一的例外是《六祖坛经》。<span class="bold">这在禅宗看来，惠能说的和佛陀说的是一个级别的东西。</span></div>
+
+  <div class="section-title">4.2 《坛经》四版本对比</div>
+  <table id="tanjing"></table>
+  <div class="section-text">柳田圣山指出：《坛经》不是一个人的著作，是一个学派在二百年间不断编辑、增补、改写的产物。惠能的"原话"已经不可复原。</div>
+
+  <div class="section-title">4.3 两个偈子的公案</div>
+  <div class="quote"><span class="bold">神秀：</span>身是菩提树，心如明镜台。时时勤拂拭，勿使惹尘埃。</div>
+  <div class="quote"><span class="bold">惠能（敦煌本）：</span>菩提本无树，明镜亦非台。佛性常清净，何处有尘埃？<br><span style="color:var(--muted)">（宗宝本改为"本来无一物，何处惹尘埃"——更激进更符合空观）</span></div>
+
+  <div class="section-title">4.4 神秀 vs 惠能教义对比</div>
+  <table id="shenxiu_vs_huineng"></table>
+
+  <div class="section-title">4.5 惠能核心教义</div>
+  <div class="sub-title">① 无念、无相、无住</div>
+  <div class="quote">善知识，我此法门，从上以来，先立无念为宗，无相为体，无住为本。无相者，于相而离相。无念者，于念而无念。无住者，人之本性。<div class="quote-source">——《六祖坛经》（敦煌本）</div></div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">无念：</span>不是没有念头，是"于念而不念"——念头来来去去，你不黏上去</div>
+    <div class="nodelist-item"><span class="bold">无相：</span>不是没有形象，是"于相而离相"——看见但不执着于所见</div>
+    <div class="nodelist-item"><span class="bold">无住：</span>心不执着于任何对象，念念不住</div>
+  </div>
+
+  <div class="sub-title">② 定慧一体</div>
+  <div class="quote">定慧一体，不是二。定是慧体，慧是定用。即慧之时定在慧，即定之时慧在定。<div class="quote-source">——《六祖坛经》（敦煌本）</div></div>
+
+  <div class="sub-title">③ 不立文字</div>
+  <div class="quote">心迷法华转，心悟转法华。诵经久不明，与义作仇家。<div class="quote-source">——惠能</div></div>
+
+  <div class="sub-title">④ 顿悟</div>
+  <div class="quote">不悟即佛是众生，一念悟时众生是佛。故知万法尽在自心。何不从自心中，顿见真如本性？<div class="quote-source">——《六祖坛经》（敦煌本）</div></div>
+
+  <div class="section-title">4.6 神会与"南宗北伐"</div>
+  <div class="section-text">公元732年，神会在滑台大云寺召开无遮大会，公开挑战北宗：达摩传法不是传给神秀而是传给惠能、北宗"渐修"违背达摩真精神、北宗依附皇室是政治佛教。安史之乱后神会为朝廷筹饷有功——<span class="bold">禅宗南宗正统地位，一半是教义胜利，一半是历史偶然。</span></div>
+</div>
+
+<!-- ============ 6. 五家七宗 ============ -->
+<div id="p6" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c6)">宗</div><div><div class="cat-title">第五章 五家七宗：禅宗的黄金时代</div></div></div>
+
+  <div class="section-title">5.1 总览</div>
+  <div class="section-text">惠能之后约150年，南宗分化出五家（临济、曹洞、云门、法眼、沩仰），临济宗后来又分出两支（黄龙、杨岐），合称"五家七宗"。<span class="bold">差异本质不在教义——核心教义都根植于惠能的"见性成佛"。差异在教学方法论：用什么手段帮学生跨过"从知道到做到"的那一步。</span></div>
+
+  <div class="section-title">谱系树</div>
+  <div class="flow">南宗(惠能)
+  ├─ 南岳怀让(677-744)
+  │    └─ 马祖道一(709-788)──百丈怀海(749-814)
+  │         ├─ 黄檗希运──临济义玄(？-867) → 临济宗
+  │         │    ├─ 黄龙慧南 → 黄龙派
+  │         │    └─ 杨岐方会 → 杨岐派
+  │         └─ 沩山灵祐──仰山慧寂 → 沩仰宗
+  └─ 青原行思(671-740)
+       └─ 石头希迁(700-790)
+            ├─ 药山惟俨──云岩昙晟──洞山良价──曹山本寂 → 曹洞宗
+            └─ 天皇道悟──龙潭崇信──德山宣鉴──雪峰义存
+                 ├─ 云门文偃 → 云门宗
+                 └─ 玄沙师备──罗汉桂琛──法眼文益 → 法眼宗</div>
+
+  <div class="section-title">5.2 七家对比</div>
+  <table id="qijia"></table>
+
+  <div class="section-title">5.3 各宗特征速览</div>
+  <div class="card"><div class="card-name">临济宗 · 最猛烈</div><div class="card-body">临济义玄的"四喝"——有时一喝如金刚王宝剑（斩断妄想），有时一喝如踞地金毛师子（威吓），有时一喝如探竿影草（试探深浅），有时一喝不作一喝用（打破对"喝"的期待本身）。<br><br><span class="bold">四料简：</span>夺人不夺境、夺境不夺人、人境俱夺、人境俱不夺。<br><br>最惊人的话——"逢佛杀佛，逢祖杀祖，逢罗汉杀罗汉，始得解脱。"不是叫人去杀人，是叫你<span class="bold">"杀"掉心中对权威的依赖和执着。</span></div></div>
+
+  <div class="card"><div class="card-name">曹洞宗 · 最温和</div><div class="card-body">五位君臣——用"君"（正、理、空）和"臣"（偏、事、有）的关系描述修行五阶段。洞山过水看到自己倒影时豁然开悟："切忌从他觅，迢迢与我疏。我今独自往，处处得逢渠。渠今正是我，我今不是渠。"<span class="bold">教学风格绵密回互、次第引导。</span></div></div>
+
+  <div class="card"><div class="card-name">德山宣鉴 · 比临济更猛</div><div class="card-body">"我这里无祖无佛，达摩是老臊胡，释迦老子是干屎橛，文殊普贤是担屎汉。"<br>"道得也三十棒，道不得也三十棒。"——<span class="bold">你回答也打，不回答也打。</span>打到你不靠脑子靠本能的那一瞬间，门开了。</div></div>
+
+  <div class="card"><div class="card-name">云门宗 · 一字禅</div><div class="card-body">云门文偃"一字关"——问"如何是正法眼？"答"普。"<br>三句话："一句函盖乾坤，一句截断众流，一句随波逐浪。"<br>"日日是好日"——不是鸡汤，是：<span class="bold">当你不分别好日坏日、过去将来时，每一个"今天"都是完整的。</span></div></div>
+
+  <div class="card"><div class="card-name">法眼宗 · 华严禅融合</div><div class="card-body">法眼文益将华严"理事无碍"和禅宗"明心见性"融合。"一切现成"——修行不是要给你添加什么，是一切本来就具足。编撰《宗门十规论》，是禅宗自我反思的重要文献。</div></div>
+
+  <div class="card"><div class="card-name">沩仰宗 · 最哲学化</div><div class="card-body">仰山创造九十六种圆相符号表达语言无法表达的禅意——禅宗最接近"视觉化教学"的时刻。师徒互动是理解禅宗教学方法论的最好样本。传入数代即衰落，是五家中传承最短的。</div></div>
+
+  <div class="card"><div class="card-name">黄龙派 & 杨岐派</div><div class="card-body"><span class="bold">黄龙慧南"三关"：</span>人人有个生缘在什么处？我手何似佛手？我脚何似驴脚？——让学人在"不知答案但必须回答"的紧张中跳出逻辑。<br><span class="bold">杨岐方会：</span>"三脚驴子弄蹄行"——更直截。后传日本，成为日本临济宗主流。<br><br><span class="bold">现状：</span>临济宗是五家七宗中唯一大面积存续至今的宗派。</div></div>
+</div>
+
+<!-- ============ 7. 公案 ============ -->
+<div id="p7" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c7)">案</div><div><div class="cat-title">第六章 公案：禅宗最独特的创造</div></div></div>
+
+  <div class="section-title">6.1 起源与定义</div>
+  <div class="section-text">"公案"本义是官府的<span class="bold">公文书案</span>——法律判例。禅宗借用：祖师的言行是判断真悟还是假悟的<span class="bold">标准案例</span>。在人类所有宗教和哲学传统中，没有第二个类似的东西。</div>
+  <table id="gonganedit"></table>
+
+  <div class="section-title">6.2 两大公案集</div>
+  <div class="section-text"><span class="bold">《碧岩录》：</span>圜悟克勤编著，十卷百则，公案文学巅峰——每则含垂示+本则+颂古+著语+评唱五层加工。<br><span class="bold">《无门关》：</span>无门慧开编著，一卷四十八则，极为简洁——公案原文+短评+偈子。真正的"教科书"。</div>
+
+  <div class="section-title">6.3 经典公案深度解析</div>
+
+  <!-- 南泉斩猫 -->
+  <div class="card">
+    <div class="card-name">🐱 南泉斩猫</div>
+    <div class="card-body"><span style="color:var(--muted);font-size:0.85em;">【公案原文】</span><br>南泉普愿禅师的东西两堂争一只猫。南泉抓住猫说：道得即救，道不得即斩。众皆无言。南泉斩猫。晚上赵州回来，南泉告之此事。赵州脱下鞋子顶在头上，走了出去。南泉说：你若在，猫就活了。<br><br><span class="bold">分析：</span>两堂争猫——象征执着。南泉说"道即救，不道即斩"——所有答案都是错的。赵州把鞋子顶在头上走出去——鞋子该在脚上，顶在头上是完全颠倒。你那两堂争猫、南泉为此斩猫——全颠倒了。南泉说"你若在，猫就活了"——赵州从一开始就不在这个二元对立的框里。<br><br><span class="bold">这个公案至今没有定论，它本就不该有定论。</span>争议本身就是参究的动力。</div>
+  </div>
+
+  <!-- 吃茶去 -->
+  <div class="card">
+    <div class="card-name">🍵 赵州"吃茶去"</div>
+    <div class="card-body"><span style="color:var(--muted);font-size:0.85em;">【公案原文】</span><br>赵州从谂禅师问新到僧人：以前来过吗？僧答：来过。赵州说：吃茶去。又问另一僧：以前来过吗？答：没来过。赵州说：吃茶去。院主不解，赵州喊：院主！院主应声：在。赵州说：吃茶去。<br><br><span class="bold">分析：</span>来过的、没来过的、疑惑的——<span class="bold">三个人在不同的心理状态中，但赵州给他们同一个动作：吃茶。</span>不管你的问题是什么、困惑是什么、身份是什么——喝茶。来过的和尚（老油条）——吃茶；没来过的（紧张）——吃茶；院主（在思考"为什么"）——吃茶。赵州用三个相同的"吃茶去"对不同的人说的其实是三件不同的事——但它完全被包裹在同一个动作里。</div>
+  </div>
+
+  <!-- 百丈野狐 -->
+  <div class="card">
+    <div class="card-name">🦊 百丈野狐</div>
+    <div class="card-body"><span style="color:var(--muted);font-size:0.85em;">【公案原文】</span><br>百丈怀海说法时，常有一老人来听。一日散席后老人不走，说：我不是人。过去迦叶佛时代我是住持，有人问"大修行人还落因果吗？"我答"不落因果"——因此堕野狐身五百世。请替我回答这个转语。百丈说：你问吧。老人问：大修行人还落因果吗？百丈答：<span class="bold">不昧因果。</span>老人大悟。<br>后来黄檗希运问：古人说错一句话就堕野狐身五百世，如果答对了呢？百丈说：近前来。黄檗上前，打了百丈一巴掌。百丈拍手大笑。<br><br><span class="bold">分析：</span>"不落因果"——为什么错？一个"落"字把因果当枷锁。因果不是锁，是你每分每秒的选择和后果——不存在"不落"这回事。"不昧因果"——不糊涂，清清楚楚看见因果运作。黄檗打师父那一巴掌——回答"如果答对了会怎样"：<span class="bold">我不掉进你的语言陷阱。</span>不是不落，不是不昧，没有语言。</div>
+  </div>
+
+  <!-- 船子三打夹山 -->
+  <div class="card">
+    <div class="card-name">🚣 船子三打夹山</div>
+    <div class="card-body"><span style="color:var(--muted);font-size:0.85em;">【公案原文】</span><br>夹山善会讲经，道吾禅师在座下发笑——"你讲得对，但你没亲自见过那个人。去华亭船子那里。"夹山去找船子德诚。船子问各种问题，夹山对答如流。船子说："一句合头语，万劫系驴橛。"然后问："垂丝千尺，意在深潭。离钩三寸，你道一句。"夹山正要开口——船子一桨把他打落水中。夹山冒出来，船子催：快说！夹山又准备开口，船子又把他按下去。第三次冒出来时，夹山豁然大悟——不说了，只是点了三下头。<br>夹山告别时走几步回头，船子竖起桨说：<span class="bold">汝将谓别有？</span>（你以为还有别的吗？）然后翻船入水，再也没有出来。<br><br><span class="bold">分析：</span>船子打他下水不是因为生气。当你在水里挣命时，脑中那些漂亮的禅语全没了——只剩最原初的反应。夹山被按了两次，那些"合头语"全被水冲走了。船子最后以身教做了最后一课：<span class="bold">"没有别的了。"连这副肉身也没有。</span></div>
+  </div>
+
+  <div class="section-title">6.4 公案类型与功能</div>
+  <table id="gonganlei"></table>
+
+  <div class="section-title">6.5 参究公案的方法论</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">① 起疑情：</span>不是怀疑，是存在性的不确定性——整个人被堵住的紧迫感</div>
+    <div class="nodelist-item"><span class="bold">② 不涉思惟：</span>不是逻辑推理，是把全身心凝聚在话头上</div>
+    <div class="nodelist-item"><span class="bold">③ 打成一片：</span>乃至行住坐卧、吃饭睡觉，话头一直"在"，弥漫在全部觉知中</div>
+    <div class="nodelist-item"><span class="bold">④ 迸发：</span>某一天一个因缘，疑团炸开——不是找到了答案，是问题和提问者一起消失了</div>
+  </div>
+  <div class="quote">大慧宗杲形容：如一团热铁，吞也吞不得，吐也吐不出。</div>
+
+  <div class="section-title">6.6 公案与现代心理学</div>
+  <div class="section-text">铃木大拙：公案制造一个<span class="bold">无意识的危机</span>——当理性走到绝路时，更深层次的心灵结构被迫启动。荣格：公案本质上是<span class="bold">投射测验</span>的一种古老形式——公案本身没有固定意义，它反映参究者的当前状态。<br><br>但公案不是心理测验——心理学帮助你更好地理解自己的心理内容；禅宗告诉你：<span class="bold">这里没有"自己的心理内容"，那是一个幻象。</span></div>
+</div>
+
+<!-- ============ 8. 看话vs默照 ============ -->
+<div id="p8" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c8)">辩</div><div><div class="cat-title">第七章 默照禅 vs 看话禅</div></div></div>
+
+  <div class="section-title">7.1 南宋的思想战场</div>
+  <div class="section-text">12世纪，禅宗内部爆发最激烈争论——大慧宗杲（看话禅）vs 天童正觉（默照禅）。<span class="bold">这不仅是教学方法的差异，是对"悟"本身的理解分歧。</span></div>
+
+  <div class="section-title">7.2 全面对比</div>
+  <table id="kanhua_vs_mozhao"></table>
+
+  <div class="section-title">7.3 论战实质</div>
+  <div class="section-text"><span class="bold">大慧的逻辑：</span>默照是"死人禅"——你在逃避，不是在面对。真正的突破需要主动的力量，用话头把意识推到墙角，逼它爆发。</div>
+  <div class="section-text"><span class="bold">正觉的逻辑：</span>看话是"造作禅"——你抓着话头不放，这不恰好是"执着"吗？真悟不是靠用力逼出来的——是在完全放下的时候自然发生的。</div>
+  <div class="section-text"><span class="bold">关键判断：</span>看话和默照的争论本质是同一个问题从两个方向攻——"怎么放下"？看话说：逼到绝路自然放下。默照说：你不逼它，它本来就会放下。两个都对——关键看你是哪种人。<br><br>但这个争论本身暴露了禅宗的深层悖论：<span class="bold">不管用看话还是默照，都是在"做"——而禅宗最核心的教义是"无作"。</span></div>
+
+  <div class="section-title">7.4 今日状态</div>
+  <div class="nodelist">
+    <div class="nodelist-item">日本临济宗 = 看话禅（公案系统被整合进修行的每个阶段）</div>
+    <div class="nodelist-item">日本曹洞宗 = 默照禅（"只管打坐"，无目的、无所得的打坐）</div>
+    <div class="nodelist-item">中国禅宗现状 = 两者混合，元代以后临济、曹洞在汉地逐渐融合</div>
+  </div>
+</div>
+
+<!-- ============ 9. 文字禅 ============ -->
+<div id="p9" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c9)">文</div><div><div class="cat-title">第八章 文字禅与"不立文字"的悖论</div></div></div>
+
+  <div class="section-title">8.1 禅宗的语言学悖论</div>
+  <div class="section-text">禅宗自称"不立文字，教外别传"。但讽刺的是——<span class="bold">禅宗是所有佛教宗派中留下的文字最多的一个。</span>《卍续藏》中禅宗部占了将近一半。一个"不立文字"的宗派，怎么成了佛教文学的最大生产者？</div>
+
+  <div class="section-title">8.2 灯录系统</div>
+  <div class="section-text">宋代三百年间，禅宗发展出一套庞大的历史书写体系——灯录。佛法像一盏灯，从一个祖师传到下一个祖师。"代代传灯，灯灯无尽"。</div>
+  <table id="denglu"></table>
+
+  <div class="section-title">8.3 文字禅的三个层次</div>
+  <div class="nodelist">
+    <div class="nodelist-item"><span class="bold">第一层·作为纪录：</span>语录和灯录——禅师言行被弟子记录，教学现场纪录保存</div>
+    <div class="nodelist-item"><span class="bold">第二层·作为教学补充：</span>颂古和评唱——雪窦重显《颂古百则》+ 圜悟克勤《碧岩录》，用诗的隐喻和系统解说补充公案</div>
+    <div class="nodelist-item"><span class="bold">第三层·作为禅本身：</span>"不立文字"文字——读公案时，你当下的反应（困惑、领悟、烦躁）都是在文字面前的"机"。能在这刻看见——这就是"转经"</div>
+  </div>
+
+  <div class="section-text"><span class="bold">关键判断：</span>禅宗的"文字"和"不立文字"不是矛盾——是<span class="bold">一个运动的两个相位</span>。先造文字（灯录、语录、颂古、评唱），然后用"不立文字"来消解。再造，再消解。每一次建和拆的循环都让学人更接近不依赖任何一种姿态的自由。禅宗的"文字"的目标是让你最后不需要文字——这和"不立文字"是一个方向。</div>
+</div>
+
+<!-- ============ 10. 文化与道家 ============ -->
+<div id="p10" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c2)">融</div><div><div class="cat-title">第九章-第十章 禅宗与中国文化 & 道家</div></div></div>
+
+  <div class="section-title">9.1 禅诗传统</div>
+  <div class="quote">寒山：吾心似秋月，碧潭清皎洁。无物堪比伦，教我如何说。</div>
+  <div class="quote">王维："行到水穷处，坐看云起时"——不是禅语的堆砌，是<span class="bold">禅的观看方式渗透进意象组织</span></div>
+  <div class="quote">苏轼：庐山烟雨浙江潮，未到千般恨不消。到得还来无别事，庐山烟雨浙江潮。<br><span style="color:var(--muted)">——"见山还是山，见水还是水"的宇宙回声</span></div>
+
+  <div class="section-title">9.2 进入日常语言的禅宗词汇</div>
+  <table id="riyu"></table>
+
+  <div class="section-title">9.3 禅宗与艺术</div>
+  <div class="section-text">八大山人（朱耷，1626-1705）的水墨画——翻白眼的鱼、孤零零立在石上的鸟、大片空白中的残荷——是禅宗美学在视觉领域的最高表现。<span class="bold">空白不是空的——那片空白里有比画出来的更多的内容。</span>正如公案中被砍掉的逻辑链条：你在空白面前被迫用自己的觉知去填——或者不填，就让它空着。</div>
+
+  <div class="section-title">10.1 庄子 vs 禅宗</div>
+  <div class="section-text"><span class="bold">铃木大拙的著名论断：</span>禅是佛家面目，道家骨髓。面目是外在的——禅宗用佛经、佛教术语、佛教制度。但骨子里的东西——不依赖概念、直觉直接把握、日常即道、反体系、反权威、用悖论破执着——在庄子那里已经全有了。</div>
+  <table id="zhuangzi_vs_chan"></table>
+
+  <div class="section-title">10.2 竺道生：庄学化佛学先驱</div>
+  <div class="quote">夫称顿者，明理不可分，悟语极照。以不二之悟，符不分之理。<div class="quote-source">——竺道生（据谢灵运《辨宗论》引）</div></div>
+  <div class="section-text">竺道生（355-434）提出"一阐提亦得成佛""顿悟成佛"——思维方式来自庄子。是惠能顿悟说的先驱。</div>
+
+  <div class="section-title">10.3 根本差异</div>
+  <div class="section-text">庄子的"自然"是<span class="bold">宇宙论的</span>——天地万物本来的运作方式。禅宗的"自然"是<span class="bold">体验论的</span>——你自己当下的直接体验。庄子让你<span class="bold">融入天地的大化</span>；禅宗让你<span class="bold">回到自己本来的心</span>。</div>
+</div>
+
+<!-- ============ 11. 学术研究 ============ -->
+<div id="p11" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:var(--c1)">学</div><div><div class="cat-title">第十一章 现代学术研究路径</div></div></div>
+
+  <div class="section-title">五大研究路径</div>
+  <table id="xuezhe"></table>
+
+  <div class="section-title">胡适 vs 铃木大拙：那个著名争论</div>
+  <div class="section-text">1953年夏威夷《东西方哲学》杂志同时发表两篇文章。胡适：禅宗可以用历史学方法研究——文献、考古、社会史都是可验证证据。铃木：禅的核心不是历史事实，是个人体验——你可以考证达摩来华的船是哪种船，但无法考证面壁九年里看见了什么。</div>
+  <div class="quote">铃木大拙说："胡适对禅的知识是'知性的'，不是'体验的'。他像一个没有舌头的味觉评论家。"</div>
+  <div class="section-text"><span class="bold">这个争论至今没有结论——也不应该有结论。</span>它恰好代表禅宗研究的两条腿：一条是学术的（历史学、文献学、社会学），一条是体验的（禅修实践、宗教学、现象学）。只走一条腿的人会摔倒。</div>
+
+  <div class="section-title">核心学者与贡献</div>
+  <div class="card"><div class="card-name">胡适（1891-1962）</div><div class="card-body">现代禅宗学术研究奠基人。《楞伽宗考》（1935）考证出达摩到神秀是"楞伽宗"传承线。《神会和尚遗集》（1930）揭示神会是南宗正统化关键。方法论：用历史考据"祛魅"禅宗。局限：对禅宗教体验本身缺乏同情理解。</div></div>
+  <div class="card"><div class="card-name">铃木大拙（1870-1966）</div><div class="card-body">让西方认识禅宗的核心人物。著作：《禅学随笔》《禅与日本文化》《禅宗导论》。与弗洛姆合著《禅与精神分析》。贡献：将禅从"东方学猎奇"升格为"人类精神探索核心议题"。局限：过度强调"超越理性"，有神秘化倾向。</div></div>
+  <div class="card"><div class="card-name">印顺法师（1906-2005）</div><div class="card-body">中国现代最卓越佛教史家。《中国禅宗史》（1971）为里程碑——以印度禅→中国禅演进为框架，区分"达摩禅""东山法门""南宗禅"等不同阶段。独特之处：<span class="bold">不像胡适"站在外面冷眼旁观"，也不像铃木"站在里面自我投射"。佛教内部学者——承认信仰但要经过学术检验。</span></div></div>
+  <div class="card"><div class="card-name">柳田圣山（1922-2006）</div><div class="card-body">日本禅宗文献学大师。《初期禅宗史书之研究》：对《楞伽师资记》《传法宝纪》等敦煌禅宗文献做最系统梳理。核心贡献：<span class="bold">把禅宗早期文献当作文献学研究——不只是宗教经典，也是历史文本。</span>揭示禅宗谱系被建构的过程和动机。</div></div>
+  <div class="card"><div class="card-name">Bernard Faure（1948-）</div><div class="card-body">法国学者，哥伦比亚大学教授。后现代禅宗研究：《禅的洞见与不见》《正统性的修辞》。不把禅宗当"一个东西"研究，而探究"禅宗是怎么被叙述出来的"。对"反偶像崇拜"祛魅——"逢佛杀佛"说出这些话的语境、权力关系、修辞策略都被忽视了。核心发现：<span class="bold">"不立文字"本身是一种修辞姿态。"不立文字"和"说这句话的语言"之间的张力，就是参究。</span></div></div>
+</div>
+
+<!-- ============ 12. 结语 ============ -->
+<div id="p12" class="panel">
+  <div class="cat-header"><div class="cat-icon" style="background:#d4a017">终</div><div><div class="cat-title">结语：五个核心结论</div></div></div>
+
+  <div class="section-title">演变链条总图</div>
+  <div class="flow">印度禅那(dhyāna) — 安世高禅数学(148年) — 鸠摩罗什空观融入禅修(401年)
+     ↓
+达摩"二入四行"·楞伽印心(约520年) — 游方头陀 · 个人化修行
+     ↓
+道信·弘忍"东山法门"(620-675年) — 定居 · 教团化 · 楞伽+般若融合
+     ↓
+惠能《坛经》顿悟革命(678年) — 金刚经 · 定慧一体 · 不立文字
+     ↓
+神会"南宗北伐"(732年) — 确立正统 · 排斥北宗
+     ↓
+马祖道一·石头希迁 — 禅宗的语言和教学方法爆发
+     ↓
+五家七宗(9-10世纪) — 临济·曹洞·云门·法眼·沩仰 + 黄龙·杨岐
+     ↓
+公案系统化·灯录编纂(10-13世纪) — 《景德传灯录》《碧岩录》《无门关》
+     ↓
+大慧宗杲"看话禅"vs天童正觉"默照禅"(12世纪)
+     ↓
+日本禅 / 现代学术研究 / 全球化传播</div>
+
+  <div class="section-title">五个核心结论</div>
+
+  <div class="card">
+    <div class="card-name">1. 禅宗不是"印度佛教的中国化"——是"中国思想借佛教术语的自我实现"</div>
+    <div class="card-body">禅宗的骨架是庄子提供的（反体系、直觉把握、日常即道），血肉是佛教提供的（佛性、空性、禅那），而灵魂——"直指人心，见性成佛"——是中国人自己造出来的。惠能是佛教史上第一个敢和佛陀"一个级别"说话的人——《坛经》就是证据。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-name">2. 顿悟不是"反对修行"——是"反对分段修行"</div>
+    <div class="card-body">惠能说"一念悟"，不是说不需要努力。是说"悟"和"迷"之间不存在中间状态——你不能通过"渐修"来"渐悟"。就像你不能"一点点怀孕"。但"怀孕"那个时刻之前的准备是真实需要的。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-name">3. 公案是禅宗给人类精神探索的最独特贡献</div>
+    <div class="card-body">没有任何一个传统发明过类似的东西。公案不是寓言、不是悖论、不是象征——它是一块石头，你扔进你平静的意识水面，看涟漪扩散。涟漪不是答案——<span class="bold">看涟漪的那个"看"才是。</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-name">4. "不立文字"和大量的禅宗文学不是矛盾——是故意的张力</div>
+    <div class="card-body">禅宗的运作逻辑是"建了拆、拆了建"。立在文字里，然后撕掉——不是一次性的，是反复的。每一次建和拆的循环都让你更松开对"建"或"拆"的执着。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-name">5. 禅宗的研究方法之争（胡适vs铃木）本身就是禅宗的精髓</div>
+    <div class="card-body">体验和学术不是对立的——是"一体两面"。只讲体验会成迷信和神秘化，只讲学术会错失对象本身。好的禅宗学者：两条腿走路。</div>
+  </div>
+
+  <div class="section-title">公案教学法分类表</div>
+  <table id="gongansort"></table>
+</div>
+
+<div class="footer">
+  禅宗调查报告 · 从印度禅定到中国禅宗 · 2026年7月27日<br>
+  与儒家生死观报告、道家神仙观报告、佛家调查报告构成中国思想史调查四件套<br>
+  路径共通：追历史脉络、引原典、对照学者、标争议、下判断
+</div>
+
+<script>
+function makeTable(h,r){let s='<thead><tr>';h.forEach(e=>s+=`<th>${e}</th>`);s+='</tr></thead><tbody>';r.forEach(e=>{s+='<tr>';e.forEach(c=>s+=`<td>${c}</td>`);s+='</tr>'});return s+'</tbody>'}
+function showPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active')}
+
+// 1. 序言 - 四禅八定
+document.getElementById('sichan').innerHTML=makeTable(['层次','名称','特征'], [
+  ['初禅','离生喜乐','离欲界烦恼，心生喜乐，有寻有伺'],
+  ['二禅','定生喜乐','寻伺止息，内净一心，定生喜乐'],
+  ['三禅','离喜妙乐','舍离喜受，正念正知，身受妙乐'],
+  ['四禅','舍念清净','不苦不乐，舍念清净，呼吸停止']
+]);
+
+// 安般守意
+document.getElementById('anban').innerHTML=makeTable(['阶段','名称','方法'], [
+  ['一','数息','数出入息，从一到十，不令散乱'],
+  ['二','相随','不数了，心随呼吸出入'],
+  ['三','止','将心止于鼻端'],
+  ['四','观','观息从身中出入，观五蕴无我'],
+  ['五','还','回转能观之心到本源'],
+  ['六','净','能所双亡，清净无念']
+]);
+
+// 2. 达摩 - 楞伽宗线索
+document.getElementById('lengqiezong').innerHTML=makeTable(['祖师','核心经教','特征'], [
+  ['达摩','《楞伽经》四卷','二入四行，壁观'],
+  ['慧可','《楞伽经》','—'],
+  ['僧璨','《楞伽经》','—'],
+  ['道信','《楞伽经》+《文殊说般若经》','引入般若，开始变化'],
+  ['弘忍','《楞伽经》','东山法门'],
+  ['神秀','《楞伽经》','"楞伽师资"的嫡传']
+]);
+
+// 四行
+document.getElementById('sixing').innerHTML=makeTable(['行名','内容','关键要义'], [
+  ['报冤行','逢苦不忧，知是宿业','接受痛苦当作还债，不抱怨'],
+  ['随缘行','得失从缘，心无增减','苦乐欣戚，不挂在心上'],
+  ['无所求行','息心无为，不求名利','"有求皆苦，无求即乐"'],
+  ['称法行','与理相应，行六度','以空性智慧行布施等六波罗蜜']
+]);
+
+// 3. 楞伽 - 祖师谱系
+document.getElementById('zushixi').innerHTML=makeTable(['祖师','俗姓','籍贯','核心线索','历史可信度'], [
+  ['初祖达摩','刹帝利','南天竺','《楞伽经》四卷付慧可，二入四行','有历史人物基础，传说层叠最多'],
+  ['二祖慧可','姬','武牢','立雪断臂是传说，但求法精神真实','《续高僧传》有传，历史真实性较高'],
+  ['三祖僧璨','?','?','史料极少，存在感最弱','最模糊的一环，有学者怀疑为补凑'],
+  ['四祖道信','司马','河内','始定居授徒，创"一行三昧"','可信，开禅宗教团化的先河'],
+  ['五祖弘忍','周','黄梅','东山法门，门下出神秀+惠能','可信，标志禅宗从个人到学派']
+]);
+
+// 4. 惠能 - 坛经版本
+document.getElementById('tanjing').innerHTML=makeTable(['版本','年代','字数','特征','历史意义'], [
+  ['敦煌本','约780年','12000字','最古，最朴素','最靠近历史惠能，神会一系编定'],
+  ['惠昕本','967年','14000字','加入"本来面目"等关键概念','版本分合的起点'],
+  ['契嵩本','1056年','20000字','文学性强，禅宗正统化','宋代禅宗确立"南宗正统"的工具'],
+  ['宗宝本','1291年','24000字','最完整，最通行','元代最终定本，今天最常用的版本']
+]);
+
+// 神秀 vs 惠能
+document.getElementById('shenxiu_vs_huineng').innerHTML=makeTable(['维度','神秀（北宗）','惠能（南宗）'], [
+  ['核心经教','《楞伽经》','《金刚经》'],
+  ['佛性理解','本有，需拂拭','本有，不必拂拭'],
+  ['修行方式','渐修：看心看净，时时勤拂拭','顿悟：迷即凡，悟即佛'],
+  ['定慧关系','定先慧后：先定心，后发慧','定慧一体：定是慧体，慧是定用'],
+  ['读经态度','藉教悟宗','心悟转经，不悟被经转'],
+  ['传承系谱','楞伽宗第六代','南宗初祖（新造谱系）']
+]);
+
+// 5. 五家七宗 - 七家对比
+document.getElementById('qijia').innerHTML=makeTable(['宗派','创始人','时代','核心手段','代表人物','特征','传承'], [
+  ['临济宗','临济义玄','？—867','四喝、四料简、棒喝','临济义玄','最猛烈，截断思虑','五家中最兴盛，传至日本为临济宗'],
+  ['曹洞宗','洞山良价、曹山本寂','807—901','五位君臣、默照禅','洞山良价','绵密仔细，次第引导','与临济并称两大主流'],
+  ['云门宗','云门文偃','864—949','一字关、三句话','云门文偃','言简意赅，一字截断','北宋极盛，南宋后衰落'],
+  ['法眼宗','法眼文益','885—958','一切现成、理事圆融','法眼文益','华严与禅宗融合','五代末兴盛，传数代而衰'],
+  ['沩仰宗','沩山灵祐、仰山慧寂','771—883','九十六圆相、师徒默契','沩山灵祐','最哲学化、最重视觉符号','五家中传承最短'],
+  ['黄龙派','黄龙慧南','1002—1069','黄龙三关','黄龙慧南','临济分支，以三问破执','南宋后渐衰'],
+  ['杨岐派','杨岐方会','992—1049','直截了当，杨岐无对','杨岐方会','临济分支，后成主流','传至日本成临济宗主脉']
+]);
+
+// 6. 公案 - 演变
+document.getElementById('gonganedit').innerHTML=makeTable(['阶段','时间','特征','代表作'], [
+  ['生公案','唐','禅师和弟子之间的真实问答，即兴发生','散见于《景德传灯录》'],
+  ['熟公案','宋初','被收集、整理、分类，从事件变为文本','《景德传灯录》（1004年）'],
+  ['学术化公案','宋中后期','加颂古、垂示、著语、评唱，变成教学教材','《碧岩录》《无门关》']
+]);
+
+// 公案类型
+document.getElementById('gonganlei').innerHTML=makeTable(['类型','代表公案','机制','适应根器'], [
+  ['截断型','云门"干屎橛"','打断逻辑期待','理性强者'],
+  ['直指型','洞山"麻三斤"','直接指示当下','直观敏感者'],
+  ['情境型','马祖拧百丈鼻子','用行动触发','体感型'],
+  ['试探型','临济四喝·船子三打','检测真实状态','几乎所有人'],
+  ['矛盾型','洞山"无情说法"','制造悖论','哲学型'],
+  ['动作型','德山棍棒/临济竖拂/沩仰圆相','非语言直接表达','全类型'],
+  ['悖论型','南泉斩猫','不给出口，迫使直觉反应','利根'],
+  ['一字禅','云门"一字关"','极端压缩','有深度者'],
+  ['话头型','赵州"无"','用不确定性凝聚意识','临济传统·需指导']
+]);
+
+// 7. 看话vs默照
+document.getElementById('kanhua_vs_mozhao').innerHTML=makeTable(['维度','大慧宗杲（看话禅）','天童正觉（默照禅）'], [
+  ['宗脉','临济宗杨岐派','曹洞宗'],
+  ['时代','南宋初','南宋初'],
+  ['受众','主要是士大夫','主要是实修僧人'],
+  ['方法','主动参究话头，逼出突破','只管打坐，放下求悟的心'],
+  ['对"悟"的理解','需要一次爆发性的突破','打坐本身就是悟'],
+  ['批评对方','"默照邪禅""黑山鬼窟"','未直接点名，意指"头上安头"'],
+  ['在日本的发展','临济宗（看话禅）','曹洞宗（只管打坐）']
+]);
+
+// 8. 文字禅 - 灯录
+document.getElementById('denglu').innerHTML=makeTable(['灯录','编纂者','年代','特色'], [
+  ['《景德传灯录》','道原','1004年','第一部系统性灯录，1701人'],
+  ['《天圣广灯录》','李遵勖','1029年','皇家编纂'],
+  ['《建中靖国续灯录》','惟白','1101年','补遗'],
+  ['《联灯会要》','悟明','1183年','贯通各家'],
+  ['《嘉泰普灯录》','正受','1204年','补遗'],
+  ['《五灯会元》','普济','1252年','合五灯于一，最简练的合辑']
+]);
+
+// 9. 文化与道家 - 日常词汇
+document.getElementById('riyu').innerHTML=makeTable(['词汇','出处','原义','现代用法'], [
+  ['平常心','马祖道一"平常心是道"','日常心的本来状态就是道','心态平和'],
+  ['放下','禅宗语录','不抓了，不是放弃了什么','放弃、不再执着'],
+  ['当下','禅宗"念念不住"','不被过去未来所牵的现在','此时此刻'],
+  ['顿悟','惠能《坛经》','一念悟时众生是佛','突然明白'],
+  ['执着','佛经取(upādāna)→禅宗','放不下','固守、坚持'],
+  ['本来面目','惠能问惠明','不思善不思恶时的自己','真实的样子'],
+  ['头头是道','《续传灯录》','处处皆是道','条理清晰'],
+  ['水到渠成','《景德传灯录》','条件具足自然成','时机成熟自然达成']
+]);
+
+// 庄子 vs 禅宗
+document.getElementById('zhuangzi_vs_chan').innerHTML=makeTable(['庄子','禅宗'], [
+  ['"得意忘言"','"不立文字"——得真意后，语言可以抛弃'],
+  ['"吾丧我"','"无我"——"我"这个主体感可以被放下'],
+  ['"心斋坐忘"','"无念"——心静下来，忘掉主体客体对立'],
+  ['庖丁解牛"以神遇而不以目视"','直觉的直接把握——不用感官不用思维'],
+  ['"道在原溺"（东郭子问）','"干屎橛""麻三斤"（佛在最低贱处）'],
+  ['庄周梦蝶——不知周之梦为胡蝶与？','双遣双亡——主客界限的消融']
+]);
+
+// 10. 学术研究 - 学者总览
+document.getElementById('xuezhe').innerHTML=makeTable(['学者','国籍','年代','代表作','核心贡献','方法特征'], [
+  ['胡适','中国','1891-1962','《楞伽宗考》《神会和尚遗集》','现代禅宗学术研究奠基','历史考据——"祛魅"禅宗'],
+  ['铃木大拙','日本','1870-1966','《禅学随笔》《禅与精神分析》','将禅从"东方猎奇"升格为核心议题','体验中心——"禅是体验不是历史"'],
+  ['印顺','中国','1906-2005','《中国禅宗史》（1971）','印度禅→中国禅演进框架','佛教内部学者——信仰+学术'],
+  ['柳田圣山','日本','1922-2006','《初期禅宗史书之研究》','敦煌禅宗文献最系统梳理','文献学——揭示谱系建构过程'],
+  ['Bernard Faure','法国','1948-','《禅的洞见与不见》','后现代禅宗研究——探究"如何被叙述"','修辞分析——"不立文字"是修辞姿态']
+]);
+
+// 11. 结语 - 公案分类表
+document.getElementById('gongansort').innerHTML=makeTable(['类型','代表公案','机制','适应根器'], [
+  ['截断型','云门"干屎橛"','打断逻辑期待','理性强者'],
+  ['直指型','洞山"麻三斤"','直接指示当下','直观敏感者'],
+  ['情境型','马祖拧百丈鼻子','用行动触发','体感型'],
+  ['试探型','临济四喝·船子三打','检测真实状态','几乎所有人'],
+  ['矛盾型','洞山"无情说法"','制造悖论','哲学型'],
+  ['动作型','德山棍棒/临济竖拂/沩仰圆相','非语言直接表达','全类型'],
+  ['悖论型','南泉斩猫','不给出口，迫使直觉反应','利根'],
+  ['一字禅','云门"一字关"','极端压缩','有深度者'],
+  ['话头型','赵州"无"','用不确定性凝聚意识','临济传统·需指导']
+]);
+</script>
+</body>
+</html>

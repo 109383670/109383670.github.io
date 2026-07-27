@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>希腊众神神谱 · 可视化</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #14141e;
+  --border: #2a2a3a;
+  --text: #e0e0e0;
+  --muted: #8888a0;
+  --accent: #c9a84c;
+  --accent2: #3b82f6;
+  --primordial: #6b3fa0;
+  --titan: #8b6914;
+  --olympian: #c41e3a;
+  --underworld: #3a5a7a;
+  --nyx: #1a1a3e;
+  --monster: #5c3a1a;
+  --hero: #2d6a4f;
+  --c1: #4a3f6b;
+  --c2: #8b6914;
+  --c3: #1a3a5c;
+  --c4: #2d6a4f;
+  --c5: #5c3a1a;
+  --c6: #8b0000;
+  --c7: #4a4a6b;
+  --c8: #6b4a3f;
+  --c9: #3a1a3a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:"PingFang SC","Noto Serif SC",serif; line-height:1.6; padding:20px; overflow-x:hidden; }
+.header { text-align:center; padding:40px 20px; border-bottom:2px solid var(--accent); margin-bottom:30px; }
+.header h1 { font-size:2.4em; color:var(--accent); letter-spacing:0.1em; }
+.header p { color:var(--muted); margin-top:8px; font-size:0.95em; }
+
+/* Main Tabs */
+.maintabs { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:12px; }
+.maintab-btn { background:var(--card); border:2px solid var(--border); color:var(--text); padding:12px 28px; border-radius:10px; cursor:pointer; font-size:1.1em; font-family:inherit; transition:all 0.2s; }
+.maintab-btn:hover { border-color:var(--accent); background:#1a1a2a; }
+.maintab-btn.active { background:var(--accent); border-color:var(--accent); color:#000; font-weight:bold; }
+.subtabs { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-bottom:24px; }
+.subtab-btn { background:var(--card); border:1px solid var(--border); color:var(--text); padding:7px 15px; border-radius:7px; cursor:pointer; font-size:0.88em; font-family:inherit; transition:all 0.2s; }
+.subtab-btn:hover { border-color:var(--accent); }
+.subtab-btn.active { background:var(--border); border-color:var(--accent); color:var(--accent); }
+.main-section { display:none; }
+.main-section.active { display:block; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* SVG Container */
+.svg-wrap { position:relative; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:20px; }
+.svg-wrap svg { display:block; width:100%; height:auto; cursor:grab; }
+.svg-wrap svg:active { cursor:grabbing; }
+.legend { position:absolute; top:10px; left:10px; background:rgba(10,10,15,0.85); border:1px solid var(--border); border-radius:6px; padding:10px 14px; font-size:0.75em; z-index:5; }
+.legend-item { display:flex; align-items:center; gap:6px; margin:3px 0; }
+.legend-color { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+.legend-line { width:20px; height:0; flex-shrink:0; }
+.svg-node { cursor:pointer; transition:all 0.2s; }
+.svg-node:hover { filter:brightness(1.4); }
+.svg-node text { font-size:11px; fill:var(--text); pointer-events:none; text-anchor:middle; }
+.svg-node text.en { font-size:9px; fill:var(--muted); }
+.svg-node.highlight rect { stroke:#fff; stroke-width:2; filter:drop-shadow(0 0 6px var(--accent)); }
+.svg-node.related rect { stroke:var(--accent); stroke-width:1.5; filter:brightness(1.6); }
+.svg-node.dimmed { opacity:0.15 !important; }
+.svg-line { pointer-events:none; }
+.svg-line.highlight { stroke:var(--accent) !important; stroke-width:2 !important; filter:drop-shadow(0 0 3px var(--accent)); }
+.svg-line.related { stroke:var(--accent) !important; stroke-width:1.2 !important; opacity:0.7 !important; }
+.svg-line.dimmed { opacity:0.08 !important; }
+
+/* Search + Filter */
+.toolbar { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; align-items:center; }
+.search-box { flex:1; min-width:200px; background:var(--card); border:1px solid var(--border); color:var(--text); padding:10px 16px; border-radius:8px; font-size:0.95em; font-family:inherit; }
+.search-box:focus { outline:none; border-color:var(--accent); }
+.filter-group { display:flex; gap:6px; flex-wrap:wrap; }
+.filter-btn { background:var(--card); border:1px solid var(--border); color:var(--muted); padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.82em; font-family:inherit; transition:all 0.2s; }
+.filter-btn:hover { border-color:var(--accent); color:var(--text); }
+.filter-btn.active { background:var(--accent); border-color:var(--accent); color:#000; }
+
+/* Detail Panel */
+.detail-overlay { position:fixed; top:0; right:0; bottom:0; left:0; z-index:100; display:none; pointer-events:none; }
+.detail-overlay.open { display:block; pointer-events:none; }
+
+.detail-panel { position:fixed; top:0; right:-400px; width:380px; max-width:100vw; height:100vh; background:var(--card); border-left:2px solid var(--accent); z-index:101; overflow-y:auto; padding:24px; transition:right 0.3s ease-out; pointer-events:auto; }
+.detail-panel.open { right:0; }
+.detail-close { position:absolute; top:12px; right:12px; background:none; border:1px solid var(--border); color:var(--text); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1.1em; display:flex; align-items:center; justify-content:center; }
+.detail-close:hover { border-color:var(--accent); color:var(--accent); }
+.detail-name { font-size:1.4em; font-weight:bold; color:var(--accent); margin-bottom:6px; }
+.detail-en { color:var(--muted); font-size:0.9em; margin-bottom:16px; }
+.detail-field { margin-bottom:10px; font-size:0.9em; }
+.detail-label { color:var(--muted); font-size:0.8em; }
+.detail-value { color:var(--text); margin-top:2px; }
+.detail-conflict { background:#3a2a00; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px; margin-top:12px; font-size:0.85em; color:#e8c84a; }
+.detail-tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.75em; margin:2px; }
+.tag-primordial { background:var(--primordial); }
+.tag-titan { background:var(--titan); color:#fff; }
+.tag-olympian { background:var(--olympian); }
+.tag-underworld { background:var(--underworld); }
+.tag-nyx { background:var(--nyx); }
+.tag-monster { background:var(--monster); }
+.tag-hero { background:var(--hero); }
+.tag-branch { background:var(--c1); }
+.detail-link { color:var(--accent); cursor:pointer; text-decoration:underline; }
+.detail-link:hover { color:#e8c84a; }
+
+/* Cards */
+.cat-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+.cat-icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.4em; font-weight:bold; }
+.cat-title { font-size:1.5em; font-weight:bold; }
+.cat-desc { color:var(--muted); font-size:0.9em; margin-left:12px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-bottom:40px; }
+.grid3 { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; margin-bottom:40px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; transition:border-color 0.2s; }
+.card:hover { border-color:var(--accent); }
+.card:hover.card-primordial { border-left-color:var(--accent); }
+.card.card-titan { border-left:3px solid var(--titan); }
+.card:hover.card-titan { border-left-color:var(--accent); }
+.card.card-olympian { border-left:3px solid var(--olympian); }
+.card:hover.card-olympian { border-left-color:var(--accent); }
+.card.card-underworld { border-left:3px solid var(--underworld); }
+.card:hover.card-underworld { border-left-color:var(--accent); }
+.card.card-nyx { border-left:3px solid var(--nyx); }
+.card:hover.card-nyx { border-left-color:var(--accent); }
+.card.card-monster { border-left:3px solid var(--monster); }
+.card:hover.card-monster { border-left-color:var(--accent); }
+.card.card-hero { border-left:3px solid var(--hero); }
+.card:hover.card-hero { border-left-color:var(--accent); }
+.card.card-branch { border-left:3px solid var(--c1); }
+.card:hover.card-branch { border-left-color:var(--accent); }
+.card-name { font-size:1.15em; font-weight:bold; color:var(--accent); margin-bottom:4px; }
+.card-en { color:var(--muted); font-size:0.85em; margin-bottom:10px; }
+.card-row { display:flex; gap:8px; margin-bottom:6px; font-size:0.88em; }
+.card-label { min-width:60px; color:var(--muted); flex-shrink:0; }
+.card-value { color:var(--text); }
+.card-deeds { margin-top:8px; font-size:0.85em; }
+.card-deeds-toggle { color:var(--accent); cursor:pointer; font-size:0.85em; }
+.card-deeds-toggle:hover { text-decoration:underline; }
+.card-deeds-body { display:none; padding-top:6px; }
+.card-deeds-body.open { display:block; }
+table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:0.88em; }
+th,td { border:1px solid var(--border); padding:8px 12px; text-align:left; }
+th { background:#1a1a2a; color:var(--accent); }
+tr:hover { background:#1a1a2a; }
+.section-title { color:var(--accent); font-size:1.2em; margin:20px 0 10px; }
+.nodelist { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; }
+.nodelist-item { padding:6px 0; border-bottom:1px solid var(--border); font-size:0.9em; }
+.nodelist-item:last-child { border-bottom:none; }
+.footer { text-align:center; color:var(--muted); padding:30px 0; border-top:1px solid var(--border); font-size:0.85em; margin-top:40px; }
+.small-table { font-size:0.82em; }
+.zeus-spouse-table { margin:8px 0; }
+.zeus-spouse-table td { padding:4px 8px; font-size:0.8em; }
+
+/* Mobile */
+@media(max-width:768px) {
+  body { padding:10px; }
+  .header h1 { font-size:1.6em; }
+  .maintabs { gap:6px; }
+  .maintab-btn { padding:8px 16px; font-size:0.95em; }
+  .subtabs { gap:4px; overflow-x:auto; flex-wrap:nowrap; justify-content:flex-start; }
+  .subtab-btn { padding:6px 12px; font-size:0.8em; flex-shrink:0; }
+  .grid,.grid3 { grid-template-columns:1fr; }
+  .detail-panel { width:100vw; right:-100vw; }
+  .detail-panel.open { right:0; }
+  .svg-wrap { overflow:auto; }
+  .toolbar { flex-direction:column; }
+  .mobile-list { display:block; }
+}
+.mobile-list { display:none; }
+@media(max-width:768px) {
+  .mobile-list { display:block; }
+  .svg-wrap.desktop-svg { display:none; }
+}
+@media(min-width:769px) {
+  .mobile-list { display:none; }
+}
+
+/* Print */
+@media print {
+  body { background:#fff; color:#000; }
+  .header h1 { color:#000; }
+  .card { background:#fff; border:1px solid #ccc; page-break-inside:avoid; }
+  .card:hover { border-color:#999; }
+  .card-name { color:#000; }
+  .card-en,.card-label,.card-row,.card-value { color:#333; }
+  .detail-overlay { display:none !important; }
+  .detail-panel { position:static; width:auto; display:block !important; right:0 !important; border:none; page-break-before:always; }
+  .maintabs,.subtabs,.toolbar,.filter-group { display:none; }
+  .panel { display:block !important; page-break-before:always; }
+  .svg-wrap svg { width:100% !important; height:auto !important; }
+  .legend { position:static; background:none; border:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="header"><h1>希腊众神神谱</h1><p>原始神→提坦→奥林匹斯→冥界→英雄 · 约113位人物 · 赫西俄德版为基准</p></div>
+
+<!-- Main Tabs -->
+<div class="maintabs">
+  <button class="maintab-btn active" onclick="switchMain('theology')">神谱</button>
+  <button class="maintab-btn" onclick="switchMain('hero')">英雄谱</button>
+  <button class="maintab-btn" onclick="switchMain('appendix')">附录</button>
+</div>
+
+<!-- Theology Sub-tabs -->
+<div id="sub-theology" class="subtabs">
+  <button class="subtab-btn active" onclick="showPanel('theo-overview')">全图</button>
+  <button class="subtab-btn" onclick="showPanel('theo-primordial')">原始神</button>
+  <button class="subtab-btn" onclick="showPanel('theo-titan')">提坦</button>
+  <button class="subtab-btn" onclick="showPanel('theo-olympian')">奥林匹斯</button>
+  <button class="subtab-btn" onclick="showPanel('theo-underworld')">冥界</button>
+  <button class="subtab-btn" onclick="showPanel('theo-nyx')">倪克斯系</button>
+  <button class="subtab-btn" onclick="showPanel('theo-branch')">旁支</button>
+</div>
+<div id="sub-hero" class="subtabs" style="display:none">
+  <button class="subtab-btn active" onclick="showPanel('hero-all')">全览</button>
+  <button class="subtab-btn" onclick="showPanel('hero-perseus')">珀耳修斯</button>
+  <button class="subtab-btn" onclick="showPanel('hero-heracles')">赫拉克勒斯</button>
+  <button class="subtab-btn" onclick="showPanel('hero-troy')">特洛伊</button>
+  <button class="subtab-btn" onclick="showPanel('hero-odyssey')">奥德赛</button>
+  <button class="subtab-btn" onclick="showPanel('hero-theseus')">忒修斯/克里特</button>
+  <button class="subtab-btn" onclick="showPanel('hero-argo')">阿尔戈+其他</button>
+</div>
+<div id="sub-appendix" class="subtabs" style="display:none"></div>
+
+<div id="section-theology" class="main-section active">
+<div id="theo-overview" class="panel active">
+<div class="cat-header"><div class="cat-icon" style="background:var(--accent)">谱</div><div><div class="cat-title">神谱全图</div><div class="cat-desc">四层关系图 · 点击节点查看详情 · 滚轮缩放 · 拖拽平移</div></div></div>
+<div class="toolbar">
+  <input class="search-box" id="searchInput" placeholder="搜索神祇名称（支持中文/英文模糊匹配）..." oninput="doSearch()">
+  <div class="filter-group">
+    <button class="filter-btn active" onclick="setFilter('all')">全部</button>
+    <button class="filter-btn" onclick="setFilter('blood')">仅血亲</button>
+    <button class="filter-btn" onclick="setFilter('olympian')">仅奥林匹斯</button>
+    <button class="filter-btn" onclick="setFilter('king')">仅神王线</button>
+  </div>
+  <div class="zoom-group">
+    <button class="filter-btn" onclick="zoomSvg(-1)" title="Ctrl+滚轮缩小">🔍−</button>
+    <button class="filter-btn" onclick="zoomSvg(0)" title="重置缩放">⊞</button>
+    <button class="filter-btn" onclick="zoomSvg(1)" title="Ctrl+滚轮放大">🔍+</button>
+    <span style="color:var(--muted);font-size:0.75em">提示：Ctrl+滚轮缩放 · 拖拽平移 · 点击节点查看</span>
+  </div>
+</div>
+<div class="svg-wrap desktop-svg" id="svgContainer"><svg id="theoSVG" viewBox="0 0 1800 1050" xmlns="http://www.w3.org/2000/svg"></svg><div class="legend" id="svgLegend"><b>图例</b><div class="legend-item"><div class="legend-color" style="background:#6b3fa0"></div>原始神</div><div class="legend-item"><div class="legend-color" style="background:#8b6914"></div>提坦</div><div class="legend-item"><div class="legend-color" style="background:#b88821"></div>提坦后代</div><div class="legend-item"><div class="legend-color" style="background:#c41e3a"></div>奥林匹斯</div><div class="legend-item"><div class="legend-color" style="background:#3a5a7a"></div>冥界</div><div class="legend-item"><div class="legend-color" style="background:#1a1a3e"></div>倪克斯系</div><div class="legend-item"><div class="legend-color" style="background:#5c3a1a"></div>怪物</div><div class="legend-item"><div class="legend-color" style="background:#4a3f6b"></div>旁支</div><div style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px"><div class="legend-item"><div class="legend-line" style="border-bottom:1px solid #c9a84c"></div>配偶/结合</div><div class="legend-item"><div class="legend-line" style="border-bottom:1px dashed #555"></div>子女</div><div class="legend-item"><div class="legend-line" style="border-bottom:1px dotted #3b82f6"></div>特殊</div></div></div></div>
+<div class="mobile-list" id="mobileList"></div>
+</div>
+
+<div id="theo-primordial" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--primordial)">原</div><div><div class="cat-title">原始神</div><div class="cat-desc">卡俄斯所出 · 宇宙之初 · 10位</div></div></div><div class="grid" id="grid-primordial"></div></div>
+<div id="theo-titan" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--titan)">提</div><div><div class="cat-title">提坦十二神</div><div class="cat-desc">盖亚+乌拉诺斯 → 十二提坦 + 重要后代 · 20位</div></div></div><div class="grid" id="grid-titan"></div></div>
+<div id="theo-olympian" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--olympian)">奥</div><div><div class="cat-title">奥林匹斯主神</div><div class="cat-desc">克洛诺斯+瑞亚→奥林匹斯世代 · 14位</div></div></div><div class="grid" id="grid-olympian"></div></div>
+<div id="theo-underworld" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--underworld)">冥</div><div><div class="cat-title">冥界体系</div><div class="cat-desc">哈德斯领地 · 7位</div></div></div><div class="grid" id="grid-underworld"></div></div>
+<div id="theo-nyx" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--nyx)">夜</div><div><div class="cat-title">倪克斯一族</div><div class="cat-desc">黑夜女神及其子孙 · 9位</div></div></div><div class="grid" id="grid-nyx"></div></div>
+<div id="theo-branch" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--c1)">旁</div><div><div class="cat-title">旁支</div><div class="cat-desc">缪斯 · 命运 · 美惠 · 时序 · 怪物 · 潘 & 阿斯克勒庇俄斯</div></div></div>
+  <div class="section-title">缪斯九女神</div><div class="grid3" id="grid-muses"></div>
+  <div class="section-title">命运三女神</div><div class="grid3" id="grid-fates"></div>
+  <div class="section-title">美惠三女神</div><div class="grid3" id="grid-graces"></div>
+  <div class="section-title">时序三女神</div><div class="grid3" id="grid-horae"></div>
+  <div class="section-title">怪物母系</div><div class="grid3" id="grid-monsters"></div>
+  <div class="section-title">其他重要神祇</div><div class="grid3" id="grid-other"></div>
+</div>
+
+</div><!-- end section-theology -->
+
+<div id="section-hero" class="main-section">
+<div id="hero-all" class="panel active"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">英</div><div><div class="cat-title">英雄全览 ⭐</div><div class="cat-desc">最有公众认知度的15位英雄</div></div></div><div class="grid3" id="grid-hero-all"></div></div>
+<div id="hero-perseus" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">珀</div><div><div class="cat-title">珀耳修斯系</div></div></div><div class="grid3" id="grid-hero-perseus"></div></div>
+<div id="hero-heracles" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">赫</div><div><div class="cat-title">赫拉克勒斯系</div></div></div><div class="grid3" id="grid-hero-heracles"></div></div>
+<div id="hero-troy" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">特</div><div><div class="cat-title">特洛伊战争</div></div></div><div class="grid3" id="grid-hero-troy"></div></div>
+<div id="hero-odyssey" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">奥</div><div><div class="cat-title">奥德赛</div></div></div><div class="grid3" id="grid-hero-odyssey"></div></div>
+<div id="hero-theseus" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">忒</div><div><div class="cat-title">忒修斯/克里特</div></div></div><div class="grid3" id="grid-hero-theseus"></div></div>
+<div id="hero-argo" class="panel"><div class="cat-header"><div class="cat-icon" style="background:var(--hero)">阿</div><div><div class="cat-title">阿尔戈+其他</div></div></div><div class="grid3" id="grid-hero-argo"></div></div>
+</div>
+
+<div id="section-appendix" class="main-section">
+<div class="cat-header"><div class="cat-icon" style="background:var(--accent)">附</div><div><div class="cat-title">附录</div></div></div>
+<div class="section-title">希腊↔罗马名对照表</div>
+<table id="gr-roma"></table>
+<div class="section-title">十二主神速查卡</div>
+<div class="grid3" id="grid-quick"></div>
+<div class="section-title">怪物→英雄指向表</div>
+<table id="monster-hero"></table>
+<div class="section-title">版本冲突标注说明</div>
+<div class="nodelist" id="conflict-list"></div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-overlay" id="detailOverlay"><div class="detail-panel" id="detailPanel"><button class="detail-close" onclick="closeDetail()">✕</button><div id="detailContent"></div></div></div>
+
+<div class="footer">希腊众神神谱 · 可视化 · 2026年7月27日<br>赫西俄德版为默认基准 | 标注版本冲突 | 含约113位人物</div>
+
+<script>
+// ==================== DATA ====================
+const DEITIES = [
+  // Primordial (10)
+  {id:"chaos",cat:"primordial",name:"卡俄斯",en:"Chaos",roma:"—",title:"混沌/原始虚空",gen:"原始神",par:"—",sp:"—",ch:"盖亚、塔耳塔洛斯、厄洛斯、倪克斯、厄瑞玻斯",story:"一切存在的最初源头——无边的虚空与混沌。从卡俄斯中诞生了最初的神祇。",symbol:"虚空/深渊"},
+  {id:"gaia",cat:"primordial",name:"盖亚",en:"Gaia",roma:"Terra",title:"大地女神",gen:"原始神",par:"卡俄斯",sp:"乌拉诺斯（子兼夫）",ch:"乌拉诺斯、蓬托斯、十二提坦、独眼巨人、百臂巨人、堤丰",story:"大地之母，万物根基。与儿子乌拉诺斯结合生下提坦诸神。因乌拉诺斯将孩子塞回她体内而愤怒，令克洛诺斯阉割其父。",symbol:"大地/丰饶之角"},
+  {id:"uranus",cat:"primordial",name:"乌拉诺斯",en:"Uranus",roma:"Caelus",title:"天空之神",gen:"原始神",par:"盖亚（独自生）",sp:"盖亚",ch:"十二提坦、独眼巨人、百臂巨人",story:"初代天空之神。恐惧子女夺位，将他们囚禁在盖亚体内。最终被克洛诺斯用镰刀阉割，鲜血滴落生出复仇女神与巨人。",symbol:"星空/镰刀"},
+  {id:"tartarus",cat:"primordial",name:"塔耳塔洛斯",en:"Tartarus",roma:"Tartarus",title:"深渊/地狱底层",gen:"原始神",par:"卡俄斯",sp:"—",ch:"堤丰（与盖亚）",story:"冥界之下的最深深渊，既是神也是空间。铜砧从天掉落九天九夜才抵达其底。",symbol:"深渊/铜砧"},
+  {id:"eros-proto",cat:"primordial",name:"厄洛斯（原初）",en:"Eros (Protogenos)",roma:"Amor",title:"原始爱欲/创生之力",gen:"原始神",par:"卡俄斯",sp:"—",ch:"—",story:"宇宙创生的原动力——不是后来射箭的小爱神，而是使万物结合的原始力量。",symbol:"无形象/纯粹之力",conflict:"⚠️ 版本冲突：赫西俄德版为卡俄斯所出的原始神；后世传说中厄洛斯是阿佛洛狄忒之子，手持弓箭的小爱神。两个节点在神谱中不同色/不同层。"},
+  {id:"nyx",cat:"primordial",name:"倪克斯",en:"Nyx",roma:"Nox",title:"黑夜女神",gen:"原始神",par:"卡俄斯",sp:"厄瑞玻斯",ch:"埃忒尔、赫墨拉、许普诺斯、塔纳托斯、摩罗斯、刻瑞斯、厄里斯、涅墨西斯、革剌斯、梦神一族",story:"黑夜的化身，连宙斯都敬畏的女神。独自生下众多抽象力量，其子孙构成人类命运的基本框架。",symbol:"黑夜/星辰之袍"},
+  {id:"erebus",cat:"primordial",name:"厄瑞玻斯",en:"Erebus",roma:"Erebus",title:"黑暗之神",gen:"原始神",par:"卡俄斯",sp:"倪克斯",ch:"埃忒尔、赫墨拉",story:"原始黑暗的化身，与妹妹倪克斯结合生下白昼与天光。",symbol:"黑暗帷幕"},
+  {id:"pontus",cat:"primordial",name:"蓬托斯",en:"Pontus",roma:"Pontus",title:"海洋（旧海神）",gen:"原始神",par:"盖亚（独自生）",sp:"—",ch:"涅柔斯、陶玛斯、福耳库斯、刻托、欧律比亚",story:"最初的海神，波塞冬之前掌管海洋。代表海洋本身而非拟人化的神。",symbol:"深海"},
+  {id:"aether",cat:"primordial",name:"埃忒尔",en:"Aether",roma:"Aether",title:"以太/天光",gen:"原始神",par:"厄瑞玻斯+倪克斯",sp:"—",ch:"—",story:"上层天空的光辉——诸神呼吸的纯净之气，与凡人呼吸的空气不同。",symbol:"天光/纯净之气"},
+  {id:"hemera",cat:"primordial",name:"赫墨拉",en:"Hemera",roma:"Dies",title:"白昼女神",gen:"原始神",par:"厄瑞玻斯+倪克斯",sp:"—",ch:"—",story:"白昼的化身。每天夜晚与母亲倪克斯交替经过大地。",symbol:"白昼/晨光"},
+  // Titans (12)
+  {id:"oceanus",cat:"titan",name:"俄刻阿诺斯",en:"Oceanus",roma:"Oceanus",title:"环世大河",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"忒堤斯",ch:"三千河神+三千大洋神女",story:"环绕世界的大河之神。未参与提坦之战，保持中立。",symbol:"大河/巨蛇"},
+  {id:"tethys",cat:"titan",name:"忒堤斯",en:"Tethys",roma:"Tethys",title:"淡水/海洋",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"俄刻阿诺斯",ch:"—",story:"淡水女神，一切江河湖海的母亲。",symbol:"淡水/清泉"},
+  {id:"hyperion",cat:"titan",name:"许珀里翁",en:"Hyperion",roma:"Hyperion",title:"光明/太阳（旧）",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"忒亚",ch:"赫利俄斯、塞勒涅、厄俄斯",story:"旧日光明神，生出日月与黎明，被后辈阿波罗取代。",symbol:"光明/日轮"},
+  {id:"theia",cat:"titan",name:"忒亚",en:"Theia",roma:"Theia",title:"光辉/视觉",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"许珀里翁",ch:"—",story:"光辉女神，赋予金银珠宝以光芒。",symbol:"光辉/宝石"},
+  {id:"coeus",cat:"titan",name:"科俄斯",en:"Coeus",roma:"Coeus",title:"智力/天轴",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"福柏",ch:"勒托",story:"提坦中的智力之神，代表理性与天体的轴心。",symbol:"天轴/星辰"},
+  {id:"phoebe",cat:"titan",name:"福柏",en:"Phoebe",roma:"Phoebe",title:"预言/神谕",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"科俄斯",ch:"勒托",story:"预言女神，德尔斐神谕的原初持有者，后将神谕传给阿波罗。",symbol:"月/神谕"},
+  {id:"crius",cat:"titan",name:"克利俄斯",en:"Crius",roma:"Crius",title:"星座/天体",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"欧律比亚",ch:"阿斯忒赖俄斯、帕拉斯、珀耳塞斯",story:"星座与天体运行之神。",symbol:"星座"},
+  {id:"eurybia",cat:"titan",name:"欧律比亚",en:"Eurybia",roma:"Eurybia",title:"海洋之力",gen:"提坦",par:"蓬托斯+盖亚",sp:"克利俄斯",ch:"—",story:"海洋力量的化身，蓬托斯与盖亚之女。",symbol:"海浪/力量"},
+  {id:"iapetus",cat:"titan",name:"伊阿珀托斯",en:"Iapetus",roma:"Iapetus",title:"死亡/凡人",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"克吕墨涅",ch:"阿特拉斯、普罗米修斯、厄庇墨透斯",story:"提坦中与人类关系最密切者。生出扛天者、造人者和潘多拉之夫。",symbol:"凡人/死亡"},
+  {id:"clymene",cat:"titan-child",name:"克吕墨涅",en:"Clymene",roma:"Clymene",title:"大洋神女",gen:"提坦后代",par:"俄刻阿诺斯+忒堤斯",sp:"伊阿珀托斯",ch:"阿特拉斯、普罗米修斯、厄庇墨透斯",story:"大洋神女，与伊阿珀托斯结合生出扛天者和造人者。",symbol:"海洋"},
+  {id:"cronus",cat:"titan",name:"克洛诺斯",en:"Cronus",roma:"Saturn",title:"时间/收割",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"瑞亚",ch:"赫斯提亚、德墨忒尔、赫拉、哈德斯、波塞冬、宙斯",story:"第二代神王，阉割父亲乌拉诺斯后登位。因惧怕子女篡位而吞食每个新生儿。最终被宙斯推翻。",symbol:"镰刀/时间"},
+  {id:"rhea",cat:"titan",name:"瑞亚",en:"Rhea",roma:"Ops",title:"母性/丰饶",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"克洛诺斯",ch:"—（见克洛诺斯）",story:"众神之母。用石头调包救下宙斯，终结了克洛诺斯的吞子暴行。",symbol:"狮子/火炬"},
+  {id:"themis",cat:"titan",name:"忒弥斯",en:"Themis",roma:"Themis",title:"法律/秩序",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"宙斯",ch:"命运三女神、时序三女神",story:"法律与秩序的化身，宙斯第二任妻子。以蒙眼持天平的形象成为后世正义象征。",symbol:"天平/蒙眼"},
+  {id:"mnemosyne",cat:"titan",name:"谟涅摩绪涅",en:"Mnemosyne",roma:"Moneta",title:"记忆女神",gen:"提坦",par:"盖亚+乌拉诺斯",sp:"宙斯",ch:"缪斯九女神",story:"记忆的化身。与宙斯连续九夜结合，生下九位缪斯女神。",symbol:"记忆/泉水"},
+  // Titan offspring (8)
+  {id:"prometheus",cat:"titan-child",name:"普罗米修斯",en:"Prometheus",roma:"Prometheus",title:"先见之明/造人/盗火",gen:"提坦后代",par:"伊阿珀托斯+克吕墨涅",sp:"—",ch:"—",story:"用泥土造人，盗天火赐予人类。被宙斯惩罚缚于高加索山，每日遭鹰啄食肝脏。",symbol:"火焰/泥土"},
+  {id:"epimetheus",cat:"titan-child",name:"厄庇墨透斯",en:"Epimetheus",roma:"Epimetheus",title:"后见之明",gen:"提坦后代",par:"伊阿珀托斯+克吕墨涅",sp:"潘多拉",ch:"—",story:"普罗米修斯的弟弟，代表'事后聪明'。不顾兄长警告接受了潘多拉，打开了灾难之盒。",symbol:"盒子/后见"},
+  {id:"atlas",cat:"titan-child",name:"阿特拉斯",en:"Atlas",roma:"Atlas",title:"扛天者",gen:"提坦后代",par:"伊阿珀托斯+克吕墨涅",sp:"—",ch:"—",story:"参与提坦之战反抗宙斯，战败后被罚永远扛着天穹。赫拉克勒斯十二功绩中曾暂时替他扛天。",symbol:"天球/苍穹"},
+  {id:"helios",cat:"titan-child",name:"赫利俄斯",en:"Helios",roma:"Sol",title:"太阳神（旧）",gen:"提坦后代",par:"许珀里翁+忒亚",sp:"—",ch:"喀耳刻",story:"驾驶太阳马车每日穿越天空。阿波罗时代之前的太阳神，后逐渐被阿波罗取代。",symbol:"太阳马车/日轮"},
+  {id:"selene",cat:"titan-child",name:"塞勒涅",en:"Selene",roma:"Luna",title:"月神（旧）",gen:"提坦后代",par:"许珀里翁+忒亚",sp:"—",ch:"—",story:"月亮女神，驾驶月亮马车。爱上牧羊人恩底弥翁，让他永眠以保留美貌。后被阿尔忒弥斯取代。",symbol:"月亮马车/新月"},
+  {id:"eos",cat:"titan-child",name:"厄俄斯",en:"Eos",roma:"Aurora",title:"黎明女神",gen:"提坦后代",par:"许珀里翁+忒亚",sp:"—",ch:"—",story:"每日清晨用玫瑰色手指打开天门引来日出。",symbol:"黎明/玫瑰色手指"},
+  {id:"hecate",cat:"titan-child",name:"赫卡忒",en:"Hecate",roma:"Trivia",title:"魔法/鬼魂/十字路口",gen:"提坦后代",par:"珀耳塞斯+阿斯忒里亚",sp:"—",ch:"—",story:"三面女神，掌管魔法、鬼魂与十字路口。宙斯给了她天地海三界的权力，是美狄亚信奉的女神。",symbol:"火炬/三岔路/月亮"},
+  {id:"leto",cat:"titan-child",name:"勒托",en:"Leto",roma:"Latona",title:"母神",gen:"提坦后代",par:"科俄斯+福柏",sp:"宙斯",ch:"阿波罗、阿尔忒弥斯",story:"宙斯的情人。怀孕后被赫拉追杀，无处可栖。最终在漂浮的提洛岛上生下双胞胎——阿波罗和阿尔忒弥斯。",symbol:"棕榈树/双胞胎"},
+  // Olympians (14)
+  {id:"zeus",cat:"olympian",name:"宙斯",en:"Zeus",roma:"Jupiter",title:"天空、众神之王",gen:"奥林匹斯十二神",par:"克洛诺斯+瑞亚",sp:"赫拉（正妻）及多位",ch:"雅典娜、阿波罗、阿尔忒弥斯、阿瑞斯、赫淮斯托斯、赫尔墨斯、狄俄尼索斯、珀耳塞福涅、珀耳修斯、赫拉克勒斯、海伦、缪斯等",story:"第三代神王。推翻父亲克洛诺斯，领导奥林匹斯众神。掌管雷电，维持宇宙秩序。",symbol:"雷电/鹰/权杖"},
+  {id:"hera",cat:"olympian",name:"赫拉",en:"Hera",roma:"Juno",title:"婚姻、家庭",gen:"奥林匹斯十二神",par:"克洛诺斯+瑞亚",sp:"宙斯",ch:"阿瑞斯、赫淮斯托斯（一说独自生）",story:"天后、婚姻守护者。因宙斯不断出轨而反复报复其情人与私生子。",symbol:"孔雀/石榴/冠冕"},
+  {id:"poseidon",cat:"olympian",name:"波塞冬",en:"Poseidon",roma:"Neptune",title:"海洋、地震",gen:"奥林匹斯十二神",par:"克洛诺斯+瑞亚",sp:"—",ch:"独眼巨人波吕斐摩斯等",story:"海洋之王，持三叉戟。与宙斯、哈德斯三分宇宙。愤怒时用三叉戟掀起地震与海啸。",symbol:"三叉戟/马/海豚"},
+  {id:"hades",cat:"olympian",name:"哈德斯",en:"Hades",roma:"Pluto",title:"冥界之主",gen:"三巨头（非奥林匹斯）",par:"克洛诺斯+瑞亚",sp:"珀耳塞福涅",ch:"—",story:"冥界之王，与宙斯和波塞冬三分天下后掌管地下。劫走珀耳塞福涅为冥后。",symbol:"隐身头盔/权杖/刻耳柏洛斯"},
+  {id:"hestia",cat:"olympian",name:"赫斯提亚",en:"Hestia",roma:"Vesta",title:"灶火、家庭",gen:"奥林匹斯十二神",par:"克洛诺斯+瑞亚",sp:"—（终身贞洁）",ch:"—",story:"灶火女神，克洛诺斯的长女。发誓终身贞洁，守护家庭温暖与永恒之火。",symbol:"火焰/灶台",conflict:"⚠️ 版本冲突：某些版本中赫斯提亚将十二主神之位让给狄俄尼索斯。"},
+  {id:"demeter",cat:"olympian",name:"德墨忒尔",en:"Demeter",roma:"Ceres",title:"农业、丰收",gen:"奥林匹斯十二神",par:"克洛诺斯+瑞亚",sp:"宙斯",ch:"珀耳塞福涅",story:"农业女神。女儿被哈德斯劫走时悲伤令大地荒芜，促成四季的诞生。",symbol:"麦穗/火炬/猪"},
+  {id:"athena",cat:"olympian",name:"雅典娜",en:"Athena",roma:"Minerva",title:"智慧、战争、工艺",gen:"奥林匹斯十二神",par:"宙斯（独自生，墨提斯之女）",sp:"—（终身贞洁）",ch:"—",story:"从宙斯头顶全副武装跳出。智慧与战略战争的女神，雅典城的守护者。",symbol:"猫头鹰/橄榄树/盾牌"},
+  {id:"apollo",cat:"olympian",name:"阿波罗",en:"Apollo",roma:"Apollo",title:"光明、音乐、预言、医药",gen:"奥林匹斯十二神",par:"宙斯+勒托",sp:"—",ch:"阿斯克勒庇俄斯",story:"太阳神（取代赫利俄斯）、音乐之神、预言之神。德尔斐神谕的持有者。",symbol:"里拉琴/月桂/弓"},
+  {id:"artemis",cat:"olympian",name:"阿尔忒弥斯",en:"Artemis",roma:"Diana",title:"狩猎、月亮、贞洁",gen:"奥林匹斯十二神",par:"宙斯+勒托",sp:"—（终身贞洁）",ch:"—",story:"狩猎女神，阿波罗的孪生姐姐。终身不嫁，统领山林宁芙。",symbol:"弓/鹿/新月"},
+  {id:"ares",cat:"olympian",name:"阿瑞斯",en:"Ares",roma:"Mars",title:"战争、暴力",gen:"奥林匹斯十二神",par:"宙斯+赫拉",sp:"阿佛洛狄忒（情人）",ch:"—",story:"战争之神——代表战争的狂暴与血腥面，不是战略而是纯粹的暴力。",symbol:"矛/盾/战车"},
+  {id:"aphrodite",cat:"olympian",name:"阿佛洛狄忒",en:"Aphrodite",roma:"Venus",title:"爱与美",gen:"奥林匹斯十二神",par:"见冲突",sp:"赫淮斯托斯（夫）",ch:"厄洛斯（小爱神）",story:"爱与美的女神。从海中泡沫诞生（赫西俄德版），或为宙斯与狄俄涅之女（荷马版）。金苹果裁判中获帕里斯青睐。",symbol:"鸽子/玫瑰/贝壳",conflict:"⚠️ 双重出身：赫西俄德版——从乌拉诺斯被阉割后落入海中的精血化生；荷马版——宙斯与狄俄涅之女。"},
+  {id:"hephaestus",cat:"olympian",name:"赫淮斯托斯",en:"Hephaestus",roma:"Vulcan",title:"火、锻造",gen:"奥林匹斯十二神",par:"见冲突",sp:"阿佛洛狄忒",ch:"—",story:"锻造之神，奥林匹斯的工匠。天生跛足，被赫拉（一说宙斯）扔下奥林匹斯山。巧手打造了诸神的所有神器。",symbol:"铁锤/铁砧/火",conflict:"⚠️ 双重出身：一说宙斯+赫拉之子；另一说赫拉独自生（因嫉恨宙斯独自生雅典娜而自己生出赫淮斯托斯，但跛足）。"},
+  {id:"hermes",cat:"olympian",name:"赫尔墨斯",en:"Hermes",roma:"Mercury",title:"信使、商业、盗贼、灵魂引导",gen:"奥林匹斯十二神",par:"宙斯+迈亚",sp:"—",ch:"潘（一说）",story:"众神的使者，脚穿飞鞋。出生当天便偷走阿波罗的牛群，发明了里拉琴换得原谅。也负责引导死者进入冥界。",symbol:"双蛇杖/飞鞋/翼帽"},
+  {id:"dionysus",cat:"olympian",name:"狄俄尼索斯",en:"Dionysus",roma:"Bacchus",title:"酒、狂欢、戏剧",gen:"奥林匹斯十二神",par:"宙斯+塞墨勒",sp:"—",ch:"—",story:"酒神。母亲塞墨勒被赫拉蒙骗要求见宙斯真身而烧死，宙斯将胎儿缝入自己大腿中孕育。后替补赫斯提亚成为十二主神。",symbol:"葡萄/豹/酒神杖",conflict:"⚠️ 赫斯提亚/狄俄尼索斯替换：某些版本中赫斯提亚让出奥林匹斯十二神之位给狄俄尼索斯。"},
+  // Underworld (7)
+  {id:"persephone",cat:"underworld",name:"珀耳塞福涅",en:"Persephone",roma:"Proserpina",title:"冥后",gen:"冥界",par:"宙斯+德墨忒尔",sp:"哈德斯",ch:"—",story:"春之女神。被哈德斯劫入冥界，因吃了六颗石榴籽，每年必须有六个月留在冥界——六个月在人间（春夏），六个月在地下（秋冬）。",symbol:"石榴/花/火炬"},
+  {id:"charon",cat:"underworld",name:"卡戎",en:"Charon",roma:"Charon",title:"冥河摆渡人",gen:"冥界",par:"厄瑞玻斯+倪克斯",sp:"—",ch:"—",story:"冥河斯提克斯的摆渡人。死者须付一枚钱币才能过河。希腊人有在死者口中放钱的习俗。",symbol:"船桨/渡船/钱币"},
+  {id:"cerberus",cat:"underworld",name:"刻耳柏洛斯",en:"Cerberus",roma:"Cerberus",title:"三头地狱犬",gen:"冥界",par:"堤丰+厄客德娜",sp:"—",ch:"—",story:"冥界大门的三头护卫犬。让人进不让出。被赫拉克勒斯徒手制伏（十二功绩最终试炼），被俄耳甫斯用音乐催眠。",symbol:"三头犬/蛇尾"},
+  {id:"minos",cat:"underworld",name:"米诺斯",en:"Minos",roma:"Minos",title:"冥界判官之一",gen:"冥界",par:"宙斯+欧罗巴",sp:"—",ch:"—",story:"克里特国王，死后成为冥界三判官之一。审判决断死者去向。",symbol:"权杖/黄金宝座"},
+  {id:"rhadamanthus",cat:"underworld",name:"拉达曼提斯",en:"Rhadamanthus",roma:"Rhadamanthus",title:"冥界判官之二",gen:"冥界",par:"宙斯+欧罗巴",sp:"—",ch:"—",story:"以公正闻名，死后成为冥界判官，审判来自亚洲的死者。",symbol:"天平"},
+  {id:"aeacus",cat:"underworld",name:"埃阿科斯",en:"Aeacus",roma:"Aeacus",title:"冥界判官之三",gen:"冥界",par:"宙斯+埃癸娜",sp:"—",ch:"—",story:"以虔诚闻名，死后成为冥界判官，审判来自欧洲的死者。",symbol:"钥匙"},
+  // Nyx family (9)
+  {id:"hypnos",cat:"nyx",name:"许普诺斯",en:"Hypnos",roma:"Somnus",title:"睡眠之神",gen:"倪克斯系",par:"倪克斯（独自生，一说+厄瑞玻斯）",sp:"—",ch:"三千梦神",story:"睡眠之神，住在冥界洞穴中。让宙斯入睡以帮助赫拉干涉特洛伊战争。",symbol:"罂粟/翅膀"},
+  {id:"thanatos",cat:"nyx",name:"塔纳托斯",en:"Thanatos",roma:"Mors",title:"死亡之神",gen:"倪克斯系",par:"倪克斯",sp:"—",ch:"—",story:"死亡的化身。被西西弗斯用计擒住，导致一段时间无人死亡。",symbol:"翅膀/剑/蝴蝶"},
+  {id:"moros",cat:"nyx",name:"摩罗斯",en:"Moros",roma:"Fatum",title:"厄运/宿命",gen:"倪克斯系",par:"倪克斯",sp:"—",ch:"—",story:"厄运与宿命的化身，代表无法逃避的命定毁灭。",symbol:"黑暗命运"},
+  {id:"keres",cat:"nyx",name:"刻瑞斯",en:"Keres",roma:"Tenebrae",title:"暴力死亡",gen:"倪克斯系",par:"倪克斯",sp:"—",ch:"—",story:"暴力死亡的精灵，在战场上吸食伤者的血液。",symbol:"爪/血"},
+  {id:"eris",cat:"nyx",name:"厄里斯",en:"Eris",roma:"Discordia",title:"纷争/不和",gen:"倪克斯系",par:"倪克斯",sp:"—",ch:"—",story:"纷争女神。因未被邀请参加珀琉斯与忒提斯的婚礼而扔出'献给最美者'的金苹果——直接引发特洛伊战争。【神谱与英雄谱的关键连接点】",symbol:"金苹果",conflict:"厄里斯的'金苹果'→帕里斯的裁判→阿佛洛狄忒获奖→诱拐海伦→特洛伊战争。"},
+  {id:"nemesis",cat:"nyx",name:"涅墨西斯",en:"Nemesis",roma:"Nemesis",title:"复仇/天罚",gen:"倪克斯系",par:"倪克斯",sp:"—",ch:"—",story:"天罚与报应女神，惩罚傲慢（hubris）之人。确保命运平衡不被打破。",symbol:"剑/翅膀/天平"},
+  {id:"geras",cat:"nyx",name:"革剌斯",en:"Geras",roma:"Senectus",title:"衰老之神",gen:"倪克斯系",par:"倪克斯",sp:"—",ch:"—",story:"衰老的化身。一个无人愿意与之相遇的神。",symbol:"老人拐杖/皱纹"},
+  {id:"oneiroi",cat:"nyx",name:"梦神一族",en:"Oneiroi",roma:"Somnia",title:"三千梦神",gen:"倪克斯系",par:"许普诺斯",sp:"—",ch:"—",story:"许普诺斯所生的三千梦神，夜间从象牙与牛角之门飞出，给人带来真假之梦。",symbol:"翅膀/梦境之门"},
+  // Muses (9)
+  {id:"calliope",cat:"branch",name:"卡利俄佩",en:"Calliope",roma:"Calliope",title:"史诗",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"俄耳甫斯（一说）",story:"缪斯之首，掌管史诗。手持书板与笔，常被诗人呼唤以求灵感。",symbol:"书板/笔/月桂花环"},
+  {id:"clio",cat:"branch",name:"克利俄",en:"Clio",roma:"Clio",title:"历史",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管历史的缪斯，手持书卷。",symbol:"书卷/号角"},
+  {id:"erato",cat:"branch",name:"埃拉托",en:"Erato",roma:"Erato",title:"爱情诗",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管爱情诗的缪斯，手持竖琴。",symbol:"竖琴/玫瑰"},
+  {id:"euterpe",cat:"branch",name:"欧忒耳佩",en:"Euterpe",roma:"Euterpe",title:"音乐/抒情诗",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管音乐与抒情诗的缪斯，手持长笛。",symbol:"长笛"},
+  {id:"melpomene",cat:"branch",name:"墨尔波墨涅",en:"Melpomene",roma:"Melpomene",title:"悲剧",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管悲剧的缪斯，手持悲剧面具。",symbol:"悲剧面具/藤蔓"},
+  {id:"polyhymnia",cat:"branch",name:"波吕许谟尼亚",en:"Polyhymnia",roma:"Polyhymnia",title:"颂歌/哑剧",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管颂歌与哑剧的缪斯，姿态庄严沉思。",symbol:"面纱/沉思"},
+  {id:"terpsichore",cat:"branch",name:"忒耳普西科瑞",en:"Terpsichore",roma:"Terpsichore",title:"舞蹈",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管舞蹈的缪斯，手持里拉琴翩翩起舞。",symbol:"里拉琴/舞姿"},
+  {id:"thalia-muse",cat:"branch",name:"塔利亚",en:"Thalia",roma:"Thalia",title:"喜剧",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管喜剧的缪斯，手持喜剧面具。",symbol:"喜剧面具/常春藤"},
+  {id:"urania",cat:"branch",name:"乌拉尼亚",en:"Urania",roma:"Urania",title:"天文",gen:"缪斯",par:"宙斯+谟涅摩绪涅",sp:"—",ch:"—",story:"掌管天文的缪斯，手持天球仪。",symbol:"天球仪/圆规"},
+  // Fates (3)
+  {id:"clotho",cat:"branch",name:"克洛托",en:"Clotho",roma:"Nona",title:"纺线者",gen:"命运三女神",par:"宙斯+忒弥斯（或倪克斯）",sp:"—",ch:"—",story:"命运三女神之首。纺出每个人的生命之线——线开始，生命开始。",symbol:"纺锤",conflict:"⚠️ 父母冲突：赫西俄德版为宙斯+忒弥斯所生；另说为倪克斯独自所生。"},
+  {id:"lachesis",cat:"branch",name:"拉刻西斯",en:"Lachesis",roma:"Decima",title:"量线者",gen:"命运三女神",par:"宙斯+忒弥斯（或倪克斯）",sp:"—",ch:"—",story:"命运三女神之二。量出生命之线的长度——决定每人寿命长短。",symbol:"量尺"},
+  {id:"atropos",cat:"branch",name:"阿特洛波斯",en:"Atropos",roma:"Morta",title:"剪线者",gen:"命运三女神",par:"宙斯+忒弥斯（或倪克斯）",sp:"—",ch:"—",story:"命运三女神之末——不可回转者。剪断生命之线，无人能违抗。",symbol:"剪刀"},
+  // Graces (3)
+  {id:"aglaia",cat:"branch",name:"阿格莱亚",en:"Aglaia",roma:"Aglaia",title:"光辉",gen:"美惠三女神",par:"宙斯+欧律诺墨",sp:"—",ch:"—",story:"美惠三女神之首，代表光辉与美丽。",symbol:"光辉"},
+  {id:"euphrosyne",cat:"branch",name:"欧佛洛绪涅",en:"Euphrosyne",roma:"Euphrosyne",title:"欢乐",gen:"美惠三女神",par:"宙斯+欧律诺墨",sp:"—",ch:"—",story:"美惠三女神之二，代表欢乐与愉快。",symbol:"欢乐"},
+  {id:"thalia-grace",cat:"branch",name:"塔利亚",en:"Thalia",roma:"Thalia",title:"丰盛",gen:"美惠三女神",par:"宙斯+欧律诺墨",sp:"—",ch:"—",story:"美惠三女神之三，代表丰盛与繁花。",symbol:"繁花"},
+  // Horae (3)
+  {id:"eunomia",cat:"branch",name:"欧诺弥亚",en:"Eunomia",roma:"Eunomia",title:"秩序/法律",gen:"时序三女神",par:"宙斯+忒弥斯",sp:"—",ch:"—",story:"时序三女神之一，掌管良好秩序与法律。",symbol:"秩序"},
+  {id:"dike",cat:"branch",name:"狄刻",en:"Dike",roma:"Justitia",title:"正义",gen:"时序三女神",par:"宙斯+忒弥斯",sp:"—",ch:"—",story:"时序三女神之二，掌管正义——后世'正义女神'的原型。",symbol:"天平"},
+  {id:"eirene",cat:"branch",name:"厄瑞涅",en:"Eirene",roma:"Pax",title:"和平",gen:"时序三女神",par:"宙斯+忒弥斯",sp:"—",ch:"—",story:"时序三女神之三，掌管和平。",symbol:"橄榄枝"},
+  // Monsters (5)
+  {id:"typhon",cat:"monster",name:"堤丰",en:"Typhon",roma:"Typhon",title:"百头巨怪",gen:"怪物",par:"盖亚+塔耳塔洛斯",sp:"厄客德娜",ch:"勒拿九头蛇、喀迈拉、斯芬克斯、刻耳柏洛斯等",story:"盖亚最后的孩子，诸怪之父。一百个龙头喷火咆哮，与宙斯大战几乎推翻了奥林匹斯。最终被宙斯雷电击败，压在埃特纳火山下。",symbol:"百头/风暴/火焰"},
+  {id:"echidna",cat:"monster",name:"厄客德娜",en:"Echidna",roma:"Echidna",title:"半蛇半女/众怪之母",gen:"怪物",par:"—",sp:"堤丰",ch:"—（见堤丰）",story:"上半身美女下半身蛇身的怪物之母。与堤丰结合生下神话时代最可怕的怪物们。",symbol:"蛇身/洞穴"},
+  {id:"hydra",cat:"monster",name:"勒拿九头蛇",en:"Lernaean Hydra",roma:"Hydra",title:"九头蛇怪",gen:"怪物",par:"堤丰+厄客德娜",sp:"—",ch:"—",story:"长有多头的沼泽蛇怪，砍掉一个头会长出两个。被赫拉克勒斯斩杀（十二功绩之二）。",symbol:"多头/蛇/毒血",killer:"赫拉克勒斯（十二功绩之二）"},
+  {id:"chimera",cat:"monster",name:"喀迈拉",en:"Chimera",roma:"Chimaera",title:"混合怪兽",gen:"怪物",par:"堤丰+厄客德娜",sp:"—",ch:"—",story:"狮头、羊身、蛇尾的喷火怪物。被柏勒洛丰骑飞马珀伽索斯从空中射杀。",symbol:"狮/羊/蛇",killer:"柏勒洛丰"},
+  {id:"sphinx",cat:"monster",name:"斯芬克斯",en:"Sphinx",roma:"Sphinx",title:"谜语怪兽",gen:"怪物",par:"堤丰+厄客德娜（一说）",sp:"—",ch:"—",story:"守在忒拜城外，问路人谜语：'什么早晨四条腿、中午两条腿、晚上三条腿？'答不出者被杀。俄狄浦斯答出'人'后，斯芬克斯坠崖自尽。",symbol:"狮身人面/翅膀",killer:"俄狄浦斯（解谜）"},
+  // Others (2)
+  {id:"pan",cat:"branch",name:"潘",en:"Pan",roma:"Faunus",title:"牧神/自然之神",gen:"其他",par:"赫尔墨斯（一说）",sp:"—",ch:"—",story:"半羊半人的牧神，掌管山林、羊群与性欲。'panic'（恐慌）一词即源于他引发的不明恐惧。",symbol:"排箫/羊角"},
+  {id:"asclepius",cat:"branch",name:"阿斯克勒庇俄斯",en:"Asclepius",roma:"Aesculapius",title:"医神",gen:"其他",par:"阿波罗+科洛尼斯",sp:"—",ch:"—",story:"医药之神。因能起死回生触怒哈德斯，被宙斯用雷电劈死。死后化为蛇夫座，蛇杖至今是医学的象征。",symbol:"蛇杖"},
+];
+
+const DEITY_BY_ID = {};
+DEITIES.forEach(d => { DEITY_BY_ID[d.id] = d; });
+
+const HEROES = [
+  // ⭐ top 15
+  {id:"perseus",star:true,cat:"perseus",name:"珀耳修斯",en:"Perseus",identity:"半神·英雄",par:"宙斯+达那厄",gods:"宙斯、雅典娜、赫尔墨斯",story:"斩美杜莎首级；救安德洛墨达于海怪。",deeds:["① 斩美杜莎首级","② 救安德洛墨达","③ 杀海怪刻托","④ 用美杜莎头石化波吕得克忒斯"],fate:"建立迈锡尼，寿终正寝。死后化为英仙座。"},
+  {id:"heracles",star:true,cat:"heracles",name:"赫拉克勒斯",en:"Heracles",identity:"半神·最强英雄",par:"宙斯+阿尔克墨涅",gods:"宙斯、赫拉（迫害者）、雅典娜",story:"完成十二功绩——从杀涅墨亚狮子到擒刻耳柏洛斯。",deeds:["① 涅墨亚狮子","② 勒拿九头蛇","③ 刻律涅亚赤牝鹿","④ 厄律曼托斯野猪","⑤ 奥革阿斯牛圈","⑥ 斯廷法罗斯怪鸟","⑦ 克里特公牛","⑧ 狄俄墨得斯牝马","⑨ 希波吕忒的腰带","⑩ 革律翁的牛群","⑪ 赫斯珀里得斯的金苹果","⑫ 刻耳柏洛斯"],fate:"被妻子得伊阿尼拉误用涅索斯毒血外衣毒死→自焚→封神成为奥林匹斯一员→娶青春女神赫柏。"},
+  {id:"achilles",star:true,cat:"troy",name:"阿喀琉斯",en:"Achilles",identity:"半神·希腊第一勇士",par:"珀琉斯+忒提斯",gods:"忒提斯（母）、阿波罗（杀了他）",story:"除脚踵外全身刀枪不入。特洛伊战争最强者，为友帕特罗克洛斯报仇杀赫克托耳。",deeds:["脚踵之外刀枪不入","杀赫克托耳","拖尸绕城三圈","被帕里斯射中脚踵而死"],fate:"被帕里斯（一说阿波罗引导）射中脚踵→战死→葬于特洛伊海滩。"},
+  {id:"odysseus",star:true,cat:"odyssey",name:"奥德修斯",en:"Odysseus",identity:"伊塔卡国王·智者",par:"拉厄耳忒斯",gods:"雅典娜（庇护）、波塞冬（报复）",story:"想出特洛伊木马计；十年漂泊归乡。",deeds:["特洛伊木马计","刺瞎独眼巨人波吕斐摩斯","通过塞壬海域","逃过斯库拉与卡律布狄斯","在卡吕普索岛上被困七年","归乡杀108求婚者"],fate:"漂泊十年后回到伊塔卡→杀求婚者与妻团聚→据后期传说晚年被其子忒勒戈诺斯误杀。"},
+  {id:"theseus",star:true,cat:"theseus",name:"忒修斯",en:"Theseus",identity:"雅典王子·英雄",par:"埃勾斯（一说波塞冬）",gods:"波塞冬（一说父）、阿里阿德涅",story:"杀弥诺陶洛斯、统一雅典城邦。",deeds:["杀弥诺陶洛斯（克里特迷宫）","统一阿提卡","擒杀强盗和恶徒","入冥界（与庇里托俄斯同行）"],fate:"流亡斯基罗斯岛→被当地国王推下悬崖。"},
+  {id:"jason",star:true,cat:"argo",name:"伊阿宋",en:"Jason",identity:"阿尔戈英雄领袖",par:"埃宋",gods:"赫拉（庇护）、赫卡忒（美狄亚之神）",story:"率阿尔戈号远航取金羊毛。",deeds:["召集阿尔戈英雄远航","驾牛耕地、播龙牙","美狄亚的帮助取得金羊毛","取出金羊毛后携美狄亚逃归"],fate:"年老后在阿尔戈号残骸的阴影下被坠梁砸死→流亡而死。"},
+  {id:"oedipus",star:true,cat:"argo",name:"俄狄浦斯",en:"Oedipus",identity:"忒拜国王",par:"拉伊俄斯+伊俄卡斯忒",gods:"阿波罗（神谕）",story:"杀父娶母——希腊悲剧中最震撼的命运。",deeds:["无意中杀父拉伊俄斯","解斯芬克斯之谜","娶母伊俄卡斯忒不自知","真相揭发后自刺双目"],fate:"自刺双目→流浪→在雅典附近流亡而死。"},
+  {id:"orpheus",star:true,cat:"argo",name:"俄耳甫斯",en:"Orpheus",identity:"诗人·音乐家",par:"阿波罗（一说）+卡利俄佩",gods:"阿波罗、哈德斯、珀耳塞福涅",story:"入冥府寻亡妻欧律狄刻——回头失败。",deeds:["用音乐催眠刻耳柏洛斯","入冥府求哈德斯放回欧律狄刻","因回头而功亏一篑"],fate:"被狂暴的酒神女信徒撕碎→头漂至莱斯博斯岛，仍唱着歌。"},
+  {id:"hector",star:true,cat:"troy",name:"赫克托耳",en:"Hector",identity:"特洛伊第一勇士",par:"普里阿摩斯+赫卡柏",gods:"阿波罗（庇护）",story:"特洛伊的守护者。被阿喀琉斯所杀。",deeds:["特洛伊最英勇的战士","与阿喀琉斯决斗战死","尸体被阿喀琉斯拖走"],fate:"被阿喀琉斯所杀→老父普里阿摩斯赎尸安葬。"},
+  {id:"helen",star:true,cat:"troy",name:"海伦",en:"Helen",identity:"斯巴达王后·世间最美",par:"宙斯+勒达",gods:"宙斯（父）、阿佛洛狄忒",story:"世间最美的女人，被帕里斯诱拐引发特洛伊战争。",deeds:["被忒修斯劫走一次（少女时被救回）","被帕里斯诱拐→引发特洛伊战争"],fate:"特洛伊陷落后回到墨涅拉俄斯身边→平静终老。"},
+  {id:"medea",star:true,cat:"argo",name:"美狄亚",en:"Medea",identity:"魔女·科尔基斯公主",par:"埃厄忒斯",gods:"赫卡忒（女祭司）",story:"为爱背叛父亲帮助伊阿宋→被弃后杀子复仇。",deeds:["帮伊阿宋取金羊毛","背叛父亲杀死亲弟","杀伊阿宋的新娘和新岳父","杀自己与伊阿宋的两个儿子"],fate:"乘龙车逃往雅典→再嫁埃勾斯→再被逐→回到科尔基斯。"},
+  {id:"agamemnon",star:true,cat:"troy",name:"阿伽门农",en:"Agamemnon",identity:"希腊联军统帅",par:"阿特柔斯",gods:"阿尔忒弥斯（献祭女儿）",story:"特洛伊战争希腊联军最高统帅。得罪阿尔忒弥斯被迫献祭女儿伊菲革涅亚。",deeds:["统帅希腊联军","献祭女儿伊菲革涅亚","攻陷特洛伊"],fate:"凯旋回家→被妻子克吕泰涅斯特拉和情夫埃癸斯托斯合谋杀于浴室。"},
+  {id:"paris",star:true,cat:"troy",name:"帕里斯",en:"Paris",identity:"特洛伊王子",par:"普里阿摩斯+赫卡柏",gods:"阿佛洛狄忒（庇护）",story:"金苹果裁判→选中阿佛洛狄忒→诱拐海伦→引发特洛伊战争→射杀阿喀琉斯。",deeds:["金苹果裁判","诱拐海伦","射杀阿喀琉斯（脚踵）"],fate:"被菲洛克忒忒斯用赫拉克勒斯之箭射杀→死在出生时被抛弃的山上。"},
+  {id:"bellerophon",star:true,cat:"argo",name:"柏勒洛丰",en:"Bellerophon",identity:"科林斯英雄",par:"格劳科斯（一说波塞冬）",gods:"雅典娜（助）、宙斯（击落）",story:"骑飞马珀伽索斯杀喀迈拉→后傲慢试图飞上奥林匹斯被宙斯击落。",deeds:["杀死喀迈拉","骑飞马珀伽索斯","击败索吕摩伊人与亚马逊人"],fate:"试图飞向奥林匹斯→被宙斯击落→跛足流浪→凄凉而死。"},
+  {id:"atalanta",star:true,cat:"argo",name:"阿塔兰忒",en:"Atalanta",identity:"女猎手",par:"伊阿索斯",gods:"阿尔忒弥斯（庇护）",story:"最快的女猎手。卡吕冬狩猎中第一个射中野猪。用金苹果赛跑择偶。",deeds:["卡吕冬狩猎（第一个射中野猪）","金苹果赛跑择偶"],fate:"被金苹果分心输掉赛跑→嫁给希波墨涅斯→两人在神庙中交合被变成狮子。"},
+  // Non-star heroes
+  {id:"danae",star:false,cat:"perseus",name:"达那厄",en:"Danaë",identity:"阿尔戈斯公主",par:"阿克里西俄斯",gods:"宙斯（化金雨）",story:"被父亲囚于铜塔以免生子→宙斯化为金雨使其受孕→生下珀耳修斯。",deeds:["被囚铜塔→宙斯化金雨","生下珀耳修斯"],fate:"与幼子漂流入海→存活→宙斯保佑。"},
+  {id:"andromeda",star:false,cat:"perseus",name:"安德洛墨达",en:"Andromeda",identity:"埃塞俄比亚公主",par:"刻甫斯+卡西俄珀亚",gods:"波塞冬（派海怪）",story:"因母亲炫耀美貌触怒海神→被献祭海怪→珀耳修斯斩杀海怪救她。",deeds:["被锁在海边岩石上献祭海怪","被珀耳修斯救下"],fate:"嫁给珀耳修斯→成为迈锡尼王后→死后化为仙女座。"},
+  {id:"deianira",star:false,cat:"heracles",name:"得伊阿尼拉",en:"Deianira",identity:"公主",par:"俄纽斯",gods:"涅索斯（半人马）",story:"赫拉克勒斯之妻。误信涅索斯死前的话用'爱情魔药'涂外衣→实为毒血→害死丈夫。",deeds:["用涅索斯毒血涂衣→误杀丈夫"],fate:"认罪→自刎。"},
+  {id:"ariadne",star:false,cat:"theseus",name:"阿里阿德涅",en:"Ariadne",identity:"克里特公主",par:"米诺斯",gods:"狄俄尼索斯",story:"给忒修斯线团帮他走出迷宫。后被忒修斯抛弃在纳克索斯岛→嫁狄俄尼索斯。",deeds:["线团助忒修斯逃出迷宫"],fate:"被忒修斯抛弃→嫁给狄俄尼索斯→成为酒神之妻→升为星座（北冕座）。"},
+  {id:"minotaur",star:false,cat:"theseus",name:"弥诺陶洛斯",en:"Minotaur",identity:"牛头怪物",par:"米诺斯之妻+白牛",gods:"波塞冬（诅咒）",story:"波塞冬的诅咒——米诺斯未献祭白牛→王后爱上白牛→生下牛头人。被囚于代达罗斯建的迷宫中。",deeds:["—"],fate:"被忒修斯在迷宫中杀死。"},
+  {id:"daedalus",star:false,cat:"theseus",name:"代达罗斯",en:"Daedalus",identity:"天才工匠",par:"—",gods:"—",story:"雅典工匠。建克里特迷宫囚禁弥诺陶洛斯。后被米诺斯囚禁→制蜡翼飞逃。",deeds:["建造克里特迷宫","造蜡翼与儿子伊卡洛斯飞逃"],fate:"成功逃到西西里→受国王保护。"},
+  {id:"icarus",star:false,cat:"theseus",name:"伊卡洛斯",en:"Icarus",identity:"代达罗斯之子",par:"代达罗斯",gods:"—",story:"与父用蜡翼飞逃→飞得太高接近太阳→蜡融化→坠海而死。",deeds:["—"],fate:"飞近太阳→蜡翼融化→坠海而死。"},
+  {id:"cyclops",star:false,cat:"odyssey",name:"独眼巨人波吕斐摩斯",en:"Cyclops Polyphemus",identity:"独眼巨人",par:"波塞冬",gods:"波塞冬（父）",story:"把奥德修斯和船员困在洞穴吃人。奥德修斯灌醉后刺瞎其眼逃出。",deeds:["—"],fate:"被奥德修斯刺瞎→向父亲波塞冬祈祷报复→波塞冬因此阻碍奥德修斯归途。"},
+  {id:"circe",star:false,cat:"odyssey",name:"喀耳刻",en:"Circe",identity:"女巫",par:"赫利俄斯",gods:"赫利俄斯（父）",story:"将奥德修斯的船员变成猪。奥德修斯得到赫尔墨斯帮助→与喀耳刻同住一年。",deeds:["将人变猪"],fate:"奥德修斯离开后→继续居住于埃埃亚岛。"},
+  {id:"antigone",star:false,cat:"argo",name:"安提戈涅",en:"Antigone",identity:"俄狄浦斯之女",par:"俄狄浦斯+伊俄卡斯忒",gods:"—",story:"违抗新王禁令埋葬亡兄波吕涅刻斯。坚守神律高于人律→被囚石洞自缢。",deeds:["违令葬兄"],fate:"被囚石洞→自缢而死。"},
+  {id:"deucalion",star:false,cat:"argo",name:"丢卡利翁",en:"Deucalion",identity:"普罗米修斯之子",par:"普罗米修斯",gods:"宙斯",story:"大洪水中的诺亚。与妻子皮拉造方舟存活→投石变人重建人类。",deeds:["大洪水中造方舟存活","投石变人重建人类"],fate:"存活→重建人类→成为希腊人的始祖。"},
+];
+
+const HERO_BY_ID = {};
+HEROES.forEach(h => { HERO_BY_ID[h.id] = h; });
+
+// ==================== DATA HELPERS ====================
+function makeCard(d, catClass) {
+  var c = catClass || ('card-'+d.cat);
+  var rows = '';
+  if(d.title) rows += '<div class="card-row"><span class="card-label">神职</span><span class="card-value">'+d.title+'</span></div>';
+  if(d.gen) rows += '<div class="card-row"><span class="card-label">世代</span><span class="card-value">'+d.gen+'</span></div>';
+  if(d.par) rows += '<div class="card-row"><span class="card-label">父母</span><span class="card-value">'+d.par+'</span></div>';
+  if(d.sp && d.sp!=='—') rows += '<div class="card-row"><span class="card-label">配偶</span><span class="card-value">'+d.sp+'</span></div>';
+  if(d.ch && d.ch!=='—') rows += '<div class="card-row"><span class="card-label">子女</span><span class="card-value">'+d.ch+'</span></div>';
+  if(d.story) rows += '<div class="card-row" style="flex-direction:column"><span class="card-label">关键</span><span class="card-value" style="font-size:0.85em">'+d.story+'</span></div>';
+  if(d.symbol) rows += '<div class="card-row"><span class="card-label">象征</span><span class="card-value">'+d.symbol+'</span></div>';
+  if(d.conflict) rows += '<div class="detail-conflict" style="margin-top:8px">'+d.conflict+'</div>';
+  return '<div class="card '+c+'" style="cursor:pointer" onclick="showDetail(\''+d.id+'\')"><div class="card-name">'+d.name+'</div><div class="card-en">'+d.en+' ｜ '+d.roma+'</div>'+rows+'</div>';
+}
+
+function makeHeroCard(h) {
+  var rows = '<div class="card-row"><span class="card-label">身份</span><span class="card-value">'+h.identity+'</span></div>';
+  rows += '<div class="card-row"><span class="card-label">父母</span><span class="card-value">'+h.par+'</span></div>';
+  var godsHtml = (h.gods||'').split('、').map(function(g){ return '<span class="detail-link" onclick="event.stopPropagation();jumpToDeity(\''+g+'\')">'+g+'</span>'; }).join(' ');
+  rows += '<div class="card-row"><span class="card-label">关联神祇</span><span class="card-value">'+godsHtml+'</span></div>';
+  rows += '<div class="card-row" style="flex-direction:column"><span class="card-label">关键故事</span><span class="card-value">'+h.story+'</span></div>';
+  var deedsId = 'deeds-'+h.id;
+  rows += '<div class="card-deeds"><span class="card-deeds-toggle" onclick="event.stopPropagation();toggleDeeds(\''+deedsId+'\')">▶ 展开功绩</span><div class="card-deeds-body" id="'+deedsId+'">';
+  h.deeds.forEach(function(d,i){ rows += '<div class="card-row" style="font-size:0.82em"><span class="card-value">'+d+'</span></div>'; });
+  rows += '</div></div>';
+  rows += '<div class="card-row" style="flex-direction:column"><span class="card-label">命运/结局</span><span class="card-value">'+h.fate+'</span></div>';
+  return '<div class="card card-hero"><div class="card-name">'+(h.star?'⭐ ':'')+h.name+'</div><div class="card-en">'+h.en+'</div>'+rows+'</div>';
+}
+
+function toggleDeeds(id) {
+  var el = document.getElementById(id);
+  var toggle = el.previousElementSibling;
+  if(el.classList.contains('open')) {
+    el.classList.remove('open');
+    toggle.textContent = '▶ 展开功绩';
+  } else {
+    el.classList.add('open');
+    toggle.textContent = '▼ 收起功绩';
+  }
+}
+
+// ==================== TAB SYSTEM ====================
+function switchMain(section) {
+  document.querySelectorAll('.main-section').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('section-'+section).classList.add('active');
+  document.querySelectorAll('.maintab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.subtabs').forEach(function(s){ s.style.display='none'; });
+  document.getElementById('sub-'+section).style.display='flex';
+  // Set active main tab button
+  var btns = document.querySelectorAll('.maintab-btn');
+  for(var i=0;i<btns.length;i++) { if(btns[i].textContent.indexOf(section==='theology'?'神谱':section==='hero'?'英雄谱':'附录')!==-1) btns[i].classList.add('active'); }
+  // Set default sub panel
+  document.querySelectorAll('#sub-'+section+' .subtab-btn').forEach(function(b){ b.classList.remove('active'); });
+  var firstSub = document.querySelector('#sub-'+section+' .subtab-btn');
+  if(firstSub) firstSub.classList.add('active');
+  var panels = document.getElementById('section-'+section).querySelectorAll('.panel');
+  panels.forEach(function(p){ p.classList.remove('active'); });
+  if(panels.length>0) panels[0].classList.add('active');
+}
+
+function showPanel(panelId) {
+  var panel = document.getElementById(panelId);
+  if(!panel) return;
+  // Deactivate all panels in same section, activate target
+  var section = panel.closest('.main-section');
+  if(section) {
+    section.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    panel.classList.add('active');
+  }
+  // Update subtab buttons
+  var subtabs = document.querySelector('.subtabs[style*="flex"]') || document.querySelector('.subtabs:not([style*="none"])');
+  if(!subtabs) { document.querySelectorAll('.subtabs').forEach(function(s){ if(s.style.display!=='none') subtabs = s; }); }
+  if(subtabs) {
+    subtabs.querySelectorAll('.subtab-btn').forEach(function(b){ b.classList.remove('active'); });
+    // Find button whose onclick matches
+    subtabs.querySelectorAll('.subtab-btn').forEach(function(b){
+      if(b.getAttribute('onclick') && b.getAttribute('onclick').indexOf(panelId)>=0) b.classList.add('active');
+    });
+  }
+  // Re-highlight if detail panel open
+  var detailPanel = document.getElementById('detailPanel');
+  if(detailPanel && detailPanel.classList.contains('open')) return; // keep highlight on detail view
+  clearHighlight();
+}
+
+// ==================== SVG DRAWING ====================
+var svgNS = "http://www.w3.org/2000/svg";
+var currentFilter = 'all';
+var currentScale = 1;
+var translateX = 0, translateY = 0;
+var isPanning = false, panStartX, panStartY;
+var nodeRects = {};
+var lineElements = [];
+
+function nodeColor(cat) {
+  switch(cat) {
+    case 'primordial': return '#6b3fa0';
+    case 'titan': return '#8b6914';
+    case 'titan-child': return '#b88821';
+    case 'olympian': return '#c41e3a';
+    case 'underworld': return '#3a5a7a';
+    case 'nyx': return '#1a1a3e';
+    case 'monster': return '#5c3a1a';
+    case 'branch': return '#4a3f6b';
+    default: return '#555';
+  }
+}
+
+function buildSVGNodes() {
+  // Define positions for the SVG nodes
+  var nodes = [
+    // Primordial layer (y≈50)
+    {id:"chaos",x:140,y:45,cat:"primordial"},
+    {id:"gaia",x:300,y:30,cat:"primordial"},
+    {id:"uranus",x:440,y:30,cat:"primordial"},
+    {id:"tartarus",x:580,y:45,cat:"primordial"},
+    {id:"eros-proto",x:710,y:45,cat:"primordial"},
+    {id:"erebus",x:860,y:30,cat:"primordial"},
+    {id:"nyx",x:1000,y:30,cat:"primordial"},
+    {id:"pontus",x:1130,y:45,cat:"primordial"},
+    {id:"aether",x:1270,y:30,cat:"primordial"},
+    {id:"hemera",x:1390,y:30,cat:"primordial"},
+    // Titan layer (y≈220)
+    {id:"oceanus",x:80,y:200,cat:"titan"},{id:"tethys",x:190,y:200,cat:"titan"},
+    {id:"hyperion",x:300,y:200,cat:"titan"},{id:"theia",x:410,y:200,cat:"titan"},
+    {id:"coeus",x:540,y:200,cat:"titan"},{id:"phoebe",x:650,y:200,cat:"titan"},
+    {id:"crius",x:780,y:200,cat:"titan"},{id:"eurybia",x:890,y:200,cat:"titan"},
+    {id:"iapetus",x:1010,y:200,cat:"titan"},{id:"clymene",x:1120,y:200,cat:"titan"},
+    {id:"cronus",x:1250,y:200,cat:"titan"},{id:"rhea",x:1360,y:200,cat:"titan"},
+    {id:"themis",x:1470,y:200,cat:"titan"},{id:"mnemosyne",x:1620,y:200,cat:"titan"},
+    // Olympian layer (y≈400)
+    {id:"hestia",x:80,y:400,cat:"olympian"},{id:"demeter",x:200,y:400,cat:"olympian"},{id:"hera",x:340,y:400,cat:"olympian"},
+    {id:"zeus",x:480,y:400,cat:"olympian"},{id:"poseidon",x:640,y:400,cat:"olympian"},{id:"hades",x:780,y:400,cat:"olympian"},
+    {id:"athena",x:940,y:400,cat:"olympian"},{id:"apollo",x:1070,y:400,cat:"olympian"},{id:"artemis",x:1190,y:400,cat:"olympian"},
+    {id:"ares",x:1310,y:400,cat:"olympian"},{id:"hephaestus",x:1430,y:400,cat:"olympian"},{id:"hermes",x:1620,y:400,cat:"olympian"},
+    {id:"aphrodite",x:310,y:480,cat:"olympian"},{id:"dionysus",x:1070,y:480,cat:"olympian"},
+    // Titan offspring + Underworld + Nyx layer (y≈600)
+    // Left: Titan offspring
+    {id:"prometheus",x:40,y:600,cat:"titan-child"},{id:"epimetheus",x:160,y:600,cat:"titan-child"},{id:"atlas",x:280,y:600,cat:"titan-child"},
+    {id:"helios",x:400,y:600,cat:"titan-child"},{id:"selene",x:520,y:600,cat:"titan-child"},{id:"eos",x:640,y:600,cat:"titan-child"},
+    {id:"hecate",x:760,y:600,cat:"titan-child"},{id:"leto",x:880,y:600,cat:"titan-child"},
+    // Center: Underworld
+    {id:"persephone",x:630,y:670,cat:"underworld"},{id:"charon",x:750,y:670,cat:"underworld"},{id:"cerberus",x:870,y:670,cat:"underworld"},
+    {id:"minos",x:510,y:670,cat:"underworld"},{id:"rhadamanthus",x:990,y:670,cat:"underworld"},{id:"aeacus",x:1110,y:670,cat:"underworld"},
+    // Right: Nyx family
+    {id:"hypnos",x:1260,y:600,cat:"nyx"},{id:"thanatos",x:1380,y:600,cat:"nyx"},{id:"moros",x:1500,y:600,cat:"nyx"},
+    {id:"keres",x:1260,y:660,cat:"nyx"},{id:"eris",x:1380,y:660,cat:"nyx"},{id:"nemesis",x:1500,y:660,cat:"nyx"},
+    {id:"geras",x:1260,y:720,cat:"nyx"},{id:"oneiroi",x:1380,y:720,cat:"nyx"},
+    // Bottom layer (y≈830): Muses + Fates + Graces + Horae + Monsters
+    // Muses (left)
+    {id:"calliope",x:30,y:840,cat:"branch"},{id:"clio",x:170,y:840,cat:"branch"},{id:"erato",x:310,y:840,cat:"branch"},
+    {id:"euterpe",x:30,y:900,cat:"branch"},{id:"melpomene",x:170,y:900,cat:"branch"},{id:"polyhymnia",x:310,y:900,cat:"branch"},
+    {id:"terpsichore",x:30,y:960,cat:"branch"},{id:"thalia-muse",x:170,y:960,cat:"branch"},{id:"urania",x:310,y:960,cat:"branch"},
+    // Fates + Graces + Horae (center)
+    {id:"clotho",x:460,y:840,cat:"branch"},{id:"lachesis",x:600,y:840,cat:"branch"},{id:"atropos",x:740,y:840,cat:"branch"},
+    {id:"aglaia",x:460,y:900,cat:"branch"},{id:"euphrosyne",x:600,y:900,cat:"branch"},{id:"thalia-grace",x:740,y:900,cat:"branch"},
+    {id:"eunomia",x:460,y:960,cat:"branch"},{id:"dike",x:600,y:960,cat:"branch"},{id:"eirene",x:740,y:960,cat:"branch"},
+    // Eros (child of Aphrodite) placement
+    {id:"eros-child",x:920,y:840,cat:"olympian",specialName:"厄洛斯(小)",specialEn:"Eros (Cupid)"},
+    // Monsters (right)
+    {id:"typhon",x:1100,y:840,cat:"monster"},{id:"echidna",x:1240,y:840,cat:"monster"},
+    {id:"hydra",x:1100,y:920,cat:"monster"},{id:"chimera",x:1240,y:920,cat:"monster"},{id:"sphinx",x:1380,y:920,cat:"monster"},
+    // Other
+    {id:"pan",x:1540,y:920,cat:"branch"},{id:"asclepius",x:1660,y:920,cat:"branch"},
+  ];
+
+  // Add Zeus spouse mini-nodes (positioned near zeus)
+  // We'll skip for now to keep clean; they are in cards
+
+  return nodes;
+}
+
+function buildSVGLines() {
+  return [
+    // Primordial connections
+    {from:"chaos",to:"gaia",type:"child"},{from:"chaos",to:"tartarus",type:"child"},
+    {from:"chaos",to:"eros-proto",type:"child"},{from:"chaos",to:"erebus",type:"child"},{from:"chaos",to:"nyx",type:"child"},
+    {from:"gaia",to:"uranus",type:"spouse"},{from:"gaia",to:"pontus",type:"child"},
+    {from:"erebus",to:"nyx",type:"spouse"},{from:"erebus",to:"aether",type:"child"},{from:"nyx",to:"hemera",type:"child"},
+    {from:"nyx",to:"hypnos",type:"child"},{from:"nyx",to:"thanatos",type:"child"},{from:"nyx",to:"moros",type:"child"},
+    {from:"nyx",to:"keres",type:"child"},{from:"nyx",to:"eris",type:"child"},{from:"nyx",to:"nemesis",type:"child"},
+    {from:"nyx",to:"geras",type:"child"},{from:"hypnos",to:"oneiroi",type:"child"},
+    // Titans from Gaia+Uranus
+    {from:"gaia",to:"oceanus",type:"child"},{from:"gaia",to:"hyperion",type:"child"},{from:"gaia",to:"coeus",type:"child"},
+    {from:"gaia",to:"crius",type:"child"},{from:"gaia",to:"iapetus",type:"child"},{from:"gaia",to:"cronus",type:"child"},
+    {from:"gaia",to:"rhea",type:"child"},{from:"gaia",to:"themis",type:"child"},{from:"gaia",to:"mnemosyne",type:"child"},
+    {from:"gaia",to:"tethys",type:"child"},{from:"gaia",to:"theia",type:"child"},{from:"gaia",to:"phoebe",type:"child"},
+    // Titan spouses
+    {from:"oceanus",to:"tethys",type:"spouse"},{from:"hyperion",to:"theia",type:"spouse"},
+    {from:"coeus",to:"phoebe",type:"spouse"},{from:"crius",to:"eurybia",type:"spouse"},
+    {from:"iapetus",to:"clymene",type:"spouse"},{from:"cronus",to:"rhea",type:"spouse"},
+    // Titan children
+    {from:"coeus",to:"leto",type:"child"},{from:"phoebe",to:"leto",type:"child"},
+    {from:"iapetus",to:"prometheus",type:"child"},{from:"iapetus",to:"epimetheus",type:"child"},{from:"iapetus",to:"atlas",type:"child"},
+    {from:"hyperion",to:"helios",type:"child"},{from:"hyperion",to:"selene",type:"child"},{from:"hyperion",to:"eos",type:"child"},
+    // Olympians from Cronus+Rhea
+    {from:"cronus",to:"hestia",type:"child"},{from:"cronus",to:"demeter",type:"child"},
+    {from:"cronus",to:"hera",type:"child"},{from:"cronus",to:"zeus",type:"child"},
+    {from:"cronus",to:"poseidon",type:"child"},{from:"cronus",to:"hades",type:"child"},
+    // Zeus marriages
+    {from:"zeus",to:"hera",type:"spouse"},{from:"zeus",to:"themis",type:"spouse"},{from:"zeus",to:"mnemosyne",type:"spouse"},
+    // Zeus children
+    {from:"zeus",to:"athena",type:"child"},{from:"zeus",to:"ares",type:"child"},
+    {from:"zeus",to:"hephaestus",type:"child"},{from:"zeus",to:"dionysus",type:"child"},
+    {from:"zeus",to:"persephone",type:"child"},
+    {from:"zeus",to:"apollo",type:"child"},{from:"leto",to:"apollo",type:"child"},
+    {from:"zeus",to:"artemis",type:"child"},{from:"leto",to:"artemis",type:"child"},
+    {from:"zeus",to:"hermes",type:"child"},
+    // Hera
+    {from:"hera",to:"ares",type:"child"},
+    // Aphrodite special - from Uranus blood (Hesiod)
+    {from:"uranus",to:"aphrodite",type:"special"},
+    // Underworld
+    {from:"hades",to:"persephone",type:"spouse"},
+    {from:"erebus",to:"charon",type:"child"},
+    // Monster family
+    {from:"gaia",to:"typhon",type:"child"},{from:"tartarus",to:"typhon",type:"child"},
+    {from:"typhon",to:"echidna",type:"spouse"},
+    {from:"typhon",to:"hydra",type:"child"},{from:"typhon",to:"chimera",type:"child"},{from:"typhon",to:"sphinx",type:"child"},
+    // Muses, Fates, Graces, Horae from Zeus+partners
+    {from:"zeus",to:"calliope",type:"child"},{from:"zeus",to:"clotho",type:"child"},{from:"zeus",to:"aglaia",type:"child"},
+    {from:"zeus",to:"eunomia",type:"child"},
+    // Hades undeworld staff
+    {from:"hades",to:"charon",type:"child"},{from:"hades",to:"cerberus",type:"child"},
+    // Horae from Themis
+    {from:"themis",to:"eunomia",type:"child"},
+    // Demeter to Persephone
+    {from:"demeter",to:"persephone",type:"child"},
+    // Ares+Aphrodite
+    {from:"ares",to:"aphrodite",type:"spouse"},
+    // Aphrodite child Eros
+    {from:"aphrodite",to:"eros-child",type:"child"},
+    // Hermes to Pan
+    {from:"hermes",to:"pan",type:"child"},
+    // Apollo to Asclepius
+    {from:"apollo",to:"asclepius",type:"child"},
+    // Minos, Rhadamanthus from Zeus
+    {from:"zeus",to:"minos",type:"child"},{from:"zeus",to:"rhadamanthus",type:"child"},
+    // Hecate from Perses (not on SVG, skip parent for now)
+  ];
+}
+
+var svgNodesList = buildSVGNodes();
+var svgLinesList = buildSVGLines();
+
+function drawSVG() {
+  var svg = document.getElementById('theoSVG');
+  svg.innerHTML = '';
+  var gNodes = document.createElementNS(svgNS,'g');
+  gNodes.setAttribute('id','svg-nodes');
+  var gLines = document.createElementNS(svgNS,'g');
+  gLines.setAttribute('id','svg-lines');
+  svg.appendChild(gLines);
+  svg.appendChild(gNodes);
+
+  lineElements = [];
+  nodeRects = {};
+
+  svgLinesList.forEach(function(l) {
+    var fn = findNodePos(l.from), tn = findNodePos(l.to);
+    if(!fn || !tn) return;
+    var style = l.type==='spouse' ? '#c9a84c' : (l.type==='special' ? '#3b82f6' : '#555');
+    var dash = l.type==='child' ? '6,4' : (l.type==='special' ? '4,3' : 'none');
+    var line = document.createElementNS(svgNS,'line');
+    line.setAttribute('x1',fn.x); line.setAttribute('y1',fn.y);
+    line.setAttribute('x2',tn.x); line.setAttribute('y2',tn.y);
+    line.setAttribute('stroke',style); line.setAttribute('stroke-width','1');
+    line.setAttribute('class','svg-line');
+    if(dash!=='none') line.setAttribute('stroke-dasharray',dash);
+    line.setAttribute('opacity','0.5');
+    line.setAttribute('data-from',l.from); line.setAttribute('data-to',l.to);
+    line.setAttribute('data-type',l.type);
+    gLines.appendChild(line);
+    lineElements.push(line);
+  });
+
+  svgNodesList.forEach(function(n) {
+    var d = DEITY_BY_ID[n.id];
+    var name = n.specialName || (d ? d.name : n.id);
+    var en = n.specialEn || (d ? d.en : '');
+    var col = nodeColor(n.cat);
+    var w = en ? 100 : 80;
+    var h = en ? 40 : 30;
+    var g = document.createElementNS(svgNS,'g');
+    g.setAttribute('class','svg-node');
+    g.setAttribute('data-id',n.id);
+    g.setAttribute('data-cat',n.cat);
+    g.setAttribute('transform','translate('+(n.x-w/2)+','+(n.y-h/2)+')');
+    g.addEventListener('click',function(e){ e.stopPropagation(); showDetail(n.id); });
+    
+    var rect = document.createElementNS(svgNS,'rect');
+    rect.setAttribute('width',w); rect.setAttribute('height',h);
+    rect.setAttribute('rx','6'); rect.setAttribute('fill',col);
+    rect.setAttribute('opacity','0.85');
+    g.appendChild(rect);
+
+    var t = document.createElementNS(svgNS,'text');
+    t.setAttribute('x',w/2); t.setAttribute('y',en ? 14 : 18);
+    t.setAttribute('text-anchor','middle'); t.setAttribute('fill','#fff');
+    t.setAttribute('font-size','11'); t.setAttribute('font-weight','bold');
+    t.textContent = name;
+    g.appendChild(t);
+
+    if(en) {
+      var te = document.createElementNS(svgNS,'text');
+      te.setAttribute('x',w/2); te.setAttribute('y',30);
+      te.setAttribute('text-anchor','middle'); te.setAttribute('fill','#ccc');
+      te.setAttribute('font-size','8');
+      te.textContent = en;
+      g.appendChild(te);
+    }
+
+    gNodes.appendChild(g);
+    nodeRects[n.id] = {x:n.x-w/2,y:n.y-h/2,w:w,h:h};
+  });
+}
+
+function findNodePos(id) {
+  for(var i=0;i<svgNodesList.length;i++) {
+    if(svgNodesList[i].id===id) return {x:svgNodesList[i].x, y:svgNodesList[i].y};
+  }
+  return null;
+}
+
+function highlightNode(id) {
+  // Collect all connected node IDs from lines (1 hop only)
+  var connected = new Set();
+  lineElements.forEach(function(l){
+    if(l.getAttribute('data-from')===id) connected.add(l.getAttribute('data-to'));
+    if(l.getAttribute('data-to')===id) connected.add(l.getAttribute('data-from'));
+  });
+  
+  // Nodes: highlight target + related, dim the rest
+  document.querySelectorAll('.svg-node').forEach(function(n){
+    n.classList.remove('highlight','related','dimmed');
+    var nid = n.getAttribute('data-id');
+    if(nid===id) {
+      n.classList.add('highlight');
+    } else if(connected.has(nid)) {
+      n.classList.add('related');
+    } else {
+      n.classList.add('dimmed');
+    }
+  });
+  
+  // Lines: direct connections glow, indirect (between related nodes) show in accent, rest dim
+  lineElements.forEach(function(l){
+    l.classList.remove('highlight','related','dimmed');
+    var f = l.getAttribute('data-from'), t = l.getAttribute('data-to');
+    if(f===id || t===id) {
+      l.classList.add('highlight');
+    } else if(connected.has(f) && connected.has(t)) {
+      l.classList.add('related');
+    } else {
+      l.classList.add('dimmed');
+    }
+  });
+}
+
+function clearHighlight() {
+  document.querySelectorAll('.svg-node').forEach(function(n){
+    n.classList.remove('highlight','related','dimmed');
+  });
+  lineElements.forEach(function(l){
+    l.classList.remove('highlight','related','dimmed');
+  });
+}
+
+// ==================== SEARCH ====================
+function doSearch() {
+  var q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if(!q) { clearHighlight(); return; }
+  // Find best match across all DEITIES
+  var found = null;
+  for(var i=0;i<DEITIES.length;i++) {
+    if(DEITIES[i].name.toLowerCase().indexOf(q)>=0 || DEITIES[i].en.toLowerCase().indexOf(q)>=0) {
+      found = DEITIES[i]; break;
+    }
+  }
+  if(!found) {
+    // Try partial match
+    for(var i=0;i<DEITIES.length;i++) {
+      var txt = DEITIES[i].name+DEITIES[i].en+DEITIES[i].roma+(DEITIES[i].story||'')+(DEITIES[i].title||'');
+      if(txt.toLowerCase().indexOf(q)>=0) { found = DEITIES[i]; break; }
+    }
+  }
+  if(found) {
+    // Switch to theology overview if not there
+    switchMain('theology');
+    showPanel('theo-overview');
+    highlightNode(found.id);
+    showDetail(found.id);
+  }
+}
+
+// ==================== FILTER ====================
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  var evt = window.event;
+  if(evt && evt.target) evt.target.classList.add('active');
+  applyFilter();
+}
+
+function applyFilter() {
+  var svgNodes = document.querySelectorAll('.svg-node');
+  svgNodes.forEach(function(n){
+    var cat = n.getAttribute('data-cat');
+    var id = n.getAttribute('data-id');
+    var visible = true;
+    if(currentFilter==='blood') visible = (cat==='primordial'||cat==='titan'||cat==='titan-child'||cat==='olympian');
+    else if(currentFilter==='olympian') visible = (cat==='olympian');
+    else if(currentFilter==='king') {
+      visible = (id==='chaos'||id==='gaia'||id==='uranus'||id==='cronus'||id=='rhea'||id==='zeus'||cat==='olympian');
+    }
+    n.setAttribute('opacity',visible?'1':'0.15');
+  });
+  lineElements.forEach(function(l){
+    var f = l.getAttribute('data-from'), t = l.getAttribute('data-to');
+    var fromNode = document.querySelector('.svg-node[data-id="'+f+'"]');
+    var toNode = document.querySelector('.svg-node[data-id="'+t+'"]');
+    var vFrom = fromNode ? fromNode.getAttribute('opacity')!=='0.15' : true;
+    var vTo = toNode ? toNode.getAttribute('opacity')!=='0.15' : true;
+    l.setAttribute('opacity',(vFrom&&vTo)?'0.5':'0.1');
+  });
+}
+
+// ==================== SVG ZOOM/PAN ====================
+function initSVGInteract() {
+  var svg = document.getElementById('theoSVG');
+  var container = document.getElementById('svgContainer');
+  var dragMoved = false, dragStartX = 0, dragStartY = 0;
+  
+  // Zoom: Ctrl+wheel or pinch only. Plain wheel = page scroll.
+  container.addEventListener('wheel',function(e){
+    if(!e.ctrlKey && !e.metaKey) return; // let normal scroll through
+    e.preventDefault();
+    var delta = e.deltaY > 0 ? 0.9 : 1.1;
+    currentScale *= delta;
+    currentScale = Math.max(0.3, Math.min(3, currentScale));
+    svg.style.transform = 'scale('+currentScale+') translate('+translateX+'px,'+translateY+'px)';
+    svg.style.transformOrigin = '0 0';
+  }, {passive:false});
+
+  svg.addEventListener('mousedown',function(e){
+    isPanning = true;
+    dragMoved = false;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    panStartX = e.clientX - translateX;
+    panStartY = e.clientY - translateY;
+  });
+  document.addEventListener('mousemove',function(e){
+    if(!isPanning) return;
+    translateX = e.clientX - panStartX;
+    translateY = e.clientY - panStartY;
+    svg.style.transform = 'scale('+currentScale+') translate('+translateX+'px,'+translateY+'px)';
+    svg.style.transformOrigin = '0 0';
+    if(Math.abs(e.clientX-dragStartX)>3 || Math.abs(e.clientY-dragStartY)>3) dragMoved = true;
+  });
+  document.addEventListener('mouseup',function(){
+    isPanning = false;
+    setTimeout(function(){ dragMoved = false; }, 50);
+  });
+  // Expose for outside-click handler
+  window._svgDragMoved = function(){ return dragMoved; };
+}
+
+function zoomSvg(dir) {
+  var svg = document.getElementById('theoSVG');
+  if(dir===0) { currentScale=1; translateX=0; translateY=0; }
+  else if(dir>0) currentScale *= 1.25;
+  else currentScale *= 0.8;
+  currentScale = Math.max(0.3, Math.min(3, currentScale));
+  svg.style.transform = 'scale('+currentScale+') translate('+translateX+'px,'+translateY+'px)';
+  svg.style.transformOrigin = '0 0';
+}
+
+// ==================== DETAIL PANEL ====================
+function showDetail(id) {
+  // Check if hero
+  var h = HERO_BY_ID[id];
+  if(h) {
+    showHeroDetail(h);
+    return;
+  }
+  // Eros-child special case
+  if(id==='eros-child') {
+    showHeroDetail({id:"eros-child",name:"厄洛斯（小爱神）",en:"Eros / Cupid",identity:"爱神",par:"阿佛洛狄忒（一说+阿瑞斯）",gods:"阿佛洛狄忒",story:"手持金箭与铅箭的小爱神。被金箭射中者坠入爱河，被铅箭射中者拒绝爱情。与普绪刻（灵魂）成婚。",deeds:["手持弓箭使人相爱/相憎","与普绪刻的故事"],fate:"与普绪刻成婚→封神。"});
+    return;
+  }
+  var d = DEITY_BY_ID[id];
+  if(!d) return;
+  var html = '<div class="detail-name">'+d.name+'</div>';
+  html += '<div class="detail-en">'+d.en+' ｜ 罗马名：'+d.roma+'</div>';
+  if(d.title) html += '<div class="detail-field"><div class="detail-label">神职</div><div class="detail-value">'+d.title+'</div></div>';
+  if(d.gen) html += '<div class="detail-field"><div class="detail-label">世代</div><div class="detail-value">'+d.gen+'</div></div>';
+  if(d.par) html += '<div class="detail-field"><div class="detail-label">父母</div><div class="detail-value">'+d.par+'</div></div>';
+  if(d.sp && d.sp!=='—') html += '<div class="detail-field"><div class="detail-label">配偶</div><div class="detail-value">'+d.sp+'</div></div>';
+  if(d.ch && d.ch!=='—') html += '<div class="detail-field"><div class="detail-label">子女</div><div class="detail-value">'+d.ch+'</div></div>';
+  if(d.story) html += '<div class="detail-field"><div class="detail-label">关键神话</div><div class="detail-value">'+d.story+'</div></div>';
+  if(d.symbol) html += '<div class="detail-field"><div class="detail-label">象征物/圣物</div><div class="detail-value">'+d.symbol+'</div></div>';
+  if(d.conflict) html += '<div class="detail-conflict">'+d.conflict+'</div>';
+  if(d.killer) html += '<div class="detail-field"><div class="detail-label">被谁击败</div><div class="detail-value">'+d.killer+'</div></div>';
+  if(d.id==='zeus') {
+    html += '<div class="detail-conflict" style="margin-top:12px">⚡ 宙斯重要配偶与子女：<br>';
+    var spouses = [
+      ['墨提斯','雅典娜（从宙斯头中跳出）'],
+      ['忒弥斯','命运三女神、时序三女神'],
+      ['欧律诺墨','美惠三女神'],
+      ['德墨忒尔','珀耳塞福涅'],
+      ['谟涅摩绪涅','缪斯九女神'],
+      ['勒托','阿波罗、阿尔忒弥斯'],
+      ['迈亚','赫尔墨斯'],
+      ['塞墨勒','狄俄尼索斯'],
+      ['阿尔克墨涅','赫拉克勒斯（半神）'],
+      ['达那厄','珀耳修斯（半神）'],
+      ['勒达','海伦（半神）'],
+      ['欧罗巴','米诺斯、拉达曼提斯'],
+    ];
+    spouses.forEach(function(s){ html += s[0]+' → '+s[1]+'<br>'; });
+    html += '</div>';
+  }
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('detailPanel').classList.add('open');
+  highlightNode(id);
+}
+
+function showHeroDetail(h) {
+  var html = '<div class="detail-name">'+h.name+'</div>';
+  html += '<div class="detail-en">'+h.en+' ｜ '+(h.identity||'')+'</div>';
+  html += '<div class="detail-field"><div class="detail-label">身份</div><div class="detail-value">'+h.identity+'</div></div>';
+  html += '<div class="detail-field"><div class="detail-label">父母</div><div class="detail-value">'+h.par+'</div></div>';
+  var godsHtml = (h.gods||'').split('、').map(function(g){ return '<span class="detail-link" onclick="jumpToDeity(\''+g+'\')">'+g+'</span>'; }).join('、');
+  html += '<div class="detail-field"><div class="detail-label">关联神祇</div><div class="detail-value">'+godsHtml+'</div></div>';
+  html += '<div class="detail-field"><div class="detail-label">关键故事</div><div class="detail-value">'+h.story+'</div></div>';
+  html += '<div class="detail-field"><div class="detail-label">主要事迹</div><div class="detail-value">'+h.deeds.join('<br>')+'</div></div>';
+  html += '<div class="detail-field"><div class="detail-label">命运/结局</div><div class="detail-value">'+h.fate+'</div></div>';
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('detailPanel').classList.add('open');
+  highlightNode(h.id);
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.getElementById('detailPanel').classList.remove('open');
+  clearHighlight();
+}
+
+function jumpToDeity(name) {
+  // Find deity by name
+  var found = null;
+  for(var i=0;i<DEITIES.length;i++) {
+    if(DEITIES[i].name===name) { found = DEITIES[i]; break; }
+  }
+  if(!found) {
+    // Try finding by English
+    for(var i=0;i<DEITIES.length;i++) {
+      if(DEITIES[i].en.indexOf(name)>=0) { found = DEITIES[i]; break; }
+    }
+  }
+  if(found) {
+    switchMain('theology');
+    showPanel('theo-overview');
+    highlightNode(found.id);
+    showDetail(found.id);
+  }
+}
+
+// ==================== RENDER GRIDS ====================
+function renderAllGrids() {
+  // Primordial grid
+  document.getElementById('grid-primordial').innerHTML = DEITIES.filter(function(d){ return d.cat==='primordial'; }).map(function(d){ return makeCard(d,'card-primordial'); }).join('');
+  // Titan grid
+  document.getElementById('grid-titan').innerHTML = DEITIES.filter(function(d){ return d.cat==='titan'||d.cat==='titan-child'; }).map(function(d){
+    return makeCard(d,d.cat==='titan'?'card-titan':'card-titan');
+  }).join('');
+  // Olympian grid
+  document.getElementById('grid-olympian').innerHTML = DEITIES.filter(function(d){ return d.cat==='olympian'; }).map(function(d){ return makeCard(d,'card-olympian'); }).join('');
+  // Underworld grid
+  document.getElementById('grid-underworld').innerHTML = DEITIES.filter(function(d){ return d.cat==='underworld'; }).map(function(d){ return makeCard(d,'card-underworld'); }).join('');
+  // Nyx grid
+  document.getElementById('grid-nyx').innerHTML = DEITIES.filter(function(d){ return d.cat==='nyx'; }).map(function(d){ return makeCard(d,'card-nyx'); }).join('');
+  // Branch grids
+  document.getElementById('grid-muses').innerHTML = DEITIES.filter(function(d){ return d.gen==='缪斯'; }).map(function(d){ return makeCard(d,'card-branch'); }).join('');
+  document.getElementById('grid-fates').innerHTML = DEITIES.filter(function(d){ return d.gen==='命运三女神'; }).map(function(d){ return makeCard(d,'card-branch'); }).join('');
+  document.getElementById('grid-graces').innerHTML = DEITIES.filter(function(d){ return d.gen==='美惠三女神'; }).map(function(d){ return makeCard(d,'card-branch'); }).join('');
+  document.getElementById('grid-horae').innerHTML = DEITIES.filter(function(d){ return d.gen==='时序三女神'; }).map(function(d){ return makeCard(d,'card-branch'); }).join('');
+  document.getElementById('grid-monsters').innerHTML = DEITIES.filter(function(d){ return d.cat==='monster'; }).map(function(d){ return makeCard(d,'card-monster'); }).join('');
+  document.getElementById('grid-other').innerHTML = DEITIES.filter(function(d){ return d.id==='pan'||d.id==='asclepius'; }).map(function(d){ return makeCard(d,'card-branch'); }).join('');
+  // Hero grids
+  document.getElementById('grid-hero-all').innerHTML = HEROES.filter(function(h){ return h.star; }).map(function(h){ return makeHeroCard(h); }).join('');
+  document.getElementById('grid-hero-perseus').innerHTML = HEROES.filter(function(h){ return h.cat==='perseus'; }).map(function(h){ return makeHeroCard(h); }).join('');
+  document.getElementById('grid-hero-heracles').innerHTML = HEROES.filter(function(h){ return h.cat==='heracles'; }).map(function(h){ return makeHeroCard(h); }).join('');
+  document.getElementById('grid-hero-troy').innerHTML = HEROES.filter(function(h){ return h.cat==='troy'; }).map(function(h){ return makeHeroCard(h); }).join('');
+  document.getElementById('grid-hero-odyssey').innerHTML = HEROES.filter(function(h){ return h.cat==='odyssey'; }).map(function(h){ return makeHeroCard(h); }).join('');
+  document.getElementById('grid-hero-theseus').innerHTML = HEROES.filter(function(h){ return h.cat==='theseus'; }).map(function(h){ return makeHeroCard(h); }).join('');
+  document.getElementById('grid-hero-argo').innerHTML = HEROES.filter(function(h){ return h.cat==='argo'; }).map(function(h){ return makeHeroCard(h); }).join('');
+}
+
+// ==================== APPENDIX ====================
+function renderAppendix() {
+  // Greek-Roman table
+  var pairs = [
+    ['卡俄斯 Chaos','—','原始神'],['盖亚 Gaia','Terra','原始神'],['乌拉诺斯 Uranus','Caelus','原始神'],
+    ['塔耳塔洛斯 Tartarus','Tartarus','原始神'],['倪克斯 Nyx','Nox','原始神'],['赫墨拉 Hemera','Dies','原始神'],
+    ['克洛诺斯 Cronus','Saturn','提坦'],['瑞亚 Rhea','Ops','提坦'],['俄刻阿诺斯 Oceanus','Oceanus','提坦'],
+    ['忒堤斯 Tethys','Tethys','提坦'],['许珀里翁 Hyperion','Hyperion','提坦'],['忒弥斯 Themis','Themis','提坦'],
+    ['谟涅摩绪涅 Mnemosyne','Moneta','提坦'],['宙斯 Zeus','Jupiter','奥林匹斯'],
+    ['赫拉 Hera','Juno','奥林匹斯'],['波塞冬 Poseidon','Neptune','奥林匹斯'],['哈德斯 Hades','Pluto','奥林匹斯'],
+    ['赫斯提亚 Hestia','Vesta','奥林匹斯'],['德墨忒尔 Demeter','Ceres','奥林匹斯'],['雅典娜 Athena','Minerva','奥林匹斯'],
+    ['阿波罗 Apollo','Apollo','奥林匹斯'],['阿尔忒弥斯 Artemis','Diana','奥林匹斯'],['阿瑞斯 Ares','Mars','奥林匹斯'],
+    ['阿佛洛狄忒 Aphrodite','Venus','奥林匹斯'],['赫淮斯托斯 Hephaestus','Vulcan','奥林匹斯'],['赫尔墨斯 Hermes','Mercury','奥林匹斯'],
+    ['狄俄尼索斯 Dionysus','Bacchus','奥林匹斯'],['珀耳塞福涅 Persephone','Proserpina','冥界'],['卡戎 Charon','Charon','冥界'],
+    ['许普诺斯 Hypnos','Somnus','倪克斯系'],['塔纳托斯 Thanatos','Mors','倪克斯系'],['厄里斯 Eris','Discordia','倪克斯系'],
+    ['涅墨西斯 Nemesis','Nemesis','倪克斯系'],['赫利俄斯 Helios','Sol','提坦后代'],['塞勒涅 Selene','Luna','提坦后代'],
+    ['厄俄斯 Eos','Aurora','提坦后代'],['赫卡忒 Hecate','Trivia','提坦后代'],['勒托 Leto','Latona','提坦后代'],
+    ['普罗米修斯 Prometheus','Prometheus','提坦后代'],['阿特拉斯 Atlas','Atlas','提坦后代'],['潘 Pan','Faunus','其他'],
+    ['阿斯克勒庇俄斯 Asclepius','Aesculapius','其他'],['厄洛斯(小) Eros','Cupid','奥林匹斯后代'],
+    ['堤丰 Typhon','Typhon','怪物'],['赫拉克勒斯 Heracles','Hercules','英雄'],
+  ];
+  var tbl = '<thead><tr><th>希腊名</th><th>罗马名</th><th>分类</th></tr></thead><tbody>';
+  pairs.forEach(function(p){ tbl += '<tr><td>'+p[0]+'</td><td>'+p[1]+'</td><td>'+p[2]+'</td></tr>'; });
+  tbl += '</tbody>';
+  document.getElementById('gr-roma').innerHTML = tbl;
+
+  // Quick cards (12 main olympians)
+  var quick = DEITIES.filter(function(d){ return d.gen==='奥林匹斯十二神'||(d.cat==='olympian'&&d.id!=='aphrodite'&&d.id!=='dionysus')||d.id==='aphrodite'||d.id==='dionysus'; });
+  // dedupe by id
+  var seen = {};
+  quick = quick.filter(function(d){ if(seen[d.id]) return false; seen[d.id]=true; return true; });
+  document.getElementById('grid-quick').innerHTML = quick.map(function(d){
+    return '<div class="card card-olympian"><div class="card-name">'+d.name+'</div><div class="card-en">'+d.en+' ｜ '+d.roma+'</div><div class="card-row"><span class="card-label">神职</span><span class="card-value">'+d.title+'</span></div><div class="card-row"><span class="card-label">象征</span><span class="card-value">'+d.symbol+'</span></div></div>';
+  }).join('');
+
+  // Monster → Hero table
+  var mh = [
+    ['美杜莎 Medusa','珀耳修斯 Perseus','斩首','—'],
+    ['勒拿九头蛇 Hydra','赫拉克勒斯 Heracles','十二功绩之二','堤丰+厄客德娜'],
+    ['弥诺陶洛斯 Minotaur','忒修斯 Theseus','克里特迷宫斩杀','波塞冬的诅咒'],
+    ['喀迈拉 Chimera','柏勒洛丰 Bellerophon','骑飞马珀伽索斯从空中射杀','堤丰+厄客德娜'],
+    ['斯芬克斯 Sphinx','俄狄浦斯 Oedipus','解谜→斯芬克斯坠崖','堤丰+厄客德娜（一说）'],
+    ['独眼巨人 Cyclops Polyphemus','奥德修斯 Odysseus','灌醉→刺瞎逃脱','波塞冬之子'],
+    ['刻耳柏洛斯 Cerberus','赫拉克勒斯 Heracles','十二功绩之十二','堤丰+厄客德娜'],
+    ['金苹果龙 Ladon','赫拉克勒斯 Heracles','十二功绩之十一','—'],
+  ];
+  tbl = '<thead><tr><th>怪物</th><th>→</th><th>英雄</th><th>故事</th><th>出处</th></tr></thead><tbody>';
+  mh.forEach(function(r){ tbl += '<tr><td>'+r[0]+'</td><td>→</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'; });
+  tbl += '</tbody>';
+  document.getElementById('monster-hero').innerHTML = tbl;
+
+  // Version conflicts
+  document.getElementById('conflict-list').innerHTML = [
+    '<div class="nodelist-item"><b>阿佛洛狄忒的出身：</b>赫西俄德《神谱》——从乌拉诺斯被阉割后落入海中的精血化生（海生泡沫）；荷马《伊利亚特》——宙斯与狄俄涅之女。</div>',
+    '<div class="nodelist-item"><b>赫淮斯托斯的出身：</b>一说宙斯+赫拉之子；另一说赫拉因嫉恨宙斯独自生雅典娜而自己生出赫淮斯托斯，但天生跛足。</div>',
+    '<div class="nodelist-item"><b>厄洛斯的两个版本：</b>原始神厄洛斯（卡俄斯所出，创生之力）vs 小厄洛斯（阿佛洛狄忒/阿瑞斯之子，手持弓箭的爱神）。图谱中两个节点，不同颜色和层级。</div>',
+    '<div class="nodelist-item"><b>命运三女神的父母：</b>赫西俄德版——宙斯+忒弥斯；另说——倪克斯独自所生。</div>',
+    '<div class="nodelist-item"><b>赫斯提亚/狄俄尼索斯替换：</b>某些版本中赫斯提亚将奥林匹斯十二神之位让给狄俄尼索斯。本报告同时列两人为十二神，并标注替换关系。</div>',
+    '<div class="nodelist-item"><b>哈德斯是否奥林匹斯神：</b>哈德斯是克洛诺斯与瑞亚之子、三巨头之一，但居冥府不在奥林匹斯山上。本报告将其列入奥林匹斯世代但标注"非奥林匹斯"。</div>',
+    '<div class="nodelist-item"><b>忒修斯的父亲：</b>一说雅典国王埃勾斯，一说波塞冬。两个版本都有古典来源。</div>',
+  ].join('');
+}
+
+// ==================== MOBILE LIST ====================
+function buildMobileList() {
+  var categories = [
+    {title:'原始神 (10)', color:'#6b3fa0', filter:function(d){return d.cat==='primordial';}},
+    {title:'提坦十二神 (12)', color:'#8b6914', filter:function(d){return d.cat==='titan';}},
+    {title:'提坦重要后代 (8)', color:'#8b6914', filter:function(d){return d.cat==='titan-child';}},
+    {title:'奥林匹斯主神 (14)', color:'#c41e3a', filter:function(d){return d.cat==='olympian';}},
+    {title:'冥界体系 (7)', color:'#3a5a7a', filter:function(d){return d.cat==='underworld';}},
+    {title:'倪克斯一族 (9)', color:'#1a1a3e', filter:function(d){return d.cat==='nyx';}},
+    {title:'缪斯九女神 (9)', color:'#4a3f6b', filter:function(d){return d.gen==='缪斯';}},
+    {title:'命运三女神 (3)', color:'#4a3f6b', filter:function(d){return d.gen==='命运三女神';}},
+    {title:'美惠三女神 (3)', color:'#4a3f6b', filter:function(d){return d.gen==='美惠三女神';}},
+    {title:'时序三女神 (3)', color:'#4a3f6b', filter:function(d){return d.gen==='时序三女神';}},
+    {title:'怪物母系 (5)', color:'#5c3a1a', filter:function(d){return d.cat==='monster';}},
+    {title:'其他神祇 (2)', color:'#4a3f6b', filter:function(d){return d.id==='pan'||d.id==='asclepius';}},
+  ];
+  var html = '';
+  categories.forEach(function(cat){
+    var items = DEITIES.filter(cat.filter);
+    if(items.length===0) return;
+    html += '<div class="nodelist" style="margin-bottom:16px"><h4 style="color:'+cat.color+'">'+cat.title+'</h4>';
+    items.forEach(function(d){
+      html += '<div class="nodelist-item" style="cursor:pointer" onclick="showDetail(\''+d.id+'\')">'+d.name+' <span style="color:var(--muted)">'+d.en+'</span> <span style="font-size:0.8em;color:var(--muted)">'+d.title+'</span></div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('mobileList').innerHTML = html;
+}
+
+// ==================== INIT ====================
+function init() {
+  drawSVG();
+  initSVGInteract();
+  renderAllGrids();
+  renderAppendix();
+  buildMobileList();
+  // Click outside panel to close (skip if was a drag)
+  document.addEventListener('click',function(e){
+    var panel = document.getElementById('detailPanel');
+    if(!panel.classList.contains('open')) return;
+    if(window._svgDragMoved && window._svgDragMoved()) return;
+    if(!panel.contains(e.target) && !e.target.closest('.svg-node') && !e.target.closest('.detail-link')) {
+      closeDetail();
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
