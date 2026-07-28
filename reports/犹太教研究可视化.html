@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>犹太教研究可视化 · 历史信仰与亚伯拉罕宗教关系</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+:root{
+  --bg:#f5f3ee; --bg2:#ebe7dc; --card:#ffffff; --ink:#1e1d1b; --muted:#6b665c;
+  --gold:#97781b; --gold-d:#7c6f49; --gold-l:#c9b27a; --bronze:#78715d;
+  --judaism:#1a5276; --christianity:#922b21; --islam:#1e8449;
+  --border:#d4cfbf; --shadow:0 2px 12px rgba(120,113,93,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Serif SC","Source Han Serif SC","SimSun",serif;background:var(--bg);color:var(--ink);line-height:1.7}
+.hero{background:linear-gradient(135deg,#2c2620 0%,#3d3528 40%,#5a4a2a 100%);color:#f4f0e6;padding:60px 20px 50px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(circle at 20% 30%,rgba(199,178,122,.15) 0,transparent 50%),radial-gradient(circle at 80% 70%,rgba(151,120,27,.12) 0,transparent 50%)}
+.hero h1{font-size:2.6em;font-weight:700;letter-spacing:2px;margin-bottom:12px;position:relative;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.hero .sub{font-size:1.15em;color:#c9b27a;letter-spacing:1px;position:relative}
+.hero .star{font-size:2em;color:#c9b27a;margin-bottom:16px;position:relative}
+.container{max-width:1200px;margin:0 auto;padding:30px 20px}
+.section{background:var(--card);border-radius:10px;box-shadow:var(--shadow);margin-bottom:30px;overflow:hidden;border:1px solid var(--border)}
+.section-head{background:linear-gradient(90deg,#78715d,#97781b);color:#fff;padding:18px 28px;display:flex;align-items:center;gap:12px}
+.section-head .num{background:rgba(255,255,255,.2);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1em}
+.section-head h2{font-size:1.35em;font-weight:600;letter-spacing:1px}
+.section-body{padding:24px 28px}
+.section-desc{color:var(--muted);font-size:.95em;margin-bottom:18px;line-height:1.8;text-align:justify}
+.chart{width:100%;height:420px}
+.chart-tall{height:520px}
+.chart-short{height:340px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}.hero h1{font-size:1.8em}}
+.tag{display:inline-block;padding:3px 12px;border-radius:12px;font-size:.8em;font-weight:600;margin:2px}
+.tag-j{background:#d4e6f4;color:#1a5276}
+.tag-c{background:#fadbd8;color:#922b21}
+.tag-i{background:#d5f5e3;color:#1e8449}
+.legend-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:.9em}
+.legend-dot{width:14px;height:14px;border-radius:3px}
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.info-card{background:var(--bg2);border-radius:8px;padding:16px;border-left:4px solid var(--gold)}
+.info-card .ic-title{font-weight:700;color:var(--gold-d);margin-bottom:6px;font-size:1em}
+.info-card .ic-body{font-size:.88em;color:var(--muted);line-height:1.6}
+.footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.85em;border-top:1px solid var(--border);margin-top:20px}
+.nav-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px;position:relative}
+.nav-pills a{color:#c9b27a;text-decoration:none;padding:6px 16px;border:1px solid rgba(201,178,122,.4);border-radius:20px;font-size:.85em;transition:all .3s}
+.nav-pills a:hover{background:rgba(201,178,122,.15);color:#fff}
+.quote-box{background:linear-gradient(135deg,#fdfbf5,#f5f0e0);border-left:4px solid var(--gold);padding:16px 20px;margin:16px 0;font-style:italic;color:var(--bronze);border-radius:0 8px 8px 0}
+.quote-box .src{display:block;text-align:right;margin-top:8px;font-size:.85em;color:var(--muted);font-style:normal}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="star">✡</div>
+  <h1>犹太教研究可视化</h1>
+  <div class="sub">历史脉络 · 核心信仰 · 亚伯拉罕宗教关系图谱</div>
+  <div class="nav-pills">
+    <a href="#sec1">历史时间轴</a>
+    <a href="#sec2">核心教义雷达</a>
+    <a href="#sec3">三教关系图</a>
+    <a href="#sec4">经典体系</a>
+    <a href="#sec5">人口分布</a>
+    <a href="#sec6">教义对比</a>
+    <a href="#sec7">关系演进</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: 历史时间轴 -->
+  <div class="section" id="sec1">
+    <div class="section-head"><div class="num">1</div><h2>犹太教四千年历史时间轴</h2></div>
+    <div class="section-body">
+      <div class="section-desc">犹太教的历史可追溯至约公元前 2000 年的族长时期，历经西奈立约、王国兴衰、巴比伦之囚、大流散、拉比犹太教成型、启蒙运动与现代以色列建国等关键节点。下图以时间轴呈现犹太教四千年发展的主要阶段与标志性事件。</div>
+      <div id="chart-timeline" class="chart chart-tall"></div>
+    </div>
+  </div>
+
+  <!-- Section 2: 核心教义雷达 -->
+  <div class="section" id="sec2">
+    <div class="section-head"><div class="num">2</div><h2>三大宗教核心教义维度对比</h2></div>
+    <div class="section-body">
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:#1a5276"></div>犹太教</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#922b21"></div>基督教</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1e8449"></div>伊斯兰教</div>
+      </div>
+      <div class="section-desc">从一神论严格性、律法中心性、先知传统、弥赛亚盼望、末世论、普世性、仪式主义七个维度，对比三大亚伯拉罕宗教的教义侧重。数值越高表示该维度在宗教中越突出（基于学术共识的相对评估，非绝对量化）。</div>
+      <div id="chart-radar" class="chart"></div>
+    </div>
+  </div>
+
+  <!-- Section 3: 三教关系图 -->
+  <div class="section" id="sec3">
+    <div class="section-head"><div class="num">3</div><h2>亚伯拉罕宗教关系图谱</h2></div>
+    <div class="section-body">
+      <div class="section-desc">三大宗教均尊亚伯拉罕为信仰之父，但各自发展出不同的神学体系。下图展示三教的共同源头、相互影响与分化路径，节点大小反映信众规模，连线粗细反映教义关联强度。</div>
+      <div id="chart-graph" class="chart chart-tall"></div>
+    </div>
+  </div>
+
+  <!-- Section 4: 经典体系 -->
+  <div class="section" id="sec4">
+    <div class="section-head"><div class="num">4</div><h2>三大宗教经典体系结构</h2></div>
+    <div class="section-body">
+      <div class="grid-2">
+        <div>
+          <div class="section-desc">三大宗教的经典体系呈现"启示递进"特征：犹太教塔纳赫为根基，基督教在此基础上增加新约，伊斯兰教则以古兰经为最终启示并承认前两者部分经典。下图以旭日图展示各宗教经典的层次结构。</div>
+          <div class="quote-box">"以色列啊，你要听！耶和华我们神是独一的主。"<span class="src">——《申命记》6:4（示玛）</span></div>
+        </div>
+        <div id="chart-sunburst" class="chart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: 人口分布 -->
+  <div class="section" id="sec5">
+    <div class="section-head"><div class="num">5</div><h2>全球犹太人口分布与派别构成</h2></div>
+    <div class="section-body">
+      <div class="grid-2">
+        <div>
+          <div class="section-desc">全球犹太人口约 1500 万，主要集中于以色列与北美。下图展示主要国家/地区的犹太人口分布。</div>
+          <div id="chart-pop-bar" class="chart chart-short"></div>
+        </div>
+        <div>
+          <div class="section-desc">现代犹太教内部派别多元，各派在律法权威与现代性立场上差异显著。下图展示主要派别的人口构成（估算）。</div>
+          <div id="chart-sect-pie" class="chart chart-short"></div>
+        </div>
+      </div>
+      <div class="info-cards">
+        <div class="info-card"><div class="ic-title">以色列</div><div class="ic-body">约 720 万，全球最大犹太人口国，1948 年建国</div></div>
+        <div class="info-card"><div class="ic-title">美国</div><div class="ic-body">约 600 万，第二大犹太社群，派别多元</div></div>
+        <div class="info-card"><div class="ic-title">法国</div><div class="ic-body">约 44 万，欧洲最大犹太社群</div></div>
+        <div class="info-card"><div class="ic-title">加拿大</div><div class="ic-body">约 39 万，北美第三大社群</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: 教义对比表 -->
+  <div class="section" id="sec6">
+    <div class="section-head"><div class="num">6</div><h2>核心教义要素横向对比</h2></div>
+    <div class="section-body">
+      <div class="section-desc">以柱状图量化对比三大宗教在关键教义要素上的异同，每组柱状代表一种宗教对该教义的接受程度或独特诠释。</div>
+      <div id="chart-compare-bar" class="chart"></div>
+    </div>
+  </div>
+
+  <!-- Section 7: 关系演进 -->
+  <div class="section" id="sec7">
+    <div class="section-head"><div class="num">7</div><h2>犹太教与基督教、伊斯兰教关系演进</h2></div>
+    <div class="section-body">
+      <div class="section-desc">下图以河流图（Sankey）展示三大宗教在不同历史阶段的关系状态：从同源分化、对抗迫害到对话和解的复杂历程。左侧为历史阶段，右侧为关系性质，流量大小反映该阶段关系的显著程度。</div>
+      <div id="chart-sankey" class="chart chart-tall"></div>
+      <div class="info-cards">
+        <div class="info-card" style="border-left-color:#922b21"><div class="ic-title">犹太—基督教关系</div><div class="ic-body">从早期同源分化，经中世纪迫害，到 1965 年《在我们时代》宣言后的对话和解</div></div>
+        <div class="info-card" style="border-left-color:#1e8449"><div class="ic-title">犹太—伊斯兰教关系</div><div class="ic-body">从早期接触冲突，到中世纪黄金时代共生，再到现代巴以冲突的政治化</div></div>
+        <div class="info-card" style="border-left-color:#1a5276"><div class="ic-title">共同挑战</div><div class="ic-body">在政治冲突之外重建宗教对话空间，挖掘共同的一神论与亚伯拉罕遗产</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  犹太教研究可视化报告 · 数据来源：学术研究综合整理 · 2026 年 7 月<br>
+  配套详细报告见《犹太教研究报告》PDF 文档
+</div>
+
+<script>
+// ============================================================
+// 全局配色
+// ============================================================
+const C = {
+  judaism:'#1a5276', christianity:'#922b21', islam:'#1e8449',
+  gold:'#97781b', goldD:'#7c6f49', goldL:'#c9b27a', bronze:'#78715d',
+  bg:'#f5f3ee', ink:'#1e1d1b', muted:'#6b665c'
+};
+
+// ============================================================
+// 1. 历史时间轴
+// ============================================================
+const chart1 = echarts.init(document.getElementById('chart-timeline'));
+chart1.setOption({
+  title:{text:'犹太教四千年关键节点',left:'center',top:10,textStyle:{fontSize:16,color:C.ink,fontFamily:'Noto Serif SC,serif'}},
+  tooltip:{trigger:'item',formatter:function(p){return p.data.desc}},
+  grid:{left:60,right:40,top:60,bottom:80},
+  xAxis:{type:'value',name:'年份（公元前/公元后）',nameLocation:'middle',nameGap:40,
+    min:-2000,max:2025,
+    axisLabel:{formatter:function(v){return v<0?'前'+Math.abs(v):v>0?v:'0'}},
+    axisLine:{lineStyle:{color:C.bronze}},
+    splitLine:{lineStyle:{color:'#e0dccf',type:'dashed'}}
+  },
+  yAxis:{type:'category',data:['事件'],axisLabel:{show:false},axisLine:{show:false},axisTick:{show:false}},
+  series:[{
+    type:'scatter',symbolSize:18,data:[
+      {value:[-1900,0],name:'族长时期',desc:'<b>约前1900年 族长时期</b><br/>亚伯拉罕蒙召迁徙至迦南，与神立约，奠定一神信仰基础',itemStyle:{color:C.judaism}},
+      {value:[-1250,0],name:'出埃及',desc:'<b>约前1250年 出埃及与西奈立约</b><br/>摩西率以色列人出埃及，西奈山领受十诫，犹太教成型',itemStyle:{color:C.judaism}},
+      {value:[-1000,0],name:'大卫定都',desc:'<b>约前1000年 大卫王国</b><br/>大卫统一各支派，定都耶路撒冷',itemStyle:{color:C.judaism}},
+      {value:[-960,0],name:'第一圣殿',desc:'<b>约前960年 第一圣殿建成</b><br/>所罗门建圣殿，耶路撒冷成为宗教中心',itemStyle:{color:C.judaism}},
+      {value:[-722,0],name:'北国灭亡',desc:'<b>前722年 北国以色列亡</b><br/>亚述灭北国，十支派流散',itemStyle:{color:C.christianity}},
+      {value:[-586,0],name:'巴比伦之囚',desc:'<b>前586年 巴比伦之囚</b><br/>第一圣殿被毁，犹大精英被掳，会堂制度萌芽',itemStyle:{color:C.christianity}},
+      {value:[-515,0],name:'第二圣殿',desc:'<b>前515年 第二圣殿建成</b><br/>回归后重建圣殿，律法中心确立',itemStyle:{color:C.judaism}},
+      {value:[-167,0],name:'马加比起义',desc:'<b>前167年 马加比起义</b><br/>反抗希腊化迫害，光明节由来',itemStyle:{color:C.gold}},
+      {value:[30,0],name:'基督教诞生',desc:'<b>约公元30年 基督教诞生</b><br/>耶稣受难，基督教从犹太教内部分化',itemStyle:{color:C.christianity}},
+      {value:[70,0],name:'第二圣殿被毁',desc:'<b>公元70年 第二圣殿被毁</b><br/>罗马镇压起义，献祭制度终结，大流散开始',itemStyle:{color:C.christianity}},
+      {value:[200,0],name:'密西拿成书',desc:'<b>约200年 密西拿成书</b><br/>口传律法整理成文，拉比犹太教奠基',itemStyle:{color:C.judaism}},
+      {value:[500,0],name:'塔木德成书',desc:'<b>约500年 巴比伦塔木德成书</b><br/>拉比犹太教体系完成',itemStyle:{color:C.judaism}},
+      {value:[622,0],name:'伊斯兰教兴起',desc:'<b>622年 伊斯兰教兴起</b><br/>穆罕默德迁徙麦地那，与犹太部落接触',itemStyle:{color:C.islam}},
+      {value:[711,0],name:'黄金时代',desc:'<b>8-12世纪 安达卢西亚黄金时代</b><br/>犹太-伊斯兰文化共生，迈蒙尼德等思想家涌现',itemStyle:{color:C.islam}},
+      {value:[1096,0],name:'十字军迫害',desc:'<b>1096年 十字军东征</b><br/>欧洲犹太社群遭大规模屠杀',itemStyle:{color:C.christianity}},
+      {value:[1492,0],name:'西班牙驱逐',desc:'<b>1492年 西班牙驱逐令</b><br/>塞法迪犹太人流散至北非、奥斯曼等地',itemStyle:{color:C.christianity}},
+      {value:[1800,0],name:'犹太启蒙',desc:'<b>18世纪末 犹太启蒙运动</b><br/>门德尔松倡导融入现代，改革派兴起',itemStyle:{color:C.gold}},
+      {value:[1948,0],name:'以色列建国',desc:'<b>1948年 以色列国建立</b><br/>结束两千年无国状态，犹太复国主义实现',itemStyle:{color:C.judaism}},
+      {value:[1965,0],name:'梵二会议',desc:'<b>1965年 梵二会议《在我们时代》</b><br/>天主教否定"集体杀神"指控，开启对话新阶段',itemStyle:{color:C.christianity}},
+    ],
+    label:{show:true,formatter:function(p){return p.data.name},position:'top',rotate:35,fontSize:10,color:C.bronze,fontFamily:'Noto Serif SC,serif',distance:8},
+    itemStyle:{borderColor:'#fff',borderWidth:2,shadowBlur:6,shadowColor:'rgba(0,0,0,.2)'}
+  }]
+});
+
+// ============================================================
+// 2. 核心教义雷达图
+// ============================================================
+const chart2 = echarts.init(document.getElementById('chart-radar'));
+chart2.setOption({
+  tooltip:{trigger:'item'},
+  legend:{data:['犹太教','基督教','伊斯兰教'],bottom:5,textStyle:{fontFamily:'Noto Serif SC,serif'}},
+  radar:{
+    indicator:[
+      {name:'一神论严格性',max:10},{name:'律法中心性',max:10},
+      {name:'先知传统',max:10},{name:'弥赛亚盼望',max:10},
+      {name:'末世论',max:10},{name:'普世性',max:10},{name:'仪式主义',max:10}
+    ],
+    center:['50%','48%'],radius:'65%',
+    axisName:{color:C.bronze,fontSize:12,fontFamily:'Noto Serif SC,serif'},
+    splitLine:{lineStyle:{color:'#d4cfbf'}},
+    splitArea:{areaStyle:{color:['#faf8f2','#f0ede3']}},
+    axisLine:{lineStyle:{color:'#d4cfbf'}}
+  },
+  series:[{
+    type:'radar',data:[
+      {value:[10,10,9,8,7,5,9],name:'犹太教',areaStyle:{color:'rgba(26,82,118,.25)'},lineStyle:{color:C.judaism,width:2},itemStyle:{color:C.judaism}},
+      {value:[7,4,7,10,10,10,6],name:'基督教',areaStyle:{color:'rgba(146,43,33,.2)'},lineStyle:{color:C.christianity,width:2},itemStyle:{color:C.christianity}},
+      {value:[10,9,10,6,8,10,8],name:'伊斯兰教',areaStyle:{color:'rgba(30,132,73,.2)'},lineStyle:{color:C.islam,width:2},itemStyle:{color:C.islam}}
+    ]
+  }]
+});
+
+// ============================================================
+// 3. 三教关系图谱
+// ============================================================
+const chart3 = echarts.init(document.getElementById('chart-graph'));
+chart3.setOption({
+  tooltip:{formatter:function(p){return p.data.desc||p.data.name}},
+  series:[{
+    type:'graph',layout:'force',
+    roam:true,draggable:true,
+    force:{repulsion:600,edgeLength:[120,200],gravity:.08},
+    label:{show:true,position:'right',fontSize:13,fontFamily:'Noto Serif SC,serif',color:C.ink},
+    edgeSymbol:['none','arrow'],edgeSymbolSize:6,
+    data:[
+      {name:'亚伯拉罕之约',symbolSize:70,category:0,itemStyle:{color:C.gold},
+        desc:'<b>亚伯拉罕之约</b><br/>三教共同源头：约前1900年，亚伯拉罕蒙神呼召，与神立约，成为"多国之父"'},
+      {name:'犹太教',symbolSize:90,category:1,itemStyle:{color:C.judaism},
+        desc:'<b>犹太教</b><br/>约前2000年起源，信众约1500万<br/>核心：塔纳赫、塔木德、613诫命'},
+      {name:'基督教',symbolSize:110,category:2,itemStyle:{color:C.christianity},
+        desc:'<b>基督教</b><br/>公元1世纪从犹太教分化，信众约24亿<br/>核心：三位一体、因信称义、新约'},
+      {name:'伊斯兰教',symbolSize:100,category:3,itemStyle:{color:C.islam},
+        desc:'<b>伊斯兰教</b><br/>公元7世纪兴起，信众约19亿<br/>核心：认主独一、古兰经、五功'},
+      {name:'摩西律法',symbolSize:50,category:1,itemStyle:{color:'#5dade2'},
+        desc:'<b>摩西律法（托拉）</b><br/>犹太教核心，基督教旧约基础，伊斯兰教承认其启示'},
+      {name:'耶稣基督',symbolSize:55,category:2,itemStyle:{color:'#ec7063'},
+        desc:'<b>耶稣基督</b><br/>基督教核心：神子道成肉身<br/>犹太教：非弥赛亚；伊斯兰教：先知'},
+      {name:'穆罕默德',symbolSize:55,category:3,itemStyle:{color:'#52be80'},
+        desc:'<b>穆罕默德</b><br/>伊斯兰教封印先知<br/>犹太教与基督教均不承认其先知身份'},
+      {name:'耶路撒冷',symbolSize:48,category:0,itemStyle:{color:C.goldL},
+        desc:'<b>耶路撒冷</b><br/>三教共同圣城：犹太圣殿原址、耶稣受难地、穆罕默德登霄地'},
+    ],
+    links:[
+      {source:'亚伯拉罕之约',target:'犹太教'},
+      {source:'亚伯拉罕之约',target:'基督教'},
+      {source:'亚伯拉罕之约',target:'伊斯兰教'},
+      {source:'犹太教',target:'基督教',label:{show:true,formatter:'母体',fontSize:10,color:C.christianity},lineStyle:{width:3,color:C.christianity}},
+      {source:'犹太教',target:'伊斯兰教',label:{show:true,formatter:'一神论传承',fontSize:10,color:C.islam},lineStyle:{width:2,color:C.islam,curveness:.2}},
+      {source:'摩西律法',target:'犹太教'},
+      {source:'摩西律法',target:'基督教',label:{show:true,formatter:'旧约',fontSize:9,color:C.muted},lineStyle:{type:'dashed'}},
+      {source:'摩西律法',target:'伊斯兰教',label:{show:true,formatter:'讨拉特',fontSize:9,color:C.muted},lineStyle:{type:'dashed'}},
+      {source:'耶稣基督',target:'基督教'},
+      {source:'耶稣基督',target:'犹太教',label:{show:true,formatter:'否认弥赛亚',fontSize:9,color:C.muted},lineStyle:{type:'dashed',curveness:.2}},
+      {source:'耶稣基督',target:'伊斯兰教',label:{show:true,formatter:'承认为先知',fontSize:9,color:C.muted},lineStyle:{type:'dashed',curveness:.2}},
+      {source:'穆罕默德',target:'伊斯兰教'},
+      {source:'耶路撒冷',target:'犹太教',lineStyle:{type:'dotted'}},
+      {source:'耶路撒冷',target:'基督教',lineStyle:{type:'dotted'}},
+      {source:'耶路撒冷',target:'伊斯兰教',lineStyle:{type:'dotted'}},
+    ],
+    categories:[{name:'共同源头'},{name:'犹太教'},{name:'基督教'},{name:'伊斯兰教'}],
+    lineStyle:{color:'#aaa',curveness:0}
+  }]
+});
+
+// ============================================================
+// 4. 经典体系旭日图
+// ============================================================
+const chart4 = echarts.init(document.getElementById('chart-sunburst'));
+chart4.setOption({
+  tooltip:{formatter:function(p){return p.data.name+(p.data.value?' ('+p.data.value+')':'')}},
+  series:[{
+    type:'sunburst',radius:['15%','90%'],
+    data:[
+      {name:'犹太教',itemStyle:{color:C.judaism},children:[
+        {name:'律法书\n(托拉)',value:5,itemStyle:{color:'#1a5276'},children:[
+          {name:'创世记',value:1,itemStyle:{color:'#2874a6'}},
+          {name:'出埃及记',value:1,itemStyle:{color:'#2874a6'}},
+          {name:'利未记',value:1,itemStyle:{color:'#2874a6'}},
+          {name:'民数记',value:1,itemStyle:{color:'#2874a6'}},
+          {name:'申命记',value:1,itemStyle:{color:'#2874a6'}}
+        ]},
+        {name:'先知书',value:3,itemStyle:{color:'#2e86c1'}},
+        {name:'圣卷',value:3,itemStyle:{color:'#5dade2'}},
+        {name:'塔木德',value:4,itemStyle:{color:'#85c1e9'}}
+      ]},
+      {name:'基督教',itemStyle:{color:C.christianity},children:[
+        {name:'旧约\n(承继犹太教)',value:8,itemStyle:{color:'#922b21'}},
+        {name:'新约',value:5,itemStyle:{color:'#cb4335'},children:[
+          {name:'福音书',value:2,itemStyle:{color:'#e74c3c'}},
+          {name:'使徒行传',value:1,itemStyle:{color:'#ec7063'}},
+          {name:'书信',value:1,itemStyle:{color:'#f1948a'}},
+          {name:'启示录',value:1,itemStyle:{color:'#f5b7b1'}}
+        ]}
+      ]},
+      {name:'伊斯兰教',itemStyle:{color:C.islam},children:[
+        {name:'古兰经',value:6,itemStyle:{color:'#1e8449'}},
+        {name:'圣训',value:4,itemStyle:{color:'#27ae60'}},
+        {name:'承认前启\n(托拉/福音)',value:2,itemStyle:{color:'#52be80'}}
+      ]}
+    ],
+    label:{rotate:'radial',fontSize:10,fontFamily:'Noto Serif SC,serif',color:'#fff'},
+    itemStyle:{borderColor:'#fff',borderWidth:1.5}
+  }]
+});
+
+// ============================================================
+// 5a. 人口分布柱状图
+// ============================================================
+const chart5a = echarts.init(document.getElementById('chart-pop-bar'));
+chart5a.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  grid:{left:80,right:30,top:30,bottom:20},
+  xAxis:{type:'value',axisLabel:{color:C.muted},splitLine:{lineStyle:{color:'#e0dccf'}}},
+  yAxis:{type:'category',data:['加拿大','法国','英国','阿根廷','美国','以色列'],axisLabel:{color:C.ink,fontFamily:'Noto Serif SC,serif'}},
+  series:[{
+    type:'bar',data:[
+      {value:39,itemStyle:{color:C.goldL}},
+      {value:44,itemStyle:{color:C.goldL}},
+      {value:29,itemStyle:{color:C.goldL}},
+      {value:18,itemStyle:{color:C.goldL}},
+      {value:600,itemStyle:{color:C.gold}},
+      {value:720,itemStyle:{color:C.judaism}}
+    ],
+    label:{show:true,position:'right',formatter:'{c} 万',fontSize:11,color:C.ink},
+    barWidth:'55%',
+    itemStyle:{borderRadius:[0,4,4,0]}
+  }]
+});
+
+// ============================================================
+// 5b. 派别饼图
+// ============================================================
+const chart5b = echarts.init(document.getElementById('chart-sect-pie'));
+chart5b.setOption({
+  tooltip:{trigger:'item',formatter:'{b}: {d}%'},
+  legend:{bottom:5,textStyle:{fontFamily:'Noto Serif SC,serif',fontSize:11}},
+  series:[{
+    type:'pie',radius:['38%','68%'],center:['50%','45%'],
+    data:[
+      {value:40,name:'改革派',itemStyle:{color:'#5dade2'}},
+      {value:30,name:'正统派',itemStyle:{color:C.judaism}},
+      {value:20,name:'保守派',itemStyle:{color:C.gold}},
+      {value:6,name:'重建派',itemStyle:{color:'#a569bd'}},
+      {value:4,name:'其他/世俗',itemStyle:{color:C.bronze}}
+    ],
+    label:{formatter:'{b}\n{d}%',fontSize:11,fontFamily:'Noto Serif SC,serif'},
+    itemStyle:{borderColor:'#fff',borderWidth:2}
+  }]
+});
+
+// ============================================================
+// 6. 教义对比柱状图
+// ============================================================
+const chart6 = echarts.init(document.getElementById('chart-compare-bar'));
+chart6.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['犹太教','基督教','伊斯兰教'],bottom:5,textStyle:{fontFamily:'Noto Serif SC,serif'}},
+  grid:{left:100,right:30,top:30,bottom:60},
+  xAxis:{type:'value',max:10,axisLabel:{color:C.muted},splitLine:{lineStyle:{color:'#e0dccf'}}},
+  yAxis:{type:'category',data:['一神论严格性','三位一体','耶稣神性','穆罕默德先知','律法约束力','因信称义','朝觐义务','饮食规条'],axisLabel:{color:C.ink,fontFamily:'Noto Serif SC,serif'}},
+  series:[
+    {name:'犹太教',type:'bar',data:[10,1,1,1,10,2,0,10],itemStyle:{color:C.judaism},barGap:'10%'},
+    {name:'基督教',type:'bar',data:[6,10,10,1,3,10,0,1],itemStyle:{color:C.christianity}},
+    {name:'伊斯兰教',type:'bar',data:[10,1,1,10,9,3,10,8],itemStyle:{color:C.islam}}
+  ]
+});
+
+// ============================================================
+// 7. 关系演进桑基图
+// ============================================================
+const chart7 = echarts.init(document.getElementById('chart-sankey'));
+chart7.setOption({
+  tooltip:{trigger:'item'},
+  series:[{
+    type:'sankey',left:20,right:120,top:30,bottom:30,
+    nodeWidth:18,nodeGap:10,
+    label:{fontSize:11,fontFamily:'Noto Serif SC,serif',color:C.ink},
+    lineStyle:{color:'gradient',curveness:.5,opacity:.5},
+    data:[
+      // 历史阶段
+      {name:'公元1世纪\n同源分化',itemStyle:{color:C.gold}},
+      {name:'4-7世纪\n早期定型',itemStyle:{color:C.gold}},
+      {name:'7-12世纪\n中世纪共生',itemStyle:{color:C.gold}},
+      {name:'11-15世纪\n迫害加剧',itemStyle:{color:C.gold}},
+      {name:'16-19世纪\n启蒙与分化',itemStyle:{color:C.gold}},
+      {name:'20世纪\n大屠杀与建国',itemStyle:{color:C.gold}},
+      {name:'21世纪\n对话与冲突',itemStyle:{color:C.gold}},
+      // 犹太-基督教关系
+      {name:'犹太→基督教\n母体分化',itemStyle:{color:C.christianity}},
+      {name:'教义分离\n三位一体之争',itemStyle:{color:C.christianity}},
+      {name:'隔都隔离\n替代神学',itemStyle:{color:C.christianity}},
+      {name:'十字军/裁判所\n集体杀神指控',itemStyle:{color:C.christianity}},
+      {name:'大屠杀\n神学反省',itemStyle:{color:C.christianity}},
+      {name:'梵二会议\n对话和解',itemStyle:{color:C.christianity}},
+      // 犹太-伊斯兰教关系
+      {name:'麦地那接触\n部落冲突',itemStyle:{color:C.islam}},
+      {name:'经书之民\n相对宽容',itemStyle:{color:C.islam}},
+      {name:'安达卢西亚\n黄金时代',itemStyle:{color:C.islam}},
+      {name:'奥斯曼庇护\n塞法迪迁入',itemStyle:{color:C.islam}},
+      {name:'锡安主义\n关系紧张',itemStyle:{color:C.islam}},
+      {name:'以色列建国\n大规模迁徙',itemStyle:{color:C.islam}},
+      {name:'巴以冲突\n政治化对抗',itemStyle:{color:C.islam}},
+    ],
+    links:[
+      // 犹太-基督教
+      {source:'公元1世纪\n同源分化',target:'犹太→基督教\n母体分化',value:10},
+      {source:'4-7世纪\n早期定型',target:'教义分离\n三位一体之争',value:8},
+      {source:'7-12世纪\n中世纪共生',target:'隔都隔离\n替代神学',value:7},
+      {source:'11-15世纪\n迫害加剧',target:'十字军/裁判所\n集体杀神指控',value:10},
+      {source:'16-19世纪\n启蒙与分化',target:'隔都隔离\n替代神学',value:5},
+      {source:'20世纪\n大屠杀与建国',target:'大屠杀\n神学反省',value:10},
+      {source:'21世纪\n对话与冲突',target:'梵二会议\n对话和解',value:8},
+      // 犹太-伊斯兰
+      {source:'公元1世纪\n同源分化',target:'麦地那接触\n部落冲突',value:6},
+      {source:'4-7世纪\n早期定型',target:'麦地那接触\n部落冲突',value:4},
+      {source:'7-12世纪\n中世纪共生',target:'经书之民\n相对宽容',value:8},
+      {source:'7-12世纪\n中世纪共生',target:'安达卢西亚\n黄金时代',value:10},
+      {source:'11-15世纪\n迫害加剧',target:'奥斯曼庇护\n塞法迪迁入',value:7},
+      {source:'16-19世纪\n启蒙与分化',target:'奥斯曼庇护\n塞法迪迁入',value:5},
+      {source:'16-19世纪\n启蒙与分化',target:'锡安主义\n关系紧张',value:6},
+      {source:'20世纪\n大屠杀与建国',target:'以色列建国\n大规模迁徙',value:10},
+      {source:'21世纪\n对话与冲突',target:'巴以冲突\n政治化对抗',value:10},
+    ]
+  }]
+});
+
+// 响应式
+window.addEventListener('resize',function(){
+  [chart1,chart2,chart3,chart4,chart5a,chart5b,chart6,chart7].forEach(function(c){c.resize()});
+});
+</script>
+</body>
+</html>

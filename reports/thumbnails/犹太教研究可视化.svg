@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1a1525"/>
+      <stop offset="100%" stop-color="#050308"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#97781b"/>
+      <stop offset="100%" stop-color="#c9b27a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 七枝烛台 -->
+  <g transform="translate(200, 120)" opacity="0.7">
+    <!-- 底座 -->
+    <line x1="-20" y1="35" x2="20" y2="35" stroke="url(#gold)" stroke-width="3"/>
+    <line x1="-15" y1="35" x2="-10" y2="32" stroke="url(#gold)" stroke-width="2"/>
+    <line x1="15" y1="35" x2="10" y2="32" stroke="url(#gold)" stroke-width="2"/>
+    <!-- 中心干 -->
+    <line x1="0" y1="32" x2="0" y2="-45" stroke="url(#gold)" stroke-width="3"/>
+    <!-- 枝 -->
+    <path d="M 0 -10 Q 20 -10 22 -30" fill="none" stroke="url(#gold)" stroke-width="2"/>
+    <path d="M 0 -5 Q -20 -5 -22 -28" fill="none" stroke="url(#gold)" stroke-width="2"/>
+    <path d="M 0 -15 Q 35 -15 38 -28" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+    <path d="M 0 -15 Q -35 -15 -38 -28" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+    <path d="M 0 -20 Q 48 -20 50 -25" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+    <path d="M 0 -20 Q -48 -20 -50 -25" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+    <!-- 火焰 -->
+    <circle cx="0" cy="-48" r="5" fill="#97781b" opacity="0.5"/>
+    <circle cx="0" cy="-48" r="8" fill="#c9b27a" opacity="0.15"/>
+    <circle cx="22" cy="-33" r="4" fill="#97781b" opacity="0.5"/>
+    <circle cx="-22" cy="-31" r="4" fill="#97781b" opacity="0.5"/>
+    <circle cx="38" cy="-31" r="3.5" fill="#97781b" opacity="0.4"/>
+    <circle cx="-38" cy="-31" r="3.5" fill="#97781b" opacity="0.4"/>
+    <circle cx="50" cy="-28" r="3" fill="#97781b" opacity="0.4"/>
+    <circle cx="-50" cy="-28" r="3" fill="#97781b" opacity="0.4"/>
+  </g>
+  <!-- 亚伯拉罕三教符号 -->
+  <g transform="translate(200, 220)" opacity="0.25">
+    <!-- 六角星 -->
+    <polygon points="0,-12 10.4,-6 10.4,6 0,12 -10.4,6 -10.4,-6" fill="none" stroke="#1a5276" stroke-width="0.8"/>
+    <!-- 十字 -->
+    <g transform="translate(-30,0)">
+      <line x1="0" y1="-6" x2="0" y2="6" stroke="#922b21" stroke-width="1"/>
+      <line x1="-4" y1="0" x2="4" y2="0" stroke="#922b21" stroke-width="1"/>
+    </g>
+    <!-- 新月 -->
+    <g transform="translate(32,0)">
+      <circle cx="0" cy="0" r="6" fill="none" stroke="#1e8449" stroke-width="1"/>
+      <circle cx="2" cy="-1" r="5" fill="#050308"/>
+    </g>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#c9b27a" font-family="serif" font-size="14" font-weight="bold">犹太教 · 研究可视化</text>
+</svg>
