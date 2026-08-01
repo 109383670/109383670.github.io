@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#0d2333"/>
+      <stop offset="100%" stop-color="#040b12"/>
+    </radialGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#93c5fd" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 远山 -->
+  <g opacity="0.5">
+    <path d="M 0 200 L 90 110 L 150 165 L 230 95 L 310 160 L 400 120 L 400 230 L 0 230 Z" fill="none" stroke="#3b82f6" stroke-width="0.8" opacity="0.25"/>
+    <path d="M 0 230 L 120 150 L 200 195 L 290 140 L 400 185 L 400 230 Z" fill="none" stroke="#60a5fa" stroke-width="0.6" opacity="0.2"/>
+  </g>
+  <!-- 主峰天池 -->
+  <g transform="translate(200, 120)" opacity="0.7">
+    <path d="M -60 40 L -20 -10 Q 0 -25 20 -10 L 60 40 Z" fill="none" stroke="url(#snow)" stroke-width="1.2"/>
+    <!-- 天池 -->
+    <ellipse cx="0" cy="15" rx="22" ry="8" fill="#93c5fd" opacity="0.3"/>
+    <!-- 雪顶 -->
+    <path d="M -18 -4 Q 0 -18 18 -4" fill="none" stroke="#f8fafc" stroke-width="1" opacity="0.5"/>
+  </g>
+  <!-- 云气 -->
+  <ellipse cx="110" cy="90" rx="30" ry="6" fill="url(#mist)" opacity="0.4"/>
+  <ellipse cx="290" cy="110" rx="25" ry="5" fill="url(#mist)" opacity="0.3"/>
+  <ellipse cx="180" cy="200" rx="35" ry="6" fill="url(#mist)" opacity="0.3"/>
+  <!-- 松 -->
+  <g transform="translate(80, 180)" opacity="0.4">
+    <line x1="0" y1="0" x2="0" y2="25" stroke="#334155" stroke-width="1.5"/>
+    <path d="M -10 -5 Q 0 -15 10 -5 Q 5 -18 -5 -12" fill="none" stroke="#16a34a" stroke-width="0.8" opacity="0.4"/>
+    <path d="M -8 5 Q 0 -5 8 5" fill="none" stroke="#16a34a" stroke-width="0.8" opacity="0.3"/>
+  </g>
+  <!-- 路书路径点 -->
+  <g transform="translate(200, 240)" opacity="0.5">
+    <circle cx="-60" cy="0" r="3" fill="#93c5fd"/>
+    <circle cx="-20" cy="-5" r="3" fill="#93c5fd"/>
+    <circle cx="20" cy="-3" r="3" fill="#93c5fd"/>
+    <circle cx="60" cy="0" r="3" fill="#93c5fd"/>
+    <line x1="-55" y1="0" x2="-25" y2="-4" stroke="#93c5fd" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-15" y1="-4" x2="15" y2="-3" stroke="#93c5fd" stroke-width="0.5" opacity="0.4"/>
+    <line x1="25" y1="-4" x2="55" y2="0" stroke="#93c5fd" stroke-width="0.5" opacity="0.4"/>
+  </g>
+  <text x="200" y="272" text-anchor="middle" fill="#93c5fd" font-family="serif" font-size="14" font-weight="bold">长白山探险 · 创作路书</text>
+</svg>

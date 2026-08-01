@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>长白山探险小说创作路书 · 完整版</title>
+<style>
+  :root{
+    --ink:#1a1a2e;
+    --paper:#f7f3ec;
+    --moss:#2d5016;
+    --moss-light:#4a7c2c;
+    --mist:#8ba888;
+    --ember:#c0392b;
+    --gold:#c9a227;
+    --slate:#3a4a5c;
+    --shadow:0 4px 20px rgba(0,0,0,.08);
+    --serif:'Noto Serif SC','Source Han Serif SC','Songti SC',serif;
+    --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.8;
+    font-size:16px;
+  }
+  /* ===== 封面 ===== */
+  .cover{
+    min-height:90vh;
+    background:
+      linear-gradient(135deg, rgba(45,80,22,.92) 0%, rgba(26,26,46,.95) 100%),
+      radial-gradient(ellipse at 30% 20%, rgba(201,162,39,.15), transparent 60%);
+    color:#f7f3ec;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:4rem 2rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .cover::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 40px, rgba(255,255,255,.02) 40px 41px);
+    pointer-events:none;
+  }
+  .cover-eyebrow{
+    font-size:.85rem;
+    letter-spacing:.6em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:1.5rem;
+    font-weight:300;
+  }
+  .cover h1{
+    font-family:var(--serif);
+    font-size:clamp(2.5rem,6vw,4.5rem);
+    font-weight:900;
+    letter-spacing:.15em;
+    line-height:1.2;
+    text-shadow:0 4px 30px rgba(0,0,0,.5);
+    margin-bottom:1rem;
+  }
+  .cover h1 span{color:var(--gold)}
+  .cover-sub{
+    font-family:var(--serif);
+    font-size:1.2rem;
+    letter-spacing:.3em;
+    color:#c8d5b9;
+    margin-bottom:3rem;
+    font-weight:300;
+  }
+  .cover-meta{
+    display:flex;
+    gap:2.5rem;
+    flex-wrap:wrap;
+    justify-content:center;
+    font-size:.85rem;
+    color:#a8b89a;
+    letter-spacing:.1em;
+  }
+  .cover-meta div{border-left:2px solid var(--gold);padding-left:1rem;text-align:left}
+  .cover-meta strong{display:block;color:#f7f3ec;font-size:1rem;margin-bottom:.2rem}
+
+  /* ===== 导航 ===== */
+  nav.toc{
+    position:sticky;top:0;z-index:100;
+    background:rgba(26,26,46,.97);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(201,162,39,.3);
+  }
+  nav.toc ul{
+    list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:0;
+    max-width:1200px;margin:0 auto;padding:0 1rem;
+  }
+  nav.toc a{
+    display:block;
+    color:#c8d5b9;text-decoration:none;
+    padding:.85rem 1.2rem;font-size:.85rem;letter-spacing:.1em;
+    transition:all .2s;
+    border-bottom:2px solid transparent;
+  }
+  nav.toc a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+
+  /* ===== 通用容器 ===== */
+  section{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+  section.full{max-width:none;padding:5rem 0}
+  .sec-header{text-align:center;margin-bottom:3.5rem}
+  .sec-tag{
+    display:inline-block;
+    font-size:.75rem;letter-spacing:.4em;
+    color:var(--moss-light);text-transform:uppercase;
+    margin-bottom:1rem;
+  }
+  .sec-title{
+    font-family:var(--serif);
+    font-size:clamp(1.8rem,4vw,2.8rem);
+    font-weight:900;
+    color:var(--ink);
+    margin-bottom:.8rem;
+    position:relative;
+    display:inline-block;
+  }
+  .sec-title::after{
+    content:"";position:absolute;left:50%;bottom:-.6rem;transform:translateX(-50%);
+    width:60px;height:3px;background:var(--gold);
+  }
+  .sec-desc{
+    color:var(--slate);font-size:1rem;max-width:680px;margin:1.5rem auto 0;
+    line-height:1.9;
+  }
+
+  /* ===== 总览区 ===== */
+  .overview-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:1.5rem;margin:3rem 0;
+  }
+  .overview-card{
+    background:#fff;border-radius:12px;padding:2rem;
+    box-shadow:var(--shadow);
+    border-top:4px solid var(--moss-light);
+    transition:transform .2s;
+  }
+  .overview-card:hover{transform:translateY(-4px)}
+  .overview-card.ember{border-top-color:var(--ember)}
+  .overview-card.gold{border-top-color:var(--gold)}
+  .overview-card h3{
+    font-family:var(--serif);font-size:1.3rem;margin-bottom:.5rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .route-badge{
+    font-size:.7rem;padding:.2rem .6rem;border-radius:20px;
+    background:var(--moss);color:#fff;letter-spacing:.1em;font-weight:400;
+  }
+  .overview-card.ember .route-badge{background:var(--ember)}
+  .overview-card.gold .route-badge{background:var(--gold);color:var(--ink)}
+  .overview-card .tagline{color:var(--slate);font-size:.9rem;margin-bottom:1.5rem;font-style:italic}
+  .overview-card dl{font-size:.88rem}
+  .overview-card dt{color:var(--moss);font-weight:700;margin-top:.8rem}
+  .overview-card dd{margin-left:0;color:var(--slate)}
+
+  /* ===== 对比表 ===== */
+  .compare-table{
+    width:100%;border-collapse:collapse;
+    background:#fff;border-radius:12px;overflow:hidden;
+    box-shadow:var(--shadow);margin:2rem 0;font-size:.9rem;
+  }
+  .compare-table th{
+    background:var(--ink);color:#f7f3ec;
+    padding:1rem;font-family:var(--serif);text-align:left;
+    letter-spacing:.1em;
+  }
+  .compare-table th:not(:first-child){text-align:center}
+  .compare-table td{
+    padding:.9rem 1rem;border-bottom:1px solid #eee;
+    vertical-align:top;
+  }
+  .compare-table td:first-child{font-weight:700;color:var(--moss);background:#fafafa}
+  .compare-table tr:last-child td{border-bottom:none}
+  .compare-table tr:hover td{background:#f9fdf6}
+
+  /* ===== 图表 ===== */
+  .chart-block{
+    background:#fff;border-radius:12px;padding:2rem;
+    box-shadow:var(--shadow);margin:2rem 0;
+  }
+  .chart-block h4{
+    font-family:var(--serif);font-size:1.1rem;margin-bottom:1.5rem;
+    color:var(--ink);border-left:4px solid var(--gold);padding-left:.8rem;
+  }
+  /* 柱状图 - 费用对比 */
+  .bar-chart{display:flex;gap:2rem;align-items:flex-end;height:240px;padding:1rem 0;border-bottom:2px solid #ddd}
+  .bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+  .bar{
+    width:60%;border-radius:6px 6px 0 0;transition:height 1s ease;
+    position:relative;min-height:20px;
+    display:flex;align-items:flex-start;justify-content:center;
+  }
+  .bar span{
+    position:absolute;top:-1.8rem;font-size:.85rem;font-weight:700;color:var(--ink);
+  }
+  .bar-group label{font-size:.8rem;color:var(--slate);text-align:center;line-height:1.4}
+  /* 饼图 - 预算构成 */
+  .pie-wrap{display:flex;gap:3rem;align-items:center;flex-wrap:wrap}
+  .pie{
+    width:200px;height:200px;border-radius:50%;
+    position:relative;
+  }
+  .pie-legend{flex:1;min-width:220px}
+  .pie-legend li{
+    list-style:none;display:flex;align-items:center;gap:.8rem;
+    margin-bottom:.8rem;font-size:.9rem;
+  }
+  .pie-legend .dot{width:14px;height:14px;border-radius:3px;flex-shrink:0}
+  .pie-legend .pct{margin-left:auto;font-weight:700;color:var(--ink)}
+
+  /* ===== 路线区块 ===== */
+  .route-section{
+    padding:5rem 2rem;position:relative;overflow:hidden;
+  }
+  .route-section.route1{
+    background:
+      linear-gradient(180deg,#f7f3ec 0%, #eaf0e3 100%);
+  }
+  .route-section.route2{
+    background:
+      linear-gradient(180deg,#eef2f7 0%, #e0e8ef 100%);
+  }
+  .route-section.route3{
+    background:
+      linear-gradient(180deg,#2a1a1a 0%, #1a1a2e 100%);
+    color:#e8e0d0;
+  }
+  .route-section.route3 .sec-title{color:#f0e8d0}
+  .route-section.route3 .sec-title::after{background:var(--ember)}
+  .route-section.route3 .sec-tag{color:#d4a574}
+  .route-section.route3 .sec-desc{color:#b8b0a0}
+  .route-inner{max-width:1200px;margin:0 auto}
+
+  .route-banner{
+    text-align:center;margin-bottom:4rem;
+  }
+  .route-banner .drama{
+    font-family:var(--serif);font-size:1.1rem;
+    color:var(--gold);letter-spacing:.2em;margin-bottom:1rem;
+  }
+  .route-banner h2{
+    font-family:var(--serif);font-size:clamp(2rem,5vw,3.5rem);
+    font-weight:900;letter-spacing:.1em;
+  }
+  .route-banner p{
+    max-width:720px;margin:1.5rem auto 0;font-size:1.05rem;
+    color:var(--slate);line-height:2;
+  }
+  .route-section.route3 .route-banner p{color:#c8c0b0}
+
+  /* ===== 时间轴 ===== */
+  .timeline{
+    position:relative;padding:2rem 0;margin:2rem 0;
+  }
+  .timeline::before{
+    content:"";position:absolute;left:24px;top:0;bottom:0;
+    width:3px;background:linear-gradient(180deg,var(--moss-light),var(--gold));
+    border-radius:2px;
+  }
+  .route-section.route3 .timeline::before{
+    background:linear-gradient(180deg,var(--ember),var(--gold));
+  }
+  .tl-item{
+    position:relative;padding-left:70px;margin-bottom:2.5rem;
+  }
+  .tl-item::before{
+    content:"";position:absolute;left:14px;top:8px;
+    width:24px;height:24px;border-radius:50%;
+    background:#fff;border:4px solid var(--moss-light);
+    box-shadow:0 0 0 4px rgba(74,124,44,.15);
+    z-index:1;
+  }
+  .route-section.route3 .tl-item::before{
+    background:#1a1a2e;border-color:var(--ember);
+    box-shadow:0 0 0 4px rgba(192,57,43,.2);
+  }
+  .tl-time{
+    display:inline-block;font-size:.8rem;font-weight:700;
+    color:var(--moss);background:#e6efd9;padding:.2rem .8rem;border-radius:20px;
+    margin-bottom:.5rem;letter-spacing:.1em;
+  }
+  .route-section.route3 .tl-time{background:rgba(192,57,43,.2);color:#e8a89a}
+  .tl-title{font-family:var(--serif);font-size:1.15rem;font-weight:700;margin-bottom:.4rem}
+  .tl-desc{font-size:.92rem;color:var(--slate);line-height:1.9}
+  .route-section.route3 .tl-desc{color:#b8b0a0}
+  .tl-tag{
+    display:inline-block;font-size:.72rem;padding:.15rem .6rem;
+    background:rgba(201,162,39,.2);color:var(--gold);
+    border-radius:4px;margin-top:.5rem;letter-spacing:.05em;
+  }
+
+  /* ===== 维度卡片 ===== */
+  .dim-block{
+    background:#fff;border-radius:14px;padding:2.5rem;margin:2.5rem 0;
+    box-shadow:var(--shadow);
+    border-left:5px solid var(--moss-light);
+  }
+  .route-section.route2 .dim-block{border-left-color:var(--slate)}
+  .route-section.route3 .dim-block{
+    background:rgba(255,255,255,.05);
+    border-left-color:var(--ember);
+    backdrop-filter:blur(10px);
+  }
+  .route-section.route3 .dim-block h3,
+  .route-section.route3 .dim-block h4,
+  .route-section.route3 .dim-block strong{color:#f0e8d0}
+  .route-section.route3 .dim-block p,
+  .route-section.route3 .dim-block li{color:#c8c0b0}
+
+  .dim-block h3{
+    font-family:var(--serif);font-size:1.5rem;margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:.6rem;
+  }
+  .dim-block h3 .icon{
+    display:inline-flex;width:36px;height:36px;border-radius:8px;
+    background:var(--moss);color:#fff;align-items:center;justify-content:center;
+    font-size:1.1rem;font-weight:700;
+  }
+  .route-section.route2 .dim-block h3 .icon{background:var(--slate)}
+  .route-section.route3 .dim-block h3 .icon{background:var(--ember)}
+
+  .dim-block h4{font-size:1.05rem;margin:1.5rem 0 .6rem;color:var(--moss)}
+  .route-section.route2 .dim-block h4{color:var(--slate)}
+  .route-section.route3 .dim-block h4{color:#d4a574}
+  .dim-block p{margin-bottom:.8rem;color:var(--ink)}
+  .dim-block ul{padding-left:1.5rem;margin-bottom:1rem}
+  .dim-block li{margin-bottom:.5rem;line-height:1.9}
+
+  .scene-box{
+    background:#f9fdf6;border:1px dashed var(--moss-light);
+    border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;
+    font-size:.9rem;line-height:1.9;
+  }
+  .route-section.route3 .scene-box{
+    background:rgba(192,57,43,.08);border-color:var(--ember);
+  }
+  .scene-box::before{
+    content:"🎬 场景化写作建议";
+    display:block;font-size:.75rem;font-weight:700;
+    color:var(--moss);letter-spacing:.1em;margin-bottom:.5rem;
+  }
+  .route-section.route3 .scene-box::before{color:var(--ember)}
+
+  /* 风光地标卡片网格 */
+  .landmark-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:1.5rem;margin:1.5rem 0;
+  }
+  .landmark-card{
+    background:#fafafa;border-radius:10px;padding:1.5rem;
+    border-top:3px solid var(--moss-light);
+    transition:all .2s;
+  }
+  .landmark-card:hover{
+    background:#fff;transform:translateY(-3px);
+    box-shadow:var(--shadow);
+  }
+  .route-section.route3 .landmark-card{
+    background:rgba(255,255,255,.04);border-top-color:var(--ember);
+  }
+  .landmark-card h4{
+    font-family:var(--serif);font-size:1.15rem;margin-bottom:.5rem;
+    color:var(--ink);
+  }
+  .route-section.route3 .landmark-card h4{color:#f0e8d0}
+  .landmark-card .meta{
+    font-size:.75rem;color:var(--slate);margin-bottom:.8rem;
+  }
+  .route-section.route3 .landmark-card .meta{color:#a8a090}
+  .landmark-card p{font-size:.88rem;line-height:1.8;color:var(--slate)}
+  .route-section.route3 .landmark-card p{color:#b8b0a0}
+  .landmark-card .hint{
+    margin-top:.8rem;font-size:.8rem;color:var(--ember);
+    border-top:1px dotted #ddd;padding-top:.6rem;
+  }
+  .route-section.route3 .landmark-card .hint{border-top-color:#444;color:#e8a89a}
+
+  /* 食宿小表 */
+  .food-table,.stay-table{
+    width:100%;border-collapse:collapse;margin:1rem 0;font-size:.88rem;
+    background:#fff;border-radius:8px;overflow:hidden;
+  }
+  .route-section.route3 .food-table,
+  .route-section.route3 .stay-table{background:rgba(255,255,255,.03)}
+  .food-table th,.stay-table th{
+    background:var(--moss);color:#fff;padding:.7rem;font-size:.85rem;
+    text-align:left;
+  }
+  .route-section.route2 .food-table th,
+  .route-section.route2 .stay-table th{background:var(--slate)}
+  .route-section.route3 .food-table th,
+  .route-section.route3 .stay-table th{background:var(--ember)}
+  .food-table td,.stay-table td{
+    padding:.7rem;border-bottom:1px solid #eee;color:var(--slate);
+  }
+  .route-section.route3 .food-table td,
+  .route-section.route3 .stay-table td{
+    border-bottom-color:#333;color:#b8b0a0;
+  }
+
+  /* 风险等级 */
+  .risk-list{display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0}
+  .risk-item{
+    display:flex;gap:1rem;align-items:flex-start;
+    background:#fff;border-radius:8px;padding:1.2rem;
+    border-left:4px solid var(--ember);
+  }
+  .route-section.route3 .risk-item{background:rgba(255,255,255,.04)}
+  .risk-level{
+    font-size:.7rem;font-weight:700;white-space:nowrap;
+    padding:.3rem .6rem;border-radius:4px;
+    background:var(--ember);color:#fff;letter-spacing:.1em;
+  }
+  .risk-level.mid{background:var(--gold);color:var(--ink)}
+  .risk-level.low{background:var(--mist);color:#fff}
+  .risk-item h5{font-family:var(--serif);font-size:1rem;margin-bottom:.3rem}
+  .risk-item p{font-size:.85rem;color:var(--slate);line-height:1.8}
+  .route-section.route3 .risk-item p{color:#b8b0a0}
+
+  /* ===== 季节区 ===== */
+  .season-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:1.5rem;margin:2rem 0;
+  }
+  .season-card{
+    border-radius:12px;padding:2rem;color:#fff;
+    position:relative;overflow:hidden;min-height:200px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .season-spring{background:linear-gradient(135deg,#7eb85b,#4a7c2c)}
+  .season-summer{background:linear-gradient(135deg,#e8a838,#c0392b)}
+  .season-autumn{background:linear-gradient(135deg,#c97b3a,#8b3a1f)}
+  .season-winter{background:linear-gradient(135deg,#6b8cce,#2c3e5e)}
+  .season-card h4{font-family:var(--serif);font-size:1.5rem;margin-bottom:.5rem}
+  .season-card .months{font-size:.8rem;letter-spacing:.2em;opacity:.8;margin-bottom:1rem}
+  .season-card .highlights{font-size:.85rem;line-height:1.8}
+  .season-card .highlights strong{display:block;margin-bottom:.3rem;color:var(--gold)}
+  .season-spring .highlights strong,
+  .season-summer .highlights strong{color:#fff}
+
+  /* 气候剧情表 */
+  .climate-table{width:100%;border-collapse:collapse;margin:2rem 0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);font-size:.9rem}
+  .climate-table th{background:var(--slate);color:#fff;padding:1rem;text-align:left;font-family:var(--serif)}
+  .climate-table td{padding:.9rem;border-bottom:1px solid #eee;vertical-align:top}
+  .climate-table td:first-child{font-weight:700;color:var(--slate)}
+
+  /* ===== 人文角色区 ===== */
+  .role-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:1.5rem;margin:2rem 0;
+  }
+  .role-card{
+    background:#fff;border-radius:12px;padding:2rem;
+    box-shadow:var(--shadow);
+    border-top:4px solid var(--gold);
+  }
+  .role-card h4{
+    font-family:var(--serif);font-size:1.2rem;margin-bottom:.3rem;
+    color:var(--ink);
+  }
+  .role-card .role-tag{
+    font-size:.72rem;color:var(--gold);letter-spacing:.2em;
+    text-transform:uppercase;margin-bottom:1rem;display:block;
+  }
+  .role-card .archetype{
+    font-size:.85rem;color:var(--slate);margin-bottom:1rem;font-style:italic;
+  }
+  .role-card .traits{
+    font-size:.85rem;color:var(--slate);line-height:1.8;
+  }
+  .role-card .traits strong{color:var(--moss)}
+
+  .dialect-box{
+    background:var(--ink);color:#e8e0d0;border-radius:12px;
+    padding:2rem;margin:2rem 0;
+  }
+  .dialect-box h4{font-family:var(--serif);font-size:1.2rem;color:var(--gold);margin-bottom:1rem}
+  .dialect-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+  .dialect-item{
+    background:rgba(255,255,255,.05);padding:.8rem 1rem;border-radius:6px;
+  }
+  .dialect-item .term{color:var(--gold);font-weight:700;font-size:.95rem}
+  .dialect-item .meaning{font-size:.82rem;color:#b8b0a0;margin-top:.2rem}
+
+  /* ===== 附录 ===== */
+  .appendix{
+    background:var(--ink);color:#c8d5b9;padding:5rem 2rem;
+  }
+  .appendix .sec-title{color:#f0e8d0}
+  .appendix .sec-desc{color:#a8b89a}
+  .appendix-inner{max-width:1200px;margin:0 auto}
+  .eco-table{width:100%;border-collapse:collapse;margin:2rem 0;font-size:.9rem}
+  .eco-table th{background:rgba(201,162,39,.2);color:var(--gold);padding:.8rem;text-align:left}
+  .eco-table td{padding:.8rem;border-bottom:1px solid #333;color:#b8c8a8}
+
+  /* ===== 页脚 ===== */
+  footer{
+    background:#0d0d1a;color:#888;padding:3rem 2rem;text-align:center;
+    font-size:.85rem;line-height:2;
+  }
+  footer .seal{
+    font-family:var(--serif);font-size:1.3rem;color:var(--gold);
+    margin-bottom:1rem;letter-spacing:.3em;
+  }
+
+  /* 响应式 */
+  @media(max-width:768px){
+    .bar-chart{flex-direction:column;height:auto;align-items:stretch}
+    .bar-group{flex-direction:row;align-items:center;gap:1rem;margin-bottom:1rem}
+    .bar{width:80px;height:30px !important}
+    .pie-wrap{flex-direction:column}
+    nav.toc ul{flex-direction:column;align-items:stretch}
+    nav.toc a{text-align:center;padding:.7rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <div class="cover-eyebrow">Novel Creation Companion</div>
+  <h1>长白山<span>·</span>探险路书</h1>
+  <div class="cover-sub">三线并行 · 风物志 · 剧情推手</div>
+  <div class="cover-meta">
+    <div><strong>主体结构</strong>主要路线 / 非主流路线 / 探险路线</div>
+    <div><strong>六大维度</strong>交通 · 风光 · 秘境 · 食宿 · 传说 · 风险</div>
+    <div><strong>适用场景</strong>长白山探险题材小说创作</div>
+  </div>
+</div>
+
+<!-- ============ 导航 ============ -->
+<nav class="toc">
+  <ul>
+    <li><a href="#overview">总览</a></li>
+    <li><a href="#route1">壹·明线</a></li>
+    <li><a href="#route2">贰·暗线</a></li>
+    <li><a href="#route3">叁·高潮</a></li>
+    <li><a href="#season">季节气候</a></li>
+    <li><a href="#people">在地人文</a></li>
+    <li><a href="#appendix">附录</a></li>
+  </ul>
+</nav>
+
+<!-- ============ 总览 ============ -->
+<section id="overview">
+  <div class="sec-header">
+    <div class="sec-tag">Overview</div>
+    <h2 class="sec-title">三线并行 · 总览</h2>
+    <p class="sec-desc">长白山并非一座山，而是一座横亘在中朝边境的巨型火山体系。三条动线分别承担小说的明线铺垫、暗线推进与高潮爆发，在地理、难度、戏剧张力上形成递进结构。下方为三线速览与数据对照。</p>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <h3>主要路线 <span class="route-badge">明线</span></h3>
+      <p class="tagline">"所有人都能到达的长白山，却藏着最初的悬念。"</p>
+      <dl>
+        <dt>基地</dt><dd>二道白河镇 / 松江河镇</dd>
+        <dt>核心</dt><dd>北坡天池 + 西坡花海</dd>
+        <dt>交通</dt><dd>环保车 + 倒站越野车</dd>
+        <dt>难度</dt><dd>★★ ☆ ☆ ☆</dd>
+        <dt>戏剧功能</dt><dd>铺垫世界观、埋伏笔、建立人物关系</dd>
+      </dl>
+    </div>
+    <div class="overview-card gold">
+      <h3>非主流路线 <span class="route-badge">暗线</span></h3>
+      <p class="tagline">"游客散去之后，山才露出它真正的脊背。"</p>
+      <dl>
+        <dt>基地</dt><dd>长白朝鲜族自治县</dd>
+        <dt>核心</dt><dd>南坡天池 + 望天鹅 + 边境</dd>
+        <dt>交通</dt><dd>自驾 + 环保车 + 越野小道</dd>
+        <dt>难度</dt><dd>★★★ ☆ ☆</dd>
+        <dt>戏剧功能</dt><dd>支线展开、边境张力、角色深化</dd>
+      </dl>
+    </div>
+    <div class="overview-card ember">
+      <h3>探险路线 <span class="route-badge">高潮</span></h3>
+      <p class="tagline">"保护区核心区——地图上没有路的地方，才是故事。"</p>
+      <dl>
+        <dt>基地</dt><dd>二道白河外围白河林场</dd>
+        <dt>核心</dt><dd>原始林穿越 + 火山口接近</dd>
+        <dt>交通</dt><dd>纯徒步 + 攀爬 + 露营</dd>
+        <dt>难度</dt><dd>★★★★★</dd>
+        <dt>戏剧功能</dt><dd>生死考验、真相揭露、命运转折</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 对比表 -->
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>维度</th><th>主要路线（明线）</th><th>非主流路线（暗线）</th><th>探险路线（高潮）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>门户基地</td><td>二道白河 / 松江河</td><td>长白县</td><td>白河林场外围</td></tr>
+      <tr><td>覆盖景区</td><td>北坡 + 西坡</td><td>南坡 + 望天鹅 + 边境</td><td>原始林 + 火山口</td></tr>
+      <tr><td>交通方式</td><td>环保车 + 倒站车</td><td>自驾 + 环保车</td><td>徒步 + 攀爬</td></tr>
+      <tr><td>全程耗时</td><td>2-3 天</td><td>3 天</td><td>2-4 天</td></tr>
+      <tr><td>最佳季节</td><td>7-9 月</td><td>6-9 月（南坡限开）</td><td>7-9 月 / 1-2 月</td></tr>
+      <tr><td>信号覆盖</td><td>基本有信号</td><td>部分路段无信号</td><td>全程无信号</td></tr>
+      <tr><td>人均预算</td><td>2500-5000 元</td><td>2000-3500 元</td><td>装备为主、现金为辅</td></tr>
+      <tr><td>难度等级</td><td>★★</td><td>★★★</td><td>★★★★★</td></tr>
+      <tr><td>戏剧张力</td><td>铺垫 / 伏笔</td><td>支线 / 边境</td><td>高潮 / 冒险</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 图表：费用对比 -->
+  <div class="chart-block">
+    <h4>三条路线人均预算对比（元）</h4>
+    <div class="bar-chart">
+      <div class="bar-group">
+        <div class="bar" style="height:180px;background:linear-gradient(180deg,#4a7c2c,#2d5016)"><span>3750</span></div>
+        <label>主要路线<br/>（均值）</label>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:135px;background:linear-gradient(180deg,#c9a227,#8b6f15)"><span>2750</span></div>
+        <label>非主流路线<br/>（均值）</label>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:100px;background:linear-gradient(180deg,#c0392b,#7a1f15)"><span>2000+</span></div>
+        <label>探险路线<br/>（装备为主）</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图表：预算构成 -->
+  <div class="chart-block">
+    <h4>主要路线（北坡+西坡）预算构成 · 人均 3750 元</h4>
+    <div class="pie-wrap">
+      <div class="pie" style="background:conic-gradient(#2d5016 0 33%, #4a7c2c 33% 53%, #c9a227 53% 73%, #8ba888 73% 88%, #c0392b 88% 100%)"></div>
+      <ul class="pie-legend">
+        <li><span class="dot" style="background:#2d5016"></span>大交通（往返）<span class="pct">33%</span></li>
+        <li><span class="dot" style="background:#4a7c2c"></span>住宿（3晚）<span class="pct">20%</span></li>
+        <li><span class="dot" style="background:#c9a227"></span>景区门票+车<span class="pct">20%</span></li>
+        <li><span class="dot" style="background:#8ba888"></span>餐饮<span class="pct">15%</span></li>
+        <li><span class="dot" style="background:#c0392b"></span>装备/应急<span class="pct">12%</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 路线一 ============ -->
+<div class="route-section route1" id="route1">
+  <div class="route-inner">
+    <div class="route-banner">
+      <div class="drama">壹 · 明线 · 铺垫</div>
+      <h2>主要路线：北坡 + 西坡</h2>
+      <p>这是所有人都能到达的长白山，也是故事最该开始的地方。游客的喧哗之下，天池只露出三分之一的真容，剩下的三分之二藏在浓雾、冰裂与传说里。主角在这里第一次感到"不对劲"——一枚温泉煮蛋、一句老猎户的闲话、一张被风刮出垃圾桶的旧地图。</p>
+    </div>
+
+    <!-- 交通动线 -->
+    <div class="dim-block">
+      <h3><span class="icon">交</span>交通动线</h3>
+      <h4>大交通：如何抵达</h4>
+      <ul>
+        <li><strong>方案A · 飞机（最快）：</strong>北京/长春 → 长白山机场（NBS），机场位于松江河镇，距西坡集散中心约 16km/20 分钟。机场至二道白河（北坡基地）约 60km，大巴或包车 1.5 小时。</li>
+        <li><strong>方案B · 高铁（性价比最高）：</strong>长春 → 敦化站（沈佳高铁），约 1.5-2 小时；敦化 → 二道白河客运大巴约 1.5 小时。或直达新建"长白山站"，距二道白河更近。</li>
+        <li><strong>方案C · 自驾（灵活度最高）：</strong>长春 → 抚长高速 → 营松公路 → 二道白河，全程约 420km / 4.5-5 小时。适合携带大量装备的"探险队"设定。</li>
+      </ul>
+
+      <h4>北坡一日动线（以二道白河为基地）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">上午 08:00</span>
+          <div class="tl-title">二道白河镇 → 北景区集散中心</div>
+          <div class="tl-desc">车程约 20 分钟。集散中心换乘绿色环保大巴进山。沿途可见白桦林带向针阔混交林过渡，海拔爬升明显。<span class="tl-tag">叙事窗口：主角与向导初次对话</span></div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 08:40</span>
+          <div class="tl-title">聚龙温泉群</div>
+          <div class="tl-desc">地表蒸汽从裂缝中嘶嘶冒出，硫磺味弥漫。温泉煮鸡蛋摊位一字排开，蛋清呈果冻状半凝固。地面踩上去温热，有些地方烫脚——主角需要小心选择落脚点。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 09:00</span>
+          <div class="tl-title">长白瀑布</div>
+          <div class="tl-desc">乘环保车 5 分钟抵达。落差 68 米的白练倒挂，水声如雷。瀑布下方黑龙潭水深莫测，传说有蛟龙潜藏。岩石因含硫呈赭红色，与白色水流形成强烈对比。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 09:40</span>
+          <div class="tl-title">换乘倒站车 → 天池主峰</div>
+          <div class="tl-desc">奔驰 G 级/路虎越野，盘山 20 分钟。海拔从 1800m 飙升至 2400m+，植被从岳桦林骤变为苔原。山风骤烈，气温骤降——"一山有四季"在此刻具象化。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 10:00-11:30</span>
+          <div class="tl-title">天池北坡观景台（天文峰）</div>
+          <div class="tl-desc">俯视角度最佳，经典明信片机位。一年中约三分之二时间被浓雾遮蔽，能否看到天池全貌全凭运气——"一见天池，终身幸运"。小说中可设计主角第一次上山即遇大雾，什么也没看到，却听到雾中传来某种异响。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">下午 12:30-15:00</span>
+          <div class="tl-title">小天池 → 绿渊潭 → 地下森林</div>
+          <div class="tl-desc">小天池（银环湖）无入水口也无出水口，水位却常年稳定；对环湖时常"消失"又"出现"，被称为"会隐身的湖"。绿渊潭水色随光线变化——清晨墨绿、正午翠绿、傍晚碧蓝。地下森林谷深 50-60 米，倒木横陈、苔藓覆盖如绿绒毯，有"另一个世界"的异度空间感。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">下午 16:00</span>
+          <div class="tl-title">返回二道白河镇</div>
+          <div class="tl-desc">环保车下山。镇上晚餐、温泉酒店复盘线索。<span class="tl-tag">叙事窗口：首日"不对劲"的细节拼图开始浮现</span></div>
+        </div>
+      </div>
+
+      <h4>西坡一日动线（以松江河为基地）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">上午 08:30</span>
+          <div class="tl-title">松江河/万达 → 西坡集散中心</div>
+          <div class="tl-desc">车程 15 分钟。环保车盘山约 30 分钟至天池登顶起点。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 09:30-10:15</span>
+          <div class="tl-title">攀登 1442 级台阶 → 天池西坡观景台</div>
+          <div class="tl-desc">视野最开阔，可拍到天池全貌与倒影。台阶两侧为高山苔原带，7 月花海盛放。登顶时气喘如牛——海拔 2000m+ 空气含氧量约为平原 85%。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 11:00</span>
+          <div class="tl-title">锦江大峡谷</div>
+          <div class="tl-desc">全长约 14 公里，谷深百余米。火山岩柱状节理风化后形成各种拟形——如骆驼、如雄鹰、如人脸，当地人称为"石头说话"。谷底锦江奔流，至今未完全开发，深处仍人迹罕至。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">下午 13:30</span>
+          <div class="tl-title">高山花园 + 老虎背</div>
+          <div class="tl-desc">海拔 2000m 以上苔原带，每年 7 月数百种高山植物矮化贴地绽放，花海面积达数十平方公里。苔原植物生长极慢，一株手掌大的高山罂粟可能已生长百年——踩踏即毁，数十年难以恢复。老虎背山脊宽仅数米，两侧云雾翻涌如海。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 风光地标 -->
+    <div class="dim-block">
+      <h3><span class="icon">景</span>沿途风光地标</h3>
+      <div class="landmark-grid">
+        <div class="landmark-card">
+          <h4>长白山天池</h4>
+          <div class="meta">海拔 2189.1m · 面积 9.82km² · 最深 373m</div>
+          <p>中国最大、最深的火山口湖，湖水湛蓝如宝石镶嵌于十六座火山锥体之间。仅在每年 6-10 月间短暂解冻。天池北侧唯一缺口流出乘槎河，水位常年不降不溢——可作为"天池之秘"的核心悬念。</p>
+          <div class="hint">悬念钩子：储水量约 20 亿立方米，相当于一百个西湖，却只有一个出水口</div>
+        </div>
+        <div class="landmark-card">
+          <h4>长白瀑布 + 黑龙潭</h4>
+          <div class="meta">落差 68m · 乘槎河末端</div>
+          <p>乘槎河流经 1250 米后跌落断崖形成瀑布。"乘槎"意为乘木筏上天，源自张骞乘槎寻河源典故。瀑布下方黑龙潭水深莫测，传说有蛟龙潜藏。</p>
+          <div class="hint">小说道具：含硫岩石呈赭红色，与白色水流形成视觉冲击</div>
+        </div>
+        <div class="landmark-card">
+          <h4>地下森林（谷底林海）</h4>
+          <div class="meta">北坡约 50km · 谷深 50-60m</div>
+          <p>火山喷发后地壳塌陷形成。谷底生长着百年以上原始针阔混交林，雾气缭绕，有"另一个世界"的异度空间感。谷底曾发现过珍稀植物人参的原生种，采参人偶尔出没。</p>
+          <div class="hint">场景灵感：倒木横陈、苔藓如毯、鼯鼠滑翔飞过树冠</div>
+        </div>
+        <div class="landmark-card">
+          <h4>绿渊潭</h4>
+          <div class="meta">北坡岳桦林带内 · 深约十余米</div>
+          <p>山体滑坡形成的堰塞湖，碧绿如翡翠。潭水颜色随光线变化——清晨墨绿、正午翠绿、傍晚碧蓝。潭中发现过透明的钩虾，通体晶莹，是极地冰遗物种。潭底水温常年 4℃。</p>
+          <div class="hint">神秘生物线索：极地冰遗物种为何出现在此？</div>
+        </div>
+        <div class="landmark-card">
+          <h4>小天池（银环湖）</h4>
+          <div class="meta">瀑布上方约 3km · 一对圆形火山口湖</div>
+          <p>大湖银环湖水碧绿，小湖对环湖时常干涸。两湖无入水口也无出水口，水位却常年稳定，形成原因至今尚有争议。对环湖"会隐身"的特性，是天然的神秘事件素材。曾是《雪山飞狐》外景地。</p>
+          <div class="hint">传说钩子：附近药王谷遗址，古时采药人常在此熬制汤药</div>
+        </div>
+        <div class="landmark-card">
+          <h4>高山花园 + 老虎背</h4>
+          <div class="meta">西坡海拔 2000m+ · 7 月盛放</div>
+          <p>数百种高山植物矮化生长贴地绽放，花海面积数十平方公里，仅持续约一个月。老虎背山脊宽仅数米，两侧陡峭，云雾翻涌如海，行走其上有"腾云驾雾"之感。曾发现过冰雪中绽放的"冰凌花"。</p>
+          <div class="hint">剧情张力：海拔 2000m 以上天气瞬变，前一刻花海绚烂，下一刻风雪骤至</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 小众秘境 -->
+    <div class="dim-block">
+      <h3><span class="icon">秘</span>小众秘境（明线可触达）</h3>
+      <div class="landmark-grid">
+        <div class="landmark-card">
+          <h4>奶头河源头秘境</h4>
+          <div class="meta">二道白河东南约 30km</div>
+          <p>河水含大量矿物质呈乳白色，源头为隐秘涌泉，水色随矿质浓度变化呈现奶蓝、乳白、浅碧等色。河床有大量矿化沉积物，形如白色梯田。涌泉终年不冻，冬季水汽蒸腾如温泉。</p>
+          <div class="hint">传说素材：当地猎户称此泉为"奶泉"，传说是山神的乳汁所化</div>
+        </div>
+        <div class="landmark-card">
+          <h4>锦江温泉群（野温泉）</h4>
+          <div class="meta">西坡锦江大峡谷上游</div>
+          <p>散布于密林中的天然温泉眼数十处，温度从 40℃ 到 80℃ 不等。最奇特的是一处"双色泉"——泉眼一半出热水一半出冷水，泾渭分明。有泉眼会"呼吸"，每隔数分钟喷发一次热水柱。</p>
+          <div class="hint">真实危险：温泉眼附近地表极薄，踩破会陷入滚烫泥浆</div>
+        </div>
+        <div class="landmark-card">
+          <h4>西坡高山暗夜保护区</h4>
+          <div class="meta">西坡苔原带夜间</div>
+          <p>中国北方最佳观星点之一，夏季晴夜可见银河横贯天际。冬季极寒之夜可看到气辉与极光边缘的微红色光带。曾有观测者在此拍到罕见的"红色精灵"闪电（高层大气放电现象）。山上无任何信号与照明。</p>
+          <div class="hint">剧情道具：完全黑暗中容易产生方向感丧失</div>
+        </div>
+        <div class="landmark-card">
+          <h4>圆池（天女浴躬池）</h4>
+          <div class="meta">长白山东侧布库里山下 · 直径约 180m</div>
+          <p>满族发祥传说中"三仙女浴躬"的地点。池水浅而静，无风时可如镜面般倒映整片天空，被称为"天镜"。池中无鱼，池边偶见梅花鹿饮水。附近布库里山有"三仙女碑"。</p>
+          <div class="hint">神话钩子：池底沉积物呈黑色，传说为仙女衣裳褪色所致</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 食宿建议 -->
+    <div class="dim-block">
+      <h3><span class="icon">宿</span>食宿建议</h3>
+      <h4>高品质住宿</h4>
+      <table class="stay-table">
+        <thead><tr><th>住宿</th><th>位置</th><th>特色</th><th>均价（旺季）</th></tr></thead>
+        <tbody>
+          <tr><td>长白山皇冠假日酒店 ★★★★★</td><td>二道白河，距山门 35km</td><td>引聚龙真温泉水，大堂可远眺主峰，冬季落地窗外即林海雪原</td><td>1200-1800 元/晚</td></tr>
+          <tr><td>长白山王朝圣地酒店 ★★★★</td><td>二道白河镇中心</td><td>融入朝鲜族元素与满族文化符号，附属朝鲜族料理口碑极好</td><td>600-900 元/晚</td></tr>
+          <tr><td>朝鲜族特色民宿（多家）</td><td>二道白河朝鲜族村落</td><td>传统民居改建，火炕房间，院内泡菜缸阵列，房东多为朝鲜族阿迈</td><td>200-400 元/晚</td></tr>
+        </tbody>
+      </table>
+
+      <h4>必尝美食</h4>
+      <table class="food-table">
+        <thead><tr><th>美食</th><th>说明</th><th>人均参考</th></tr></thead>
+        <tbody>
+          <tr><td>聚龙温泉煮鸡蛋</td><td>天然温泉地热慢煮，蛋清呈果冻状半凝固，带淡淡硫磺味</td><td>10 元/个</td></tr>
+          <tr><td>冷面（延吉顺姬）</td><td>荞麦面牛骨汤底冰镇，配泡菜、梨片、牛肉片。碗边挂着冰碴</td><td>40-60 元</td></tr>
+          <tr><td>石锅拌饭（全州）</td><td>石锅滚烫，米饭锅巴焦香，上桌时滋滋作响</td><td>50-70 元</td></tr>
+          <tr><td>铁锅炖（松福家常菜）</td><td>大铁锅柴火灶，锅边贴玉米饼子，一面浸汤汁一面焦脆</td><td>60-90 元</td></tr>
+          <tr><td>朝鲜族米酒（马格利）</td><td>乳白色微浊，甜中带酸，酒精度低，铁壶盛装</td><td>20-40 元/壶</td></tr>
+          <tr><td>山珍野生菌火锅</td><td>松茸土鸡锅、猴头菇排骨锅，当季鲜菌直接入锅</td><td>100-150 元</td></tr>
+        </tbody>
+      </table>
+
+      <div class="scene-box">
+        主角住在火炕上，凌晨被炕烫醒；房东阿迈端来一碗米酒暖身。院子里泡菜缸被风吹倒、酸菜汤汁流了一地的混乱场景——墙上挂的朝鲜族服饰老照片中似乎藏着线索。晚餐在松福家常菜馆，大铁锅端上来咕嘟冒泡，锅边贴一圈玉米饼子。隔壁桌的退休护林员喝多了，开始念叨"老黑山方向"三十年前那桩失踪案。
+      </div>
+    </div>
+
+    <!-- 民间传说 -->
+    <div class="dim-block">
+      <h3><span class="icon">传</span>民间传说与历史背景</h3>
+      <h4>天池水怪之谜</h4>
+      <p>目击记录可追溯至清末。1903 年《长白山江岗志略》记载："有猎者四人至天池，见池中有一物浮出水面，金黄色，首大如盎，方顶有角，长颈多须，似龙非龙。"此后近百年间目击频发：1962 年多人目击巨大生物翻腾；1980 年气象局工作人员用望远镜观察到"水怪"露头；2013 年游客拍摄到水面不明移动物体视频。科学推测众说纷纭——水獭群体？天池水温常年 4-10℃ 大型生物难以生存？但天池深度达 373 米且连通地下暗河系统，理论上可能存在未知生态。</p>
+      <div class="scene-box">
+        水怪只在特定天气条件下出现——可设定触发条件（气压骤降、月相变化、特定日期）。天池与地下暗河连通的设定可引出"地下世界"的探险线。
+      </div>
+
+      <h4>老把头传说（采参祖师爷）</h4>
+      <p>明朝末年，山东人孙良为寻兄弟孤身入长白山采参，迷路后靠吃蝲蛄维持生命，最终饿死在大树下。临终前用血在树干上写下遗书，后人尊他为"老把头"。长白山北坡现存"老把头墓"遗址。采参人有"喊山"传统——发现人参时大喊"棒槌！"，把头回应"几匹叶？"（询问叶片数定年份）。放山人深信"参有灵"，传说老参会遁地逃走，需系红线栓住。</p>
+
+      <h4>天池守水传说</h4>
+      <p>天池水只从一个缺口流出（乘槎河口），水位却常年不涨不降，古人不解其理，认为是"天神守水"。传说池底有一条通道直通东海，有龙族驻守调节水量。也有传说称天池是天宫"照妖镜"碎片落入人间所化。天池作为火山口湖的"不安定"本质——休眠火山随时可能苏醒——可作为大背景危机。</p>
+
+      <h4>长白山方士传说——不老泉与千年参王</h4>
+      <p>道家典籍记载长白山有"不老泉"，饮之可延年益寿。传说山中生长着一株千年人参王，化为人形行走山林，凡人若能得见便可得长生。历代帝王（包括清乾隆帝）都曾派人进山寻找。方士们相信长白山是"龙脉之源"，天池为"龙眼"，山体为"龙脊"。</p>
+    </div>
+
+    <!-- 风险点 -->
+    <div class="dim-block">
+      <h3><span class="icon">险</span>探险风险点</h3>
+      <div class="risk-list">
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>天气突变</h5>
+            <p>天池区域年均雾日达 260 余天，年均大风日数可达 270 天。1 小时内可经历四季变化。夏季雷暴频繁，山顶无遮蔽物，雷击风险极高。"白毛风"可使能见度降至 0。<br/>小说场景：前一刻晴空万里，下一刻浓雾袭来完全无法视物；盛夏山顶突然降雪，衣着单薄的角色面临失温；雷暴中山顶金属栏杆带电，产生诡异声响。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>地热裂隙与硫磺区</h5>
+            <p>长白瀑布北侧、锦江温泉群等多处地热区，地表存在大量被薄层植被覆盖的裂隙。地热区地表温度可达 80-95℃，硫化氢气体在低洼处聚集可致人昏迷。淡黄色（硫磺沉积）或砖红色（铁矿化）地表是危险标志。<br/>小说场景：角色在雾中行进，踩破地表陷入滚烫泥潭；硫磺气味突然变浓暗示进入危险地带。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★☆☆</span>
+          <div>
+            <h5>高山反应</h5>
+            <p>虽海拔不算极高，但因纬度靠北、气压较低，部分人群会出现头痛、恶心、呼吸困难。天池区域空气含氧量约为平原 85%，携重物攀爬时反应更明显。<br/>小说场景：高反加降温致判断力下降，做出错误决策。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 路线二 ============ -->
+<div class="route-section route2" id="route2">
+  <div class="route-inner">
+    <div class="route-banner">
+      <div class="drama">贰 · 暗线 · 深化</div>
+      <h2>非主流路线：南坡 + 边境支线</h2>
+      <p>当游客散去，山才露出它真正的脊背。南坡开发最晚、限流最严，门户是隔鸭绿江与朝鲜相望的长白县。这里有边境的紧张、十五道沟的玄武岩石林、老黑山的磁场异常——主角在这里发现，长白山的秘密比想象中更深、更暗、更接近某种被刻意掩埋的真相。</p>
+    </div>
+
+    <!-- 交通动线 -->
+    <div class="dim-block">
+      <h3><span class="icon">交</span>交通动线</h3>
+      <h4>大交通</h4>
+      <ul>
+        <li><strong>方案A · 自驾（推荐）：</strong>长春 → 营松高速 → 桦甸 → 白山 → 临江 → 长白县，全程约 600km / 8-9 小时。沿鸭绿江上游行驶，边境风光极佳。山路多，建议分段行驶。</li>
+        <li><strong>方案B · 飞机+包车：</strong>长春/北京 → 长白山机场，包车约 3 小时（180km 山路）至长白县。</li>
+        <li><strong>方案C · 火车+大巴：</strong>长春 → 白山市（普速列车），白山 → 长白县客运大巴约 5 小时。</li>
+      </ul>
+
+      <h4>南坡一日动线</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">上午 07:00</span>
+          <div class="tl-title">长白县出发 → 南景区入口</div>
+          <div class="tl-desc">自驾/包车约 1.5 小时（70km 山路）。山路弯多易晕车。沿途可见鸭绿江支流与朝鲜族村落。<span class="tl-tag">叙事窗口：边境氛围逐渐浓厚</span></div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 09:00</span>
+          <div class="tl-title">环保车 → 天池南坡观景台</div>
+          <div class="tl-desc">盘山约 40 分钟。南坡是距天池水面最近、视角最全的观景点，可俯瞰天池全貌与朝鲜侧将军峰。游客最少，日均限流约 1500-2000 人。<span class="tl-tag">小说关键场景：主角首次清晰看到天池全貌——或某种不该看到的东西</span></div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">上午 11:00</span>
+          <div class="tl-title">鸭绿江大峡谷</div>
+          <div class="tl-desc">环保车抵达。峡谷深邃，可眺望朝鲜境内山体。源头处有一块界碑，是中朝边界起点，石碑上弹痕累累（历史遗留）。附近发现过日占时期的老式电话线杆，还残存在树丛中。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">下午 13:00</span>
+          <div class="tl-title">炭化木遗迹</div>
+          <div class="tl-desc">罕见火山喷发遗迹，千年炭化木矗立如黑色墓碑。穿越岳桦林带与高山苔原带返回。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">下午 16:00</span>
+          <div class="tl-title">返回长白县</div>
+          <div class="tl-desc">傍晚沿鸭绿江散步，隔江可望见对岸朝鲜村庄的灯火。夜间可听到对面朝鲜境内的犬吠声，边境氛围浓厚。</div>
+        </div>
+      </div>
+
+      <h4>绕行小道（三条支线）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">支线 A</span>
+          <div class="tl-title">望天鹅 · 十五道沟（火山地质秘境）</div>
+          <div class="tl-desc">长白县 → 望天鹅火山地质公园，自驾约 1 小时（50km）。玄武岩柱状节理形成的"石林"蔚为壮观，最有名的是"珍珠帘瀑布"。沟内深处有猎人废弃的石屋，墙角还留有兽夹与陈旧火药。传说十五道沟曾是东北虎栖息地，至今偶有虎踪传闻。<span class="tl-tag">场景灵感：柱状节理形如无数巨型琴键，雨水沿节理流下形成天然"水琴"</span></div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">支线 B</span>
+          <div class="tl-title">鸭绿江边境公路（G331）</div>
+          <div class="tl-desc">长白县沿 G331 至二十三道沟/南尖头。对岸即朝鲜，边境风情浓郁。夜间对岸哨所探照灯扫过江面。适合小说中"边境线"场景——主角在雾中误越边境，陷入外交与生存双重困境。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">支线 C</span>
+          <div class="tl-title">漫江-锦江-老黑山小道（猎户/护林员私藏路线）</div>
+          <div class="tl-desc">长白县 → 漫江镇 → 锦江村 → 老黑山（未开发观景台）→ 远眺天池南侧。完全避开常规游客路线，穿越林场小道。老黑山是当地猎户、护林员口耳相传的天池观景点。山路约 4 小时越野。<span class="tl-tag">核心剧情道具：老黑山磁场异常——指南针疯狂旋转、电子设备失灵</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 风光地标 -->
+    <div class="dim-block">
+      <h3><span class="icon">景</span>沿途风光地标</h3>
+      <div class="landmark-grid">
+        <div class="landmark-card">
+          <h4>天池南坡观景台</h4>
+          <div class="meta">距天池水面最近 · 视角最全</div>
+          <p>可俯瞰天池全貌与朝鲜侧将军峰（海拔 2749m，位于朝鲜境内）。南坡天池视角可见鸭绿江发源地——天池南侧缺口流出的水形成乘槎河，最终汇入鸭绿江。此处可眺望朝鲜境内山体。</p>
+          <div class="hint">剧情张力：夜间可听到对面朝鲜境内的犬吠声</div>
+        </div>
+        <div class="landmark-card">
+          <h4>鸭绿江大峡谷</h4>
+          <div class="meta">中朝边境 · 界碑起点</div>
+          <p>源头处有一块界碑，是中朝边界起点，石碑上弹痕累累（历史遗留）。附近发现过日占时期的老式电话线杆，还残存在树丛中。夜间可听到对面朝鲜境内的犬吠声，边境氛围浓厚。</p>
+          <div class="hint">悬疑道具：发现非法越境者遗留的物品——暗示有第三方势力介入</div>
+        </div>
+        <div class="landmark-card">
+          <h4>炭化木遗迹</h4>
+          <div class="meta">千年火山喷发遗迹</div>
+          <p>罕见的火山喷发形成的完整炭化木，矗立如黑色墓碑。是长白山最近一次喷发（约 1702 年）的直接见证。穿越岳桦林带与高山苔原带抵达。</p>
+          <div class="hint">历史钩子：火山"休眠"的假象——"随时可能苏醒"的大背景危机</div>
+        </div>
+        <div class="landmark-card">
+          <h4>十五道沟（望天鹅）</h4>
+          <div class="meta">距天池约 120km · 玄武岩石林</div>
+          <p>火山地质奇观区域，玄武岩柱状节理形成的"石林"蔚为壮观。"珍珠帘瀑布"从数十米高的柱状节理面倾泻而下。秋季红叶与灰色石柱交相辉映。位置偏远，游客稀少，保持原始风貌。</p>
+          <div class="hint">传说素材：传说十五道沟曾是东北虎栖息地，至今偶有虎踪传闻</div>
+        </div>
+        <div class="landmark-card">
+          <h4>鸭绿江源头无人区</h4>
+          <div class="meta">南坡至鸭绿江源头</div>
+          <p>原始森林与高山苔原交界带，林木苍郁，人迹罕至。从南坡天池视角可见鸭绿江发源地——天池南侧缺口流出的水形成乘槎河，最终汇入鸭绿江。</p>
+          <div class="hint">悬疑钩子：界碑上弹痕累累，日占时期电话线杆残存——历史遗留的层层谜团</div>
+        </div>
+        <div class="landmark-card">
+          <h4>老黑山（未开发观景台）</h4>
+          <div class="meta">漫江-锦江方向 · 猎户口耳相传</div>
+          <p>当地猎户、护林员口耳相传的天池观景点。人迹罕至，植被异常茂密，磁场异常导致指南针失灵。山中有"火烧地"——土壤温度异常高，冬季积雪即化。</p>
+          <div class="hint">核心悬疑：民国时期一队勘测人员进入后集体失踪，只留下一个写满乱码的笔记本</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 小众秘境 -->
+    <div class="dim-block">
+      <h3><span class="icon">秘</span>小众秘境</h3>
+      <div class="landmark-grid">
+        <div class="landmark-card">
+          <h4>地下暗河（潜流河）</h4>
+          <div class="meta">圆池至天池间地下</div>
+          <p>长白山熔岩台地下存在多条暗河，地表不见水流但可闻地下水轰鸣。最著名一段位于圆池下方约 80 米深处，暗河奔腾数公里后从断崖涌出形成涌泉。至今无人完整探查过暗河全程。</p>
+          <div class="hint">小说扩展：暗河出口处偶尔冲出白色盲鱼，通体透明无眼</div>
+        </div>
+        <div class="landmark-card">
+          <h4>十五道沟猎人废弃石屋</h4>
+          <div class="meta">望天鹅沟内深处</div>
+          <p>沟内深处有猎人废弃的石屋，墙角还留有兽夹与陈旧火药。柱状节理形如无数巨型琴键，雨水沿节理流下形成天然"水琴"。</p>
+          <div class="hint">道具灵感：石屋墙上的炭笔涂鸦——上一批来客留下的信息</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 食宿 -->
+    <div class="dim-block">
+      <h3><span class="icon">宿</span>食宿建议</h3>
+      <h4>住宿</h4>
+      <table class="stay-table">
+        <thead><tr><th>住宿</th><th>位置</th><th>特色</th><th>均价</th></tr></thead>
+        <tbody>
+          <tr><td>鸭绿江畔朝鲜族家庭旅馆</td><td>长白县城鸭绿江沿岸</td><td>隔江可望见对岸朝鲜村庄灯火，夜有哨所探照灯扫过江面。房东为朝鲜族，部分房间窗户正对江面</td><td>150-280 元/晚</td></tr>
+          <tr><td>十五道沟山间营地</td><td>望天鹅景区周边</td><td>非正式露营点，需自带帐篷。水源取自山溪，夏夜温度可至 5-10℃</td><td>场地免费</td></tr>
+          <tr><td>横山林业检查站（可借宿）</td><td>南坡方向山路岔口</td><td>铁架床、煤炉取暖、搪瓷缸喝热水。深入南坡腹地前最后的补给点</td><td>协商</td></tr>
+        </tbody>
+      </table>
+      <div class="scene-box">
+        主角在检查站借宿，与护林员围炉夜话，获得一张手绘的"老路图"。煤炉上烤着的馒头片和搪瓷缸里的粗茶——细节真实感拉满。护林员压低声音："老黑山那片……我们巡山都绕着走。"
+      </div>
+
+      <h4>美食</h4>
+      <table class="food-table">
+        <thead><tr><th>美食</th><th>说明</th><th>人均参考</th></tr></thead>
+        <tbody>
+          <tr><td>明太鱼汤（鸭绿江朝鲜族饭店）</td><td>明太鱼是朝鲜族经典食材，可做汤、可晾干撕食。菜品偏朝鲜本土风味</td><td>50-80 元</td></tr>
+          <tr><td>辣炖安康鱼</td><td>朝鲜族特色，辣中带鲜，配米饭极佳</td><td>50-80 元</td></tr>
+          <tr><td>朝鲜族烤五花肉</td><td>配辣白菜与生菜包裹，铁板滋滋作响</td><td>50-80 元</td></tr>
+        </tbody>
+      </table>
+      <div class="scene-box">
+        主角一边吃着明太鱼汤，一边望向窗外漆黑的鸭绿江面——餐桌上平静与暗流涌动并存。对岸灯光骤灭，随后传来异响。
+      </div>
+    </div>
+
+    <!-- 传说 -->
+    <div class="dim-block">
+      <h3><span class="icon">传</span>民间传说与历史背景</h3>
+      <h4>老黑山神秘事件</h4>
+      <p>老黑山位于长白山火山群中，是一座休眠火山（有学者认为是活火山）。人迹罕至，植被异常茂密，磁场异常导致指南针失灵。当地猎户流传着诸多离奇失踪事件：进入后指南针会疯狂旋转，电子设备频繁失灵；山中有"火烧地"——土壤温度异常高，冬季积雪即化；传说民国时期一队勘测人员进入老黑山后集体失踪，只留下一个写满乱码的笔记本；2002 年前后，有驴友报告在老黑山深处见到"整齐排列的石头阵"，疑为人为摆放，但位置极偏。</p>
+      <div class="scene-box">
+        失踪勘测队的笔记本可作为关键线索道具；火山地热异常区可作为"能量场"设定的现实基础；磁场异常可制造"通讯中断、迷失方向"的真实困境。
+      </div>
+
+      <h4>满族发祥传说——三仙女吞朱果</h4>
+      <p>相传远古时代，长白山布库里山下有布库里湖（即圆池）。天上三位仙女恩古伦、正古伦、佛库伦下凡沐浴。一只神鹊衔着一颗朱果飞过，将朱果放在最年轻的仙女佛库伦衣上。佛库伦吞下朱果遂有孕，生下男孩布库里雍顺，即为满族始祖。佛库伦乘风云返回天界，布库里雍顺则乘小舟顺松花江而下，建立部落，繁衍出后来的满族。</p>
+      <div class="scene-box">
+        可作为"血脉觉醒"设定的历史根源——主角发现自己体内流淌着始祖血脉；朱果可设定为某种神秘宝物或能量载体。
+      </div>
+
+      <h4>东北虎与山神信仰</h4>
+      <p>满族先民视东北虎为"山神爷"，进山狩猎绝不能猎虎，遇到虎则视为"山神考验"。传说中虎能化人形，行走于密林。长白山区至今流传"虎报恩"故事——猎人救助幼虎后，日后遭遇危难时被虎所救。</p>
+    </div>
+
+    <!-- 风险点 -->
+    <div class="dim-block">
+      <h3><span class="icon">险</span>探险风险点</h3>
+      <div class="risk-list">
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>原始密林迷失</h5>
+            <p>地下森林周边、锦江峡谷深处、老黑山区域。原始针阔混交林密度极高，进入后方向感迅速丧失。山区磁场异常（火山岩富含磁铁矿），指南针偏差可达 10-30 度。GPS 信号不稳定，手机无信号。倒木与灌木形成天然迷宫，雾气可在数分钟内涌起，能见度骤降至 5 米以下。<br/>小说场景：角色进入密林后发现标记的树已经在面前出现过——暗示原地打转；林中突然鸦雀无声，所有鸟鸣虫声消失——暗示大型猛兽靠近。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★☆</span>
+          <div>
+            <h5>边境风险</h5>
+            <p>南坡、鸭绿江沿岸。越境属违法行为，可能引发外交事件。边境地区有边防巡逻，误入禁区会被拘留审查。朝方一侧偶有武装人员活动。鸭绿江部分界碑位置因地形复杂而难以辨认。<br/>小说场景：角色在雾中误越边境，陷入外交与生存双重困境；夜间对岸传来枪声与犬吠，气氛紧张。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★☆</span>
+          <div>
+            <h5>野生动物威胁</h5>
+            <p>全山域。东北虎（极罕见但存在）、黑熊（秋季觅食期攻击性较强）、野猪（带幼崽的母猪攻击性极强）、蝮蛇（林中岩石旁常见）。<br/>小说场景：黑熊站立树后，角色与巨兽对视；惊动蜂群后疯狂奔逃导致迷失方向；被蝮蛇咬伤，同伴需在数小时内找到解药或下山就医。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 路线三 ============ -->
+<div class="route-section route3" id="route3">
+  <div class="route-inner">
+    <div class="route-banner">
+      <div class="drama">叁 · 高潮 · 生死</div>
+      <h2>探险路线：原始林 + 火山口</h2>
+      <p>保护区核心区——地图上没有路的地方，才是故事。这条线实际禁止普通人进入，小说中可作为探险队、护林员、科研人员的虚构行动轨迹。从白河林场出发，穿越原始红松林，攀爬火山渣堆，接近天池水面边缘的火山岩平台。全程无信号、无道路、无救援——每一个决定都可能成为最后一个。</p>
+    </div>
+
+    <!-- 交通动线 -->
+    <div class="dim-block">
+      <h3><span class="icon">交</span>交通动线（三段递进）</h3>
+
+      <h4>段一：原始森林穿越（预热段）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">Day 1 上午</span>
+          <div class="tl-title">白河林场出发</div>
+          <div class="tl-desc">二道白河镇外围白河林场/红松王景区。沿红松阔叶混交林小径向北。海拔从约 700m 渐升至 1200m，穿越针阔混交林带。行进 8-10km 后进入原始红松林（树龄 200-400 年，胸径可达 1m）。<span class="tl-tag">场景灵感：树冠遮天蔽日，方向感迅速丧失，GPS 信号弱</span></div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">Day 1 下午</span>
+          <div class="tl-title">渡二道白河支流 → 岳桦林带</div>
+          <div class="tl-desc">涉水或简易木桥渡河。沿河谷向山体方向攀升，进入岳桦林带（海拔 1600-1800m）。岳桦矮化弯曲，形态诡异如挣扎的人形。夜间林中扎营。<span class="tl-tag">场景灵感：帐篷外传来大型动物踩断枯枝的声响</span></div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">Day 2 上午</span>
+          <div class="tl-title">抵达聚龙泉上游温泉群外围</div>
+          <div class="tl-desc">地热活动区，地面温度升高，硫磺味渐浓。地表色彩斑斓如调色盘，硫化氢气味浓烈处出现嗜热菌膜，呈彩色薄膜状，疑似外星生命形态。<span class="tl-tag">真实危险：温泉眼附近地表极薄，踩破会陷入滚烫泥浆</span></div>
+        </div>
+      </div>
+
+      <h4>段二：火山口腹地接近（高潮段）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">Day 2 下午</span>
+          <div class="tl-title">火山岩碎石坡攀升</div>
+          <div class="tl-desc">从地热区沿火山岩碎石坡向上（无明确路径）。海拔 1800m → 2000m，进入高山苔原带，植被低矮贴地。2000m → 2200m，穿越火山渣堆（灰黑色多孔玄武岩，松散易滑）。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-time">Day 2 傍晚</span>
+          <div class="tl-title">接近天池北侧岩壁</div>
+          <div class="tl-desc">海拔约 2400m，可见天池水面。沿岩壁侧面寻找可攀爬裂隙（小说中可设计为"老黑山裂隙"）。到达天池水面边缘的火山岩平台（实际禁止进入）。<span class="tl-tag">小说高潮场景：主角终于到达"地图上不存在的地方"</span></div>
+        </div>
+      </div>
+
+      <h4>段三：天池暗流探秘（可选延伸 · 悬疑/解谜）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">Day 3</span>
+          <div class="tl-title">天池出水口 → 乘槎河 → 长白瀑布 → 聚龙泉暗河口</div>
+          <div class="tl-desc">天池北侧龙门峰与天豁峰之间，天池唯一出水口。沿乘槎河下行约 1km 至长白瀑布（落差 68m）。瀑布下方为聚龙泉群（温泉与冷水交汇）。可探查地下温泉暗河入口（小说中可虚构地下溶洞/暗河系统）。<span class="tl-tag">终极悬念：暗河出口处偶尔冲出白色盲鱼，通体透明无眼</span></div>
+        </div>
+      </div>
+
+      <h4>备选冬季动线（更具戏剧张力）</h4>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="tl-time">1-2月</span>
+          <div class="tl-title">松江河 → 天池冰面（虚构特许）→ 返回</div>
+          <div class="tl-desc">雪地摩托沿盘山路上至天池西坡观景台。下台阶至天池冰面（实际禁止，小说可虚构特许科考）。天池冰面徒步穿越至湖心（冰层厚约 1-3m）。湖心可见冰裂纹、冰气泡、火山口地形。遭遇暴风雪（小说冲突点）。<span class="tl-tag">生死场景：冰面裂缝中透出幽蓝光芒——暗示下方仍有液态水与未知</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 风光地标 -->
+    <div class="dim-block">
+      <h3><span class="icon">景</span>沿途风光地标</h3>
+      <div class="landmark-grid">
+        <div class="landmark-card">
+          <h4>原始红松林</h4>
+          <div class="meta">海拔 1100-1500m · 树龄 200-400 年</div>
+          <p>胸径可达 1 米的原始红松林，树冠遮天蔽日。红松籽是长白山特产，也是探险者最佳热量来源。林中湿气重，雾气可在数分钟内涌起。</p>
+          <div class="hint">场景灵感：倒木横陈形成天然迷宫，容易在原地打转</div>
+        </div>
+        <div class="landmark-card">
+          <h4>聚龙泉上游地热区</h4>
+          <div class="meta">海拔 1800m 附近 · 硫磺气味浓烈</div>
+          <p>地表色彩斑斓如调色盘，硫化氢气味浓烈处出现嗜热菌膜，呈彩色薄膜状，疑似外星生命形态。有泉眼会"呼吸"——每隔数分钟喷发一次热水柱。</p>
+          <div class="hint">真实危险：地表极薄，踩破会陷入滚烫泥浆</div>
+        </div>
+        <div class="landmark-card">
+          <h4>火山渣堆</h4>
+          <div class="meta">海拔 2000-2200m · 灰黑色多孔玄武岩</div>
+          <p>松散易滑的灰黑色多孔玄武岩碎石坡，每一步都在下滑。无植被覆盖，完全暴露于风中日晒。海拔 2000m 以上空气含氧量约为平原 85%。</p>
+          <div class="hint">动作场景：碎石松散，极易滑坠，同伴坠崖的危机点</div>
+        </div>
+        <div class="landmark-card">
+          <h4>天池水面边缘火山岩平台</h4>
+          <div class="meta">海拔约 2400m · 实际禁止进入</div>
+          <p>天池北侧岩壁下方的火山岩平台，可零距离接触天池水面。冬季冰面厚度可达 1 米以上，但存在压力裂缝（冰裂纹）。冰面裂缝中透出幽蓝光芒。</p>
+          <div class="hint">终极场景：主角与天池水面面对面——或与水怪面对面</div>
+        </div>
+        <div class="landmark-card">
+          <h4>乘槎河 + 长白瀑布暗河口</h4>
+          <div class="meta">天池唯一出水口 · 流程 1.25km</div>
+          <p>世界上流程最短的河流之一。"乘槎"意为乘木筏上天。瀑布下方黑龙潭传说有蛟龙潜藏。聚龙泉群温泉与冷水交汇处，可探查地下温泉暗河入口。</p>
+          <div class="hint">地下世界入口：暗河出口处偶尔冲出白色盲鱼</div>
+        </div>
+        <div class="landmark-card">
+          <h4>天池冰面（冬季备选）</h4>
+          <div class="meta">1-2月冰层最厚 · 厚度 1-3m</div>
+          <p>冰面可见冰裂纹、冰气泡、火山口地形。湖心区域最神秘——冰层下方的液态水中是否存在未知生态？冰裂纹踩入裂缝可能被困，春季融冰期承载力急剧下降。</p>
+          <div class="hint">生死场景：听到脚下冰层发出巨大断裂声</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 小众秘境 -->
+    <div class="dim-block">
+      <h3><span class="icon">秘</span>小众秘境（探险级）</h3>
+      <div class="landmark-grid">
+        <div class="landmark-card">
+          <h4>狩猎窝棚（林区无图标记）</h4>
+          <div class="meta">保护区核心区边缘</div>
+          <p>旧时猎户和采山人搭建的简易木棚，用原木和树皮搭建，仅能容 2-3 人避风。部分棚内有遗留的火柴、铁锅、盐巴等基础物资。这些窝棚在林区地图上没有标注，只有老猎户和资深护林员知道位置。</p>
+          <div class="hint">关键情节：暴风雨/大雾中意外发现半塌窝棚，壁上有人用炭笔画的记号和日期</div>
+        </div>
+        <div class="landmark-card">
+          <h4>地下暗河系统</h4>
+          <div class="meta">圆池至天池间地下 · 深 80m+</div>
+          <p>至今无人完整探查过暗河全程。曾有探险者试图进入，因水流湍急、洞顶坍塌而被迫折返。暗河水温恒定在 5℃ 左右，含大量矿物质，饮之有铁锈味。</p>
+          <div class="hint">小说扩展：暗河出口处偶尔冲出白色盲鱼——地下水系中的未知生态</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 食宿 -->
+    <div class="dim-block">
+      <h3><span class="icon">食</span>野外生存饮食方案</h3>
+      <h4>便携食品补给清单（出发前在二道白河完成）</h4>
+      <table class="food-table">
+        <thead><tr><th>食品</th><th>说明</th><th>热量/100g</th></tr></thead>
+        <tbody>
+          <tr><td>牛肉干</td><td>风干牛肉，高蛋白高热量，东北本地品质极佳</td><td>~350kcal</td></tr>
+          <tr><td>压缩饼干</td><td>军用级，热量密度高，口感干硬需配水</td><td>~450kcal</td></tr>
+          <tr><td>松子/榛子</td><td>长白山特产，高脂肪高热量，带壳耐放</td><td>~600kcal</td></tr>
+          <tr><td>炒米/炒面</td><td>炒熟糜子或燕麦粉，冷水可冲食</td><td>~350kcal</td></tr>
+          <tr><td>大酱块/固体酱料</td><td>朝鲜族大酱便携版，冲汤或蘸食野菜</td><td>调味用</td></tr>
+          <tr><td>浓茶砖/茶包</td><td>提神暖身，嚼茶叶可缓解疲劳</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h4>安全山泉取水点</h4>
+      <table class="food-table">
+        <thead><tr><th>取水点</th><th>位置</th><th>水质特点</th></tr></thead>
+        <tbody>
+          <tr><td>二道白河源头泉</td><td>天池瀑布以下约 2km</td><td>天池渗出的火山岩过滤水，极清冽冰凉</td></tr>
+          <tr><td>十五道沟溪水</td><td>望天鹅景区内玄武岩石柱间</td><td>清冽，流经玄武岩自然过滤</td></tr>
+          <tr><td>锦江大峡谷溪流</td><td>西坡锦江上游</td><td>上游段人迹罕至，水质优良</td></tr>
+        </tbody>
+      </table>
+      <div class="scene-box">
+        取水原则：选活水不选死水，选上游不选下游，看水色闻水味，煮沸 3 分钟以上最安全。主角蹲下身掬一捧水——冰得手指发麻但入口甘甜。他注意到溪边石头上没有苔藓（说明水流急、阳光足），上游百米内没有动物粪便痕迹，判断水源安全。
+      </div>
+
+      <h4>可食用野生植物（按季节）</h4>
+      <table class="food-table">
+        <thead><tr><th>季节</th><th>植物</th><th>辨识与食用</th></tr></thead>
+        <tbody>
+          <tr><td>春 4-5月</td><td>蕨菜</td><td>嫩芽拳卷状如问号，焯水去涩后凉拌或炒食。必须焯水！生食含原蕨苷微毒</td></tr>
+          <tr><td>春 4-5月</td><td>刺嫩芽</td><td>辽东楤木嫩芽，茎上带刺。焯水后蘸酱或裹面油炸，"山野菜之王"</td></tr>
+          <tr><td>夏 6-8月</td><td>野生蓝莓（笃斯越橘）</td><td>矮灌木蓝紫色浆果，苔藓湿地和高山草甸。8 月盛果期，直接食用</td></tr>
+          <tr><td>夏 6-8月</td><td>软枣猕猴桃</td><td>藤本植物果实如枣大小绿色光滑，9 月成熟，熟后变软味甜多汁</td></tr>
+          <tr><td>秋 9-10月</td><td>红松籽</td><td>红松球果内，松子大而饱满，生食或炒熟。长白山特产，探险者最佳热量来源</td></tr>
+          <tr><td>秋 9-10月</td><td>桔梗根</td><td>钟形蓝紫色花朵，根肉质纺锤形。去皮撕丝焯水，朝鲜族经典食材</td></tr>
+        </tbody>
+      </table>
+
+      <h4>⚠ 绝对不可食用的有毒植物</h4>
+      <table class="food-table">
+        <thead><tr><th>有毒植物</th><th>辨识</th><th>毒性</th></tr></thead>
+        <tbody>
+          <tr><td>乌头</td><td>盔形蓝紫色花，块根</td><td>全株剧毒，含乌头碱，少量即可致命</td></tr>
+          <tr><td>毒芹</td><td>伞形白花，茎有紫斑点</td><td>全株剧毒，含毒芹碱，致死量极低</td></tr>
+          <tr><td>白芷（野芹菜）</td><td>伞形花序白花，形似水芹菜</td><td>全株有毒，误食致呕吐、痉挛，严重致死</td></tr>
+          <tr><td>苍耳</td><td>果实带钩刺，幼苗极毒</td><td>种子和幼苗含毒蛋白，致肝肾损伤</td></tr>
+        </tbody>
+      </table>
+      <div class="scene-box">
+        探险途中干粮耗尽，主角凭借一本地植物图鉴辨认出林缘的一丛蕨菜。他蹲下身拧下嫩芽，在溪边架起行军锅焯水——涩味随着蒸汽散去。他一边嚼一边想，刚才路过的那片紫花——如果是乌头，根部的毒足以让一头牛倒下。
+      </div>
+    </div>
+
+    <!-- 传说 -->
+    <div class="dim-block">
+      <h3><span class="icon">传</span>民间传说与历史背景</h3>
+      <h4>天池守水传说与地下龙族</h4>
+      <p>天池水只从一个缺口流出（乘槎河口），水位常年不涨不降，古人认为是"天神守水"。传说池底有一条通道直通东海，有龙族驻守调节水量。也有传说称天池是天宫"照妖镜"碎片落入人间所化。天池作为火山口湖的"不安定"本质——休眠火山随时可能苏醒——可作为大背景危机。</p>
+      <div class="scene-box">
+        水位恒定的现象可作为悬念引出"地下暗河系统"或"未知能量场"；"守水龙族"可具象化为某种守护者角色；天池与地下暗河连通的设定可引出"地下世界"的探险线。
+      </div>
+
+      <h4>不老泉与千年参王</h4>
+      <p>道家典籍记载长白山有"不老泉"，饮之可延年益寿。传说山中生长着一株千年人参王，化为人形行走山林，凡人若能得见便可得长生。历代帝王（包括清乾隆帝）都曾派人进山寻找。方士们相信长白山是"龙脉之源"，天池为"龙眼"，山体为"龙脊"。</p>
+      <div class="scene-box">
+        不老泉可与天池地下暗河系统关联；千年参王可设定为具有灵智的守护者角色；"龙脉"概念可转化为能量场的隐喻。
+      </div>
+    </div>
+
+    <!-- 风险点 -->
+    <div class="dim-block">
+      <h3><span class="icon">险</span>探险风险点（致命级）</h3>
+      <div class="risk-list">
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>地热裂隙与硫磺区</h5>
+            <p>聚龙泉周边、锦江温泉群。地下岩浆活动仍活跃，地表存在大量被薄层植被覆盖的裂隙，一旦踩踏可能陷入高温蒸汽或沸水。地热区地表温度可达 80-95℃，部分泉眼水温接近沸点。硫化氢气体在低洼处聚集，浓度过高可致人昏迷。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>原始密林迷失</h5>
+            <p>红松林密度大，GPS 信号弱，易迷失方向。山区磁场异常（火山岩富含磁铁矿），指南针偏差可达 10-30 度。林中湿气重，雾气可在数分钟内涌起，能见度骤降至 5 米以下。东北原始林中有野猪、黑熊出没。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>天气突变</h5>
+            <p>天池区域年均雾日达 260 天，年均大风日数可达 270 天。能见度可在 10 分钟内从 100m 降至 5m。夏季雷暴频繁，山顶无遮蔽物。冬季极寒可达 -40℃ 以下，风寒效应使体感温度达 -50℃。"白毛风"可使能见度降至 0。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>冰雪与冰面风险</h5>
+            <p>天池冬季冰面厚度可达 1 米以上，但存在压力裂缝（冰裂纹），踩入裂缝可能被困。春季融冰期承载力急剧下降，边缘区域最先变薄。陡坡积雪在特定条件下可触发雪崩，尤其锦江大峡谷边坡。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★★</span>
+          <div>
+            <h5>火山渣滑坠</h5>
+            <p>玄武岩渣堆坡度陡，碎石松散，极易滑坠。每一步都在下滑，攀登消耗巨大体力。一旦滑坠，尖锐火山渣会造成严重割伤。</p>
+          </div>
+        </div>
+        <div class="risk-item">
+          <span class="risk-level">★★★★☆</span>
+          <div>
+            <h5>冬季失温</h5>
+            <p>-30℃至-40℃，风速可达 12 级，3 分钟内可致严重冻伤。高反加降温致判断力下降，做出错误决策。团队面临"继续前进还是下撤"的生死抉择。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 季节气候 ============ -->
+<section id="season">
+  <div class="sec-header">
+    <div class="sec-tag">Season & Climate</div>
+    <h2 class="sec-title">季节与气候 · 剧情推动力</h2>
+    <p class="sec-desc">长白山气候是小说中最天然的"剧情推手"——天气瞬变制造困境，季节更替决定能见度与生死线。以下为四季景观与风险速查，以及可作为剧情转折点的气候要素清单。</p>
+  </div>
+
+  <div class="season-grid">
+    <div class="season-card season-spring">
+      <h4>春季</h4>
+      <div class="months">4 — 5 月</div>
+      <div class="highlights">
+        <strong>景观亮点</strong>
+        冰雪消融、天池解冻、迎红杜鹃<br/><br/>
+        <strong>探险风险</strong>
+        融雪路滑、雪崩余波、水位上涨
+      </div>
+    </div>
+    <div class="season-card season-summer">
+      <h4>夏季</h4>
+      <div class="months">6 — 8 月</div>
+      <div class="highlights">
+        <strong>景观亮点</strong>
+        高山花海、天池全貌、林海苍翠<br/><br/>
+        <strong>探险风险</strong>
+        雷暴频繁、密林迷路、蛇虫出没
+      </div>
+    </div>
+    <div class="season-card season-autumn">
+      <h4>秋季</h4>
+      <div class="months">9 — 10 月</div>
+      <div class="highlights">
+        <strong>景观亮点</strong>
+        五色山色、红叶满谷<br/><br/>
+        <strong>探险风险</strong>
+        气温骤降、浓雾频发、日落早
+      </div>
+    </div>
+    <div class="season-card season-winter">
+      <h4>冬季</h4>
+      <div class="months">11 — 3 月</div>
+      <div class="highlights">
+        <strong>景观亮点</strong>
+        冰封天池、雾凇奇景、雪原<br/><br/>
+        <strong>探险风险</strong>
+        极寒冻伤、白毛风、雪崩、冰裂
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:1.4rem;margin:2.5rem 0 1rem;border-left:4px solid var(--gold);padding-left:1rem">气候剧情转折点清单</h3>
+  <table class="climate-table">
+    <thead>
+      <tr><th>气候要素</th><th>具体表现</th><th>剧情推动力</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>浓雾骤起</td><td>年均雾日 260+ 天，能见度 10 分钟内可从 100m 降至 5m</td><td>团队走散、关键人物失踪、误入禁区</td></tr>
+      <tr><td>白毛风</td><td>暴风雪将地面积雪卷起，能见度降至 0</td><td>原地待毙还是盲目前进？生死抉择</td></tr>
+      <tr><td>雷暴</td><td>夏季山顶无遮蔽物，金属栏杆带电</td><td>通讯设备被毁、产生诡异声响</td></tr>
+      <tr><td>盛夏降雪</td><td>海拔 2000m+ 盛夏也可能降到零度以下</td><td>衣着单薄的角色面临失温</td></tr>
+      <tr><td>极寒</td><td>冬季 -40℃ 以下，体感 -50℃</td><td>3 分钟内可致严重冻伤，极限生存</td></tr>
+      <tr><td>磁场异常</td><td>火山岩富含磁铁矿，指南针偏差 10-30 度</td><td>导航失灵、方向感丧失、"某种力量"干扰</td></tr>
+      <tr><td>气压骤降</td><td>天池区域气压变化剧烈</td><td>小说设定：水怪在特定气压条件下出现</td></tr>
+      <tr><td>雪崩</td><td>陡坡积雪在特定条件下触发</td><td>先是一声闷响，随后整片山坡积雪开始移动</td></tr>
+      <tr><td>冰裂</td><td>天池冰面压力裂缝，不可见</td><td>听到脚下冰层发出巨大断裂声</td></tr>
+    </tbody>
+  </table>
+
+  <div class="scene-box" style="background:#fff;border-color:var(--gold);margin-top:2rem">
+    <strong style="color:var(--ember)">季节设定建议：</strong>小说主线可设定在 8 月（旺季、花海、天池解冻、天气瞬变制造冲突），支线延伸至 1 月（冰封天池、极寒生存、冰面探险）。8 月的雷暴可摧毁通讯设备制造孤立困境，1 月的白毛风可制造极限生存段落。
+  </div>
+</section>
+
+<!-- ============ 在地人文 ============ -->
+<section id="people">
+  <div class="sec-header">
+    <div class="sec-tag">Local Characters</div>
+    <h2 class="sec-title">在地人文线索 · 角色群像</h2>
+    <p class="sec-desc">长白山不是一座空山——朝鲜族村落、猎户、采参人、护林员、萨满传人构成了它的血肉。以下角色素材可直接用于小说人物塑造，每个角色均附原型与可用细节。</p>
+  </div>
+
+  <div class="role-grid">
+    <div class="role-card">
+      <span class="role-tag">原型 A</span>
+      <h4>朝鲜族老奶奶（阿迈）</h4>
+      <p class="archetype">会做地道辣白菜，知道长白山的某些"秘密路径"</p>
+      <p class="traits">
+        <strong>外貌：</strong>白色韩服、银发盘髻、手上总有辣白菜味<br/>
+        <strong>口头禅：</strong>"山里的路，不是给所有人走的。"<br/>
+        <strong>可用细节：</strong>辣白菜腌制时间是家族秘密，代代相传；房屋取暖用"温突"（地炕），进门脱鞋席地而坐；丧葬有"初终、小殓、大殓"严格礼仪
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 B</span>
+      <h4>没落猎户 / 转型向导</h4>
+      <p class="archetype">禁猎后生活困顿，转型为向导或猎人</p>
+      <p class="traits">
+        <strong>外貌：</strong>墙上挂着兽皮与火药角，腰间别砍刀<br/>
+        <strong>技能：</strong>通过观察树皮痕迹判断野兽种类与方向；"听风辨兽"——通过风声判断远处动物活动<br/>
+        <strong>矛盾：</strong>知道山里不该去的地方，但金钱诱惑让他破例
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 C</span>
+      <h4>老护林员</h4>
+      <p class="archetype">在山里三十年，知道每条沟壑的名字，性格沉默寡言但内心柔软</p>
+      <p class="traits">
+        <strong>随身：</strong>对讲机、GPS、急救包、砍刀（开路）、相机<br/>
+        <strong>技能：</strong>通过鸟鸣判断林中是否有大型动物出没；护林站日志本记录每日天气、动物出没、异常情况<br/>
+        <strong>秘密：</strong>护林员的"禁区"——某些区域因危险或特殊原因被标为禁区；与盗猎者之间的"猫鼠游戏"
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 D</span>
+      <h4>放山人（采参人）后代</h4>
+      <p class="archetype">掌握祖传"观山术"，通过植被判断人参位置</p>
+      <p class="traits">
+        <strong>装备：</strong>鹿骨签子（避免铁器损伤参须）、红线绳（系住人参茎叶防"跑参"）、棒槌针<br/>
+        <strong>行话：</strong>人参称"棒槌"，发现称"开眼"，采参称"抬棒槌"<br/>
+        <strong>禁忌：</strong>不可说"人参"二字、不可在山中争执、发现不可直接说"有"
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 E</span>
+      <h4>最后的萨满传人</h4>
+      <p class="archetype">年迈的萨满传人，掌握失传的祭祀仪式</p>
+      <p class="traits">
+        <strong>法器：</strong>神鼓（单面鼓）、神帽（鹿角装饰）、神裙（缀满铜铃与刺绣）<br/>
+        <strong>能力：</strong>"过阴"——灵魂前往阴间寻找病人魂魄<br/>
+        <strong>传说：</strong>据传长白山最后一位大萨满的神鼓遗失于密林中，得之者可通灵<br/>
+        <strong>禁忌：</strong>不可随意"跳神"，否则"请神容易送神难"
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 F</span>
+      <h4>跨境家族的朝鲜族青年</h4>
+      <p class="archetype">在传统与现代间挣扎，有亲属在朝鲜一侧</p>
+      <p class="traits">
+        <strong>背景：</strong>跨境家族，信息与情感的纽带形成张力<br/>
+        <strong>技能：</strong>熟悉边境小道，可作为向导或信息提供者<br/>
+        <strong>矛盾：</strong>家族纽带 vs 法律边界——被迫在两边做出选择
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 G</span>
+      <h4>黑市采参人</h4>
+      <p class="archetype">非法进山采参，为利所驱铤而走险</p>
+      <p class="traits">
+        <strong>动机：</strong>千年参王传说 + 黑市天价<br/>
+        <strong>行规：</strong>夜间进山、不走大路、发现人参系红线<br/>
+        <strong>冲突点：</strong>与护林员的猫鼠游戏；与主角团的利益纠葛
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 H</span>
+      <h4>女护林员</h4>
+      <p class="archetype">罕见而坚强，用专业能力赢得尊重，同时面对偏见</p>
+      <p class="traits">
+        <strong>背景：</strong>老护林员的女儿，掌握山林知识却向往山外世界<br/>
+        <strong>困境：</strong>长年驻山与家人聚少离多；遭遇盗猎者时可能面临人身威胁<br/>
+        <strong>弧光：</strong>从"逃离山林"到"守护山林"的转变
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 I</span>
+      <h4>离职护林员</h4>
+      <p class="archetype">因某次事故离开，但内心无法放下山林</p>
+      <p class="traits">
+        <strong>背景：</strong>因队友在老黑山失踪而自责离职<br/>
+        <strong>执念：</strong>私下仍在调查当年的事故真相<br/>
+        <strong>转折：</strong>主角的出现重新点燃他回到山林的决心
+      </p>
+    </div>
+    <div class="role-card">
+      <span class="role-tag">原型 J</span>
+      <h4>象帽舞艺人</h4>
+      <p class="archetype">技艺精湛但生活拮据，需要"一单大活"改变命运</p>
+      <p class="traits">
+        <strong>技能：</strong>朝鲜族农乐舞，舞者甩动长带象帽，彩带如长虹飞舞<br/>
+        <strong>动机：</strong>接下探险队的向导工作，只为给女儿凑学费<br/>
+        <strong>伏笔：</strong>他的舞步中藏着一条只有朝鲜族才懂的"山间密码"
+      </p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--serif);font-size:1.4rem;margin:2.5rem 0 1rem;border-left:4px solid var(--gold);padding-left:1rem">关键场景舞台：二道白河镇</h3>
+  <p style="color:var(--slate);line-height:2;margin-bottom:1.5rem">
+    长白山北坡门户，镇名源于流经此地的二道白河。小镇不大但旅游业发达，旺季人潮涌动、淡季冷清萧条。镇上朝鲜族、满族、汉族混居，文化与饮食交融。边境气息浓厚：夜晚安静，偶有军车经过。镇外即原始林，野猪、鹿偶尔闯入街道。
+  </p>
+  <div class="landmark-grid">
+    <div class="landmark-card">
+      <h4>深夜镇上的小酒馆</h4>
+      <p>各色人等聚集，信息交汇之地。朝鲜族米酒、延边烤串、铁锅炖——烟火气与暗流并存。</p>
+      <div class="hint">场景功能：情报交汇、角色登场、伏笔铺设</div>
+    </div>
+    <div class="landmark-card">
+      <h4>镇上唯一的户外装备店</h4>
+      <p>老板是"万事通"，知道各种进山路线。墙上挂着旧林区地图，抽屉里藏着不卖的"老路图"。</p>
+      <div class="hint">场景功能：装备补给 + 情报获取</div>
+    </div>
+    <div class="landmark-card">
+      <h4>边防检查站</h4>
+      <p>角色需出示证件通过，可能被盘问。边境管理区部分路段需边防证或身份证登记。</p>
+      <div class="hint">场景功能：情节障碍、身份暴露、紧张升级</div>
+    </div>
+    <div class="landmark-card">
+      <h4>镇边缘的护林站</h4>
+      <p>探险的起点与补给站。护林站日志本记录每日天气、动物出没、异常情况——可作为线索来源。</p>
+      <div class="hint">场景功能：任务起点、线索发现、角色关系建立</div>
+    </div>
+  </div>
+
+  <!-- 方言与切口 -->
+  <div class="dialect-box">
+    <h4>在地方言与切口（对话真实感利器）</h4>
+    <div class="dialect-grid">
+      <div class="dialect-item"><div class="term">猫冬</div><div class="meaning">冬季躲在家中不出门</div></div>
+      <div class="dialect-item"><div class="term">老林子</div><div class="meaning">原始森林</div></div>
+      <div class="dialect-item"><div class="term">趟道</div><div class="meaning">在积雪或密林中开路</div></div>
+      <div class="dialect-item"><div class="term">坐殿</div><div class="meaning">在山中扎营过夜</div></div>
+      <div class="dialect-item"><div class="term">黑瞎子</div><div class="meaning">黑熊（猎户黑话）</div></div>
+      <div class="dialect-item"><div class="term">山神爷</div><div class="meaning">东北虎（猎户黑话）</div></div>
+      <div class="dialect-item"><div class="term">棒槌</div><div class="meaning">人参（采参切口）</div></div>
+      <div class="dialect-item"><div class="term">开眼</div><div class="meaning">发现人参（采参切口）</div></div>
+      <div class="dialect-item"><div class="term">抬棒槌</div><div class="meaning">采挖人参（采参切口）</div></div>
+      <div class="dialect-item"><div class="term">跑了</div><div class="meaning">人参消失（据说会遁地）</div></div>
+      <div class="dialect-item"><div class="term">喊山</div><div class="meaning">发现人参时大喊"棒槌！"</div></div>
+      <div class="dialect-item"><div class="term">压山</div><div class="meaning">在山中搜索人参</div></div>
+    </div>
+  </div>
+
+  <div class="dialect-box" style="background:var(--moss)">
+    <h4>朝鲜族称呼速查</h4>
+    <div class="dialect-grid">
+      <div class="dialect-item"><div class="term">阿迈</div><div class="meaning">阿姨</div></div>
+      <div class="dialect-item"><div class="term">阿朱西</div><div class="meaning">叔叔</div></div>
+      <div class="dialect-item"><div class="term">哈莫尼</div><div class="meaning">老奶奶</div></div>
+      <div class="dialect-item"><div class="term">哈拉伯吉</div><div class="meaning">老爷爷</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 附录 ============ -->
+<section id="appendix" class="appendix">
+  <div class="appendix-inner">
+    <div class="sec-header">
+      <div class="sec-tag" style="color:#d4a574">Appendix</div>
+      <h2 class="sec-title">附录 · 地理生态简表</h2>
+      <p class="sec-desc">以下为长白山真实地理与生态数据，可作为小说世界观设定的硬约束参考。</p>
+    </div>
+
+    <table class="eco-table">
+      <thead>
+        <tr><th>项目</th><th>数据</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>地理位置</td><td>吉林省延边朝鲜族自治州与白山市交界处，中朝边境</td></tr>
+        <tr><td>主峰（朝鲜侧）</td><td>将军峰，海拔 2749 米</td></tr>
+        <tr><td>中国侧最高峰</td><td>白云峰，海拔 2691 米</td></tr>
+        <tr><td>天池湖面海拔</td><td>2189.1 米</td></tr>
+        <tr><td>天池面积</td><td>9.82 平方公里</td></tr>
+        <tr><td>天池最大深度</td><td>373 米</td></tr>
+        <tr><td>天池储水量</td><td>约 20 亿立方米（相当于一百个西湖）</td></tr>
+        <tr><td>火山性质</td><td>休眠活火山，最近喷发约 1702 年（清康熙年间）</td></tr>
+        <tr><td>天池解冻期</td><td>每年 6-10 月，其余时间冰雪覆盖</td></tr>
+        <tr><td>年均雾日</td><td>260+ 天</td></tr>
+        <tr><td>年均大风日数</td><td>270 天</td></tr>
+        <tr><td>冬季极寒</td><td>-40℃ 以下，体感可达 -50℃</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--serif);font-size:1.3rem;color:var(--gold);margin:2.5rem 0 1rem">垂直植被带（海拔递进）</h3>
+    <table class="eco-table">
+      <thead><tr><th>海拔</th><th>植被带</th><th>代表植物</th></tr></thead>
+      <tbody>
+        <tr><td>1100m 以下</td><td>阔叶林带</td><td>蒙古栎、紫椴、水曲柳</td></tr>
+        <tr><td>1100-1700m</td><td>针阔混交林带</td><td>红松、白桦</td></tr>
+        <tr><td>1700-2000m</td><td>针叶林带</td><td>云杉、冷杉</td></tr>
+        <tr><td>2000-2100m</td><td>岳桦林带</td><td>岳桦（矮化弯曲）</td></tr>
+        <tr><td>2100m 以上</td><td>高山苔原带</td><td>地衣、苔藓、矮化草本</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--serif);font-size:1.3rem;color:var(--gold);margin:2.5rem 0 1rem">珍稀物种清单</h3>
+    <table class="eco-table">
+      <thead><tr><th>类别</th><th>物种</th></tr></thead>
+      <tbody>
+        <tr><td>猛兽</td><td>东北虎（极罕见）、东北豹（极度濒危）</td></tr>
+        <tr><td>大型哺乳</td><td>黑熊、野猪、梅花鹿、紫貂</td></tr>
+        <tr><td>鸟类</td><td>中华秋沙鸭</td></tr>
+        <tr><td>植物</td><td>人参、野生天麻</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:var(--serif);font-size:1.3rem;color:var(--gold);margin:2.5rem 0 1rem">探险装备清单（小说细节参考）</h3>
+    <table class="eco-table">
+      <thead><tr><th>类别</th><th>装备</th></tr></thead>
+      <tbody>
+        <tr><td>徒步</td><td>登山杖、高绑防水登山靴、Gore-Tex 外套</td></tr>
+        <tr><td>冬季</td><td>羽绒连体服、雪地靴、防风面罩、雪镜</td></tr>
+        <tr><td>通讯</td><td>卫星电话（山区无手机信号）</td></tr>
+        <tr><td>导航</td><td>GPS + 纸质地形图（备用）</td></tr>
+        <tr><td>生存</td><td>保温毯、急救包、便携氧气瓶</td></tr>
+        <tr><td>采参</td><td>鹿骨签子、红线绳、棒槌针</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 页脚 ============ -->
+<footer>
+  <div class="seal">长 白 山</div>
+  <p>本路书基于长白山真实地理、生态、人文资料整合而成</p>
+  <p>传说部分兼顾历史记载与民间流传，可根据小说创作需要自由改编</p>
+  <p style="margin-top:1rem;color:#555">地名、路线、危险描述基于公开资料，实际探险请以官方信息为准</p>
+  <p style="margin-top:1rem">整合 · 首席行程主理人 · 2026.08.01</p>
+</footer>
+
+</body>
+</html>

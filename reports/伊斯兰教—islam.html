@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>伊斯兰教综合研究报告 — 可视化数据报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --card: #ffffff;
+    --text: #2c2416;
+    --text-light: #6b5e4a;
+    --gold: #b8860b;
+    --teal: #1a6b5a;
+    --teal-light: #e8f4f1;
+    --crimson: #8b1a1a;
+    --blue: #1a4b8b;
+    --blue-light: #e8f0f8;
+    --sand: #f0ebe0;
+    --border: #e0d5c0;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height:1.7; }
+  
+  /* Navigation */
+  nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); padding:0 2rem; }
+  nav .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:2rem; height:60px; }
+  nav .logo { font-size:1.2rem; font-weight:700; color:var(--teal); white-space:nowrap; }
+  nav a { text-decoration:none; color:var(--text-light); font-size:0.92rem; padding:0.4rem 0.8rem; border-radius:6px; transition:all 0.2s; white-space:nowrap; }
+  nav a:hover, nav a.active { background:var(--teal-light); color:var(--teal); }
+  @media (max-width:768px) { nav .nav-inner { gap:0.5rem; overflow-x:auto; } nav a { font-size:0.8rem; padding:0.3rem 0.5rem; } }
+
+  /* Container */
+  .container { max-width:1200px; margin:0 auto; padding:2rem; }
+
+  /* Hero */
+  .hero { text-align:center; padding:3rem 1rem; }
+  .hero h1 { font-size:2.4rem; color:var(--teal); margin-bottom:0.5rem; }
+  .hero .subtitle { font-size:1.1rem; color:var(--text-light); }
+  .hero .date { font-size:0.9rem; color:var(--text-light); margin-top:0.5rem; }
+
+  /* Stat Cards */
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin:2rem 0; }
+  .stat-card { background:var(--card); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow); text-align:center; border-top:4px solid var(--teal); }
+  .stat-card .value { font-size:2.2rem; font-weight:800; color:var(--teal); }
+  .stat-card .label { font-size:0.9rem; color:var(--text-light); margin-top:0.3rem; }
+
+  /* Section */
+  .section { margin:3rem 0; }
+  .section-title { font-size:1.6rem; font-weight:700; color:var(--teal); margin-bottom:0.3rem; padding-bottom:0.5rem; border-bottom:2px solid var(--border); }
+  .section-subtitle { font-size:0.95rem; color:var(--text-light); margin-bottom:1.5rem; }
+
+  /* Timeline */
+  .timeline { position:relative; padding:1rem 0; }
+  .timeline::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:3px; background:var(--teal); border-radius:2px; }
+  .tl-item { position:relative; padding:0.8rem 0 0.8rem 50px; margin-bottom:0.5rem; }
+  .tl-item::before { content:''; position:absolute; left:13px; top:1.1rem; width:17px; height:17px; border-radius:50%; background:var(--teal); border:3px solid var(--bg); }
+  .tl-item .tl-year { font-weight:700; color:var(--teal); font-size:1rem; }
+  .tl-item .tl-text { color:var(--text); font-size:0.92rem; }
+
+  /* Charts Row */
+  .charts-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:1.5rem 0; }
+  @media (max-width:768px) { .charts-row { grid-template-columns:1fr; } }
+  .chart-box { background:var(--card); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow); }
+  .chart-box h3 { font-size:1.1rem; color:var(--teal); margin-bottom:1rem; text-align:center; }
+  .chart-box canvas { max-height:350px; }
+
+  /* Table */
+  .table-wrap { overflow-x:auto; margin:1.5rem 0; }
+  table { width:100%; border-collapse:collapse; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+  th { background:var(--teal); color:white; padding:0.8rem 1rem; text-align:left; font-weight:600; font-size:0.92rem; }
+  td { padding:0.7rem 1rem; border-bottom:1px solid var(--border); font-size:0.9rem; }
+  tr:last-child td { border-bottom:none; }
+  tr:nth-child(even) { background:var(--teal-light); }
+
+  /* Info Cards */
+  .info-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem; margin:1.5rem 0; }
+  .info-card { background:var(--card); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow); border-left:4px solid var(--gold); }
+  .info-card h4 { color:var(--teal); margin-bottom:0.6rem; font-size:1.05rem; }
+  .info-card p { font-size:0.9rem; color:var(--text); }
+
+  /* Sect Diagram */
+  .sect-tree { margin:1.5rem 0; }
+  .sect-level { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin:0.8rem 0; }
+  .sect-node { background:var(--card); border-radius:var(--radius); padding:1rem 1.2rem; box-shadow:var(--shadow); text-align:center; min-width:140px; }
+  .sect-node.root { background:var(--teal); color:white; }
+  .sect-node.branch { border-left:4px solid var(--gold); }
+  .sect-node .sect-name { font-weight:700; font-size:1rem; }
+  .sect-node .sect-pct { font-size:0.82rem; color:var(--text-light); margin-top:0.2rem; }
+  .sect-node.root .sect-pct { color:rgba(255,255,255,0.8); }
+  .sect-arrow { color:var(--teal); font-size:1.5rem; display:flex; align-items:center; font-weight:700; }
+
+  /* Footer */
+  footer { text-align:center; padding:2rem; color:var(--text-light); font-size:0.85rem; border-top:1px solid var(--border); margin-top:3rem; }
+
+  /* Print */
+  @media print {
+    nav { position:static; }
+    .stat-card, .chart-box, .info-card, .sect-node { break-inside:avoid; }
+    body { font-size:11pt; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">☪ 伊斯兰教研究报告</div>
+    <a href="#overview">概览</a>
+    <a href="#history">历史演进</a>
+    <a href="#belief">信仰体系</a>
+    <a href="#geo">人口与地缘</a>
+    <a href="#economy">经济与现代化</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <h1>伊斯兰教综合研究报告</h1>
+  <div class="subtitle">历史演进 · 信仰体系 · 人口地理 · 经济现代化</div>
+  <div class="date">数据截至 2025 年 | 来源：Pew Research、IMF、ACLED 等</div>
+</div>
+
+<!-- Stats Overview -->
+<div id="overview" class="stats-grid">
+  <div class="stat-card">
+    <div class="value">~20亿</div>
+    <div class="label">全球穆斯林人口（2025）</div>
+  </div>
+  <div class="stat-card">
+    <div class="value">+3.47亿</div>
+    <div class="label">2010—2020年人口增长</div>
+  </div>
+  <div class="stat-card">
+    <div class="value">2070年</div>
+    <div class="label">预计超越基督教成第一大宗教</div>
+  </div>
+  <div class="stat-card">
+    <div class="value">$5.98万亿</div>
+    <div class="label">全球伊斯兰金融总资产</div>
+  </div>
+  <div class="stat-card">
+    <div class="value">222</div>
+    <div class="label">穆斯林分布国家/地区</div>
+  </div>
+</div>
+
+<!-- ========== 模块一：历史演进 ========== -->
+<div id="history" class="section">
+  <h2 class="section-title">一、历史演进时间轴</h2>
+  <div class="section-subtitle">从查希里叶时代（蒙昧时期）至近现代的关键节点</div>
+
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-year">约475—622年</div><div class="tl-text"><strong>查希里叶时代</strong>：血缘部落社会，多神崇拜，克尔白供奉360尊偶像；哈尼夫运动兴起追寻易卜拉欣一神教</div></div>
+    <div class="tl-item"><div class="tl-year">610年</div><div class="tl-text"><strong>首次启示</strong>：穆罕默德（40岁）在希拉山洞接受天使吉卜利勒传达的启示（《古兰经》第96章）</div></div>
+    <div class="tl-item"><div class="tl-year">622年</div><div class="tl-text"><strong>徙志（Hijrah）</strong>：穆罕默德从麦加迁徙至麦地那，建立乌玛共同体，伊斯兰历纪元元年</div></div>
+    <div class="tl-item"><div class="tl-year">630年</div><div class="tl-text"><strong>光复麦加</strong>：清除克尔白360尊偶像，将其净化为独一真主圣殿</div></div>
+    <div class="tl-item"><div class="tl-year">632—661年</div><div class="tl-text"><strong>四大正统哈里发时期</strong>：艾布·伯克尔、欧麦尔、奥斯曼、阿里。656年奥斯曼遇刺，661年阿里遇刺</div></div>
+    <div class="tl-item"><div class="tl-year">680年</div><div class="tl-text"><strong>卡尔巴拉战役</strong>：阿里之子侯赛因殉难，什叶派殉道精神确立——逊尼与什叶派分裂的关键节点</div></div>
+    <div class="tl-item"><div class="tl-year">661—750年</div><div class="tl-text"><strong>倭马亚王朝</strong>：定都大马士革，疆域1100万km²，711年征服伊比利亚半岛，751年怛罗斯之战胜唐军</div></div>
+    <div class="tl-item"><div class="tl-year">750—1258年</div><div class="tl-text"><strong>阿拔斯王朝</strong>：定都巴格达，百年翻译运动，黄金时代学术高峰（医学、数学、哲学、化学）</div></div>
+    <div class="tl-item"><div class="tl-year">1095—1291年</div><div class="tl-text"><strong>十字军东征</strong>：1187年萨拉丁哈丁战役收复耶路撒冷，最终十字军撤离圣地</div></div>
+    <div class="tl-item"><div class="tl-year">1258年</div><div class="tl-text"><strong>蒙古攻陷巴格达</strong>：阿拔斯王朝灭亡。1260年马穆鲁克在艾因·贾鲁战役阻止蒙古西进</div></div>
+    <div class="tl-item"><div class="tl-year">1501—1922年</div><div class="tl-text"><strong>三大火药帝国</strong>：奥斯曼（逊尼哈里发，1299—1922）、萨非波斯（什叶派国教化，1501—1736）、莫卧儿（印度，1526—1857）</div></div>
+    <div class="tl-item"><div class="tl-year">1924年</div><div class="tl-text"><strong>凯末尔废除哈里发</strong>：土耳其共和国废除延续1300余年的伊斯兰哈里发制度</div></div>
+    <div class="tl-item"><div class="tl-year">1979年</div><div class="tl-text"><strong>伊朗伊斯兰革命</strong>：霍梅尼推翻巴列维王朝，建立"教法学家监护"伊斯兰共和国</div></div>
+    <div class="tl-item"><div class="tl-year">2023年</div><div class="tl-text"><strong>沙伊北京和解</strong>：在中国斡旋下，沙特与伊朗恢复外交关系——中东地缘格局重大调整</div></div>
+  </div>
+</div>
+
+<!-- ========== 模块一补充：教派结构 ========== -->
+<div class="section">
+  <h2 class="section-title">教派分化结构</h2>
+  <div class="section-subtitle">伊斯兰教内部教派谱系概览</div>
+
+  <div class="sect-tree">
+    <div class="sect-level">
+      <div class="sect-node root">
+        <div class="sect-name">伊斯兰教</div>
+        <div class="sect-pct">~20亿信众</div>
+      </div>
+    </div>
+    <div class="sect-level">
+      <div class="sect-arrow">↓</div>
+    </div>
+    <div class="sect-level">
+      <div class="sect-node branch">
+        <div class="sect-name">逊尼派</div>
+        <div class="sect-pct">约87—90% | 四大教法学派：哈乃斐、马立克、沙斐仪、罕百里</div>
+      </div>
+      <div class="sect-node branch">
+        <div class="sect-name">什叶派</div>
+        <div class="sect-pct">约10—13% | 十二伊玛目派、伊斯玛仪派、栽德派</div>
+      </div>
+      <div class="sect-node branch">
+        <div class="sect-name">其他教派</div>
+        <div class="sect-pct">&lt;1% | 伊巴德派（阿曼）、阿赫迈底亚派（印度/巴基斯坦）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>逊尼派教法学派</th><th>创始人</th><th>核心区域</th><th>方法论特征</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>哈乃斐</strong></td><td>艾布·哈尼法（699—767）</td><td>土耳其、中亚、南亚</td><td>注重理性推理（ra'y），最灵活</td></tr>
+        <tr><td><strong>马立克</strong></td><td>马立克·本·艾奈斯（711—795）</td><td>北非、西非</td><td>以麦地那人实践（amal）为权威来源</td></tr>
+        <tr><td><strong>沙斐仪</strong></td><td>沙斐仪（767—820）</td><td>东非、东南亚、埃及</td><td>系统化法源层级，强调圣训</td></tr>
+        <tr><td><strong>罕百里</strong></td><td>艾哈迈德·本·罕百里（780—855）</td><td>沙特阿拉伯</td><td>最严格，以经训为唯一依据</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== 模块二：信仰体系 ========== -->
+<div id="belief" class="section">
+  <h2 class="section-title">二、信仰体系：六大信仰</h2>
+  <div class="section-subtitle">伊斯兰教核心神学框架（al-ʿAqā'id al-Sitt）</div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>① 信安拉 <small>（Allah）</small></h4>
+      <p>宇宙最高独一主宰，全知全能、至仁至慈。99个尊名（al-Asma' al-Husna），核心教义"认主独一"（Tawhid）分为三个维度：主权独一、崇拜独一、名号与属性独一。</p>
+    </div>
+    <div class="info-card">
+      <h4>② 信天使 <small>（Malā'ikah）</small></h4>
+      <p>安拉用光创造的无形存在。四大天使：哲布勒伊（加百列，传达启示）、米卡伊勒（米迦勒，掌管给养）、伊斯拉非勒（末日号角）、阿兹拉伊勒（取命天使）。</p>
+    </div>
+    <div class="info-card">
+      <h4>③ 信经典 <small>（Kutub）</small></h4>
+      <p>安拉降示104部经典，四大天经：《讨拉特》（摩西五经）、《则甫尔》（诗篇）、《引支勒》（福音）、《古兰经》。唯《古兰经》未被篡改，114章/6236节。</p>
+    </div>
+    <div class="info-card">
+      <h4>④ 信使者 <small>（Rusul）</small></h4>
+      <p>12.4万使者中六大使者最著：阿丹、努海、伊卜拉欣、穆萨、尔撒、穆罕默德。穆罕默德为"封印先知"（Khātam an-Nabiyyīn），此后再无先知。</p>
+    </div>
+    <div class="info-card">
+      <h4>⑤ 信末日 <small>（Ākhir）</small></h4>
+      <p>末日（Yawm al-Qiyāmah）所有人复活受审：行善者入乐园（Jannah），作恶者入火狱（Jahannam）。强调"两世吉庆"——入世而不出世。</p>
+    </div>
+    <div class="info-card">
+      <h4>⑥ 信前定 <small>（Qadar）</small></h4>
+      <p>万物由安拉预定，但人不丧失自由意志，须为自己的选择负责。正统派在"前定"与"自由意志"之间持中道立场。</p>
+    </div>
+  </div>
+
+  <h3 style="color:var(--teal);margin:2rem 0 1rem;text-align:center;">五功与三大宗教对比</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>对比维度</th><th>伊斯兰教</th><th>基督教</th><th>犹太教</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>神的本质</strong></td><td>绝对独一（Tawhid），无伙伴无子嗣</td><td>三位一体（父/子/圣灵同质）</td><td>严格独一（Shema），与伊斯兰高度一致</td></tr>
+        <tr><td><strong>耶稣地位</strong></td><td>使者尔撒，非神非神子</td><td>圣子，道成肉身</td><td>不承认弥赛亚身份</td></tr>
+        <tr><td><strong>最终启示</strong></td><td>《古兰经》（未被篡改）</td><td>《新约》+《旧约》</td><td>《塔纳赫》（律法/先知/圣卷）</td></tr>
+        <tr><td><strong>圣典权威</strong></td><td>承认前经原始神圣性但认为已被篡改</td><td>新旧约均为神默示</td><td>口传律法与成文律法并重</td></tr>
+        <tr><td><strong>救赎观</strong></td><td>凭个人善功与信仰</td><td>因信称义，耶稣救赎</td><td>遵守律法与诫命</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== 模块三：人口与地缘 ========== -->
+<div id="geo" class="section">
+  <h2 class="section-title">三、全球人口分布与地缘政治</h2>
+  <div class="section-subtitle">数据来源：Pew Research Center（2025年6月）、Data Pandas（2024年）</div>
+
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>全球穆斯林人口前10国（亿）</h3>
+      <canvas id="chartPopulation"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>全球宗教人口增长趋势（亿）</h3>
+      <canvas id="chartTrend"></canvas>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>欧洲主要国家穆斯林人口（万）</h3>
+      <canvas id="chartEurope"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>穆斯林人口区域分布比例</h3>
+      <canvas id="chartRegion"></canvas>
+    </div>
+  </div>
+
+  <h3 style="color:var(--teal);margin:2rem 0 1rem;">地缘博弈要点</h3>
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>🕌 什叶派新月地带</h4>
+      <p>伊朗→伊拉克→叙利亚→黎巴嫩：什叶派地缘联动带。核心成员包括伊朗（十二伊玛目派中心）、黎巴嫩真主党（1982年成立）、也门胡塞武装（栽德派）。</p>
+    </div>
+    <div class="info-card">
+      <h4>🤝 沙伊北京和解（2023年3月）</h4>
+      <p>在中国斡旋下，沙特与伊朗恢复外交关系，结束7年断交。标志着中东"和解潮"开启，但结构性矛盾（教义+民族+代理人战争惯性）仍然存在。</p>
+    </div>
+    <div class="info-card">
+      <h4>⚔️ 也门代理人战争</h4>
+      <p>2015年沙特领导联军介入，伊朗支持胡塞武装。截至2023年，ACLED数据统计约9.16万人死亡。被视为沙伊地缘博弈的前沿战场。</p>
+    </div>
+    <div class="info-card">
+      <h4>🕊️ 阿以冲突</h4>
+      <p>1948年以色列建国、1967年六日战争、1973年赎罪日战争、2023年10月加沙冲突。OIC（57国）发挥道义声援，但分裂制约执行力。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 模块四：经济与现代化 ========== -->
+<div id="economy" class="section">
+  <h2 class="section-title">四、经济与现代化</h2>
+  <div class="section-subtitle">伊斯兰金融、文化与社会现代化进程</div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="value">$5.98万亿</div>
+      <div class="label">伊斯兰金融总资产</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">$3万亿+</div>
+      <div class="label">伊斯兰银行资产</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">$8000亿+</div>
+      <div class="label">Sukuk未偿余额</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">$300亿+</div>
+      <div class="label">Takaful保费规模</div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>伊斯兰金融市场构成（万亿美元）</h3>
+      <canvas id="chartFinance"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>女性权利：各国改革进程对比</h3>
+      <canvas id="chartWomen"></canvas>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>💰 伊斯兰金融核心原则</h4>
+      <p><strong>禁息（Riba）</strong>：禁止固定利息，财富须经实际经济劳动创造。<br>
+      <strong>禁投机（Gharar）</strong>：禁止过度不确定性的交易。<br>
+      <strong>风险共担</strong>：穆达拉巴（利润分享）和穆沙拉卡（合伙）替代传统借贷。</p>
+    </div>
+    <div class="info-card">
+      <h4>🎨 伊斯兰艺术三大语言</h4>
+      <p><strong>阿拉伯式花纹（Arabesque）</strong>：无限连续的植物藤蔓纹。<br>
+      <strong>几何纹饰</strong>：以圆为中心展开的宇宙和谐图案。<br>
+      <strong>书法</strong>：因《古兰经》神圣性成为最高艺术形式，库法体/纳斯赫体/苏鲁斯体各具风韵。</p>
+    </div>
+    <div class="info-card">
+      <h4>📿 苏菲派文学巨匠</h4>
+      <p><strong>鲁米</strong>（1207—1273）：《玛斯纳维》，全球最畅销诗人之一。<br>
+      <strong>伊本·阿拉比</strong>（1165—1240）："最伟大的谢赫"，存在单一论。<br>
+      <strong>哈菲兹</strong>（约1325—1389）：波斯抒情诗大师。</p>
+    </div>
+    <div class="info-card">
+      <h4>🤖 科技教法前沿</h4>
+      <p><strong>IVF（人工授精）</strong>：夫妻间配子可接受；禁止第三方捐赠（血统/宗谱原则）。<br>
+      <strong>加密货币</strong>：争议中——无利息vs.过度投机。<br>
+      <strong>AI</strong>：2023—2025年出现大量"AI Fatwa"教法判定讨论。</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>宗教-世俗法律模式</th><th>代表国家</th><th>核心特征</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>彻底世俗化</strong></td><td>土耳其</td><td>1926年废除伊斯兰法，采用瑞士民法典</td></tr>
+        <tr><td><strong>教法监护</strong></td><td>伊朗</td><td>1979年起所有法律须符合沙里亚，设宪法监护委员会</td></tr>
+        <tr><td><strong>渐进融合</strong></td><td>埃及</td><td>宪法规定沙里亚为主要法源，保留世俗法律</td></tr>
+        <tr><td><strong>传统保留</strong></td><td>沙特阿拉伯</td><td>无成文宪法，《古兰经》和圣训为根本法</td></tr>
+        <tr><td><strong>进步改革</strong></td><td>突尼斯</td><td>1956年禁止一夫多妻、确立司法离婚程序</td></tr>
+        <tr><td><strong>民主兼容</strong></td><td>印度尼西亚</td><td>全球最大穆斯林民主国家，Pancasila兼容伊斯兰与多元</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>伊斯兰教综合研究报告 | 可视化数据报告 | 数据截至 2025 年</p>
+  <p>数据来源：Pew Research Center · IMF · ICD-LSEG · ACLED · Britannica · 中国宗教学术网</p>
+  <p style="margin-top:0.5rem;">本报告基于公开数据和多方研究综合汇编</p>
+</footer>
+
+</div><!-- /container -->
+
+<!-- Chart.js Scripts -->
+<script>
+// Color palette
+const colors = {
+  teal: '#1a6b5a', gold: '#b8860b', crimson: '#8b1a1a',
+  blue: '#1a4b8b', sand: '#c9a96e', sage: '#6b8f71',
+  rust: '#b87333', plum: '#7b4b6e', slate: '#4a6b7a'
+};
+
+// Chart 1: Top 10 Muslim Population Countries
+new Chart(document.getElementById('chartPopulation'), {
+  type: 'bar',
+  data: {
+    labels: ['印尼','巴基斯坦','印度','孟加拉','尼日利亚','埃及','土耳其','伊朗','中国','阿尔及利亚'],
+    datasets: [{
+      label: '穆斯林人口（亿）',
+      data: [2.427, 2.408, 2.0, 1.508, 0.97, 0.9, 0.844, 0.825, 0.5, 0.437],
+      backgroundColor: ['#1a6b5a','#1a6b5a','#1a6b5a','#1a6b5a','#4a8b7a','#4a8b7a','#4a8b7a','#4a8b7a','#7aab9a','#7aab9a'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: '亿人' }, ticks: { callback: v => v + '亿' } }
+    }
+  }
+});
+
+// Chart 2: Religious Population Growth Trend
+new Chart(document.getElementById('chartTrend'), {
+  type: 'line',
+  data: {
+    labels: ['2010','2020','2030(E)','2040(E)','2050(E)','2070(E)'],
+    datasets: [
+      { label: '穆斯林', data: [16, 19.5, 22, 25, 29, 33], borderColor: '#1a6b5a', backgroundColor: 'rgba(26,107,90,0.1)', tension: 0.3, fill: true },
+      { label: '基督徒', data: [21.7, 23, 24, 26, 29, 30], borderColor: '#1a4b8b', backgroundColor: 'rgba(26,75,139,0.1)', tension: 0.3, fill: true },
+      { label: '印度教徒', data: [10, 11.5, 12.5, 13.5, 14, 14.5], borderColor: '#b8860b', backgroundColor: 'rgba(184,134,11,0.08)', tension: 0.3, fill: true }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { beginAtZero: false, min: 8, title: { display: true, text: '亿人' }, ticks: { callback: v => v + '亿' } } }
+  }
+});
+
+// Chart 3: European Muslim Population
+new Chart(document.getElementById('chartEurope'), {
+  type: 'bar',
+  data: {
+    labels: ['法国','德国','英国','意大利','西班牙','荷兰','瑞典','比利时'],
+    datasets: [{
+      label: '穆斯林人口（万）',
+      data: [658, 558, 409, 417, 257, 99, 85, 70],
+      backgroundColor: '#b8860b',
+      borderRadius: 6
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { title: { display: true, text: '万人' } } }
+  }
+});
+
+// Chart 4: Regional Distribution (Pie)
+new Chart(document.getElementById('chartRegion'), {
+  type: 'doughnut',
+  data: {
+    labels: ['亚太','中东-北非','撒哈拉以南非洲','欧洲','美洲','中亚'],
+    datasets: [{
+      data: [62, 20, 15, 2, 1, 0.5],
+      backgroundColor: ['#1a6b5a','#b8860b','#4a8b7a','#1a4b8b','#8b1a1a','#7b4b6e'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { padding: 15 } } }
+  }
+});
+
+// Chart 5: Islamic Finance Composition
+new Chart(document.getElementById('chartFinance'), {
+  type: 'bar',
+  data: {
+    labels: ['伊斯兰银行','Sukuk(债券)','Takaful(保险)','其他'],
+    datasets: [{
+      label: '资产规模（万亿美元）',
+      data: [4.2, 0.8, 0.3, 0.68],
+      backgroundColor: ['#1a6b5a','#b8860b','#1a4b8b','#6b8f71'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, title: { display: true, text: '万亿美元' } } }
+  }
+});
+
+// Chart 6: Women's Rights Reform Progress (radar-like as horizontal bar)
+new Chart(document.getElementById('chartWomen'), {
+  type: 'bar',
+  data: {
+    labels: ['突尼斯','土耳其','印度尼西亚','埃及','伊朗','沙特'],
+    datasets: [{
+      label: '女性权利进步指数（参考评估）',
+      data: [85, 75, 70, 55, 40, 35],
+      backgroundColor: function(ctx) {
+        const v = ctx.raw;
+        return v >= 75 ? '#1a6b5a' : v >= 55 ? '#b8860b' : '#8b1a1a';
+      },
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { max: 100, title: { display: true, text: '参考指数（综合估算）' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

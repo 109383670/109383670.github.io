@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>孙子兵法 × 博弈论 · 跨越2500年的思想对话</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --card-bg: #111118;
+  --border: #1e1e2a;
+  --gold: #c9a84c;
+  --gold-dim: #8a7530;
+  --red: #a83030;
+  --blue: #3068a8;
+  --text: #e0dcd0;
+  --text-dim: #7a7a8a;
+  --accent-left: #a83030;
+  --accent-right: #3068a8;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* hero section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(168,48,48,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 50%, rgba(48,104,168,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--bg), transparent);
+  pointer-events: none;
+}
+
+.hero-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.hero-title .left { color: #d44; }
+.hero-title .right { color: #4a8bd4; }
+.hero-title .ampersand { color: var(--gold); opacity: 0.7; font-family: 'Inter', sans-serif; }
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--text-dim);
+  margin-top: 1rem;
+  letter-spacing: 0.3em;
+  font-weight: 300;
+}
+
+.hero-desc {
+  max-width: 600px;
+  margin-top: 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  opacity: 0.7;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator .line {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, var(--text-dim), transparent);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* divider */
+.divider {
+  text-align: center;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+.divider span {
+  display: inline-block;
+  padding: 0.5rem 2rem;
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  background: var(--card-bg);
+}
+
+/* section titles */
+.section-intro {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.section-intro h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--gold);
+}
+
+.section-intro p {
+  color: var(--text-dim);
+  line-height: 2;
+  font-size: 0.9rem;
+}
+
+/* timeline container */
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 6rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom,
+    transparent,
+    var(--gold-dim) 3%,
+    var(--gold-dim) 97%,
+    transparent);
+  transform: translateX(-50%);
+}
+
+/* card pairs */
+.card-pair {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  position: relative;
+  align-items: stretch;
+}
+
+.card-pair:nth-child(odd) {
+  flex-direction: row;
+}
+
+.card-pair:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* center dot */
+.card-pair::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0 0 20px rgba(201,168,76,0.3);
+}
+
+/* left card (兵法) */
+.card-left, .card-right {
+  width: calc(50% - 1.5rem);
+  position: relative;
+}
+
+.card-left {
+  text-align: right;
+}
+
+.card-right {
+  text-align: left;
+}
+
+/* card inner */
+.card-inner {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.8rem;
+  position: relative;
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-left .card-inner {
+  border-left: 3px solid var(--accent-left);
+}
+
+.card-right .card-inner {
+  border-right: 3px solid var(--accent-right);
+}
+
+.card-inner:hover {
+  border-color: var(--gold-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.chapter-number {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.card-left .chapter-number { color: var(--accent-left); }
+.card-right .chapter-number { color: var(--accent-right); }
+
+.card-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.card-left .card-title { color: #d44; }
+.card-right .card-title { color: #4a8bd4; }
+
+.card-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: var(--gold);
+  padding: 0.8rem 1rem;
+  background: rgba(201,168,76,0.06);
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+
+.card-quote::before {
+  content: '「';
+  position: absolute;
+  left: -0.2rem;
+  top: -0.2rem;
+  font-size: 0.7rem;
+  opacity: 0.3;
+}
+
+.card-quote::after {
+  content: '」';
+  position: absolute;
+  right: -0.2rem;
+  bottom: -0.5rem;
+  font-size: 0.7rem;
+  opacity: 0.3;
+}
+
+.card-body {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text);
+  flex: 1;
+}
+
+.card-example {
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.card-left .card-example {
+  background: rgba(168,48,48,0.08);
+  color: #e08080;
+  border-left: 2px solid rgba(168,48,48,0.3);
+}
+
+.card-right .card-example {
+  background: rgba(48,104,168,0.08);
+  color: #80b0e0;
+  border-right: 2px solid rgba(48,104,168,0.3);
+}
+
+.label-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.card-left .label-tag {
+  background: rgba(168,48,48,0.15);
+  color: #d44;
+}
+
+.card-right .label-tag {
+  background: rgba(48,104,168,0.15);
+  color: #4a8bd4;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .timeline::before { left: 20px; }
+
+  .card-pair, .card-pair:nth-child(odd), .card-pair:nth-child(even) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-left, .card-right {
+    width: 100%;
+    text-align: left;
+    padding-left: 40px;
+  }
+
+  .card-pair::before { left: 20px; top: 50%; }
+
+  .card-left .card-inner { border-left: 3px solid var(--accent-left); border-right: none; }
+  .card-right .card-inner { border-right: none; border-left: 3px solid var(--accent-right); }
+
+  .hero-title { font-size: 2rem; }
+}
+
+/* footer */
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.footer .highlight {
+  color: var(--gold);
+}
+
+/* 交错动画 */
+.card-pair {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.card-pair:nth-child(1) { animation-delay: 0.1s; }
+.card-pair:nth-child(2) { animation-delay: 0.2s; }
+.card-pair:nth-child(3) { animation-delay: 0.3s; }
+.card-pair:nth-child(4) { animation-delay: 0.4s; }
+.card-pair:nth-child(5) { animation-delay: 0.5s; }
+.card-pair:nth-child(6) { animation-delay: 0.6s; }
+.card-pair:nth-child(7) { animation-delay: 0.7s; }
+.card-pair:nth-child(8) { animation-delay: 0.8s; }
+.card-pair:nth-child(9) { animation-delay: 0.9s; }
+.card-pair:nth-child(10) { animation-delay: 1.0s; }
+.card-pair:nth-child(11) { animation-delay: 1.1s; }
+.card-pair:nth-child(12) { animation-delay: 1.2s; }
+.card-pair:nth-child(13) { animation-delay: 1.3s; }
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- hero -->
+<section class="hero">
+  <h1 class="hero-title">
+    <span class="left">孙子兵法</span>
+    <span class="ampersand"> × </span>
+    <span class="right">博弈论</span>
+  </h1>
+  <p class="hero-sub">跨越2500年的思想对话</p>
+  <p class="hero-desc">
+    一边是兵圣的谋略箴言，一边是现代博弈论的底层逻辑。<br>
+    它们说的，其实是同一件事。
+  </p>
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="divider"><span>十三 篇 对 照</span></div>
+
+<!-- intro -->
+<div class="section-intro">
+  <h2>当竹简遇上数学模型</h2>
+  <p>
+    《孙子兵法》十三篇，每一篇都蕴含着博弈论的原始直觉。<br>
+    2500年前，孙武用箴言捕捉了人类竞争的底层规律；<br>
+    2500年后，博弈论用数学证明了这些直觉的精确性。<br>
+    以下是将十三篇逐一映射到现代博弈论概念与商业案例的对照图谱。
+  </p>
+</div>
+
+<!-- timeline -->
+<div class="timeline">
+
+  <!-- 1 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第一篇</div>
+        <div class="card-title">始计篇</div>
+        <div class="label-tag">五事七计</div>
+        <div class="card-quote">故校之以计，而索其情。曰：主孰有道？将孰有能？天地孰得？法令孰行？兵众孰强？士卒孰练？赏罚孰明？</div>
+        <div class="card-body">开篇即要求系统评估敌我双方的综合实力。孙武提出的"五事七计"，本质上是一个结构化的竞争态势分析框架——战前必须做全面的优劣势盘点。</div>
+        <div class="card-example">📜 吴国伐楚前，孙武用五事七计评估吴王阖闾 vs 楚昭王，认为"主有道、将有能"，最终五战入郢。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">SWOT 分析 × 共同知识</div>
+        <div class="label-tag">策略评估</div>
+        <div class="card-quote">Common Knowledge: "I know that you know that I know..."</div>
+        <div class="card-body">博弈论中的"共同知识"概念说明：不仅要知道自己的实力和对方的实力，还要知道"对方知道我知道"。SWOT分析是现代商学院的标准化评估工具，本质与五事七计同一逻辑。</div>
+        <div class="card-example">💼 网飞（Netflix）1997年创立前做了详尽SWOT：传统租赁的弱点（逾期费）是最大机会，而邮寄DVD的成本结构是自身优势。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第二篇</div>
+        <div class="card-title">作战篇</div>
+        <div class="label-tag">速战速决</div>
+        <div class="card-quote">其用战也胜，久则钝兵挫锐，攻城则力屈，久暴师则国用不足。故兵闻拙速，未睹巧之久也。</div>
+        <div class="card-body">孙武的核心警告：战争消耗巨大，拖得越久，成本越高，变数越多。宁愿笨拙地速胜，也不要精巧地拖延。</div>
+        <div class="card-example">📜 官渡之战，曹操以少胜多后没有追击，而是迅速回师巩固后方——他知道再拖下去，粮草和士气都不允许。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">机会成本 · 沉没成本谬误</div>
+        <div class="label-tag">成本分析</div>
+        <div class="card-quote">"When you find yourself in a hole, stop digging."</div>
+        <div class="card-body">博弈论的决策分析区分"沉没成本"（已投入不可回收）与"边际成本"（继续投入的增量成本）。孙武的"速胜论"本质上是在说：不要因为已经投入了大量资源，就继续投入——那是最常见的认知偏差。</div>
+        <div class="card-example">💼 柯达1975年发明了数码相机，却因胶卷业务的沉没成本拒绝转型，最终破产。孙武如果在世会说：这是典型的"钝兵挫锐"。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第三篇</div>
+        <div class="card-title">谋攻篇</div>
+        <div class="label-tag">上兵伐谋</div>
+        <div class="card-quote">百战百胜，非善之善者也；不战而屈人之兵，善之善者也。故上兵伐谋，其次伐交，其次伐兵，其下攻城。</div>
+        <div class="card-body">孙子兵法的最高境界——不打就能赢。暴力是最后的手段，谋略、外交、威慑才是高层次的竞争方式。</div>
+        <div class="card-example">📜 管仲用"买鹿制楚"——高价买楚国的鹿，诱导楚国全民猎鹿荒废农业，楚王不战而降。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">纳什均衡 · 威慑理论</div>
+        <div class="label-tag">不战而胜</div>
+        <div class="card-quote">"A credible threat changes behavior without being carried out."</div>
+        <div class="card-body">博弈论中的"反事实推理"证明：当一方拥有可信的威慑能力时，对手会自动调整行为，冲突不会发生。核威慑是最好的"不战而屈人之兵"——美苏从未直接开战，因为双方都知道结果。</div>
+        <div class="card-example">💼 苹果造势"下一代会颠覆行业"的产品，本身就是一种"伐谋"——使竞争对手不敢全力投入同类方向，延缓了追赶。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第四篇</div>
+        <div class="card-title">军形篇</div>
+        <div class="label-tag">先为不可胜</div>
+        <div class="card-quote">昔之善战者，先为不可胜，以待敌之可胜。不可胜在己，可胜在敌。故善战者，立于不败之地，而不失敌之败也。</div>
+        <div class="card-body">先把自己放在不败之地，再等对手犯错。胜败的决定权，一半在你（不要输），一半在对手（他会不会犯错）。</div>
+        <div class="card-example">📜 王翦伐楚，先筑垒固守，六十万大军坚壁不出——先让自己立于不败，等楚军疲惫松懈后再一击破敌。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">风险对冲 · 防御策略</div>
+        <div class="label-tag">立于不败</div>
+        <div class="card-quote">"Minimax: minimize your maximum possible loss."</div>
+        <div class="card-body">博弈论的"最小化最大损失"策略是：先确保最坏情况下的生存，再追求收益。巴菲特的第一原则"不要亏钱"与孙武的"先为不可胜"如出一辙。</div>
+        <div class="card-example">💼 丰田的"精益库存"和"零债务"财务策略——即使市场崩盘，它也有足够的现金撑过两年不卖一辆车。先不败，再求胜。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第五篇</div>
+        <div class="card-title">兵势篇</div>
+        <div class="label-tag">正合奇胜</div>
+        <div class="card-quote">凡战者，以正合，以奇胜。故善出奇者，无穷如天地，不竭如江海。战势不过奇正，奇正之变，不可胜穷也。</div>
+        <div class="card-body">正面牵制，侧面取胜。"正"是守住基本盘，"奇"是打破局面的变量。奇正互变，无穷无尽。</div>
+        <div class="card-example">📜 井陉之战，韩信正面以弱兵诱敌（正），背面两千奇兵突袭赵军大营（奇），一举灭赵。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">蓝海战略 · 差异化竞争</div>
+        <div class="label-tag">创造新赛道</div>
+        <div class="card-quote">"Don't compete head-on; redefine the battlefield."</div>
+        <div class="card-body">"正"是你必须在行业基准上不输于对手，"奇"是你找到对手忽略的维度进行降维打击。蓝海战略的核心就是创造"奇"——不玩对手的规则，重新定义游戏。</div>
+        <div class="card-example">💼 任天堂Switch：不走索尼微软的"性能军备竞赛"（正），而是走"掌机+主机无缝切换"（奇），硬生生开辟了新市场。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第六篇</div>
+        <div class="card-title">虚实篇</div>
+        <div class="label-tag">避实击虚</div>
+        <div class="card-quote">水之形，避高而趋下；兵之形，避实而击虚。故我欲战，敌虽高垒深沟，不得不与我战者，攻其所必救也。</div>
+        <div class="card-body">不要硬碰硬。找到对方的弱点和不得不救的要害，引导对手在你选择的战场上打。</div>
+        <div class="card-example">📜 孙膑围魏救赵——不直接去赵国战场硬扛魏军主力，而是直攻魏国都城大梁，逼魏军回救，在桂陵设伏。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">非对称竞争 · 柔道策略</div>
+        <div class="label-tag">以弱胜强</div>
+        <div class="card-quote">"Judo Strategy: use your opponent's strength against them."</div>
+        <div class="card-body">弱者如何战胜强者？不要正面对抗对手的优势，而是找到对手的结构性弱点，或者利用对手的规模/惯性来反制。这是博弈论中"非对称竞争"的精髓。</div>
+        <div class="card-example">💼 拼多多避开了淘宝/京东在一二线城市的正面战场（实），主攻下沉市场和白牌商品（虚），用社交裂变打法突破，三年上市。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第七篇</div>
+        <div class="card-title">军争篇</div>
+        <div class="label-tag">以迂为直</div>
+        <div class="card-quote">军争之难者，以迂为直，以患为利。故迂其途而诱之以利，后人发，先人至，此知迂直之计者也。</div>
+        <div class="card-body">竞争中最难的不是走直路，而是把弯路走成捷径。有时候绕远路，反而比走直路快——因为直路上所有人都在堵着。</div>
+        <div class="card-example">📜 邓艾灭蜀，不走剑阁正面（直路被姜维堵住），翻越七百里无人山区直插成都——"迂其途而诱之以利，后人发，先人至"。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">博弈树 · 路径选择</div>
+        <div class="label-tag">迂回策略</div>
+        <div class="card-quote">"The shortest path in the map is not always the fastest in traffic."</div>
+        <div class="card-body">博弈树的扩展形式分析表明：当最优路径上存在阻碍（对手设防或拥挤）时，看似更长的迂回路径反而有更低的"博弈成本"。这是纳什均衡下的路径选择问题。</div>
+        <div class="card-example">💼 字节跳动做今日头条时，新闻客户端已是红海。但他们"迂回"——不做人工编辑，做算法推荐。路径更长，但绕开了所有对手的封锁线。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第八篇</div>
+        <div class="card-title">九变篇</div>
+        <div class="label-tag">变通之道</div>
+        <div class="card-quote">将不通于九变之利者，虽知地形，不能得地之利矣。治兵不知九变之术，虽知五利，不能得人之用矣。</div>
+        <div class="card-body">孙武反对死板执行计划。即使君主的命令，如果战场情况变了，也不能盲目听从——"君命有所不受"。灵活应变，是高级竞争者的核心能力。</div>
+        <div class="card-example">📜 李愬雪夜入蔡州——风雪天不是常规出兵日（九变之地），他偏偏选这天，因为敌人也不会料到他来。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">动态博弈 · 适应性策略</div>
+        <div class="label-tag">随机应变</div>
+        <div class="card-quote">"In repeated games, the optimal strategy adapts to the opponent's history."</div>
+        <div class="card-body">博弈论中的"重复博弈"证明：固定策略最容易被对手利用。最优策略必须能根据对手的历史行为动态调整。"以牙还牙"策略之所以成功，正是因为它能灵活回应对方的合作或背叛。</div>
+        <div class="card-example">💼 华为的"备胎计划"——美国一制裁，立刻启动海思芯片和鸿蒙系统。不是临时抱佛脚，而是早就为"九变"做好了预案。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第九篇</div>
+        <div class="card-title">行军篇</div>
+        <div class="label-tag">处军相敌</div>
+        <div class="card-quote">敌近而静者，恃其险也；远而挑战者，欲人之进也。辞卑而益备者，进也；辞强而进驱者，退也。</div>
+        <div class="card-body">从对手的一举一动中读信息：敌人离你很近却很安静，说明他有依仗；说话谦卑却在加强准备，说明他要进攻了。孙武是古代最顶尖的"信号解读大师"。</div>
+        <div class="card-example">📜 曹刿论战——齐人三鼓之后才出击，"一鼓作气，再而衰，三而竭"，通过观察对手的行动节奏判断其士气状态。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">信号博弈 · 信息甄别</div>
+        <div class="label-tag">读人读心</div>
+        <div class="card-quote">"Costly signals separate the credible from the bluffers."</div>
+        <div class="card-body">信号博弈研究的是：可信的信号必须是有成本的。说话谦卑但加强军备→高成本信号（军备很贵），说明真要进攻。只说不做→低成本信号，不可信。这是经济学中"信息不对称"问题的核心解法。</div>
+        <div class="card-example">💼 招聘中，名校学历是"辞强"还是"辞卑"？它作为筛选信号的价值在于——拿到名校学历本身付出了高成本（努力+时间），所以它能传递"这个人大概率不差"的信号。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第十篇</div>
+        <div class="card-title">地形篇</div>
+        <div class="label-tag">六形之道</div>
+        <div class="card-quote">夫地形者，兵之助也。料敌制胜，计险厄远近，上将之道也。知此而用战者必胜，不知此而用战者必败。</div>
+        <div class="card-body">孙武把地形分为六种（通/挂/支/隘/险/远），每种地形对应不同的战术。核心思想：环境决定了策略的上限，必须因地制策。</div>
+        <div class="card-example">📜 马谡失街亭——不是他不懂兵法，是他把"地形"看成了"险形"（山上居高临下），但实际是"挂形"（无水源、无法进退），一步判断失误满盘皆输。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">情境领导力 · 权变理论</div>
+        <div class="label-tag">因地制策</div>
+        <div class="card-quote">"The best leadership style depends on the situation — no single style is always optimal."</div>
+        <div class="card-body">管理者学中的"权变理论"（Contingency Theory）和孙武的地形论完全一致：没有最好的管理方式，只有最适合当前环境的策略。环境变量决定策略选择。</div>
+        <div class="card-example">💼 字节跳动推行"Context, not Control"——不同业务阶段、不同团队规模、不同市场环境，管理方式完全不同。抖音的激进打法 vs 飞书的稳健运营，因地而异。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第十一篇</div>
+        <div class="card-title">九地篇</div>
+        <div class="label-tag">散地战</div>
+        <div class="card-quote">诸侯自战其地，为散地。入人之地而不深者，为轻地。疾战则存，不疾战则亡者，为死地。投之亡地然后存，陷之死地然后生。</div>
+        <div class="card-body">根据不同战场环境（九种地域），采取不同的心理战术。最有名的是"投之亡地然后存"——人到了绝境才会爆发出最大潜能。</div>
+        <div class="card-example">📜 项羽破釜沉舟——渡河后凿沉船只，烧掉营帐，每人只带三天干粮。士卒知无退路，人人死战，以少胜多破秦军主力。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">囚徒困境 · 承诺机制</div>
+        <div class="label-tag">自断后路</div>
+        <div class="card-quote">"Credible commitment: by removing your own options, you change the other player's behavior."</div>
+        <div class="card-body">破釜沉舟是一个"可信承诺"——我断了自己的退路，所以你必须相信我这次真的会拼死一战。"自断退路"在博弈论中是一种强效的承诺机制：主动减少自己的选择空间，反而增加了自己的谈判筹码。</div>
+        <div class="card-example">💼 Elon Musk 公开承诺"特斯拉不设专利壁垒"——自断"我可以起诉你"的选择，换来整个电动车行业共同做大的局面，最终受益的反而是特斯拉。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第十二篇</div>
+        <div class="card-title">火攻篇</div>
+        <div class="label-tag">火攻五变</div>
+        <div class="card-quote">凡火攻有五：一曰火人，二曰火积，三曰火辎，四曰火库，五曰火队。行火必有因，烟火必素具。发火有时，起火有日。</div>
+        <div class="card-body">孙武把火攻作为"高杠杆手段"来讨论。烧人不如烧粮草，烧粮草不如烧辎重——选择攻击哪个目标，取决于哪个能造成最大的连锁反应。</div>
+        <div class="card-example">📜 赤壁之战——黄盖火攻的不是战船（火人），而是曹操的连环船阵（火队），一把火同时烧掉了一整支舰队，是"火攻五变"中最高效的一种。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">杠杆效应 · 关键节点攻击</div>
+        <div class="label-tag">高杠杆手段</div>
+        <div class="card-quote">"Identify the bottleneck node — hitting it multiplies the effect."</div>
+        <div class="card-body">网络博弈和系统理论中，"关键节点"的概念与此完全一致：找到系统中影响力最大的节点，以最小的投入撬动最大的变化。火攻就是古代的"高杠杆操作"。</div>
+        <div class="card-example">💼 2011年，一家小公司Lululemon通过"一个关键门店引流+口碑裂变"的策略，撬动了整个瑜伽服市场。他们选中的节点不是全渠道投放（火人），而是社群KOL（火队）。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="card-pair">
+    <div class="card-left">
+      <div class="card-inner">
+        <div class="chapter-number">第十三篇 · 终篇</div>
+        <div class="card-title">用间篇</div>
+        <div class="label-tag">五间俱起</div>
+        <div class="card-quote">故用间有五：有因间，有内间，有反间，有死间，有生间。五间俱起，莫知其道，是谓神纪，人君之宝也。</div>
+        <div class="card-body">孙武把情报战分成五个层次：利用乡人（因间）、收买敌官（内间）、策反敌间（反间）、故意散布假情报（死间）、派出侦察（生间）。五管齐下，对手完全不知道你的信息从哪里来的。</div>
+        <div class="card-example">📜 陈平用"反间计"离间项羽和范增——用黄金收买楚军内部散布谣言，说范增与刘邦私通，项羽果然猜疑范增，自断臂膀。</div>
+      </div>
+    </div>
+    <div class="card-right">
+      <div class="card-inner">
+        <div class="chapter-number">Game Theory</div>
+        <div class="card-title">信息不对称 · 情报经济学</div>
+        <div class="label-tag">信息即权力</div>
+        <div class="card-quote">"Information asymmetry: whoever has better information wins the game."</div>
+        <div class="card-body">博弈论中的"信息不对称"概念说明：信息的分布不均决定了博弈的胜负。阿克洛夫（Akerlof）凭借"柠檬市场"理论获诺奖——二手车的卖家和买家信息不对称导致市场失灵。孙武的"五间俱起"本质上就是最优的情报信息网络构建策略。</div>
+        <div class="card-example">💼 华尔街的一切套利行为本质就是"用间"——高盛雇佣前政府官员（内间）、数据分析公司抓取市场舆情（因间）、做空机构发布报告（反间），全是信息不对称的博弈。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- closing -->
+<div class="divider"><span>结 语</span></div>
+
+<div class="section-intro">
+  <h2>他们说的，是同一件事</h2>
+  <p>
+    孙武没有数学符号，没有均衡模型，没有公式推导。<br>
+    但他用十三篇箴言，触摸到了人类竞争行为中最底层的规律。<br>
+    博弈论用数学证明了这些直觉是对的。<br><br>
+    不是孙子兵法"预测"了博弈论，<br>
+    也不是博弈论"解释"了孙子兵法。<br>
+    而是——<strong>人类竞争的底层逻辑，几千年来就没变过。</strong>
+  </p>
+</div>
+
+<div class="footer">
+  <span class="highlight">孙子兵法</span> × <span class="highlight">博弈论</span> · 跨越2500年的思想对话
+</div>
+
+</body>
+</html>

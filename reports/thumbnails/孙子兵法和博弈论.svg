@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1525"/>
+      <stop offset="100%" stop-color="#080510"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c8a96e"/>
+      <stop offset="100%" stop-color="#e2c485"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 博弈矩阵 2x2 -->
+  <g transform="translate(200, 120)">
+    <rect x="-70" y="-40" width="140" height="80" rx="4" fill="none" stroke="url(#red)" stroke-width="1" opacity="0.4"/>
+    <line x1="0" y1="-40" x2="0" y2="40" stroke="url(#red)" stroke-width="0.5" opacity="0.3"/>
+    <line x1="-70" y1="0" x2="70" y2="0" stroke="url(#red)" stroke-width="0.5" opacity="0.3"/>
+    <!-- 四个格子 -->
+    <circle cx="-35" cy="-20" r="3" fill="#dc2626" opacity="0.6"/>
+    <circle cx="35" cy="-20" r="3" fill="#dc2626" opacity="0.6"/>
+    <circle cx="-35" cy="20" r="3" fill="#dc2626" opacity="0.6"/>
+    <circle cx="35" cy="20" r="3" fill="#dc2626" opacity="0.6"/>
+    <!-- 纳什均衡标记 -->
+    <circle cx="35" cy="20" r="8" fill="none" stroke="#e2c485" stroke-width="1" opacity="0.6"/>
+  </g>
+  <!-- 兵符 -->
+  <g transform="translate(200, 210)" opacity="0.35">
+    <path d="M -25 0 L 0 -12 L 25 0 L 25 8 Q 25 12 21 14 L 0 24 L -21 14 Q -25 12 -25 8 Z" fill="none" stroke="url(#gold)" stroke-width="1.2"/>
+    <text x="0" y="6" text-anchor="middle" fill="#c8a96e" font-family="serif" font-size="12">兵</text>
+  </g>
+  <!-- 闪电（攻心） -->
+  <path d="M 320 50 L 305 75 L 312 77 L 295 105" stroke="url(#red)" stroke-width="1.5" fill="none" opacity="0.35"/>
+  <text x="200" y="270" text-anchor="middle" fill="#fca5a5" font-family="serif" font-size="14" font-weight="bold">孙子兵法 × 博弈论</text>
+</svg>

@@ -3,6 +3,47 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "长白山探险小说创作路书",
+      "type": "html",
+      "title": "长白山探险小说创作路书",
+      "summary": "《长白山探险小说》创作路书完整版——从世界观设定、人物谱系到章节规划的写作地图。",
+      "tags": [
+        "创作",
+        "小说",
+        "路书"
+      ],
+      "date": "2026-08-01",
+      "path": "reports/长白山探险小说创作路书.html",
+      "thumbnail": "reports/thumbnails/长白山探险小说创作路书.svg"
+    },
+    {
+      "id": "孙子兵法和博弈论",
+      "type": "html",
+      "title": "孙子兵法 × 博弈论",
+      "summary": "跨越2500年的思想对话：孙子的庙算、诡道与博弈论的纳什均衡、囚徒困境，在同一个矩阵里相遇。",
+      "tags": [
+        "兵法",
+        "博弈论",
+        "思想对话"
+      ],
+      "date": "2026-08-01",
+      "path": "reports/孙子兵法和博弈论.html",
+      "thumbnail": "reports/thumbnails/孙子兵法和博弈论.svg"
+    },
+    {
+      "id": "伊斯兰教—islam",
+      "type": "html",
+      "title": "伊斯兰教综合研究报告",
+      "summary": "从先知穆罕默德到全球信众，伊斯兰教的信仰体系、历史源流与当今世界的全景图。",
+      "tags": [
+        "宗教",
+        "伊斯兰教"
+      ],
+      "date": "2026-08-01",
+      "path": "reports/伊斯兰教—islam.html",
+      "thumbnail": "reports/thumbnails/伊斯兰教—islam.svg"
+    },
+    {
       "id": "犹太教研究可视化",
       "type": "html",
       "title": "犹太教研究可视化 · 历史信仰与亚伯拉罕宗教关系",
