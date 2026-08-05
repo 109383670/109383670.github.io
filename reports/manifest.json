@@ -3,6 +3,90 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "诗词",
+      "type": "html",
+      "title": "漱玉词林 · 诗词园",
+      "summary": "李清照漱玉词风格为核心，兼及唐宋诗词名篇的意象与格律赏析。",
+      "tags": [
+        "诗词",
+        "文学",
+        "李清照"
+      ],
+      "date": "2026-08-05",
+      "path": "reports/诗词.html",
+      "thumbnail": "reports/thumbnails/诗词.svg"
+    },
+    {
+      "id": "荣格象征体系_可视化",
+      "type": "html",
+      "title": "荣格分析心理学象征体系",
+      "summary": "阴影、阿尼玛、人格面具、自性、集体无意识——荣格象征体系的完整网络图。",
+      "tags": [
+        "心理学",
+        "荣格",
+        "象征"
+      ],
+      "date": "2026-08-05",
+      "path": "reports/荣格象征体系_可视化.html",
+      "thumbnail": "reports/thumbnails/荣格象征体系_可视化.svg"
+    },
+    {
+      "id": "荣格自性与自性化综合研究报告",
+      "type": "html",
+      "title": "荣格「自性与自性化」综合研究报告",
+      "summary": "自性（Self）的象征体系与自性化（Individuation）过程，荣格心理学的核心图景。",
+      "tags": [
+        "心理学",
+        "荣格",
+        "自性化"
+      ],
+      "date": "2026-08-05",
+      "path": "reports/荣格自性与自性化综合研究报告.html",
+      "thumbnail": "reports/thumbnails/荣格自性与自性化综合研究报告.svg"
+    },
+    {
+      "id": "山海经资料全集",
+      "type": "html",
+      "title": "山海经全图鉴 · 写作资料库",
+      "summary": "山川地理、异兽神灵、草木矿产，《山海经》全文梳理与创作素材索引。",
+      "tags": [
+        "创作",
+        "神话",
+        "资料库"
+      ],
+      "date": "2026-08-05",
+      "path": "reports/山海经资料全集.html",
+      "thumbnail": "reports/thumbnails/山海经资料全集.svg"
+    },
+    {
+      "id": "修仙题材创作设定参考报告",
+      "type": "html",
+      "title": "修仙题材创作设定参考报告",
+      "summary": "境界体系、灵根设定、丹药法器，修仙小说世界观设定的完整参考框架。",
+      "tags": [
+        "创作",
+        "修仙",
+        "设定"
+      ],
+      "date": "2026-08-05",
+      "path": "reports/修仙题材创作设定参考报告.html",
+      "thumbnail": "reports/thumbnails/修仙题材创作设定参考报告.svg"
+    },
+    {
+      "id": "中国功夫题材创作设定参考报告",
+      "type": "html",
+      "title": "中国功夫题材创作设定参考报告",
+      "summary": "流派谱系、招式体系、兵器门类，中国功夫在武侠小说中的创作逻辑与资料参考。",
+      "tags": [
+        "创作",
+        "武侠",
+        "功夫"
+      ],
+      "date": "2026-08-05",
+      "path": "reports/中国功夫题材创作设定参考报告.html",
+      "thumbnail": "reports/thumbnails/中国功夫题材创作设定参考报告.svg"
+    },
+    {
       "id": "长白山探险小说创作路书",
       "type": "html",
       "title": "长白山探险小说创作路书",

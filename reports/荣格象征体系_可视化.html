@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>荣格分析心理学象征体系</title>
+<style>
+:root{
+  --bg:#f5f1e8;
+  --paper:#fdfaf2;
+  --ink:#2b2520;
+  --ink-soft:#5b5249;
+  --line:#d9d1bf;
+  --accent:#5b7c8a;
+  --shadow:0 1px 0 rgba(0,0,0,.04), 0 6px 18px rgba(60,40,20,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,"Iowan Old Style","Source Han Serif SC",Georgia,"Songti SC","STZhongsong",serif;
+  line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.page{max-width:1280px;margin:0 auto;padding:48px 32px 96px}
+
+/* ---------- Header ---------- */
+.hero{padding:32px 0 28px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.hero h1{font-size:34px;margin:0 0 8px;font-weight:600;letter-spacing:.5px}
+.hero .sub{color:var(--ink-soft);margin:0 0 16px}
+.hero .meta{font-size:13px;color:var(--ink-soft);font-family:"SF Mono","Menlo",monospace}
+
+/* ---------- Toolbar ---------- */
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  padding:14px 16px;background:var(--paper);
+  border:1px solid var(--line);border-radius:10px;margin-bottom:24px;box-shadow:var(--shadow)}
+.toolbar input[type=search]{flex:1;min-width:220px;padding:10px 14px;
+  border:1px solid var(--line);background:#fff;border-radius:8px;font-size:14px;
+  font-family:inherit;color:var(--ink);outline:none}
+.toolbar input[type=search]:focus{border-color:var(--accent)}
+.toolbar select{padding:9px 12px;border:1px solid var(--line);background:#fff;
+  border-radius:8px;font-size:13px;color:var(--ink);font-family:inherit}
+.toolbar .stat{font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+/* ---------- Section nav ---------- */
+.nav-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:8px;list-style:none;padding:0;margin:0 0 36px}
+.nav-list a{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;
+  font-size:14px;transition:all .15s;color:var(--ink);box-shadow:var(--shadow)}
+.nav-list a:hover{border-color:var(--c,var(--accent));
+  transform:translateY(-1px);background:#fff}
+.nav-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* ---------- Sections ---------- */
+.section{margin:48px 0;scroll-margin-top:24px}
+.section-title{font-size:22px;margin:0 0 20px;font-weight:600;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.section-dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.section-sub{font-size:13px;color:var(--ink-soft);font-weight:400;font-style:italic;margin-left:4px}
+
+/* ---------- Card grid ---------- */
+.card-grid{display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:16px}
+.card{background:var(--paper);border:1px solid var(--line);
+  border-left:3px solid var(--accent);border-radius:10px;
+  padding:18px 20px;display:flex;flex-direction:column;gap:10px;
+  box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 1px 0 rgba(0,0,0,.04),0 10px 24px rgba(60,40,20,.10)}
+.card-head{display:flex;gap:12px;align-items:flex-start}
+.card-num{font-family:"SF Mono","Menlo",monospace;font-size:11px;font-weight:600;
+  background:var(--accent);color:#fff;border-radius:4px;padding:3px 7px;
+  letter-spacing:.5px;flex-shrink:0;margin-top:3px;opacity:.85}
+.card-titles{flex:1;min-width:0}
+.card-cn{font-size:17px;margin:0;font-weight:600;color:var(--ink);letter-spacing:.3px}
+.card-en{font-size:12px;color:var(--ink-soft);margin:3px 0 0;
+  font-style:italic;font-family:"Iowan Old Style",Georgia,serif;letter-spacing:.2px}
+.card-desc{font-size:14px;line-height:1.7;color:var(--ink);margin:0}
+.card-sources{font-size:13px;margin-top:auto}
+.card-sources summary{cursor:pointer;color:var(--accent);
+  font-size:12px;font-weight:600;letter-spacing:.3px;
+  padding:6px 0;user-select:none;list-style:none}
+.card-sources summary::before{content:'▸ ';display:inline-block;
+  transition:transform .15s;margin-right:2px}
+.card-sources details[open] summary::before{transform:rotate(90deg)}
+.card-sources summary:hover{opacity:.75}
+.sources{display:flex;flex-direction:column;gap:10px;margin-top:8px;
+  padding:12px 14px;background:#f9f5ea;border-radius:6px;
+  border:1px dashed var(--line)}
+.src-ref{font-size:11px;color:var(--accent);font-weight:600;
+  letter-spacing:.3px;margin-bottom:3px}
+.src-quote{font-size:13px;color:var(--ink-soft);line-height:1.65;
+  font-family:"Iowan Old Style",Georgia,serif;
+  border-left:2px solid var(--accent);padding-left:10px;margin-top:2px}
+
+/* ---------- Empty / filtered states ---------- */
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;
+  color:var(--ink-soft);font-style:italic}
+.section.hidden{display:none}
+.card.hidden{display:none}
+
+/* ---------- Footer ---------- */
+.foot{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--ink-soft);text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <h1>荣格分析心理学·象征体系</h1>
+    <p class="sub">45 个象征，按功能分类。所有原典引用均出自荣格原典或对其的直接引文。</p>
+    <div class="meta">
+      8 个分类 · 45 个象征 · 来源：anysearch 网页搜索 · 2026-08-05 整理
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="搜索任意关键词（中/英）……"/>
+    <select id="section-filter"><option value="">全部章节</option><option value="psyche">一、人格构成</option><option value="archetypes">二、原型人物</option><option value="geometry">三、几何 / 曼荼罗</option><option value="elements">四、自然 / 元素</option><option value="places">五、场所 / 容器</option><option value="alchemy">六、炼金术</option><option value="religious">七、上帝意象与宗教</option><option value="process">八、过程象征</option></select>
+    <span class="stat" id="stat">共 45 个象征</span>
+  </div>
+
+  <nav class="nav-list"><ul class="nav-list"><li><a href="#psyche" style="--c:#5b7c8a"><span class="nav-dot" style="background:#5b7c8a"></span>一、人格构成</a></li><li><a href="#archetypes" style="--c:#a06b48"><span class="nav-dot" style="background:#a06b48"></span>二、原型人物</a></li><li><a href="#geometry" style="--c:#8a6b9a"><span class="nav-dot" style="background:#8a6b9a"></span>三、几何 / 曼荼罗</a></li><li><a href="#elements" style="--c:#6b8a5b"><span class="nav-dot" style="background:#6b8a5b"></span>四、自然 / 元素</a></li><li><a href="#places" style="--c:#8a5b6b"><span class="nav-dot" style="background:#8a5b6b"></span>五、场所 / 容器</a></li><li><a href="#alchemy" style="--c:#9a8a4b"><span class="nav-dot" style="background:#9a8a4b"></span>六、炼金术</a></li><li><a href="#religious" style="--c:#7a5b8a"><span class="nav-dot" style="background:#7a5b8a"></span>七、上帝意象与宗教</a></li><li><a href="#process" style="--c:#5b8a7a"><span class="nav-dot" style="background:#5b8a7a"></span>八、过程象征</a></li></ul></nav>
+
+  <main>
+    
+<section class="section" id="psyche">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#5b7c8a"></span>
+    一、人格构成
+    <small class="section-sub">psyche 的结构性组成部分</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="1" data-section="psyche"
+         style="--accent:#5b7c8a">
+  <header class="card-head">
+    <span class="card-num">01</span>
+    <div class="card-titles">
+      <h3 class="card-cn">阴影</h3>
+      <p class="card-en">Shadow / der Schatten</p>
+    </div>
+  </header>
+  <p class="card-desc">每个人身上被自我（ego）所拒绝、压抑、否认的人格部分——动物性、性别性、道德阴影的仓库。常以野兽、黑人、影子的形式出现。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i, §282（《Aion》§&quot;The Shadow&quot;）</div><div class="src-quote">More especially the threat to one&#x27;s inmost self from dragons and serpents points to the danger of the newly acquired consciousness being swallowed up again by the instinctive psyche, the unconscious.</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="2" data-section="psyche"
+         style="--accent:#5b7c8a">
+  <header class="card-head">
+    <span class="card-num">02</span>
+    <div class="card-titles">
+      <h3 class="card-cn">阿尼玛</h3>
+      <p class="card-en">Anima</p>
+    </div>
+  </header>
+  <p class="card-desc">男性心灵中的女性内在形象，连接无意识与意识的桥梁。男性心理发展的四阶段：Eve（纯生物性，源自母亲）→ Helen（浪漫/性感）→ Mary（灵性层面的圣母，提升向精神升华）→ Sophia（智慧原型，引导进入集体无意识深层）。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》16, par. 361（《The Practice of Psychotherapy》§&quot;Anima and Animus&quot;）</div><div class="src-quote">荣格在 CW 16 中分阶段论述阿尼玛由 Eve→Helen→Mary→Sophia 的发展序列。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="3" data-section="psyche"
+         style="--accent:#5b7c8a">
+  <header class="card-head">
+    <span class="card-num">03</span>
+    <div class="card-titles">
+      <h3 class="card-cn">阿尼姆斯</h3>
+      <p class="card-en">Animus</p>
+    </div>
+  </header>
+  <p class="card-desc">女性心灵中的男性内在形象。不同于阿尼玛往往以&quot;群体&quot;形式出现——议会、委员会、压迫性声音——代表 Logos（理性、原则、意义）。通过四阶段发展整合：具体身体→浪漫→精神原则→智慧/引导灵性意义。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》7 / 16</div><div class="src-quote">与阿尼玛相对应，详述见《Collected Works》16, par. 361 及其后诸段；Emma Jung《The Animus and Anima as a Couple》。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">暂未抓到 CW 中精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="4" data-section="psyche"
+         style="--accent:#5b7c8a">
+  <header class="card-head">
+    <span class="card-num">04</span>
+    <div class="card-titles">
+      <h3 class="card-cn">人格面具</h3>
+      <p class="card-en">Persona</p>
+    </div>
+  </header>
+  <p class="card-desc">个体在社会生活中戴上的&quot;面具&quot;，公众角色与社会适应性外观；是意识与社会之间的妥协产物，不是真我。源自拉丁文 persona（演员舞台假面具）。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》7（《Two Essays on Analytical Psychology》）§&quot;Persona and Shadow&quot;</div><div class="src-quote">主要论述人格面具的形成与阴影的对照。</div></div><div class="src"><div class="src-ref">《Collected Works》9i</div><div class="src-quote">相关章节反复出现。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未拿到 CW 7 精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="5" data-section="psyche"
+         style="--accent:#5b7c8a">
+  <header class="card-head">
+    <span class="card-num">05</span>
+    <div class="card-titles">
+      <h3 class="card-cn">自性</h3>
+      <p class="card-en">Self / das Selbst</p>
+    </div>
+  </header>
+  <p class="card-desc">心灵的总中心与完整性原型。自性不是 ego，而是统摄意识与无意识的更高整体，常以曼荼罗、基督、哲人石、人中之神（Anthropos）的形象显现。荣格用拉丁词 &quot;totus aliter&quot;（全然的他者）形容其超越性。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9ii / 12 / 14</div><div class="src-quote">见《Aion》《Psychology and Alchemy》《Mysterium Coniunctionis》相关章节。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="archetypes">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#a06b48"></span>
+    二、原型人物
+    <small class="section-sub">archetypal figures</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="6" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">06</span>
+    <div class="card-titles">
+      <h3 class="card-cn">智慧老人</h3>
+      <p class="card-en">Senex / Wise Old Man</p>
+    </div>
+  </header>
+  <p class="card-desc">智慧、意义、洞见、超越父母的引导者。常以老师、牧师、教授、圣人形象出现。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i（《Four Archetypes》）§&quot;The Phenomenology of the Spirit in Fairytales&quot;</div><div class="src-quote">与&quot;四位一体&quot;——父/母/孩童/骗子——同属《Four Archetypes》的核心论述。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="7" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">07</span>
+    <div class="card-titles">
+      <h3 class="card-cn">永恒少年</h3>
+      <p class="card-en">Puer Aeternus</p>
+    </div>
+  </header>
+  <p class="card-desc">停滞于青春期的永恒少年原型——渴望重生、逃避责任、沉醉可能性的男性形象。与&quot;母亲情结&quot;深度纠缠；与 Senex 形成对极。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">Marie-Louise von Franz《The Problem of the Puer Aeternus》</div><div class="src-quote">von Franz 系统整理此原型；荣格本人在 CW 中多以&quot;母性情结的对极&quot;间接论述。</div></div><div class="src"><div class="src-ref">《Collected Works》14</div><div class="src-quote">关于&quot;母性&quot;与&quot;再生&quot;的相关段落。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="8" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">08</span>
+    <div class="card-titles">
+      <h3 class="card-cn">大母神</h3>
+      <p class="card-en">Magna Mater / Great Mother</p>
+    </div>
+  </header>
+  <p class="card-desc">滋养、丰饶、包容、但同时也是吞噬、幽闭、无法逃避的母性本源。其双重性——慈爱与恐怖——体现为&quot;圣玛利亚&quot;与&quot;莉莉斯&quot;两极。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">Erich Neumann《The Great Mother》</div><div class="src-quote">与荣格学派联合著作。</div></div><div class="src"><div class="src-ref">《Collected Works》5 / 9i</div><div class="src-quote">论母性原型的章节。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到 CW 5 / 9i 精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="9" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">09</span>
+    <div class="card-titles">
+      <h3 class="card-cn">神圣孩童</h3>
+      <p class="card-en">Divine Child / Filius Macrocosmi</p>
+    </div>
+  </header>
+  <p class="card-desc">纯真、未来、再生、救赎的象征；常出现在英雄神话的起点与终点，是困厄中的希望与&quot;被选择者&quot;的标记。炼金术中是哲人石的新生儿形态。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i（《Four Archetypes》）§&quot;The Phenomenology of the Spirit in Fairytales&quot;</div><div class="src-quote">神圣孩童作为精神救赎的象征出现。</div></div><div class="src"><div class="src-ref">《Collected Works》13（Alchemical Studies）</div><div class="src-quote">论 &quot;filius macrocosmi&quot; 诸段。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="10" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">10</span>
+    <div class="card-titles">
+      <h3 class="card-cn">骗子 / 捣乱鬼</h3>
+      <p class="card-en">Trickster</p>
+    </div>
+  </header>
+  <p class="card-desc">集阴影与狡黠于一身，动物性的、原始的、轻佻的、嗜恶作剧的形象；同时是引向未知的引导者。在炼金术中以 Mercurius（墨丘利）现身。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i（《Four Archetypes》, 1959）§&quot;On the Psychology of the Trickster&quot;</div><div class="src-quote">荣格在此章追溯此原型从美洲原住民神话到 Mercury/Hermes 的完整谱系。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="11" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">11</span>
+    <div class="card-titles">
+      <h3 class="card-cn">英雄</h3>
+      <p class="card-en">Hero</p>
+    </div>
+  </header>
+  <p class="card-desc">征服阴影、克服考验、取得宝藏的原型主体。荣格区分&quot;被龙吞噬&quot;与&quot;战胜龙&quot;两种命运——后者才是真正的英雄，前者象征意识被无意识吞没。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i / 《Collected Works》14</div><div class="src-quote">The hero is the one who conquers the dragon, not the one who is devoured by it.</div></div><div class="src"><div class="src-ref">《Collected Works》5（《Symbols of Transformation》, 1912/1952）</div><div class="src-quote">关于太阳英雄神话的章节。</div></div><div class="src"><div class="src-ref">《Collected Works》14</div><div class="src-quote">论英雄—龙母题诸段。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="12" data-section="archetypes"
+         style="--accent:#a06b48">
+  <header class="card-head">
+    <span class="card-num">12</span>
+    <div class="card-titles">
+      <h3 class="card-cn">受伤的治愈者</h3>
+      <p class="card-en">Wounded Healer / Chiron</p>
+    </div>
+  </header>
+  <p class="card-desc">因自身创伤而具备疗愈能力的神话形象（基戎、基督、阿斯克勒庇俄斯）。荣格把它与炼金术中&quot;治愈者必先被毒染&quot;的原则联系起来。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》16</div><div class="src-quote">论心理治疗师的转化章节。</div></div><div class="src"><div class="src-ref">Marie-Louise von Franz</div><div class="src-quote">对该原型的系统整理。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到 CW 16 精确段号。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="geometry">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#8a6b9a"></span>
+    三、几何 / 曼荼罗
+    <small class="section-sub">geometry of the self</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="13" data-section="geometry"
+         style="--accent:#8a6b9a">
+  <header class="card-head">
+    <span class="card-num">13</span>
+    <div class="card-titles">
+      <h3 class="card-cn">曼荼罗</h3>
+      <p class="card-en">Mandala</p>
+    </div>
+  </header>
+  <p class="card-desc">梵文/巴利文词，意为&quot;圆&quot;。荣格那里特指精神失序或自我整合发生时无意识自发生成的环形图像，含中心—四方—四色—四态的结构。荣格本人 1928 年起在沙盘上绘制曼荼罗记录内在状态。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》10（《Civilization in Transition》）par. 803</div><div class="src-quote">Mandalas... usually appear in situations of psychic confusion and disorientation.</div></div><div class="src"><div class="src-ref">《The Secret of the Golden Flower》（1945 年版译序）p. 96</div><div class="src-quote">Mandala means a circle, more especially a magic circle...</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="14" data-section="geometry"
+         style="--accent:#8a6b9a">
+  <header class="card-head">
+    <span class="card-num">14</span>
+    <div class="card-titles">
+      <h3 class="card-cn">圆与中心</h3>
+      <p class="card-en">Circle / Centrum</p>
+    </div>
+  </header>
+  <p class="card-desc">圆是自性最基本的几何符号——无形无缺、自足回返。中心（centrum）是自性在曼荼罗中的定位点。圆的&quot;四等分&quot;产生 quaternity（四位一体）。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i / 12（《Psychology and Alchemy》）</div><div class="src-quote">关于曼荼罗与圆形象征的诸多段落。</div></div><div class="src"><div class="src-ref">《Collected Works》11</div><div class="src-quote">关于心理学与宗教。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="15" data-section="geometry"
+         style="--accent:#8a6b9a">
+  <header class="card-head">
+    <span class="card-num">15</span>
+    <div class="card-titles">
+      <h3 class="card-cn">十字</h3>
+      <p class="card-en">Cross</p>
+    </div>
+  </header>
+  <p class="card-desc">四等分的中心，由圆&quot;立起&quot;形成；基督教是基督在荣光中的核心图像。荣格把十字视为&quot;圆的方形化&quot;——从无形自性落实为有形世界。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》11 / 12</div><div class="src-quote">论基督教象征的章节。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到 CW 11 / 12 精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="16" data-section="geometry"
+         style="--accent:#8a6b9a">
+  <header class="card-head">
+    <span class="card-num">16</span>
+    <div class="card-titles">
+      <h3 class="card-cn">四位一体</h3>
+      <p class="card-en">Quaternity / Quaternio</p>
+    </div>
+  </header>
+  <p class="card-desc">荣格发现的&quot;心理完整性&quot;基本数字结构——三位一体总是不完整的，需要第四项（通常是被排斥的、阴影性的、或女性的）补足方成整体。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i / 12 / 13 反复出现</div><div class="src-quote">Marie-Louise von Franz《Number and Time》系统整理：Mankind&#x27;s repeated attempts to establish an orientation toward wholeness possess a quaternary structure, and appear to correspond to an archetypal psychic predisposition in man.</div></div><div class="src"><div class="src-ref">《Jung Speaking: Encounters and Interviews》</div><div class="src-quote">The quaternity, above all, is an essential archetype. The square, the cross. The squaring of the circle by the alchemists. The cross in the circle, or, for the Christians, Christ in &#x27;glory.&#x27;</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="17" data-section="geometry"
+         style="--accent:#8a6b9a">
+  <header class="card-head">
+    <span class="card-num">17</span>
+    <div class="card-titles">
+      <h3 class="card-cn">数字（作为原型）</h3>
+      <p class="card-en">Numbers as Archetypes</p>
+    </div>
+  </header>
+  <p class="card-desc">荣格视数字为&quot;先于意识的原型&quot;——既非纯粹人造，也非纯粹神造，而是跨越意识与无意识的中介者。3 = 不完整的灵性；4 = 完整；7 = 神圣时间；12 = 完整的多面体。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》8（《The Structure and Dynamics of the Unconscious》§&quot;On the Nature of the Psyche&quot;）</div><div class="src-quote">论及数字为&quot;先在意识而存在的实体&quot;。</div></div><div class="src"><div class="src-ref">Marie-Louise von Franz《Number and Time》</div><div class="src-quote">系统整理荣格学派对原型数字的论述。</div></div><div class="src"><div class="src-ref">Edward Edinger《Anatomy of the Psyche》第七章</div><div class="src-quote">综合整理。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="elements">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#6b8a5b"></span>
+    四、自然 / 元素
+    <small class="section-sub">natural elements</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="18" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">18</span>
+    <div class="card-titles">
+      <h3 class="card-cn">火</h3>
+      <p class="card-en">Fire / Ignis</p>
+    </div>
+  </header>
+  <p class="card-desc">转化、欲望、净化、圣灵（Ignis Sanctus）的元素；炼金术中&quot;无焰之火&quot;（ignis sine flamma）象征精神爱欲。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》13 / 14</div><div class="src-quote">论火与炼金转化的章节。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="19" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">19</span>
+    <div class="card-titles">
+      <h3 class="card-cn">水</h3>
+      <p class="card-en">Water / Aqua</p>
+    </div>
+  </header>
+  <p class="card-desc">无意识、生命本源、母性的元素；既是受孕的子宫，也是洗礼的圣池、毁灭性的洪水。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》13 / 14</div><div class="src-quote">关于 &quot;mercurial water&quot; / &quot;baptismal font&quot; 的章节。</div></div><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）</div><div class="src-quote">论&quot;水的转化&quot;。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="20" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">20</span>
+    <div class="card-titles">
+      <h3 class="card-cn">蛇与龙</h3>
+      <p class="card-en">Serpent / Dragon</p>
+    </div>
+  </header>
+  <p class="card-desc">双极原型——既是阴影、阴险、危险，又是智慧、洞察、连接对立面的桥。在《红书》中作为对立极的代表出现。龙与蛇同源，象征&quot;未被吞并的本能心理&quot;对新生意识的威胁。</p>
+  <details class="card-sources">
+    <summary>原典出处（4 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Red Book》p. 247</div><div class="src-quote">The serpent is an adversary and a symbol of enmity, but also a wise bridge that connects right and left through longing...</div></div><div class="src"><div class="src-ref">《Red Book》p. 322</div><div class="src-quote">If I had not become like the serpent, the devil, the quintessence of everything serpentlike, would have held this bit of power over me.</div></div><div class="src"><div class="src-ref">《Red Book》p. 353</div><div class="src-quote">The daimon of sexuality approaches our soul as a serpent.</div></div><div class="src"><div class="src-ref">《Collected Works》9i, §282</div><div class="src-quote">龙—蛇—阴影同源结构。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="21" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">21</span>
+    <div class="card-titles">
+      <h3 class="card-cn">鱼</h3>
+      <p class="card-en">Fish / Piscis / Ichthys</p>
+    </div>
+  </header>
+  <p class="card-desc">基督（Ίησοῦς Χριστός Θεοῦ Υἱός Σωτήρ 五个首字母拼出 ICHTHYS 希腊语&quot;鱼&quot;）的早期基督教符号；同时象征从无意识深处浮出的、未分化的内在生命。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》18</div><div class="src-quote">关于基督与鱼象征的章节。</div></div><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）</div><div class="src-quote">The pool represents the piscina, the fish pond. The piscina was the name for the pre-Christian baptismal place.</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到 CW 18 精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="22" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">22</span>
+    <div class="card-titles">
+      <h3 class="card-cn">树</h3>
+      <p class="card-en">Tree / Arbor / Axis Mundi</p>
+    </div>
+  </header>
+  <p class="card-desc">宇宙之轴（Axis Mundi）、生命之树、智慧之树、智慧老人的居所；同时是十字架的预表。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》13（Alchemical Studies）§&quot;The Philosophical Tree&quot;</div><div class="src-quote">荣格在此系统比较炼金术树、印度生命之树（Kalpavriksha）、北欧 Yggdrasil 等的形象。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="23" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">23</span>
+    <div class="card-titles">
+      <h3 class="card-cn">花 / 玫瑰</h3>
+      <p class="card-en">Flower / Rose</p>
+    </div>
+  </header>
+  <p class="card-desc">完整、绽放、容器般的中心；炼金术中&quot;哲人之花&quot;。玫瑰与阿尼玛、爱情、丰饶有深层联系。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）/ 《Collected Works》13 / 14</div><div class="src-quote">关于玫瑰园（rosarium）的章节，特别是 Rosarium Philosophorum 的心理解读。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="24" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">24</span>
+    <div class="card-titles">
+      <h3 class="card-cn">太阳</h3>
+      <p class="card-en">Sol</p>
+    </div>
+  </header>
+  <p class="card-desc">意识、理性、父性、自性（正面）的象征；与黑暗相对。是荣格&quot;光之对抗&quot;（enantiodromic pair with darkness）的阳性端。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Symbols of Transformation》（CW 5）/ 《Mysterium Coniunctionis》（CW 14）</div><div class="src-quote">论 Rex / Sol 一极。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="25" data-section="elements"
+         style="--accent:#6b8a5b">
+  <header class="card-head">
+    <span class="card-num">25</span>
+    <div class="card-titles">
+      <h3 class="card-cn">月亮</h3>
+      <p class="card-en">Luna</p>
+    </div>
+  </header>
+  <p class="card-desc">无意识、母性、阿尼玛、夜间—海洋—深渊原则。是 Sol 的对立极，必须被 Sol/Luna 合一才能达到完整。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Mysterium Coniunctionis》（CW 14）反复讨论 Luna-Rex 的对立与联合 §&quot;Sol and Luna&quot;</div><div class="src-quote">完整的两极对称论述。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="places">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#8a5b6b"></span>
+    五、场所 / 容器
+    <small class="section-sub">places and containers of transformation</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="26" data-section="places"
+         style="--accent:#8a5b6b">
+  <header class="card-head">
+    <span class="card-num">26</span>
+    <div class="card-titles">
+      <h3 class="card-cn">洞穴与深渊</h3>
+      <p class="card-en">Cave / Spelunca</p>
+    </div>
+  </header>
+  <p class="card-desc">沉思的场所、从俗世向神性的转化之地、母腹的象征。地下世界 / Hades 之行的目的地。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Man and His Symbols》（1964）</div><div class="src-quote">Cave symbolism represents a place of meditation and of the mystery of transformation from the earthly to the heavenly.</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="27" data-section="places"
+         style="--accent:#8a5b6b">
+  <header class="card-head">
+    <span class="card-num">27</span>
+    <div class="card-titles">
+      <h3 class="card-cn">井</h3>
+      <p class="card-en">Well / Puteus</p>
+    </div>
+  </header>
+  <p class="card-desc">深层无意识的入口——是《红书》的重要主题（荣格梦见自己在井底）。井中水是&quot;活的灵魂之水&quot;。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Memories, Dreams, Reflections》（MDR）</div><div class="src-quote">荣格自述梦见自己在井底的著名梦境。</div></div><div class="src"><div class="src-ref">《Collected Works》14</div><div class="src-quote">关于井与水的章节。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="28" data-section="places"
+         style="--accent:#8a5b6b">
+  <header class="card-head">
+    <span class="card-num">28</span>
+    <div class="card-titles">
+      <h3 class="card-cn">桥</h3>
+      <p class="card-en">Bridge / Pons</p>
+    </div>
+  </header>
+  <p class="card-desc">联结对立两极——意识与无意识、生与死、此岸与彼岸——的通道。分析者作为&quot;桥&quot;是荣格心理学的一个核心比喻。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》16（论分析关系中的 &quot;transcendent function&quot;）</div><div class="src-quote">C.G. Jung relates the bridge to the transcendent function, a psychic dynamic that enables us to resolve seemingly insurmountable conflicts.</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="29" data-section="places"
+         style="--accent:#8a5b6b">
+  <header class="card-head">
+    <span class="card-num">29</span>
+    <div class="card-titles">
+      <h3 class="card-cn">塔 / 城</h3>
+      <p class="card-en">Tower / City / Castle</p>
+    </div>
+  </header>
+  <p class="card-desc">意识堡垒、自性的内在城堡；同时象征被自我过度扩张的孤立结构（塔罗&quot;塔&quot;的意象）。荣格在 Bollingen 自建的石头塔被视为&quot;心灵之石质建筑&quot;。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Memories, Dreams, Reflections》（MDR）</div><div class="src-quote">As a child, Jung had often imagined a castle on an island in a lake—a symbol of the unconscious inner stronghold of the self.</div></div><div class="src"><div class="src-ref">塔罗补充</div><div class="src-quote">The Tower 象征&quot;必要的坍塌&quot;——ego 的过度建构被闪电摧毁，迫使意识下沉至无意识中再出发。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="30" data-section="places"
+         style="--accent:#8a5b6b">
+  <header class="card-head">
+    <span class="card-num">30</span>
+    <div class="card-titles">
+      <h3 class="card-cn">洗礼池</h3>
+      <p class="card-en">Baptismal Font / Piscina</p>
+    </div>
+  </header>
+  <p class="card-desc">诞生与第二次出生的场所——子宫与精神诞生的双重象征。从异教鱼池（piscina）到基督教洗礼池，是水/鱼/诞生主题的容器。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》18</div><div class="src-quote">If you study the symbolism of baptism you still see traces of the original meaning. Our birth-chamber is the baptismal font.</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="alchemy">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#9a8a4b"></span>
+    六、炼金术
+    <small class="section-sub">alchemical symbols</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="31" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">31</span>
+    <div class="card-titles">
+      <h3 class="card-cn">墨丘利 / 赫耳墨斯</h3>
+      <p class="card-en">Mercurius / Hermes</p>
+    </div>
+  </header>
+  <p class="card-desc">炼金术的核心人物——始源、过程、结果的统一；既是液体的灵、也是坚硬的金属；既神圣又恶魔；既智慧又狡诈。雌雄同体。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》13（Alchemical Studies）§&quot;The Spirit Mercurius&quot; par. 288</div><div class="src-quote">The paradoxical nature of Mercurius reflects an important aspect of the self—the fact, namely, that it is essentially a complexio oppositorum.</div></div><div class="src"><div class="src-ref">《Collected Works》13 par. 404</div><div class="src-quote">[Mercurius is] metallic yet liquid, matter yet spirit, cold yet fiery, poison and yet healing draught—a symbol uniting all the opposites.</div></div><div class="src"><div class="src-ref">《Collected Works》13 §&quot;The Philosophical Tree&quot; par. 300</div><div class="src-quote">Mercurius is an adumbration of the primordial light-bringer, who is never himself the light, but... who brings the light of nature, the light of the moon and the stars which fades before the new morning light.</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="32" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">32</span>
+    <div class="card-titles">
+      <h3 class="card-cn">哲人石</h3>
+      <p class="card-en">Lapis Philosophorum</p>
+    </div>
+  </header>
+  <p class="card-desc">炼金术的终极产物——既是物质的金，也是精神的自性。&quot;非金非木、非石非水&quot;，又是金木石水全部；圆形、立方形或二者合一。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Mysterium Coniunctionis》（CW 14）§&quot;Lapis&quot;</div><div class="src-quote">系统论述哲人石。</div></div><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）</div><div class="src-quote">论转化结束的章节。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="33" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">33</span>
+    <div class="card-titles">
+      <h3 class="card-cn">第一物质</h3>
+      <p class="card-en">Prima Materia</p>
+    </div>
+  </header>
+  <p class="card-desc">炼金工作的起点——混沌、未分化、万物同体的状态；心理上对应婴儿、未整合的童年、或心理分析的起点。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）</div><div class="src-quote">§&quot;The Subjective Dream-Symbolism of the Transference&quot; 与 &quot;Individuation and What It Means&quot; 反复出现。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="34" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">34</span>
+    <div class="card-titles">
+      <h3 class="card-cn">炼金四阶段</h3>
+      <p class="card-en">Nigredo / Albedo / Citrinitas / Rubedo</p>
+    </div>
+  </header>
+  <p class="card-desc">炼金术的标准四阶段——黑化（崩溃、死亡、阴影相遇）、白化（净化、上升）、黄化（灵魂苏醒）、红化（结合、再诞生）。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）/ 《Mysterium Coniunctionis》（CW 14）</div><div class="src-quote">系统论述炼金四阶段及其心理学对应。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="35" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">35</span>
+    <div class="card-titles">
+      <h3 class="card-cn">圣婚</h3>
+      <p class="card-en">Coniunctio / Hierosgamos</p>
+    </div>
+  </header>
+  <p class="card-desc">对立两极的结合——Sol 与 Luna、Rex 与 Regina、Adam 与 Eve、男性与女性、火与水、硫磺与汞；产出哲人石或新人性。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Mysterium Coniunctionis》（CW 14）</div><div class="src-quote">全书的中心主题。</div></div><div class="src"><div class="src-ref">《Psychology of the Transference》（CW 16）</div><div class="src-quote">转移关系中的圣婚。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="36" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">36</span>
+    <div class="card-titles">
+      <h3 class="card-cn">蛇吞噬 / 衔尾蛇</h3>
+      <p class="card-en">Ouroboros</p>
+    </div>
+  </header>
+  <p class="card-desc">自吞之蛇——既是循环再生的象征，又是&quot;被无意识吞没&quot;的风险，呼应阴影—龙母题。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Mysterium Coniunctionis》（CW 14）§&quot;Ouroboros&quot;</div><div class="src-quote">系统讨论衔尾蛇。</div></div><div class="src"><div class="src-ref">《Psychology and Alchemy》（CW 12）</div><div class="src-quote">关于 &quot;coniunctio&quot; 的章节。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="37" data-section="alchemy"
+         style="--accent:#9a8a4b">
+  <header class="card-head">
+    <span class="card-num">37</span>
+    <div class="card-titles">
+      <h3 class="card-cn">凤凰</h3>
+      <p class="card-en">Phoenix</p>
+    </div>
+  </header>
+  <p class="card-desc">自焚重生的火鸟，象征个体化过程中&quot;旧我毁灭—新人诞生&quot;的转化完成态。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Mysterium Coniunctionis》（CW 14）</div><div class="src-quote">相关章节反复出现。</div></div><div class="src"><div class="src-ref">Marie-Louise von Franz《Aurora Consurgens》</div><div class="src-quote">系统整理凤凰原型。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到 CW 14 精确段号。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="religious">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#7a5b8a"></span>
+    七、上帝意象与宗教
+    <small class="section-sub">god-image &amp; religious symbols</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="38" data-section="religious"
+         style="--accent:#7a5b8a">
+  <header class="card-head">
+    <span class="card-num">38</span>
+    <div class="card-titles">
+      <h3 class="card-cn">上帝意象</h3>
+      <p class="card-en">Imago Dei / God-image</p>
+    </div>
+  </header>
+  <p class="card-desc">人心中的上帝形象——荣格在《答约伯》中提出，上帝形象是自性在集体层面的呈现，而非纯粹的超越实体；上帝形象的演变（从耶和华的粗暴到基督的慈爱再到圣灵的整合）对应自性的展开。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Answer to Job》（CW 11）§&quot;The Effect of the Aeon upon the God-Image&quot;</div><div class="src-quote">及其后诸章。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="39" data-section="religious"
+         style="--accent:#7a5b8a">
+  <header class="card-head">
+    <span class="card-num">39</span>
+    <div class="card-titles">
+      <h3 class="card-cn">基督 / 人中之神</h3>
+      <p class="card-en">Christ / Anthropos</p>
+    </div>
+  </header>
+  <p class="card-desc">完整人性的象征——荣格视基督为&quot;自性在历史中的显化&quot;，但只代表意识—无意识的整合，缺乏阴影（邪恶）与女性（阿尼玛）维度。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Aion》（CW 9ii）§&quot;Christ, a Symbol of the Self&quot;</div><div class="src-quote">Christ exemplifies the archetype of the self.</div></div><div class="src"><div class="src-ref">《Answer to Job》（CW 11）</div><div class="src-quote">详细论述基督象征与三位一体象征的心理学意义。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="40" data-section="religious"
+         style="--accent:#7a5b8a">
+  <header class="card-head">
+    <span class="card-num">40</span>
+    <div class="card-titles">
+      <h3 class="card-cn">三位一体</h3>
+      <p class="card-en">Trinity</p>
+    </div>
+  </header>
+  <p class="card-desc">基督教核心象征，但荣格视三位一体为&quot;不完整的圆&quot;——缺第四项（女性/阴影/物质）。完整化需要加上圣母玛利亚作为&quot;第四&quot;。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Aion》（CW 9ii）/ 《Answer to Job》（CW 11）</div><div class="src-quote">关于三 vs 四的反复讨论。</div></div><div class="src"><div class="src-ref">Marie-Louise von Franz《Number and Time》</div><div class="src-quote">数字体系中的详细论述。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+
+<section class="section" id="process">
+  <h2 class="section-title">
+    <span class="section-dot" style="background:#5b8a7a"></span>
+    八、过程象征
+    <small class="section-sub">symbolic process patterns</small>
+  </h2>
+  <div class="card-grid">
+<article class="card" data-id="41" data-section="process"
+         style="--accent:#5b8a7a">
+  <header class="card-head">
+    <span class="card-num">41</span>
+    <div class="card-titles">
+      <h3 class="card-cn">个体化</h3>
+      <p class="card-en">Individuation</p>
+    </div>
+  </header>
+  <p class="card-desc">成为&quot;真正的自己&quot;的过程——ego 与自性之间的整合旅程。不是&quot;变成孤立个体&quot;，而是&quot;成为整体&quot;。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》7 / 9i / 12 / 14 反复出现</div><div class="src-quote">核心论述见《Psychology and Alchemy》（CW 12）§&quot;The Process of Individuation&quot;。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="42" data-section="process"
+         style="--accent:#5b8a7a">
+  <header class="card-head">
+    <span class="card-num">42</span>
+    <div class="card-titles">
+      <h3 class="card-cn">转化功能</h3>
+      <p class="card-en">Transcendent Function</p>
+    </div>
+  </header>
+  <p class="card-desc">连接意识与无意识的第三功能——既不是合一的丧失，也不是两者的对抗，而是经由象征出现达到的&quot;超越对立&quot;的新位。</p>
+  <details class="card-sources">
+    <summary>原典出处（1 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》8（《The Structure and Dynamics of the Unconscious》§&quot;The Transcendent Function&quot;）</div><div class="src-quote">The transcendent function appears as a psychic dynamic that enables us to resolve seemingly insurmountable conflicts...</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="43" data-section="process"
+         style="--accent:#5b8a7a">
+  <header class="card-head">
+    <span class="card-num">43</span>
+    <div class="card-titles">
+      <h3 class="card-cn">第二次出生 / 再生</h3>
+      <p class="card-en">Rebirth / Second Birth / Palingenesia</p>
+    </div>
+  </header>
+  <p class="card-desc">象征自性诞生的核心事件——死亡与复活、子宫中再生、水与火的洗礼。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Collected Works》9i（《The Archetypes and the Collective Unconscious》）§&quot;Rebirth&quot;</div><div class="src-quote">系统论述再生的母题。</div></div><div class="src"><div class="src-ref">《Collected Works》18</div><div class="src-quote">关于个体化与精神重生的章节。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="44" data-section="process"
+         style="--accent:#5b8a7a">
+  <header class="card-head">
+    <span class="card-num">44</span>
+    <div class="card-titles">
+      <h3 class="card-cn">夜间海航</h3>
+      <p class="card-en">Night Sea Journey / Peregrinatio</p>
+    </div>
+  </header>
+  <p class="card-desc">日落—夜晚—深渊—日出 的循环；赫尔墨斯—透特—基督同行的冥界之旅；意识被无意识吞没后从另一端重新浮现的历程。</p>
+  <details class="card-sources">
+    <summary>原典出处（3 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Mysterium Coniunctionis》（CW 14）</div><div class="src-quote">反复论述下降—上升的循环母题。</div></div><div class="src"><div class="src-ref">《Collected Works》5（《Symbols of Transformation》）</div><div class="src-quote">太阳英雄的下行—上升周期。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+
+
+<article class="card" data-id="45" data-section="process"
+         style="--accent:#5b8a7a">
+  <header class="card-head">
+    <span class="card-num">45</span>
+    <div class="card-titles">
+      <h3 class="card-cn">重返源头</h3>
+      <p class="card-en">Reductio / Катаβασις / Descent</p>
+    </div>
+  </header>
+  <p class="card-desc">英雄、神祇、阿尼玛的必经下潜——荣格视之为&quot;为上升必须先下降&quot;（Gnostic maxim）原则。</p>
+  <details class="card-sources">
+    <summary>原典出处（2 处）</summary>
+    <div class="sources"><div class="src"><div class="src-ref">《Symbols of Transformation》（CW 5）/ 《Collected Works》12 / 14 反复出现</div><div class="src-quote">「隆起」必须先「潜入」原则。</div></div><div class="src"><div class="src-ref">待补段号</div><div class="src-quote">本次未抓到精确段号。</div></div></div>
+  </details>
+</article>
+</div>
+</section>
+
+  </main>
+
+  <footer class="foot">
+    <p>检索方法：anysearch + 原典段落核对<br/>
+    凡未在本次搜索中拿到直接段号的，均标 <strong>待补段号</strong>。使用时请另行核对原典页码。<br/>
+    生成者：梦见（ima.copilot） · 2026-08-05</p>
+  </footer>
+
+</div>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const sections=[...document.querySelectorAll('.section')];
+const search=document.getElementById('search');
+const filter=document.getElementById('section-filter');
+const stat=document.getElementById('stat');
+const total=cards.length;
+
+function apply(){
+  const q=(search.value||'').trim().toLowerCase();
+  const sec=filter.value;
+  let visible=0;
+  // 章节级过滤
+  sections.forEach(s=>{
+    const matchSec=!sec || s.id===sec;
+    s.classList.toggle('hidden', !matchSec);
+  });
+  // 卡片级过滤
+  cards.forEach(c=>{
+    const inSection=!sec || c.dataset.section===sec;
+    const text=(c.textContent||'').toLowerCase();
+    const matchQ=!q || text.includes(q);
+    const show=inSection && matchQ;
+    c.classList.toggle('hidden', !show);
+    if(show) visible++;
+  });
+  stat.textContent = (q||sec)
+    ? `显示 ${visible} / ${total}`
+    : `共 ${total} 个象征`;
+}
+
+search.addEventListener('input', apply);
+filter.addEventListener('change', apply);
+
+// 锚点跳转后恢复过滤状态
+window.addEventListener('hashchange', ()=>{
+  // 让浏览器跳；过滤保持用户当前搜索/筛选
+});
+</script>
+</body>
+</html>

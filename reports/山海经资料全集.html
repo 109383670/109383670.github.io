@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山海经全图鉴 · 写作资料库</title>
+<style>
+:root {
+  --red: #b22222;
+  --dark-red: #8b1a1a;
+  --gold: #c9a96e;
+  --light-gold: #e8d5a3;
+  --ink: #2c2c2c;
+  --light-ink: #555;
+  --paper: #faf6ee;
+  --paper-dark: #f0e8d8;
+  --white: #fff;
+  --border: #d4c5a9;
+  --shadow: rgba(0,0,0,0.1);
+  --radius: 8px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "STSong", "宋体", Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+/* 头部 */
+.header {
+  background: linear-gradient(135deg, var(--dark-red), var(--red));
+  color: var(--white);
+  padding: 36px 20px 28px;
+  text-align: center;
+  border-bottom: 4px solid var(--gold);
+}
+.header-inner { max-width: 1100px; margin: 0 auto; }
+.logo { font-size: 1.8rem; font-weight: 700; letter-spacing: 4px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+.subtitle { margin-top: 8px; font-size: 0.88rem; opacity: 0.85; letter-spacing: 1px; }
+
+/* 工具栏 */
+.toolbar {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 14px 20px; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.toolbar-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.search-box { flex: 1; min-width: 200px; position: relative; display: flex; align-items: center; }
+.search-box input {
+  width: 100%; padding: 9px 32px 9px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 0.95rem; background: var(--paper); font-family: inherit;
+  transition: border-color .2s;
+}
+.search-box input:focus { outline: none; border-color: var(--red); background: var(--white); }
+.search-clear { position: absolute; right: 6px; background: none; border: none; cursor: pointer; font-size: 1rem; color: #999; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filters select {
+  padding: 7px 26px 7px 10px; border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 0.88rem; background: var(--paper); cursor: pointer; font-family: inherit;
+  -webkit-appearance: none; appearance: none;
+}
+.filters select:focus { border-color: var(--red); }
+.stats { font-size: 0.85rem; color: var(--light-ink); white-space: nowrap; margin-left: auto; }
+
+/* 分类导航 */
+.category-nav { max-width: 1100px; margin: 0 auto; padding: 14px 20px 2px; display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-btn {
+  padding: 5px 14px; border: 1px solid var(--border); border-radius: 18px;
+  background: var(--white); cursor: pointer; font-size: 0.85rem; font-family: inherit;
+  transition: all .2s; color: var(--ink);
+}
+.cat-btn:hover { border-color: var(--gold); background: var(--light-gold); }
+.cat-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
+
+/* 卡片网格 */
+.grid-container {
+  max-width: 1100px; margin: 18px auto; padding: 0 20px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px;
+}
+.card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px var(--shadow); }
+.action-btns { display: flex; gap: 6px; }
+.action-btn {
+  padding: 7px 12px; border: 1px solid var(--red); border-radius: var(--radius);
+  background: var(--white); cursor: pointer; font-size: 0.82rem; font-family: inherit;
+  transition: all .2s; color: var(--red); white-space: nowrap;
+}
+.action-btn:hover { background: var(--red); color: var(--white); }
+
+.card-img-top {
+  height: 120px; display: flex; align-items: center; justify-content: center;
+  font-size: 2.4rem; flex-shrink: 0;
+}
+.card-body { padding: 10px 12px 12px; flex: 1; display: flex; flex-direction: column; }
+.card-name { font-size: 1rem; font-weight: 700; color: var(--dark-red); }
+.card-alias { font-size: 0.78rem; color: var(--light-ink); margin: 1px 0 4px; }
+.card-original {
+  font-size: 0.8rem; color: #666; line-height: 1.5;
+  background: var(--paper); padding: 5px 8px; border-radius: 4px;
+  margin: 4px 0; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--paper-dark); font-size: 0.75rem; color: var(--light-ink); }
+.card-type { padding: 1px 8px; border-radius: 10px; font-size: 0.75rem; }
+
+/* 空状态 */
+.empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--light-ink); }
+.empty-state .icon { font-size: 3rem; margin-bottom: 10px; }
+
+/* 分页 */
+.pagination { max-width: 1100px; margin: 8px auto 30px; padding: 0 20px; display: flex; justify-content: center; align-items: center; gap: 4px; flex-wrap: wrap; }
+.page-btn {
+  padding: 5px 10px; border: 1px solid var(--border); border-radius: 4px;
+  background: var(--white); cursor: pointer; font-size: 0.85rem; font-family: inherit;
+  min-width: 32px; text-align: center;
+}
+.page-btn:hover { border-color: var(--gold); }
+.page-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
+.page-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* 弹窗 */
+.modal-overlay {
+  display: none; position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.6); z-index: 1000;
+  align-items: center; justify-content: center; padding: 20px; overflow-y: auto;
+}
+.modal-overlay.show { display: flex; }
+.modal-content {
+  background: var(--white); border-radius: 12px; max-width: 700px; width: 100%;
+  max-height: 85vh; overflow-y: auto; padding: 28px;
+  position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: modalIn .3s ease;
+}
+@keyframes modalIn { from{opacity:0;transform:translateY(20px) scale(.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+.modal-close {
+  position: absolute; top:10px; right:14px; background:none; border:none;
+  font-size:1.4rem; cursor:pointer; color:#999; line-height:1;
+}
+.detail-header { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+.detail-img-box {
+  width: 160px; height: 160px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--paper-dark), var(--border));
+  border-radius: var(--radius); font-size: 3.6rem; flex-shrink: 0;
+}
+.detail-title-area { flex:1; }
+.detail-name { font-size: 1.5rem; color: var(--dark-red); font-weight: 700; }
+.detail-alias { font-size: 0.88rem; color: var(--light-ink); margin: 2px 0 6px; }
+.detail-type-badge { display:inline-block; background:var(--red); color:var(--white); padding:2px 12px; border-radius:12px; font-size:0.8rem; }
+.detail-section { margin-bottom: 16px; }
+.detail-section h3 { font-size: 0.95rem; color: var(--red); border-bottom: 2px solid var(--light-gold); padding-bottom: 3px; margin-bottom: 6px; }
+.detail-section p, .detail-section blockquote { font-size: 0.9rem; line-height: 1.8; }
+.detail-section blockquote {
+  background: var(--paper); border-left: 4px solid var(--gold);
+  padding: 10px 14px; margin: 4px 0; border-radius: 0 4px 4px 0;
+  font-style: italic; color: var(--light-ink);
+}
+.detail-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.detail-tag { background: var(--paper-dark); padding: 1px 8px; border-radius: 10px; font-size: 0.8rem; color: var(--light-ink); }
+.detail-ref { font-size: 0.85rem; margin-bottom: 4px; padding: 6px 10px; background: var(--paper); border-radius: 4px; }
+.detail-ref strong { color: var(--dark-red); }
+.detail-link { color: var(--red); text-decoration: underline; cursor: pointer; }
+
+/* 页脚 */
+.footer { text-align: center; padding: 20px; color: var(--light-ink); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 10px; }
+
+/* 响应式 */
+@media (max-width: 640px) {
+  .logo { font-size: 1.3rem; }
+  .toolbar-inner { flex-direction: column; align-items: stretch; }
+  .filters { flex-direction: column; }
+  .stats { margin-left: 0; text-align: right; }
+  .grid-container { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+  .cat-btn { font-size: 0.8rem; padding: 3px 10px; }
+  .detail-header { flex-direction: column; }
+  .detail-img-box { width: 100%; max-width: 180px; height: 140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部 -->
+<header class="header">
+  <div class="header-inner">
+    <h1 class="logo">🏔️ 山海经全图鉴</h1>
+    <p class="subtitle">《山海经》十八卷 · 山系 · 异兽 · 植物 · 矿物 · 神灵 · 奇物 · 异国<br>网络小说写作资料库</p>
+  </div>
+</header>
+
+<!-- 搜索与筛选 -->
+<section class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 搜索名称、原文、描述…" autocomplete="off">
+      <button class="search-clear" id="clearBtn" style="display:none">✕</button>
+    </div>
+    <div class="filters">
+      <select id="typeFilter">
+        <option value="">全部分类</option>
+        <option value="山系">🏔️ 山系</option>
+        <option value="异兽">🐉 异兽</option>
+        <option value="植物">🌿 植物</option>
+        <option value="矿物">💎 矿物</option>
+        <option value="神灵">🧙 神灵/人物</option>
+        <option value="奇物">🏺 奇物/异国</option>
+      </select>
+      <select id="bookFilter">
+        <option value="">全部出处</option>
+        <option value="南山经">南山经</option>
+        <option value="西山经">西山经</option>
+        <option value="北山经">北山经</option>
+        <option value="东山经">东山经</option>
+        <option value="中山经">中山经</option>
+        <option value="海外南经">海外南经</option>
+        <option value="海外西经">海外西经</option>
+        <option value="海外北经">海外北经</option>
+        <option value="海外东经">海外东经</option>
+        <option value="海内南经">海内南经</option>
+        <option value="海内西经">海内西经</option>
+        <option value="海内北经">海内北经</option>
+        <option value="海内东经">海内东经</option>
+        <option value="大荒东经">大荒东经</option>
+        <option value="大荒南经">大荒南经</option>
+        <option value="大荒西经">大荒西经</option>
+        <option value="大荒北经">大荒北经</option>
+        <option value="海内经">海内经</option>
+      </select>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="randomOne()" title="随机展示一条">🎲 随机</button>
+      <button class="action-btn" onclick="exportMarkdown()" title="导出为Markdown">📥 导出MD</button>
+    </div>
+  </div>
+</section>
+
+<!-- 分类快捷导航 -->
+<section class="category-nav">
+  <button class="cat-btn active" data-type="">📚 全部</button>
+  <button class="cat-btn" data-type="山系">🏔️ 山系</button>
+  <button class="cat-btn" data-type="异兽">🐉 异兽</button>
+  <button class="cat-btn" data-type="植物">🌿 植物</button>
+  <button class="cat-btn" data-type="矿物">💎 矿物</button>
+  <button class="cat-btn" data-type="神灵">🧙 神灵/人物</button>
+  <button class="cat-btn" data-type="奇物">🏺 奇物/异国</button>
+</section>
+
+<!-- 卡片网格 -->
+<main class="grid-container" id="cardGrid"></main>
+
+<!-- 分页 -->
+<nav class="pagination" id="pagination"></nav>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <p>📖 数据来源：《山海经》（先秦古籍）· 持续更新中 · 共 <span id="totalCount">0</span> 条</p>
+</footer>
+
+<!-- 详情弹窗 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ============ 数据 + 应用逻辑 ============ -->
+<script>
+// ===== 山海经数据 =====
+const SHANHAIJING_DATA = [
+  // 🐉 异兽
+  { id:"jiuweihu", name:"九尾狐", alias:["青丘狐"], type:"异兽", subtype:"神兽", origin:{ book:"南山经", text:"又东三百里，曰青丘之山，有兽焉，其状如狐而九尾，其音如婴儿，能食人。食者不蛊。" }, description:"九尾狐是中国神话中最著名的异兽之一，形状像狐狸但长了九条尾巴，叫声像婴儿啼哭。它会吃人，但人若吃了它的肉，可以不受妖邪蛊惑。后世九尾狐的形象逐渐从祥瑞变为妖魅。", appearance:"状如狐，九尾", habitat:"青丘之山", power:"食人；食其肉可辟蛊", tags:["九尾","青丘","神兽","祥瑞"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"又东三百里，曰青丘之山，有兽焉，其状如狐而九尾，其音如婴儿，能食人。食者不蛊。"}] },
+  { id:"qiongqi", name:"穷奇", alias:[], type:"异兽", subtype:"凶兽", origin:{ book:"海内北经", text:"穷奇状如虎，有翼，食人从首始。" }, description:"穷奇是上古四凶之一，形状像老虎，长有翅膀，吃人时从头开始吃。与梼杌、饕餮、浑沌并称\"四凶\"。后世穷奇代表凶恶残暴之力。", appearance:"状如虎，有翼", habitat:"邽山", power:"食人", tags:["四凶","凶兽","虎","翼"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内北经》",text:"穷奇状如虎，有翼，食人从首始。"}] },
+  { id:"taotie", name:"饕餮", alias:["狍鸮"], type:"异兽", subtype:"凶兽", origin:{ book:"北山经", text:"有兽焉，其状如羊身人面，其目在腋下，虎齿人爪，其音如婴儿，名曰狍鸮，是食人。" }, description:"饕餮是上古四凶之一，形如羊身人面，眼睛长在腋下，虎齿人爪。后世饕餮成为贪欲的象征，商周青铜器上常见饕餮纹。", appearance:"羊身人面，目在腋下，虎齿人爪", habitat:"钩吾之山", power:"食人", tags:["四凶","凶兽","贪食","饕餮纹"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如羊身人面，其目在腋下，虎齿人爪，其音如婴儿，名曰狍鸮，是食人。"}] },
+  { id:"taowu", name:"梼杌", alias:["傲狠"], type:"异兽", subtype:"凶兽", origin:{ book:"大荒北经", text:"有兽焉，其状如虎而犬毛，名曰梼杌。" }, description:"梼杌是上古四凶之一，形状像老虎但长着狗一样的毛。性格顽凶、桀骜不驯，常被比喻为顽固凶暴之人。", appearance:"状如虎而犬毛", habitat:"大荒之中", power:"象征顽凶", tags:["四凶","凶兽","虎"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"有兽焉，其状如虎而犬毛，名曰梼杌。"}] },
+  { id:"hundun", name:"浑沌", alias:["混沌","帝江"], type:"异兽", subtype:"凶兽", origin:{ book:"西山经", text:"有神焉，其状如黄囊，赤如丹火，六足四翼，浑敦无面目，是识歌舞，实为帝江也。" }, description:"浑沌是上古四凶中最神秘的一个，又名帝江。形状如黄色的口袋，红如丹火，六足四翼，没有面目却懂得歌舞。代表蒙昧混沌之力。", appearance:"状如黄囊，赤如丹火，六足四翼，无面目", habitat:"天山", power:"识歌舞", tags:["四凶","帝江","无面目"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有神焉，其状如黄囊，赤如丹火，六足四翼，浑敦无面目，是识歌舞，实为帝江也。"}] },
+  { id:"jingwei", name:"精卫", alias:["精卫鸟","女娃"], type:"异兽", subtype:"神鸟", origin:{ book:"北山经", text:"有鸟焉，其状如乌，文首、白喙、赤足，名曰精卫，其鸣自詨。是炎帝之少女，名曰女娃。女娃游于东海，溺而不返，故为精卫。常衔西山之木石，以堙于东海。" }, description:"精卫是炎帝小女儿女娃的化身，溺水东海后化为精卫鸟，形状像乌鸦，白嘴红脚。日夜不休衔西山木石填东海，是坚韧不拔的象征。", appearance:"状如乌，文首、白喙、赤足", habitat:"发鸠之山", power:"衔木石填海", tags:["神鸟","炎帝","女娃","填海"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"精卫，是炎帝之少女，名曰女娃。女娃游于东海，溺而不返，故为精卫。常衔西山之木石，以堙于东海。"}] },
+  { id:"yinglong", name:"应龙", alias:["黄龙"], type:"异兽", subtype:"神龙", origin:{ book:"大荒东经", text:"应龙处南极，杀蚩尤与夸父，不得复上，故下数旱。旱而为应龙之状，乃得大雨。" }, description:"应龙是唯一长翅膀的神龙，曾助黄帝斩杀蚩尤和夸父。神力耗尽留于南方，民间塑其像求雨。应龙还参与了大禹治水，以尾画地导水。", appearance:"有翼之龙", habitat:"南极", power:"行雨；杀蚩尤、夸父", tags:["神龙","有翼","行雨","黄帝"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"应龙处南极，杀蚩尤与夸父，不得复上，故下数旱。旱而为应龙之状，乃得大雨。"}] },
+  { id:"bifang", name:"毕方", alias:[], type:"异兽", subtype:"神鸟", origin:{ book:"西山经", text:"有鸟焉，其状如鹤，一足，赤文青质而白喙，名曰毕方，其鸣自叫也，见则其邑有讹火。" }, description:"毕方形状像鹤，只有一只脚，白色嘴。出现的地方会发生奇怪火灾。神话中毕方曾侍奉黄帝，是火神侍者。", appearance:"状如鹤，一足，赤文青质，白喙", habitat:"章莪之山", power:"见则其邑有讹火", tags:["神鸟","一足","火","鹤"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如鹤，一足，赤文青质而白喙，名曰毕方，其鸣自叫也，见则其邑有讹火。"}] },
+  { id:"xiangliu", name:"相柳", alias:["相繇"], type:"异兽", subtype:"妖兽", origin:{ book:"大荒北经", text:"共工之臣曰相繇，九首蛇身，自环，食于九土。其所歍所尼，即为源泽，不辛乃苦，百兽莫能处。" }, description:"相柳是共工的臣子，九头蛇身。所经之处化为苦泽，百兽无法生存。大禹治水时杀之，血流之地腥臭无法耕种。", appearance:"九首蛇身，自环", habitat:"大荒之中", power:"所至之处化为苦泽", tags:["九首","蛇身","共工","大禹"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"共工之臣曰相繇，九首蛇身，自环，食于九土。"}] },
+  { id:"kunpeng", name:"鲲鹏", alias:["鲲","鹏"], type:"异兽", subtype:"巨兽", origin:{ book:"海内经", text:"北海之内，有山，名曰幽都之山，有玄蛇、赤蛇。有大鹏之雏。" }, description:"鲲鹏是传说中的巨鸟巨鱼。《庄子·逍遥游》称北冥有鱼名为鲲，化而为鸟名为鹏，翼若垂天之云。象征着宏大的格局与超脱的境界。", appearance:"鲲为巨鱼；鹏为巨鸟，翼若垂天之云", habitat:"北冥", power:"化而为鸟，扶摇直上九万里", tags:["巨鱼","巨鸟","化生","逍遥"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内经》",text:"有大鹏之雏。"}] },
+  { id:"dangkang", name:"当康", alias:["牙豚"], type:"异兽", subtype:"瑞兽", origin:{ book:"东山经", text:"有兽焉，其状如豚而有牙，其名曰当康，其鸣自叫，见则天下大穰。" }, description:"当康形状像小猪但长獠牙，出现时预示天下大丰收，是一种瑞兽。\"当康\"谐音\"穰\"（丰收）。", appearance:"状如豚而有牙", habitat:"女烝之山", power:"见则天下大穰", tags:["瑞兽","猪","丰收","祥瑞"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如豚而有牙，其名曰当康，其鸣自叫，见则天下大穰。"}] },
+  { id:"zheng", name:"狰", alias:[], type:"异兽", subtype:"异兽", origin:{ book:"西山经", text:"有兽焉，其状如赤豹，五尾一角，其音如击石，其名曰狰。" }, description:"狰形状像红色豹子，五条尾巴一只角，叫声像敲石头。\"狰狞\"一词即源于此兽。", appearance:"状如赤豹，五尾一角", habitat:"章莪之山", power:"", tags:["赤豹","五尾","一角","狰狞"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如赤豹，五尾一角，其音如击石，其名曰狰。"}] },
+  { id:"tiangou", name:"天狗", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"西山经", text:"有兽焉，其状如狸而白首，名曰天狗，其音如榴榴，可以御凶。" }, description:"天狗形状像狸猫但白头，叫声\"榴榴\"，可以抵御凶邪。后世\"天狗食日\"的传说与此兽并非同一事物。", appearance:"状如狸而白首", habitat:"阴山", power:"御凶", tags:["御凶","白首","狸"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如狸而白首，名曰天狗，其音如榴榴，可以御凶。"}] },
+  { id:"luoyu", name:"蠃鱼", alias:["螺鱼"], type:"异兽", subtype:"鱼属", origin:{ book:"西山经", text:"有鱼焉，其状如鲋而彘毛，其音如豚，见则天下大旱。" }, description:"蠃鱼形状像鲫鱼却长猪毛，叫声像猪。出现时预示天下将大旱，是一种预示灾祸的异鱼。", appearance:"状如鲋而彘毛", habitat:"邽山", power:"见则天下大旱", tags:["鱼","彘毛","大旱","灾异"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鱼焉，其状如鲋而彘毛，其音如豚，见则天下大旱。"}] },
+  { id:"feiyi", name:"肥遗", alias:["肥𧔥"], type:"异兽", subtype:"蛇属", origin:{ book:"西山经", text:"有蛇焉，名曰肥遗，六足四翼，见则天下大旱。" }, description:"肥遗是六足四翼的怪蛇，出现时天下大旱。另有同名肥遗鸟属于不同物种。", appearance:"六足四翼之蛇", habitat:"英山", power:"见则天下大旱", tags:["蛇","六足","四翼","大旱","灾异"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有蛇焉，名曰肥遗，六足四翼，见则天下大旱。"}] },
+  { id:"suanyu", name:"酸与", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"北山经", text:"有鸟焉，其状如蛇，而四翼、六目、三足，名曰酸与，其鸣自詨，见则其邑有恐。" }, description:"酸与形状像蛇却长四翼六目三足，出现的地方城中会发生恐惧事件。", appearance:"状如蛇，四翼、六目、三足", habitat:"景山", power:"见则其邑有恐", tags:["鸟","蛇形","四翼","六目","三足","不详"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鸟焉，其状如蛇，而四翼、六目、三足，名曰酸与，其鸣自詨，见则其邑有恐。"}] },
+  { id:"xingxing", name:"狌狌", alias:["猩猩"], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如禺而白耳，伏行人走，其名曰狌狌，食之善走。" }, description:"狌狌形状像猕猴但白耳，能爬行也能直立行走。人吃其肉可善于奔跑。学者认为狌狌即\"猩猩\"古称。", appearance:"状如禺而白耳，伏行人走", habitat:"招摇之山", power:"食之善走", tags:["白耳","猕猴","善走"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如禺而白耳，伏行人走，其名曰狌狌，食之善走。"}] },
+  { id:"chiru", name:"赤鱬", alias:["美人鱼"], type:"异兽", subtype:"鱼属", origin:{ book:"南山经", text:"有鱼焉，其状如鱼而人面，其音如鸳鸯，食之不疥。" }, description:"赤鱬形状像鱼但有人面，叫声像鸳鸯。人吃其肉不生疥疮。被认为是中国古代\"美人鱼\"原型之一。", appearance:"状如鱼而人面", habitat:"青丘之山", power:"食之不疥", tags:["人面鱼","美人鱼","药用"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鱼焉，其状如鱼而人面，其音如鸳鸯，食之不疥。"}] },
+  { id:"xuanqui", name:"旋龟", alias:["玄龟"], type:"异兽", subtype:"龟属", origin:{ book:"南山经", text:"其状如龟而鸟首虺尾，其名曰旋龟，其音如判木，佩之不聋，可以为底。" }, description:"旋龟形状像龟但长鸟头蛇尾，叫声像劈木头。佩戴可不耳聋，还可治手脚老茧。", appearance:"状如龟而鸟首虺尾", habitat:"杻阳之山", power:"佩之不聋；可以为底", tags:["龟","鸟首","虺尾","药用"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"其状如龟而鸟首虺尾，其名曰旋龟，其音如判木，佩之不聋，可以为底。"}] },
+  { id:"luwu", name:"陆吾", alias:[], type:"异兽", subtype:"神兽", origin:{ book:"西山经", text:"有神焉，其状如虎而九尾，人面而虎爪，是神也，司天之九部及帝之囿时。" }, description:"陆吾是昆仑山的守护神，虎身九尾，人面虎爪。掌管天的九部和天帝园林时节。", appearance:"状如虎而九尾，人面虎爪", habitat:"昆仑之丘", power:"司天之九部及帝之囿时", tags:["昆仑","神兽","九尾","虎身人面"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有神焉，其状如虎而九尾，人面而虎爪，是神也，司天之九部及帝之囿时。"}] },
+  { id:"yayu", name:"窫窳", alias:["猰貐"], type:"异兽", subtype:"凶兽", origin:{ book:"北山经", text:"有兽焉，其状如牛而赤身，人面马足，名曰窫窳，其音如婴儿，是食人。" }, description:"窫窳形状如牛全身赤红，人面马足，叫声像婴儿，会吃人。原为天神后被「危」所杀后化为食人凶兽，被后羿射杀。", appearance:"状如牛而赤身，人面马足", habitat:"少咸之山", power:"食人", tags:["凶兽","人面牛身","食人","后羿"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如牛而赤身，人面马足，名曰窫窳，其音如婴儿，是食人。"}] },
+  { id:"heluoyu", name:"何罗鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"有鱼焉，一首而十身，其名曰何罗鱼，其音如吠犬，食之已痈。" }, description:"何罗鱼一个脑袋十个身子，叫声像狗。人吃它可以治疗痈肿。", appearance:"一首而十身", habitat:"谯明之山", power:"食之已痈", tags:["一首十身","怪鱼","药用"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鱼焉，一首而十身，其名曰何罗鱼，其音如吠犬，食之已痈。"}] },
+  { id:"feishu", name:"飞鼠", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如兔而鼠首，以其背飞，其名曰飞鼠。" }, description:"飞鼠形状像兔子长老鼠头，用背飞行。可能是对鼯鼠类动物的神话描述。", appearance:"状如兔而鼠首，以背飞", habitat:"天池之山", power:"飞行", tags:["飞鼠","兔","飞行","鼯鼠"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如兔而鼠首，以其背飞，其名曰飞鼠。"}] },
+  { id:"baihuaishou", name:"白首鹿蜀", alias:["鹿蜀"], type:"异兽", subtype:"瑞兽", origin:{ book:"南山经", text:"有兽焉，其状如马而白首，其文如虎而赤尾，其音如谣，其名曰鹿蜀，佩之宜子孙。" }, description:"鹿蜀形状像马但白头，花纹像虎且红尾，叫声像唱歌。佩戴它的皮毛可以多子多孙。", appearance:"状如马而白首，文如虎，赤尾", habitat:"杻阳之山", power:"佩之宜子孙", tags:["瑞兽","马","宜子孙"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如马而白首，其文如虎而赤尾，其音如谣，其名曰鹿蜀，佩之宜子孙。"}] },
+  { id:"guan_guan", name:"灌灌", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"有鸟焉，其状如鸠，其音若呵，名曰灌灌，佩之不惑。" }, description:"灌灌形状像斑鸠，叫声像在呵斥人。佩戴它的羽毛可以不被迷惑。", appearance:"状如鸠", habitat:"青丘之山", power:"佩之不惑", tags:["鸠","不惑","护佑"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如鸠，其音若呵，名曰灌灌，佩之不惑。"}] },
+
+  // 🏔️ 山系
+  { id:"kunlun", name:"昆仑山", alias:["昆仑之丘"], type:"山系", subtype:"神山", origin:{ book:"西山经", text:"西南四百里，曰昆仑之丘，实惟帝之下都，神陆吾司之。其神状虎身而九尾，人面而虎爪。" }, description:"昆仑山是《山海经》中最重要的神山，天帝在下界的都城，有陆吾神守护。盛产美玉，有九井九门。西王母居于附近。", appearance:"山高万仞，有九门九井", habitat:"西海之南、流沙之滨", power:"天帝之下都", tags:["神山","天帝","西王母","天柱","昆仑"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"西南四百里，曰昆仑之丘，实惟帝之下都，神陆吾司之。"}] },
+  { id:"buzhoushan", name:"不周山", alias:["不周之山"], type:"山系", subtype:"神山", origin:{ book:"西山经", text:"又西北三百七十里，曰不周之山。北望诸𣬈之山，临彼岳崇之山，东望泑泽，河水所潜也。" }, description:"不周山是上古天柱。共工与颛顼争帝，怒触不周山，天柱折地维绝，导致天倾西北地陷东南。", appearance:"山势险峻，天柱之山", habitat:"西北", power:"天柱", tags:["天柱","共工","神话","神山"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"又西北三百七十里，曰不周之山。"}] },
+  { id:"qingqiu", name:"青丘山", alias:["青丘之山"], type:"山系", subtype:"名山", origin:{ book:"南山经", text:"又东三百里，曰青丘之山，有兽焉，其状如狐而九尾。有鱼焉，其状如鱼而人面。" }, description:"青丘山以九尾狐闻名，山中还产赤鱬和灌灌鸟。后世传说中青丘成为狐族聚居的仙山。", appearance:"山中多九尾狐、赤鱬", habitat:"南山经东部", power:"", tags:["青丘","九尾狐","仙山","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"又东三百里，曰青丘之山，有兽焉，其状如狐而九尾。"}] },
+  { id:"fajiushan", name:"发鸠之山", alias:["发鸠山"], type:"山系", subtype:"名山", origin:{ book:"北山经", text:"又北二百里，曰发鸠之山，其上多柘木。有鸟焉，其状如乌，文首、白喙、赤足，名曰精卫。" }, description:"发鸠之山是精卫鸟的栖息地。精卫即炎帝之少女女娃所化，常衔木石填东海。", appearance:"多柘木", habitat:"北山经", power:"", tags:["精卫","炎帝","填海"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"又北二百里，曰发鸠之山，其上多柘木。有鸟焉，其状如乌，文首、白喙、赤足，名曰精卫。"}] },
+  { id:"zhaoyaoshan", name:"招摇之山", alias:["招摇山"], type:"山系", subtype:"名山", origin:{ book:"南山经", text:"南山经之首曰鹊山。其首曰招摇之山，临于西海之上，多桂，多金玉。" }, description:"招摇之山是《山海经》开篇第一山，属于鹊山山脉。临西海，多桂树金玉，有狌狌兽和迷榖树。", appearance:"临西海，多桂多金玉", habitat:"南山经·鹊山", power:"", tags:["南山经首山","鹊山","狌狌","桂"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"南山经之首曰鹊山。其首曰招摇之山，临于西海之上，多桂，多金玉。"}] },
+
+  // 🌿 植物
+  { id:"migu", name:"迷榖", alias:[], type:"植物", subtype:"神树", origin:{ book:"南山经", text:"有木焉，其状如榖而黑理，其华四照，其名曰迷榖，佩之不迷。" }, description:"迷榖形状像构树但有黑色纹理，花四射光芒。佩戴它可以不迷失方向。", appearance:"状如榖而黑理，其华四照", habitat:"招摇之山", power:"佩之不迷", tags:["神树","光华","不迷","招摇山"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有木焉，其状如榖而黑理，其华四照，其名曰迷榖，佩之不迷。"}] },
+  { id:"jianmu", name:"建木", alias:[], type:"植物", subtype:"神树", origin:{ book:"海内经", text:"有木，青叶紫茎，玄华黄实，名曰建木，百仞无枝，大皞爰过，黄帝所为。" }, description:"建木是连接天地的天梯神树，青叶紫茎黑花黄果，高百仞而无分枝。伏羲通过建木来往天地间。", appearance:"青叶紫茎，玄华黄实，百仞无枝", habitat:"海内西南", power:"天梯，通天地", tags:["神树","天梯","伏羲","黄帝"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内经》",text:"有木，青叶紫茎，玄华黄实，名曰建木，百仞无枝，大皞爰过，黄帝所为。"}] },
+  { id:"fusang", name:"扶桑", alias:[], type:"植物", subtype:"神树", origin:{ book:"海外东经", text:"汤谷上有扶桑，十日所浴，在黑齿北。居水中，有大木，九日居下枝，一日居上枝。" }, description:"扶桑是太阳栖息的神树，位于东方汤谷。十日居树上依次升起照耀大地。扶桑成为东方和日出的象征。", appearance:"大木，十日所居", habitat:"汤谷，黑齿国之北", power:"十日所居", tags:["神树","太阳","十日","东方","汤谷"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"汤谷上有扶桑，十日所浴，在黑齿北。居水中，有大木，九日居下枝，一日居上枝。"}] },
+
+  // 💎 矿物
+  { id:"jinyu", name:"瑾瑜之玉", alias:["瑾瑜","美玉"], type:"矿物", subtype:"玉石", origin:{ book:"西山经", text:"是有玉膏，其原沸沸汤汤，黄帝是食是飨。" }, description:"昆仑山美玉，玉膏涌出沸沸汤汤，黄帝以此玉膏为食。被认为是天下最美的玉。", appearance:"光润如脂，五彩辉映", habitat:"昆仑之丘", power:"黄帝食之", tags:["美玉","昆仑","黄帝","玉膏"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"是有玉膏，其原沸沸汤汤，黄帝是食是飨。"}] },
+
+  // 🧙 神灵
+  { id:"xiwangmu", name:"西王母", alias:["王母娘娘"], type:"神灵", subtype:"大神", origin:{ book:"西山经", text:"西王母其状如人，豹尾虎齿而善啸，蓬发戴胜，是司天之厉及五残。" }, description:"西王母是《山海经》中最重要神祇之一，豹尾虎齿，蓬发戴胜，掌管天上的灾厉和五刑。后世演变为雍容华贵的女神。", appearance:"状如人，豹尾虎齿，蓬发戴胜", habitat:"玉山（昆仑之西）", power:"司天之厉及五残", tags:["大神","昆仑","长生","虎齿"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"西王母其状如人，豹尾虎齿而善啸，蓬发戴胜，是司天之厉及五残。"}] },
+  { id:"xing_tian", name:"刑天", alias:["形天"], type:"神灵", subtype:"战神", origin:{ book:"海外西经", text:"刑天与帝至此争神，帝断其首，葬之常羊之山。乃以乳为目，以脐为口，操干戚以舞。" }, description:"刑天被天帝砍头后以乳为目、以脐为口，挥舞干戚继续奋战。\"刑天舞干戚，猛志固常在\"——永不屈服的象征。", appearance:"无首，以乳为目，以脐为口，操干戚", habitat:"常羊之山", power:"不屈永战", tags:["战神","不屈","无首","干戚"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"刑天与帝至此争神，帝断其首，葬之常羊之山。乃以乳为目，以脐为口，操干戚以舞。"}] },
+  { id:"nuwa", name:"女娲", alias:["娲皇"], type:"神灵", subtype:"始神", origin:{ book:"大荒西经", text:"有神十人，名曰女娲之肠，化为神，处栗广之野，横道而处。" }, description:"女娲是创世女神和中华民族的始母神。女娲之肠化为十神。后世相传女娲炼五色石补天、抟土造人。", appearance:"人首蛇身（后世形象）", habitat:"栗广之野", power:"化育万物，补天造人", tags:["创世神","女娲","补天","造人","始祖"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有神十人，名曰女娲之肠，化为神，处栗广之野，横道而处。"}] },
+  { id:"gonggong", name:"共工", alias:[], type:"神灵", subtype:"水神", origin:{ book:"大荒北经", text:"共工之臣曰相繇，九首蛇身，自环，食于九土。" }, description:"上古水神，与颛顼争帝怒触不周山，天柱折地维绝引发洪水。", appearance:"人面蛇身（后世形象）", habitat:"大荒之中", power:"水神，触不周山使天倾", tags:["水神","共工","不周山","洪水"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"共工之臣曰相繇，九首蛇身，自环，食于九土。"}] },
+  { id:"chiyou", name:"蚩尤", alias:[], type:"神灵", subtype:"战神", origin:{ book:"大荒北经", text:"蚩尤作兵伐黄帝，黄帝乃令应龙攻之冀州之野。蚩尤请风伯雨师，纵大风雨。黄帝乃下天女曰魃，雨止，遂杀蚩尤。" }, description:"九黎部落首领，战神。与黄帝大战涿鹿之野，能请风伯雨师。最终战败被杀，被后世尊为\"兵主\"。", appearance:"人身牛蹄（后世形象）", habitat:"冀州之野", power:"战神，作兵，请风伯雨师", tags:["战神","蚩尤","黄帝","涿鹿之战"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"蚩尤作兵伐黄帝，黄帝乃令应龙攻之冀州之野。"}] },
+  { id:"kuafu", name:"夸父", alias:[], type:"神灵", subtype:"巨人", origin:{ book:"海外北经", text:"夸父与日逐走，入日。渴，欲得饮，饮于河渭；河渭不足，北饮大泽。未至，道渴而死。弃其杖，化为邓林。" }, description:"夸父追逐太阳，饮尽河渭之水仍不够，渴死在路上。弃杖化为桃林（邓林）。勇气的悲剧寓言。", appearance:"巨人", habitat:"大荒之中", power:"逐日，弃杖化邓林", tags:["巨人","逐日","邓林","神话"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"夸父与日逐走，入日。渴，欲得饮，饮于河渭；河渭不足，北饮大泽。未至，道渴而死。弃其杖，化为邓林。"}] },
+
+  // 🏺 奇物/异国
+  { id:"xuanyuanguo", name:"轩辕国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"轩辕之国在此穷山之际，其不寿者八百岁。在女子国北，人面蛇身，尾交首上。" }, description:"黄帝后裔的国度，最短命的也能活八百岁。人面蛇身，尾巴盘在头上。", appearance:"人面蛇身，尾交首上", habitat:"穷山之西", power:"人不寿者八百岁", tags:["异国","黄帝","长寿","人面蛇身"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"轩辕之国在此穷山之际，其不寿者八百岁。"}] },
+  { id:"guanxiongguo", name:"贯胸国", alias:["贯匈国"], type:"奇物", subtype:"异国", origin:{ book:"海外南经", text:"贯胸国在其东，其为人胸有窍。" }, description:"国人胸口有洞。传说祖先作战时胸口被箭射穿而不死，后代就都成了胸口有洞的人。", appearance:"胸有窍", habitat:"海外南经", power:"", tags:["异国","贯胸","奇人"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"贯胸国在其东，其为人胸有窍。"}] },
+  { id:"sanqingniao", name:"三青鸟", alias:[], type:"奇物", subtype:"神物", origin:{ book:"大荒西经", text:"有三青鸟，赤首黑目，一名曰大鵹，一名少鵹，一名曰青鸟。" }, description:"西王母的使者与侍者，三只神鸟——大鵹、少鵹、青鸟。赤首黑目，为西王母取食送信。后世\"青鸟\"成为信使的代称。", appearance:"赤首黑目", habitat:"西王母之侧", power:"西王母使者", tags:["神鸟","西王母","信使","青鸟"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有三青鸟，赤首黑目，一名曰大鵹，一名少鵹，一名曰青鸟。"}] },
+  { id:"qianyang", name:"羬羊", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如羊而马尾，名曰羬羊，其脂可以已腊。" }, description:"羬羊形状像羊但长着马尾巴，其油脂可治皮肤皲裂。", appearance:"状如羊而马尾", habitat:"华山一带", power:"其脂可以已腊", tags:["羊","马尾","药用"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如羊而马尾，名曰羬羊，其脂可以已腊。"}] },
+  { id:"tianma", name:"天马", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如犬而黑头，见人则飞，其名曰天马，其鸣自詨。" }, description:"天马形状如狗而黑头，见人则飞。是一种会飞的异兽。", appearance:"状如犬而黑头", habitat:"马成之山", power:"见人则飞", tags:["犬","黑头","飞行"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如犬而黑头，见人则飞，其名曰天马，其鸣自詨。"}] },
+  { id:"huanshu", name:"䑏疏", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如马，一角有错，其名曰䑏疏，可以辟火。" }, description:"䑏疏形状如马，一角有错节，可以抵御火灾。", appearance:"状如马，一角有错", habitat:"泰戏之山", power:"可以辟火", tags:["马","一角","辟火"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如马，一角有错，其名曰䑏疏，可以辟火。"}] },
+  { id:"dongdong", name:"䍶䍶", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如牛而白首，一目而蛇尾，其名曰䍶䍶，其鸣自詨。" }, description:"䍶䍶形如牛白头，一目蛇尾。", appearance:"状如牛，白首，一目蛇尾", habitat:"泰戏之山", power:"", tags:["牛","白首","一目","蛇尾"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如牛而白首，一目而蛇尾，其名曰䍶䍶，其鸣自詨。"}] },
+  { id:"qiuyu", name:"犰狳", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如菟而鸟喙，鸱目蛇尾，见人则眠，名曰犰狳。" }, description:"犰狳形如兔，鸟喙鸱目蛇尾，见人装死。南美犰狳借用了此名。", appearance:"状如菟，鸟喙，鸱目蛇尾", habitat:"馀峨之山", power:"见人则眠（装死）", tags:["兔","鸟喙","装死"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如菟而鸟喙，鸱目蛇尾，见人则眠，名曰犰狳。"}] },
+  { id:"bibi", name:"獙獙", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如狐而有翼，其音如鸿雁，其名曰獙獙，见则天下大旱。" }, description:"獙獙形如狐有翼，其音如鸿雁，见则天下大旱。", appearance:"状如狐而有翼", habitat:"姑逢之山", power:"见则天下大旱", tags:["狐","翼","大旱"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如狐而有翼，其音如鸿雁，其名曰獙獙，见则天下大旱。"}] },
+  { id:"xiangshe", name:"象蛇", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"北山经", text:"有鸟焉，其状如雌雉，而五彩以文，是自为牝牡，名曰象蛇，其鸣自詨。" }, description:"象蛇形如雌野鸡，五彩文，雌雄同体。", appearance:"状如雌雉，五彩文", habitat:"阳山", power:"自为牝牡", tags:["鸟","五彩","雌雄同体"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鸟焉，其状如雌雉，而五彩以文，是自为牝牡，名曰象蛇，其鸣自詨。"}] },
+  { id:"wuluo", name:"武罗", alias:[], type:"异兽", subtype:"神兽", origin:{ book:"中山经", text:"有神焉，其状如人而豹纹，小腰而白齿，而穿耳以鐻，其鸣如鸣玉，名曰武罗。" }, description:"武罗是青要山山神，豹纹细腰白齿，戴耳环，鸣如佩玉。", appearance:"状如人而豹纹，小腰白齿", habitat:"青要之山", power:"山神", tags:["神兽","山神","豹纹","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有神焉，其状如人而豹纹，小腰而白齿，而穿耳以鐻，其鸣如鸣玉，名曰武罗。"}] },
+  { id:"zhurong", name:"祝融", alias:[], type:"神灵", subtype:"火神", origin:{ book:"海内经", text:"炎帝之妻…戏器生祝融。" }, description:"祝融是炎帝后裔，上古火神，号赤帝。常与共工相对。", appearance:"兽身人面，乘两龙", habitat:"南方", power:"火神，司火", tags:["火神","炎帝","南方","赤帝"], imageUrl:"", imageSource:"", relatedItems:["gonggong"], references:[{source:"《山海经·海内经》",text:"炎帝之妻…戏器生祝融。"}] },
+  { id:"huangdi", name:"黄帝", alias:["轩辕黄帝"], type:"神灵", subtype:"天帝", origin:{ book:"大荒东经", text:"黄帝生禺𧴆，禺𧴆生禺京。" }, description:"黄帝是中华民族人文初祖，五帝之首。《山海经》中黄帝后裔极多。大战蚩尤于涿鹿。", appearance:"天子之貌", habitat:"中央", power:"人文初祖", tags:["天帝","人文初祖","轩辕","五帝"], imageUrl:"", imageSource:"", relatedItems:["chiyou","yinglong"], references:[{source:"《山海经·大荒东经》",text:"黄帝生禺𧴆，禺𧴆生禺京。"}] },
+  { id:"sanzhushu", name:"三珠树", alias:[], type:"植物", subtype:"神树", origin:{ book:"海外南经", text:"三珠树在厌火北，生赤水上，其为树如柏，叶皆为珠。" }, description:"三珠树形如柏树，叶子都是珍珠。生长在赤水之畔。", appearance:"状如柏，叶皆为珠", habitat:"厌火国北，赤水上", power:"叶皆为珠", tags:["神树","珍珠","海外南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"三珠树在厌火北，生赤水上，其为树如柏，叶皆为珠。"}] },
+  { id:"yibiguo", name:"一臂国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"一臂国在其北，一臂、一目、一鼻孔。" }, description:"一臂国的人一臂一目一鼻孔，是「减一」型异国的代表。", appearance:"一臂、一目、一鼻孔", habitat:"海外西经", power:"", tags:["异国","一臂","一目"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"一臂国在其北，一臂、一目、一鼻孔。"}] },
+  { id:"heichiguo", name:"黑齿国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外东经", text:"黑齿国在其北，为人黑齿，食稻啖蛇。" }, description:"黑齿国的人黑齿，食稻吃蛇。扶桑树在其北。", appearance:"黑齿，食稻啖蛇", habitat:"海外东经", power:"", tags:["异国","黑齿","食蛇"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"黑齿国在其北，为人黑齿，食稻啖蛇。"}] }
+,
+{ id:"shengsheng", name:"狌狌", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如禺而白耳，伏行人走，其名曰狌狌，食之善走。" }, description:"狌狌形状像猿猴但长着白耳朵，既能匍匐爬行又能直立行走。吃了它的肉可以健步如飞，是《山海经》开篇第一兽。", appearance:"状如禺而白耳，伏行人走", habitat:"招摇之山", power:"食之善走", tags:["猿","白耳","健步","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如禺而白耳，伏行人走，其名曰狌狌，食之善走。"}] },
+{ id:"lushu", name:"鹿蜀", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如马而白首，其文如虎而赤尾，其音如谣，其名曰鹿蜀，佩之宜子孙。" }, description:"鹿蜀形状像马，白头虎纹红尾，叫声像人在唱歌。佩戴它的皮毛有利于子孙繁衍。", appearance:"状如马而白首，文如虎而赤尾", habitat:"杻阳之山", power:"佩之宜子孙", tags:["马","虎纹","白首","子孙","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如马而白首，其文如虎而赤尾，其音如谣，其名曰鹿蜀，佩之宜子孙。"}] },
+{ id:"xuangui", name:"旋龟", alias:[], type:"异兽", subtype:"龟属", origin:{ book:"南山经", text:"其中多玄龟，其状如龟而鸟首虺尾，其名曰旋龟，其音如判木，佩之不聋，可以为底。" }, description:"旋龟长着鸟的头和蛇的尾巴，叫声像劈木头。佩戴它可以治耳聋和脚茧。大禹治水传说中也有旋龟背负息壤的身影。", appearance:"状如龟而鸟首虺尾", habitat:"杻阳之山 怪水", power:"佩之不聋，可以为底", tags:["龟","鸟首","蛇尾","大禹","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"其中多玄龟，其状如龟而鸟首虺尾，其名曰旋龟，其音如判木，佩之不聋，可以为底。"}] },
+{ id:"lu_yu", name:"鯥", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"南山经", text:"有鱼焉，其状如牛，陵居，蛇尾有翼，其羽在魼下，其音如留牛，其名曰鯥，冬死而夏生，食之无肿疾。" }, description:"鯥形状像牛却住在山坡上，蛇尾有翅膀，冬天蛰伏夏天复活。吃了它的肉可不患肿病。", appearance:"状如牛，蛇尾有翼", habitat:"柢山", power:"冬死夏生，食之无肿疾", tags:["鱼","牛","冬眠","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鱼焉，其状如牛，陵居，蛇尾有翼，其羽在魼下，其音如留牛，其名曰鯥，冬死而夏生，食之无肿疾。"}] },
+{ id:"boyi", name:"猼訑", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如羊，九尾四耳，其目在背，其名曰猼訑，佩之不畏。" }, description:"猼訑形状像羊但长着九条尾巴四只耳朵，眼睛长在背上。佩戴它的皮毛可以使人无所畏惧，是上古的「勇气护符」。", appearance:"状如羊，九尾四耳，目在背", habitat:"基山", power:"佩之不畏", tags:["羊","九尾","无惧","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如羊，九尾四耳，其目在背，其名曰猼訑，佩之不畏。"}] },
+{ id:"changfu", name:"𪁺𩿧", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"有鸟焉，其状如鸡而三首六目、六足三翼，其名曰𪁺𩿧，食之无卧。" }, description:"𪁺𩿧形状像鸡但有三个头六只眼睛、六只脚三只翅膀。吃了它的肉可以让人不睡觉。", appearance:"状如鸡，三首六目六足三翼", habitat:"基山", power:"食之无卧（不瞌睡）", tags:["鸟","三头","六足","不眠","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如鸡而三首六目、六足三翼，其名曰𪁺𩿧，食之无卧。"}] },
+{ id:"guan_guan_gu", name:"灌灌", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"有鸟焉，其状如鸠，其音若呵，名曰灌灌，佩之不惑。" }, description:"灌灌形状像斑鸠，叫声像人在呵斥。佩戴它的羽毛可以使人不被迷惑。", appearance:"状如鸠", habitat:"青丘之山", power:"佩之不惑", tags:["鸟","斑鸠","解惑","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如鸠，其音若呵，名曰灌灌，佩之不惑。"}] },
+{ id:"lili", name:"狸力", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如豚，有距，其音如狗吠，其名曰狸力，见则其县多土功。" }, description:"狸力形状像小猪但长着鸡爪，声音像狗叫。它出现的地方会有繁多的水土工程。", appearance:"状如豚，有距", habitat:"柜山", power:"见则其县多土功", tags:["猪","鸡爪","土功","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如豚，有距，其音如狗吠，其名曰狸力，见则其县多土功。"}] },
+{ id:"zhu_bird", name:"鴸", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"有鸟焉，其状如鸱而人手，其音如痹，其名曰鴸，其名自号也，见则其县多放士。" }, description:"鴸形状像鹞鹰却长着人手一样的爪子，叫声像痹鸣。它出现的地方会有众多文士被流放。", appearance:"状如鸱而人手", habitat:"柜山", power:"见则其县多放士", tags:["鸟","人手","流放","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如鸱而人手，其音如痹，其名曰鴸，其名自号也，见则其县多放士。"}] },
+{ id:"zhangyou", name:"长右", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如禺而四耳，其名长右，其音如吟，见则郡县大水。" }, description:"长右像猿猴但长着四只耳朵，叫声像人呻吟。它出现时郡县会发生大水灾。", appearance:"状如禺而四耳", habitat:"长右之山", power:"见则郡县大水", tags:["猿","四耳","大水","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如禺而四耳，其名长右，其音如吟，见则郡县大水。"}] },
+{ id:"quyu", name:"瞿如", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"有鸟焉，其状如䴔而白首、三足、人面，其名曰瞿如，其鸣自号也。" }, description:"瞿如形状像䴔（野鸭类），白首三足人面，叫声像在喊自己的名字。", appearance:"状如䴔，白首三足人面", habitat:"祷过之山", power:"", tags:["鸟","三足","人面","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如䴔而白首、三足、人面，其名曰瞿如，其鸣自号也。"}] },
+{ id:"fenghuang", name:"凤皇", alias:["凤凰"], type:"异兽", subtype:"神鸟", origin:{ book:"南山经", text:"有鸟焉，其状如鸡，五采而文，名曰凤皇。首文曰德，翼文曰义，背文曰礼，膺文曰仁，腹文曰信。" }, description:"凤凰是《山海经》中最著名的神鸟。五彩羽纹分别写着德、义、礼、仁、信五字。它出现时天下太平，是中华文化最高祥瑞。", appearance:"状如鸡，五采文", habitat:"丹穴之山", power:"见则天下安宁", tags:["凤凰","祥瑞","五彩","神鸟","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如鸡，五采而文，名曰凤皇。首文曰德，翼文曰义，背文曰礼，膺文曰仁，腹文曰信。"}] },
+{ id:"gudiao", name:"蛊雕", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"水有兽焉，名曰蛊雕，其状如雕而有角，其音如婴儿之音，是食人。" }, description:"蛊雕形状像雕但长着角，叫声像婴儿。它是一种食人的凶鸟，出没于水中。", appearance:"状如雕而有角", habitat:"鹿吴之山 泽更之水", power:"食人", tags:["雕","有角","食人","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"水有兽焉，名曰蛊雕，其状如雕而有角，其音如婴儿之音，是食人。"}] },
+{ id:"huan_yu", name:"䍺", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如羊而无口，不可杀也，其名曰䍺。" }, description:"䍺形状像羊但没有嘴巴，杀不死它。是一种不死的异兽。", appearance:"状如羊而无口", habitat:"洵山", power:"不可杀", tags:["羊","无口","不死","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如羊而无口，不可杀也，其名曰䍺。"}] },
+{ id:"hujiao", name:"虎蛟", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"南山经", text:"其中有虎蛟，其状鱼身而蛇尾，其音如鸳鸯，食者不肿，可以已痔。" }, description:"虎蛟鱼身蛇尾，叫声像鸳鸯。吃了它可以消肿治痔疮。是《山海经》中常见的「鱼蛇合体」异兽。", appearance:"鱼身蛇尾", habitat:"祷过之山 泿水", power:"食之不肿，已痔", tags:["鱼","蛇尾","治痔","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"其中有虎蛟，其状鱼身而蛇尾，其音如鸳鸯，食者不肿，可以已痔。"}] },
+{ id:"minniu", name:"敏牛", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如牛，而苍黑大目，其名曰敏牛。" }, description:"敏牛形状像牛但青黑色，眼睛很大。", appearance:"状如牛，苍黑大目", habitat:"黄山", power:"", tags:["牛","青黑","大山目","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如牛，而苍黑大目，其名曰敏牛。"}] },
+{ id:"shusi", name:"数斯", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如鸱而人足，名曰数斯，食之已瘿。" }, description:"数斯形状像鹞鹰但长着人脚。吃了它可以治脖子上的肉瘤（瘿）。", appearance:"状如鸱而人足", habitat:"皋涂之山", power:"食之已瘿", tags:["鸟","人足","治瘿","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如鸱而人足，名曰数斯，食之已瘿。"}] },
+{ id:"manman", name:"蛮蛮", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如凫，而一翼一目，相得乃飞，名曰蛮蛮，见则天下大水。" }, description:"蛮蛮（比翼鸟）形状像野鸭但只有一只翅膀一只眼睛，两只鸟合在一起才能飞。它出现时天下会发生大洪水。", appearance:"状如凫，一翼一目", habitat:"崇吾之山", power:"相得乃飞，见则天下大水", tags:["鸟","比翼","大水","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如凫，而一翼一目，相得乃飞，名曰蛮蛮，见则天下大水。"}] },
+{ id:"tongqu", name:"䳋渠", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其名曰䳋渠，其状如山鸡，黑身赤足，可以已𦢊。" }, description:"䳋渠形状像山鸡，黑身红脚，可以治疗皮肤皴裂。", appearance:"状如山鸡，黑身赤足", habitat:"松果之山", power:"可以已𦢊", tags:["鸟","山鸡","药用","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其名曰䳋渠，其状如山鸡，黑身赤足，可以已𦢊。"}] },
+{ id:"zhu_yan", name:"朱厌", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如猿，而白首赤足，名曰朱厌，见则大兵。" }, description:"朱厌形状像猿猴，白头红脚。它出现时天下会发生大战争。", appearance:"状如猿，白首赤足", habitat:"小次之山", power:"见则大兵", tags:["猿","白首","战争","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如猿，而白首赤足，名曰朱厌，见则大兵。"}] },
+{ id:"luan_niao", name:"鸾鸟", alias:[], type:"异兽", subtype:"神鸟", origin:{ book:"西山经", text:"有鸟焉，其状如翟而五采文，名曰鸾鸟，见则天下安宁。" }, description:"鸾鸟形状像长尾野鸡，五彩羽毛。出现时天下安宁。与凤凰并称「鸾凤」，是祥瑞之鸟。", appearance:"状如翟而五采文", habitat:"女床之山", power:"见则天下安宁", tags:["神鸟","五彩","祥瑞","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如翟而五采文，名曰鸾鸟，见则天下安宁。"}] },
+{ id:"fuxi_bird", name:"凫徯", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如雄鸡而人面，名曰凫徯，其鸣自叫也，见则有兵。" }, description:"凫徯形状像雄鸡却长着人的面孔，叫声就是在喊自己的名字。它出现时会发生战争。", appearance:"状如雄鸡而人面", habitat:"鹿台之山", power:"见则有兵", tags:["鸟","人面","战争","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如雄鸡而人面，名曰凫徯，其鸣自叫也，见则有兵。"}] },
+{ id:"jufu", name:"举父", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如禺而文臂，豹虎而善投，名曰举父。" }, description:"举父像猿猴但手臂有花纹，善于投掷。", appearance:"状如禺而文臂", habitat:"崇吾之山", power:"善投", tags:["猿","文臂","善投","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如禺而文臂，豹虎而善投，名曰举父。"}] },
+{ id:"qinyuan", name:"钦原", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如蜂，大如鸳鸯，名曰钦原，蠚鸟兽则死，蠚木则枯。" }, description:"钦原形状像蜂但体型大如鸳鸯，蜇鸟兽则死、蜇树木则枯，剧毒无比。", appearance:"状如蜂，大如鸳鸯", habitat:"昆仑之丘", power:"蠚鸟兽则死，蠚木则枯", tags:["毒蜂","剧毒","昆仑","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如蜂，大如鸳鸯，名曰钦原，蠚鸟兽则死，蠚木则枯。"}] },
+{ id:"jue_yun", name:"玃如", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如鹿而白尾，马脚人手而四角，名曰玃如。" }, description:"玃如像鹿但白尾，马脚人手，有四只角。形状奇特。", appearance:"状如鹿，白尾，马脚人手，四角", habitat:"皋涂之山", power:"", tags:["鹿","四角","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如鹿而白尾，马脚人手而四角，名曰玃如。"}] },
+{ id:"jiao", name:"狡", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"西山经", text:"有兽焉，其状如犬而豹文，其角如牛，其名曰狡，其音如吠犬，见则其国大穰。" }, description:"狡状如犬而豹纹，角如牛，叫声像狗。出现时预示大丰收。", appearance:"状如犬而豹文，角如牛", habitat:"玉山", power:"见则其国大穰", tags:["瑞兽","豹文","丰收","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如犬而豹文，其角如牛，其名曰狡，其音如吠犬，见则其国大穰。"}] },
+{ id:"shengyu", name:"胜遇", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如翟而赤，名曰胜遇，是食鱼，其音如录，见则其国大水。" }, description:"胜遇形状像长尾野鸡但红色，吃鱼。出现时会发生大洪水。", appearance:"状如翟而赤", habitat:"玉山", power:"见则其国大水", tags:["鸟","赤色","大水","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如翟而赤，名曰胜遇，是食鱼，其音如录，见则其国大水。"}] },
+{ id:"huan_bird", name:"讙", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如狸，一目而三尾，名曰讙，其音如夺百声，是可以御凶，服之已瘅。" }, description:"讙形状像狸猫但只有一只眼和三尾，叫声像百种声音混合。可御凶治病。", appearance:"状如狸，一目三尾", habitat:"翼望之山", power:"御凶，服之已瘅", tags:["一目","三尾","御凶","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如狸，一目而三尾，名曰讙，其音如夺百声，是可以御凶，服之已瘅。"}] },
+{ id:"qiyu_bird", name:"鵸䳜", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如乌，三首六尾而善笑，名曰鵸䳜，服之使人不厌，又可以御凶。" }, description:"鵸䳜形状像乌鸦但三头六尾，善于发出笑声。可御凶。", appearance:"状如乌，三首六尾", habitat:"翼望之山", power:"服之不厌，御凶", tags:["三首","六尾","御凶","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如乌，三首六尾而善笑，名曰鵸䳜，服之使人不厌，又可以御凶。"}] },
+{ id:"shuhu", name:"孰湖", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状马身而鸟翼，人面蛇尾，是好举人，名曰孰湖。" }, description:"孰湖马身鸟翼，人面蛇尾，喜欢把人举起来。", appearance:"马身鸟翼，人面蛇尾", habitat:"昆仑之丘", power:"是好举人", tags:["马身","人面","鸟翼","蛇尾","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状马身而鸟翼，人面蛇尾，是好举人，名曰孰湖。"}] },
+{ id:"tu_lou", name:"土蝼", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如羊而四角，名曰土蝼，是食人。" }, description:"土蝼形状像羊但长四角，吃人。", appearance:"状如羊而四角", habitat:"昆仑之丘", power:"食人", tags:["四角","羊","食人","昆仑","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如羊而四角，名曰土蝼，是食人。"}] },
+{ id:"heluo_fish", name:"何罗鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"其中多何罗之鱼，一首而十身，其音如吠犬，食之已痈。" }, description:"何罗鱼一个头十个身子，叫声像狗吠。吃了可治痈肿。学者认为可能是章鱼或乌贼的传闻变形。", appearance:"一首十身", habitat:"谯明之山 谯水", power:"食之已痈", tags:["鱼","十身","痈","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"其中多何罗之鱼，一首而十身，其音如吠犬，食之已痈。"}] },
+{ id:"menghuai", name:"孟槐", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如貆而赤豪，其音如榴榴，名曰孟槐，可以御凶。" }, description:"孟槐像豪猪但红毛，叫声「榴榴」，可抵御凶邪。", appearance:"状如貆而赤豪", habitat:"谯明之山", power:"可以御凶", tags:["豪猪","赤毛","御凶","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如貆而赤豪，其音如榴榴，名曰孟槐，可以御凶。"}] },
+{ id:"er_shu", name:"耳鼠", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如鼠，而菟首麋身，其音如獆犬，以其尾飞，名曰耳鼠，食之不䐆，又可以御百毒。" }, description:"耳鼠像老鼠但兔头麋身，用尾巴飞行。吃了可治胀气、御百毒。是《山海经》中少见的以尾飞行的动物。", appearance:"状如鼠，菟首麋身，以尾飞", habitat:"丹熏之山", power:"食之不䐆，御百毒", tags:["鼠","兔头","飞行","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如鼠，而菟首麋身，其音如獆犬，以其尾飞，名曰耳鼠，食之不䐆，又可以御百毒。"}] },
+{ id:"yayi", name:"窫窳", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如牛，而赤身、人面、马足，名曰窫窳，其音如婴儿，是食人。" }, description:"窫窳曾是烛龙之子，善良的天神，被\危\所杀后复活变为凶兽。赤身人面马足，声如婴儿，吃人。后羿射杀的第一个怪物。", appearance:"状如牛，赤身人面马足", habitat:"少咸之山", power:"食人", tags:["人面","牛身","后羿","食人","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如牛，而赤身、人面、马足，名曰窫窳，其音如婴儿，是食人。"}] },
+{ id:"zhu_huai", name:"诸怀", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如牛，而四角、人目、彘耳，其名曰诸怀，其音如鸣雁，是食人。" }, description:"诸怀像牛但四角、人眼猪耳，叫声像大雁，会吃人。", appearance:"状如牛，四角人目彘耳", habitat:"北岳之山", power:"食人", tags:["牛","四角","人目","食人","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如牛，而四角、人目、彘耳，其名曰诸怀，其音如鸣雁，是食人。"}] },
+{ id:"mengji", name:"孟极", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如豹，而文题白身，名曰孟极，是善伏，其鸣自呼。" }, description:"孟极如豹而有花额白身，善于潜伏。", appearance:"状如豹，文题白身", habitat:"石者之山", power:"善伏", tags:["豹","白身","潜伏","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如豹，而文题白身，名曰孟极，是善伏，其鸣自呼。"}] },
+{ id:"zhujian", name:"诸犍", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如豹而长尾，人首而牛耳，一目，名曰诸犍，善吒，行则衔其尾，居则蟠其尾。" }, description:"诸犍如豹长尾，人首牛耳独眼，走路衔尾，休息盘尾。", appearance:"状如豹，人首牛耳，一目长尾", habitat:"单张之山", power:"善吒", tags:["人首","独眼","长尾","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如豹而长尾，人首而牛耳，一目，名曰诸犍，善吒，行则衔其尾，居则蟠其尾。"}] },
+{ id:"bai_e", name:"白鵺", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"北山经", text:"有鸟焉，其状如雉，而文首、白翼、黄足，名曰白鵺，食之已嗌痛，可以已痸。" }, description:"白鵺像野鸡但头有花纹，白翼黄脚。吃了可治喉咙痛和痴呆。", appearance:"状如雉，文首白翼黄足", habitat:"单张之山", power:"食之已嗌痛，已痸", tags:["鸟","白翼","治喉痛","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鸟焉，其状如雉，而文首、白翼、黄足，名曰白鵺，食之已嗌痛，可以已痸。"}] },
+{ id:"dushu", name:"独𤞞", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如虎，而白身犬首，马尾彘鬛，名曰独𤞞。" }, description:"独𤞞如虎但白身狗头，马尾猪鬃。", appearance:"状如虎，白身犬首，马尾彘鬛", habitat:"北嚣之山", power:"", tags:["虎","白身","犬首","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如虎，而白身犬首，马尾彘鬛，名曰独𤞞。"}] },
+{ id:"long_zhi", name:"龙龟", alias:[], type:"异兽", subtype:"龟属", origin:{ book:"东山经", text:"隄水出焉，而东流注于泰泽，其中多龙龟。" }, description:"龙龟是龙头龟身的灵兽，后世常用以驮碑。", appearance:"龙首龟身", habitat:"隄山 泰泽", power:"", tags:["龟","龙首","祥瑞","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"隄水出焉，而东流注于泰泽，其中多龙龟。"}] },
+{ id:"kuilong", name:"夔牛", alias:["夔"], type:"异兽", subtype:"神兽", origin:{ book:"大荒东经", text:"东海中有流波山，入海七千里。其上有兽，状如牛，苍身而无角，一足，出入水则必风雨，其光如日月，其声如雷，其名曰夔。" }, description:"夔牛是东海流波山上的神兽，状如青牛无角，一足，出入水必有风雨。黄帝取夔皮制鼓，声闻五百里，威震天下。", appearance:"状如牛，苍身无角，一足", habitat:"流波山", power:"出入水则风雨，其声如雷", tags:["神兽","一足","雷鼓","黄帝","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"东海中有流波山...有兽，状如牛，苍身而无角，一足，出入水则必风雨，其光如日月，其声如雷，其名曰夔。"}] },
+{ id:"fuzhu", name:"夫诸", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"中山经", text:"有兽焉，其状如白鹿而四角，名曰夫诸，见则其邑大水。" }, description:"夫诸状如白鹿但长四角，出现时当地会发生大洪水。", appearance:"状如白鹿而四角", habitat:"敖岸之山", power:"见则其邑大水", tags:["鹿","四角","大水","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，其状如白鹿而四角，名曰夫诸，见则其邑大水。"}] },
+{ id:"shan_gao", name:"山膏", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"中山经", text:"有兽焉，名曰山膏，其状如逐，赤若丹火，善骂。" }, description:"山膏状如猪，赤红如火，擅长骂人。是《山海经》中有趣的性格化异兽。", appearance:"状如逐，赤若丹火", habitat:"苦山", power:"善骂", tags:["猪","赤色","善骂","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，名曰山膏，其状如逐，赤若丹火，善骂。"}] },
+{ id:"zhuyin", name:"烛阴", alias:["烛龙"], type:"神灵", subtype:"大神", origin:{ book:"海外北经", text:"钟山之神名曰烛阴，视为昼，瞑为夜，吹为冬，呼为夏，不饮不食不息，息为风，身长千里。" }, description:"烛阴（烛龙）睁开眼就是白天，闭上眼就是黑夜，吹气成冬，呼气成夏，不饮不食不息。身长千里，是上古最强的创世神之一。", appearance:"人面蛇身而赤，直目正乘", habitat:"钟山", power:"视为昼，瞑为夜，吹为冬，呼为夏", tags:["创世神","昼夜","四季","风身长千里"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"钟山之神名曰烛阴，视为昼，瞑为夜，吹为冬，呼为夏，不饮不食不息，息为风，身长千里。"}] },
+{ id:"biyi_bird", name:"比翼鸟", alias:[], type:"奇物", subtype:"神鸟", origin:{ book:"海外南经", text:"比翼鸟在其东，其为鸟青、赤，两鸟比翼。" }, description:"比翼鸟一青一赤，两只鸟各有一翼一目，必须并翅才能飞行。后世以「比翼鸟」比喻恩爱夫妻。", appearance:"青赤两色，各一翼一目", habitat:"结匈国东", power:"两鸟比翼方飞", tags:["比翼","夫妻","海外南经","奇鸟"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"比翼鸟在其东，其为鸟青、赤，两鸟比翼。"}] },
+{ id:"jiaotu", name:"交胫国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外南经", text:"交胫国在其东，其为人交胫。" }, description:"交胫国的人双腿交叉不能直立。", appearance:"交胫（双腿交叉）", habitat:"海外南经", power:"", tags:["异国","交胫","海外南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"交胫国在其东，其为人交胫。"}] },
+{ id:"bashe", name:"巴蛇", alias:[], type:"异兽", subtype:"蛇属", origin:{ book:"海内南经", text:"巴蛇食象，三岁而出其骨，君子服之，无心腹之疾。其为蛇青黄赤黑。" }, description:"巴蛇能吞下大象，三年后才排出象骨。成语「人心不足蛇吞象」即源于此。", appearance:"青黄赤黑之巨蛇", habitat:"海内南经", power:"食象，三年出骨", tags:["巨蛇","食象","蛇吞象","海内南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内南经》",text:"巴蛇食象，三岁而出其骨，君子服之，无心腹之疾。其为蛇青黄赤黑。"}] },
+{ id:"jiufeng", name:"九凤", alias:[], type:"异兽", subtype:"神鸟", origin:{ book:"大荒北经", text:"有神九首，人面鸟身，名曰九凤。" }, description:"九凤是九头神鸟，人面鸟身。是楚人崇拜的神灵。", appearance:"九首，人面鸟身", habitat:"北极柜", power:"", tags:["九首","神鸟","人面","大荒北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"有神九首，人面鸟身，名曰九凤。"}] },
+{ id:"qiangliang", name:"强良", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒北经", text:"有神衔蛇，其状虎首人身，四蹄长肘，名曰强良。" }, description:"强良虎首人身，口中衔蛇，四蹄长肘，是北方之神。", appearance:"虎首人身，衔蛇，四蹄长肘", habitat:"大荒北经", power:"", tags:["虎首","衔蛇","北方之神","大荒北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"有神衔蛇，其状虎首人身，四蹄长肘，名曰强良。"}] },
+{ id:"lei_baize", name:"类", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如狸而有髦，自为牝牡，食之不妒。" }, description:"类状如狸猫而有长毛，雌雄同体，可自体繁殖。吃了它的肉可以消除妒忌之心。", appearance:"状如狸而有髦", habitat:"亶爰之山", power:"食之不妒", tags:["雌雄同体","狸","去妒","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如狸而有髦，自为牝牡，食之不妒。"}] },
+{ id:"huahuai", name:"猾褢", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如人而彘鬣，穴居而冬蛰，其音如斫木，见则县有大繇。" }, description:"猾褢状如人却有猪一样的鬣毛，穴居冬眠，叫声如砍木头。出现时该县有大徭役。", appearance:"状如人而彘鬣", habitat:"尧光之山", power:"见则县有大繇", tags:["人形","猪鬣","冬眠","劳役","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如人而彘鬣，穴居而冬蛰，其音如斫木，见则县有大繇。"}] },
+{ id:"zhi_animal", name:"彘", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"南山经", text:"有兽焉，其状如虎而牛尾，其音如吠犬，是食人。" }, description:"彘状如虎却有牛尾，叫声如狗吠，会吃人。", appearance:"状如虎而牛尾", habitat:"浮玉之山", power:"食人", tags:["虎形","牛尾","食人","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有兽焉，其状如虎而牛尾，其音如吠犬，是食人。"}] },
+{ id:"yong_bird", name:"颙", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"南山经", text:"有鸟焉，其状如枭，人面四目而有耳，其鸣自号也，见则天下大旱。" }, description:"颙状如猫头鹰，人面四目且有耳，叫声就是自己的名字。出现时天下大旱。", appearance:"状如枭，人面四目有耳", habitat:"令丘之山", power:"见则天下大旱", tags:["人面","四目","大旱","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有鸟焉，其状如枭，人面四目而有耳，其鸣自号也，见则天下大旱。"}] },
+{ id:"chijie", name:"赤鷩", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"鸟多赤鷩，可以御火。" }, description:"赤鷩是一种山鸡，羽毛鲜艳华丽。饲养它可以防御火灾。", appearance:"赤色山鸡", habitat:"小华之山", power:"可以御火", tags:["山鸡","御火","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"鸟多赤鷩，可以御火。"}] },
+{ id:"conglong", name:"葱聋", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"其兽多葱聋，其状如羊而赤鬛。" }, description:"葱聋状如羊但长着红色鬣毛。", appearance:"状如羊而赤鬛", habitat:"符禺之山", power:"", tags:["羊","赤鬛","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"其兽多葱聋，其状如羊而赤鬛。"}] },
+{ id:"min_bird", name:"鴖", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"其鸟多鴖，其状如翠而赤喙，可以御火。" }, description:"鴖状如翠鸟而有红嘴，饲养它可以防御火灾。", appearance:"状如翠而赤喙", habitat:"符禺之山", power:"可以御火", tags:["鸟","御火","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"其鸟多鴖，其状如翠而赤喙，可以御火。"}] },
+{ id:"wenjing", name:"文茎", alias:[], type:"奇物", subtype:"树木", origin:{ book:"西山经", text:"其上有木焉，名曰文茎，其实如枣，可以已聋。" }, description:"文茎是一种树，结的果实像枣子，吃了可以治耳聋。", appearance:"其实如枣", habitat:"符禺之山", power:"可以已聋", tags:["树木","果实","治聋","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"其上有木焉，名曰文茎，其实如枣，可以已聋。"}] },
+{ id:"haozhi", name:"豪彘", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如豚而白毛，大如笄而黑端，名曰豪彘。" }, description:"豪彘状如小猪而白毛，毛粗如簪、末端黑色，即豪猪。能以脊上毫毛射向敌人。", appearance:"状如豚而白毛，大如笄而黑端", habitat:"竹山", power:"以脊毛射物", tags:["豪猪","射毛","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如豚而白毛，大如笄而黑端，名曰豪彘。"}] },
+{ id:"xiao", name:"嚻", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如禺而长臂，善投，其名曰嚻。" }, description:"嚻状如猿猴而长臂，善于投掷。", appearance:"状如禺而长臂", habitat:"羭次之山", power:"善投", tags:["猿","长臂","善投","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如禺而长臂，善投，其名曰嚻。"}] },
+{ id:"tuofei", name:"橐𩇯", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如枭，人面而一足，曰橐𩇯，冬见夏蛰，服之不畏雷。" }, description:"橐𩇯状如猫头鹰，人面一足，冬天出现夏天蛰伏。佩戴其羽毛可以不怕打雷。", appearance:"状如枭，人面一足", habitat:"羭次之山", power:"服之不畏雷", tags:["人面","一足","御雷","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如枭，人面而一足，曰橐𩇯，冬见夏蛰，服之不畏雷。"}] },
+{ id:"xibian", name:"谿边", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"西山经", text:"有兽焉，其状如狗，名曰谿边，席其皮者不蛊。" }, description:"谿边状如狗，用它的皮做席子可以不受邪蛊侵害。", appearance:"状如狗", habitat:"天帝之山", power:"席其皮者不蛊", tags:["狗","御蛊","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有兽焉，其状如狗，名曰谿边，席其皮者不蛊。"}] },
+{ id:"li_bird", name:"栎", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如鹑，黑文而赤翁，名曰栎，食之已痔。" }, description:"栎状如鹌鹑，黑纹红胸，吃了可以治痔疮。", appearance:"状如鹑，黑文赤翁", habitat:"天帝之山", power:"食之已痔", tags:["鸟","鹌鹑","治痔","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如鹑，黑文而赤翁，名曰栎，食之已痔。"}] },
+{ id:"lei_bird", name:"鸓", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"其鸟多鸓，其状如鹊，赤黑而两首四足，可以御火。" }, description:"鸓状如喜鹊，赤黑色，双头四足。可以防御火灾。", appearance:"状如鹊，赤黑，两首四足", habitat:"翠山", power:"可以御火", tags:["双头","四足","御火","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"其鸟多鸓，其状如鹊，赤黑而两首四足，可以御火。"}] },
+{ id:"wenyao", name:"文鳐鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"西山经", text:"有鱼焉，状如鲤里，鱼身而鸟翼，苍文而白首赤喙，常行西海，游于东海，以夜飞。其音如鸾鸡，食之已狂，见则天下大穰。" }, description:"文鳐鱼如鲤鱼而长鸟翼，白首红嘴，常在夜晚飞行，声如鸾鸡。吃了可治癫狂，出现则大丰收。", appearance:"鱼身鸟翼，苍纹白首赤喙", habitat:"西海 东海", power:"以夜飞；食之已狂；见则天下大穰", tags:["飞鱼","双海","丰收","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"其状如鲤里，鱼身而鸟翼，苍文而白首赤喙，常行西海，游于东海，以夜飞。"}] },
+{ id:"danghu", name:"当扈", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，其状如雉，以其髯飞，食之不眴目。" }, description:"当扈状如野鸡，用胡须飞行。吃了可治眼睛昏花。", appearance:"状如雉，以髯飞", habitat:"上申之山", power:"食之不眴目", tags:["鸟","胡须飞行","治目","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有鸟焉，其状如雉，以其髯飞，食之不眴目。"}] },
+{ id:"huayu", name:"滑鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"其中有滑鱼，其状如鱓，赤背，其音如梧，食之已疣。" }, description:"滑鱼状如鳝鱼而红背，叫声如琴声。吃了可治瘊子。", appearance:"状如鱓，赤背", habitat:"求如之山 滑水", power:"食之已疣", tags:["鱼","鳝","治疣","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"其中有滑鱼，其状如鱓，赤背，其音如梧，食之已疣。"}] },
+{ id:"hehuan_bird", name:"鰼鰼鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"其中多鰼鰼之鱼，其状如鹊而十翼，鳞皆在羽端，其音如鹊，可以御火，食之不瘅。" }, description:"鰼鰼鱼状如喜鹊而十翼，鳞在羽端。可以御火，吃了治黄疸。", appearance:"状如鹊而十翼", habitat:"涿光之山 嚣水", power:"可以御火，食之不瘅", tags:["鱼","十翼","御火","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"其中多鰼鰼之鱼，其状如鹊而十翼，鳞皆在羽端，其音如鹊，可以御火，食之不瘅。"}] },
+{ id:"shuima", name:"水马", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"其中有水马，其状如马，文臂牛尾，其音如呼。" }, description:"水马状如马而臂有花纹，牛尾，声如人呼喊。", appearance:"状如马，文臂牛尾", habitat:"求如之山 滑水", power:"", tags:["马","水兽","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"其中有水马，其状如马，文臂牛尾，其音如呼。"}] },
+{ id:"you_yan", name:"幽鴳", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如禺而文身，善笑，见人则卧，其鸣自呼。" }, description:"幽鴳状如猿猴而有花身，爱笑，见人就躺下装死。", appearance:"状如禺而文身", habitat:"边春之山", power:"善笑", tags:["猿","文身","善笑","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如禺而文身，善笑，见人则卧，其鸣自呼。"}] },
+{ id:"longshe", name:"长蛇", alias:[], type:"异兽", subtype:"蛇属", origin:{ book:"北山经", text:"有蛇名曰长蛇，其毛如彘豪，其音如鼓柝。" }, description:"长蛇身有猪鬃般的毛，叫声如敲梆子。", appearance:"其毛如彘豪", habitat:"大咸之山", power:"其音如鼓柝", tags:["蛇","长毛","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有蛇名曰长蛇，其毛如彘豪，其音如鼓柝。"}] },
+{ id:"nax_fu", name:"那父", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如牛而白尾，其音如詨。" }, description:"那父状如牛而白尾，叫声如人呼喊。", appearance:"状如牛而白尾", habitat:"灌题之山", power:"", tags:["牛","白尾","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如牛而白尾，其音如詨。"}] },
+{ id:"songsong", name:"竦斯", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"北山经", text:"有鸟焉，其状如雌雉而人面，见人则跃，其鸣自呼也。" }, description:"竦斯状如雌野鸡而有人面，见人就跳跃。", appearance:"状如雌雉而人面", habitat:"灌题之山", power:"", tags:["鸟","人面","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鸟焉，其状如雌雉而人面，见人则跃，其鸣自呼也。"}] },
+{ id:"feishu_bei", name:"飞鼠", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如兔而鼠首，以其背飞。" }, description:"飞鼠状如兔而鼠头，用背飞行。", appearance:"状如兔而鼠首，以背飞", habitat:"天池之山", power:"以背飞", tags:["兔","鼠","飞行","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如兔而鼠首，以其背飞。"}] },
+{ id:"linghu", name:"领胡", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如牛而赤尾，其颈形如句瞿，其名曰领胡，其鸣自詨，食之已狂。" }, description:"领胡状如牛而红尾，颈如斗，吃了可治疯癫。", appearance:"状如牛而赤尾", habitat:"阳山", power:"食之已狂", tags:["牛","红尾","治狂","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如牛而赤尾，其颈形如句瞿，其名曰领胡，其鸣自詨，食之已狂。"}] },
+{ id:"xiangshe_bird", name:"象蛇", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"北山经", text:"有鸟焉，其状如雌雉而五采以文，是自为牝牡，名曰象蛇，其鸣自詨。" }, description:"象蛇状如雌野鸡而有五彩花纹，雌雄同体。", appearance:"状如雌雉，五采文", habitat:"阳山", power:"自为牝牡", tags:["鸟","五彩","雌雄同体","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鸟焉，其状如雌雉而五采以文，是自为牝牡，名曰象蛇，其鸣自詨。"}] },
+{ id:"lingling", name:"軨軨", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如牛而虎文，其音如钦，其鸣自詨，见则天下大水。" }, description:"軨軨状如牛而有虎纹，出现时天下将发大水。", appearance:"状如牛而虎文", habitat:"空桑之山", power:"见则天下大水", tags:["牛","虎纹","大水","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如牛而虎文，其音如钦，其鸣自詨，见则天下大水。"}] },
+{ id:"qiuyu_dong", name:"犰狳", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如菟而鸟喙，鸱目蛇尾，见人则眠，其鸣自詨，见则螽蝗为败。" }, description:"犰狳如兔而鸟嘴，猫头鹰眼蛇尾，见人就装死。出现则蝗虫成灾。", appearance:"如菟而鸟喙，鸱目蛇尾", habitat:"余峨之山", power:"见则螽蝗为败", tags:["兔","鸟喙","蝗灾","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如菟而鸟喙，鸱目蛇尾，见人则眠，其鸣自詨，见则螽蝗为败。"}] },
+{ id:"zhuru", name:"朱獳", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如狐而鱼翼，其鸣自詨，见则其国有恐。" }, description:"朱獳状如狐而有鱼翼，出现时该国将有恐慌。", appearance:"状如狐而鱼翼", habitat:"耿山", power:"见则其国有恐", tags:["狐","鱼翼","恐慌","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如狐而鱼翼，其鸣自詨，见则其国有恐。"}] },
+{ id:"lizhi", name:"蠪侄", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如狐，而九尾、九首、虎爪，其音如婴儿，是食人。" }, description:"蠪侄状如狐而九尾九首虎爪，声如婴儿，会吃人。", appearance:"状如狐，九尾九首虎爪", habitat:"凫丽之山", power:"食人", tags:["九首","九尾","食人","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如狐，而九尾、九首、虎爪，其音如婴儿，是食人。"}] },
+{ id:"fei_insect", name:"蜚", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"东山经", text:"有兽焉，其状如牛而白首，一目而蛇尾，行水则竭，行草则死，见则天下大疫。" }, description:"蜚状如牛而白首独目蛇尾。行水则水竭，行草则草死，出现则天下大疫。", appearance:"状如牛，白首一目蛇尾", habitat:"太山", power:"行水竭行草死，见则天下大疫", tags:["牛","独目","瘟疫","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有兽焉，其状如牛而白首，一目而蛇尾，行水则竭，行草则死，见则天下大疫。"}] },
+{ id:"feifei", name:"朏朏", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"中山经", text:"有兽焉，其状如狸，而白尾有鬣，名曰朏朏，养之可以已忧。" }, description:"朏朏状如狸猫，白尾而有鬣毛。饲养它可以消除忧愁。", appearance:"状如狸，白尾有鬣", habitat:"霍山", power:"养之可以已忧", tags:["狸","白尾","解忧","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，其状如狸，而白尾有鬣，名曰朏朏，养之可以已忧。"}] },
+{ id:"mingshe", name:"鸣蛇", alias:[], type:"异兽", subtype:"蛇属", origin:{ book:"中山经", text:"有蛇焉，其状如蛇而四翼，其音如磬，见则其邑大旱。" }, description:"鸣蛇如蛇而长四翼，声如击磬。出现时当地大旱。", appearance:"状如蛇而四翼", habitat:"鲜山", power:"见则其邑大旱", tags:["蛇","四翼","大旱","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有蛇焉，其状如蛇而四翼，其音如磬，见则其邑大旱。"}] },
+{ id:"huashe", name:"化蛇", alias:[], type:"异兽", subtype:"蛇属", origin:{ book:"中山经", text:"有兽焉，其状如人面而豺身，鸟翼而蛇行，其音如叱呼，见则其邑大水。" }, description:"化蛇人面豺身，鸟翼蛇行。出现时当地将发大水。", appearance:"人面豺身，鸟翼蛇行", habitat:"阳山", power:"见则其邑大水", tags:["人面","蛇","大水","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，其状如人面而豺身，鸟翼而蛇行，其音如叱呼，见则其邑大水。"}] },
+{ id:"mafu", name:"马腹", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"中山经", text:"有兽焉，其状如人面虎身，其音如婴儿，是食人。" }, description:"马腹人面虎身，声如婴儿，会吃人。", appearance:"人面虎身", habitat:"蔓渠之山", power:"食人", tags:["人面","虎身","食人","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，其状如人面虎身，其音如婴儿，是食人。"}] },
+{ id:"xiqv", name:"犀渠", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"中山经", text:"有兽焉，其状如牛，苍身，其音如婴儿，是食人。" }, description:"犀渠状如青牛，声如婴儿，会吃人。", appearance:"状如牛，苍身", habitat:"厘山", power:"食人", tags:["牛","苍身","食人","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，其状如牛，苍身，其音如婴儿，是食人。"}] },
+{ id:"gengfu", name:"耕父", alias:[], type:"神灵", subtype:"神", origin:{ book:"中山经", text:"有神曰耕父，常游清泠之渊，出入有光，见则其国为败。" }, description:"耕父之神常游于清泠之渊，出入有光。出现则其国将败亡。", appearance:"有光之形", habitat:"清泠之渊", power:"见则其国为败", tags:["神","光","败亡","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有神曰耕父，常游清泠之渊，出入有光，见则其国为败。"}] },
+{ id:"jinmeng", name:"计蒙", alias:[], type:"神灵", subtype:"神", origin:{ book:"中山经", text:"有神焉，其状人身而龙首，恒游于漳渊，出入必有飘风暴雨。" }, description:"计蒙人身龙首，游于漳渊，出入必有狂风暴雨。", appearance:"人身龙首", habitat:"漳渊", power:"出入有飘风暴雨", tags:["神","龙首","风雨","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有神焉，其状人身而龙首，恒游于漳渊，出入必有飘风暴雨。"}] },
+{ id:"taifeng", name:"泰逢", alias:[], type:"神灵", subtype:"神", origin:{ book:"中山经", text:"有神焉，其状如人而虎尾，是好居于萯山之阳，出入有光。泰逢神动天地气也。" }, description:"泰逢状如人而虎尾，出入有光，能感动天地之气。", appearance:"如人而虎尾", habitat:"萯山之阳", power:"出入有光，动天地气", tags:["神","虎尾","光","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有神焉，其状如人而虎尾，是好居于萯山之阳，出入有光。泰逢神动天地气也。"}] },
+{ id:"yonghe", name:"雍和", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"中山经", text:"有兽焉，其状如蝯，赤目，赤喙，黄身，见则国有大恐。" }, description:"雍和状如猿，红眼红嘴黄身。出现时其国将有大恐慌。", appearance:"状如蝯，赤目赤喙黄身", habitat:"丰山", power:"见则国有大恐", tags:["猿","赤目","恐惧","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有兽焉，其状如蝯，赤目，赤喙，黄身，见则国有大恐。"}] },
+{ id:"qizhong", name:"跂踵", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"中山经", text:"有鸟焉，其状如鸮，而一足彘尾，见则其国大疫。" }, description:"跂踵状如猫头鹰，一足猪尾。出现时其国将有大瘟疫。", appearance:"状如鸮，一足彘尾", habitat:"复州之山", power:"见则其国大疫", tags:["鸟","一足","瘟疫","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有鸟焉，其状如鸮，而一足彘尾，见则其国大疫。"}] },
+{ id:"chenghuang", name:"乘黄", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"海外西经", text:"有乘黄，其状如狐，其背上有角，乘之寿二千岁。" }, description:"乘黄状如狐而背有角，骑上它可活两千岁。", appearance:"状如狐，背上有角", habitat:"白民国北", power:"乘之寿二千岁", tags:["瑞兽","长寿","骑乘","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"有乘黄，其状如狐，其背上有角，乘之寿二千岁。"}] },
+{ id:"zouwu", name:"驺吾", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"海内北经", text:"林氏国有珍兽，大若虎，五采毕具，尾长于身，乘之日行千里。" }, description:"驺吾如虎而五彩，尾比身长。骑上可行千里，是仁兽。", appearance:"大若虎，五彩，尾长于身", habitat:"林氏国", power:"乘之日行千里", tags:["瑞兽","五彩","日行千里","海内北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内北经》",text:"林氏国有珍兽，大若虎，五采毕具，尾长于身，乘之日行千里。"}] },
+{ id:"kai_ming", name:"开明兽", alias:[], type:"异兽", subtype:"神兽", origin:{ book:"海内西经", text:"开明，兽身大类虎而九首，皆人面，东向立昆仑上。" }, description:"开明兽身形如虎而九头皆人面，面向东方守护昆仑九门。", appearance:"大类虎而九首，皆人面", habitat:"昆仑", power:"守百神之所在九门", tags:["九首","人面","昆仑","海内西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内西经》",text:"开明，兽身大类虎而九首，皆人面，东向立昆仑上。"}] },
+{ id:"qilin", name:"麒麟", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"海内西经", text:"（昆仑）有兽焉，其状如麋，一角，戴肉。" }, description:"麒麟是中国神话中的顶级瑞兽。状如麋鹿而一角，角端有肉。出现时天下太平，被视为仁兽。", appearance:"状如麋，一角戴肉", habitat:"昆仑", power:"见则天下安宁", tags:["瑞兽","麒麟","仁兽","祥瑞"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内西经》",text:"（昆仑）有兽焉，其状如麋，一角，戴肉。"}] },
+{ id:"lingyu", name:"陵鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"海内北经", text:"陵鱼，人面，手足，鱼身，在海中。" }, description:"陵鱼人面手足鱼身，生活于海中，即「人鱼」传说的一种。", appearance:"人面手足鱼身", habitat:"海中", power:"", tags:["人鱼","海","海内北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内北经》",text:"陵鱼，人面，手足，鱼身，在海中。"}] },
+{ id:"jiexiong", name:"结匈国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外南经", text:"结匈国在其西南，其为人结匈。" }, description:"结匈国的人胸前有骨结凸出。", appearance:"结匈", habitat:"海外南经", power:"", tags:["异国","海外南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"结匈国在其西南，其为人结匈。"}] },
+{ id:"yuming", name:"羽民国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外南经", text:"羽民国在其东南，其为人长，身生羽。" }, description:"羽民国的人全身长羽毛。", appearance:"身生羽", habitat:"海外南经", power:"", tags:["异国","羽人","海外南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"羽民国在其东南，其为人长，身生羽。"}] },
+{ id:"hantou", name:"讙头国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外南经", text:"讙头国其为人人面有翼，鸟喙，方捕鱼。" }, description:"讙头国人面有翼鸟嘴。", appearance:"人面有翼鸟喙", habitat:"海外南经", power:"", tags:["异国","鸟喙","海外南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"讙头国其为人人面有翼，鸟喙，方捕鱼。"}] },
+{ id:"buchisiming", name:"不死民", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外南经", text:"不死民在其东，其为人黑色，寿不死。" }, description:"不死民肤色黑，长生不死。", appearance:"黑色", habitat:"海外南经", power:"寿不死", tags:["异国","不死","海外南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"不死民在其东，其为人黑色，寿不死。"}] },
+{ id:"yibi_min", name:"一臂国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"一臂国在其北，一臂一目一鼻孔。" }, description:"一臂国的人一臂一目一鼻孔。", appearance:"一臂一目", habitat:"海外西经", power:"", tags:["异国","一臂","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"一臂国在其北，一臂一目一鼻孔。"}] },
+{ id:"zhangfuguo", name:"丈夫国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"丈夫国在次鸟北，其为人衣冠带剑。" }, description:"丈夫国全是男子，衣冠带剑。", appearance:"衣冠带剑", habitat:"海外西经", power:"", tags:["异国","男国","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"丈夫国在次鸟北，其为人衣冠带剑。"}] },
+{ id:"nvziguo", name:"女子国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"女子国在巫咸北，两女子居，水周之。" }, description:"女子国全是女子，四周环水。", appearance:"女子", habitat:"海外西经", power:"", tags:["异国","女国","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"女子国在巫咸北，两女子居，水周之。"}] },
+{ id:"xuanyuanguo2", name:"轩辕国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"轩辕国在此穷山之际，其不寿者八百岁。人面蛇身，尾交首上。" }, description:"轩辕国人面蛇身，最短八百岁。", appearance:"人面蛇身", habitat:"海外西经", power:"不寿者八百岁", tags:["异国","长寿","蛇身","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"轩辕国在此穷山之际，其不寿者八百岁。人面蛇身，尾交首上。"}] },
+{ id:"baiminguo", name:"白民国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"白民国在龙鱼北，白身披发。" }, description:"白民国人身白披发。", appearance:"白身披发", habitat:"海外西经", power:"", tags:["异国","白身","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"白民国在龙鱼北，白身披发。"}] },
+{ id:"changzuguo", name:"长股国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外西经", text:"长股国在雄常北，披发，一曰长脚。" }, description:"长股国的人双腿极长。", appearance:"长脚", habitat:"海外西经", power:"", tags:["异国","长腿","海外西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"长股国在雄常北，披发，一曰长脚。"}] },
+{ id:"yimuguo", name:"一目国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"一目国在其东，一目中其面而居。" }, description:"一目国的人只有一只眼。", appearance:"一目中其面", habitat:"海外北经", power:"", tags:["异国","独目","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"一目国在其东，一目中其面而居。"}] },
+{ id:"wuchangg", name:"无肠国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"无肠国在深目东，其为人长而无肠。" }, description:"无肠国高个子无肠。", appearance:"长而无肠", habitat:"海外北经", power:"", tags:["异国","无肠","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"无肠国在深目东，其为人长而无肠。"}] },
+{ id:"nieerguo", name:"聂耳国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"聂耳国在无肠东，使两文虎，为人两手聂其耳。" }, description:"聂耳国的人双手托大耳。", appearance:"两手聂其耳", habitat:"海外北经", power:"使两文虎", tags:["异国","大耳","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"聂耳国在无肠东，使两文虎，为人两手聂其耳。"}] },
+{ id:"bofuguo", name:"博父国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"博父国在聂耳东，右手操青蛇，左手操黄蛇。" }, description:"博父国巨人操蛇。", appearance:"右手青蛇左手黄蛇", habitat:"海外北经", power:"", tags:["异国","巨人","操蛇","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"博父国在聂耳东，右手操青蛇，左手操黄蛇。"}] },
+{ id:"darenguo", name:"大人国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外东经", text:"大人国在其北，为人大，坐而削船。" }, description:"大人国的人身形巨大。", appearance:"为人大", habitat:"海外东经", power:"", tags:["异国","巨人","海外东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"大人国在其北，为人大，坐而削船。"}] },
+{ id:"junziguo", name:"君子国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外东经", text:"君子国在其北，衣冠带剑，其人好让不争。" }, description:"君子国的人好让不争。", appearance:"衣冠带剑", habitat:"海外东经", power:"好让不争", tags:["异国","君子","海外东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"君子国在其北，衣冠带剑，其人好让不争。"}] },
+{ id:"tianwu_god", name:"天吴", alias:[], type:"神灵", subtype:"水神", origin:{ book:"海外东经", text:"天吴，水伯，八首人面，八足八尾，皆青黄。" }, description:"天吴是八首水神。", appearance:"八首人面", habitat:"海外东经", power:"水伯", tags:["水神","八首","海外东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"天吴，水伯，八首人面，八足八尾，皆青黄。"}] },
+{ id:"heichig", name:"黑齿国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外东经", text:"黑齿国在其北，为人黑，食稻啖蛇。" }, description:"黑齿国的人齿黑食蛇。", appearance:"为人黑", habitat:"海外东经", power:"", tags:["异国","黑齿","食蛇","海外东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"黑齿国在其北，为人黑，食稻啖蛇。"}] },
+{ id:"maomingg", name:"毛民国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外东经", text:"毛民国在其北，为人身生毛。" }, description:"毛民国的人全身长毛。", appearance:"身生毛", habitat:"海外东经", power:"", tags:["异国","多毛","海外东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"毛民国在其北，为人身生毛。"}] },
+{ id:"goumang_god", name:"句芒", alias:[], type:"神灵", subtype:"大神", origin:{ book:"海外东经", text:"东方句芒，鸟身人面，乘两龙。" }, description:"句芒是东方春神。", appearance:"鸟身人面", habitat:"海外东经", power:"乘两龙", tags:["大神","春神","四方神","海外东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外东经》",text:"东方句芒，鸟身人面，乘两龙。"}] },
+{ id:"zhurong_g", name:"祝融", alias:[], type:"神灵", subtype:"火神", origin:{ book:"海外南经", text:"南方祝融，兽身人面，乘两龙。" }, description:"祝融是南方火神，传说与共工大战撞倒不周山。", appearance:"兽身人面", habitat:"海外南经", power:"乘两龙", tags:["火神","四方神","南方","海外经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"南方祝融，兽身人面，乘两龙。"}] },
+{ id:"rushou_g", name:"蓐收", alias:[], type:"神灵", subtype:"大神", origin:{ book:"海外西经", text:"西方蓐收，左耳有蛇，乘两龙。" }, description:"蓐收是西方金神，掌刑罚。", appearance:"左耳有蛇", habitat:"海外西经", power:"乘两龙", tags:["大神","四方神","西方","海外经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外西经》",text:"西方蓐收，左耳有蛇，乘两龙。"}] },
+{ id:"yuzqiang_g", name:"禺强", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒北经", text:"北海有神，人面鸟身，珥两青蛇，践两赤蛇，名曰禺强。" }, description:"禺强是北海之神。", appearance:"人面鸟身，珥蛇践蛇", habitat:"北海", power:"北海之神", tags:["大神","北海","四方神","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"北海有神，人面鸟身，珥两青蛇，践两赤蛇，名曰禺强。"}] },
+{ id:"leishen_g", name:"雷神", alias:[], type:"神灵", subtype:"大神", origin:{ book:"海内东经", text:"雷泽中有雷神，龙首而人头，鼓其腹。" }, description:"雷神拍腹则雷鸣。", appearance:"龙首人头", habitat:"雷泽", power:"鼓其腹则雷", tags:["大神","雷神","海内东经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内东经》",text:"雷泽中有雷神，龙首而人头，鼓其腹。"}] },
+{ id:"xihe_g", name:"羲和", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒南经", text:"羲和者，帝俊之妻，生十日。" }, description:"羲和生十日在甘渊沐浴。", appearance:"女神", habitat:"大荒南经", power:"生日", tags:["大神","日母","帝俊妻","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒南经》",text:"羲和者，帝俊之妻，生十日。"}] },
+{ id:"changxi_g", name:"常羲", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒西经", text:"有女子方浴月，帝俊妻，生月十有二。" }, description:"常羲生十二月在甘渊沐浴。", appearance:"女子", habitat:"大荒西经", power:"生月", tags:["大神","月母","帝俊妻","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有女子方浴月，帝俊妻，生月十有二。"}] },
+{ id:"nvba_g", name:"女魃", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒北经", text:"有女名曰魃，黄帝下之，雨止，遂杀蚩尤。所居不雨。" }, description:"女魃是黄帝的天女，止雨杀蚩尤，所居之地干旱。", appearance:"衣青衣", habitat:"赤水北", power:"所居不雨", tags:["大神","旱神","黄帝","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"有女名曰魃，黄帝下之，雨止，遂杀蚩尤。所居不雨。"}] },
+{ id:"di_jun_g", name:"帝俊", alias:[], type:"神灵", subtype:"天帝", origin:{ book:"大荒南经", text:"帝俊生中容、生晏龙、生帝鸿……" }, description:"帝俊是至高天帝，生日月，是殷商始祖。", appearance:"天帝", habitat:"大荒经", power:"生日月", tags:["天帝","始祖","日月之父","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒经》",text:"帝俊生中容、生晏龙、生帝鸿……"}] },
+{ id:"nvwac_g", name:"女娲之肠", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒西经", text:"有神十人，名曰女娲之肠，化为神。" }, description:"女娲肠化十神。", appearance:"神人", habitat:"栗广之野", power:"", tags:["大神","女娲","化身","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有神十人，名曰女娲之肠，化为神。"}] },
+{ id:"shaohao_g", name:"少昊", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒东经", text:"少昊孺帝颛顼于此，弃其琴瑟。" }, description:"少昊以鸟名官，是东方天帝。", appearance:"神人", habitat:"大荒东经", power:"", tags:["大神","五帝","东方","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"少昊孺帝颛顼于此，弃其琴瑟。"}] },
+{ id:"erfu_g", name:"贰负", alias:[], type:"神灵", subtype:"大神", origin:{ book:"海内西经", text:"贰负之臣曰危，与贰负杀窫窳。" }, description:"贰负与臣危杀天神窫窳。", appearance:"神人", habitat:"海内西经", power:"杀窫窳", tags:["大神","凶神","海内西经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内西经》",text:"贰负之臣曰危，与贰负杀窫窳。"}] },
+{ id:"zhuyu_c", name:"祝馀", alias:[], type:"奇物", subtype:"草木", origin:{ book:"南山经", text:"有草焉，其状如韭而青华，名曰祝馀，食之不饥。" }, description:"祝馀如韭青花，食之不饥。", appearance:"状如韭而青华", habitat:"招摇之山", power:"食之不饥", tags:["草","不饥","南山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·南山经》",text:"有草焉，其状如韭而青华，名曰祝馀，食之不饥。"}] },
+{ id:"duheng_c", name:"杜衡", alias:[], type:"奇物", subtype:"草木", origin:{ book:"西山经", text:"有草焉，其状如葵，臭如蘼芜，曰杜衡，可以走马，食之已瘿。" }, description:"杜衡香草可利马。", appearance:"状如葵", habitat:"天帝之山", power:"走马，治瘿", tags:["香草","利马","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有草焉，其状如葵，臭如蘼芜，曰杜衡，可以走马，食之已瘿。"}] },
+{ id:"dixiu_c", name:"帝休", alias:[], type:"奇物", subtype:"草木", origin:{ book:"中山经", text:"有木焉，状如杨，枝五衢，黄华黑实，服者不怒。" }, description:"帝休如杨，服之平静不怒。", appearance:"状如杨，枝五衢", habitat:"少室之山", power:"服者不怒", tags:["树木","平静","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有木焉，状如杨，枝五衢，黄华黑实，服者不怒。"}] },
+{ id:"yingshu", name:"婴儿树", alias:[], type:"奇物", subtype:"神树", origin:{ book:"中山经", text:"有木焉，其状如棠，而赤叶，名曰芒草，可以毒鱼。" }, description:"芒草红叶，可毒鱼。", appearance:"如棠而赤叶", habitat:"中山经", power:"可以毒鱼", tags:["树木","毒鱼","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有木焉，其状如棠，而赤叶，名曰芒草，可以毒鱼。"}] },
+{ id:"guanshu", name:"䑏疏", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如马，一角有错，可以辟火。" }, description:"䑏疏如马独角，可避火。", appearance:"状如马，一角", habitat:"带山", power:"可以辟火", tags:["马","独角","辟火","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如马，一角有错，可以辟火。"}] },
+{ id:"yiyu", name:"鳛鳛鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"其中多鳛鳛之鱼，其状如鹊而十翼，鳞皆在羽端，可以御火。" }, description:"鳛鳛鱼如鹊十翼，可御火。", appearance:"如鹊十翼", habitat:"涿光山", power:"可以御火", tags:["鱼","十翼","御火","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"其中多鳛鳛之鱼，其状如鹊而十翼，鳞皆在羽端，可以御火。"}] },
+{ id:"chanwu", name:"䖪鼠", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如鸡而鼠毛，见则其邑大旱。" }, description:"䖪鼠如鸡而鼠毛，见则大旱。", appearance:"如鸡而鼠毛", habitat:"干山", power:"见则大旱", tags:["鼠","旱灾","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如鸡而鼠毛，见则其邑大旱。"}] },
+{ id:"zhenyu", name:"箴鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"有鱼焉，其状如囗，其喙如箴，食之无疫疾。" }, description:"箴鱼嘴如针，食之可防疫病。", appearance:"喙如箴", habitat:"北山经", power:"食之无疫疾", tags:["鱼","针嘴","防疫","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有鱼焉，其状如囗，其喙如箴，食之无疫疾。"}] },
+{ id:"yongyu", name:"鳙鳙鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"东山经", text:"有鱼焉，其状如犁牛，其音如彘鸣。" }, description:"鳙鳙鱼如牛声如猪。", appearance:"状如犁牛", habitat:"东山经", power:"", tags:["鱼","牛形","东山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·东山经》",text:"有鱼焉，其状如犁牛，其音如彘鸣。"}] },
+{ id:"xian_yu", name:"鱻鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"北山经", text:"其中多鱻鱼，鱼身而犬首，其音如婴儿，食之已狂。" }, description:"鱻鱼身狗头，声如婴儿。", appearance:"鱼身犬首", habitat:"北山经", power:"食之已狂", tags:["鱼","狗头","治狂","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"其中多鱻鱼，鱼身而犬首，其音如婴儿，食之已狂。"}] },
+{ id:"qin_gu", name:"钦䲹", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"西山经", text:"有鸟焉，名曰钦䲹，化为大鹗，其状如雕而墨文白首，赤喙而虎爪，其音如晨鹄，见则有大兵。" }, description:"钦䲹化大鹗，见则有战争。", appearance:"如雕墨文，赤喙虎爪", habitat:"钟山", power:"见则有大兵", tags:["鸟","化形","战争","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"钦䲹化为大鹗，其状如雕而墨文白首，赤喙而虎爪。"}] },
+{ id:"feiyu_zhong", name:"飞鱼", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"中山经", text:"有鱼焉，其状如豚而赤文，服之不畏雷，可以御兵。" }, description:"飞鱼如豚赤纹，服之不畏雷。", appearance:"如豚赤文", habitat:"中山经", power:"服之不畏雷", tags:["鱼","御雷","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有鱼焉，其状如豚而赤文，服之不畏雷，可以御兵。"}] },
+{ id:"you_bird", name:"鴢", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"中山经", text:"有鸟焉，其状如凫，青身而朱目赤尾，食之宜子。" }, description:"鴢青身红尾，食之宜生育。", appearance:"如凫青身，朱目赤尾", habitat:"中山经", power:"食之宜子", tags:["鸟","宜子","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有鸟焉，其状如凫，青身而朱目赤尾，食之宜子。"}] },
+{ id:"jiao_chong", name:"骄虫", alias:[], type:"神灵", subtype:"神", origin:{ book:"中山经", text:"有神焉，其状如人而二首，名曰骄虫，是为螫虫。" }, description:"骄虫双首之神，主管蜂虫。", appearance:"如人二首", habitat:"中山经", power:"为螫虫", tags:["神","双首","主管昆虫","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有神焉，其状如人而二首，名曰骄虫，是为螫虫。"}] },
+{ id:"babu_sha", name:"巴蛇", alias:[], type:"异兽", subtype:"蛇属", origin:{ book:"海内南经", text:"巴蛇食象，三岁而出其骨。其为蛇青黄赤黑。" }, description:"巴蛇可吞象，三年排骨。", appearance:"青黄赤黑巨蛇", habitat:"海内南经", power:"食象", tags:["蛇","巨蛇","食象","海内南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内南经》",text:"巴蛇食象，三岁而出其骨。其为蛇青黄赤黑。"}] },
+{ id:"wuzeguo", name:"无䏿国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"无䏿国在长股东，为人无䏿。" }, description:"无䏿国的人没有小腿肚。", appearance:"无䏿", habitat:"海外北经", power:"", tags:["异国","无腿","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"无䏿国在长股东，为人无䏿。"}] },
+{ id:"juyinguo", name:"拘缨国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"拘缨国在其东，一手把缨。" }, description:"拘缨国的人一手托颈。", appearance:"一手把缨", habitat:"海外北经", power:"", tags:["异国","拘缨","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》", text:"拘缨国在其东，一手把缨。"}] },
+{ id:"dazhongguo", name:"跂踵国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海外北经", text:"跂踵国在拘缨东，其为人大，两足亦大。" }, description:"跂踵国的人大脚。", appearance:"两足大", habitat:"海外北经", power:"", tags:["异国","大脚","海外北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外北经》",text:"跂踵国在拘缨东，其为人大，两足亦大。"}] },
+{ id:"yu_long", name:"鱼龙", alias:[], type:"异兽", subtype:"鱼属", origin:{ book:"大荒西经", text:"有鱼偏枯，名曰鱼妇。颛顼死即复苏。" }, description:"鱼妇是颛顼所化，半鱼半人。死后化鱼复活。", appearance:"偏枯之鱼", habitat:"大荒西经", power:"死即复苏", tags:["鱼","颛顼","复活","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有鱼偏枯，名曰鱼妇。颛顼死即复苏。"}] },
+{ id:"kuang_niao", name:"狂鸟", alias:[], type:"异兽", subtype:"鸟属", origin:{ book:"大荒西经", text:"有五采之鸟，有冠，名曰狂鸟。" }, description:"狂鸟五彩有冠。", appearance:"五彩有冠", habitat:"大荒西经", power:"", tags:["五彩","神鸟","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有五采之鸟，有冠，名曰狂鸟。"}] },
+{ id:"yanzi_god", name:"弇兹", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒西经", text:"有神，人面鸟身，珥两青蛇，践两赤蛇，名曰弇兹。" }, description:"弇兹人面鸟身，珥蛇践蛇。", appearance:"人面鸟身", habitat:"大荒西经", power:"", tags:["大神","珥蛇","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有神，人面鸟身，珥两青蛇，践两赤蛇，名曰弇兹。"}] },
+{ id:"buting_hu", name:"不廷胡余", alias:[], type:"神灵", subtype:"大神", origin:{ book:"大荒南经", text:"有神名曰不廷胡余，南海渚中，人面，珥两青蛇，践两赤蛇。" }, description:"不廷胡余南海之神。", appearance:"人面珥蛇", habitat:"南海", power:"", tags:["大神","南海","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒南经》",text:"有神名曰不廷胡余，南海渚中，人面，珥两青蛇，践两赤蛇。"}] },
+{ id:"yu_hu", name:"鱼妇", alias:[], type:"异兽", subtype:"神鱼", origin:{ book:"大荒西经", text:"有鱼偏枯，名曰鱼妇。颛顼死即复苏。风道北来，天及大水泉，蛇乃化为鱼，是为鱼妇。" }, description:"鱼妇是颛顼所化之鱼神。", appearance:"偏枯之鱼", habitat:"大荒西经", power:"死即复苏", tags:["神鱼","颛顼","化形","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有鱼偏枯，名曰鱼妇。颛顼死即复苏。"}] },
+{ id:"zhong_rong", name:"中容国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒东经", text:"有中容之国。帝俊生中容，中容人食兽、木实，使四鸟。" }, description:"中容国帝俊所生。", appearance:"常人", habitat:"大荒东经", power:"使四鸟", tags:["异国","帝俊","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"有中容之国。帝俊生中容。"}] },
+{ id:"si_you", name:"司幽国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒东经", text:"有司幽之国。帝俊生晏龙，晏龙生司幽，思士不妻，思女不夫。" }, description:"司幽国男子不娶女子不嫁。", appearance:"常人", habitat:"大荒东经", power:"", tags:["异国","不婚","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"有司幽之国。帝俊生晏龙，晏龙生司幽。"}] },
+{ id:"youmin", name:"困民国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒东经", text:"有困民国，勾姓而食。" }, description:"困民国勾姓。", appearance:"常人", habitat:"大荒东经", power:"", tags:["异国","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"有困民国，勾姓而食。"}] },
+{ id:"wang_hai", name:"王亥", alias:[], type:"神灵", subtype:"神人", origin:{ book:"大荒东经", text:"有人曰王亥，两手操鸟，方食其头。" }, description:"王亥是商族先祖，两手操鸟而食。", appearance:"两手操鸟", habitat:"大荒东经", power:"", tags:["祖先","商","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"有人曰王亥，两手操鸟，方食其头。"}] },
+{ id:"tanyuan", name:"沙棠", alias:[], type:"奇物", subtype:"神树", origin:{ book:"西山经", text:"有木焉，名曰沙棠，可以御水，食之使人不溺。" }, description:"沙棠树果可御水，食之不淹。", appearance:"状如棠", habitat:"昆仑之丘", power:"食之不溺", tags:["神树","御水","昆仑","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有木焉，名曰沙棠，可以御水，食之使人不溺。"}] },
+{ id:"ping_cao", name:"薲草", alias:[], type:"奇物", subtype:"草木", origin:{ book:"西山经", text:"有草焉，名曰薲草，其状如葵，其味如葱，食之已劳。" }, description:"薲草如葵味如葱，食之解疲劳。", appearance:"状如葵", habitat:"昆仑之丘", power:"食之已劳", tags:["草","解劳","昆仑","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有草焉，名曰薲草，其状如葵，其味如葱，食之已劳。"}] },
+{ id:"ji_liang", name:"吉量", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"海内北经", text:"有文马，缟身朱鬣，目若黄金，名曰吉量，乘之寿千岁。" }, description:"吉量白马红鬃金眼，骑之寿千岁。", appearance:"缟身朱鬣，目若黄金", habitat:"海内北经", power:"乘之寿千岁", tags:["瑞兽","神马","长寿","海内北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内北经》",text:"有文马，缟身朱鬣，目若黄金，名曰吉量，乘之寿千岁。"}] },
+{ id:"dou_wu", name:"驺吾", alias:[], type:"异兽", subtype:"瑞兽", origin:{ book:"海内北经", text:"林氏国有珍兽，大若虎，五采毕具，尾长于身，乘之日行千里。" }, description:"驺吾如虎五彩，日行千里。", appearance:"大若虎五彩，尾长于身", habitat:"林氏国", power:"乘之日行千里", tags:["瑞兽","五彩","日行千里","海内北经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内北经》",text:"林氏国有珍兽，大若虎，五采毕具，尾长于身，乘之日行千里。"}] },
+{ id:"xiao_yang", name:"枭阳国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海内南经", text:"枭阳国在北朐之西，其为人人面长唇，黑身有毛，反踵。" }, description:"枭阳国人面长唇黑身有毛，脚跟反着长。", appearance:"人面长唇，黑身有毛", habitat:"海内南经", power:"", tags:["异国","野人","海内南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内南经》",text:"枭阳国在北朐之西，其为人人面长唇，黑身有毛，反踵。"}] },
+{ id:"di_ren", name:"氐人国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"海内南经", text:"氐人国在建木西，其为人人面而鱼身，无足。" }, description:"氐人国人面鱼身无足，即美人鱼原型。", appearance:"人面鱼身无足", habitat:"海内南经", power:"", tags:["异国","人鱼","海内南经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内南经》",text:"氐人国在建木西，其为人人面而鱼身，无足。"}] },
+{ id:"hu_fu", name:"虎罴", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"北山经", text:"有兽焉，其状如麋，其川在尾上。" }, description:"罴如麋而尾似鼻。", appearance:"如麋其川在尾", habitat:"北山经", power:"", tags:["兽","麋","北山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·北山经》",text:"有兽焉，其状如麋，其川在尾上。"}] },
+{ id:"sanduoguai", name:"三足龟", alias:[], type:"异兽", subtype:"龟属", origin:{ book:"中山经", text:"其中有三足龟，食者无大疾，可以已肿。" }, description:"三足龟食之可治病消肿。", appearance:"三足", habitat:"中山经", power:"食之已肿", tags:["龟","三足","药用","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"其中有三足龟，食者无大疾，可以已肿。"}] },
+{ id:"roupu_min", name:"柔仆民", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒东经", text:"有柔仆民，是维嬴土之国。" }, description:"柔仆国。", appearance:"常人", habitat:"大荒东经", power:"", tags:["异国","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"有柔仆民，是维嬴土之国。"}] },
+{ id:"xiaoren_g", name:"小人国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒东经", text:"有小人国，名曰靖人。" }, description:"靖人即小人。", appearance:"身小", habitat:"大荒东经", power:"", tags:["异国","小人","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒东经》",text:"有小人国，名曰靖人。"}] },
+{ id:"ji_yu", name:"季禺国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒南经", text:"有季禺之国，帝舜生无淫，降臷处，是谓巫臷民。" }, description:"季禺国帝舜之后。", appearance:"常人", habitat:"大荒南经", power:"", tags:["异国","帝舜","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒南经》",text:"有季禺之国，帝舜生无淫，降臷处。"}] },
+{ id:"wu_min", name:"蜮民国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒南经", text:"有蜮山者，有蜮民之国，食桑，射蜮是食。" }, description:"蜮民食桑射蜮。", appearance:"常人", habitat:"大荒南经", power:"", tags:["异国","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒南经》",text:"有蜮山者，有蜮民之国。"}] },
+{ id:"jiao_rao", name:"焦侥国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒南经", text:"有小人，名曰焦侥之国，几姓，嘉谷是食。" }, description:"焦侥国极小人。", appearance:"极小", habitat:"大荒南经", power:"", tags:["异国","小人","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒南经》",text:"有小人，名曰焦侥之国。"}] },
+{ id:"zao_chi", name:"凿齿", alias:[], type:"异兽", subtype:"兽属", origin:{ book:"海外南经", text:"凿齿者，齿如凿，长五六尺，因名。" }, description:"凿齿牙齿如凿五尺长，后羿所杀。", appearance:"齿如凿", habitat:"海外南经", power:"", tags:["怪兽","凿齿","海外经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海外南经》",text:"凿齿者，齿如凿，长五六尺。"}] },
+{ id:"shu_shi", name:"淑士国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒西经", text:"有淑士之国，帝俊之子，黍食。" }, description:"淑士国帝俊之子。", appearance:"常人", habitat:"大荒西经", power:"", tags:["异国","帝俊","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有淑士之国，帝俊之子。"}] },
+{ id:"xi_zhou", name:"西周国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒西经", text:"有西周之国，姬姓，食谷。有人方耕，名曰叔均。" }, description:"西周国姬姓，叔均始作牛耕。", appearance:"常人", habitat:"大荒西经", power:"叔均始耕", tags:["异国","西周","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有西周之国，姬姓，食谷。"}] },
+{ id:"xian_min", name:"先民国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒西经", text:"有先民之国，桑谷食。" }, description:"先民国。", appearance:"常人", habitat:"大荒西经", power:"", tags:["异国","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有先民之国。"}] },
+{ id:"bei_di", name:"北狄国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒西经", text:"有北狄之国，黄帝之孙曰始均，始均生北狄。" }, description:"北狄黄帝之后。", appearance:"常人", habitat:"大荒西经", power:"", tags:["异国","北狄","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有北狄之国，黄帝之孙曰始均。"}] },
+{ id:"xia_geng", name:"夏耕尸", alias:[], type:"神灵", subtype:"神人", origin:{ book:"大荒西经", text:"有人无首，操戈盾立，名曰夏耕之尸。" }, description:"夏耕尸无首持戈盾，被黄帝斩首。", appearance:"无首操戈盾", habitat:"大荒西经", power:"", tags:["无头","黄帝","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有人无首，操戈盾立，名曰夏耕之尸。"}] },
+{ id:"wu_hui", name:"吴回", alias:[], type:"神灵", subtype:"火神", origin:{ book:"大荒西经", text:"有人名曰吴回，奇左，是无右臂。" }, description:"吴回无右臂，是火神祝融之弟。", appearance:"无右臂", habitat:"大荒西经", power:"", tags:["火神","无臂","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒西经》",text:"有人名曰吴回，奇左，是无右臂。"}] },
+{ id:"shu_dan", name:"叔䝟国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒北经", text:"有叔䝟国，颛顼之子。" }, description:"叔䝟颛顼之后。", appearance:"常人", habitat:"大荒北经", power:"", tags:["异国","颛顼","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"有叔䝟国，颛顼之子。"}] },
+{ id:"bei_qi", name:"北齐国", alias:[], type:"奇物", subtype:"异国", origin:{ book:"大荒北经", text:"有北齐之国，姜姓，使虎豹熊罴。" }, description:"北齐国姜姓，能使猛兽。", appearance:"常人", habitat:"大荒北经", power:"使虎豹熊罴", tags:["异国","姜姓","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·大荒北经》",text:"有北齐之国，姜姓，使虎豹熊罴。"}] },
+{ id:"xi_wei", name:"蜃", alias:[], type:"异兽", subtype:"蛇属", origin:{ book:"海内东经", text:"大荒北经有蛇，名曰蜃。" }, description:"蜃蛇，传说吐气成楼阁。", appearance:"大蛇", habitat:"海内东经", power:"吐气成楼", tags:["蛇","海市蜃楼","大荒经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·海内东经》",text:"有蛇名曰蜃。"}] },
+{ id:"shou_cao", name:"蓇蓉", alias:[], type:"奇物", subtype:"草木", origin:{ book:"西山经", text:"有草焉，黑华而不实，名曰蓇蓉，食之使人无子。" }, description:"蓇蓉黑花不实，食之不孕。", appearance:"黑华而不实", habitat:"嶓冢山", power:"食之使人无子", tags:["草","不孕","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"有草焉，黑华而不实，名曰蓇蓉，食之使人无子。"}] },
+{ id:"xun_cao", name:"荀草", alias:[], type:"奇物", subtype:"草木", origin:{ book:"中山经", text:"有草焉，其状如葌，而方茎黄华赤实，其本如藁本，名曰荀草，服之美人色。" }, description:"荀草服之可美容。", appearance:"方茎黄花", habitat:"中山经", power:"服之美人色", tags:["草","美容","中山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·中山经》",text:"有草焉，名曰荀草，服之美人色。"}] },
+{ id:"langgan", name:"琅玕", alias:[], type:"奇物", subtype:"矿物", origin:{ book:"西山经", text:"有玉膏，其中多白玉，是有玉膏，其原沸沸汤汤，黄帝是食是飨。" }, description:"琅玕是昆仑山的美玉，传说凤凰食其果实。", appearance:"美玉", habitat:"昆仑", power:"", tags:["矿物","美玉","昆仑","西山经"], imageUrl:"", imageSource:"", relatedItems:[], references:[{source:"《山海经·西山经》",text:"是有玉膏，其原沸沸汤汤，黄帝是食是飨。"}] }
+];
+
+// ===== 应用逻辑 =====
+const PAGE_SIZE = 999;
+let currentType = '', currentBook = '', currentSearch = '', currentPage = 1;
+let filteredData = [];
+
+const $ = id => document.getElementById(id);
+const cardGrid = $('cardGrid');
+const pagination = $('pagination');
+const searchInput = $('searchInput');
+const clearBtn = $('clearBtn');
+const typeFilter = $('typeFilter');
+const bookFilter = $('bookFilter');
+const stats = $('stats');
+const totalCount = $('totalCount');
+const modalOverlay = $('modalOverlay');
+const modalBody = $('modalBody');
+const modalClose = $('modalClose');
+
+// 颜色映射
+const TYPE_COLORS = { '山系':'#2e7d32','异兽':'#b22222','植物':'#2e7d32','矿物':'#6a1b9a','神灵':'#e65100','奇物':'#01579b' };
+const TYPE_EMOJI = { '山系':'🏔️','异兽':'🐉','植物':'🌿','矿物':'💎','神灵':'🧙','奇物':'🏺' };
+// 卡片顶部渐变色
+const CARD_GRADIENTS = {
+  '山系': 'linear-gradient(135deg,#e8f5e9,#c8e6c9)',
+  '异兽': 'linear-gradient(135deg,#ffebee,#ffcdd2)',
+  '植物': 'linear-gradient(135deg,#e8f5e9,#a5d6a7)',
+  '矿物': 'linear-gradient(135deg,#f3e5f5,#ce93d8)',
+  '神灵': 'linear-gradient(135deg,#fff3e0,#ffcc80)',
+  '奇物': 'linear-gradient(135deg,#e1f5fe,#81d4fa)'
+};
+
+function filterData() {
+  let data = SHANHAIJING_DATA;
+  if (currentType) data = data.filter(d => d.type === currentType);
+  if (currentBook) data = data.filter(d => d.origin.book === currentBook);
+  if (currentSearch) {
+    const q = currentSearch.toLowerCase();
+    data = data.filter(d =>
+      d.name.toLowerCase().includes(q) ||
+      (d.alias && d.alias.some(a => a.toLowerCase().includes(q))) ||
+      d.origin.text.toLowerCase().includes(q) ||
+      d.description.toLowerCase().includes(q) ||
+      (d.tags && d.tags.some(t => t.toLowerCase().includes(q)))
+    );
+  }
+  filteredData = data;
+  return data;
+}
+
+function render() {
+  const data = filterData();
+  const total = data.length;
+  const maxPage = Math.ceil(total / PAGE_SIZE) || 1;
+  if (currentPage > maxPage) currentPage = maxPage;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const pageData = data.slice(start, end);
+
+  if (pageData.length === 0) {
+    cardGrid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>没有匹配的条目，试试其他关键词吧</p></div>';
+  } else {
+    cardGrid.innerHTML = pageData.map(item => {
+      const gradient = CARD_GRADIENTS[item.type] || 'linear-gradient(135deg,#f5f5f5,#e0e0e0)';
+      const color = TYPE_COLORS[item.type] || '#555';
+      const aliasHtml = item.alias && item.alias.length ? `<div class="card-alias">${item.alias.slice(0,2).join('、')}</div>` : '';
+      const originText = item.origin.text.length > 50 ? item.origin.text.slice(0,50) + '…' : item.origin.text;
+      return `<div class="card" onclick="showDetail('${item.id}')">
+        <div class="card-img-top" style="background:${gradient};font-size:1.6rem;font-weight:700;letter-spacing:4px;color:var(--dark-red);text-shadow:1px 1px 2px rgba(0,0,0,0.1);height:120px;display:flex;align-items:center;justify-content:center">${item.name}</div>
+        <div class="card-body">
+          <div class="card-name">${item.name}</div>
+          ${aliasHtml}
+          <div class="card-original">${originText}</div>
+          <div class="card-meta">
+            <span class="card-type" style="background:${color}18;color:${color}">${item.type}</span>
+            <span>${item.origin.book}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // 分页
+  if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  let ph = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage<=1?'disabled':''}>‹</button>`;
+  if (currentPage > 3) { ph += `<button class="page-btn" onclick="goPage(1)">1</button>`; if (currentPage > 4) ph += `<span style="padding:0 4px;color:#999">…</span>`; }
+  for (let i=Math.max(1,currentPage-2); i<=Math.min(totalPages,currentPage+2); i++) {
+    ph += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (currentPage < totalPages-2) { if (currentPage < totalPages-3) ph += `<span style="padding:0 4px;color:#999">…</span>`; ph += `<button class="page-btn" onclick="goPage(${totalPages})">${totalPages}</button>`; }
+  ph += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage>=totalPages?'disabled':''}>›</button>`;
+  pagination.innerHTML = ph;
+
+  stats.textContent = `共 ${total} 条`;
+  totalCount.textContent = SHANHAIJING_DATA.length;
+}
+
+function goPage(p) {
+  const max = Math.ceil(filteredData.length / PAGE_SIZE) || 1;
+  if (p < 1 || p > max) return;
+  currentPage = p;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showDetail(id) {
+  const item = SHANHAIJING_DATA.find(d => d.id === id);
+  if (!item) return;
+  const tags = [item.subtype].concat(item.tags || []).filter(Boolean).slice(0, 6);
+  const refs = (item.references||[]).map(r => `<div class="detail-ref"><strong>${r.source}</strong>：${r.text}</div>`).join('');
+  modalBody.innerHTML = `
+    <div class="detail-header">
+      <div class="detail-img-box" style="font-size:2.2rem;font-weight:700;color:var(--dark-red)">${item.name}</div>
+      <div class="detail-title-area">
+        <div class="detail-name">${item.name}</div>
+        ${item.alias && item.alias.length ? `<div class="detail-alias">又名：${item.alias.join('、')}</div>` : ''}
+        <span class="detail-type-badge">${TYPE_EMOJI[item.type]} ${item.type}</span>
+        <div class="detail-tags">${tags.map(t => `<span class="detail-tag">#${t}</span>`).join('')}</div>
+      </div>
+    </div>
+    <div class="detail-section"><h3>📖 原文</h3><blockquote>${item.origin.text} ——《${item.origin.book}》</blockquote></div>
+    <div class="detail-section"><h3>📝 详解</h3><p>${item.description}</p></div>
+    ${item.appearance ? `<div class="detail-section"><h3>👁️ 形貌特征</h3><p>${item.appearance}</p></div>` : ''}
+    ${item.habitat ? `<div class="detail-section"><h3>📍 出没地点</h3><p>${item.habitat}</p></div>` : ''}
+    ${item.power ? `<div class="detail-section"><h3>⚡ 能力</h3><p>${item.power}</p></div>` : ''}
+    ${refs ? `<div class="detail-section"><h3>📚 参考文献</h3>${refs}</div>` : ''}
+    <div style="font-size:0.78rem;color:#999;margin-top:16px;padding-top:12px;border-top:1px solid #eee;">数据来源：《山海经》· 写作资料参考</div>`;
+  modalOverlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() { modalOverlay.classList.remove('show'); document.body.style.overflow = ''; }
+
+// 事件
+searchInput.addEventListener('input', function() {
+  currentSearch = this.value.trim(); currentPage = 1;
+  clearBtn.style.display = this.value ? 'block' : 'none';
+  if (this.value) { setTimeout(() => render(), 200); } else { render(); }
+});
+clearBtn.addEventListener('click', () => {
+  searchInput.value = ''; currentSearch = ''; currentPage = 1;
+  clearBtn.style.display = 'none'; render(); searchInput.focus();
+});
+typeFilter.addEventListener('change', () => {
+  currentType = typeFilter.value; currentPage = 1;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.dataset.type === currentType));
+  render();
+});
+bookFilter.addEventListener('change', () => { currentBook = bookFilter.value; currentPage = 1; render(); });
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentType = btn.dataset.type; typeFilter.value = currentType; currentPage = 1; render();
+  });
+});
+modalClose.addEventListener('click', closeDetail);
+modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeDetail(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
+
+render();
+
+// ===== 随机展示一条 =====
+function randomOne() {
+  const total = SHANHAIJING_DATA.length;
+  if (total === 0) return;
+  const idx = Math.floor(Math.random() * total);
+  const item = SHANHAIJING_DATA[idx];
+  showDetail(item.id);
+}
+
+// ===== 导出为Markdown =====
+function exportMarkdown() {
+  const data = filteredData.length > 0 ? filteredData : SHANHAIJING_DATA;
+  let md = '# 山海经全图鉴 - 导出数据\n\n';
+  md += '> 数据来源：《山海经》（先秦古籍）\n';
+  md += `> 导出时间：${new Date().toLocaleDateString('zh-CN')}\n`;
+  md += `> 共 ${data.length} 条\n\n`;
+  md += '---\n\n';
+
+  // 按分类分组
+  const groups = {};
+  data.forEach(item => {
+    if (!groups[item.type]) groups[item.type] = [];
+    groups[item.type].push(item);
+  });
+
+  const typeOrder = ['异兽', '山系', '植物', '矿物', '神灵', '奇物'];
+  const typeEmoji = { '异兽':'🐉', '山系':'🏔️', '植物':'🌿', '矿物':'💎', '神灵':'🧙', '奇物':'🏺' };
+
+  typeOrder.forEach(type => {
+    if (!groups[type]) return;
+    md += `\n## ${typeEmoji[type] || ''} ${type}\n\n`;
+    groups[type].forEach(item => {
+      md += `### ${item.name}\n\n`;
+      if (item.alias && item.alias.length) {
+        md += `- **又名**：${item.alias.join('、')}\n`;
+      }
+      md += `- **出处**：《${item.origin.book}》\n`;
+      md += `- **原文**：${item.origin.text}\n`;
+      if (item.appearance) md += `- **形貌**：${item.appearance}\n`;
+      if (item.habitat) md += `- **地点**：${item.habitat}\n`;
+      if (item.power) md += `- **能力**：${item.power}\n`;
+      if (item.tags && item.tags.length) md += `- **标签**：${item.tags.join('、')}\n`;
+      md += `\n**详解**：${item.description}\n\n`;
+      if (item.references && item.references.length) {
+        md += '**参考文献**：\n';
+        item.references.forEach(r => {
+          md += `- ${r.source}：${r.text}\n`;
+        });
+        md += '\n';
+      }
+      md += '---\n\n';
+    });
+  });
+
+  // 下载（兼容移动端）
+  const win = window.open();
+  if (!win || win.closed) {
+    // 弹窗被拦截，改用文本框复制
+    const textarea = document.createElement('textarea');
+    textarea.value = md;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      alert('📋 Markdown 已复制到剪贴板！请粘贴到文本文件中保存。');
+    } catch(e) {
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '山海经全图鉴_' + new Date().toISOString().slice(0,10) + '.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    }
+    document.body.removeChild(textarea);
+  } else {
+    win.document.write('<!DOCTYPE html><html><head><title>山海经全图鉴 - 数据导出</title><meta charset="utf-8"><style>body{background:#f9f9f9;font-family:monospace;white-space:pre-wrap;padding:20px;line-height:1.6}</style></head><body><pre style="white-space:pre-wrap;word-break:break-all">' + md.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre></body></html>');
+    win.document.close();
+    win.document.title = '山海经全图鉴_' + new Date().toISOString().slice(0,10);
+  }
+}
+
+</script>
+</body>
+</html>

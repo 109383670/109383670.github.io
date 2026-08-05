@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>修仙题材创作设定参考报告</title>
+<style>
+  /* ========== 全局基础 ========== */
+  :root{
+    --jade:#1a6b5c;
+    --jade-dark:#0f4639;
+    --jade-light:#2d8a77;
+    --gold:#c9a96e;
+    --gold-light:#e0c690;
+    --gold-dark:#a8854a;
+    --ink:#2b2b2b;
+    --ink-light:#4a4a4a;
+    --ink-soft:#666;
+    --cream:#faf7f0;
+    --cream-dark:#f0ebe0;
+    --border:#d4c9a8;
+    --red-accent:#8b3a3a;
+    --blue-accent:#2a5a7a;
+    --purple-accent:#5a3a6a;
+    --shadow:0 2px 8px rgba(15,70,57,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Noto Serif SC","Songti SC","SimSun",Georgia,serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.8;
+    font-size:15px;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:40px 32px;}
+
+  /* ========== 封面 ========== */
+  .cover{
+    text-align:center;
+    padding:80px 40px 60px;
+    background:linear-gradient(135deg,var(--jade-dark) 0%,var(--jade) 50%,var(--jade-dark) 100%);
+    color:var(--cream);
+    border-radius:12px;
+    margin-bottom:48px;
+    position:relative;
+    overflow:hidden;
+  }
+  .cover::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-width='0.5' opacity='0.15'%3E%3Cpath d='M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z'/%3E%3C/g%3E%3C/svg%3E");
+    opacity:.3;
+  }
+  .cover h1{
+    font-size:42px;
+    color:var(--gold-light);
+    margin-bottom:16px;
+    letter-spacing:4px;
+    position:relative;
+    text-shadow:0 2px 12px rgba(0,0,0,.3);
+  }
+  .cover .subtitle{
+    font-size:18px;
+    color:var(--cream-dark);
+    margin-bottom:32px;
+    letter-spacing:2px;
+    position:relative;
+  }
+  .cover .meta{
+    display:inline-block;
+    padding:8px 24px;
+    border:1px solid var(--gold);
+    border-radius:4px;
+    font-size:13px;
+    color:var(--gold-light);
+    position:relative;
+  }
+  .cover .divider{
+    width:120px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    margin:24px auto;
+    position:relative;
+  }
+
+  /* ========== 目录 ========== */
+  .toc{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:32px 40px;
+    margin-bottom:48px;
+    box-shadow:var(--shadow);
+  }
+  .toc h2{
+    font-size:20px;
+    color:var(--jade-dark);
+    border-bottom:2px solid var(--gold);
+    padding-bottom:12px;
+    margin-bottom:20px;
+  }
+  .toc ol{list-style:none;counter-reset:toc;}
+  .toc li{
+    counter-increment:toc;
+    padding:8px 0;
+    border-bottom:1px dashed var(--cream-dark);
+    display:flex;
+    align-items:center;
+  }
+  .toc li:last-child{border-bottom:none;}
+  .toc li::before{
+    content:counter(toc);
+    display:inline-block;
+    width:28px;height:28px;
+    background:var(--jade);
+    color:#fff;
+    border-radius:50%;
+    text-align:center;
+    line-height:28px;
+    font-size:13px;
+    margin-right:16px;
+    flex-shrink:0;
+  }
+  .toc li a{
+    color:var(--ink);
+    text-decoration:none;
+    flex:1;
+  }
+  .toc li a:hover{color:var(--jade);}
+
+  /* ========== 章节标题 ========== */
+  h2.chap-title{
+    font-size:28px;
+    color:var(--jade-dark);
+    margin:56px 0 8px;
+    padding:16px 24px;
+    background:linear-gradient(90deg,var(--cream-dark) 0%,transparent 100%);
+    border-left:5px solid var(--gold);
+    border-radius:0 4px 4px 0;
+  }
+  h2.chap-title .num{
+    color:var(--gold-dark);
+    font-size:20px;
+    margin-right:12px;
+  }
+  h3.sec-title{
+    font-size:20px;
+    color:var(--jade);
+    margin:36px 0 16px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+  }
+  h3.sec-title::before{
+    content:"";
+    display:inline-block;
+    width:8px;height:20px;
+    background:var(--gold);
+    margin-right:12px;
+    border-radius:2px;
+  }
+  h4.sub-title{
+    font-size:16px;
+    color:var(--jade-dark);
+    margin:24px 0 12px;
+    padding-left:12px;
+    border-left:3px solid var(--jade-light);
+  }
+
+  /* ========== 通用样式 ========== */
+  p{margin-bottom:12px;color:var(--ink-light);}
+  .lead{
+    font-size:16px;
+    color:var(--ink);
+    background:var(--cream-dark);
+    padding:16px 24px;
+    border-radius:6px;
+    border-left:4px solid var(--jade);
+    margin:16px 0 24px;
+  }
+  ul,ol{margin:8px 0 16px 24px;}
+  li{margin-bottom:6px;color:var(--ink-light);}
+  strong{color:var(--jade-dark);}
+  em{color:var(--gold-dark);font-style:normal;font-weight:600;}
+  blockquote{
+    background:#fff;
+    border:1px solid var(--border);
+    border-left:4px solid var(--gold);
+    padding:16px 24px;
+    margin:16px 0;
+    border-radius:0 6px 6px 0;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+  blockquote p{margin-bottom:4px;}
+
+  /* ========== 表格 ========== */
+  .table-wrap{overflow-x:auto;margin:16px 0 24px;}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    background:#fff;
+    box-shadow:var(--shadow);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  thead{
+    background:linear-gradient(90deg,var(--jade-dark),var(--jade));
+  }
+  th{
+    color:#fff;
+    padding:12px 16px;
+    text-align:left;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  td{
+    padding:10px 16px;
+    border-bottom:1px solid var(--cream-dark);
+    color:var(--ink-light);
+    vertical-align:top;
+  }
+  tbody tr:nth-child(even){background:var(--cream);}
+  tbody tr:hover{background:#e8f0ed;}
+  td strong{color:var(--jade-dark);}
+  td em{color:var(--red-accent);}
+  .tag{
+    display:inline-block;
+    padding:2px 10px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:600;
+  }
+  .tag-jade{background:#e0f0eb;color:var(--jade-dark);}
+  .tag-gold{background:#f5edd8;color:var(--gold-dark);}
+  .tag-red{background:#f5e0e0;color:var(--red-accent);}
+  .tag-blue{background:#e0eaf5;color:var(--blue-accent);}
+  .tag-purple{background:#ede0f5;color:var(--purple-accent);}
+
+  /* ========== 可视化组件 ========== */
+  /* 境界流程图 */
+  .realm-flow{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    margin:24px 0;
+  }
+  .realm-node{
+    padding:8px 16px;
+    background:var(--jade);
+    color:#fff;
+    border-radius:4px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .realm-node.high{background:var(--gold-dark);}
+  .realm-node.peak{background:var(--red-accent);}
+  .realm-arrow{color:var(--gold);font-size:18px;font-weight:bold;}
+  .realm-phase{
+    width:100%;
+    text-align:center;
+    font-size:13px;
+    color:var(--jade-dark);
+    font-weight:600;
+    margin:8px 0;
+    letter-spacing:2px;
+  }
+
+  /* 寿命柱状图 */
+  .bar-chart{margin:20px 0;}
+  .bar-row{
+    display:flex;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  .bar-label{
+    width:80px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--jade-dark);
+    text-align:right;
+    padding-right:12px;
+    flex-shrink:0;
+  }
+  .bar-track{
+    flex:1;
+    background:var(--cream-dark);
+    border-radius:4px;
+    height:24px;
+    overflow:hidden;
+    position:relative;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    padding-left:8px;
+    color:#fff;
+    font-size:12px;
+    font-weight:600;
+    transition:width .6s ease;
+  }
+  .bar-fill.tier1{background:linear-gradient(90deg,#5a9b8e,#2d8a77);}
+  .bar-fill.tier2{background:linear-gradient(90deg,#c9a96e,#a8854a);}
+  .bar-fill.tier3{background:linear-gradient(90deg,#8b3a3a,#6a2a2a);}
+  .bar-fill.tier4{background:linear-gradient(90deg,#5a3a6a,#3a2a4a);}
+
+  /* 灵根金字塔 */
+  .pyramid{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:24px 0;
+  }
+  .pyramid-level{
+    padding:10px 20px;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
+    color:#fff;
+    margin:2px 0;
+    border-radius:4px;
+  }
+  .pyramid-level .desc{
+    font-size:12px;
+    font-weight:400;
+    opacity:.9;
+  }
+
+  /* 能量层级图 */
+  .energy-flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:24px 0;
+    gap:0;
+  }
+  .energy-box{
+    padding:12px 28px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    min-width:200px;
+  }
+  .energy-arrow{
+    font-size:20px;
+    color:var(--gold-dark);
+    padding:4px 0;
+  }
+  .energy-desc{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  /* 卡片网格 */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:16px;
+    margin:20px 0;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    border-top:3px solid var(--jade);
+  }
+  .card.gold{border-top-color:var(--gold);}
+  .card.red{border-top-color:var(--red-accent);}
+  .card.blue{border-top-color:var(--blue-accent);}
+  .card.purple{border-top-color:var(--purple-accent);}
+  .card h5{
+    font-size:15px;
+    color:var(--jade-dark);
+    margin-bottom:10px;
+  }
+  .card p{font-size:13px;color:var(--ink-soft);margin-bottom:4px;}
+
+  /* 提示框 */
+  .callout{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:16px 24px;
+    margin:16px 0;
+    display:flex;
+    gap:16px;
+  }
+  .callout-icon{
+    flex-shrink:0;
+    width:36px;height:36px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    font-weight:bold;
+    color:#fff;
+  }
+  .callout.tip .callout-icon{background:var(--jade);}
+  .callout.warn .callout-icon{background:var(--red-accent);}
+  .callout.info .callout-icon{background:var(--blue-accent);}
+  .callout-body{flex:1;}
+  .callout-body p{margin-bottom:4px;}
+  .callout-body strong{display:block;margin-bottom:4px;}
+
+  /* 代码块/模板 */
+  .template-box{
+    background:#1e2a28;
+    color:#d4e8e0;
+    border-radius:8px;
+    padding:20px 24px;
+    margin:16px 0;
+    font-family:"JetBrains Mono","Consolas",monospace;
+    font-size:13px;
+    line-height:1.7;
+    overflow-x:auto;
+  }
+  .template-box .label{
+    color:var(--gold-light);
+  }
+  .template-box .placeholder{
+    color:#7a9a8e;
+  }
+
+  /* 附录样式 */
+  .glossary-item{
+    padding:8px 0;
+    border-bottom:1px dashed var(--cream-dark);
+  }
+  .glossary-item strong{
+    color:var(--jade-dark);
+    margin-right:8px;
+  }
+
+  /* 页脚 */
+  .footer{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-soft);
+    font-size:13px;
+    border-top:1px solid var(--border);
+    margin-top:48px;
+  }
+
+  /* 打印优化 */
+  @media print{
+    .wrap{max-width:none;padding:0;}
+    .cover{border-radius:0;}
+    body{font-size:14px;}
+  }
+</style>
+<style>
+  /* ========== 补充样式 ========== */
+  .checklist{background:var(--cream-dark);border-left:4px solid var(--jade);padding:24px 28px;border-radius:0 8px 8px 0;margin:20px 0;}
+  .checklist h4{color:var(--jade-dark);margin-bottom:12px;margin-top:20px;font-size:16px;}
+  .checklist h4:first-child{margin-top:0;}
+  .checklist ul{list-style:none;padding-left:0;}
+  .checklist li{padding:6px 0;color:var(--ink-light);font-size:14px;border-bottom:1px dashed var(--border);}
+  .checklist li:last-child{border-bottom:none;}
+  .note-box{background:linear-gradient(135deg,#fdf6e3,#f5ecd7);border:1px solid var(--gold);border-radius:8px;padding:24px 28px;margin:32px 0;box-shadow:var(--shadow);}
+  .note-box p{margin-bottom:8px;}
+  .note-box ul{padding-left:20px;margin-top:8px;}
+  .note-box li{padding:4px 0;color:var(--ink-light);font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ========== 封面 ========== -->
+<div class="cover">
+  <div class="divider"></div>
+  <h1>修仙题材创作设定参考报告</h1>
+  <div class="subtitle">面向网络小说作者的系统化世界观搭建指南</div>
+  <div class="divider"></div>
+  <div class="meta">境界体系 · 修炼理论 · 功法体系 · 法宝体系 · 附录速查</div>
+</div>
+
+<!-- ========== 目录 ========== -->
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#ch1">第一章　世界观总览：位面、天道与修炼资源</a></li>
+    <li><a href="#ch2">第二章　境界等级体系：从炼气到飞升</a></li>
+    <li><a href="#ch3">第三章　修炼基础设定：灵根、经脉与能量体系</a></li>
+    <li><a href="#ch4">第四章　功法体系：分类、设定要素与创作套路</a></li>
+    <li><a href="#ch5">第五章　法宝体系：等级、炼制与经典设定</a></li>
+    <li><a href="#appendix">附录　术语词典 · 经典作品速查 · 创作模板</a></li>
+  </ol>
+</div>
+
+<!-- ========== 报告说明 ========== -->
+<div class="lead">
+  本报告整合三份搜索资料（《修仙法宝体系参考资料》《修仙境界体系与修炼理论参考资料》《功法分类框架》），经交叉验证、去重统一后汇编而成。功法部分因搜索阶段受限于敏感词检测，仅获取分类框架，本报告基于修仙网文通行设定进行了<strong>设定要素、常见套路与经典案例的完整补充</strong>。报告面向网络小说作者，可直接用于世界观搭建。
+</div>
+
+<!-- ================================================================ -->
+<!-- 第一章：世界观总览 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch1"><span class="num">第一章</span>世界观总览：位面、天道与修炼资源</h2>
+
+<p>修仙小说的世界观是一切设定的根基。本章从<strong>位面结构</strong>、<strong>天道法则</strong>、<strong>修炼资源</strong>三个维度搭建全景框架，帮助作者在动笔前建立完整的世界运行逻辑。</p>
+
+<h3 class="sec-title">一、三界位面体系</h3>
+
+<p>主流修仙小说普遍采用"下界→中界→上界"的三层位面结构，灵气浓度递增、修士境界上限递增。这一结构既是世界观的地理骨架，也为主角的成长提供了清晰的"升级地图"。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>位面</th><th>灵气浓度</th><th>修士境界范围</th><th>世界特征</th><th>剧情功能</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>人界</strong>（下界）</td><td>稀薄</td><td>炼气 → 化神</td><td>凡人与修士共存；宗门林立；灵脉资源有限</td><td>新手村→成长舞台</td></tr>
+<tr><td><strong>灵界</strong>（中界）</td><td>充沛</td><td>炼虚 → 大乘</td><td>多族混居（人/妖/灵族等）；以域为单位划分势力</td><td>中后期战场→格局升级</td></tr>
+<tr><td><strong>仙界</strong>（上界）</td><td>仙气充盈</td><td>真仙 → 道祖</td><td>法则显化；仙官体制；天人衰劫</td><td>终极舞台→法则之争</td></tr>
+<tr><td><em>魔界</em>（平行位面）</td><td>魔气为主</td><td>对应灵界</td><td>与灵界互为表里；常有域外天魔入侵设定</td><td>对立阵营来源</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作提示</strong>
+<p>位面体系的核心叙事价值在于"换地图"：每当主角在当前位面达到天花板，便通过飞升/渡劫/跨界传送进入新位面，重启成长曲线。建议作者在动笔前规划好每个位面的<strong>势力格局、资源差异和核心矛盾</strong>，避免换地图后世界观空洞。</p>
+</div>
+</div>
+
+<h3 class="sec-title">二、天道法则框架</h3>
+
+<p>"天道"是修仙世界运行的根本法则。修士修炼本质是"逆天而修"——抢夺天地造化为己用，故必受天道惩罚（天劫）。这一设定为修仙世界提供了内在的紧张感和合理性。</p>
+
+<div class="card-grid">
+<div class="card">
+<h5>天道</h5>
+<p>宇宙运行的根本法则，绝对的、不可抗拒的意志。超越时空限制，无处不在、无所不能。</p>
+</div>
+<div class="card gold">
+<h5>大道法则</h5>
+<p>天地本源法则的具象化，如命运法则、时间法则、生死法则、空间法则等。真仙及以上才能领悟。</p>
+</div>
+<div class="card red">
+<h5>天道意志</h5>
+<p>万灵意识凝聚而成，具备自我认知。经历诞生、分裂、对抗、让渡的辩证过程，部分作品中具象为"天道意志"角色。</p>
+</div>
+<div class="card blue">
+<h5>法则之力</h5>
+<p>真仙及以上才能领悟并运用的力量。可展现惊天动地的神通，是仙界战力的核心衡量标准。</p>
+</div>
+</div>
+
+<h4 class="sub-title">天劫体系（天道惩罚机制）</h4>
+
+<p>天劫是修士"逆天而修"必须承受的考验，既是战斗挑战，也是心境试炼。"劫"的本质不仅是"雷劈"，更是修行者自身的心魔考验——须战胜自我方能突破。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>天劫类型</th><th>触发境界</th><th>频率</th><th>失败后果</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>小天劫</strong></td><td>元婴期、化神期</td><td>每300年一次</td><td>损失功力，重新修炼</td></tr>
+<tr><td><strong>大天劫</strong></td><td>炼虚期、合体期、大乘期</td><td>每3000年一次</td><td>停留不进则下一次更强；严重者形神俱灭</td></tr>
+<tr><td><strong>仙劫（飞升劫）</strong></td><td>渡劫期飞升时</td><td>一次性</td><td>失败则灰飞烟灭</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>雷劫三关</strong>（道家通行设定，每500年一次）：四九天劫（失败→损失功力）→ 六九天劫（失败→损失功力）→ 九九天劫（失败→神形俱灭，十死无生）。</p>
+
+<p><strong>非雷劫形式的心境考验</strong>（可用于丰富渡劫剧情）：</p>
+<div class="card-grid">
+<div class="card"><h5>退病劫</h5><p>祛除体内病气</p></div>
+<div class="card"><h5>情欲劫</h5><p>斩断情欲执念</p></div>
+<div class="card"><h5>妄心劫</h5><p>破除妄念</p></div>
+<div class="card"><h5>魔镜劫</h5><p>战胜心魔幻象</p></div>
+<div class="card"><h5>真空劫</h5><p>破除空寂执着</p></div>
+<div class="card"><h5>换骨劫</h5><p>肉身蜕变重塑</p></div>
+<div class="card"><h5>苦海劫</h5><p>超脱苦难轮回</p></div>
+<div class="card red"><h5>十魔九难</h5><p>综合性劫难</p></div>
+</div>
+
+<h4 class="sub-title">提升渡劫成功率的方法</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>方法</th><th>原理</th><th>创作用法</th></tr></thead>
+<tbody>
+<tr><td>符咒</td><td>破镜前画符，增加0-10%成功率</td><td>给符修流派提供剧情价值</td></tr>
+<tr><td>炼体</td><td>淬炼根骨和体魄，提升金身境界</td><td>体修流派的核心优势</td></tr>
+<tr><td>丹药</td><td>服用提升渡劫成功率的丹药</td><td>丹修流派的价值体现</td></tr>
+<tr><td>护法</td><td>修仙高人在旁护法，破境失败不损失修为</td><td>师徒情谊/盟友关系的剧情锚点</td></tr>
+<tr><td>法宝</td><td>使用防御型法宝抵挡天雷</td><td>法宝体系与境界体系的交叉点</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">三、修炼资源世界观</h3>
+
+<h4 class="sub-title">灵脉体系</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>灵脉等级</th><th>适用对象</th><th>修炼规模</th></tr></thead>
+<tbody>
+<tr><td>微型灵脉</td><td>个人/小家族</td><td>个人修行</td></tr>
+<tr><td>小型灵脉</td><td>家族/小门派</td><td>建立家族/小门派</td></tr>
+<tr><td>中型灵脉</td><td>家族/小门派</td><td>建立家族/小门派</td></tr>
+<tr><td>大型灵脉</td><td>大门派</td><td>建立大门派</td></tr>
+<tr><td>巨型灵脉</td><td>顶级宗门</td><td>建立顶级宗门</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">灵石货币体系</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>灵石等级</th><th>用途定位</th></tr></thead>
+<tbody>
+<tr><td>下品灵石</td><td>通用货币（低层修士日常交易）</td></tr>
+<tr><td>中品灵石</td><td>通用货币（中层修士交易）</td></tr>
+<tr><td>上品灵石</td><td>通用货币（高层修士交易）</td></tr>
+<tr><td>极品灵石</td><td>稀有，高阶交易/拍卖会硬通货</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">丹药等级体系</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>等级</th><th>分层</th><th>典型丹药</th><th>品阶细分</th></tr></thead>
+<tbody>
+<tr><td><strong>灵丹</strong></td><td>一至九品</td><td>筑基丹、结金丹、结婴丹、化神丹</td><td rowspan="4">每品按品质分为下品/中品/上品/极品</td></tr>
+<tr><td><strong>天丹</strong></td><td>一至九品</td><td>更高级丹药（灵界级别）</td></tr>
+<tr><td><strong>仙丹</strong></td><td>一至九品</td><td>仙界丹药</td></tr>
+<tr><td><strong>神丹</strong></td><td>一至九品</td><td>最高级丹药</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">符篆与阵法等级</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>等级划分</th></tr></thead>
+<tbody>
+<tr><td>修仙符篆</td><td>宝符 → 灵符 → 仙符 → 神符（各分一至九级）</td></tr>
+<tr><td>修仙阵法</td><td>凡阵 → 灵阵 → 仙阵 → 神阵（各分一至九级）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">修仙四要素（法侣地气）</h4>
+<div class="card-grid">
+<div class="card"><h5>法</h5><p>功法、符咒、丹药等提升手段。是修士成长的"软件"。</p></div>
+<div class="card gold"><h5>侣</h5><p>道侣、同门、护法者。修仙路上独行难远，"侣"是渡劫保命的关键。</p></div>
+<div class="card blue"><h5>地</h5><p>灵脉、灵气充沛之地。修炼环境直接决定效率。</p></div>
+<div class="card purple"><h5>气</h5><p>天地灵气、元气。修炼的"原材料"，位面决定上限。</p></div>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第二章：境界等级体系 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch2"><span class="num">第二章</span>境界等级体系：从炼气到飞升</h2>
+
+<p>境界体系是修仙小说的"等级系统"，直接决定战斗力的量化标准和剧情节奏。本章以接受度最广的<strong>凡人流九大境界</strong>为主线，辅以流派变体、经典作品对照，为作者提供可直接套用的境界框架。</p>
+
+<h3 class="sec-title">一、凡人流·九大境界体系（最主流）</h3>
+
+<p>以《凡人修仙传》为代表，分为下境界（人界）、中境界（灵界）、上境界（仙界）三大阶段，是当前修仙网文接受度最广、影响最深的境界体系。</p>
+
+<!-- 境界流程图 -->
+<div class="realm-flow">
+<div class="realm-phase">▼ 下境界（人界）</div>
+<div class="realm-node">炼气</div><span class="realm-arrow">→</span>
+<div class="realm-node">筑基</div><span class="realm-arrow">→</span>
+<div class="realm-node">结丹</div><span class="realm-arrow">→</span>
+<div class="realm-node">元婴</div><span class="realm-arrow">→</span>
+<div class="realm-node">化神</div>
+<div class="realm-phase">▼ 中境界（灵界）</div>
+<div class="realm-node high">炼虚</div><span class="realm-arrow">→</span>
+<div class="realm-node high">合体</div><span class="realm-arrow">→</span>
+<div class="realm-node high">大乘</div>
+<div class="realm-phase">▼ 上境界（仙界）</div>
+<div class="realm-node peak">渡劫</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">真仙</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">金仙</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">太乙</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">大罗</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">道祖</div>
+</div>
+
+<h4 class="sub-title">下境界（人界）详细参数</h4>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>境界</th><th>小境界划分</th><th>寿命</th><th>核心特征</th><th>战力定位</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>凡人</strong></td><td>—</td><td>约90岁</td><td>无灵根，无法修炼</td><td>基准</td>
+</tr>
+<tr>
+<td><strong>炼气期</strong></td><td>1-13层（4层质变，7层可服筑基丹，13层大圆满）</td><td>约100岁</td><td>吸纳天地灵气，体质和六感提升；4层神识感知数十丈；7层可服筑基丹冲击筑基；本质仍是凡人之躯，不受病痛困扰</td><td>修仙界最底层；纯靠肉体战斗（体修除外）</td>
+</tr>
+<tr>
+<td><strong>筑基期</strong></td><td>初/中/后/大圆满</td><td>约200岁</td><td>丹田气态真元转化为液态；可长时间御器飞行；具先天真火；可辟谷；身体机能大提升，衰老减缓</td><td>宗门骨干中坚力量；真正踏入修士门槛</td>
+</tr>
+<tr>
+<td><strong>结丹期</strong></td><td>初/中/后/大圆满</td><td>500-700岁</td><td>丹田凝结金丹；可用丹火炼制打磨法宝；掌握本命法宝；可遁光飞行</td><td>人界修仙界前辈高人；宗门长老级别</td>
+</tr>
+<tr>
+<td><strong>元婴期</strong></td><td>初/中/后/大圆满</td><td>约1000岁</td><td>金丹破裂孕育元婴；元婴可出窍、夺舍、瞬移；神识笼罩数百里；肉身毁而元婴不灭则不死</td><td>人界顶尖高手；宗门老祖级别</td>
+</tr>
+<tr>
+<td><strong>化神期</strong></td><td>初/中/后/大圆满</td><td>2000余岁（人界）/约3000岁（灵界）</td><td>感悟天地人生，化神立道，选定自己探索追求的道法；可调动天地灵力；人界灵气稀薄会损耗精元</td><td>人界最高境界；可凭灵宝越阶杀人</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">中境界（灵界）详细参数</h4>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>境界</th><th>小境界划分</th><th>寿命</th><th>核心特征</th><th>战力定位</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>炼虚期</strong></td><td>初/中/后/大圆满</td><td>理论无限（天地元气充足时）；每3000年一次大天劫，正常渡3次≈10000岁</td><td>五行合一（需补全灵根）；可调动天地法则之力</td><td>灵界一方宗主或一地霸主</td>
+</tr>
+<tr>
+<td><strong>合体期</strong></td><td>初/中/后/大圆满</td><td>更长（同样每3000年大天劫）</td><td>灵力与肉身完全融合；法力质变</td><td>灵界中坚高手；各族长老级别</td>
+</tr>
+<tr>
+<td><strong>大乘期</strong></td><td>初/中/后/大圆满</td><td>10万-100万年</td><td>接近仙的存在；法力通天；为飞升做准备</td><td>灵界至高存在</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">上境界（仙界）</h4>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>境界</th><th>寿命</th><th>核心特征</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>渡劫期</strong></td><td>—</td><td>迎接仙劫考验，渡过则飞升真仙界</td></tr>
+<tr><td><strong>真仙</strong></td><td>长生不死，与天地同寿</td><td>元力转换为仙灵力，领悟法则之力；有天人三衰之劫（躯衰/仙衰/窍衰）</td></tr>
+<tr><td><strong>金仙</strong></td><td>更高</td><td>更深层次法则掌握</td></tr>
+<tr><td><strong>太乙</strong></td><td>更高</td><td>—</td></tr>
+<tr><td><strong>大罗</strong></td><td>更高</td><td>—</td></tr>
+<tr><td><strong>道祖</strong></td><td>最高</td><td>仙界至尊</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>注</strong>：仙界境界在不同作品中有所差异，常见链条为：真仙→金仙→太乙→大罗→道祖；也有作品采用：人仙→天仙→金仙→大罗金仙→九天玄仙→罗天上仙→仙君→仙帝→仙尊。</p>
+</blockquote>
+
+<h3 class="sec-title">二、境界-寿命可视化对比</h3>
+
+<p>以下柱状图直观展示各境界修士的寿命跨度，帮助作者把握时间感与剧情节奏。</p>
+
+<div class="bar-chart">
+<div class="bar-row">
+<div class="bar-label">凡人</div>
+<div class="bar-track"><div class="bar-fill tier1" style="width:0.09%">90岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">炼气</div>
+<div class="bar-track"><div class="bar-fill tier1" style="width:1%">100岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">筑基</div>
+<div class="bar-track"><div class="bar-fill tier1" style="width:2%">200岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">结丹</div>
+<div class="bar-track"><div class="bar-fill tier1" style="width:6%">600岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">元婴</div>
+<div class="bar-track"><div class="bar-fill tier2" style="width:10%">1000岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">化神</div>
+<div class="bar-track"><div class="bar-fill tier2" style="width:25%">2500岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">炼虚</div>
+<div class="bar-track"><div class="bar-fill tier3" style="width:60%">≈10000岁</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">大乘</div>
+<div class="bar-track"><div class="bar-fill tier4" style="width:80%">10万-100万年</div></div>
+</div>
+<div class="bar-row">
+<div class="bar-label">真仙+</div>
+<div class="bar-track"><div class="bar-fill tier4" style="width:95%">长生不死</div></div>
+</div>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作提示</strong>
+<p>寿命设定直接决定剧情的时间跨度感。炼气到筑基适合写"几十年如一日"的苦修；结丹以上可以写"闭关百年"；到炼虚期，一个闭关就是上千年，适合用作时间跳跃的叙事手段。建议作者在低境界阶段多写细节和日常，高境界阶段以大事件驱动。</p>
+</div>
+</div>
+
+<h3 class="sec-title">三、不同流派/种族的境界变体</h3>
+
+<p>除人族道修主流体系外，修仙小说中常见的其他修炼路线有各自的境界命名。以下为五族境界对照：</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>流派</th><th>境界链条</th><th>核心差异</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>道修</strong>（人族主流）</td><td>炼气→筑基→金丹→元婴→化神→炼虚→合体→大乘→渡劫→真仙</td><td>灵根吸纳天地灵气，金丹元婴为核心</td></tr>
+<tr><td><span class="tag tag-red">魔修</span></td><td>聚气→凝神→吞噬→魔婴→化神→合体→大乘→渡劫</td><td>以吞噬掠夺为核心手段，修炼速快但反噬风险高</td></tr>
+<tr><td><span class="tag tag-gold">妖修</span></td><td>聚灵→通智→妖丹→化形→神游→练虚→大乘→渡劫</td><td>妖兽修炼，化形为关键节点；同阶体魄强于人族</td></tr>
+<tr><td><span class="tag tag-blue">佛修</span></td><td>聚元→脱凡→明心→舍利→太虚→通虚→大乘→渡劫</td><td>以舍利代金丹，注重心境修行</td></tr>
+<tr><td><span class="tag tag-purple">鬼修</span></td><td>灵动→开灵→魂丹→凝体→凝魄→炼魂→大乘→渡劫</td><td>以魂力为核心，无肉身（或重塑肉身）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">妖兽等级与人族境界对应</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>妖兽等级</th><th>对应人族境界</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>一至二级</td><td>炼气期</td><td>低阶妖兽，无灵智</td></tr>
+<tr><td>三至四级</td><td>筑基期</td><td>初具灵智</td></tr>
+<tr><td>五至七级</td><td>结丹期</td><td>妖丹已成</td></tr>
+<tr><td>八级</td><td>元婴初期</td><td>可化为人形（部分高级妖兽除外）</td></tr>
+<tr><td>九至十级</td><td>元婴中后期</td><td>—</td></tr>
+<tr><td>化神期以上</td><td>与人族相同</td><td>妖族体质优势在化神后不再明显</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>妖兽特点</strong>：同阶妖兽比人族更强（早期），因妖族身体普遍比人族强横；化神期后开始平衡，境界越高战斗手段越多元化，体质强弱影响减弱。</p>
+</blockquote>
+
+<h3 class="sec-title">四、体修与剑修的差异化境界</h3>
+
+<h4 class="sub-title">体修（炼体士）</h4>
+<p>体修以淬炼肉身为核心修炼路径，不依赖灵根吸纳灵气，是修仙体系中重要的分支。</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>特征</th><th>描述</th></tr></thead>
+<tbody>
+<tr><td><strong>修炼核心</strong></td><td>以淬炼筋骨皮肉为主，不依赖灵根吸纳灵气</td></tr>
+<tr><td><strong>战力定位</strong></td><td>同境界近战能力远超普通修士；以肉身硬抗法宝</td></tr>
+<tr><td><strong>关键境界</strong></td><td>铜皮→草根→柳筋→骨气→铸炉（与剑修下五境类似）</td></tr>
+<tr><td><strong>优势</strong></td><td>无需灵根即可入门；近身战斗极强；抗打击能力出众</td></tr>
+<tr><td><strong>劣势</strong></td><td>远程攻击手段匮乏；飞行能力获取较晚；对灵力法术防御较弱</td></tr>
+<tr><td><strong>代表功法</strong></td><td>《梵圣真魔功》《大衍决》等</td></tr>
+<tr><td><strong>特殊设定</strong></td><td>可使用需炼体士才能催动的特殊法宝（如齐天锣），但会损耗精血寿元</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">剑修（以《剑来》练气士十五境为代表）</h4>
+<p>剑修属于练气士分支，但自成体系，修炼逻辑与其他练气士根本不同。核心特征：<strong>同等境界可越阶挑战</strong>（十二境剑修可对标十三境普通练气士）。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>阶段</th><th>境界</th><th>核心特征</th></tr></thead>
+<tbody>
+<tr><td><strong>下五境</strong></td><td>铜皮、草根、柳筋、骨气、铸炉（筑庐）</td><td>炼体筑基，以剑意淬炼筋骨皮肉；开辟气府为关键目标</td></tr>
+<tr><td><strong>中五境</strong></td><td>洞府境、观海境、龙门境、金丹境、元婴境</td><td>开辟洞府、开凿气海、结成金丹、孕育元婴；元婴成形可御剑杀敌</td></tr>
+<tr><td><strong>上五境</strong></td><td>玉璞境（十一境）、仙人境（十二境）、飞升境（十三境）、合道境（十四境）、十五境</td><td>剑修核心殿堂；以道合剑</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>剑修四大核心概念</strong>：</p>
+<div class="card-grid">
+<div class="card"><h5>剑气</h5><p>具象的杀伐能量，将气府之力外放形成</p></div>
+<div class="card gold"><h5>剑意</h5><p>融入大道的精神意志，剑修灵魂所在；凝练到极致可化为实体</p></div>
+<div class="card blue"><h5>剑术</h5><p>实战招式技巧</p></div>
+<div class="card purple"><h5>剑道</h5><p>贯穿修行的根本道统</p></div>
+</div>
+
+<blockquote>
+<p><strong>剑仙门槛</strong>：民间尊元婴境剑修为"剑仙"（尊称）；真正的剑仙门槛在上五境（玉璞境/十一境）。<strong>纯粹剑修</strong>以本命飞剑合人和，心中只有剑，不掺杂其他想法，完全依靠剑提升境界。</p>
+</blockquote>
+
+<h3 class="sec-title">五、经典作品境界体系对照</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>对比维度</th><th>凡人修仙传</th><th>仙逆</th><th>一念永恒</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>人界入门</strong></td><td>炼气(13层)</td><td>凝气(15层)</td><td>凝气(10层)</td></tr>
+<tr><td><strong>筑基</strong></td><td>筑基</td><td>筑基</td><td>筑基(4种子品质)</td></tr>
+<tr><td><strong>结丹</strong></td><td>结丹</td><td>结丹</td><td>结丹(4种子品质)</td></tr>
+<tr><td><strong>元婴</strong></td><td>元婴</td><td>元婴</td><td>元婴(4种子品质)</td></tr>
+<tr><td><strong>化神</strong></td><td>化神</td><td>化神</td><td>天人(4种子品质)</td></tr>
+<tr><td><strong>更高</strong></td><td>炼虚→合体→大乘</td><td>婴变→问鼎→碎涅三境→空之四境</td><td>半神→天尊→太古→主宰→永恒</td></tr>
+<tr><td><strong>仙界</strong></td><td>真仙→金仙→太乙→大罗→道祖</td><td>大天尊→踏天</td><td>永恒境→煌天境</td></tr>
+<tr><td><strong>核心哲学</strong></td><td>凡人逆天改命</td><td>顺为凡，逆则仙</td><td>一念成沧海，一念化桑田</td></tr>
+<tr><td><strong>特色机制</strong></td><td>境界稳定度（初入/稳定/顶峰）</td><td>极境+天人五衰+踏天九桥</td><td>凡道/地道/天道/长生四线分支</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">《仙逆》四大步概览</h4>
+<p>《仙逆》以"顺为凡，逆则仙"为核心哲学，构建了一条完整的逆仙之路：</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>步骤</th><th>阶段名</th><th>核心境界</th><th>本质</th></tr></thead>
+<tbody>
+<tr><td><strong>第一步</strong></td><td>凡躯筑基</td><td>凝气→筑基→结丹→元婴→化神→婴变→问鼎</td><td>从感应灵气到初步掌握元力</td></tr>
+<tr><td><strong>过渡</strong></td><td>阴虚→阳实</td><td>元神蜕变，直接吐纳天地元力</td><td>从灵力到元力的转化</td></tr>
+<tr><td><strong>第二步</strong></td><td>碎涅三境</td><td>窥涅→净涅→碎涅</td><td>触摸→掌握→创造天地规则</td></tr>
+<tr><td><strong>过渡</strong></td><td>天人五衰</td><td>5次劫难，每过一劫实力暴增</td><td>—</td></tr>
+<tr><td><strong>第三步</strong></td><td>空之四境</td><td>空涅→空灵→空玄→空劫</td><td>元力转涅力，言出法随</td></tr>
+<tr><td><strong>第三步巅峰</strong></td><td>大天尊</td><td>掌握信术，可借用天地规则化虚为实</td><td>—</td></tr>
+<tr><td><strong>过渡</strong></td><td>踏天九桥</td><td>8桥=半步踏天巅峰，9桥=仙祖止步处</td><td>—</td></tr>
+<tr><td><strong>第四步</strong></td><td>踏天之道</td><td>掌控世间轮回，超脱生死</td><td>终极境界</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">《一念永恒》四线分支特色</h4>
+<p>《一念永恒》每个境界都有凡道/地道/天道/长生四种子品质，品质越高，寿元越多、战力越强：</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>境界</th><th>凡道</th><th>地脉</th><th>天道</th><th>长生</th></tr></thead>
+<tbody>
+<tr><td>筑基</td><td>+100年</td><td>+200年</td><td>+500年</td><td>超越天道</td></tr>
+<tr><td>结丹</td><td>基础</td><td>较强</td><td>需渡天劫，成功获横扫同境战力</td><td>最强</td></tr>
+<tr><td>元婴</td><td>基础</td><td>较强</td><td>可瞬移、逆天改命</td><td>最强</td></tr>
+<tr><td>天人</td><td>基础</td><td>较强</td><td>可与天地融合，化身天意</td><td>最强</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第三章：修炼基础设定 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch3"><span class="num">第三章</span>修炼基础设定：灵根、经脉与能量体系</h2>
+
+<p>如果说境界体系是修仙世界的"等级系统"，那么灵根、经脉、能量层级则是支撑这套系统的"底层物理法则"。本章梳理修炼的生理学基础与能量运转逻辑。</p>
+
+<h3 class="sec-title">一、灵根分类体系</h3>
+
+<p>灵根是修仙的资质，只有拥有灵根的人才能修仙。灵根一般对应五行中的一个或多个属性，属性越精纯，灵根品质越高。九州大陆身怀灵根的人万中无一。</p>
+
+<h4 class="sub-title">天然灵根等级金字塔</h4>
+
+<div class="pyramid">
+<div class="pyramid-level" style="background:var(--red-accent);width:180px;">
+天灵根（一品）
+<div class="desc">单属性极致 · 修炼速度3-4倍 · 结丹无瓶颈</div>
+</div>
+<div class="pyramid-level" style="background:var(--gold-dark);width:240px;">
+地灵根（二品）
+<div class="desc">高品质单属性</div>
+</div>
+<div class="pyramid-level" style="background:var(--jade);width:300px;">
+单属性灵根
+<div class="desc">灵气纯净，引气效率强数倍</div>
+</div>
+<div class="pyramid-level" style="background:var(--jade-light);width:360px;">
+复合灵根（双属性相生·三品）
+<div class="desc">过滤稳定，彼此相生；三品以上方可飞升</div>
+</div>
+<div class="pyramid-level" style="background:var(--blue-accent);width:420px;">
+双属性灵根（四-五品）
+<div class="desc">吸收效果较好；只有真灵根方可晋级金丹</div>
+</div>
+<div class="pyramid-level" style="background:#6a8a9a;width:480px;">
+真灵根 / 杂灵根
+<div class="desc">双属性及以上（中）/ 三-四属性（低）</div>
+</div>
+<div class="pyramid-level" style="background:#8a8a8a;width:540px;">
+五行灵根（伪灵根）
+<div class="desc">五属性 · 最低品 · 灵气混沌稀少 · 吸收效率低下</div>
+</div>
+</div>
+
+<h4 class="sub-title">异灵根与特殊灵根</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>灵根类型</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td><strong>异灵根</strong></td><td>无法归入五行灵气的灵根，或因特殊比例灵气混杂形成异常效果；效用五花八门</td></tr>
+<tr><td><strong>空灵根</strong></td><td>最稀有灵根，修仙界最顶尖资质；仙界万年难得一见</td></tr>
+<tr><td><strong>剑灵根</strong></td><td>稀有度更胜天灵根；只有剑灵根拥有者才能激发先天神通·星辰神眼</td></tr>
+<tr><td><strong>劫灵根</strong></td><td>天灵根分支，罕见</td></tr>
+<tr><td><strong>星辰灵根</strong></td><td>天灵根分支</td></tr>
+<tr><td><strong>雷灵根</strong></td><td>天灵根分支</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">人造灵根体系</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>灵根类型</th><th>来源</th><th>效果</th></tr></thead>
+<tbody>
+<tr><td>六和灵根</td><td>六和真人独创，以独门心法佐以天材地宝炼制成散，连续服用45天</td><td>比五行灵根更低劣；苦修30年可至练气上品；常被戏称"体验版灵根"</td></tr>
+<tr><td>七巧灵根</td><td>六和灵根进阶版</td><td>效果渐强</td></tr>
+<tr><td>八宝灵根</td><td>进阶版</td><td>效果渐强</td></tr>
+<tr><td>九制灵根</td><td>进阶版</td><td>效果渐强</td></tr>
+<tr><td>十方灵根</td><td>进阶版</td><td>效果渐强</td></tr>
+<tr><td><strong>十二重楼灵根</strong></td><td>最强人造灵根</td><td>媲美天然双属性复合灵根，堪与地灵根相比</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">灵根-修炼速度对照表</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>灵根等级</th><th>修炼速度</th><th>结丹瓶颈</th><th>飞升可能</th></tr></thead>
+<tbody>
+<tr><td>天灵根(单属性)</td><td>3-4倍普通修士</td><td>无</td><td>可飞升</td></tr>
+<tr><td>地灵根(单属性)</td><td>快</td><td>低</td><td>可飞升(二品)</td></tr>
+<tr><td>复合灵根(双属性相生)</td><td>较快</td><td>中</td><td>可飞升(三品)</td></tr>
+<tr><td>双属性灵根</td><td>中</td><td>中高</td><td>可结金丹(四-五品)</td></tr>
+<tr><td>三灵根</td><td>慢</td><td>高</td><td>第三档</td></tr>
+<tr><td>四灵根(伪灵根)</td><td>极慢</td><td>极高</td><td>垫底</td></tr>
+<tr><td>五灵根</td><td>几乎无法修炼</td><td>—</td><td>无筑基机会</td></tr>
+<tr><td>异灵根/空灵根/剑灵根</td><td>特殊</td><td>特殊</td><td>顶尖(视类型)</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>化神进阶炼虚的特殊要求</strong>：所有修士在化神晋阶炼虚期时，必须面对五行合一的问题，需要五行属性灵力相互融合，因此需通过各种方法补全缺失灵根。灵界可通过丹灵根（抓各属性元婴期妖兽内丹炼制）、器灵根等方式补全。</p>
+</blockquote>
+
+<h3 class="sec-title">二、丹田、经脉与窍穴</h3>
+
+<h4 class="sub-title">三丹田体系</h4>
+<p>源自道教内丹术，是修仙小说修炼设定的理论基础。</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>丹田</th><th>位置</th><th>修炼对应</th><th>功能</th></tr></thead>
+<tbody>
+<tr><td><strong>下丹田</strong>（炁穴）</td><td>脐下三寸</td><td>炼精化炁</td><td>精满；结丹母（小药）；玉液还丹</td></tr>
+<tr><td><strong>中丹田</strong>（绛宫）</td><td>心口区域</td><td>炼炁化神</td><td>气足；结圣胎（大药）；金液还丹；五气朝元</td></tr>
+<tr><td><strong>上丹田</strong>（泥丸宫）</td><td>眉心/脑内</td><td>炼神返虚</td><td>神旺；三花聚顶；显化阳神；元神出窍</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">丹道五境（道教内丹术→修仙小说源头）</h4>
+<p>这是修仙小说境界体系的<strong>道教源头</strong>，对应关系明确，可作为作者构建自创体系时的重要参考：</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>丹道五境</th><th>修炼内容</th><th>对应仙品</th><th>成果</th></tr></thead>
+<tbody>
+<tr><td><strong>炼己筑基</strong></td><td>锤炼心性，疏通任督二脉；达成精满、气足、神旺的"三全"状态</td><td>凡人（人仙准备）</td><td>健康常人极致，为修仙打基础</td></tr>
+<tr><td><strong>炼精化炁</strong></td><td>后天之精转化为先天元炁；下丹田结丹母（小药）</td><td>人仙</td><td>百病不生，寿命远超常人（一二百岁）</td></tr>
+<tr><td><strong>炼炁化神</strong></td><td>炁与神相合；中丹田结圣胎（大药）；五气朝元</td><td>地仙</td><td>长生不死，寒暑不侵，初具神通</td></tr>
+<tr><td><strong>炼神返虚</strong></td><td>三花聚顶；显化阳神；元神出窍遨游天地</td><td>神仙</td><td>纯阳神体，脱壳升举</td></tr>
+<tr><td><strong>炼虚合道</strong></td><td>寂灭心识，粉碎虚空；与大道彻底合一</td><td>天仙</td><td>无形无相，永恒不灭，与道同体</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">经脉与窍穴</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>概念</th><th>描述</th></tr></thead>
+<tbody>
+<tr><td><strong>任督二脉</strong></td><td>炼己筑基阶段需疏通；任脉（前正中）+督脉（后正中）构成小周天循环</td></tr>
+<tr><td><strong>十二正经</strong></td><td>对应五脏六腑的十二经脉，大周天循环路径</td></tr>
+<tr><td><strong>奇经八脉</strong></td><td>任、督、冲、带、阴跷、阳跷、阴维、阳维；拓宽可容纳更多灵力</td></tr>
+<tr><td><strong>窍穴</strong></td><td>人体能量节点；韩立最终开启仙窍1800处+玄窍1800处</td></tr>
+<tr><td><strong>气府/气海</strong></td><td>储存灵力/剑气的空间；剑修下五境核心目标为开辟气府</td></tr>
+<tr><td><strong>洞府</strong></td><td>中高阶修士体内开辟的空间；剑修中五境核心</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">修炼关键术语</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>概念</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>三全</td><td>精满、气足、神旺（炼己筑基目标）</td></tr>
+<tr><td>三花聚顶</td><td>元精、元炁、元神汇聚于上丹田（泥丸宫）</td></tr>
+<tr><td>五气朝元</td><td>五脏之气归于中丹田（绛宫）</td></tr>
+<tr><td>玉液还丹</td><td>小周天成就，炼精化炁</td></tr>
+<tr><td>金液还丹</td><td>大周天成就，炼炁化神</td></tr>
+<tr><td>阳神</td><td>纯阳之神，可出窍遨游天地</td></tr>
+<tr><td>阴神</td><td>只修性功不修命功的残缺状态，无法转化肉身</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">三、修炼能量层级递进</h3>
+
+<p>修仙小说世界观中存在严格的能量等级递进关系，需明确区分各阶段能量概念：</p>
+
+<div class="energy-flow">
+<div class="energy-box" style="background:var(--jade-light);color:#fff;">
+天地灵气
+<div class="energy-desc">天地间原始能量，游离于自然之中<br>所有境界均可吸收</div>
+</div>
+<div class="energy-arrow">↓ 神识炼化</div>
+<div class="energy-box" style="background:var(--jade);color:#fff;">
+灵力
+<div class="energy-desc">灵气经神识炼化后的力量<br>炼气期-元婴期主要能量</div>
+</div>
+<div class="energy-arrow">↓ 丹田压缩</div>
+<div class="energy-box" style="background:var(--gold-dark);color:#fff;">
+真元
+<div class="energy-desc">灵力经丹田压缩凝练后的高密度能量<br>筑基期：气态→液态；结丹期：液态→金丹</div>
+</div>
+<div class="energy-arrow">↓ 质变</div>
+<div class="energy-box" style="background:var(--red-accent);color:#fff;">
+法力
+<div class="energy-desc">灵力/真元进阶形态；可构造"心像世界/大道领域"<br>元婴期以上</div>
+</div>
+<div class="energy-arrow">↓ 仙界转化</div>
+<div class="energy-box" style="background:var(--purple-accent);color:#fff;">
+仙灵力
+<div class="energy-desc">灵力（法力）在真仙阶段转化后的终极能量<br>真仙及以上</div>
+</div>
+</div>
+
+<div class="callout info">
+<div class="callout-icon">📌</div>
+<div class="callout-body">
+<strong>数值化理解</strong>
+<p><strong>灵力</strong>＝"数值怪"：直接提升战力数值。</p>
+<p><strong>法力</strong>＝"机制怪"：可构造符合心意的世界/领域，改变战斗规则。这是元婴期以上战斗方式质变的核心原因。</p>
+</div>
+</div>
+
+<h3 class="sec-title">四、道教五仙体系（仙阶参照）</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>仙阶</th><th>核心特点</th><th>居所</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td><strong>鬼仙</strong></td><td>阴神不散，不入轮回</td><td>幽冥之地</td><td>清灵之鬼，难返轮回</td></tr>
+<tr><td><strong>人仙</strong></td><td>肉体长生，祛病延年</td><td>人间</td><td>健康长寿，未脱轮回</td></tr>
+<tr><td><strong>地仙</strong></td><td>长生不死，逍遥人间</td><td>洞天福地</td><td>初具神通，不愿升天</td></tr>
+<tr><td><strong>神仙</strong></td><td>阳神出窍，脱质升仙</td><td>仙界（三岛十洲）</td><td>纯阳神体，位列仙班</td></tr>
+<tr><td><strong>天仙</strong></td><td>与道合真，无极至尊</td><td>三清天/大罗天</td><td>无形无相，永恒不灭</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第四章：功法体系 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch4"><span class="num">第四章</span>功法体系：分类、设定要素与创作套路</h2>
+
+<p>功法是修士修炼的核心"软件"，决定了修士的能量属性、战斗风格和成长路线。本章在三份搜索资料的基础上进行了<strong>交叉统一与完整补充</strong>——功法分类框架来源于搜索资料，设定要素、常见套路与经典案例部分基于修仙网文通行设定进行补充，使本章可直接用于创作参考。</p>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>统一说明</strong>
+<p>搜索阶段发现，功法品级体系（黄/玄/地/天）与法宝品级体系（法器/法宝/灵器/仙器/神器）并行存在，两者属于<strong>不同维度的分级</strong>——功法品级描述的是"修炼秘籍的稀有度与威力"，法宝品级描述的是"器物的等级"。两者不可混用，但在创作中可建立对应关系（详见本章第三节"功法与法宝品级统一对照"）。</p>
+</div>
+</div>
+
+<h3 class="sec-title">一、功法分类体系</h3>
+
+<h4 class="sub-title">（一）按修炼流派分类</h4>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>流派</th><th>一句话定义</th><th>核心特征</th><th>战斗风格</th></tr></thead>
+<tbody>
+<tr><td><strong>体修</strong></td><td>放弃法宝依赖，以灵力淬炼肉身，将自身血肉炼成可媲美法宝的攻防利器</td><td>不依赖灵根；肉身为器；抗打击极强</td><td>近战肉搏；硬抗法宝</td></tr>
+<tr><td><strong>法修</strong>（灵修）</td><td>以灵力为媒调动天地之力，修炼各类法术，是修仙界最传统的修炼路线</td><td>灵根吸纳灵气；法术多样；修炼中正平和</td><td>远程法术轰炸；攻守均衡</td></tr>
+<tr><td><strong>剑修</strong></td><td>以驾驭飞剑为核心战斗手段，将剑意与灵力结合，追求剑道极致</td><td>本命飞剑为核心；剑意为魂；可越阶挑战</td><td>极致攻击；一剑破万法</td></tr>
+<tr><td><strong>符修</strong></td><td>以绘制和操控符箓为核心，借天雷、地火等天然灵力入符</td><td>可提前储备、瞬发施法；消耗大</td><td>爆发型；以符箓数量决定持续战力</td></tr>
+<tr><td><strong>阵修</strong></td><td>以阵法为修行核心，利用阵基、阵纹、阵图等手段通过特定排列布置达成攻防效果</td><td>需要布置时间；阵内无敌；移动战弱</td><td>控场型；以地利取胜</td></tr>
+<tr><td><strong>丹修</strong></td><td>以炼丹为核心修行，夺天地精华入药成丹，以丹辅助修炼、疗伤与对敌</td><td>资源转化效率高；丹药可交易</td><td>辅助型；以资源碾压</td></tr>
+<tr><td><strong>器修</strong></td><td>以金石土木等材料炼制和操控法器、法宝为核心</td><td>装备依赖型；可打造兵器乃至城池洞天</td><td>装备碾压；多法宝群战</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">（二）按功法品级分类</h4>
+
+<p>修仙小说中存在多种并行的品级体系，以下列出最常见的几种，作者可任选其一或自创体系：</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>体系</th><th>品级（由低到高）</th><th>说明</th><th>出处参考</th></tr></thead>
+<tbody>
+<tr><td><strong>A. 天地玄黄四阶</strong><br>（最通用）</td><td>黄阶 → 玄阶 → 地阶 → 天阶</td><td>每阶再分上品/中品/下品三等；数量递减，稀有度递增</td><td>17k创作指南、起点问答</td></tr>
+<tr><td><strong>B. 六阶扩展体系</strong></td><td>凡阶 → 黄阶 → 玄阶 → 地阶 → 天阶 → 仙阶/神阶</td><td>在四阶基础上增加凡阶（未入修真门槛）和仙阶/神阶（超凡入圣）</td><td>知乎《玄幻小说等级制度》</td></tr>
+<tr><td><strong>C. 八阶体系</strong></td><td>黄级 → 玄级 → 地级 → 天级 → 皇级 → 圣级 → 神级 → 仙经</td><td>更细分的高阶体系</td><td>《超级传功》</td></tr>
+<tr><td><strong>D. 凡灵仙神体系</strong></td><td>凡 → 真 → 灵 → 仙 → 神 → 圣</td><td>每一层次再分九个等级</td><td>《不朽凡人》</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作建议</strong>
+<p>对于新手作者，推荐使用<strong>体系A（黄/玄/地/天）</strong>，接受度最广、读者认知成本最低。若作品规划了仙界篇，可在天阶之上增加"仙阶"和"神阶"，形成六阶体系。</p>
+</div>
+</div>
+
+<h4 class="sub-title">（三）按功法属性分类</h4>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>属性类别</th><th>包含属性</th><th>说明</th><th>变异来源</th></tr></thead>
+<tbody>
+<tr><td><strong>五行（基础）</strong></td><td>金、木、水、火、土</td><td>天地灵气的五种基本形态，功法对应分五类，需相应灵根修炼</td><td>—</td></tr>
+<tr><td><strong>变异属性</strong></td><td>冰、雷、风</td><td>由五行变异而来</td><td>冰←水、雷←金、风←木</td></tr>
+<tr><td><strong>光暗属性</strong></td><td>光、暗</td><td>较少出现的稀有属性</td><td>—</td></tr>
+<tr><td><strong>法则属性</strong></td><td>空间、时间</td><td>高阶法则属性，可操控空间/时间；顶级稀有</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>灵根属性与功法对应关系速查</strong>：</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>灵根类型</th><th>对应功法</th><th>灵根类型</th><th>对应功法</th></tr></thead>
+<tbody>
+<tr><td>金灵根</td><td>金系功法</td><td>冰灵根</td><td>冰系功法（水变异）</td></tr>
+<tr><td>木灵根</td><td>木系功法</td><td>雷灵根</td><td>雷系功法（金变异）</td></tr>
+<tr><td>水灵根</td><td>水系功法</td><td>风灵根</td><td>风系功法（木变异）</td></tr>
+<tr><td>火灵根</td><td>火系功法</td><td>光/暗灵根</td><td>光/暗系功法（稀有）</td></tr>
+<tr><td>土灵根</td><td>土系功法</td><td>空间/时间灵根</td><td>法则级功法（顶级稀有）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">二、功法与法宝品级统一对照</h3>
+
+<p>功法品级与法宝品级虽属不同维度，但在创作中需保持<strong>内在一致性</strong>——高阶功法催动的应是高阶法宝，低阶修士不应拥有越级过多的功法和法宝。以下为推荐的对照关系表
+照关系表：</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>修士境界</th><th>推荐功法品级</th><th>推荐法宝层级</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td>炼气期</td><td>黄阶</td><td>法器（低/中阶）</td><td>入门阶段，功法与法宝均为最低级</td></tr>
+<tr><td>筑基期</td><td>黄阶上品~玄阶</td><td>法器（高阶/极品）</td><td>开始接触中阶功法</td></tr>
+<tr><td>结丹期</td><td>玄阶~地阶</td><td>法宝 + 可凝练本命法宝</td><td>可炼制符宝；功法品阶开始影响战力</td></tr>
+<tr><td>元婴期</td><td>地阶~天阶</td><td>法宝/通天灵宝</td><td>高阶功法为老祖级标配</td></tr>
+<tr><td>化神期</td><td>天阶</td><td>通天灵宝/灵宝</td><td>功法已修至大成；可越阶杀人</td></tr>
+<tr><td>炼虚及以上</td><td>仙阶/神阶</td><td>灵宝/玄天圣器/玄天之宝</td><td>法则级功法；顶级法宝</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">三、功法设定要素清单（补充）</h3>
+
+<p>一部完整的功法设定应包含以下要素。以下内容基于修仙网文通行设定整理，搜索阶段因敏感词受限未能获取，此处由本报告基于已有知识补充完整。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>设定要素</th><th>说明</th><th>创作用途</th></tr></thead>
+<tbody>
+<tr><td><strong>名称与来历</strong></td><td>功法名称、创始人、传承来历</td><td>命名需符合功法属性与品级；来历可衍生剧情线</td></tr>
+<tr><td><strong>修炼资质要求</strong></td><td>灵根属性/品级要求、特殊体质要求、境界门槛</td><td>限制条件越苛刻，功法品级通常越高</td></tr>
+<tr><td><strong>功法结构</strong></td><td>分阶段修炼进度：入门→小成→大成→圆满→化境</td><td>提供修士修炼的"进度条"，便于把控节奏</td></tr>
+<tr><td><strong>修炼效果</strong></td><td>属性提升（灵力/肉身/神识）、特殊能力解锁、寿命影响</td><td>直接定义功法的实用价值</td></tr>
+<tr><td><strong>突破瓶颈</strong></td><td>心境考验、天劫触发、特殊材料需求、顿悟契机</td><td>瓶颈设计是功法修炼的戏剧张力来源</td></tr>
+<tr><td><strong>功法兼容性</strong></td><td>主修/辅修/冲突关系；同时修炼多部功法的限制</td><td>避免主角"什么都会"导致战力失衡</td></tr>
+<tr><td><strong>附带神通/秘术</strong></td><td>功法修炼到一定阶段解锁的特殊技能</td><td>为战斗提供"大招"和翻盘手段</td></tr>
+<tr><td><strong>功法限制</strong></td><td>副作用、反噬、特定条件才能发挥全力</td><td>平衡性强功法的设定手段</td></tr>
+<tr><td><strong>修炼速度</strong></td><td>快/中/慢，与品级和资质挂钩</td><td>影响剧情时间节奏</td></tr>
+<tr><td><strong>功法品级</strong></td><td>黄/玄/地/天/仙/神（或其他体系）</td><td>标定功法在体系中的位置</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">功法结构阶段说明</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>阶段</th><th>进度</th><th>典型表现</th></tr></thead>
+<tbody>
+<tr><td><strong>入门</strong></td><td>10%-30%</td><td>初步掌握功法运转路线，可基本使用</td></tr>
+<tr><td><strong>小成</strong></td><td>40%-60%</td><td>功法威力初显，可稳定发挥主要效果</td></tr>
+<tr><td><strong>大成</strong></td><td>70%-90%</td><td>功法威力全开，可解锁部分秘术</td></tr>
+<tr><td><strong>圆满</strong></td><td>100%</td><td>功法修至极致，全部秘术解锁</td></tr>
+<tr><td><strong>化境</strong></td><td>突破上限</td><td>超越功法原本设定，自创变种或衍生新功法</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">四、常见功法套路归纳（补充）</h3>
+
+<p>以下套路归纳基于修仙网文通行设定整理，为作者提供可直接使用的剧情模板。</p>
+
+<div class="card-grid">
+<div class="card">
+<h5>残卷功法</h5>
+<p><strong>模式</strong>：主角获得一部残缺的高阶功法，只有前半部分，需寻找剩余卷轴。</p>
+<p><strong>剧情价值</strong>：提供长期主线目标；战力逐步解锁；每次找到残卷都是一个小高潮。</p>
+<p><strong>变体</strong>：残卷本身已足够强大，完整版更强；残卷需要特殊条件才能解读。</p>
+</div>
+<div class="card gold">
+<h5>传承功法</h5>
+<p><strong>模式</strong>：上古强者/师门传承的功法，常通过秘境考验、师徒传承、前世记忆获得。</p>
+<p><strong>剧情价值</strong>：将功法获取与世界观揭秘结合；传承功法往往附带前任修炼者的记忆或残留意识。</p>
+<p><strong>变体</strong>：传承有考验（需通过试炼认主）；传承有代价（需承诺完成前人遗愿）。</p>
+</div>
+<div class="card red">
+<h5>自创功法</h5>
+<p><strong>模式</strong>：主角通过实战感悟、融合多家功法、或受到天地启发，自创一部独门功法。</p>
+<p><strong>剧情价值</strong>：体现主角的天赋与成长；自创功法往往独特而强大，他人无法模仿。</p>
+<p><strong>变体</strong>：在生死战斗中顿悟；闭关数百年推演；融合正邪两道功法。</p>
+</div>
+<div class="card blue">
+<h5>逆天功法</h5>
+<p><strong>模式</strong>：修炼条件极其苛刻，但威力远超同阶功法数倍。</p>
+<p><strong>剧情价值</strong>：解释主角为何能越阶挑战；修炼过程本身充满风险，制造紧张感。</p>
+<p><strong>变体</strong>：修炼需极境灵根；修炼需特殊天材地宝；每突破一层都有走火入魔风险。</p>
+</div>
+<div class="card purple">
+<h5>功法融合</h5>
+<p><strong>模式</strong>：将多种功法融合为一，产生质变效果。</p>
+<p><strong>剧情价值</strong>：给主角"集邮"的动力；融合过程充满不确定性。</p>
+<p><strong>变体</strong>：正邪融合、五行合一、阴阳互补。</p>
+</div>
+<div class="card">
+<h5>功法进化</h5>
+<p><strong>模式</strong>：功法本身可随修士成长而进化，从低阶逐步升为高阶。</p>
+<p><strong>剧情价值</strong>：一部功法贯穿全书，减少频繁换功法的设定负担。</p>
+<p><strong>变体</strong>：需吞噬其他功法进化；需特殊材料激活；需领悟功法中隐藏的"道"。</p>
+</div>
+</div>
+
+<div class="card-grid">
+<div class="card red">
+<h5>秘术/神通</h5>
+<p><strong>模式</strong>：功法修炼到一定阶段解锁的特殊技能，通常是战斗大招。</p>
+<p><strong>剧情价值</strong>：提供翻盘手段；秘术往往有使用代价（消耗寿元/反噬/冷却）。</p>
+<p><strong>变体</strong>：杀招型（极致攻击）、保命型（替死/瞬移）、辅助型（破阵/隐匿）。</p>
+</div>
+<div class="card gold">
+<h5>走火入魔</h5>
+<p><strong>模式</strong>：功法修炼出错或强行突破，导致灵力逆行、心魔入侵。</p>
+<p><strong>剧情价值</strong>：为冒进修炼提供风险；走火入魔后可能因祸得福（变异/突破）或造成严重后果。</p>
+<p><strong>变体</strong>：灵力暴走、心魔考验、人格变化、肉身异变。</p>
+</div>
+<div class="card blue">
+<h5>功法选择/弃修</h5>
+<p><strong>模式</strong>：主角面临多部功法的选择，或需要放弃已修炼的功法转修新功法。</p>
+<p><strong>剧情价值</strong>：制造抉择冲突；弃修往往意味着修为倒退，需要极大决心。</p>
+<p><strong>变体</strong>：二选一（正邪之分）；以新代旧（低阶换高阶）；兼容并修（风险与收益并存）。</p>
+</div>
+<div class="card purple">
+<h5>功法暗藏陷阱</h5>
+<p><strong>模式</strong>：看似强大的功法中暗藏陷阱——修炼到一定程度后被功法创始人控制，或功法本身是他人设下的局。</p>
+<p><strong>剧情价值</strong>：反转剧情的利器；为反派阴谋提供设定基础。</p>
+<p><strong>变体</strong>：功法含精神烙印；功法修炼到极致会被人夺舍；功法是封印的一部分。</p>
+</div>
+</div>
+
+<h3 class="sec-title">五、经典网文功法案例（补充）</h3>
+
+<p>以下为修仙网文中具有代表性的功法设定案例，供创作参考。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>作品</th><th>代表功法</th><th>类型</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td rowspan="3"><strong>《凡人修仙传》</strong></td><td>大衍决</td><td>神识修炼</td><td>韩立主修功法之一，专修神识，可同时操控多件法宝</td></tr>
+<tr><td>青元剑诀</td><td>剑修功法</td><td>可催动飞剑群战，后演化为青竹蜂云剑阵</td></tr>
+<tr><td>梵圣真魔功</td><td>体修功法</td><td>兼修肉身与法力，体法双修的典型</td></tr>
+<tr><td rowspan="2"><strong>《仙逆》</strong></td><td>逆天三式</td><td>神通型功法</td><td>王林核心战力，从感悟中诞生的逆天神通</td></tr>
+<tr><td>神道术</td><td>神识功法</td><td>以神识为核心的特殊修炼路线</td></tr>
+<tr><td><strong>《斗破苍穹》</strong></td><td>焚决</td><td>吞噬型功法</td><td>可吞噬异火进化，功法本身随主角成长而升级的经典案例</td></tr>
+<tr><td rowspan="2"><strong>《遮天》</strong></td><td>道经</td><td>顶级功法</td><td>遮天体系中最基础的经文之一</td></tr>
+<tr><td>太阴真经/太阳真经</td><td>阴阳属性</td><td>分别修炼太阴之力与太阳之力，可互补</td></tr>
+<tr><td><strong>《完美世界》</strong></td><td>各种宝术</td><td>神通型</td><td>以"宝术"代功法，每个宝术对应一种神通</td></tr>
+<tr><td><strong>《一念永恒》</strong></td><td>伏龙功</td><td>基础功法</td><td>白小纯早期修炼的功法，后逐步升级</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">六、功法设定模板</h3>
+
+<div class="template-box">
+<span class="label">【功法名称】</span>：<span class="placeholder">（命名建议：属性+特性+经/诀/功/典，如"紫雷天罡诀"）</span>
+<span class="label">【功法品级】</span>：<span class="placeholder">黄/玄/地/天/仙/神阶（选一）+ 上/中/下品</span>
+<span class="label">【修炼流派】</span>：<span class="placeholder">体修/法修/剑修/符修/阵修/丹修/器修（选一）</span>
+<span class="label">【功法属性】</span>：<span class="placeholder">金/木/水/火/土/冰/雷/风/光/暗/空间/时间（选一或多）</span>
+<span class="label">【资质要求】</span>：<span class="placeholder">灵根属性要求 + 灵根品级要求 + 特殊体质要求</span>
+<span class="label">【境界要求】</span>：<span class="placeholder">从哪个境界开始可修炼</span>
+<span class="label">【功法结构】</span>：<span class="placeholder">入门→小成→大成→圆满→化境（各阶段效果描述）</span>
+<span class="label">【修炼效果】</span>：<span class="placeholder">属性提升 + 特殊能力解锁 + 寿命影响</span>
+<span class="label">【突破瓶颈】</span>：<span class="placeholder">心境考验/天劫/材料需求/顿悟契机</span>
+<span class="label">【附带秘术】</span>：<span class="placeholder">功法到X阶段解锁的专属神通</span>
+<span class="label">【兼容性】</span>：<span class="placeholder">可主修/辅修/冲突的功法类型</span>
+<span class="label">【限制/副作用】</span>：<span class="placeholder">修炼代价/使用代价/反噬风险</span>
+<span class="label">【来历/背景】</span>：<span class="placeholder">创始人/传承来历/流传范围</span>
+</div>
+
+<!-- ================================================================ -->
+<!-- 第五章：法宝体系 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch5"><span class="num">第五章</span>法宝体系：等级、炼制与经典设定</h2>
+
+<p>法宝是修士的"装备系统"，与功法共同构成修士的战斗力。本章整合《修仙法宝体系参考资料》全部内容，涵盖等级体系、设定要素、常见套路与经典案例。</p>
+
+<h3 class="sec-title">一、法宝等级与类型体系</h3>
+
+<h4 class="sub-title">凡人修仙流·十一层体系（以《凡人修仙传》为代表）</h4>
+
+<p>这是目前修仙网文中影响最深、接受度最广的法宝等级体系。完整链条如下：</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>序号</th><th>等级名称</th><th>特征描述</th><th>威力定位</th><th>典型代表</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><strong>法器</strong></td><td>威力较小，不能收入体内，闲置时放入储物器具，灵气驱使，使用方便但易被高阶对手抢夺</td><td>最低层级，低阶修士（炼气/筑基）主战装备</td><td>各宗门制式法器</td></tr>
+<tr><td>2</td><td><strong>符宝/真宝</strong></td><td>结丹期以上修士将法宝部分威力封入特制符纸，又称"伪法宝"；使用方便但威力仅原法宝数成，多一次性使用</td><td>约等于法宝数成威力</td><td>青冥针符宝</td></tr>
+<tr><td>3</td><td><strong>法宝残片</strong></td><td>损毁的古宝/灵宝残片，威力虽减但仍胜法器，可修复</td><td>介于法器与法宝之间</td><td>残损重宝套路常用设定</td></tr>
+<tr><td>4</td><td><strong>法宝</strong></td><td>威力比法器大，分两类：①可收入体内存放培炼（随心使用、不易被抢）②不可收入体内（功效特殊）</td><td>结丹以上修士主战装备</td><td>各宗门高阶法宝</td></tr>
+<tr><td>5</td><td><strong>本命法宝</strong></td><td>人/妖两族特有，法宝炼制成功后置入体内培炼，随修为年月增长而增强，与心神相联，被抢后对方无法立即使用</td><td>随主人修为同步成长，理论上无上限</td><td>韩立青竹蜂云剑</td></tr>
+<tr><td>6</td><td><strong>古宝</strong></td><td>上古时期流传下来的法宝，威力远超同阶现代法宝，多无法收入体内培炼</td><td>堪比高阶法宝甚至通天灵宝</td><td>虚天鼎相关古宝</td></tr>
+<tr><td>7</td><td><strong>通天灵宝</strong></td><td>有灵智的极品法宝，可化为人形或兽形，器灵可自主战斗</td><td>远超普通法宝</td><td>通天灵宝（蒲博灵宝等）</td></tr>
+<tr><td>8</td><td><strong>玄天之宝</strong></td><td>比通天灵宝更高一层，蕴含天地法则之力</td><td>灵界顶级法宝</td><td>玄天之宝</td></tr>
+<tr><td>9</td><td><strong>玄天圣器</strong></td><td>比玄天之宝更高一层，圣器级别</td><td>仙界级别法宝</td><td>—</td></tr>
+<tr><td>10</td><td><strong>先天灵宝</strong></td><td>天地孕育而生，拥有完整器灵，可自主修炼提升</td><td>仙界级别</td><td>各种先天灵宝</td></tr>
+<tr><td>11</td><td><strong>先天通天灵宝</strong></td><td>通天灵宝中的极品，先天而成</td><td>顶级</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">洪荒流·法宝分级体系</h4>
+<p>以《佛本是道》为代表，主要参照封神演义和西游记设定：</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>等级</th><th>特征</th><th>代表</th></tr></thead>
+<tbody>
+<tr><td><strong>后天法宝</strong></td><td>人工炼制</td><td>普通法宝</td></tr>
+<tr><td><strong>先天法宝</strong></td><td>天地孕育</td><td>先天灵宝</td></tr>
+<tr><td><strong>先天灵宝</strong></td><td>有完整器灵，可自主修炼</td><td>混沌钟等</td></tr>
+<tr><td><strong>先天至宝</strong></td><td>先天灵宝中的顶级</td><td>太极图、盘古幡</td></tr>
+<tr><td><strong>混沌至宝</strong></td><td>混沌时期诞生的至高法宝</td><td>混沌珠</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">品级体系对照（与功法品级统一）</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>法宝品级（凡人流）</th><th>对应等级</th><th>功法品级对应</th><th>修士境界对应</th></tr></thead>
+<tbody>
+<tr><td>法器</td><td>最低级</td><td>黄阶</td><td>炼气~筑基</td></tr>
+<tr><td>法宝</td><td>中级</td><td>玄阶~地阶</td><td>结丹~元婴</td></tr>
+<tr><td>通天灵宝</td><td>高级</td><td>天阶</td><td>化神~炼虚</td></tr>
+<tr><td>玄天之宝/圣器</td><td>顶级</td><td>仙阶</td><td>合体~大乘</td></tr>
+<tr><td>先天灵宝/至宝</td><td>超顶级</td><td>神阶</td><td>真仙以上</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">二、法宝类型分类</h3>
+
+<div class="card-grid">
+<div class="card"><h5>攻击型</h5><p>飞剑、刀枪、锤叉等直接杀伤法宝。剑类最常见。</p></div>
+<div class="card gold"><h5>防御型</h5><p>盾牌、铠甲、护罩类。提供防护。</p></div>
+<div class="card blue"><h5>辅助型</h5><p>储物袋/戒指、飞行法器、隐匿法器、照明法器等。</p></div>
+<div class="card purple"><h5>特殊型</h5><p>阵盘、阵旗、封印法宝、传送阵等。</p></div>
+<div class="card red"><h5>困敌型</h5><p>迷宫阵、锁链、囚笼类法宝。</p></div>
+<div class="card"><h5>多功能型</h5><p>如本命法宝可兼具攻防、储物等多种功能。</p></div>
+</div>
+
+<h3 class="sec-title">三、本命法宝详解</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>特征</th><th>描述</th></tr></thead>
+<tbody>
+<tr><td><strong>定义</strong></td><td>人/妖两族特有，法宝炼制成功后置入体内培炼，与心神相联</td></tr>
+<tr><td><strong>成长性</strong></td><td>随修为年月增长而增强，理论上无上限</td></tr>
+<tr><td><strong>认主</strong></td><td>与主人绑定，被抢后对方无法立即使用</td></tr>
+<tr><td><strong>数量限制</strong></td><td>通常只能拥有一件（或少数几件）本命法宝</td></tr>
+<tr><td><strong>风险</strong></td><td>本命法宝被毁，主人重创</td></tr>
+<tr><td><strong>优势</strong></td><td>可随心御使；威力远超同阶普通法宝；可随境界突破进化</td></tr>
+<tr><td><strong>材料要求</strong></td><td>需特殊天材地宝；部分材料仅特定区域产出</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">四、法宝炼制与认主</h3>
+
+<h4 class="sub-title">炼制流程</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>步骤</th><th>内容</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>1. 选材</td><td>选择合适的天材地宝作为主材和辅材</td><td>材料品级决定法宝上限</td></tr>
+<tr><td>2. 炼胚</td><td>用丹火/真火将材料熔炼成法宝雏形</td><td>需结丹以上修士的丹火</td></tr>
+<tr><td>3. 刻阵</td><td>在法宝上刻制禁制阵纹</td><td>阵纹数量和品质决定法宝品级</td></tr>
+<tr><td>4. 孕灵</td><td>为法宝孕育器灵（高阶法宝）</td><td>通天灵宝及以上才有器灵</td></tr>
+<tr><td>5. 认主</td><td>修士以精血/神识标记法宝，完成认主</td><td>认主后他人无法使用</td></tr>
+<tr><td>6. 祭炼</td><td>长期以灵力/神识温养法宝，提升其威力</td><td>本命法宝需置入体内祭炼</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">催动方式</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>催动方式</th><th>说明</th><th>优缺点</th></tr></thead>
+<tbody>
+<tr><td><strong>灵力催动</strong></td><td>注入灵力驱动法宝</td><td>通用方式；消耗灵力</td></tr>
+<tr><td><strong>神识催动</strong></td><td>以神识操控法宝进行精细操作</td><td>需强大神识；可同时操控多件</td></tr>
+<tr><td><strong>精血催动</strong></td><td>以精血为引催动法宝全力</td><td>威力最大；损耗精血寿元</td></tr>
+<tr><td><strong>口诀催动</strong></td><td>念诵特定口诀激活法宝</td><td>简单直接；需提前设定</td></tr>
+<tr><td><strong>意念催动</strong></td><td>本命法宝可与主人心意相通</td><td>最便捷；仅限本命法宝</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">五、常见法宝套路</h3>
+
+<div class="card-grid">
+<div class="card">
+<h5>古宝传承</h5>
+<p><strong>模式</strong>：主角在秘境/遗迹中获得上古强者留下的古宝，威力远超同阶。</p>
+<p><strong>剧情价值</strong>：解释主角越阶战力的来源；古宝常附带上古秘闻。</p>
+</div>
+<div class="card gold">
+<h5>本命法宝养成</h5>
+<p><strong>模式</strong>：主角从低阶开始培育本命法宝，随修为成长不断进化。</p>
+<p><strong>剧情价值</strong>：提供长期养成线；每次法宝进化都是一个小高潮。</p>
+</div>
+<div class="card red">
+<h5>法宝认主考验</h5>
+<p><strong>模式</strong>：获得法宝后需通过考验才能认主，考验可能是战斗、心境或承诺。</p>
+<p><strong>剧情价值</strong>：增加获取难度；考验过程本身可以是精彩剧情。</p>
+</div>
+<div class="card blue">
+<h5>器灵觉醒</h5>
+<p><strong>模式</strong>：通天灵宝/先天灵宝拥有器灵，器灵可与人交流、自主战斗，甚至有性格。</p>
+<p><strong>剧情价值</strong>：为法宝赋予"角色"属性；器灵与主人的互动增加故事趣味。</p>
+</div>
+<div class="card purple">
+<h5>法宝反噬</h5>
+<p><strong>模式</strong>：强行催动超过自身境界的法宝，导致反噬受伤。</p>
+<p><strong>剧情价值</strong>：为越级使用法宝提供限制；反噬后果可成为剧情转折点。</p>
+</div>
+<div class="card">
+<h5>残宝修复</h5>
+<p><strong>模式</strong>：获得一件残损的高阶法宝，需寻找材料/功法逐步修复。</p>
+<p><strong>剧情价值</strong>：提供长期目标；修复过程可串联多个剧情节点。</p>
+</div>
+</div>
+
+<h3 class="sec-title">六、储物设备等级表</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>设备</th><th>使用位面</th><th>空间大小</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td>储物袋</td><td>人界</td><td>较小</td><td>装非活物，破损则物品消失</td></tr>
+<tr><td>灵兽袋</td><td>人界</td><td>—</td><td>装活物（灵兽）</td></tr>
+<tr><td>储物腰带</td><td>人/灵界</td><td>中等</td><td>储物袋进阶版</td></tr>
+<tr><td>储物手镯</td><td>灵界</td><td>较大</td><td>灵界标准储物设备</td></tr>
+<tr><td>灵兽手镯</td><td>灵界</td><td>较大</td><td>灵兽袋进阶版</td></tr>
+<tr><td>储物戒指</td><td>通用</td><td>可大可小</td><td>最便携，常见于高阶修士</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">七、辅助体系：符篆、阵法与丹药等级</h3>
+
+<p>符篆、阵法、丹药是法宝体系的重要辅助，与功法、法宝共同构成修士的完整"装备系统"。三者品级体系与功法品级保持一致。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>等级划分</th><th>对应功法品级</th></tr></thead>
+<tbody>
+<tr><td><strong>修仙符篆</strong></td><td>宝符→灵符→仙符→神符（各分一至九级）</td><td>黄/玄→地/天→仙→神</td></tr>
+<tr><td><strong>修仙阵法</strong></td><td>凡阵→灵阵→仙阵→神阵（各分一至九级）</td><td>黄/玄→地/天→仙→神</td></tr>
+<tr><td><strong>修仙丹药</strong></td><td>灵丹→天丹→仙丹→神丹（各分一至九品，按品质分下/中/上/极品）</td><td>黄/玄→地/天→仙→神</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">符篆类型速查</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>类型</th><th>用途</th><th>常见场景</th></tr></thead>
+<tbody>
+<tr><td>攻击符</td><td>封存攻击法术，激发后释放</td><td>低阶修士越阶杀敌；紧急战斗</td></tr>
+<tr><td>防御符</td><td>激发后形成护罩</td><td>保命手段</td></tr>
+<tr><td>辅助符</td><td>隐匿、加速、传音等</td><td>逃命、探查、通讯</td></tr>
+<tr><td>符宝</td><td>将法宝威力封入符纸</td><td>结丹以上修士的应急手段</td></tr>
+<tr><td>阵符</td><td>布阵用的符纸</td><td>快速布阵</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">阵法类型速查</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>类型</th><th>用途</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td>攻击阵</td><td>困杀敌人</td><td>以阵基、阵纹组合形成杀阵</td></tr>
+<tr><td>防御阵</td><td>护宗、护体</td><td>宗门护山大阵最常见</td></tr>
+<tr><td>聚灵阵</td><td>汇聚天地灵气</td><td>修炼加速；洞府标配</td></tr>
+<tr><td>传送阵</td><td>远距离传送</td><td>城际/界际传送</td></tr>
+<tr><td>封印阵</td><td>封印强者/法宝</td><td>剧情中常用于封印上古强者</td></tr>
+<tr><td>幻阵</td><td>制造幻境</td><td>迷惑、困敌</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">丹药类型速查</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>类型</th><th>用途</th><th>常见设定</th></tr></thead>
+<tbody>
+<tr><td>修炼丹</td><td>辅助修炼、加速突破</td><td>筑基丹、结金丹等突破类丹药</td></tr>
+<tr><td>疗伤丹</td><td>恢复伤势</td><td>回春丹、续命丹</td></tr>
+<tr><td>增力丹</td><td>临时提升战力</td><td>有副作用或时效限制</td></tr>
+<tr><td>洗髓丹</td><td>改善灵根/体质</td><td>常用于改变资质设定</td></tr>
+<tr><td>毒丹</td><td>对敌用毒</td><td>魔修常用</td></tr>
+<tr><td>驻颜丹</td><td>保持容貌年轻</td><td>女修常见需求</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">八、法宝设定模板</h3>
+
+<div class="template-box">
+<span class="label">【法宝名称】</span>：<span class="placeholder">（命名建议：材质+特性+器/宝/剑/鼎，如"玄金斩灵剑"）</span>
+<span class="label">【法宝品级】</span>：<span class="placeholder">法器/法宝/通天灵宝/玄天之宝/先天灵宝（选一）</span>
+<span class="label">【法宝类型】</span>：<span class="placeholder">攻击/防御/辅助/特殊/困敌/多功能（选一）</span>
+<span class="label">【外观描述】</span>：<span class="placeholder">尺寸、材质、颜色、纹路等</span>
+<span class="label">【核心功效】</span>：<span class="placeholder">主要能力描述</span>
+<span class="label">【附带能力】</span>：<span class="placeholder">次要能力（如有）</span>
+<span class="label">【催动方式】</span>：<span class="placeholder">灵力/神识/精血/口诀/意念（选一或多）</span>
+<span class="label">【使用境界】</span>：<span class="placeholder">最低使用境界 + 最佳使用境界</span>
+<span class="label">【炼制材料】</span>：<span class="placeholder">主材 + 辅材 + 特殊材料</span>
+<span class="label">【是否本命】</span>：<span class="placeholder">是/否（如是，说明成长性）</span>
+<span class="label">【器灵】</span>：<span class="placeholder">有/无（如有，描述器灵性格/能力）</span>
+<span class="label">【限制/代价】</span>：<span class="placeholder">催动代价/反噬风险/使用次数限制</span>
+<span class="label">【来历/背景】</span>：<span class="placeholder">炼制者/传承来历/流传范围</span>
+</div>
+
+<!-- ================================================================ -->
+<!-- 附录 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch6"><span class="num">附录</span>术语词典 · 经典作品速查 · 创作自检清单</h2>
+
+<h3 class="sec-title">附录一：修仙术语词典</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>术语</th><th>释义</th></tr></thead>
+<tbody>
+<tr><td><strong>灵根</strong></td><td>修士吸纳天地灵气修炼的先天资质，分为金木水火土等属性及天/地/复合等品级</td></tr>
+<tr><td><strong>灵气</strong></td><td>天地间游离的原始修炼能量，修士吸纳后转化为灵力</td></tr>
+<tr><td><strong>灵力</strong></td><td>修士丹田中储存的修炼能量，由灵气炼化而来</td></tr>
+<tr><td><strong>真元</strong></td><td>筑基期以上修士丹田中的液态修炼能量，比灵力更高阶</td></tr>
+<tr><td><strong>法力</strong></td><td>元婴期以上修士可构造领域的能量形态</td></tr>
+<tr><td><strong>神识</strong></td><td>修士的精神感知力，可用于探查、操控法宝、精神攻击</td></tr>
+<tr><td><strong>丹田</strong></td><td>修士储存修炼能量的核心部位，位于小腹</td></tr>
+<tr><td><strong>经脉</strong></td><td>灵力在体内运转的通道</td></tr>
+<tr><td><strong>筑基</strong></td><td>修士正式踏入修仙门槛的关键境界，气态真元转化为液态</td></tr>
+<tr><td><strong>金丹</strong></td><td>结丹期修士丹田中凝结的能量结晶</td></tr>
+<tr><td><strong>元婴</strong></td><td>金丹破裂后孕育的婴儿形态能量体，可出窍夺舍</td></tr>
+<tr><td><strong>化神</strong></td><td>元婴期之后的境界，可初步感应天地法则</td></tr>
+<tr><td><strong>渡劫</strong></td><td>修士飞升仙界前需经历的天劫考验</td></tr>
+<tr><td><strong>飞升</strong></td><td>修士突破所在界面束缚，进入更高界面（灵界/仙界）</td></tr>
+<tr><td><strong>天劫</strong></td><td>天道对修士修炼到一定境界的考验，通常为雷劫</td></tr>
+<tr><td><strong>走火入魔</strong></td><td>功法修炼出错导致灵力逆行，可能引发心魔、肉身异变等后果</td></tr>
+<tr><td><strong>心魔</strong></td><td>修士内心的执念/恐惧具象化，常在突破时考验修士</td></tr>
+<tr><td><strong>夺舍</strong></td><td>元婴/神魂级别的修士肉身被毁后，占据他人肉身重生</td></tr>
+<tr><td><strong>本命法宝</strong></td><td>置入体内与修士心神相联、随修为同步成长的法宝</td></tr>
+<tr><td><strong>器灵</strong></td><td>通天灵宝及以上法宝中诞生的灵智体</td></tr>
+<tr><td><strong>天地法则</strong></td><td>构成世界运转规则的根本法则，如空间、时间、五行等</td></tr>
+<tr><td><strong>道</strong></td><td>修士追求的终极真理，感悟"道"是修炼的最高层次</td></tr>
+<tr><td><strong>灵脉</strong></td><td>地下蕴含灵气的脉络，宗门选址的关键</td></tr>
+<tr><td><strong>灵石</strong></td><td>蕴含灵气的矿石，修仙界通用货币</td></tr>
+<tr><td><strong>天材地宝</strong></td><td>天地孕育的特殊材料，用于炼丹、炼器、突破</td></tr>
+<tr><td><strong>秘境</strong></td><td>独立于主世界的小空间，常藏有传承和宝物</td></tr>
+<tr><td><strong>洞天福地</strong></td><td>灵气浓郁、适合修炼的宝地</td></tr>
+<tr><td><strong>散修</strong></td><td>不依附于宗门、独自修炼的修士</td></tr>
+<tr><td><strong>坐化</strong></td><td>修士寿元耗尽自然死亡</td></tr>
+<tr><td><strong>大圆满</strong></td><td>某个境界的巅峰状态，即将突破下一境界</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录二：经典修仙作品速查表</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>作品</th><th>作者</th><th>流派</th><th>核心境界体系</th><th>特色设定</th></tr></thead>
+<tbody>
+<tr><td><strong>《凡人修仙传》</strong></td><td>忘语</td><td>凡人流开创者</td><td>炼气→筑基→结丹→元婴→化神→炼虚→合体→大乘→渡劫</td><td>本命法宝体系；灵根品级体系；最为经典的修仙境界框架</td></tr>
+<tr><td><strong>《仙逆》</strong></td><td>耳根</td><td>逆天流</td><td>凝气→筑基→结丹→元婴→化神→婴变→问鼎→窥涅→净涅→碎涅→天净→大天尊</td><td>逆天修仙理念；王林"逆天三式"神通；独特的心境修炼</td></tr>
+<tr><td><strong>《一念永恒》</strong></td><td>耳根</td><td>轻松修仙流</td><td>凝气→筑基→结丹→元婴→化神→地仙→天仙→大乘→渡劫</td><td>白小纯的"苟"式修仙；轻松幽默风格</td></tr>
+<tr><td><strong>《斗破苍穹》</strong></td><td>天蚕土豆</td><td>玄幻斗气流</td><td>斗者→斗师→大斗师→斗灵→斗王→斗皇→斗宗→斗尊→斗圣→斗帝</td><td>异火体系；焚决进化功法；非传统修仙但有修仙内核</td></tr>
+<tr><td><strong>《遮天》</strong></td><td>辰东</td><td>太古流</td><td>轮海→道宫→四极→化龙→仙台→准帝→大帝→仙王→仙帝</td><td>经文体系；大帝争锋；万古布局</td></tr>
+<tr><td><strong>《完美世界》</strong></td><td>辰东</td><td>太古流前传</td><td>搬血→洞天→化灵→铸神→法则→其他高阶</td><td>宝术体系；少年成长线</td></tr>
+<tr><td><strong>《剑来》</strong></td><td>烽火戏诸侯</td><td>剑修流</td><td>下五境→中五境→上五境→十五境</td><td>剑修差异化境界；剑意修炼体系</td></tr>
+<tr><td><strong>《佛本是道》</strong></td><td>梦入神机</td><td>洪荒流开创者</td><td>天仙→真仙→玄仙→金仙→大罗金仙→准圣→圣人→天道</td><td>洪荒法宝体系；封神体系整合；先天灵宝设定</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录三：修仙文流派的区别</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>流派</th><th>核心特征</th><th>代表作品</th><th>创作要点</th></tr></thead>
+<tbody>
+<tr><td><strong>凡人流</strong></td><td>主角资质平庸，靠机缘和谨慎一步步修炼。强调修炼的艰辛和修仙界的残酷</td><td>《凡人修仙传》</td><td>注重设定严密；主角不无敌；世界观冷酷理性</td></tr>
+<tr><td><strong>洪荒流</strong></td><td>以封神演义/西游为背景，修士追求成圣。法宝体系庞大，先天灵宝设定丰富</td><td>《佛本是道》</td><td>需熟悉封神/西游设定；圣人级战力天花板</td></tr>
+<tr><td><strong>逆天流</strong></td><td>主角以"逆天"为核心理念，修仙之路就是与天争命</td><td>《仙逆》</td><td>强调心境修炼；主角意志力极强；常有悲剧色彩</td></tr>
+<tr><td><strong>太古流</strong></td><td>远古神话背景，大帝/仙帝争锋，万古布局</td><td>《遮天》《完美世界》</td><td>设定宏大；时间跨度大；多条故事线交织</td></tr>
+<tr><td><strong>剑修流</strong></td><td>以剑道为核心，剑修攻伐之力同阶无敌</td><td>《剑来》</td><td>需设计剑意体系；剑修差异化境界</td></tr>
+<tr><td><strong>系统流</strong></td><td>主角拥有系统辅助，以面板/任务/属性替代传统修炼</td><td>多部现代修仙</td><td>游戏化设定；适合轻松向；注意不要过度依赖系统</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录四：创作自检清单</h3>
+
+<p>在搭建修仙世界观时，建议对照以下清单逐项检查设定是否完备：</p>
+
+<div class="checklist">
+<h4>一、世界观层面</h4>
+<ul>
+<li>☐ 位面体系是否清晰？（人界/灵界/仙界或其他自定义位面）</li>
+<li>☐ 天道法则是否有基本设定？（天劫/飞升/因果等）</li>
+<li>☐ 修炼资源体系是否完备？（灵脉/灵石/天材地宝的产出与分布）</li>
+<li>☐ 修仙四要素"法、侣、财、地"是否有对应设定？</li>
+<li>☐ 宗门/势力格局是否有基本框架？</li>
+</ul>
+
+<h4>二、境界体系层面</h4>
+<ul>
+<li>☐ 境界划分是否有明确的阶段和名称？</li>
+<li>☐ 各境界的核心特征是否有区分度？（寿命/战力/特殊能力）</li>
+<li>☐ 小境界划分是否有设定？（初/中/后/大圆满 或 1-13层）</li>
+<li>☐ 境界突破的条件和瓶颈是否有设计？</li>
+<li>☐ 不同流派（道/魔/妖/佛/鬼）是否有差异化境界？</li>
+<li>☐ 境界-法宝-功法的对应关系是否统一？</li>
+</ul>
+
+<h4>三、修炼设定层面</h4>
+<ul>
+<li>☐ 灵根分类体系是否完整？（属性/品级/变异）</li>
+<li>☐ 能量层级递进是否清晰？（灵气→灵力→真元→法力→仙灵力）</li>
+<li>☐ 天劫体系是否有设计？（雷劫等级/劫数类型/渡劫条件）</li>
+<li>☐ 走火入魔的设定是否有？</li>
+</ul>
+
+<h4>四、功法体系层面</h4>
+<ul>
+<li>☐ 功法品级体系是否与法宝品级统一？</li>
+<li>☐ 修炼流派是否有清晰分类？（体/法/剑/符/阵/丹/器）</li>
+<li>☐ 功法设定要素是否完整？（名称/资质/结构/效果/限制等）</li>
+<li>☐ 主角功法是否有成长线？（残卷/传承/进化/自创等套路）</li>
+<li>☐ 功法兼容性设定是否有？（避免主角"什么都会"）</li>
+</ul>
+
+<h4>五、法宝体系层面</h4>
+<ul>
+<li>☐ 法宝等级体系是否完整？</li>
+<li>☐ 法宝类型是否多样化？（攻击/防御/辅助/特殊）</li>
+<li>☐ 炼制流程是否有设定？</li>
+<li>☐ 本命法宝是否有特殊设定？</li>
+<li>☐ 储物设备是否有等级体系？</li>
+<li>☐ 符篆/阵法/丹药辅助体系是否有？</li>
+</ul>
+
+<h4>六、合规性层面</h4>
+<ul>
+<li>☐ 是否避免了现实宗教内容的复述/改写？</li>
+<li>☐ 修炼术语是否有足够的虚构化处理？</li>
+<li>☐ 是否避免了血腥/暴力过度描写？</li>
+<li>☐ 是否避免了涉及现实民族/宗教的敏感内容？</li>
+<li>☐ 功法/仪式描写是否保持虚构/架空性质？</li>
+</ul>
+</div>
+
+<h3 class="sec-title">附录五：数据来源与编制说明</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>编号</th><th>来源</th><th>类型</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>S1</td><td>百度百科（灵根/韩立/仙逆/一念永恒/雷劫/修真境界/法宝/炼器/先天灵宝/阵修/超级传功/不朽凡人/五行修仙 等词条）</td><td>百科</td><td>境界体系、法宝体系、灵根分类、功法品级</td></tr>
+<tr><td>S2</td><td>搜狐（天灵根/仙逆境界/雷劫/剑来剑修 4篇深度文章）</td><td>专题文章</td><td>境界详解、天劫体系、剑修差异化境界</td></tr>
+<tr><td>S3</td><td>网易订阅（凡人各境界寿元）</td><td>专题文章</td><td>境界寿元数据</td></tr>
+<tr><td>S4</td><td>飞书文档《修仙境界划分》</td><td>文档</td><td>境界体系整合</td></tr>
+<tr><td>S5</td><td>豆瓣《凡人修仙常识》长文</td><td>长文</td><td>凡人流综合设定</td></tr>
+<tr><td>S6</td><td>搜狐《韩立法宝全解析》</td><td>专题文章</td><td>法宝等级体系</td></tr>
+<tr><td>S7</td><td>《一念逍遥》官网</td><td>游戏官网</td><td>境界与法宝辅助参考</td></tr>
+<tr><td>S8</td><td>起点中文网问答</td><td>问答</td><td>修仙常识交叉验证</td></tr>
+<tr><td>S9</td><td>知乎专栏搜索摘要</td><td>问答</td><td>多维度交叉验证</td></tr>
+<tr><td>S10</td><td>17k《玄幻小说创作入门指南》</td><td>创作指南</td><td>品级体系、创作指导</td></tr>
+<tr><td>S11</td><td>daoverse.space《修仙功法大全》</td><td>专题页</td><td>修炼流派分类</td></tr>
+<tr><td>S12</td><td>痞客邦《修真小说设定大整理》</td><td>博客</td><td>符修/丹修/器修定义</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note-box">
+<p><strong>编制说明</strong>：</p>
+<ul>
+<li>本报告由报告汇总员基于搜索员C收集的三份原始素材（修仙法宝体系参考资料、修仙境界体系与修炼理论参考资料、功法分类框架）进行交叉验证、去重统一、补充完善后整合而成。</li>
+<li>功法体系第二至六节（设定要素、套路归纳、经典案例、设定模板）因搜索阶段受限，由本报告基于修仙网文通行设定整理补充。</li>
+<li>凡人流体系以《凡人修仙传》为核心参照，洪荒流以《佛本是道》为核心参照，仙逆体系以耳根《仙逆》为核心参照，一念永恒体系以耳根《一念永恒》为核心参照，剑修体系以烽火戏诸侯《剑来》为核心参照。</li>
+<li>丹道五境与五仙体系源自道教内丹学说，仅做学术性引用。</li>
+<li>作者可根据自身作品定位（凡人流/洪荒流/自创体系）选取对应模块参考调整。</li>
+<li>本报告所有内容均为虚构创作参考，不涉及任何现实宗教内容。</li>
+</ul>
+</div>
+
+</div><!-- end wrap -->
+
+</body>
+</html>

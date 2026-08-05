@@ -1,0 +1,2305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国功夫题材创作设定参考报告</title>
+<style>
+  /* ========== 全局基础 ========== */
+  :root{
+    --wuxia:#8b2a2a;
+    --wuxia-dark:#5a1a1a;
+    --wuxia-light:#b04444;
+    --ink-black:#1a1a2e;
+    --gold:#c9a96e;
+    --gold-light:#e0c690;
+    --gold-dark:#a8854a;
+    --ink:#2b2b2b;
+    --ink-light:#4a4a4a;
+    --ink-soft:#666;
+    --cream:#faf6ed;
+    --cream-dark:#f0ebe0;
+    --border:#d4c9a8;
+    --jade-accent:#1a6b5c;
+    --blue-accent:#2a5a7a;
+    --purple-accent:#5a3a6a;
+    --shadow:0 2px 8px rgba(90,26,26,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Noto Serif SC","Songti SC","SimSun",Georgia,serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.8;
+    font-size:15px;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:40px 32px;}
+
+  /* ========== 封面 ========== */
+  .cover{
+    text-align:center;
+    padding:80px 40px 60px;
+    background:linear-gradient(135deg,var(--wuxia-dark) 0%,var(--wuxia) 50%,var(--ink-black) 100%);
+    color:var(--cream);
+    border-radius:12px;
+    margin-bottom:48px;
+    position:relative;
+    overflow:hidden;
+  }
+  .cover::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-width='0.5' opacity='0.12'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3Ccircle cx='40' cy='40' r='10'/%3E%3Cpath d='M40 5 L40 75 M5 40 L75 40 M15 15 L65 65 M65 15 L15 65'/%3E%3C/g%3E%3C/svg%3E");
+    opacity:.4;
+  }
+  .cover h1{
+    font-size:42px;
+    color:var(--gold-light);
+    margin-bottom:16px;
+    letter-spacing:6px;
+    position:relative;
+    text-shadow:0 2px 12px rgba(0,0,0,.4);
+  }
+  .cover .subtitle{
+    font-size:18px;
+    color:var(--cream-dark);
+    margin-bottom:32px;
+    letter-spacing:2px;
+    position:relative;
+  }
+  .cover .meta{
+    display:inline-block;
+    padding:8px 24px;
+    border:1px solid var(--gold);
+    border-radius:4px;
+    font-size:13px;
+    color:var(--gold-light);
+    position:relative;
+  }
+  .cover .divider{
+    width:120px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    margin:24px auto;
+    position:relative;
+  }
+
+  /* ========== 目录 ========== */
+  .toc{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:32px 40px;
+    margin-bottom:48px;
+    box-shadow:var(--shadow);
+  }
+  .toc h2{
+    font-size:20px;
+    color:var(--wuxia-dark);
+    border-bottom:2px solid var(--gold);
+    padding-bottom:12px;
+    margin-bottom:20px;
+  }
+  .toc ol{list-style:none;counter-reset:toc;}
+  .toc li{
+    counter-increment:toc;
+    padding:8px 0;
+    border-bottom:1px dashed var(--cream-dark);
+    display:flex;
+    align-items:center;
+  }
+  .toc li:last-child{border-bottom:none;}
+  .toc li::before{
+    content:counter(toc);
+    display:inline-block;
+    width:28px;height:28px;
+    background:var(--wuxia);
+    color:#fff;
+    border-radius:50%;
+    text-align:center;
+    line-height:28px;
+    font-size:13px;
+    margin-right:16px;
+    flex-shrink:0;
+  }
+  .toc li a{
+    color:var(--ink);
+    text-decoration:none;
+    flex:1;
+  }
+  .toc li a:hover{color:var(--wuxia);}
+
+  /* ========== 章节标题 ========== */
+  h2.chap-title{
+    font-size:28px;
+    color:var(--wuxia-dark);
+    margin:56px 0 8px;
+    padding:16px 24px;
+    background:linear-gradient(90deg,var(--cream-dark) 0%,transparent 100%);
+    border-left:5px solid var(--gold);
+    border-radius:0 4px 4px 0;
+  }
+  h2.chap-title .num{
+    color:var(--gold-dark);
+    font-size:20px;
+    margin-right:12px;
+  }
+  h3.sec-title{
+    font-size:20px;
+    color:var(--wuxia);
+    margin:36px 0 16px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+  }
+  h3.sec-title::before{
+    content:"";
+    display:inline-block;
+    width:8px;height:20px;
+    background:var(--gold);
+    margin-right:12px;
+    border-radius:2px;
+  }
+  h4.sub-title{
+    font-size:16px;
+    color:var(--wuxia-dark);
+    margin:24px 0 12px;
+    padding-left:12px;
+    border-left:3px solid var(--wuxia-light);
+  }
+
+  /* ========== 通用样式 ========== */
+  p{margin-bottom:12px;color:var(--ink-light);}
+  .lead{
+    font-size:16px;
+    color:var(--ink);
+    background:var(--cream-dark);
+    padding:16px 24px;
+    border-radius:6px;
+    border-left:4px solid var(--wuxia);
+    margin:16px 0 24px;
+  }
+  ul,ol{margin:8px 0 16px 24px;}
+  li{margin-bottom:6px;color:var(--ink-light);}
+  strong{color:var(--wuxia-dark);}
+  em{color:var(--gold-dark);font-style:normal;font-weight:600;}
+  blockquote{
+    background:#fff;
+    border:1px solid var(--border);
+    border-left:4px solid var(--gold);
+    padding:16px 24px;
+    margin:16px 0;
+    border-radius:0 6px 6px 0;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+  blockquote p{margin-bottom:4px;}
+
+  /* ========== 表格 ========== */
+  .table-wrap{overflow-x:auto;margin:16px 0 24px;}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    background:#fff;
+    box-shadow:var(--shadow);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  thead{
+    background:linear-gradient(90deg,var(--wuxia-dark),var(--wuxia));
+  }
+  th{
+    color:#fff;
+    padding:12px 16px;
+    text-align:left;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  td{
+    padding:10px 16px;
+    border-bottom:1px solid var(--cream-dark);
+    color:var(--ink-light);
+    vertical-align:top;
+  }
+  tbody tr:nth-child(even){background:var(--cream);}
+  tbody tr:hover{background:#f5e8e8;}
+  td strong{color:var(--wuxia-dark);}
+  td em{color:var(--wuxia);}
+  .tag{
+    display:inline-block;
+    padding:2px 10px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:600;
+  }
+  .tag-red{background:#f5e0e0;color:var(--wuxia-dark);}
+  .tag-gold{background:#f5edd8;color:var(--gold-dark);}
+  .tag-jade{background:#e0f0eb;color:var(--jade-accent);}
+  .tag-blue{background:#e0eaf5;color:var(--blue-accent);}
+  .tag-purple{background:#ede0f5;color:var(--purple-accent);}
+  .tag-ink{background:#e8e8ee;color:var(--ink-black);}
+
+  /* ========== 可视化组件 ========== */
+  /* 境界流程图 */
+  .realm-flow{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    margin:24px 0;
+  }
+  .realm-node{
+    padding:8px 16px;
+    background:var(--wuxia);
+    color:#fff;
+    border-radius:4px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .realm-node.high{background:var(--gold-dark);}
+  .realm-node.peak{background:var(--ink-black);}
+  .realm-arrow{color:var(--gold);font-size:18px;font-weight:bold;}
+  .realm-phase{
+    width:100%;
+    text-align:center;
+    font-size:13px;
+    color:var(--wuxia-dark);
+    font-weight:600;
+    margin:8px 0;
+    letter-spacing:2px;
+  }
+
+  /* 能量层级图 */
+  .energy-flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:24px 0;
+    gap:0;
+  }
+  .energy-box{
+    padding:12px 28px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    min-width:220px;
+    color:#fff;
+  }
+  .energy-arrow{
+    font-size:20px;
+    color:var(--gold-dark);
+    padding:4px 0;
+  }
+  .energy-desc{
+    font-size:12px;
+    opacity:.9;
+    margin-top:2px;
+    font-weight:400;
+  }
+
+  /* 卡片网格 */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:16px;
+    margin:20px 0;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    border-top:3px solid var(--wuxia);
+  }
+  .card.gold{border-top-color:var(--gold);}
+  .card.jade{border-top-color:var(--jade-accent);}
+  .card.blue{border-top-color:var(--blue-accent);}
+  .card.purple{border-top-color:var(--purple-accent);}
+  .card.ink{border-top-color:var(--ink-black);}
+  .card h5{
+    font-size:15px;
+    color:var(--wuxia-dark);
+    margin-bottom:10px;
+  }
+  .card p{font-size:13px;color:var(--ink-soft);margin-bottom:4px;}
+
+  /* 提示框 */
+  .callout{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:16px 24px;
+    margin:16px 0;
+    display:flex;
+    gap:16px;
+  }
+  .callout-icon{
+    flex-shrink:0;
+    width:36px;height:36px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    font-weight:bold;
+    color:#fff;
+  }
+  .callout.tip .callout-icon{background:var(--jade-accent);}
+  .callout.warn .callout-icon{background:var(--wuxia);}
+  .callout.info .callout-icon{background:var(--blue-accent);}
+  .callout.gold .callout-icon{background:var(--gold-dark);}
+  .callout-body{flex:1;}
+  .callout-body p{margin-bottom:4px;}
+  .callout-body strong{display:block;margin-bottom:4px;}
+
+  /* 门派徽章式卡片 */
+  .sect-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:0;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    margin:16px 0;
+  }
+  .sect-header{
+    padding:16px 24px;
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:2px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .sect-body{padding:20px 24px;}
+  .sect-body p{margin-bottom:8px;}
+
+  /* 对比柱状图 */
+  .bar-chart{margin:20px 0;}
+  .bar-row{
+    display:flex;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  .bar-label{
+    width:100px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--wuxia-dark);
+    text-align:right;
+    padding-right:12px;
+    flex-shrink:0;
+  }
+  .bar-track{
+    flex:1;
+    background:var(--cream-dark);
+    border-radius:4px;
+    height:24px;
+    overflow:hidden;
+    position:relative;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    padding-left:8px;
+    color:#fff;
+    font-size:12px;
+    font-weight:600;
+  }
+  .bar-fill.tier1{background:linear-gradient(90deg,#b04444,#8b2a2a);}
+  .bar-fill.tier2{background:linear-gradient(90deg,#c9a96e,#a8854a);}
+  .bar-fill.tier3{background:linear-gradient(90deg,#1a6b5c,#0f4639);}
+  .bar-fill.tier4{background:linear-gradient(90deg,#1a1a2e,#0a0a1e);}
+
+  /* 金字塔图 */
+  .pyramid{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:24px 0;
+  }
+  .pyramid-level{
+    padding:10px 20px;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
+    color:#fff;
+    margin:2px 0;
+    border-radius:4px;
+  }
+  .pyramid-level .desc{
+    font-size:12px;
+    font-weight:400;
+    opacity:.9;
+  }
+
+  /* 附录样式 */
+  .glossary-item{
+    padding:8px 0;
+    border-bottom:1px dashed var(--cream-dark);
+  }
+  .glossary-item strong{
+    color:var(--wuxia-dark);
+    margin-right:8px;
+  }
+
+  /* 清单 */
+  .checklist{background:var(--cream-dark);border-left:4px solid var(--wuxia);padding:24px 28px;border-radius:0 8px 8px 0;margin:20px 0;}
+  .checklist h4{color:var(--wuxia-dark);margin-bottom:12px;margin-top:20px;font-size:16px;}
+  .checklist h4:first-child{margin-top:0;}
+  .checklist ul{list-style:none;padding-left:0;}
+  .checklist li{padding:6px 0;color:var(--ink-light);font-size:14px;border-bottom:1px dashed var(--border);}
+  .checklist li:last-child{border-bottom:none;}
+
+  /* 页脚 */
+  .footer{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-soft);
+    font-size:13px;
+    border-top:1px solid var(--border);
+    margin-top:48px;
+  }
+
+  /* 打印优化 */
+  @media print{
+    .wrap{max-width:none;padding:0;}
+    .cover{border-radius:0;}
+    body{font-size:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ========== 封面 ========== -->
+<div class="cover">
+  <div class="divider"></div>
+  <h1>中国功夫题材创作设定参考报告</h1>
+  <div class="subtitle">面向网络小说作者的系统化武侠世界观搭建指南</div>
+  <div class="divider"></div>
+  <div class="meta">门派体系 · 武功功法 · 武学理论 · 江湖文化 · 文学范式</div>
+</div>
+
+<!-- ========== 目录 ========== -->
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#ch1">第一章　中国功夫总览</a></li>
+    <li><a href="#ch2">第二章　武术门派体系</a></li>
+    <li><a href="#ch3">第三章　武功招式与功法分类</a></li>
+    <li><a href="#ch4">第四章　武学理论与修炼设定</a></li>
+    <li><a href="#ch5">第五章　江湖文化与世界观</a></li>
+    <li><a href="#ch6">第六章　经典武侠文学功夫设定参考</a></li>
+    <li><a href="#ch7">第七章　创作套路与范式归纳</a></li>
+    <li><a href="#appendix">附录　速查对照 · 术语词典 · 资料源清单</a></li>
+  </ol>
+</div>
+
+<!-- ========== 报告说明 ========== -->
+<div class="lead">
+  本报告整合三份搜索素材——《武术门派体系与武功功法分类》《武学理论与江湖世界观》《经典武侠文学功夫设定参考》，经交叉验证、去重统一后汇编而成。<strong>去重原则</strong>：第一、二章以客观武术史为底料，第四章以武学理论框架为核心，第五章以江湖社会文化为主线，第六、七章将文学化设定（金庸/古龙/梁羽生/温瑞安/黄易五家范式）单列，客观设定与文学范式不混用。报告面向网络小说作者，可直接用于武侠/功夫类小说世界观搭建。
+</div>
+
+<!-- ================================================================ -->
+<!-- 第一章：中国功夫总览 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch1"><span class="num">第一章</span>中国功夫总览</h2>
+
+<p>中国武术是中华文明数千年积淀的身体文化与精神哲学的结晶。本章从<strong>发展简史</strong>、<strong>内外分野</strong>、<strong>真实与文学之辨</strong>三个维度搭建全景框架，帮助作者在动笔前建立完整的武术世界观认知。</p>
+
+<h3 class="sec-title">一、中国武术发展简史与门派源流</h3>
+
+<p>中国武术的演进可大致划分为五个阶段。理解这条时间线，有助于作者为小说设定合理的历史背景。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>时期</th><th>发展阶段</th><th>关键事件与特征</th><th>代表人物/门派</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>先秦</strong></td><td>武术萌芽</td><td>搏击技巧与军事武艺结合；导引术萌芽；《黄帝内经》奠定经络学说基础</td><td>司徒玄空（峨眉远祖）</td></tr>
+<tr><td><strong>汉唐</strong></td><td>体系初成</td><td>北魏太和十九年（495年）少林寺创建；菩提达摩入少林面壁九年，禅宗心法传入；唐初十三棍僧助李世民，少林武名远扬</td><td>菩提达摩、十三棍僧（昙宗）</td></tr>
+<tr><td><strong>宋元</strong></td><td>门派分化</td><td>全真教兴起，郝大通开华山派；张三丰于武当山修道创拳（元末明初）；少林体系渐成</td><td>张三丰、郝大通、福裕禅师</td></tr>
+<tr><td><strong>明清</strong></td><td>鼎盛成熟</td><td>少林分南北两派；武当太极拳/形意拳/八卦掌三大内家拳定型；咏春、洪拳、螳螂拳等地方拳种涌现；镖局行业兴起（清乾隆年间）；帮会体系成熟</td><td>陈王廷、杨露禅、董海川、吴钟、姬际可、洪熙官</td></tr>
+<tr><td><strong>民国至今</strong></td><td>转型传承</td><td>"国术"概念提出；1928年中央国术馆成立；太极拳（2020年）入选联合国非遗；传统武术体育化、竞技化转型</td><td>孙禄堂、霍元甲、李小龙</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作提示</strong>
+<p>明清是武侠小说最常选取的历史时段——门派林立、镖局兴盛、帮会成熟，江湖生态最为完整。若写唐宋之前，需注意门派体系尚未完备，应以个体武人、军中武艺、寺观传承为主。若写民国，则可引入"传统武学遭遇近代枪炮"的张力。</p>
+</div>
+</div>
+
+<h3 class="sec-title">二、内家与外家的根本分野</h3>
+
+<p>"内家"与"外家"是中国武术最根本的分类框架，源自明清武术理论。这一分野不仅是技术路径的差异，更关乎哲学理念、训练方法与技击策略的根本分歧。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>维度</th><th>内家拳</th><th>外家拳</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>核心理念</strong></td><td>以意领气、以柔克刚、后发制人</td><td>以力胜人、刚猛为主、先发制人</td></tr>
+<tr><td><strong>训练方式</strong></td><td>站桩、慢练、内劲修炼、吐纳导引</td><td>排打、快练、外壮硬功、力量训练</td></tr>
+<tr><td><strong>技击特点</strong></td><td>借力打力、四两拨千斤、以静制动</td><td>强攻硬打、刚猛爆发、主动进攻</td></tr>
+<tr><td><strong>修炼目标</strong></td><td>养生与技击并重，内外兼修</td><td>技击为主，外壮有力</td></tr>
+<tr><td><strong>理论依据</strong></td><td>中医经络学说、道家内丹术、阴阳五行</td><td>筋骨锻炼、皮肤强化、硬物抗击</td></tr>
+<tr><td><strong>代表拳种</strong></td><td>太极拳、形意拳、八卦掌（合称"内家三拳"）</td><td>少林拳、洪拳、查拳、炮拳</td></tr>
+<tr><td><strong>经典口诀</strong></td><td>"太极十年不出门"</td><td>"文有太极安天下，武有八极定乾坤"</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card-grid">
+<div class="card jade">
+<h5>少林·外家正宗</h5>
+<p>河南嵩山少林寺为发源地。北魏创建，唐初十三棍僧助李世民后名扬天下。"禅武合一"为核心理念，以刚猛浑厚、外壮硬功见长。</p>
+</div>
+<div class="card gold">
+<h5>武当·内家祖庭</h5>
+<p>湖北武当山为发源地。元末明初张三丰创拳，与少林并称"北崇少林，南尊武当"。以道家内修为体，以柔克刚为用，四两拨千斤。</p>
+</div>
+<div class="card purple">
+<h5>内家三拳</h5>
+<p>太极拳、形意拳、八卦掌合称"内家三拳"，是内家拳的三大支柱。三者各有侧重——太极重柔化、形意重实战速成、八卦重走转掌法。</p>
+</div>
+<div class="card blue">
+<h5>南拳北腿</h5>
+<p>"南拳北腿"概括了中国武术"南派重拳、北派重腿"的地域特征。南方拳种步稳势烈、桥手坚硬；北方拳种腿法多变、大开大合。</p>
+</div>
+</div>
+
+<blockquote>
+<p><strong>内外兼修方为上乘</strong>。许多外功练习需要内功配合，否则"练外不练内，终究一场空"。在小说设定中，主角突破瓶颈往往需要"内外合一"——这既是武术规律，也是天然的叙事节点。</p>
+</blockquote>
+
+<h3 class="sec-title">三、真实武术 vs 武侠文学设定的区分说明</h3>
+
+<p>武侠小说的武功描写并非凭空虚构，而是在真实武术基础上的<strong>艺术化放大</strong>。以下对照表帮助作者明确"哪些是史实、哪些是文学创作"，便于在写实与虚构之间自由切换。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>维度</th><th>真实武术（史实）</th><th>武侠文学（虚构）</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>内功/真气</strong></td><td>站桩、吐纳等训练产生的内劲感知，以健身养生为主</td><td>可外放、可隔空伤人、可疗伤续命的"超能力"系统</td></tr>
+<tr><td><strong>轻功</strong></td><td>蹿蹦跳跃、身法灵活的训练，提升敏捷与弹跳</td><td>踏雪无痕、飞檐走壁、凌空飞行的超凡能力</td></tr>
+<tr><td><strong>点穴</strong></td><td>打击穴位以制敌的技法，实战价值有限</td><td>可封穴、定身、延时发作、解穴续命的精密系统</td></tr>
+<tr><td><strong>境界</strong></td><td>无明确等级，以功夫深浅与实战经验论</td><td>三流/二流/一流/后天/先天/宗师/大宗师等严密阶梯</td></tr>
+<tr><td><strong>门派武功</strong></td><td>各门派有特色拳种，但无"镇派绝学"概念</td><td>每派必有一至数种"镇派绝学"，与门派命运深度绑定</td></tr>
+<tr><td><strong>秘籍</strong></td><td>拳谱为训练记录，非神秘物品</td><td>绝世秘籍是江湖纷争的核心道具，可改变实力格局</td></tr>
+<tr><td><strong>走火入魔</strong></td><td>气功偏差的术语，指练习不当的不适反应</td><td>可致经脉尽毁、神智错乱的戏剧性危机装置</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>创作原则</strong>
+<p>本报告的<strong>第一至第五章</strong>以真实武术史、非遗资料、社会民俗为基础，提供"世界观底料"；<strong>第六、七章</strong>以经典武侠文学为参照，提供"创作范式"。作者可根据作品定位自由取用——写实武侠以前五章为底，高武/玄幻则可大胆引入第六章的文学化设定。</p>
+</div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- 第二章：武术门派体系 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch2"><span class="num">第二章</span>武术门派体系</h2>
+
+<p>门派是中国武术传承的核心载体，也是武侠小说世界观的基本骨架。本章详考六大门派与七大拳种，梳理源流谱系、代表武功与门规特色，为作者搭建"门派-武功-人物"三位一体的设定框架。</p>
+
+<h3 class="sec-title">一、六大门派创立源流与传承谱系</h3>
+
+<p>中国传统武术以"六大门派"为骨架——少林、武当、峨眉、昆仑、崆峒、华山。其中少林、武当、峨眉有真实武术传承可考，昆仑、崆峒、华山则多见于武侠文学设定。以下逐一详述。</p>
+
+<!-- 六大门派风格定位速查 -->
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>门派</th><th>风格定位</th><th>地域</th><th>宗教背景</th><th>武学关键词</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>少林</strong></td><td>外家正宗、刚猛浑厚</td><td>河南嵩山</td><td>佛教禅宗</td><td>禅武合一、七十二艺、棍法</td></tr>
+<tr><td><strong>武当</strong></td><td>内家祖庭、以柔克刚</td><td>湖北武当山</td><td>道教</td><td>太极、内丹、剑法</td></tr>
+<tr><td><strong>峨眉</strong></td><td>亦刚亦柔、内外兼修</td><td>四川峨眉山</td><td>佛道双修</td><td>通臂拳、十二桩、枪法</td></tr>
+<tr><td><strong>昆仑</strong></td><td>剑术轻功、缥缈出尘</td><td>青海/新疆昆仑山</td><td>道教</td><td>剑法、两仪</td></tr>
+<tr><td><strong>崆峒</strong></td><td>奇兵器械、种类繁多</td><td>甘肃平凉崆峒山</td><td>道教</td><td>十八般兵器、方便铲</td></tr>
+<tr><td><strong>华山</strong></td><td>全真剑脉、清修正宗</td><td>陕西华山</td><td>道教全真派</td><td>剑法、紫气</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">① 少林派</h4>
+
+<div class="sect-card">
+<div class="sect-header" style="background:linear-gradient(90deg,#5a1a1a,#8b2a2a);">
+<span>少林派</span><span style="font-size:14px;font-weight:400;">河南嵩山 · 佛教禅宗 · 外家正宗</span>
+</div>
+<div class="sect-body">
+<p><strong>创立源流</strong>：发源于河南嵩山少林寺。北魏太和十九年（公元495年），孝文帝为天竺僧跋陀敕建少林寺。后菩提达摩入少林寺面壁九年，传禅宗心法，被尊为禅宗初祖。但少林武术并非达摩所创，而是在长期僧人护寺、健身需要中逐步形成。唐初十三棍僧助秦王李世民平定王世充，受封赏后少林武术名扬天下。元代紧那罗王传说传棍法，明代福裕禅师汇集少林短打，渐成体系。</p>
+<p><strong>传承谱系</strong>：初祖菩提达摩（传说）→ 唐代十三棍僧（昙宗等）→ 元代紧那罗王（传说人物，棍法祖师）→ 明代福裕禅师（汇宗定型）、俞大猷访少林传棍 → 清代海法、湛举、湛洛；分南北两派 → 民国恒林、妙兴 → 现代德虔、永信。</p>
+<p><strong>门规特色</strong>：收徒分僧俗两途——僧弟子须剃度受戒；俗家弟子通过"挂单"或拜师学艺，不须出家。传承口诀"禅武合一"，以禅入武，以武修禅。清代"少林十戒"：不恃强凌弱、戒色戒酒、不逞血气之勇等。分支有嵩山少林（本寺）、福建莆田少林（南少林）、广东少林等。</p>
+<p><strong>代表武功</strong>：拳法类——罗汉拳、光明拳、少林六合拳、少林长拳、小红拳、大洪拳、通臂拳、炮拳；器械类——少林棍（夜叉棍、齐眉棍）、少林枪、少林剑、少林刀；内功/功法类——易筋经、洗髓经、少林七十二绝技、八段锦；对练类——少林对练拳、空手对刀、空手夺棍。</p>
+</div>
+</div>
+
+<h4 class="sub-title">② 武当派</h4>
+
+<div class="sect-card">
+<div class="sect-header" style="background:linear-gradient(90deg,#1a6b5c,#0f4639);">
+<span>武当派</span><span style="font-size:14px;font-weight:400;">湖北武当山 · 道教 · 内家祖庭</span>
+</div>
+<div class="sect-body">
+<p><strong>创立源流</strong>：起源于湖北武当山。传说元末明初道士张三丰于武当山修道创拳，被尊为内家拳祖师。学界对张三丰其人其事尚有争议。历史可考的武当武术传承始于明代，明清时期渐成体系，与少林外家拳并称"北崇少林，南尊武当"。2006年武当武术被列入国家级非物质文化遗产。</p>
+<p><strong>传承谱系</strong>：祖师张三丰（元末明初，道号玄玄子，传说寿逾百岁）→ 明代张松溪（内家拳重要传人，《宁波府志》有载）→ 清代王宗岳（太极拳论作者）、蒋发 → 近现代分为武当山本山传承（钟云龙第14代、陈师行第15代）与太极拳分支（陈氏陈王廷-陈长兴、杨氏杨露禅、武氏武禹襄、孙氏孙禄堂、吴氏吴鉴泉）、形意拳（姬际可-曹继武-戴龙邦-李洛能）、八卦掌（董海川）。</p>
+<p><strong>门规特色</strong>：道家内修特色——以道为体，以柔为用。"功、拳、药、械、法、财、侣、地"八字师传。收徒要求"不具备功德，学武功拳法只会有害无益"，以德为先。行功原则：以静制动、后发制人、以柔克刚、四两拨千斤。轻门户之见，融道家修炼与武术于一体。</p>
+<p><strong>代表武功</strong>：拳法类——太极拳（陈式/杨式/武式/孙式/吴式）、武当长拳、武当绵掌、太乙五行拳、龙华拳；器械类——太乙玄门剑、武当剑、武当拂尘、武当棍、玄武棍；内功类——武当内丹功、太极内功、纯阳无极功（金庸小说引用名）；轻功/身法类——梯云纵（金庸小说引用名，实为文学虚构）、武当八卦步。</p>
+</div>
+</div>
+
+<h4 class="sub-title">③ 峨眉派</h4>
+
+<div class="sect-card">
+<div class="sect-header" style="background:linear-gradient(90deg,#5a3a6a,#3a2a4a);">
+<span>峨眉派</span><span style="font-size:14px;font-weight:400;">四川峨眉山 · 佛道双修 · 亦刚亦柔</span>
+</div>
+<div class="sect-body">
+<p><strong>创立源流</strong>：发源于四川峨眉山。据《峨眉山志》与地方史料，春秋战国时期有武士司徒玄空（号动灵子，又称白猿道人）隐居峨眉山，模仿猿猴动作创编"峨眉通臂拳"，被部分武术史研究者视为有记载的中华武术第一人。战国后峨眉山为佛道并存之地，僧道武术交融。南宋时期，峨眉山僧人德源长老综合各家创"峨眉十二桩"，峨眉武术始成体系。明末，峨眉枪法闻名天下（程冲斗《耕余剩技》有载）。</p>
+<p><strong>传承谱系</strong>：远祖司徒玄空（春秋战国，号动灵子，创通臂拳）→ 南宋白云禅师（白眉道人）、德源长老（创"峨眉十二桩"）→ 明清峨眉枪法（程真如）、峨眉剑法传习 → 近代分支繁多，有"僧、岳、赵、杜、洪、化、字、会"八大门 → 现代通臂拳、火龙拳、峨眉刺、峨眉十二桩等均有传承。</p>
+<p><strong>门规特色</strong>：佛道双修特色——不纯出道家或佛家，融汇两教。技法特点：亦刚亦柔，内外兼修，"化万法为一法，以一法破万法"。传承较为分散，无统一宗门。</p>
+<p><strong>代表武功</strong>：拳法类——峨眉通臂拳、火龙拳、峨眉罗汉拳、峨眉六合拳；器械类——峨眉枪、峨眉剑、峨眉刺；功法类——峨眉十二桩（天罡桩、地煞桩等）、峨眉内功。</p>
+</div>
+</div>
+
+<h4 class="sub-title">④ 昆仑派</h4>
+
+<div class="sect-card">
+<div class="sect-header" style="background:linear-gradient(90deg,#2a5a7a,#1a3a5a);">
+<span>昆仑派</span><span style="font-size:14px;font-weight:400;">青海/新疆昆仑山 · 道教 · 剑术轻功</span>
+</div>
+<div class="sect-body">
+<p><strong>创立源流</strong>：传说起源于青海/新疆昆仑山一带。武术史上昆仑派的真实历史记载较少，多见于武侠小说设定。武术界所指的"昆仑派"主要是周昆田、王锦等近代武术家所传承的一支，技法以剑法和轻功见长。</p>
+<p><strong>传承谱系</strong>：历史可考传承有限，多见于明清武术谱录的零散记载。近代周昆田一支；部分融入天山派、雪山派体系。武侠文学设定：金庸《倚天屠龙记》中出现昆仑派，以"两仪剑法""正两仪剑法"闻名。</p>
+<p><strong>门规特色</strong>：传说中以剑术和轻功见长；因地处高原，行功兼有高原适应训练传统。</p>
+<p><strong>代表武功</strong>：昆仑剑法、两仪剑法（武侠小说引用名）。</p>
+</div>
+</div>
+
+<h4 class="sub-title">⑤ 崆峒派</h4>
+
+<div class="sect-card">
+<div class="sect-header" style="background:linear-gradient(90deg,#a8854a,#8a6530);">
+<span>崆峒派</span><span style="font-size:14px;font-weight:400;">甘肃平凉崆峒山 · 道教 · 奇兵器械</span>
+</div>
+<div class="sect-body">
+<p><strong>创立源流</strong>：发源于甘肃平凉崆峒山。崆峒山为道教名山，相传轩辕黄帝曾在此向广成子问道。崆峒武术相传始创于唐代，由飞虹子综合各家武术创立。崆峒派武术以奇兵器械见长，是中国传统武术中器械种类最丰富的门派之一。</p>
+<p><strong>传承谱系</strong>：初祖飞虹子（唐代，传说人物）→ 历代掌门传承飞虹子→飞仙子→……（共计十代掌门）→ 近代燕飞霞（第10代掌门，1980年代传崆峒武术于日本）→ 现代白义海（第11代掌门）。</p>
+<p><strong>门规特色</strong>：道家武术流派，讲求内外兼修。器械特色鲜明——"崆峒十八般兵器"种类繁多（包括奇门兵器如判官笔、方便铲等）。门派规模小，传承严密。</p>
+<p><strong>代表武功</strong>：拳法类——崆峒太极拳、崆峒长拳、崆峒燕式拳；器械类——崆峒剑、崆峒枪、崆峒棍、崆峒棍、崆峒方便铲、崆峒双钩；奇兵类——判官笔、峨眉刺。</p>
+</div>
+</div>
+
+<h4 class="sub-title">⑥ 华山派</h4>
+
+<div class="sect-card">
+<div class="sect-header" style="background:linear-gradient(90deg,#1a1a2e,#0a0a1e);">
+<span>华山派</span><span style="font-size:14px;font-weight:400;">陕西华山 · 道教全真派 · 全真剑脉</span>
+</div>
+<div class="sect-body">
+<p><strong>创立源流</strong>：华山派（武术层面）指以陕西华山为基地的武术传承，历史上为全真教分支。宋元之际，全真七子之一郝大通开创华山派（道教全真派分支），后武术传承渐成体系。武术界的"华山派"主要见于明清武术文献，以剑法和轻功闻名。</p>
+<p><strong>传承谱系</strong>：初祖郝大通（全真七子之一，号广宁子，元代道士）→ 明清全真华山派传承。武侠文学设定：金庸《笑傲江湖》中华山派为"五岳剑派"之首，以"紫霞神功""华山剑法"闻名；门内分"气宗"与"剑宗"（此为金庸小说设定，非真实武术史）。</p>
+<p><strong>门规特色</strong>：道家全真派分支，讲究清修与剑术并重。</p>
+<p><strong>代表武功</strong>：华山剑法、紫霞功（武侠小说引用名）、长空剑法。</p>
+</div>
+</div>
+
+<h3 class="sec-title">二、其他重要拳种</h3>
+
+<p>除六大门派外，中国武术还有诸多独立流传的重要拳种，它们各有源流、特色鲜明，是武侠小说门派设定的丰富素材库。</p>
+
+<h4 class="sub-title">① 太极拳（内家三拳之首）</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>明末清初，河南温县陈家沟陈王廷（1600-1680）综合戚继光《拳经》与道家导引术创编。唐豪、顾留馨等武术史学家考证陈王廷为创始人。清代道光年间，杨露禅（1799-1872）三赴陈家沟学拳于陈长兴，后至北京传拳，太极拳始广传。<em>2020年列入联合国教科文组织人类非遗</em></td></tr>
+<tr><td><strong>特色</strong></td><td>以"掤、捋、挤、按、采、挒、肘、靠"八法为核心，结合"进、退、顾、盼、定"五行步法；以柔克刚、后发制人；强调"用意不用力""气沉丹田""虚领顶劲"</td></tr>
+<tr><td><strong>五大流派</strong></td><td>陈式（刚柔并济、发劲明显）、杨式（舒展大方、柔和缓慢）、武式（紧凑灵活、身法中正）、孙式（活步轻灵、开合相寓）、吴式（斜中正、绵密小巧）</td></tr>
+<tr><td><strong>代表人物</strong></td><td>陈王廷（创始人）、陈长兴、杨露禅、武禹襄、孙禄堂、吴鉴泉</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">② 八极拳</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>清康熙、雍正年间，回族武师吴钟（1712-1802）精研发展定型。发源于河北沧州孟村，故称"孟村八极拳"或"开门八极拳"</td></tr>
+<tr><td><strong>特色</strong></td><td>近身短打、刚猛爆烈；"六大开"（顶、抱、单、提、挎、缠）为核心发力原理；以"贴山靠"（靠打）闻名；劲道刚猛、发力短促</td></tr>
+<tr><td><strong>代表人物</strong></td><td>吴钟、李书文（神枪李，近代八极宗师）、霍殿阁（溥仪武术教官）、刘云樵（台湾八极宗师）</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote><p><strong>"文有太极安天下，武有八极定乾坤"</strong>——八极拳以实战威猛著称。</p></blockquote>
+
+<h4 class="sub-title">③ 形意拳</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>清初山西蒲州姬际可（1602-1683）访终南山得《岳武穆拳谱》（存疑），创"心意六合拳"。后传曹继武→戴龙邦→李洛能。李洛能约1840年后广传门徒，并改名为"形意拳"</td></tr>
+<tr><td><strong>特色</strong></td><td>"三体式桩功"为入门功法；"五行拳"（劈、崩、钻、炮、横）对应金木水火土；"十二形"（龙虎猴马鼍鸡鹞燕蛇骀鹰熊）仿生形意；以"明劲、暗劲、化劲"三层功夫递进</td></tr>
+<tr><td><strong>代表人物</strong></td><td>姬际可、戴龙邦、李洛能、郭云深（"半步崩拳打天下"）、孙禄堂</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote><p><strong>"太极十年不出门，形意一年打死人"</strong>——形意以实战速成闻名。</p></blockquote>
+
+<h4 class="sub-title">④ 八卦掌</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>清代河北文安县董海川（1797-1882）所创。初称"转掌"，后因走圈换掌特点改称"八卦掌"或"游身八卦掌""八卦连环掌"</td></tr>
+<tr><td><strong>特色</strong></td><td>以掌法变换和"趟泥步"走转为主；"走"为核心——"百练不如一走"；"老八掌"（单换掌、双换掌、顺势掌、转身掌、回身掌、走身掌、翻身掌、缠身掌）为基础八母掌；步法绕圆走转，动中求静，以斜取正</td></tr>
+<tr><td><strong>代表人物</strong></td><td>董海川、程廷华（程式创始人）、尹福（尹式创始人）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">⑤ 咏春拳</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>相传由南少林五枚师太所创，传严咏春（清代）。后辗转传至广东佛山梁赞（1826-1901）→陈华顺→叶问（1893-1972）。叶问1949年赴香港广传。有"起于严咏春，显于梁赞，盛于叶问"之说</td></tr>
+<tr><td><strong>特色</strong></td><td>短桥狭马、中线理论、以巧胜拙、借力打力；"寸劲"发力；以"黐手"（粘手）训练感触反应；木人桩为基本功训练器械</td></tr>
+<tr><td><strong>代表套路</strong></td><td>小念头（初级）、寻桥（中级）、标指（高级）、木人桩法、六点半棍、八斩刀</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote><p>叶问弟子李小龙后创截拳道，将咏春理念传播至全世界。</p></blockquote>
+
+<h4 class="sub-title">⑥ 洪拳</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>相传发源于福建莆田少林寺，由至善禅师所传。俗家弟子洪熙官技成后传入广东，开创洪拳。为"广东五大名拳"（洪、刘、蔡、李、莫）之首</td></tr>
+<tr><td><strong>特色</strong></td><td>动作紧凑，劲力刚健；步法稳固，重心较低；快慢相间，刚柔相济，以刚为主；身法吞吐浮沉</td></tr>
+<tr><td><strong>代表人物</strong></td><td>洪熙官（创始人）、黄飞鸿（1847-1925，洪拳集大成者）、林世荣（猪肉荣）</td></tr>
+<tr><td><strong>洪拳三宝</strong></td><td>工字伏虎拳（入门）、铁线拳（内功）、虎鹤双形拳（高级）；另五形拳（龙蛇虎豹鹤）、五行拳（金木水火土）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">⑦ 螳螂拳</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><strong>源流</strong></td><td>明末清初，陕西省淳化县王文成（别称王郎）所创。王郎观螳螂捕蝉之巧，悟出"勾、搂、采、挂、刁、进、缠、劈"八种手法，融合十八家拳术精华而成。后主要流传于山东胶东地区</td></tr>
+<tr><td><strong>特色</strong></td><td>象形拳类，仿螳螂前臂勾挂刁缠之意；手法密集，以"勾、搂、采、挂"为核心手法；长短兼备，刚柔相济；勇猛快速、实用性强</td></tr>
+<tr><td><strong>分支</strong></td><td>七星螳螂拳（最老支派）、梅花螳螂拳、太极梅花螳螂拳、六合螳螂拳</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作提示</strong>
+<p>七大拳种各有鲜明风格，可在小说中直接用作门派设定：<strong>太极</strong>适合"以柔克刚"型主角；<strong>八极</strong>适合"刚猛霸道"型主角；<strong>形意</strong>适合"实战速成"逆袭路线；<strong>八卦</strong>适合"身法诡异"的技巧型角色；<strong>咏春</strong>适合"短打近身"的街头实战场景；<strong>洪拳</strong>适合"南方江湖"背景；<strong>螳螂</strong>适合"象形拳"特色门派。</p>
+</div>
+</div>
+
+<h3 class="sec-title">三、门派收徒规矩概览</h3>
+
+<p>各门派收徒各有制度，是塑造门派文化与情节冲突的重要素材。详细的师徒传承制度（拜师礼流程、弟子分级、传承信物等）见<a href="#ch5-6">第五章第六节</a>。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>门派</th><th>收徒制度要点</th><th>门规特色</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>少林</strong></td><td>分僧俗两途；僧弟子剃度受戒，俗家弟子"挂单"或拜师</td><td>禅武合一；少林十戒：不恃强凌弱、戒色戒酒等</td></tr>
+<tr><td><strong>武当</strong></td><td>"功、拳、药、械、法、财、侣、地"八字师传；以德为先</td><td>"不具备功德，学武功拳法只会有害无益"</td></tr>
+<tr><td><strong>峨眉</strong></td><td>佛道双修，传承分散</td><td>"化万法为一法，以一法破万法"</td></tr>
+<tr><td><strong>崆峒</strong></td><td>门派规模小，传承严密</td><td>内外兼修；器械种类丰富</td></tr>
+<tr><td><strong>华山</strong></td><td>全真派分支，清修与剑术并重</td><td>气宗/剑宗之分（金庸小说设定）</td></tr>
+</tbody>
+</table>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- 第三章：武功招式与功法分类 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch3"><span class="num">第三章</span>武功招式与功法分类</h2>
+
+<p>武功是武侠世界的"技术系统"。本章从内功外功、拳法、腿法、兵器、轻功、点穴、暗器、硬功软功八大维度，搭建完整的功法分类框架。本章只列类别与代表名称，不展开具体练法操作。</p>
+
+<h3 class="sec-title">一、内功与外功体系</h3>
+
+<p>内功与外功是中国武术功法分类的第一层分野。两者并非对立，而是相辅相成——"内外兼修方为上乘"。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>维度</th><th>内功</th><th>外功</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>核心理念</strong></td><td>以意领气、以气运身，修炼内劲</td><td>锻炼筋骨皮肉，强化外在力量与抗击</td></tr>
+<tr><td><strong>练习方法</strong></td><td>站桩、吐纳、导引、静坐为主</td><td>排打、举重、击物、硬度训练为主</td></tr>
+<tr><td><strong>效果追求</strong></td><td>内劲充盈、气血通畅、养生延年</td><td>外壮有力、抗击打、硬功伤人</td></tr>
+<tr><td><strong>代表功法</strong></td><td>易筋经、洗髓经、八段锦、五禽戏、太极内功、峨眉十二桩</td><td>铁砂掌、金钟罩、铁布衫、一指禅、排打功</td></tr>
+<tr><td><strong>理论依据</strong></td><td>中医经络学说、道家内丹术</td><td>筋骨锻炼、皮肤强化、硬物抗击</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>内外关系</strong>：内外兼修方为上乘。许多外功练习需要内功配合以防"练外不练内，终究一场空"。</p>
+</blockquote>
+
+<h3 class="sec-title">二、拳法分类</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>分类</th><th>说明</th><th>代表拳种</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>长拳</strong></td><td>姿势舒展、动作灵活、动速静定、窜蹦跳跃</td><td>查拳、华拳、炮拳、洪拳、少林长拳</td></tr>
+<tr><td><strong>短打</strong></td><td>动作紧凑、近身靠打、短促有力</td><td>八极拳、南拳短打、咏春拳</td></tr>
+<tr><td><strong>内家拳</strong></td><td>以静制动、以柔克刚、注重内劲修炼</td><td>太极拳、形意拳、八卦掌（合称"内家三拳"）</td></tr>
+<tr><td><strong>外家拳</strong></td><td>以刚为主、刚猛有力、强调外壮</td><td>少林拳、洪拳、查拳、炮拳</td></tr>
+<tr><td><strong>南拳</strong></td><td>步稳势烈、桥手坚硬、以声催力、发劲刚猛</td><td>洪拳、蔡李佛拳、咏春拳、五祖拳、虎鹤双形</td></tr>
+<tr><td><strong>北腿</strong></td><td>腿法多变、动作大开大合、腾空跳跃多</td><td>弹腿、谭腿、戳脚、查拳</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">三、腿法体系</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>腿法</th><th>说明</th><th>代表套路/拳种</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>弹腿</strong></td><td>以弹踢为核心，源自山东/河北，有"北腿之杰"美誉。十二路弹腿为入门基础</td><td>十二路弹腿</td></tr>
+<tr><td><strong>谭腿（潭腿）</strong></td><td>源自河南潭家沟（一说山东龙潭寺），以蹬、踹、弹、缠为核心</td><td>十路谭腿</td></tr>
+<tr><td><strong>查拳腿</strong></td><td>查拳体系中的腿法，融合弹腿与西域腿法</td><td>查拳十路</td></tr>
+<tr><td><strong>戳脚</strong></td><td>源自河北，以脚尖戳击为特色，"半步崩拳戳脚腿"</td><td>戳脚、文趟子、武趟子</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">四、十八般兵器全谱</h3>
+
+<p>"十八般兵器"有多种说法，以下取最通行的说法，分长兵、短兵、软兵、暗兵四类。兵器是武侠小说最具视觉冲击力的元素，合理的兵器设定能极大提升画面感。</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>编号</th><th>兵器</th><th>类别</th><th>特点</th><th>代表套路名称</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><strong>刀</strong></td><td>短兵</td><td>劈砍为主，刚猛威武</td><td>春秋大刀、梅花刀、八方刀</td></tr>
+<tr><td>2</td><td><strong>枪</strong></td><td>长兵</td><td><em>"百兵之王"</em>，扎刺为主</td><td>杨家枪、梨花枪、六合枪</td></tr>
+<tr><td>3</td><td><strong>剑</strong></td><td>短兵</td><td><em>"百兵之君"</em>，刺撩为主，轻灵飘逸</td><td>武当剑、峨眉剑、昆吾剑</td></tr>
+<tr><td>4</td><td><strong>戟</strong></td><td>长兵</td><td>集戈矛之长，可刺可钩</td><td>方天画戟、青龙戟</td></tr>
+<tr><td>5</td><td><strong>斧</strong></td><td>短兵/长兵</td><td>劈砍有力，威猛刚烈</td><td>开山斧、长柄斧</td></tr>
+<tr><td>6</td><td><strong>钺</strong></td><td>短兵</td><td>类斧而小，可投掷</td><td>子午钺、双钺</td></tr>
+<tr><td>7</td><td><strong>钩</strong></td><td>短兵/长兵</td><td>钩挂刁缠，可攻可守</td><td>钩镰枪、护手双钩</td></tr>
+<tr><td>8</td><td><strong>叉</strong></td><td>长兵</td><td>分三股/两股，可刺可架</td><td>飞叉、三股叉</td></tr>
+<tr><td>9</td><td><strong>棍</strong></td><td>长兵</td><td><em>"百兵之祖"</em>，劈扫戳撩</td><td>少林棍、齐眉棍、疯魔棍</td></tr>
+<tr><td>10</td><td><strong>鞭</strong></td><td>软兵/硬兵</td><td>分软鞭（九节鞭）与硬鞭（竹节鞭）</td><td>九节鞭、竹节鞭</td></tr>
+<tr><td>11</td><td><strong>锏</strong></td><td>短兵</td><td>铁制无刃，靠钝击伤人</td><td>秦琼双锏、杀手锏</td></tr>
+<tr><td>12</td><td><strong>锤</strong></td><td>短兵</td><td>钝器重击，力大者用</td><td>八棱紫金锤、擂鼓瓮金锤</td></tr>
+<tr><td>13</td><td><strong>抓（挝）</strong></td><td>软兵/奇兵</td><td>可抓可缠，形如鹰爪</td><td>挠钩抓、飞爪</td></tr>
+<tr><td>14</td><td><strong>拐</strong></td><td>短兵</td><td>T字形短兵，近身灵活</td><td>卜字拐、T字拐</td></tr>
+<tr><td>15</td><td><strong>弓</strong></td><td>远程</td><td>射术为武艺必修</td><td>传统弓射术</td></tr>
+<tr><td>16</td><td><strong>矢</strong></td><td>远程</td><td>配合弓使用</td><td>—</td></tr>
+<tr><td>17</td><td><strong>盾</strong></td><td>防御</td><td>"干戚"之"干"，与刀斧配合</td><td>藤牌刀、盾牌术</td></tr>
+<tr><td>18</td><td><strong>簸</strong></td><td>奇兵</td><td>部分版本为"钺"或"殳"替代</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout info">
+<div class="callout-icon">📌</div>
+<div class="callout-body">
+<strong>奇门兵器补充</strong>
+<p>判官笔、峨眉刺、方便铲、拂尘、子午钉、金钱镖、袖箭、飞刀等，多见于特定门派。奇门兵器是塑造角色辨识度的利器——如让某角色使用判官笔，便自带"文武双全"或"阴狠毒辣"的气质暗示。</p>
+</div>
+</div>
+
+<h3 class="sec-title">五、轻功</h3>
+
+<p>轻功是锻炼身体轻灵、跳跃远度与高度的功法，武术中的"蹿蹦跳跃、腾空纵跃"训练。在武侠小说中，轻功是最具浪漫色彩的武学类别。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>概念说明</th><th>代表名称</th></tr></thead>
+<tbody>
+<tr><td><strong>轻功</strong></td><td>锻炼身体轻灵、跳跃远度与高度的功法</td><td>蹿纵术、矮桩功、跑桩功、梅花桩、走壁功、蹿房越脊</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">六、点穴</h3>
+
+<p>点穴是通过打击人体穴位以达到制服对手的武术技法。各派手法不同。点穴在真实武术中实战价值有限，但在武侠小说中可发展为精密的制敌系统。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>概念说明</th><th>代表名称</th></tr></thead>
+<tbody>
+<tr><td><strong>点穴</strong></td><td>通过打击人体穴位以制服对手的武术技法</td><td>少林点穴（鸦嘴、鹤嘴、鸡嘴等手法名）、武当点穴（穴法传习）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">七、暗器</h3>
+
+<p>暗器是可暗藏携带、出其不意投掷或发射的器械，分手掷、索系、机射三类。暗器是江湖暗斗的核心道具。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>说明</th><th>代表名称</th></tr></thead>
+<tbody>
+<tr><td><strong>手掷类</strong></td><td>以手力投掷</td><td>飞蝗石、金钱镖、飞刀、袖圈</td></tr>
+<tr><td><strong>索系类</strong></td><td>以绳索系连</td><td>飞爪、绳镖</td></tr>
+<tr><td><strong>机射类</strong></td><td>以机械发射</td><td>袖箭、背弩、铁莲花</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">八、硬功与软功</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>概念说明</th><th>代表名称</th></tr></thead>
+<tbody>
+<tr><td><strong>硬功</strong></td><td>强化身体硬度与抗击打能力的外壮功法</td><td>铁砂掌、金钟罩、铁布衫、一指禅、排打功、铁膝功、铁头功</td></tr>
+<tr><td><strong>软功</strong></td><td>锻炼身体柔韧性和关节灵活性的功法</td><td>软骨功、缩骨功、童子功、蛇行术</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>合规说明</strong>
+<p>少林七十二绝技修法、武当道教功法仪轨、铁砂掌/金钟罩/铁布衫/排打功等硬功练法、点穴手法操作、暗器制作与使用等内容，本报告只列类别与名称，<strong>不复述任何练法、仪轨、操作步骤</strong>。创作者如需了解具体内容，请查阅本报告附录D"敏感内容资料源清单"中的原始资料，并注意安全与法律合规。</p>
+</div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- 第四章：武学理论与修炼设定 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch4"><span class="num">第四章</span>武学理论与修炼设定</h2>
+
+<p>武学理论是武侠世界的"底层物理法则"。本章梳理气的概念体系、经络穴位框架、境界划分、修炼方法与风险、武德武理，为作者搭建自洽的修炼逻辑提供基础。本章对经络穴位只做概念框架描述，对走火入魔只做成因与后果的概念设定。</p>
+
+<h3 class="sec-title">一、气 / 内力 / 真气 / 罡气 概念体系</h3>
+
+<p>这是武侠小说最基础也最容易混淆的一组概念。区分清楚后，整本书的"力量体系"就有了底层逻辑。</p>
+
+<div class="energy-flow">
+<div class="energy-box" style="background:var(--wuxia-light);">
+气
+<div class="energy-desc">最广义的能量统称 · 中医与道家哲学基本概念<br>日常语言层："气沉丹田""气血翻涌"</div>
+</div>
+<div class="energy-arrow">↓ 长期锻炼积累</div>
+<div class="energy-box" style="background:var(--wuxia);">
+内力
+<div class="energy-desc">武者修炼所得的"功夫底气" · 可蓄可发<br>量度："百年内力"；类比"内功账户余额"</div>
+</div>
+<div class="energy-arrow">↓ 凝练提纯</div>
+<div class="energy-box" style="background:var(--gold-dark);">
+真气
+<div class="energy-desc">内力炼化提纯后的精纯形态 · 纯锐灵动<br>类比：内力是"原煤"，真气是"精炼油"</div>
+</div>
+<div class="energy-arrow">↓ 修炼至极致</div>
+<div class="energy-box" style="background:var(--ink-black);">
+罡气
+<div class="energy-desc">真气外放护体的最高形态 · 宗师门槛<br>"三尺罡墙，刀剑难伤"</div>
+</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>层级</th><th>名称</th><th>性质类比</th><th>境界关联（参考）</th><th>典型表现</th></tr>
+</thead>
+<tbody>
+<tr><td>一</td><td><strong>气</strong></td><td>自然存在的能量</td><td>不入流～三流</td><td>气沉丹田、气息绵长</td></tr>
+<tr><td>二</td><td><strong>内力</strong></td><td>练出来的存量</td><td>二流～一流</td><td>掌风碎碑、力扛千斤</td></tr>
+<tr><td>三</td><td><strong>真气</strong></td><td>提纯后的精锐</td><td>后天～先天</td><td>隔空点穴、凝气为剑</td></tr>
+<tr><td>四</td><td><strong>罡气</strong></td><td>外放护体的极致</td><td>宗师～大宗师</td><td>三尺罡墙、刀剑难伤</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>设定建议</strong>
+<p>作者可不必拘泥以上分级，但建议在自家体系里把<strong>"能做什么"与"叫什么"对应清楚</strong>，避免读者越读越糊涂。罡气是把双刃剑——既可拔高战力上限，也容易让主角"无敌化"导致剧情失重。建议设定罡气的维持消耗、破罡之法（特殊兵器/属性克制/趁罡气未成时偷袭），保留戏剧张力。</p>
+</div>
+</div>
+
+<h3 class="sec-title">二、经络穴位体系框架</h3>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>合规说明</strong>
+<p>本节仅做概念框架描述：列出经脉名称与基本含义，<strong>不展开具体修炼步骤与运行路线</strong>。作者需要自行查阅中医典籍后再决定小说中如何使用。</p>
+</div>
+</div>
+
+<p>经络学说是中医基础理论的重要组成部分，也是武侠小说"内功修炼"的底层地图。理解其框架，能让笔下的内功、点穴、运功疗伤等情节有根有据。</p>
+
+<h4 class="sub-title">经络系统总结构</h4>
+
+<p>中医经络系统由"经脉"与"络脉"两大部分组成，经脉为主干，络脉为分支。经脉又分：</p>
+<ul>
+<li><strong>十二正经</strong>：经络系统的主体，与脏腑直接络属，有表里配合关系</li>
+<li><strong>奇经八脉</strong>：八条"别道奇行"的经脉，不直属脏腑，无表里配合，但对正经气血有"蓄积渗灌"的调节作用，被《难经》喻为"湖泽"与"沟渠"的关系</li>
+<li><strong>十二经别</strong>：正经别行深入体腔的支脉，强化表里联系</li>
+<li><strong>十五络脉</strong>：经络系统的分支，主干十五支</li>
+</ul>
+
+<h4 class="sub-title">十二正经</h4>
+
+<p>按"手足三阴三阳"分类，对应不同脏腑：</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>经名</th><th>络属脏腑</th><th>简要含义</th></tr></thead>
+<tbody>
+<tr><td rowspan="3"><strong>手三阴</strong></td><td>手太阴肺经</td><td>肺</td><td>主气、司呼吸</td></tr>
+<tr><td>手厥阴心包经</td><td>心包</td><td>护心、代心受邪</td></tr>
+<tr><td>手少阴心经</td><td>心</td><td>主血脉、神明</td></tr>
+<tr><td rowspan="3"><strong>手三阳</strong></td><td>手阳明大肠经</td><td>大肠</td><td>传导糟粕</td></tr>
+<tr><td>手少阳三焦经</td><td>三焦</td><td>水液运行、气化</td></tr>
+<tr><td>手太阳小肠经</td><td>小肠</td><td>受盛化物、泌别清浊</td></tr>
+<tr><td rowspan="3"><strong>足三阳</strong></td><td>足阳明胃经</td><td>胃</td><td>受纳腐熟水谷</td></tr>
+<tr><td>足少阳胆经</td><td>胆</td><td>决断、贮藏胆汁</td></tr>
+<tr><td>足太阳膀胱经</td><td>膀胱</td><td>气化水液、卫外固表</td></tr>
+<tr><td rowspan="3"><strong>足三阴</strong></td><td>足太阴脾经</td><td>脾</td><td>运化、统血</td></tr>
+<tr><td>足厥阴肝经</td><td>肝</td><td>疏泄、藏血</td></tr>
+<tr><td>足少阴肾经</td><td>肾</td><td>藏精、主水、纳气</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>表里配合</strong>：手太阴肺经与手阳明大肠经互为表里；足太阴脾经与足阳明胃经互为表里，其余类推。</p>
+</blockquote>
+
+<h4 class="sub-title">奇经八脉</h4>
+
+<p>奇经八脉为督脉、任脉、冲脉、带脉、阳维脉、阴维脉、阴跷脉、阳跷脉的总称，最早见于《黄帝内经》，由《难经》集中提出。明代李时珍著《奇经八脉考》系统整理。其基本特征：不隶属脏腑，无表里配合；除任、督二脉有独立腧穴外，其余六脉腧穴寄附于十二正经与任、督脉中；督、冲、任三脉皆起于胞中，称"一源三岐"。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>经脉</th><th>别称</th><th>基本含义</th></tr></thead>
+<tbody>
+<tr><td><strong>督脉</strong></td><td>阳脉之海</td><td>行于背部正中线，总督一身阳经</td></tr>
+<tr><td><strong>任脉</strong></td><td>阴脉之海</td><td>行于腹面正中线，总任一身阴经，与女子妊娠有关，"任主胞胎"</td></tr>
+<tr><td><strong>冲脉</strong></td><td>十二经之海/血海</td><td>上至头下至足贯穿全身，为气血要冲</td></tr>
+<tr><td><strong>带脉</strong></td><td>—</td><td>起于季胁，绕身一周如腰带，约束纵行诸脉</td></tr>
+<tr><td><strong>阴维脉</strong></td><td>—</td><td>"维络诸阴"，维系一身阴经</td></tr>
+<tr><td><strong>阳维脉</strong></td><td>—</td><td>"维络诸阳"，维系一身阳经</td></tr>
+<tr><td><strong>阴跷脉</strong></td><td>—</td><td>"跷"有轻健跷捷之意，司下肢运动与眼睑开合</td></tr>
+<tr><td><strong>阳跷脉</strong></td><td>—</td><td>同上，主持阳动阴静</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">任督二脉（武侠小说最常出现的两条）</h4>
+
+<p>因任、督二脉有独立腧穴，与十二正经并称"十四经"，是针灸治疗与药物归经的基础，也是武侠小说"打通任督二脉"设定的来源。</p>
+<ul>
+<li><strong>任脉</strong>：行于前正中线（腹面），总任一身阴经，称"阴脉之海"。</li>
+<li><strong>督脉</strong>：行于后正中线（背部脊柱内），总督一身阳经，称"阳脉之海"，上行入脑，与脑、脊髓、肾关系密切。</li>
+</ul>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>小说设定提示</strong>
+<p>"打通任督二脉"在武侠中常作为突破先天境界的标志，本报告只列出概念，<strong>具体修炼步骤与运行路线不展开</strong>。作者可将其作为"破境象征"使用，但不必描写具体的循行路径。八脉交会穴为：公孙、内关、足临泣、外关、申脉、后溪、列缺、照海，供小说中"点穴""认穴"情节参考。</p>
+</div>
+</div>
+
+<h3 class="sec-title">三、武学境界层次划分</h3>
+
+<p>武侠与高武小说的境界划分流派众多，以下汇总主流流派常见的几套体系，供作者选用或混编。</p>
+
+<h4 class="sub-title">体系一：经典"流品制"（最常见、最易上手）</h4>
+
+<div class="realm-flow">
+<div class="realm-phase">▼ 凡人武者</div>
+<div class="realm-node">不入流</div><span class="realm-arrow">→</span>
+<div class="realm-node">三流</div><span class="realm-arrow">→</span>
+<div class="realm-node">二流</div><span class="realm-arrow">→</span>
+<div class="realm-node">一流</div>
+<div class="realm-phase">▼ 高手境界</div>
+<div class="realm-node high">后天</div><span class="realm-arrow">→</span>
+<div class="realm-node high">先天</div><span class="realm-arrow">→</span>
+<div class="realm-node high">宗师</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">大宗师</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>境界</th><th>含义</th><th>战力描述</th></tr></thead>
+<tbody>
+<tr><td><strong>不入流</strong></td><td>习武未久，未入门槛</td><td>仅会几手粗浅招式</td></tr>
+<tr><td><strong>三流</strong></td><td>基础入门</td><td>拳脚成形，能胜寻常人</td></tr>
+<tr><td><strong>二流</strong></td><td>小有所成</td><td>内力初具，招式纯熟</td></tr>
+<tr><td><strong>一流</strong></td><td>武林好手</td><td>内力深厚，独当一面</td></tr>
+<tr><td><strong>后天</strong></td><td>内力外放、可隔空发力</td><td>一方名家</td></tr>
+<tr><td><strong>先天</strong></td><td>真气凝练、返璞归真</td><td>开派立宗的根基</td></tr>
+<tr><td><strong>宗师</strong></td><td>自创武学、开宗立派</td><td>一代宗师</td></tr>
+<tr><td><strong>大宗师</strong></td><td>武道巅峰、可敌千军</td><td>天下共尊</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">体系二："国术劲力制"（北派武术/高武流常用）</h4>
+
+<p>源自民国国术体系与形意拳"明暗化"三劲理论：</p>
+
+<div class="realm-flow">
+<div class="realm-node">明劲</div><span class="realm-arrow">→</span>
+<div class="realm-node">暗劲</div><span class="realm-arrow">→</span>
+<div class="realm-node">化劲</div><span class="realm-arrow">→</span>
+<div class="realm-node high">丹劲</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">罡劲</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>层次</th><th>描述</th></tr></thead>
+<tbody>
+<tr><td><strong>明劲</strong></td><td>刚劲外显，力达于外</td></tr>
+<tr><td><strong>暗劲</strong></td><td>劲力内含，蓄发由心</td></tr>
+<tr><td><strong>化劲</strong></td><td>刚柔相济，化敌于无形</td></tr>
+<tr><td><strong>丹劲</strong></td><td>劲力凝结成丹，可贯注兵刃</td></tr>
+<tr><td><strong>罡劲</strong></td><td>罡气外放，刀剑难伤</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">体系三："雪中悍刀行"式高武体系</h4>
+
+<div class="realm-flow">
+<div class="realm-node">金刚境</div><span class="realm-arrow">→</span>
+<div class="realm-node">指玄境</div><span class="realm-arrow">→</span>
+<div class="realm-node high">天象境</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">陆地神仙</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>境界</th><th>描述</th></tr></thead>
+<tbody>
+<tr><td><strong>金刚境</strong></td><td>肉身如金刚不坏</td></tr>
+<tr><td><strong>指玄境</strong></td><td>指玄通幽，前知避凶</td></tr>
+<tr><td><strong>天象境</strong></td><td>可借天地气象之力</td></tr>
+<tr><td><strong>陆地神仙</strong></td><td>武道通神，陆地之上几近仙人</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">体系四："武道修真流"（武侠与修真接轨）</h4>
+
+<div class="realm-flow">
+<div class="realm-node">后天</div><span class="realm-arrow">→</span>
+<div class="realm-node">先天</div><span class="realm-arrow">→</span>
+<div class="realm-node">宗师</div><span class="realm-arrow">→</span>
+<div class="realm-node">大宗师</div><span class="realm-arrow">→</span>
+<div class="realm-node high">武道金丹</div><span class="realm-arrow">→</span>
+<div class="realm-node high">丹碎成婴</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">武道元神</div>
+</div>
+
+<h4 class="sub-title">体系五："淬体五阶流"（凡人流武侠）</h4>
+
+<div class="realm-flow">
+<div class="realm-node">练筋</div><span class="realm-arrow">→</span>
+<div class="realm-node">锻骨</div><span class="realm-arrow">→</span>
+<div class="realm-node">练脏</div><span class="realm-arrow">→</span>
+<div class="realm-node">洗髓</div><span class="realm-arrow">→</span>
+<div class="realm-node">换血</div><span class="realm-arrow">→</span>
+<div class="realm-node high">先天</div><span class="realm-arrow">→</span>
+<div class="realm-node high">无漏宗师</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">混元大宗师</div>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作建议</strong>
+<p><strong>初入武侠</strong>：用第1套"流品制"最稳妥，读者接受度最高。<strong>追求特色</strong>：可在主流体系基础上，自创1～2个标志性境界（如"剑心通明""武道金身"），加深辨识度。<strong>避免陷阱</strong>：境界不宜过细（超过10级容易让读者疲劳），每级之间应有明确的"质变标志"而非仅"量变"。</p>
+</div>
+</div>
+
+<h3 class="sec-title">四、修炼方法与风险</h3>
+
+<h4 class="sub-title">修炼方法名称清单</h4>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>类别</th><th>方法</th><th>简要说明</th></tr></thead>
+<tbody>
+<tr><td>静功</td><td><strong>站桩</strong></td><td>静站养气，最独特的武术修炼法，以"桩"为根，养练气息、增强内劲。流派众多；扎马（南方武术）、三体式（形意拳）皆为站桩变体</td></tr>
+<tr><td>静功</td><td><strong>打坐</strong></td><td>盘坐静修，调息凝神，道家内丹与佛家禅定皆用</td></tr>
+<tr><td>静功</td><td><strong>吐纳</strong></td><td>调节呼吸以养气，"吐"为呼浊、"纳"为吸清</td></tr>
+<tr><td>动功</td><td><strong>套路演练</strong></td><td>拳法、剑法、刀法等成套招式反复习练</td></tr>
+<tr><td>动功</td><td><strong>走桩/行桩</strong></td><td>在移动中练桩，兼养气与练步</td></tr>
+<tr><td>辅助</td><td><strong>药浴</strong></td><td>以药汤浸泡身体，舒筋活络、强健筋骨</td></tr>
+<tr><td>辅助</td><td><strong>闭关</strong></td><td>与世隔绝专心修炼一段时日，是"破境"最常用的叙事装置</td></tr>
+<tr><td>实战</td><td><strong>喂招</strong></td><td>师兄/师父按既定路数喂招，弟子接招习练</td></tr>
+<tr><td>实战</td><td><strong>切磋</strong></td><td>同道之间友好比试，点到为止</td></tr>
+<tr><td>实战</td><td><strong>比武</strong></td><td>正式较量，可签生死状</td></tr>
+<tr><td>心法</td><td><strong>参悟</strong></td><td>对拳理剑意的领悟，常通过观察自然或顿悟获得</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>创作要点</strong>：闭关是最常用的"时间跳跃"工具——主角闭关三月/三年，出关功力大增，可顺理成章地推进剧情；药浴常作为"天赋不足者的补救"或"重伤后的恢复"装置。</p>
+</blockquote>
+
+<h4 class="sub-title">走火入魔概念设定</h4>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>合规说明</strong>
+<p>本节只做概念设定：什么情况下会走火入魔、后果是什么。<strong>不展开症状与身体伤害的具象描写</strong>。</p>
+</div>
+</div>
+
+<p>"走火入魔"由两个词组合而成——"走火"源于道家修炼术语，指功法练习中"火候"失控；"入魔"出自佛家概念，指修炼中精神出现偏差。最早见于三国时期曹丕《典论·论方术》，记载练功者因方法不当出现"气闭不通"的实例。</p>
+
+<h4 class="sub-title">走火入魔的常见成因</h4>
+
+<div class="card-grid">
+<div class="card"><h5>功法不匹体质</h5><p>选择的功法与修炼者体质/内力属性不合（如阴虚者练纯阳功法）</p></div>
+<div class="card gold"><h5>急功近利</h5><p>追求速成，强行冲关破境，超出身体承受</p></div>
+<div class="card blue"><h5>意念失控</h5><p>修炼中杂念丛生、心神不宁，或贪图"特异功能"导致意念偏差</p></div>
+<div class="card purple"><h5>外力干扰</h5><p>修炼时被偷袭、惊吓，或他人以邪功反噬</p></div>
+<div class="card jade"><h5>功法残缺</h5><p>修炼残缺不全的秘籍，关键步骤缺失</p></div>
+<div class="card ink"><h5>强行逆练</h5><p>逆练本来顺序的功法（如欧阳锋逆练九阴真经）</p></div>
+</div>
+
+<h4 class="sub-title">走火入魔的后果（三层级）</h4>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>层级</th><th>后果</th><th>叙事功能</th></tr></thead>
+<tbody>
+<tr><td><strong>轻度</strong></td><td>功力倒退、暂时无法运功，需调养恢复</td><td>短期危机，主角"低谷期"叙事</td></tr>
+<tr><td><strong>中度</strong></td><td>性情大变、行为失控，可能伤害同道，需高人救治</td><td>师门悲剧/反派堕落伏笔</td></tr>
+<tr><td><strong>重度</strong></td><td>经脉尽毁、神智错乱，难有恢复之望</td><td>武者最可怕的结局，制造终极恐惧</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作要点</strong>
+<p>走火入魔是武侠小说最具张力的"危险"装置，可作为：主角的修炼危机、反派的堕落根源、师门悲剧的伏笔。建议把握"成因可理解、后果可感知"即可，避免过度渲染症状细节。</p>
+</div>
+</div>
+
+<h3 class="sec-title">五、武德武理</h3>
+
+<h4 class="sub-title">武德（武林伦理体系）</h4>
+
+<p>"武德"一词最早见于《左传·宣公十二年》"夫文，止戈为武"——"武"的最高境界是止息兵戈。后世武术界将武德发展为一套伦理体系：</p>
+
+<div class="card-grid">
+<div class="card"><h5>核心精神</h5><p>仁、义、礼、智、信、勇</p></div>
+<div class="card gold"><h5>习武目的</h5><p>强身自卫、行侠仗义，非恃强凌弱</p></div>
+<div class="card jade"><h5>师徒伦理</h5><p>尊师重道，一日为师终身为父</p></div>
+<div class="card blue"><h5>传承原则</h5><p>武不轻传、艺不轻授，避免落入歹人之手</p></div>
+<div class="card purple"><h5>行为底线</h5><p>不得以武欺民，不得恃武犯禁</p></div>
+<div class="card ink"><h5>同道关系</h5><p>同门相敬，江湖同道以礼相待</p></div>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>小说功能</strong>
+<p>武德可作为"正派"与"邪派"的分界线——正派讲武德，邪派弃武德；亦可作为主角"心境修炼"的内在冲突来源。</p>
+</div>
+</div>
+
+<h4 class="sub-title">武理（武学理论层面）</h4>
+
+<p>武理指武者对武术规律的理解层次，区别于"武技"（具体招式）。常见武理概念：</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>概念</th><th>内涵</th></tr></thead>
+<tbody>
+<tr><td><strong>刚柔</strong></td><td>刚中有柔、柔中带刚；过刚易折、过柔无力</td></tr>
+<tr><td><strong>阴阳</strong></td><td>拳法中的虚实、动静、攻守互为阴阳</td></tr>
+<tr><td><strong>动静</strong></td><td>动中求静、静中含动</td></tr>
+<tr><td><strong>形神</strong></td><td>形（外形动作）与神（意境气势）兼备</td></tr>
+<tr><td><strong>知行</strong></td><td>拳理（理论）与实战（实践）互证</td></tr>
+<tr><td><strong>返璞归真</strong></td><td>武学至高境界，弃繁就简，"无招胜有招"（独孤九剑的核心思想）</td></tr>
+</tbody>
+</table>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- 第五章：江湖文化与世界观 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch5"><span class="num">第五章</span>江湖文化与世界观</h2>
+
+<p>"江湖"是武侠小说的舞台，也是人物行为的背景规则。本章梳理帮会、镖局、武林规矩、兵器谱排名、江湖行当、师徒传承、权力结构等设定要素，为作者搭建一个自洽运转的江湖社会。</p>
+
+<h3 class="sec-title">一、帮会体系</h3>
+
+<p>帮会是中国近古至近代社会的重要组织形式，以"异姓结拜、守望相助"为精神内核，以"义气"为行为准则。明清至民国是帮会鼎盛期。武侠小说中的丐帮、盐帮、漕帮等组织，皆有真实历史原型。</p>
+
+<h4 class="sub-title">帮会的三层组织结构</h4>
+<div class="pyramid">
+<div class="pyramid-level" style="background:var(--ink-black);width:200px;">
+龙头大哥 / 帮主<div class="desc">最高决策者，掌帮规帮法</div>
+</div>
+<div class="pyramid-level" style="background:var(--wuxia-dark);width:340px;">
+左相 / 右相 / 八大长老<div class="desc">核心管理层，分管各堂</div>
+</div>
+<div class="pyramid-level" style="background:var(--wuxia);width:480px;">
+堂主 / 香主<div class="desc">中层干部，分掌各堂各香堂</div>
+</div>
+<div class="pyramid-level" style="background:var(--gold-dark);width:620px;">
+帮众 / 弟子<div class="desc">基层成员，按辈分或入门先后排序</div>
+</div>
+</div>
+
+<h4 class="sub-title">帮会精神内核</h4>
+<div class="card-grid">
+<div class="card"><h5>义气</h5><p>核心价值观，"为兄弟两肋插刀"</p></div>
+<div class="card gold"><h5>结拜</h5><p>"桃园结义"模式，异姓兄弟</p></div>
+<div class="card jade"><h5>帮规</h5><p>严明程度不亚于军法，违者重罚</p></div>
+<div class="card blue"><h5>隐语</h5><p>帮会内部通信用"春点""切口"</p></div>
+</div>
+
+<h4 class="sub-title">经典帮会原型</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>帮会</th><th>历史原型</th><th>活动地域</th><th>武侠小说常用设定</th></tr></thead>
+<tbody>
+<tr><td><strong>丐帮</strong></td><td>真实存在，宋代已见记载。以乞讨为生者的互助组织，有严密帮规与等级</td><td>全国</td><td>"天下第一大帮"，帮主持打狗棒，降龙十八掌为镇帮武功</td></tr>
+<tr><td><strong>盐帮</strong></td><td>两淮盐商与盐工组织，明清私盐贸易催生</td><td>两淮、四川</td><td>富甲一方的地下势力，常与官府对抗</td></tr>
+<tr><td><strong>漕帮</strong></td><td>清代漕运水手帮会，后发展为青帮</td><td>大运河沿线</td><td>控制水路运输，掌握南北物流命脉</td></tr>
+<tr><td><strong>青帮</strong></td><td>清雍正年间翁岩、钱坚、潘清创立，原为安清道友</td><td>江浙沪</td><td>近代上海滩地下霸主</td></tr>
+<tr><td><strong>天地会</strong></td><td>清初反清复明秘密组织，"洪门"前身</td><td>南方各省</td><td><em>政治背景一句话带过，不展开</em></td></tr>
+<tr><td><strong>红花会</strong></td><td>金庸《书剑恩仇录》虚构，以天地会为原型</td><td>—</td><td>反清复明为宗旨（文学虚构）</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>合规说明</strong>
+<p>对天地会、红花会等帮会只一句带过政治背景，<strong>不展开政治内容</strong>。</p>
+</div>
+</div>
+
+<h3 class="sec-title">二、镖局文化与走镖规矩</h3>
+
+<p>镖局是明清至民国时期专门护送财物、保障行旅安全的民间商业组织，是江湖与世俗社会的交汇点。镖局文化是武侠小说"行走江湖"设定的核心素材。</p>
+
+<h4 class="sub-title">镖局起源</h4>
+<p>学术界普遍认为镖局约起于清乾隆年间。早期说法将镖局起源归于山西人"神拳无敌"张黑五，在北京前门外大街开办"兴隆镖局"，被尊为镖局鼻祖（学界对具体起始年份与创始人尚有争议）。另有说法认为前身为"标行""标客"。</p>
+
+<h4 class="sub-title">镖局组织结构</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>职位</th><th>职责</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td><strong>镖局东家</strong>（东家）</td><td>出资人，拥有镖局</td><td>不一定懂武</td></tr>
+<tr><td><strong>总镖头</strong></td><td>镖局首席武师，总管护镖事务</td><td>江湖名望最高者</td></tr>
+<tr><td><strong>镖头</strong></td><td>分趟镖的带队镖师</td><td>—</td></tr>
+<tr><td><strong>镖师</strong></td><td>护镖武师</td><td>分等级，有"帖镖""趟镖"之分</td></tr>
+<tr><td><strong>趟子手</strong></td><td>开道、喊镖、杂务</td><td>负责"喊趟子"</td></tr>
+<tr><td><strong>伙计</strong></td><td>后勤杂役</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">走镖规矩</h4>
+<div class="card-grid">
+<div class="card"><h5>喊镖</h5><p>过山口、渡口、城镇时由趟子手高喊"合吾"等暗号，以示对当地江湖同道尊重</p></div>
+<div class="card gold"><h5>亮镖</h5><p>镖车悬挂镖旗、镖灯，标明镖局身份</p></div>
+<div class="card jade"><h5>拜码头</h5><p>到达一地先拜访当地江湖人物，递拜帖、送镖礼</p></div>
+<div class="card blue"><h5>三不住</h5><p>不住新开镖店、不住易着火之处、不住娼妓之所</p></div>
+<div class="card purple"><h5>不换镖</h5><p>已接之镖不转让他人护送</p></div>
+<div class="card ink"><h5>三会一不</h5><p>会拳脚、会水上功夫、会马术；不保暗镖（来源不可靠者）</p></div>
+</div>
+
+<h4 class="sub-title">镖局相关行话</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>行话</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td><strong>趟子</strong></td><td>走镖的一趟路</td></tr>
+<tr><td><strong>喊趟子</strong></td><td>走镖时高声呼喊，既是通告也是威慑</td></tr>
+<tr><td><strong>挂旗</strong></td><td>挂出镖旗以示身份</td></tr>
+<tr><td><strong>丢镖</strong></td><td>镖被劫走</td></tr>
+<tr><td><strong>了事</strong></td><td>解决走镖途中的麻烦</td></tr>
+<tr><td><strong>响马</strong></td><td>拦路抢劫的土匪</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作提示</strong>
+<p>镖局是江湖的"公路片"舞台——护送贵重物品途中遭遇各方势力，天然形成"闯关式"剧情结构。总镖头常作为主角师父或引路人；走镖途中可串联山贼、水匪、邪派、官府等多方势力。</p>
+</div>
+</div>
+
+<h3 class="sec-title">三、武林规矩与恩怨体系</h3>
+
+<h4 class="sub-title">武林基本规矩</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>规矩</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>拜帖</strong></td><td>拜访武林同道须先递拜帖，自报门派师承</td></tr>
+<tr><td><strong>切磋</strong></td><td>同道友好比试，"点到为止"为上，忌下死手</td></tr>
+<tr><td><strong>比武</strong></td><td>正式公开较量，可签"生死状"</td></tr>
+<tr><td><strong>报师门</strong></td><td>遇同道询问须自报门派师承，以明身份</td></tr>
+<tr><td><strong>尊师重道</strong></td><td>对师父、长辈须恭敬，不得以下犯上</td></tr>
+<tr><td><strong>祸不及家人</strong></td><td>江湖恩怨只及当事人，不波及家眷</td></tr>
+<tr><td><strong>恩怨分明</strong></td><td>恩必报、仇必报，"有恩报恩，有仇报仇"</td></tr>
+<tr><td><strong>不欺无名之辈</strong></td><td>高手不轻易向无名小卒出手，免得胜之不武</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">恩怨体系（戏剧冲突发动机）</h4>
+<div class="card-grid">
+<div class="card"><h5>血海深仇</h5><p>灭门、杀父、夺妻——主角复仇的最经典动力</p></div>
+<div class="card gold"><h5>门派之争</h5><p>正邪对立、争夺武林盟主、争夺秘籍</p></div>
+<div class="card blue"><h5>师门恩怨</h5><p>师兄弟反目、师徒决裂、逐出师门</p></div>
+<div class="card purple"><h5>误会</h5><p>信息不对称导致的恩怨，为后续和解留空间</p></div>
+<div class="card jade"><h5>江湖追杀令</h5><p>以帮规或盟主令追杀某人的全江湖通告</p></div>
+<div class="card ink"><h5>还恩</h5><p>欠人恩情必报，"滴水之恩，涌泉相报"</p></div>
+</div>
+
+<h3 class="sec-title">四、兵器谱排名文化</h3>
+
+<p>"兵器谱"概念源于古龙《多情剑客无情剑》中的"百晓生兵器谱"，后成为武侠世界的通用设定——对天下兵器/武功进行排名的权威榜单。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>排名</th><th>兵器</th><th>使用者</th><th>象征意义</th></tr></thead>
+<tbody>
+<tr><td>第一</td><td>天机棒</td><td>孙天机（天机老人）</td><td>智慧至上</td></tr>
+<tr><td>第二</td><td>子母龙凤环</td><td>上官金虹</td><td>权势阴谋</td></tr>
+<tr><td>第三</td><td>小李飞刀</td><td>李寻欢</td><td>正义信念（例不虚发）</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作提示</strong>
+<p>兵器谱的核心戏剧价值不在排名本身，而在"排名并非绝对"——古龙写李寻欢排第三，但最终胜了上官金虹。这传递的信念是：<strong>"兵器谱只记兵器，不知人心"</strong>。作者可借此表达"排名只是参考，人心才是关键"的主题。</p>
+</div>
+</div>
+
+<h4 class="sub-title">兵器谱叙事功能</h4>
+<div class="card-grid">
+<div class="card"><h5>战力锚定</h5><p>给读者一个"谁强谁弱"的参考系</p></div>
+<div class="card gold"><h5>戏剧反转</h5><p>排名靠后胜过排名靠前，制造惊喜</p></div>
+<div class="card blue"><h5>引出冲突</h5><p>"你的兵器排第几？"——天然的开战理由</p></div>
+<div class="card purple"><h5>剧情线索</h5><p>寻找排名上的高手挑战，串联剧情</p></div>
+</div>
+
+<h3 class="sec-title">五、江湖行当与职业画像</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>行当</th><th>说明</th><th>小说功能</th></tr></thead>
+<tbody>
+<tr><td><strong>镖师</strong></td><td>护送财物行旅</td><td>主角职业、闯荡理由</td></tr>
+<tr><td><strong>游侠</strong></td><td>无固定门派、行走江湖的武人</td><td>主角身份，自由度高</td></tr>
+<tr><td><strong>捕快</strong></td><td>官府衙门差役，负责缉盗</td><td>官府与江湖的交汇点</td></tr>
+<tr><td><strong>刺客</strong></td><td>以暗杀为生者</td><td>反派或灰色的危险角色</td></tr>
+<tr><td><strong>郎中（江湖游医）</strong></td><td>走江湖卖药行医者</td><td>疗伤、情报贩子、神秘高手</td></tr>
+<tr><td><strong>算命先生</strong></td><td>江湖相士</td><td>伏笔角色、预言者</td></tr>
+<tr><td><strong>卖艺人</strong></td><td>街头卖艺武人</td><td>隐藏高手、江湖底层视角</td></tr>
+<tr><td><strong>盗贼</strong></td><td>劫富济贫或为非作歹</td><td>灰主角、情报来源</td></tr>
+<tr><td><strong>说书人</strong></td><td>茶馆说书</td><td>世界观叙事工具</td></tr>
+<tr><td><strong>店小二</strong></td><td>客栈伙计</td><td>江湖消息集散地</td></tr>
+<tr><td><strong>和尚/道士/尼姑</strong></td><td>出世修行者</td><td>隐世高手、道义担当</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>客栈</strong>是江湖的缩影——各色人等汇集之地，是最天然的"剧情触发场景"。</p>
+</blockquote>
+
+<h3 class="sec-title" id="ch5-6">六、师徒传承制度</h3>
+
+<p>师徒制是中国武术传承的核心制度，也是江湖社会的"宗法"基础。理解师徒制，是写活门派内部关系的关键。</p>
+
+<h4 class="sub-title">拜师礼流程</h4>
+
+<p>中国传统武术拜师礼流程严谨，大致分以下步骤：</p>
+
+<div class="realm-flow">
+<div class="realm-phase">▼ 拜师前</div>
+<div class="realm-node">寻师</div><span class="realm-arrow">→</span>
+<div class="realm-node">考察期</div><span class="realm-arrow">→</span>
+<div class="realm-node">引荐</div>
+<div class="realm-phase">▼ 正式拜师</div>
+<div class="realm-node">递拜帖</div><span class="realm-arrow">→</span>
+<div class="realm-node">拜师礼</div><span class="realm-arrow">→</span>
+<div class="realm-node">行拜师礼</div><span class="realm-arrow">→</span>
+<div class="realm-node">敬茶</div>
+<div class="realm-phase">▼ 拜师后</div>
+<div class="realm-node">师父训诫</div><span class="realm-arrow">→</span>
+<div class="realm-node">入门赠礼</div><span class="realm-arrow">→</span>
+<div class="realm-node">门内排辈</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>环节</th><th>具体内容</th></tr></thead>
+<tbody>
+<tr><td><strong>寻师</strong></td><td>弟子选择师父，或被师父选中。讲究"师访徒三年，徒访师三年"</td></tr>
+<tr><td><strong>考察期</strong></td><td>师父对弟子的品格、资质、毅力进行长期考察</td></tr>
+<tr><td><strong>引荐</strong></td><td>由同门或江湖前辈引荐</td></tr>
+<tr><td><strong>递拜帖</strong></td><td>正式向师父递交拜师帖，内容含本人身世、求艺志愿</td></tr>
+<tr><td><strong>拜师礼</strong></td><td>择吉日行正式拜师礼；师父、见证人（引师、保师）、同门到场</td></tr>
+<tr><td><strong>行跪拜礼</strong></td><td>弟子向师父行三跪九叩大礼（跪拜礼因流派与时代而异）</td></tr>
+<tr><td><strong>敬茶</strong></td><td>弟子向师父敬茶，师父饮茶表示接纳</td></tr>
+<tr><td><strong>师父训诫</strong></td><td>师父宣读门规，对弟子进行训诫</td></tr>
+<tr><td><strong>入门赠礼</strong></td><td>师父回赠入门礼物，常为练功器械（如兵器）或拳谱</td></tr>
+<tr><td><strong>门内排辈</strong></td><td>按辈分排序，正式列入门墙</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">弟子分级</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>等级</th><th>含义</th><th>权限</th></tr></thead>
+<tbody>
+<tr><td><strong>记名弟子</strong></td><td>挂名记名，未正式拜师</td><td>只学入门基础</td></tr>
+<tr><td><strong>入门弟子</strong></td><td>正式拜师，列入门墙</td><td>学习本门核心拳械</td></tr>
+<tr><td><strong>入室弟子</strong></td><td>经多年考察，进入核心层</td><td>学习秘传功法</td></tr>
+<tr><td><strong>嫡传弟子</strong></td><td>亲传弟子，继承衣钵</td><td>得师父亲传全部功法</td></tr>
+<tr><td><strong>关门弟子</strong></td><td>师父最后收的弟子</td><td>地位特殊，常得额外偏爱</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">传承信物</h4>
+<div class="card-grid">
+<div class="card"><h5>信物</h5><p>令牌、玉佩、短剑等，证明弟子身份</p></div>
+<div class="card gold"><h5>拳谱</h5><p>门派武功记录，传承的核心物质载体</p></div>
+<div class="card jade"><h5>兵器</h5><p>师父赠兵器，代表技艺传承</p></div>
+<div class="card blue"><h5>法名/道号</h5><p>入门后由师父赐名，列入门派字辈</p></div>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>小说功能</strong>
+<p>弟子分级是门派内部"小江湖"的天然设定——嫡传与外门之间的争宠、对秘籍的争夺、师父偏心导致的师兄弟反目，都是经典的戏剧冲突来源。"关门弟子"身份特别适合作为主角的起点——起点低但天赋高，受同门排挤但被师父暗中偏爱。</p>
+</div>
+</div>
+
+<h3 class="sec-title">七、江湖权力结构与正邪划分</h3>
+
+<h4 class="sub-title">江湖权力结构</h4>
+
+<div class="pyramid">
+<div class="pyramid-level" style="background:var(--ink-black);width:200px;">
+武林盟主 / 天下第一<div class="desc">江湖共主，或一言之尊的大宗师</div>
+</div>
+<div class="pyramid-level" style="background:var(--wuxia-dark);width:320px;">
+名门大派掌门<div class="desc">少林方丈、武当掌教、峨眉掌门等</div>
+</div>
+<div class="pyramid-level" style="background:var(--wuxia);width:440px;">
+帮主 / 镖局总镖头 / 一方豪强<div class="desc">地方或行业势力首领</div>
+</div>
+<div class="pyramid-level" style="background:var(--gold-dark);width:560px;">
+散修武人 / 游侠<div class="desc">无门无派或挂单的武人</div>
+</div>
+<div class="pyramid-level" style="background:#6a8a9a;width:680px;">
+江湖底层 / 莽夫 / 无名之辈<div class="desc">学过两手三脚猫功夫的普通武人</div>
+</div>
+</div>
+
+<h4 class="sub-title">武林盟主</h4>
+<p>"武林盟主"是江湖武侠小说中的常见设定——通过武林大会、华山论剑等形式推举出的江湖共主，负责调解武林纠纷、抵御外敌。真实武术史中并无这一制度，属文学虚构。</p>
+
+<h4 class="sub-title">正邪划分</h4>
+
+<p>武侠小说的"正邪"划分是江湖世界的道德坐标。金庸小说中的正邪划分最具代表性：</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>阵营</th><th>特征</th><th>代表（金庸）</th></tr></thead>
+<tbody>
+<tr><td><span class="tag tag-jade">正派</span></td><td>名门正派、讲武德、守规矩</td><td>少林、武当、全真、峨眉、华山等</td></tr>
+<tr><td><span class="tag tag-red">邪派</span></td><td>行事乖张、不择手段、功法阴毒</td><td>日月神教（明教后期）、星宿派、神龙教</td></tr>
+<tr><td><span class="tag tag-gold">亦正亦邪</span></td><td>行事出格但非全恶，不守正派规矩</td><td>桃花岛、古墓派、东邪西毒（部分）</td></tr>
+<tr><td><span class="tag tag-ink">中立</span></td><td>不介入正邪纷争</td><td>大理段氏、西域诸国</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>进阶设定</strong>
+<p>金庸在《笑傲江湖》中颠覆了简单正邪二分——"名门正派"五岳剑派内部勾心斗角，被斥为"魔教"的日月神教中亦有真性情之人。<strong>"正邪在人心，不在门派"</strong>是武侠最深刻的主题之一，可作为作品的深层内核。</p>
+</div>
+</div>
+
+<h4 class="sub-title">江湖黑话切口（精选附录）</h4>
+
+<p>"春点"（亦称"春典""唇典"）是江湖人通行的隐语暗号，用于辨识同道、传递隐秘信息。以下精选常用黑话切口：</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>黑话</th><th>含义</th><th>黑话</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>合吾</td><td>同道/自己人</td><td>踩盘子</td><td>打探消息</td></tr>
+<tr><td>挂柱</td><td>入伙/加入帮派</td><td>踩点</td><td>实地侦察</td></tr>
+<tr><td>开山</td><td>开帮立派</td><td>了事</td><td>解决麻烦</td></tr>
+<tr><td>盘道</td><td>互相盘问门派师承</td><td>扯呼</td><td>逃跑</td></tr>
+<tr><td>万儿</td><td>名号/名声</td><td>风紧</td><td>情况危险</td></tr>
+<tr><td>亮万</td><td>报出名号</td><td>扯乎</td><td>撤离</td></tr>
+<tr><td>海底</td><td>身份底细</td><td>放线</td><td>引开注意</td></tr>
+<tr><td>盘海</td><td>询问身份</td><td>踩泊</td><td>投宿</td></tr>
+<tr><td>天窗</td><td>秘密</td><td>水紧</td><td>防守严密</td></tr>
+<tr><td>对盘</td><td>较量/比试</td><td>踩水</td><td>试探虚实</td></tr>
+</tbody>
+</table>
+</div>
+
+<blockquote>
+<p><strong>创作要点</strong>：黑话切口不宜多写——两句三句即可，点出"江湖气"。过多会让读者看不懂、出戏。常见用法：客栈偶遇、盘问身份、接头暗号。</p>
+</blockquote>
+
+
+<!-- ================================================================ -->
+<!-- 第六章：经典武侠文学功夫设定参考 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch6"><span class="num">第六章</span>经典武侠文学功夫设定参考</h2>
+
+<p>本章梳理金庸、古龙、梁羽生、温瑞安、黄易五位武侠宗师的功夫设定体系与风格差异，为作者提供可直接借鉴的文学范式。<strong>本章内容为文学创作层设定，非客观武术史</strong>。</p>
+
+<h3 class="sec-title">一、金庸功夫体系全解</h3>
+
+<p>金庸十四部武侠（"飞雪连天射白鹿，笑书神侠倚碧鸳"）构建了华语武侠最完备的武学体系。按其世界观内时间线整理：</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>作品</th><th>时代背景</th><th>核心武功</th><th>标志性人物</th></tr>
+</thead>
+<tbody>
+<tr><td>《越女剑》</td><td>春秋</td><td>越女剑法（近乎仙侠，一人破三千甲）</td><td>阿青</td></tr>
+<tr><td>《天龙八部》</td><td>北宋</td><td>六脉神剑、北冥神功、凌波微步、小无相功、降龙十八掌（廿八掌）</td><td>段誉、虚竹、乔峰、扫地僧</td></tr>
+<tr><td>《射雕英雄传》</td><td>南宋</td><td>九阴真经、降龙十八掌、打狗棒法、蛤蟆功、一阳指、先天功</td><td>郭靖、黄蓉、五绝</td></tr>
+<tr><td>《神雕侠侣》</td><td>南宋末</td><td>黯然销魂掌、玄铁重剑、九阳真经（初现）、龙象般若功</td><td>杨过、小龙女</td></tr>
+<tr><td>《倚天屠龙记》</td><td>元末</td><td>九阳神功、乾坤大挪移、太极拳剑、圣火令武功、七伤拳</td><td>张无忌、张三丰</td></tr>
+<tr><td>《笑傲江湖》</td><td>明</td><td>独孤九剑、葵花宝典、辟邪剑法、吸星大法、易筋经</td><td>令狐冲、东方不败</td></tr>
+<tr><td>《侠客行》</td><td>明</td><td>侠客岛武功（太玄经蝌蚪文）、罗汉伏魔神功</td><td>石破天</td></tr>
+<tr><td>《碧血剑》</td><td>明末</td><td>金蛇剑法、混元功</td><td>袁承志</td></tr>
+<tr><td>《连城诀》</td><td>清</td><td>神照经、连城剑法</td><td>狄云</td></tr>
+<tr><td>《鹿鼎记》</td><td>清</td><td>化骨绵掌、大慈大悲千叶手</td><td>韦小宝</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">金庸六大派武功体系</h4>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>门派</th><th>代表武功</th><th>代表人物</th><th>风格特征</th></tr></thead>
+<tbody>
+<tr><td><strong>少林</strong></td><td>七十二绝技、易筋经、金刚不坏体</td><td>扫地僧、玄慈、方证</td><td>禅武合一，外家正宗</td></tr>
+<tr><td><strong>武当</strong></td><td>太极拳剑、纯阳无极功</td><td>张三丰、俞莲舟</td><td>内家祖庭，以柔克刚</td></tr>
+<tr><td><strong>丐帮</strong></td><td>降龙十八掌、打狗棒法</td><td>洪七公、乔峰、郭靖</td><td>天下第一大帮，刚猛浑厚</td></tr>
+<tr><td><strong>逍遥派</strong></td><td>北冥神功、凌波微步、天山六阳掌</td><td>无崖子、虚竹</td><td>道家仙逸，近乎修仙</td></tr>
+<tr><td><strong>全真教</strong></td><td>先天功、全真剑法、天罡北斗阵</td><td>王重阳、周伯通</td><td>道家正宗，阵法精妙</td></tr>
+<tr><td><strong>古墓派</strong></td><td>玉女心经、玉女素心剑法</td><td>林朝英、小龙女</td><td>阴柔幽冷，玉女剑法</td></tr>
+<tr><td><strong>桃花岛</strong></td><td>落英神剑掌、弹指神通</td><td>黄药师</td><td>奇门武功，亦正亦邪</td></tr>
+<tr><td><strong>明教</strong></td><td>乾坤大挪移、圣火令武功</td><td>张无忌</td><td>西域武学，层次分明</td></tr>
+<tr><td><strong>峨眉派</strong></td><td>峨眉九阳功、佛光普照</td><td>郭襄、灭绝师太</td><td>佛道双修，刚柔并济</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">金庸武功设定特点</h4>
+<div class="card-grid">
+<div class="card"><h5>秘籍驱动型</h5><p>九阴真经、九阳真经、葵花宝典等"绝世秘籍"是推动剧情的核心道具</p></div>
+<div class="card gold"><h5>门派分明</h5><p>每派必有镇派武功，武功与门派命运深度绑定</p></div>
+<div class="card jade"><h5>境界含蓄</h5><p>不设明确境界等级，以"内力深浅""招式纯熟"隐性表达</p></div>
+<div class="card blue"><h5>传承有序</h5><p>武功传承脉络清晰，师承关系推动情节</p></div>
+<div class="card purple"><h5>正邪辩证</h5><p>正派有奸邪，魔教有义士，打破简单二元对立</p></div>
+<div class="card ink"><h5>融合文化</h5><p>融入佛道儒、易经、中医、诗词，文化底蕴深厚</p></div>
+</div>
+
+<h3 class="sec-title">二、古龙武功设定特点</h3>
+
+<p>古龙的武功设定与金庸截然不同——他不在乎武功的"体系"，而在乎武功的"意境"与"人物"。</p>
+
+<h4 class="sub-title">古龙武功设定的核心特征</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>特征</th><th>说明</th><th>代表案例</th></tr></thead>
+<tbody>
+<tr><td><strong>武即人</strong></td><td>武功是人物性格的外化，而非独立系统</td><td>李寻欢的飞刀=正义；西门吹雪的剑=孤高</td></tr>
+<tr><td><strong>快与绝</strong></td><td>武功描写追求"一击必杀"的极致简洁</td><td>"小李飞刀，例不虚发"——全书从未描写飞刀如何飞</td></tr>
+<tr><td><strong>不重体系</strong></td><td>不设功法等级、不写修炼过程</td><td>主角武功从何而来常留白</td></tr>
+<tr><td><strong>兵器谱</strong></td><td>以"排名"代替"等级"</td><td>百晓生兵器谱</td></tr>
+<tr><td><strong>意境至上</strong></td><td>武功的强弱取决于心境与信念</td><td>天机老人排名第一，却死于上官金虹——心境已衰</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">古龙经典武功一览</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>武功/兵器</th><th>使用者</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td>小李飞刀</td><td>李寻欢</td><td>"例不虚发"，不写过程只写结果，代表正义信念</td></tr>
+<tr><td>天外飞仙</td><td>叶孤城</td><td>白云城主绝技，"月圆之夜，紫禁之巅"</td></tr>
+<tr><td>灵犀一指</td><td>陆小凤</td><td>双指夹万物，"天下无双"</td></tr>
+<tr><td>西门吹雪的剑</td><td>西门吹雪</td><td>"剑神"，不写招式只写杀气</td></tr>
+<tr><td>明玉功</td><td>邀月宫主</td><td>移花宫绝学</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">三、梁羽生武功体系</h3>
+
+<p>梁羽生是新派武侠开山祖师，其武功设定注重历史感与门派传承的严谨性。</p>
+
+<h4 class="sub-title">梁羽生武功设定特点</h4>
+<div class="card-grid">
+<div class="card"><h5>历史厚重</h5><p>武功设定紧扣历史背景，多写明清易代之际</p></div>
+<div class="card gold"><h5>门派脉络清晰</h5><p>天山派、邙山派等贯穿多部作品</p></div>
+<div class="card jade"><h5>正邪分明</h5><p>正邪对立较为清晰，较少灰色地带</p></div>
+<div class="card blue"><h5>诗词入武</h5><p>武功命名常取古典诗词意境</p></div>
+</div>
+
+<h4 class="sub-title">梁羽生经典武功与门派</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>门派</th><th>代表武功</th><th>代表人物</th><th>出处</th></tr></thead>
+<tbody>
+<tr><td>天山派</td><td>天山剑法、少阳玄功、天山神芒</td><td>霍天都、凌未风、唐晓澜</td><td>《七剑下天山》等</td></tr>
+<tr><td>邙山派</td><td>玄女剑法</td><td>独臂神尼、吕四娘</td><td>《江湖三女侠》</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">四、温瑞安与黄易的设定补充</h3>
+
+<h4 class="sub-title">温瑞安：奇诡多变、名号华丽</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>特征</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>武功命名华丽</strong></td><td>惊艳、伤心、温柔、霸气，名号即风格</td></tr>
+<tr><td><strong>组织体系庞大</strong></td><td>六分半堂、金风细雨楼等，帮派政治感强</td></tr>
+<tr><td><strong>六扇门/四大名捕</strong></td><td>官府与江湖交汇，刑名武侠</td></tr>
+<tr><td><strong>武功四绝技</strong></td><td>自在门四绝技：无情（暗器）、铁手（掌）、追命（腿）、冷血（剑）</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>武功</th><th>使用者</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td>自在门四绝技</td><td>无情、铁手、追命、冷血</td><td>四种绝技对应四种兵器/身法</td></tr>
+<tr><td>惊艳一枪</td><td>—</td><td>温瑞安式华丽命名代表</td></tr>
+<tr><td>伤心小箭</td><td>—</td><td>名号即情绪的武功命名</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">黄易：武侠与玄幻的桥梁</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>特征</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>武道通玄</strong></td><td>武功修至极致可"破碎虚空"，步入仙侠领域</td></tr>
+<tr><td><strong>道心魔种</strong></td><td>正道修"道心"，魔门修"魔种"，两条修炼路径</td></tr>
+<tr><td><strong>慈航静斋选帝</strong></td><td>佛道正宗"慈航静斋"以剑选天下共主，政治与武学结合</td></tr>
+<tr><td><strong>精神博弈</strong></td><td>高手对决强调精神气势压制，"剑心通明"为至高境界</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>门派</th><th>代表武功</th><th>代表人物</th><th>出处</th></tr></thead>
+<tbody>
+<tr><td>慈航静斋</td><td>慈航剑典、剑心通明</td><td>师妃暄、秦梦瑶</td><td>《大唐双龙传》《覆雨翻云》</td></tr>
+<tr><td>净念禅宗</td><td>—</td><td>梵清惠</td><td>《大唐双龙传》</td></tr>
+<tr><td>魔门（花间派/补天阁/阴癸派）</td><td>不死印法、道心种魔大法</td><td>石之轩、厉工</td><td>《大唐双龙传》《破碎虚空》</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">五、各家设定对比与风格差异</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>维度</th><th>金庸</th><th>古龙</th><th>梁羽生</th><th>温瑞安</th><th>黄易</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>武功体系</strong></td><td>完备严密</td><td>写意留白</td><td>传承清晰</td><td>奇诡多变</td><td>武道通玄</td></tr>
+<tr><td><strong>境界设定</strong></td><td>含蓄不写明</td><td>无等级</td><td>有隐含层次</td><td>名号即等级</td><td>道心/魔种两路</td></tr>
+<tr><td><strong>秘籍角色</strong></td><td>核心道具</td><td>几乎不用</td><td>重要但不唯一</td><td>较少</td><td>心法为主</td></tr>
+<tr><td><strong>兵器描写</strong></td><td>详尽写实</td><td>写意象征</td><td>中规中矩</td><td>华丽奇诡</td><td>气势压人</td></tr>
+<tr><td><strong>正邪观</strong></td><td>辩证复杂</td><td>人心为本</td><td>较为分明</td><td>组织博弈</td><td>道魔对立</td></tr>
+<tr><td><strong>文化底蕴</strong></td><td>佛道儒医易</td><td>诗酒浪子</td><td>诗词历史</td><td>奇门权谋</td><td>道家玄学</td></tr>
+<tr><td><strong>适合借鉴</strong></td><td>体系搭建</td><td>人物塑造</td><td>历史武侠</td><td>组织暗战</td><td>高武/玄幻</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 风格雷达对比图（柱状图模拟） -->
+<h4 class="sub-title">五家武功设定风格直观对比</h4>
+
+<div class="bar-chart">
+<div class="bar-row"><div class="bar-label">体系完备</div><div class="bar-track"><div class="bar-fill tier1" style="width:95%;">金庸 95%</div></div></div>
+<div class="bar-row"><div class="bar-label">写意留白</div><div class="bar-track"><div class="bar-fill tier3" style="width:90%;">古龙 90%</div></div></div>
+<div class="bar-row"><div class="bar-label">历史厚重</div><div class="bar-track"><div class="bar-fill tier2" style="width:85%;">梁羽生 85%</div></div></div>
+<div class="bar-row"><div class="bar-label">奇诡多变</div><div class="bar-track"><div class="bar-fill tier4" style="width:88%;">温瑞安 88%</div></div></div>
+<div class="bar-row"><div class="bar-label">武道通玄</div><div class="bar-track"><div class="bar-fill tier3" style="width:92%;">黄易 92%</div></div></div>
+</div>
+
+<div class="bar-chart">
+<div class="bar-row"><div class="bar-label">人物塑造</div><div class="bar-track"><div class="bar-fill tier3" style="width:93%;">古龙 93%</div></div></div>
+<div class="bar-row"><div class="bar-label">门派体系</div><div class="bar-track"><div class="bar-fill tier1" style="width:96%;">金庸 96%</div></div></div>
+<div class="bar-row"><div class="bar-label">组织博弈</div><div class="bar-track"><div class="bar-fill tier4" style="width:90%;">温瑞安 90%</div></div></div>
+<div class="bar-row"><div class="bar-label">玄幻色彩</div><div class="bar-track"><div class="bar-fill tier3" style="width:95%;">黄易 95%</div></div></div>
+<div class="bar-row"><div class="bar-label">正邪辩证</div><div class="bar-track"><div class="bar-fill tier1" style="width:88%;">金庸 88%</div></div></div>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>取法建议</strong>
+<p>写<strong>体系武侠</strong>，学金庸的完备门派与秘籍设定；写<strong>人物武侠</strong>，学古龙的意境留白与一击制胜；写<strong>历史武侠</strong>，学梁羽生的朝代背景与正邪分明；写<strong>权谋武侠</strong>，学温瑞安的组织博弈与华丽命名；写<strong>高武/玄幻武侠</strong>，学黄易的道心魔种与破碎虚空。五家并非互斥——可取多家之长，熔铸自家风格。</p>
+</div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- 第七章：创作套路与范式归纳 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="ch7"><span class="num">第七章</span>创作套路与范式归纳</h2>
+
+<p>本章从五家武侠经典中提炼出可直接复用的创作套路：武功设定套路、主角成长路径、命名规律、克制体系、描写技巧。套路不是束缚，而是高效起步的脚手架。</p>
+
+<h3 class="sec-title">一、常见武功设定套路</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>套路</th><th>说明</th><th>经典案例</th><th>适用场景</th></tr></thead>
+<tbody>
+<tr><td><strong>秘籍驱动型</strong></td><td>绝世秘籍现世，各方争夺，主角机缘巧合得到</td><td>九阴真经、九阳真经</td><td>主线核心道具</td></tr>
+<tr><td><strong>奇遇传承型</strong></td><td>主角跌落悬崖/进入秘洞，遇前辈高人传功</td><td>段誉无量山洞得北冥神功</td><td>主角功力飞跃</td></tr>
+<tr><td><strong>门派镇派型</strong></td><td>每派有镇派绝学，与门派兴衰绑定</td><td>降龙十八掌（丐帮）、太极拳（武当）</td><td>门派设定</td></tr>
+<tr><td><strong>残缺逆练型</strong></td><td>功法残缺或逆练，有风险也有奇效</td><td>欧阳锋逆练九阴真经</td><td>反派或主角险路</td></tr>
+<tr><td><strong>双修互补型</strong></td><td>阴阳/刚柔两种功法配合修炼，效果倍增</td><td>玉女心经+全真剑法</td><td>男女主感情线</td></tr>
+<tr><td><strong>佛道对立型</strong></td><td>佛门功法与道家功法互有克制</td><td>易筋经 vs 太极功</td><td>正邪或门派对立</td></tr>
+<tr><td><strong>兵器即功法</strong></td><td>特殊兵器与功法不可分，离了兵器功力大减</td><td>玄铁重剑、倚天剑、屠龙刀</td><td>兵器争夺主线</td></tr>
+<tr><td><strong>禁功代价型</strong></td><td>强大功法有使用代价（自宫、折寿、疯魔）</td><td>葵花宝典（自宫）、七伤拳（伤内腑）</td><td>道德困境</td></tr>
+<tr><td><strong>顿悟突破型</strong></td><td>观自然/参禅机而顿悟，功力大进</td><td>张三丰观蛇鹤相争创太极</td><td>境界突破节点</td></tr>
+<tr><td><strong>阵法合击型</strong></td><td>多人合力布阵，战力远超个人之和</td><td>天罡北斗阵、真武七截阵</td><td>群战场景</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">二、主角武功成长路径范式</h3>
+
+<div class="realm-flow">
+<div class="realm-phase">▼ 起步阶段</div>
+<div class="realm-node">家破/门灭/受辱</div><span class="realm-arrow">→</span>
+<div class="realm-node">寻师/遇险</div><span class="realm-arrow">→</span>
+<div class="realm-node">入门/奇遇</div>
+<div class="realm-phase">▼ 成长阶段</div>
+<div class="realm-node">苦练基础</div><span class="realm-arrow">→</span>
+<div class="realm-node">初露锋芒</div><span class="realm-arrow">→</span>
+<div class="realm-node">受挫/重伤</div>
+<div class="realm-phase">▼ 突破阶段</div>
+<div class="realm-node">奇遇/顿悟</div><span class="realm-arrow">→</span>
+<div class="realm-node">功力大进</div><span class="realm-arrow">→</span>
+<div class="realm-node">击败宿敌</div>
+<div class="realm-phase">▼ 巅峰阶段</div>
+<div class="realm-node high">宗师之境</div><span class="realm-arrow">→</span>
+<div class="realm-node high">开宗立派</div><span class="realm-arrow">→</span>
+<div class="realm-node peak">退隐/传承</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>阶段</th><th>叙事功能</th><th>常见手法</th></tr></thead>
+<tbody>
+<tr><td><strong>起步</strong></td><td>建立动机、设定初始低点</td><td>灭门复仇、被欺辱、寻人、逃难</td></tr>
+<tr><td><strong>成长</strong></td><td>展现努力、积累期待</td><td>拜师学艺、偷学秘籍、药浴苦练</td></tr>
+<tr><td><strong>受挫</strong></td><td>制造低谷、为突破蓄势</td><td>比武失败、走火入魔、被冤枉、重伤</td></tr>
+<tr><td><strong>突破</strong></td><td>爽点释放、实力跃升</td><td>闭关、奇遇、顿悟、绝境爆发</td></tr>
+<tr><td><strong>巅峰</strong></td><td>完成弧光、收束主线</td><td>击败终极反派、武林大会夺魁、开宗立派</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>节奏建议</strong>
+<p>"受挫—突破"的循环不宜少于3次，否则成长弧光不够丰满；但也不宜超过5次，否则容易套路化。<strong>每次突破必须有"质变标志"</strong>——不是单纯的"内力更深了"，而是"能做以前做不到的事"（如从不能隔空发力到能隔空点穴）。</p>
+</div>
+</div>
+
+<h3 class="sec-title">三、武功命名规律</h3>
+
+<p>好的武功名称自带画面感与气质暗示。以下是五家武侠中提炼的命名规律。</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>命名法</th><th>规律</th><th>代表案例</th><th>气质暗示</th></tr></thead>
+<tbody>
+<tr><td><strong>意象命名</strong></td><td>取自然意象或动物形态</td><td>降龙十八掌、虎鹤双形拳、落英神剑掌</td><td>气势磅礴/仿生象形</td></tr>
+<tr><td><strong>数字命名</strong></td><td>以数字显体系感</td><td>降龙十八掌、六脉神剑、七伤拳、打狗棒法三十六路</td><td>体系完整</td></tr>
+<tr><td><strong>典故命名</strong></td><td>取古典诗词典故</td><td>黯然销魂掌（江淹《别赋》）、凌波微步（《洛神赋》）</td><td>文雅深邃</td></tr>
+<tr><td><strong>哲学命名</strong></td><td>取佛道哲学概念</td><td>乾坤大挪移、太极功、道心种魔大法</td><td>玄奥高深</td></tr>
+<tr><td><strong>情绪命名</strong></td><td>以情绪入名</td><td>黯然销魂掌、伤心小箭、惊艳一枪</td><td>情感共鸣</td></tr>
+<tr><td><strong>兵器命名</strong></td><td>以兵器本身命名</td><td>小李飞刀、金蛇剑法、玄铁重剑</td><td>人兵合一</td></tr>
+<tr><td><strong>门派+招式</strong></td><td>门派名+招式名</td><td>少林罗汉拳、武当太极拳、峨眉枪法</td><td>门派归属感</td></tr>
+<tr><td><strong>禁忌命名</strong></td><td>暗示代价或禁忌</td><td>葵花宝典、七伤拳、走火入魔</td><td>危险诱惑</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">四、武功克制体系</h3>
+
+<p>武功之间的克制关系是制造戏剧反转的利器。以下是常见的克制逻辑：</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>克制逻辑</th><th>说明</th><th>经典案例</th></tr></thead>
+<tbody>
+<tr><td><strong>刚克柔</strong></td><td>刚猛武功压制阴柔武功（但有上限）</td><td>降龙十八掌破柔劲防御</td></tr>
+<tr><td><strong>柔克刚</strong></td><td>至柔可化至刚（太极核心逻辑）</td><td>太极拳四两拨千斤</td></tr>
+<tr><td><strong>快克慢</strong></td><td>速度优势压制力量优势</td><td>东方不败以速度破令狐冲独孤九剑</td></tr>
+<tr><td><strong>巧克拙</strong></td><td>技巧精妙胜过蛮力</td><td>独孤九剑破尽天下兵器</td></tr>
+<tr><td><strong>内克外</strong></td><td>内功深厚者胜外功刚猛者</td><td>扫地僧以内力秒杀萧远山</td></tr>
+<tr><td><strong>阵克单</strong></td><td>阵法合击胜过单人高手</td><td>天罡北斗阵困住一流高手</td></tr>
+<tr><td><strong>属性克制</strong></td><td>五行/阴阳属性互克</td><td>火克金、水克火（高武流常用）</td></tr>
+<tr><td><strong>心克技</strong></td><td>心境气势胜过招式技巧</td><td>李寻欢以信念胜上官金虹</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout tip">
+<div class="callout-icon">💡</div>
+<div class="callout-body">
+<strong>创作要点</strong>
+<p>克制体系的核心价值在于<strong>"以弱胜强"的戏剧性</strong>——读者最爱看的就是"明明实力不如，但靠克制反败为胜"。但注意：克制不能太机械（A克B、B克C、C克A的石头剪刀布会让读者觉得幼稚），应保留"例外"和"突破"的空间。</p>
+</div>
+</div>
+
+<h3 class="sec-title">五、功夫描写技巧</h3>
+
+<h4 class="sub-title">五大描写流派</h4>
+<div class="card-grid">
+<div class="card"><h5>① 招式流（金庸式）</h5><p>详写招式名称、动作路径、攻守变化。优点：画面感强、体系完备。缺点：过长易枯燥。</p></div>
+<div class="card gold"><h5>② 意境流（古龙式）</h5><p>不写招式，只写气氛、杀意、结果。优点：节奏极快、张力十足。缺点：用多了显空。</p></div>
+<div class="card jade"><h5>③ 内力流（金庸式变体）</h5><p>侧重内力碰撞、罡气外放、气势压制。适合高武。</p></div>
+<div class="card blue"><h5>④ 兵器流（古龙/梁羽生式）</h5><p>以兵器为视觉焦点，写兵器的光、影、声、势。</p></div>
+<div class="card purple"><h5>⑤ 精神流（黄易式）</h5><p>高手对决写精神博弈、气势压制、道心魔念的交锋。</p></div>
+</div>
+
+<h4 class="sub-title">描写技巧要点</h4>
+
+<div class="checklist">
+<h4>核心原则</h4>
+<ul>
+<li><strong>动静结合</strong>：激烈打斗中穿插静止的心理描写，张弛有度</li>
+<li><strong>虚实相生</strong>：实写动作，虚写气势——"一掌推出，风声如雷"比"一掌推出，力道千钧"更有画面</li>
+<li><strong>以环境衬武</strong>：用环境变化侧面表现武功威力——落叶飞舞、杯盏碎裂、地面龟裂</li>
+<li><strong>以旁观者衬武</strong>：用旁观者的惊叹、恐惧反应来烘托武功之强</li>
+<li><strong>少用术语堆砌</strong>：招式名点到为止，重点写效果与气势</li>
+</ul>
+
+<h4>节奏控制</h4>
+<ul>
+<li><strong>短句快节奏</strong>：激烈交手时用短句、断句，模拟速度感</li>
+<li><strong>长句慢镜头</strong>：关键一击用长句、细节描写，放大瞬间</li>
+<li><strong>留白比实写有力</strong>：有时"只见刀光一闪，那人已倒"比写三段招式更有冲击力</li>
+</ul>
+
+<h4>常见误区</h4>
+<ul>
+<li><strong>招式名过多</strong>：一场打斗写七八个招式名，读者记不住反而出戏</li>
+<li><strong>战力崩坏</strong>：为制造爽点让主角越级太多，后续难以自圆</li>
+<li><strong>描写雷同</strong>：每场打斗都是"掌风呼啸、剑气纵横"，缺乏辨识度</li>
+<li><strong>无视代价</strong>：主角永远毫发无损，缺少紧张感</li>
+<li><strong>忽视人物</strong>：打斗只写武功不写人物心理，沦为动作说明书</li>
+</ul>
+</div>
+
+<div class="callout gold">
+<div class="callout-icon">★</div>
+<div class="callout-body">
+<strong>最高准则</strong>
+<p>武功描写最终服务于<strong>人物塑造与情节推进</strong>。最好的打斗不是"写得最精彩"的打斗，而是"最能推动剧情、最能展现人物"的打斗。古龙的"小李飞刀，例不虚发"之所以经典，不在于描写了飞刀如何飞，而在于它塑造了李寻欢这个人物——"正义信念，例不虚发"。</p>
+</div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- 附录 -->
+<!-- ================================================================ -->
+<h2 class="chap-title" id="appendix"><span class="num">附录</span>速查对照 · 术语词典 · 资料源清单</h2>
+
+<h3 class="sec-title">附录A：门派-武功-人物速查对照表</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>门派/体系</th><th>代表武功</th><th>代表人物</th><th>出处作品/传承</th><th>作者/来源</th></tr></thead>
+<tbody>
+<tr><td>少林</td><td>七十二绝技、易筋经、金刚不坏体</td><td>扫地僧、玄慈、方证</td><td>天龙八部等多部</td><td>金庸</td></tr>
+<tr><td>武当</td><td>太极拳剑、纯阳无极功</td><td>张三丰、俞莲舟</td><td>倚天屠龙记</td><td>金庸</td></tr>
+<tr><td>丐帮</td><td>降龙十八掌、打狗棒法</td><td>洪七公、乔峰、郭靖</td><td>射雕三部曲</td><td>金庸</td></tr>
+<tr><td>逍遥派</td><td>北冥神功、凌波微步、天山六阳掌</td><td>无崖子、虚竹</td><td>天龙八部</td><td>金庸</td></tr>
+<tr><td>全真教</td><td>先天功、全真剑法、天罡北斗阵</td><td>王重阳、周伯通</td><td>射雕英雄传</td><td>金庸</td></tr>
+<tr><td>古墓派</td><td>玉女心经、玉女素心剑法</td><td>林朝英、小龙女</td><td>神雕侠侣</td><td>金庸</td></tr>
+<tr><td>桃花岛</td><td>落英神剑掌、弹指神通</td><td>黄药师</td><td>射雕英雄传</td><td>金庸</td></tr>
+<tr><td>明教</td><td>乾坤大挪移、圣火令武功</td><td>张无忌</td><td>倚天屠龙记</td><td>金庸</td></tr>
+<tr><td>峨眉派</td><td>峨眉九阳功、佛光普照</td><td>郭襄、灭绝师太</td><td>倚天屠龙记</td><td>金庸</td></tr>
+<tr><td>天山派</td><td>天山剑法、少阳玄功、天山神芒</td><td>霍天都、凌未风、唐晓澜</td><td>七剑下天山等</td><td>梁羽生</td></tr>
+<tr><td>邙山派</td><td>玄女剑法</td><td>独臂神尼、吕四娘</td><td>江湖三女侠</td><td>梁羽生</td></tr>
+<tr><td>自在门</td><td>四绝技（暗器/掌/腿/剑）</td><td>无情、铁手、追命、冷血</td><td>四大名捕</td><td>温瑞安</td></tr>
+<tr><td>慈航静斋</td><td>慈航剑典、剑心通明</td><td>师妃暄、秦梦瑶</td><td>大唐双龙传/覆雨翻云</td><td>黄易</td></tr>
+<tr><td>净念禅宗</td><td>—</td><td>梵清惠</td><td>大唐双龙传</td><td>黄易</td></tr>
+<tr><td>魔门</td><td>不死印法、道心种魔大法</td><td>石之轩、厉工</td><td>大唐双龙传/破碎虚空</td><td>黄易</td></tr>
+<tr><td>真实少林</td><td>罗汉拳、少林棍、易筋经、七十二绝技</td><td>达摩（传说）、十三棍僧、福裕</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>真实武当</td><td>太极拳（五式）、武当剑、太乙五行拳</td><td>张三丰（传说）、张松溪、王宗岳</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>真实峨眉</td><td>通臂拳、峨眉十二桩、峨眉枪</td><td>司徒玄空、德源长老</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>真实崆峒</td><td>崆峒太极拳、方便铲、判官笔</td><td>飞虹子、燕飞霞</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>太极拳</td><td>陈式/杨式/武式/孙式/吴式</td><td>陈王廷、杨露禅、孙禄堂</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>八极拳</td><td>六大开、贴山靠</td><td>吴钟、李书文</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>形意拳</td><td>五行拳、十二形</td><td>姬际可、郭云深</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>八卦掌</td><td>老八掌、游身八卦掌</td><td>董海川、程廷华</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>咏春拳</td><td>小念头、寻桥、标指、木人桩</td><td>严咏春、梁赞、叶问</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>洪拳</td><td>工字伏虎拳、铁线拳、虎鹤双形</td><td>洪熙官、黄飞鸿</td><td>历史传承</td><td>武术史</td></tr>
+<tr><td>螳螂拳</td><td>七星螳螂、梅花螳螂</td><td>王郎</td><td>历史传承</td><td>武术史</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录B：常见武术术语词典</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>术语</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td><strong>丹田</strong></td><td>人体蓄气之所，位于脐下三寸，内功修炼核心部位</td></tr>
+<tr><td><strong>桩功/站桩</strong></td><td>静站养气的修炼方法，各门派桩法不同</td></tr>
+<tr><td><strong>吐纳</strong></td><td>调息呼吸的修炼法，"吐"为呼浊，"纳"为吸清</td></tr>
+<tr><td><strong>导引</strong></td><td>配合呼吸活动肢体的养生法</td></tr>
+<tr><td><strong>内劲</strong></td><td>通过内功修炼产生的内在力量</td></tr>
+<tr><td><strong>寸劲</strong></td><td>极短距离内爆发的力量，咏春拳特色</td></tr>
+<tr><td><strong>暗劲</strong></td><td>内含不外露的劲力</td></tr>
+<tr><td><strong>化劲</strong></td><td>化解敌方劲力的技巧</td></tr>
+<tr><td><strong>听劲</strong></td><td>通过身体接触感知敌方劲力方向</td></tr>
+<tr><td><strong>黐手</strong></td><td>咏春拳的接触训练法</td></tr>
+<tr><td><strong>走桩</strong></td><td>在移动中练桩</td></tr>
+<tr><td><strong>趟泥步</strong></td><td>八卦掌特有步法，脚贴地而行</td></tr>
+<tr><td><strong>三体式</strong></td><td>形意拳基础桩功</td></tr>
+<tr><td><strong>八法</strong></td><td>太极拳核心八法：掤捋挤按采挒肘靠</td></tr>
+<tr><td><strong>五行步</strong></td><td>太极拳步法：进退顾盼定</td></tr>
+<tr><td><strong>六大开</strong></td><td>八极拳核心发力原理：顶抱单提挎缠</td></tr>
+<tr><td><strong>闭关</strong></td><td>与世隔绝专心修炼</td></tr>
+<tr><td><strong>破境</strong></td><td>突破当前境界</td></tr>
+<tr><td><strong>走火入魔</strong></td><td>修炼出错导致的危机</td></tr>
+<tr><td><strong>打通任督</strong></td><td>修炼突破的象征性标志</td></tr>
+<tr><td><strong>镇派绝学</strong></td><td>门派最核心的武功</td></tr>
+<tr><td><strong>秘籍</strong></td><td>记录绝世武功的典籍</td></tr>
+<tr><td><strong>兵器谱</strong></td><td>排名天下兵器/武功的榜单</td></tr>
+<tr><td><strong>武林盟主</strong></td><td>江湖共主（文学虚构）</td></tr>
+<tr><td><strong>春点/切口</strong></td><td>江湖黑话</td></tr>
+<tr><td><strong>拜码头</strong></td><td>拜访当地江湖人物</td></tr>
+<tr><td><strong>挂单</strong></td><td>外来僧人/武人暂住寺中</td></tr>
+<tr><td><strong>镖</strong></td><td>护送的货物或护送任务</td></tr>
+<tr><td><strong>趟子</strong></td><td>走镖的一趟路</td></tr>
+<tr><td><strong>响马</strong></td><td>拦路抢劫的土匪</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录C：真实武术 vs 文学设定对照表</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>项目</th><th>真实武术</th><th>武侠文学</th><th>建议处理方式</th></tr></thead>
+<tbody>
+<tr><td>内功</td><td>内劲感知，健身养生</td><td>可外放、隔空伤人</td><td>低武写实，高武放大</td></tr>
+<tr><td>轻功</td><td>蹿蹦跳跃训练</td><td>飞檐走壁、踏雪无痕</td><td>按作品定位取用</td></tr>
+<tr><td>点穴</td><td>打击穴位制敌</td><td>封穴定身、延时发作</td><td>文学设定可大胆</td></tr>
+<tr><td>境界</td><td>无明确等级</td><td>严密阶梯体系</td><td>文学设定必备</td></tr>
+<tr><td>秘籍</td><td>拳谱为训练记录</td><td>改变格局的核心道具</td><td>文学设定必备</td></tr>
+<tr><td>走火入魔</td><td>气功偏差不适</td><td>经脉尽毁、神智错乱</td><td>戏剧化放大</td></tr>
+<tr><td>门派</td><td>有传承但无"镇派绝学"</td><td>每派必有镇派绝学</td><td>文学设定必备</td></tr>
+<tr><td>武林盟主</td><td>不存在</td><td>江湖共主</td><td>文学虚构</td></tr>
+<tr><td>兵器谱</td><td>不存在</td><td>权威排名榜单</td><td>文学虚构</td></tr>
+<tr><td>打通任督</td><td>中医概念</td><td>突破先天标志</td><td>文学设定</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录D：推荐阅读作品清单</h3>
+
+<h4 class="sub-title">经典武侠小说</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>作者</th><th>代表作</th><th>推荐理由</th></tr></thead>
+<tbody>
+<tr><td>金庸</td><td>射雕三部曲（射雕/神雕/倚天）、天龙八部、笑傲江湖</td><td>体系最完备，门派/武功/秘籍设定最丰富</td></tr>
+<tr><td>古龙</td><td>多情剑客无情剑、陆小凤系列、楚留香系列</td><td>人物塑造与武功意境的巅峰</td></tr>
+<tr><td>梁羽生</td><td>七剑下天山、萍踪侠影录、白发魔女传</td><td>历史武侠与门派传承的范本</td></tr>
+<tr><td>温瑞安</td><td>四大名捕系列、说英雄谁是英雄系列</td><td>组织博弈与华丽命名的参考</td></tr>
+<tr><td>黄易</td><td>大唐双龙传、覆雨翻云、破碎虚空</td><td>武侠向玄幻过渡的桥梁</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 class="sub-title">武术史与理论参考</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>书名</th><th>作者</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td>《中国武术史》</td><td>习云泰</td><td>武术发展通史</td></tr>
+<tr><td>《太极拳谱》</td><td>（清）王宗岳等</td><td>太极拳理论原典</td></tr>
+<tr><td>《少林拳术秘诀》</td><td>（民国）尊我斋主人</td><td>少林武术体系参考</td></tr>
+<tr><td>《手臂录》</td><td>（明）吴殳</td><td>明清枪法/棍法精要</td></tr>
+<tr><td>《纪效新书》</td><td>（明）戚继光</td><td>军中武艺与拳经</td></tr>
+<tr><td>《奇经八脉考》</td><td>（明）李时珍</td><td>经络学说参考</td></tr>
+<tr><td>《黄帝内经》</td><td>—</td><td>中医理论基础</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录E：敏感内容资料源清单</h3>
+
+<div class="callout warn">
+<div class="callout-icon">⚠</div>
+<div class="callout-body">
+<strong>合规声明</strong>
+<p>以下资料源涉及具体练法、仪轨、操作等内容，本报告<strong>仅提供资料源信息</strong>，不对其内容进行复述或改写。创作者如需参考，请自行查阅原始资料，并注意安全与法律合规。</p>
+</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>序号</th><th>资料名称</th><th>来源</th><th>对应报告章节</th><th>涉及内容</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>少林七十二绝技相关条目</td><td>百度百科/维基百科</td><td>3.1 内功与外功体系</td><td>包含具体功法的练习方法</td></tr>
+<tr><td>2</td><td>易筋经/洗髓经相关条目</td><td>百度百科</td><td>3.1 内功与外功体系</td><td>包含具体功法修法</td></tr>
+<tr><td>3</td><td>"暗器"维基百科条目</td><td>维基百科</td><td>3.7 暗器</td><td>包含古代暗器的形制、制作与使用说明</td></tr>
+<tr><td>4</td><td>"点穴术"维基百科条目中暗器相关部分</td><td>维基百科</td><td>3.6 点穴</td><td>涉及暗器的历史记载与争议</td></tr>
+<tr><td>5</td><td>铁砂掌/金钟罩/铁布衫/排打功等硬功练法资料</td><td>网络武术论坛</td><td>3.8 硬功与软功</td><td>包含硬功的具体练习方法</td></tr>
+<tr><td>6</td><td>武当道教功法仪轨资料</td><td>道教文化网站</td><td>4.1-4.2 武学理论</td><td>包含道教修炼仪轨</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 class="sec-title">附录F：创作自检清单</h3>
+
+<div class="checklist">
+<h4>世界观自检</h4>
+<ul>
+<li>□ 内力/真气/罡气概念是否区分清楚？</li>
+<li>□ 境界体系是否明确？每级之间是否有"质变标志"？</li>
+<li>□ 门派武功是否各有特色，避免"千派一面"？</li>
+<li>□ 正邪划分是否有层次，不是简单黑白？</li>
+<li>□ 江湖权力结构是否自洽运转？</li>
+</ul>
+<h4>武功设定自检</h4>
+<ul>
+<li>□ 主角武功成长路径是否有合理的"受挫—突破"循环？</li>
+<li>□ 功法命名是否有辨识度？</li>
+<li>□ 克制体系是否为"以弱胜强"留出空间？</li>
+<li>□ 是否有"代价机制"（禁功代价、修炼风险）增加张力？</li>
+<li>□ 兵器设定是否有画面感？</li>
+</ul>
+<h4>描写自检</h4>
+<ul>
+<li>□ 打斗是否服务于人物塑造与情节推进？</li>
+<li>□ 招式名是否点到为止，不过多堆砌？</li>
+<li>□ 节奏是否张弛有度（短句快+长句慢）？</li>
+<li>□ 是否用环境/旁观者侧面烘托武功？</li>
+<li>□ 战力是否保持稳定，不崩坏？</li>
+</ul>
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+  <p>中国功夫题材创作设定参考报告 · 2026-08-03</p>
+  <p>本报告基于公开网络资料整理，结合武术史、民俗学、武侠文学研究视角，供网络小说作者参考使用。</p>
+  <p>所有资料以学术视角整理；敏感内容仅提供资料源清单，不复述练法/仪轨/操作；武功设定可根据创作需要自由改编。</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#15122a"/>
+      <stop offset="100%" stop-color="#08060f"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8a96e"/>
+      <stop offset="100%" stop-color="#8a7350"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 象征星图：中心原型辐射 -->
+  <g transform="translate(200, 125)">
+    <!-- 原型中心 -->
+    <circle cx="0" cy="0" r="12" fill="none" stroke="url(--gold)" stroke-width="1.2" opacity="0.6"/>
+    <text x="0" y="4" text-anchor="middle" fill="#e2c485" font-family="serif" font-size="10" opacity="0.7">原型</text>
+    <!-- 象征节点 -->
+    <g opacity="0.45">
+      <!-- 阴影 -->
+      <circle cx="0" cy="-55" r="8" fill="none" stroke="url(--red)" stroke-width="0.8"/>
+      <text x="0" y="-53" text-anchor="middle" fill="#f87171" font-family="serif" font-size="8">阴影</text>
+      <!-- 阿尼玛 -->
+      <circle cx="48" cy="-28" r="8" fill="none" stroke="url(--violet)" stroke-width="0.8"/>
+      <text x="48" y="-26" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="8">阿尼玛</text>
+      <!-- 人格面具 -->
+      <circle cx="55" cy="18" r="8" fill="none" stroke="url(--cyan)" stroke-width="0.8"/>
+      <text x="55" y="20" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="8">面具</text>
+      <!-- 自性 -->
+      <circle cx="28" cy="48" r="8" fill="none" stroke="url(--gold)" stroke-width="0.8"/>
+      <text x="28" y="50" text-anchor="middle" fill="#e2c485" font-family="serif" font-size="8">自性</text>
+      <!-- 集体无意识 -->
+      <circle cx="-35" cy="40" r="8" fill="none" stroke="url(--violet)" stroke-width="0.8"/>
+      <text x="-35" y="42" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="8">集体无意识</text>
+      <!-- 意象 -->
+      <circle cx="-55" cy="-10" r="8" fill="none" stroke="url(--cyan)" stroke-width="0.8"/>
+      <text x="-55" y="-8" text-anchor="middle" fill="#67e8f9" font-family="serif" font-size="8">意象</text>
+    </g>
+    <!-- 连线 -->
+    <g stroke="#c8a96e" stroke-width="0.4" opacity="0.15">
+      <line x1="0" y1="-12" x2="0" y2="-47"/>
+      <line x1="10" y1="-6" x2="42" y2="-22"/>
+      <line x1="11" y1="4" x2="48" y2="14"/>
+      <line x1="8" y1="10" x2="24" y2="42"/>
+      <line x1="-9" y1="8" x2="-30" y2="36"/>
+      <line x1="-11" y1="-4" x2="-48" y2="-8"/>
+    </g>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="15" font-weight="bold">荣格分析心理学 · 象征体系</text>
+</svg>

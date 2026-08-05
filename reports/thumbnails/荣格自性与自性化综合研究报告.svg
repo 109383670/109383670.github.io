@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a1530"/>
+      <stop offset="100%" stop-color="#0a0818"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8a96e"/>
+      <stop offset="100%" stop-color="#8a7350"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 曼荼罗 -->
+  <g transform="translate(200, 125)">
+    <!-- 四重圆 -->
+    <circle cx="0" cy="0" r="65" fill="none" stroke="url(--gold)" stroke-width="1" opacity="0.4"/>
+    <circle cx="0" cy="0" r="48" fill="none" stroke="url(--violet)" stroke-width="0.8" opacity="0.35"/>
+    <circle cx="0" cy="0" r="32" fill="none" stroke="url(--gold)" stroke-width="0.8" opacity="0.3"/>
+    <circle cx="0" cy="0" r="16" fill="none" stroke="url(--violet)" stroke-width="0.6" opacity="0.3"/>
+    <!-- 放射线 -->
+    <g stroke="url(--gold)" stroke-width="0.4" opacity="0.2">
+      <line x1="0" y1="-16" x2="0" y2="-65"/>
+      <line x1="0" y1="16" x2="0" y2="65"/>
+      <line x1="-16" y1="0" x2="-65" y2="0"/>
+      <line x1="16" y1="0" x2="65" y2="0"/>
+      <line x1="-11" y1="-11" x2="-46" y2="-46"/>
+      <line x1="11" y1="-11" x2="46" y2="-46"/>
+      <line x1="-11" y1="11" x2="-46" y2="46"/>
+      <line x1="11" y1="11" x2="46" y2="46"/>
+    </g>
+    <!-- 中心自性 -->
+    <circle cx="0" cy="0" r="8" fill="url(--gold)" opacity="0.25"/>
+    <circle cx="0" cy="0" r="3.5" fill="#e2c485" opacity="0.6"/>
+    <!-- 自性化路径点 -->
+    <g fill="#e2c485" opacity="0.5">
+      <circle cx="0" cy="-65" r="2.5"/>
+      <circle cx="46" cy="-46" r="2.5"/>
+      <circle cx="65" cy="0" r="2.5"/>
+      <circle cx="46" cy="46" r="2.5"/>
+      <circle cx="0" cy="65" r="2.5"/>
+      <circle cx="-46" cy="46" r="2.5"/>
+      <circle cx="-65" cy="0" r="2.5"/>
+      <circle cx="-46" cy="-46" r="2.5"/>
+    </g>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#c4b5fd" font-family="serif" font-size="14" font-weight="bold">荣格「自性与自性化」</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1208"/>
+      <stop offset="100%" stop-color="#0a0603"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8a96e"/>
+      <stop offset="100%" stop-color="#8a7350"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 太极 -->
+  <g transform="translate(200, 120)">
+    <circle cx="0" cy="0" r="55" fill="none" stroke="url(#red)" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="0" r="55" fill="url(#red)" opacity="0.05"/>
+    <!-- S 曲线 -->
+    <path d="M 0 -55 A 27.5 27.5 0 0 1 0 0 A 27.5 27.5 0 0 0 0 55" fill="none" stroke="url(#gold)" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="-27" r="6" fill="url(#gold)" opacity="0.5"/>
+    <circle cx="0" cy="27" r="6" fill="url(#red)" opacity="0.5"/>
+    <!-- 掌印 -->
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#e2c485" stroke-width="0.8" opacity="0.3"/>
+  </g>
+  <!-- 拳印 -->
+  <g transform="translate(200, 205)" opacity="0.35">
+    <circle cx="-14" cy="0" r="6" fill="none" stroke="url(#gold)" stroke-width="1"/>
+    <circle cx="0" cy="-4" r="6" fill="none" stroke="url(#gold)" stroke-width="1"/>
+    <circle cx="14" cy="0" r="6" fill="none" stroke="url(#gold)" stroke-width="1"/>
+    <circle cx="0" cy="12" r="6" fill="none" stroke="url(#gold)" stroke-width="1"/>
+    <circle cx="-14" cy="12" r="6" fill="none" stroke="url(#gold)" stroke-width="1"/>
+    <circle cx="14" cy="12" r="6" fill="none" stroke="url(#gold)" stroke-width="1"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#e2c485" font-family="serif" font-size="15" font-weight="bold">中国功夫 · 创作设定参考</text>
+</svg>

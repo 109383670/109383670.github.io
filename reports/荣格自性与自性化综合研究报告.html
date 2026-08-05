@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荣格「自性与自性化」综合研究报告</title>
+<style>
+:root {
+  --primary: #1a2744;
+  --primary-light: #2d3e5f;
+  --accent: #c9a961;
+  --accent-light: #e0c887;
+  --bg: #faf8f3;
+  --bg-card: #ffffff;
+  --bg-soft: #f0ede5;
+  --text: #2a2a2a;
+  --text-light: #5a5a5a;
+  --text-muted: #8a8a8a;
+  --border: #d4cfc3;
+  --shadow: 0 2px 12px rgba(26,39,68,0.08);
+  --shadow-lg: 0 4px 24px rgba(26,39,68,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Georgia', 'Noto Serif SC', 'Source Han Serif SC', serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+/* ===== HEADER ===== */
+.report-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 60px 40px;
+  text-align: center;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.report-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  border: 2px solid rgba(201,169,97,0.15);
+  border-radius: 50%;
+}
+
+.report-header::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 300px;
+  height: 300px;
+  border: 2px solid rgba(201,169,97,0.1);
+  border-radius: 50%;
+}
+
+.report-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 2px;
+}
+
+.report-header .subtitle {
+  font-size: 15px;
+  color: var(--accent-light);
+  font-family: 'Helvetica Neue', sans-serif;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+.report-header .meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Helvetica Neue', sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+.report-header .divider {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 20px auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TOC ===== */
+.toc {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 30px 35px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+}
+
+.toc h2 {
+  font-size: 18px;
+  color: var(--primary);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.toc ol {
+  list-style: none;
+  counter-reset: toc;
+}
+
+.toc ol > li {
+  counter-increment: toc;
+  margin: 8px 0;
+  padding-left: 30px;
+  position: relative;
+  font-size: 15px;
+}
+
+.toc ol > li::before {
+  content: counter(toc, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.toc ol ol {
+  counter-reset: toc-sub;
+  margin-top: 6px;
+  padding-left: 20px;
+}
+
+.toc ol ol > li {
+  counter-increment: toc-sub;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.toc ol ol > li::before {
+  content: counter(toc) "." counter(toc-sub);
+}
+
+/* ===== SECTIONS ===== */
+.chapter {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 40px 35px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--accent);
+}
+
+.chapter h2 {
+  font-size: 24px;
+  color: var(--primary);
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chapter h2 .chapter-num {
+  color: var(--accent);
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.chapter h3 {
+  font-size: 19px;
+  color: var(--primary-light);
+  margin: 28px 0 12px 0;
+  padding-left: 14px;
+  border-left: 4px solid var(--accent);
+}
+
+.chapter h4 {
+  font-size: 16px;
+  color: var(--primary);
+  margin: 20px 0 8px 0;
+}
+
+.chapter p {
+  margin-bottom: 14px;
+  text-align: justify;
+}
+
+.chapter strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.chapter em {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ===== BLOCKQUOTE ===== */
+blockquote {
+  background: var(--bg-soft);
+  border-left: 4px solid var(--accent);
+  padding: 16px 22px;
+  margin: 16px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  color: var(--text-light);
+}
+
+blockquote.quote-en {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}
+
+blockquote .source {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  font-style: normal;
+}
+
+blockquote .translation {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  font-style: normal;
+  color: var(--text);
+}
+
+/* ===== TABLES ===== */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--bg-card);
+}
+
+table thead {
+  background: var(--primary);
+  color: #fff;
+}
+
+table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+table tr:nth-child(even) {
+  background: var(--bg-soft);
+}
+
+table tr:hover {
+  background: #f5f0e0;
+}
+
+table .highlight {
+  background: rgba(201,169,97,0.1) !important;
+  font-weight: 600;
+}
+
+/* ===== CARDS ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.card {
+  background: var(--bg-soft);
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 3px solid var(--accent);
+}
+
+.card h4 {
+  color: var(--primary);
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+  margin: 24px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  padding-left: 20px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.timeline-item .year {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.timeline-item h4 {
+  font-size: 16px;
+  color: var(--primary);
+  margin: 4px 0 6px 0;
+}
+
+.timeline-item p {
+  font-size: 14px;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* ===== CALLOUT ===== */
+.callout {
+  background: linear-gradient(135deg, rgba(26,39,68,0.05) 0%, rgba(201,169,97,0.05) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+
+.callout-title {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+/* ===== LINEAGE TREE ===== */
+.lineage-tree {
+  background: var(--bg-soft);
+  border-radius: 8px;
+  padding: 30px;
+  margin: 20px 0;
+  text-align: center;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+}
+
+.lineage-tree .root {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.lineage-tree .branch-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.lineage-tree .branch {
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 200px;
+  text-align: left;
+}
+
+.lineage-tree .branch h4 {
+  color: var(--primary);
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-align: center;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lineage-tree .branch ul {
+  list-style: none;
+  font-size: 13px;
+}
+
+.lineage-tree .branch li {
+  padding: 3px 0;
+  color: var(--text-light);
+}
+
+/* ===== COMPARISON BAR ===== */
+.loyalty-chart {
+  margin: 20px 0;
+}
+
+.loyalty-bar {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.loyalty-bar .name {
+  width: 100px;
+  font-weight: 600;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.loyalty-bar .bar-bg {
+  flex: 1;
+  height: 24px;
+  background: var(--bg-soft);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+.loyalty-bar .bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.loyalty-bar .label {
+  width: 80px;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ===== FOOTER ===== */
+.report-footer {
+  text-align: center;
+  padding: 30px;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* ===== MISC ===== */
+.tag {
+  display: inline-block;
+  background: var(--bg-soft);
+  color: var(--primary);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-family: 'Helvetica Neue', sans-serif;
+  margin: 0 4px 4px 0;
+}
+
+.tag-accent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.note {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 8px 16px;
+  background: rgba(201,169,97,0.06);
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 20px 15px; }
+  .report-header { padding: 40px 20px; }
+  .report-header h1 { font-size: 24px; }
+  .chapter { padding: 25px 20px; }
+  .lineage-tree .branch-container { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ===== REPORT HEADER ===== -->
+<div class="report-header">
+  <h1>荣格「自性与自性化」综合研究报告</h1>
+  <div class="divider"></div>
+  <div class="subtitle">Self & Individuation in Jungian Psychology: A Comprehensive Research Report</div>
+  <div class="meta">
+    涵盖荣格原典四大核心卷次 ｜ 概念演变五十年脉络 ｜ 八位弟子及后学者评价<br/>
+    交叉验证三路搜索成果 · 去重互补 · 图文并茂
+  </div>
+</div>
+
+<!-- ===== TABLE OF CONTENTS ===== -->
+<div class="toc">
+  <h2>目 录</h2>
+  <ol>
+    <li>执行摘要
+      <ol>
+        <li>报告背景与目标</li>
+        <li>核心发现概览</li>
+      </ol>
+    </li>
+    <li>概念定义与理论基石
+      <ol>
+        <li>自性（Self）的多层定义</li>
+        <li>自性化（Individuation）的内涵</li>
+        <li>自性与自我（Ego）的系统区分</li>
+      </ol>
+    </li>
+    <li>荣格原典四大核心卷次深度解析
+      <ol>
+        <li>CW 7《两篇论分析心理学的论文》——过程论</li>
+        <li>CW 9i《原型与集体无意识》——象征论</li>
+        <li>CW 9ii《Aion：自性的现象学研究》——本体论</li>
+        <li>CW 14《神秘结合》——终极论</li>
+      </ol>
+    </li>
+    <li>概念演变脉络（1912–1964）
+      <ol>
+        <li>五十年演变时间线</li>
+        <li>三个关键转变</li>
+        <li>荣格的最终定位</li>
+      </ol>
+    </li>
+    <li>弟子及后学者的继承、阐释与批判
+      <ol>
+        <li>忠实继承派：冯·弗兰兹、雅各比、埃丁格</li>
+        <li>发展修正派：诺伊曼、福德汉姆</li>
+        <li>批判重构派：希尔曼、萨缪尔斯</li>
+        <li>当代综合者：斯坦</li>
+      </ol>
+    </li>
+    <li>综合分析与洞察
+      <ol>
+        <li>自性理论的内在张力</li>
+        <li>方法论决定理论形态</li>
+        <li>理论谱系与忠诚度光谱</li>
+        <li>跨学科影响</li>
+      </ol>
+    </li>
+    <li>结论与建议
+      <ol>
+        <li>核心结论</li>
+        <li>延伸阅读建议</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+<!-- ===== CHAPTER 0: EXECUTIVE SUMMARY ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 00</span>执行摘要</h2>
+
+  <h3>报告背景与目标</h3>
+  <p>本报告整合三路并行搜索成果，对荣格分析心理学中最核心的概念——<strong>自性（Self）</strong>与<strong>自性化（Individuation）</strong>——进行系统性梳理。资料覆盖两大板块：①荣格原典中的论述（CW 7/9i/9ii/14 四大核心卷次 + 1912–1964 年概念演变脉络）；②荣格弟子及后学者对这部分理论的继承、阐释与批判评价（八位代表学者）。</p>
+
+  <p>三份原始资料经<strong>交叉验证</strong>后发现：维度①（核心卷次系统论述）与维度②（概念演变脉络）在 CW 7 定义和 CW 9ii 系统阐述上存在内容重叠，本报告以维度①为深度层、维度②为时间线层进行互补合并；维度③+④（弟子及后学者评价）与前两者在 von Franz《人及其象征》通俗阐述处形成交叉点，已做去重处理。</p>
+
+  <h3>核心发现概览</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>① 自性 = 心灵总体</h4>
+      <p>自性不仅是意识的中心，更是意识与无意识整体的中心与圆周。它先于自我存在，自我只是自性的一小部分。</p>
+    </div>
+    <div class="card">
+      <h4>② 自性化 = 走向自性</h4>
+      <p>自性化不是"自我完善"，而是剥离人格面具与原型控制后，成为心理个体的过程——本质是意识与无意识的整合。</p>
+    </div>
+    <div class="card">
+      <h4>③ 五十年演变</h4>
+      <p>从1912年英雄象征（未命名）→ 红书实践萌芽 → 1921年术语确立 → 1944年炼金术深化 → 1951年系统化 → 1964年通俗化。</p>
+    </div>
+    <div class="card">
+      <h4>④ 后荣格光谱</h4>
+      <p>八位学者从"完全忠实"（冯·弗兰兹）到"根本否定"（希尔曼）构成连续光谱，所有理论创新都是对荣格自性理论内在张力的回应。</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">关键洞察</div>
+    <p>荣格自性理论存在<strong>结构性张力</strong>——自性既是"中心"又是"整体"，既是"原型"又超越所有原型，既是"先验的"又只在"后半生"才呈现。后荣格学者几乎所有的理论创新——从福德汉姆的"原初自性/中心自性"二分到希尔曼的根本否定——都是对这一张力的回应。理解这一张力，是理解整个荣格学派理论演变的钥匙。</p>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 1: CONCEPT DEFINITIONS ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 01</span>概念定义与理论基石</h2>
+
+  <h3>1.1 自性（Self）的多层定义</h3>
+
+  <p>荣格在多部著作中对「自性」给出过层层递进的定义。以下按卷次梳理其核心表述：</p>
+
+  <h4>CW 6《心理类型》——最早系统定义（§789）</h4>
+  <blockquote class="quote-en">
+    "As an empirical concept, the Self designates the whole range of psychic phenomena in man. It expresses the unity of the personality as a whole... it encompasses both the experienceable and the unexperienceable (or the not-yet experienced)."
+    <span class="source">——CW 6, para. 789</span>
+    <span class="translation">作为一个经验概念，自性指代人身上全部心理现象的总和，表达了人格整体的统一性。它既包含可经验的，也包含不可经验的（或尚未经验的）。</span>
+  </blockquote>
+
+  <h4>CW 12《心理学与炼金术》——中心与圆周（§44）</h4>
+  <blockquote class="quote-en">
+    "The self is not only the centre, but also the whole circumference which embraces both conscious and unconscious; it is the centre of this totality, just as the ego is the centre of consciousness."
+    <span class="source">——CW 12, para. 44</span>
+    <span class="translation">自性不仅是中心，也是包含意识与无意识的整个圆周；它是这一总体性的中心，正如自我是意识的中心。</span>
+  </blockquote>
+
+  <h4>CW 8《心理的本性与结构》——超凡人格与整体象征（§430）</h4>
+  <blockquote class="quote-en">
+    "The self appears in dreams, myths, and fairytales in the figure of the 'supraordinate personality,' such as a king, hero, prophet, saviour, etc., or in the form of a totality symbol, such as the circle, square, quadratura circuli, cross, etc."
+    <span class="source">——CW 8, para. 430</span>
+    <span class="translation">自性在梦、神话和童话中以"超凡人格"的形象出现——如国王、英雄、先知、救世主等，或以整体性象征的形式出现——如圆、方、方化圆、十字等。</span>
+  </blockquote>
+
+  <h4>CW 9ii《Aion》——最系统的阐述</h4>
+  <p>CW 9ii 是荣格对自性概念进行最集中、最系统论述的卷次。IAAP 官方学术摘要概括其核心论点：</p>
+  <blockquote>
+    "自性被定义于其与自我和本能的关系中，自性对整体性的追求与集体无意识对整体性的平行追求相关——这在<strong>曼陀罗象征</strong>中、并最终在<strong>基督形象</strong>中得到典型表现。"
+    <span class="source">——IAAP 官方摘要，CW 9ii</span>
+  </blockquote>
+
+  <div class="callout">
+    <div class="callout-title">自性的六重维度</div>
+    <p>Pacifica 研究生学院图书馆指南综合荣格著作，指出自性具有多重维度：</p>
+    <table>
+      <thead><tr><th>维度</th><th>内涵</th></tr></thead>
+      <tbody>
+        <tr><td>心灵结构</td><td>心灵总体，包含意识与无意识</td></tr>
+        <tr><td>发展过程</td><td>自性化过程的目标</td></tr>
+        <tr><td>超验假设</td><td>超越经验可验证性的终极指向</td></tr>
+        <tr><td>情感体验</td><td>具有独特神圣感（numinosity）的原型经验</td></tr>
+        <tr><td>原型</td><td>整体性原型，心灵的组织原则</td></tr>
+        <tr><td>上帝意象</td><td>自性的自发象征在实践中无法与上帝意象区分（CW 9ii, §73）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1.2 自性化（Individuation）的内涵</h3>
+
+  <h4>核心定义（CW 7, §266）</h4>
+  <blockquote class="quote-en">
+    "Individuation means becoming a single, homogeneous being, and, in so far as 'individuality' embraces our innermost, last, and incomparable uniqueness, it also implies becoming one's own self. We could therefore translate individuation as 'coming to selfhood' or 'self-actualization.'"
+    <span class="source">——CW 7, para. 266</span>
+    <span class="translation">自性化意味着成为一个单一的、统一的存在，而既然"个体性"包含了我们最内在的、最终的、无可比拟的独特性，它也意味着成为自己的自我。因此，我们可以将自性化翻译为"走向自性"或"自我实现"。</span>
+  </blockquote>
+
+  <h4>总目标（CW 7, §269）</h4>
+  <blockquote class="quote-en">
+    "The aim of individuation is nothing less than to divest the self of the false wrappings of the persona on the one hand and the suggestive power of primordial images on the other."
+    <span class="source">——CW 7, para. 269</span>
+    <span class="translation">自性化的目标不外乎是：一方面剥除人格面具的虚假包装，另一方面摆脱原始意象的暗示力量。</span>
+  </blockquote>
+
+  <p>即自性化需要剥离两样东西：</p>
+  <ol style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>人格面具（Persona）</strong>——自我在早期发展中创建的社会面具与虚假认同</li>
+    <li><strong>原型的无意识影响力量</strong>——原始意象（primordial images/archetypes）的暗示性控制</li>
+  </ol>
+
+  <h4>生物基础（CW 6, ¶757）</h4>
+  <blockquote class="quote-en">
+    "Individuation is an expression of that biological process — simple or complicated as the case may be — by which every living thing becomes what it was destined to become from the beginning."
+    <span class="source">——CW 6</span>
+    <span class="translation">自性化是那种生物过程的一种表达——通过它，每个生命体成为它从一开始就被注定要成为的东西。</span>
+  </blockquote>
+
+  <div class="note">关键区分：自性化 ≠ 自我中心（ego-centeredness）≠ 个人主义（individualism）。自性化主要属于"生命的后半程"的任务——前半生建立 ego 和 persona，后半生才转向自性化。</div>
+
+  <h3>1.3 自性与自我（Ego）的系统区分</h3>
+
+  <p>荣格在多部著作中明确区分了自性与自我，这是理解整个分析心理学的基石：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>维度</th><th>自我 Ego</th><th>自性 Self</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>位置</strong></td><td>意识的中心</td><td>整体心灵的中心</td></tr>
+        <tr><td><strong>范围</strong></td><td>意识领域</td><td>意识 + 无意识的总体</td></tr>
+        <tr><td><strong>性质</strong></td><td>经验性的、可被直接感知</td><td>部分经验性、部分假设性</td></tr>
+        <tr><td><strong>起源</strong></td><td>从自性中发展而来（自性先于自我）</td><td>先天存在的原型</td></tr>
+        <tr><td><strong>功能</strong></td><td>适应现实的主体，意志驱动的适应</td><td>心灵的调节中心与组织原则</td></tr>
+        <tr><td><strong>关系</strong></td><td>自我是自性的一小部分</td><td>自性包含自我</td></tr>
+        <tr><td><strong>目标</strong></td><td>维持意识稳定</td><td>追求整体性（wholeness）</td></tr>
+        <tr><td><strong>象征</strong></td><td>英雄、意识人格</td><td>圆、方、十字、曼陀罗、基督</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>自我从自性中产生</h4>
+  <blockquote>
+    "In the Freudian/Kleinian psychoanalytic tradition, the self is described as a by-product of ego development. By contrast, for Jung the self is present before the ego; it is primary and it is the ego that develops from it. The self retains its mystery."
+    <span class="source">——Martin Schmidt, 英国分析心理学会（SAP）</span>
+    <span class="translation">在弗洛伊德/克莱因派精神分析传统中，自性被描述为自我发展的副产品。相反，对荣格而言，自性先于自我存在；它是原初的，自我从其中发展而来。自性保持着它的神秘。</span>
+  </blockquote>
+
+  <h4>自性经验对自我的冲击（CW 14, §778）</h4>
+  <blockquote class="quote-en">
+    "...the experience of the self is always a defeat for the ego."
+    <span class="source">——CW 14, para. 778</span>
+    <span class="translation">自性的经验对自我而言总是一次失败。</span>
+  </blockquote>
+  <p>这意味着当自性在经验层面显现时，自我的控制力和主导地位被超越——自我的局限被暴露，其必须让位于更宏大的心理整体。</p>
+
+  <h4>失衡状态：膨胀（Inflation）</h4>
+  <p>据 IAAP 对 CW 9ii 的摘要，荣格指出了两种危险的失衡状态：</p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>自性被自我同化</h4>
+      <p>自我膨胀，僭越了自性的位置，导致<strong>意识的膨胀</strong>，损害总体人格。</p>
+    </div>
+    <div class="card">
+      <h4>自我被自性同化</h4>
+      <p>无意识吞噬意识，导致自我的消融和<strong>无意识的膨胀</strong>，同样损害总体人格。</p>
+    </div>
+  </div>
+  <p>只有当自我与自性保持<strong>动态平衡</strong>时，人格才能正常运作。自性化过程正是这种平衡的渐进达成——不是自我消灭，也不是自我独大，而是自我在自性的框架中找到其恰当位置。</p>
+</div>
+
+<!-- ===== CHAPTER 2: FOUR CORE VOLUMES ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 02</span>荣格原典四大核心卷次深度解析</h2>
+
+  <p>荣格对自性与自性化的系统论述分布在四大核心卷次中，每一卷承担不同的理论角色：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>卷次</th><th>核心贡献</th><th>理论角色</th></tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td><strong>CW 7</strong>《两篇论分析心理学的论文》</td><td>自性化的系统定义与阶段划分</td><td><strong>过程论</strong>：定义自性化，划分四阶段</td></tr>
+        <tr class="highlight"><td><strong>CW 9i</strong>《原型与集体无意识》</td><td>曼陀罗象征与自性化个案研究</td><td><strong>象征论</strong>：展示自性化的视觉化过程</td></tr>
+        <tr class="highlight"><td><strong>CW 9ii</strong>《Aion：自性的现象学研究》</td><td>自性的现象学系统研究</td><td><strong>本体论</strong>：定义自性本身的结构与动力学</td></tr>
+        <tr class="highlight"><td><strong>CW 14</strong>《神秘结合》</td><td>对立面的分离与综合</td><td><strong>终极论</strong>：探讨自性化的终极目标</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">四卷的逻辑递进</div>
+    <p>CW 7 回答<strong>"自性化是什么、如何进行"</strong>；CW 9i 回答<strong>"自性化如何在象征层面显现"</strong>；CW 9ii 回答<strong>"自性本身是什么"</strong>；CW 14 回答<strong>"自性化的终极目标是何种整体性"</strong>。</p>
+  </div>
+
+  <h3>2.1 CW 7《两篇论分析心理学的论文》——过程论</h3>
+
+  <p>CW 7 是荣格系统阐述自性化概念的核心卷次，IAAP 评价其为"分析心理学历史上的转折点"。该卷第二部分"自性化"分为四个阶段：</p>
+
+  <h4>自性化前的两种逃避机制</h4>
+  <p>在进入自性化之前，当个体首次意识到与集体心理的认同时常出现两种逃避：</p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>① 人格面具的退行性修复</h4>
+      <p>拒斥集体心理内容，退回到已缩小的人格面具中。类似于浮士德对自由的拒斥——阻碍成长，无法减少无意识对意识的影响。</p>
+    </div>
+    <div class="card">
+      <h4>② 与集体心理的认同</h4>
+      <p>完全接受集体心理而被其吞噬，失去独立感知能力。自我批评消失，导致"膨胀"（inflation）。</p>
+    </div>
+  </div>
+
+  <h4>自性化的四阶段</h4>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="year">STAGE 1</span>
+      <h4>无意识的功能（pp. 173-187）</h4>
+      <p>无意识以补偿性关系站在意识的对立面。通过精神疾病、创造性灵感和宗教转化的例子分析无意识因素。自我认知的增加减少了叠加在集体无意识之上的个人无意识层。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">STAGE 2</span>
+      <h4>阿尼玛与阿尼姆斯（pp. 188-211）</h4>
+      <p>阿尼玛/阿尼姆斯概念在与自性化过程的关系中被定义。男性为发展人格面具而压抑女性品质，阿尼玛与人格面具构成补偿关系。<strong>自性化的关键条件</strong>：必须从人格面具和阿尼玛中解放出来。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">STAGE 3</span>
+      <h4>分化技术（pp. 212-226）</h4>
+      <p>自性化被定义为<strong>"在自我意识与无意识之间中点处达成的人格"</strong>。鼓励幻想的产生以促进分化——如果无意识已获得对意识的支配，可通过将无意识内容引入意识来消耗其力量。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">STAGE 4</span>
+      <h4>曼纳人格（pp. 227-241）</h4>
+      <p>阿尼玛消解后的发展阶段。自我常篡取原本充盈于阿尼玛的力量（mana），自视为智慧而强大之人。<strong>解决方案</strong>：将曼纳人格的内容同化到意识中，结果将形成"自性"概念——一种 akin to "神在我们之内"的心理建构。</p>
+    </div>
+  </div>
+
+  <h4>心理结构系统大纲</h4>
+  <p>CW 7 附录提供了整个心理结构的层级关系：</p>
+  <blockquote>
+    <strong>意识</strong>（Consciousness）<br/>
+    &nbsp;&nbsp;└── 人格面具（Persona）——集体心理的片段/面具<br/>
+    &nbsp;&nbsp;└── 自我（Ego）——意识的中心<br/>
+    <strong>个人无意识</strong>（Personal Unconscious）<br/>
+    &nbsp;&nbsp;└── 个人生活中获得的无意识材料和过程<br/>
+    &nbsp;&nbsp;└── 情结（Complexes）<br/>
+    <strong>集体无意识</strong>（Collective Unconscious）<br/>
+    &nbsp;&nbsp;└── 原型（Archetypes）——遗传的思维范畴<br/>
+    &nbsp;&nbsp;└── 阿尼玛/阿尼姆斯（Anima/Animus）<br/>
+    <strong>个体性</strong>（Individuality）<br/>
+    &nbsp;&nbsp;└── 真实的个体性存在于无意识自性之中<br/>
+    &nbsp;&nbsp;└── 自性（Self）——通过自性化过程被实现
+  </blockquote>
+  <p>荣格强调：<strong>人格面具虽假装个体性，实际上不过是集体心理所戴的面具</strong>。个体真实的个体性存在于无意识自性中。</p>
+
+  <h3>2.2 CW 9i《原型与集体无意识》——象征论</h3>
+
+  <p>CW 9i 通过两篇核心文献展示自性化的视觉化过程：<strong>"自性化过程研究"</strong>（A Study in the Process of Individuation, pp. 290-354）和<strong>"论曼陀罗象征"</strong>（Concerning Mandala Symbolism, §§355-384）。</p>
+
+  <h4>曼陀罗的心理学定义</h4>
+  <p>梵文"mandala"意为"圆"。作为心理现象，曼陀罗<strong>自发出现</strong>于梦中、某些心理冲突状态和精神分裂症中，常包含以四的倍数出现的图形——十字或方形。在炼金术中代表四元素的综合。</p>
+
+  <h4>曼陀罗的核心心理功能</h4>
+  <blockquote class="quote-en">
+    "The basic psychological motif of the mandala is of a center of personality to which everything is related, by which everything is arranged, and which itself is a source of energy. The energy of the central point is manifested in the compulsion to become what one is, this desired presence may be called the self."
+    <span class="source">——CW 9i, §§355-384</span>
+    <span class="translation">曼陀罗的基本心理母题是一个人格中心——一切与之相关，一切由它安排，它本身是能量之源。中心点的能量表现为"成为自己所是"的冲动，这种被渴望的存在可被称为<strong>自性</strong>。</span>
+  </blockquote>
+
+  <h4>曼陀罗的结构映射</h4>
+  <div class="card-grid">
+    <div class="card">
+      <h4>中心点</h4>
+      <p>自性（Self）——人格的中点</p>
+    </div>
+    <div class="card">
+      <h4>周围区域</h4>
+      <p>包含构成人格的对立面</p>
+    </div>
+    <div class="card">
+      <h4>暗与亮的半圆</h4>
+      <p>代表人格的意识与无意识分区</p>
+    </div>
+    <div class="card">
+      <h4>总体范围</h4>
+      <p>包含意识、个人无意识及无限大的集体无意识区域</p>
+    </div>
+  </div>
+
+  <h4>曼陀罗的治疗功能</h4>
+  <p>在治疗情境中，曼陀罗的产生发生在<strong>混乱或恐慌状态</strong>中——作为人格向新中心的重新排列。其治疗效果在于<strong>自发产生</strong>；模仿或重复此类图像被认为没有治疗价值。这一过程被描述为一种<strong>自然的、本能的自我疗愈尝试</strong>。</p>
+
+  <h4>自性化个案研究：一位女性的曼陀罗系列</h4>
+  <p>CW 9i 中荣格最核心的个案——一位女性患者在自性化过程中绘制的一系列图画，展示了曼陀罗的演变：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>画作</th><th>曼陀罗特征</th><th>心理学意义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>图3</td><td>圆被解释为曼陀罗——自性总体性的心理表达</td><td>自性的初步显现</td></tr>
+        <tr><td>图5</td><td>明亮色彩，墨丘利之翼重现，右旋万字符</td><td>试图统一对立面：红与蓝、内与外</td></tr>
+        <tr><td>图7</td><td>背景全黑，光线集中于球体内部，万字符变为等臂十字</td><td>黑暗渗透曼陀罗中心；内在凝聚以抵御破坏性影响</td></tr>
+        <tr><td>图8</td><td>暗蓝四元体，中心金光逆时针旋转</td><td>对应意识的四种功能：直觉（黄）、思维（浅蓝）、情感（肉粉）、感觉（棕）</td></tr>
+        <tr><td>图9</td><td>上半部光芒辐射，下方升起山羊；融入《易经》四个卦象</td><td>无白不黑，无圣不魔——对立面的统一</td></tr>
+        <tr><td>最终</td><td>曼陀罗被诠释为上帝之眼</td><td>患者接受了自己的心理黑暗</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>曼陀罗与自性化的四层关联</h4>
+  <ol style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>曼陀罗是自性的经验性象征</strong>——自性通过曼陀罗这样的圆形图像自发显现</li>
+    <li><strong>曼陀罗的绘制标记自性化的关键节点</strong>——混乱或恐慌时人格向新中心重新排列</li>
+    <li><strong>曼陀罗体现对立统一的过程</strong>——"方化圆"即意识四种功能的分化与整合</li>
+    <li><strong>本能整合是自性化的前提</strong>——动物象征无意识本能力量，在曼陀罗中被统一</li>
+  </ol>
+
+  <blockquote class="quote-en">
+    "Animals generally signify the instinctive forces of the unconscious, which are brought into unity within the mandala. This integration of the instincts is a prerequisite for individuation."
+    <span class="source">——CW 9ii, para. 660</span>
+    <span class="translation">动物通常象征着无意识的本能力量，这些力量在曼陀罗中被统一。这种本能的整合是自性化的前提。</span>
+  </blockquote>
+
+  <h3>2.3 CW 9ii《Aion》——本体论</h3>
+
+  <p>CW 9ii 是荣格对自性概念最系统化的论述。IAAP 官方摘要逐节梳理了该卷的结构：</p>
+
+  <h4>自性的四元体结构（Quaternion）</h4>
+  <p>荣格构建了一个基于对立面的四元体模式，同时适用于基督和自性的超验本性：</p>
+  <blockquote>
+    在男性中的表现：由他自己、他的女性伴侣、超验的女性意象（anima）和智慧老翁原型形成<strong>四元婚姻结构</strong>；在女性中则由她自己、男性伴侣、阳性意象（animus）和大地母亲原型构成。这既是<strong>自性结构</strong>的图式，也是原始社会结构的图式。
+    <span class="source">——IAAP 摘要，CW 9ii</span>
+  </blockquote>
+
+  <h4>关键原典引用</h4>
+  <blockquote class="quote-en">
+    "This meeting with oneself is, at first, the meeting with one's own shadow. The shadow is a tight passage, a narrow door, whose painful constriction no one is spared who goes down to the deep well."
+    <span class="source">——CW 9ii, Page 21</span>
+    <span class="translation">与自己的相遇，首先是与自己阴影的相遇。阴影是一条狭窄的通道，一扇窄门，任何下到深井中的人都无法幸免其痛苦的挤压。</span>
+  </blockquote>
+
+  <blockquote class="quote-en">
+    "The individual may strive after perfection...but must suffer from the opposite of his intentions for the sake of his completeness."
+    <span class="source">——CW 9ii, para. 123</span>
+    <span class="translation">个体可能追求完美……但为了其完整性，必须承受与其意图相反之物。</span>
+  </blockquote>
+
+  <h4>基督作为自性象征</h4>
+  <p>基督被视为<strong>自性原型的象征表达</strong>，但基督象征<strong>不完整</strong>——排除了"低劣的"人格面向，将其外化为敌基督。完整的自性象征必须同时表达<strong>善与恶、意识与无意识</strong>。哲人石与基督可被识别为自性整体性的类似象征表达。</p>
+
+  <h4>诺斯替主义的自性象征</h4>
+  <p>诺斯替主义者被视为最早的系统自性探索者。普罗提诺描述灵魂为"围绕中心点旋转的动态过程"——与曼陀罗结构相通。炼金术中的"隐秘之点"（invisible point）= 万物的中心 = 自性。</p>
+
+  <h4>CW 9ii 的结论</h4>
+  <blockquote>
+    "自性被定义为<strong>这些对立面统一的产物</strong>，代表<strong>心理整体性</strong>。这种统一性在宗教中以<strong>上帝形象</strong>来代表。"
+    <span class="source">——IAAP 摘要，CW 9ii, ¶300, p.266-269</span>
+  </blockquote>
+
+  <h3>2.4 CW 14《神秘结合》——终极论</h3>
+
+  <p>CW 14 是荣格最后一部伟大著作（1941–1954年撰写，80岁时完成），聚焦于炼金术与心理学中"对立面的分离与综合"。</p>
+
+  <h4>核心论点</h4>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li>探讨自性的对立面特征，展示对立面与自我人格和自性的关系</li>
+    <li>炼金术中 Sol（太阳）的属性被分析与心理学的自我概念相关联——Sol 被视为一种存在于人内部和宇宙中的美德或生成性转化力量</li>
+    <li>Mercurius（墨丘利乌斯）作为四元体中对立面的综合者或统一者被讨论</li>
+    <li>自性被视为一种<strong>"已存在的整体性"</strong>（already existing wholeness）</li>
+  </ul>
+
+  <h4>关键原典引用</h4>
+  <blockquote class="quote-en">
+    "There is in the unconscious an already existing wholeness, the 'homo totus' of the Western and the Chên-yên (true man) of Chinese alchemy, the round primordial being who represents the greater man within, the Anthropos."
+    <span class="source">——CW 14</span>
+    <span class="translation">无意识中存在一种已经存在的整体性，即西方炼金术中的"完整人"（homo totus）和中国炼金术中的"真人"（Chên-yên），那圆形的原始存在，代表着内在的更大之人——Anthropos。</span>
+  </blockquote>
+
+  <blockquote class="quote-en">
+    "Wisdom is never violent: where wisdom reigns there is no conflict between thinking and feeling."
+    <span class="source">——CW 14, para. 334</span>
+    <span class="translation">智慧从不暴烈：智慧主宰之处，思维与情感之间没有冲突。</span>
+  </blockquote>
+
+  <blockquote class="quote-en">
+    "Egocentricity is a necessary attribute of consciousness and is also its specific sin."
+    <span class="source">——CW 14, para. 364</span>
+    <span class="translation">自我中心是意识的必要属性，也是其特有的罪。</span>
+  </blockquote>
+
+  <blockquote class="quote-en">
+    "...psychic wholeness will never be attained empirically, as consciousness is too narrow and too one-sided to comprehend the full inventory of the psyche."
+    <span class="source">——CW 14, para. 759</span>
+    <span class="translation">心理整体性永远不会在经验中被完全获得，因为意识过于狭窄和片面，无法理解心灵的全部清单。</span>
+  </blockquote>
+
+  <div class="callout">
+    <div class="callout-title">荣格本人的曼陀罗经验</div>
+    <p>据荣格自传《回忆·梦·思考》，他在一战末期从"创造性疾病"中恢复时，每天早晨绘制一幅对应其"当时内在状态"的曼陀罗。1918至1920年间绘制了无数曼陀罗后，他意识到曼陀罗所象征的"对应于心灵的微观宇宙本性"，并援引歌德的《浮士德》：</p>
+    <blockquote>
+      "形成，转化，永恒心灵的永恒再造。那就是自性，人格的总体性[……]它是一切路径的指数。它是通往中心的道路，通往自性化。[……]<strong>没有线性进化；只有对自性的环绕（circumambulation）。</strong>"
+      <span class="source">——荣格《回忆·梦·思考》</span>
+    </blockquote>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 3: EVOLUTION TIMELINE ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 03</span>概念演变脉络（1912–1964）</h2>
+
+  <p>荣格的「自性/自性化」概念并非一蹴而就，而是经历了近半个世纪的演化。从1912年与弗洛伊德决裂时的模糊直觉，到1961年去世前的通俗总结，可以清晰看到一条<strong>从体验→命名→系统化→通俗化</strong>的轨迹。</p>
+
+  <h3>3.1 五十年演变时间线</h3>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="year">1912 · 前奏</span>
+      <h4>CW 5《转化的象征》——英雄象征自性（未命名）</h4>
+      <p>荣格与弗洛伊德决裂的标志性著作。IAAP评价为"荣格首次独立声明其立场的重要著作"。力比多被重定义为一般生命能量；英雄象征被解读为自性的象征表现。但"自性化"术语尚未出现，"自性"概念尚未从"无意识"中独立出来。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1913–1928 · 实践萌芽</span>
+      <h4>《红书》Liber Novus——曼陀罗绘画与积极想象</h4>
+      <p>荣格的"自我实验"持续约16年。Philemon Foundation评价："Liber Novus呈现了荣格自性化概念的原型（prototype）"。关键事件：Philemon（智慧老人原型）出现→荣格意识到无意识具有自主性→1916年起每天绘制曼陀罗→1928年收到卫礼贤寄来的《太乙金华密旨》，获得"做梦都没想到的印证"。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1917/1921 · 概念命名</span>
+      <h4>CW 7《两论》/ CW 6《心理类型》——术语正式确立</h4>
+      <p>CW 7 首次将自性化明确确立为分析心理学的核心治疗目标。CW 6 副标题即为"心理类型，或自性化心理学"——自性化被正式定义为"成为一个单一的、统一的存在"，被等同于"自我实现"，但明确区别于"自我中心"和"个人主义"。自性化被定位为"生命后半程"的任务。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1928–1944 · 炼金术深化</span>
+      <h4>CW 12《心理学与炼金术》等——历史纵深</h4>
+      <p>炼金术中的转化过程（nigredo黑化→albedo白化→rubedo红化）被解读为自性化过程的象征表达。哲人石=自性。曼陀罗的跨文化印证：西方炼金术的圆形图与荣格在《红书》中的曼陀罗经验形成互证。自性不再只是荣格个人经验的产物，而是人类文明中反复出现的原型模式。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1951 · 系统化</span>
+      <h4>CW 9ii《Aion》——自性概念的系统总结</h4>
+      <p>自性与自我的关系被精确定义，曼陀罗、四位一体、基督、哲人石等象征被整合为统一的理论框架。自性的结构（整体原型、意识与无意识的统一）和动力学（对整体性的追求、平衡与膨胀的机制）都得到系统阐述。</p>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1961/1964 · 晚年总结</span>
+      <h4>《回忆·梦·思考》/《人及其象征》——通俗化</h4>
+      <p>荣格以自传方式"演示"自性化：开篇名句"我的生命是无意识自性实现的故事"。核心方法论从"目标导向"转变为"环绕中心"——"没有线性进化；只有对自性的环绕"。1964年《人及其象征》中，von Franz 将自性化拆解为三步实践：面对阴影→整合阿尼玛/阿尼姆斯→与自性建立关系。</p>
+    </div>
+  </div>
+
+  <h3>3.2 演变逻辑图</h3>
+
+  <blockquote>
+    <strong>CW5 (1912)</strong>　英雄象征自性（象征层面，未命名）<br/>
+    ↓<br/>
+    <strong>《红书》(1913-28)</strong>　曼陀罗绘画实践（体验层面，自性概念萌发）<br/>
+    ↓<br/>
+    <strong>CW7 (1917/28)</strong>　自性化=治疗目标（剥离persona/原型控制）<br/>
+    ↓<br/>
+    <strong>CW6 (1921)</strong>　自性化=成为自己的生物过程（正式命名）<br/>
+    ↓<br/>
+    <strong>CW12 (1944)</strong>　炼金术=自性化的象征语言（历史纵深）<br/>
+    ↓<br/>
+    <strong>CW9ii (1951)</strong>　自性=整体原型（系统定义：结构+动力学）<br/>
+    ↓<br/>
+    <strong>MDR (1961)</strong>　自性化=环绕中心的非线性过程（自传验证）<br/>
+    ↓<br/>
+    <strong>MHS (1964)</strong>　自性化=阴影→阿尼玛→自性（通俗步骤化）
+  </blockquote>
+
+  <h3>3.3 三个关键转变</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>转变一：从"目标导向"到"环绕中心"</h4>
+      <p>早期（CW6/CW7）：自性化被视为有目标的发展过程——"becoming what it was destined to become"。晚期（MDR）：自性化被重新理解为环绕——"There is no linear evolution; there is only circumambulation of the self."</p>
+    </div>
+    <div class="card">
+      <h4>转变二：从"个人体验"到"跨文明原型"</h4>
+      <p>《红书》时期：自性概念源于荣格个人的曼陀罗经验。炼金术时期：自性被置于西方炼金术、东方道教、基督教象征、诺斯替主义的跨文化框架中。CW9ii：自性被整合为人类文明反复出现的原型模式。</p>
+    </div>
+    <div class="card">
+      <h4>转变三：从"学者术语"到"大众智慧"</h4>
+      <p>CW5–CW9ii：自性化是学术著作中的专业术语。MDR：自性化变成自传叙事——"我的生命是无意识自性实现的故事"。MHS：自性化被拆解为三步实践，使原本深奥的概念变得大众可及。</p>
+    </div>
+  </div>
+
+  <h3>3.4 荣格的最终定位</h3>
+
+  <p>荣格在自传中最终将自性化定位为：</p>
+  <ol style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>不是自我完善</strong>（self-improvement）——IAAP红书页面特别强调："individuation has frequently been discussed as if it were a project of self-improvement or self-fulfilment"（自性化常被当作自我完善的项目来讨论——这是一种误读）</li>
+    <li><strong>不是个人主义</strong>（individualism）——CW 6 中明确区分</li>
+    <li><strong>而是无意识的自我显现</strong>——"Everything in the unconscious seeks outward manifestation"</li>
+    <li><strong>而是围绕自性中心的持续旋转</strong>——"circumambulation of the self"</li>
+  </ol>
+
+  <h3>3.5 von Franz 的通俗化三步骤</h3>
+
+  <p>在1964年《人及其象征》中，von Franz 将荣格数十年理论提炼为清晰的步骤框架：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>步骤</th><th>核心任务</th><th>关键引文</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. 面对阴影</strong></td>
+          <td>认识并整合自己人格中被压抑的黑暗面</td>
+          <td>——</td>
+        </tr>
+        <tr>
+          <td><strong>2. 整合阿尼玛/阿尼姆斯</strong></td>
+          <td>阿尼玛：男性心理中的女性面向；阿尼姆斯：女性心理中的男性面向</td>
+          <td>"A positive integration of these archetypes can put one's mind in tune with the right inner values"</td>
+        </tr>
+        <tr>
+          <td><strong>3. 与自性建立关系</strong></td>
+          <td>在前两步基础上，与自性原型建立有意识的关系</td>
+          <td>"In order to have a relationship with the Self archetype, one must face and assimilate one's shadow and the anima or animus."</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <blockquote class="quote-en">
+    "Man becomes whole when (and only when) the process of individuation is complete. This slow process of psychic growth is the process of individuation. It is driven by the unconscious, which is the guiding force of psychic development."
+    <span class="source">——Marie-Louise von Franz, Man and His Symbols, 1964</span>
+    <span class="translation">人变得完整——当且仅当——自性化过程完成时。这种缓慢的心理成长过程就是自性化。它由无意识驱动，无意识是心理发展的引导力量。</span>
+  </blockquote>
+
+  <blockquote class="quote-en">
+    "The source of the dreams is what Jung calls the Self, the totality of the whole psyche, which is different from the ego or consciousness. It is often represented by mandalas."
+    <span class="source">——Marie-Louise von Franz, Man and His Symbols, 1964</span>
+    <span class="translation">梦的源头是荣格所称的自性——整个心灵的整体性，不同于自我或意识。它常以曼陀罗来呈现。</span>
+  </blockquote>
+
+  <div class="note">荣格一生解读约<strong>80,000个梦</strong>。他发现梦似乎遵循一种模式：如果持续多年追踪自己的梦，会看到某些内容浮现、消失、再出现。这种缓慢的心理成长过程就是自性化——由无意识驱动。</div>
+</div>
+
+<!-- ===== CHAPTER 4: DISCIPLES & POST-JUNGIANS ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 04</span>弟子及后学者的继承、阐释与批判</h2>
+
+  <p>荣格之后，分析心理学发展出多条路径。本章按<strong>与荣格原典的忠诚度</strong>从高到低排列八位代表学者，分为四组：忠实继承派、发展修正派、批判重构派与当代综合者。</p>
+
+  <h3>4.0 理论谱系总览</h3>
+
+  <div class="lineage-tree">
+    <div class="root">荣格：自性 = 心灵总体与中心原型</div>
+    <div style="font-size:24px; color:var(--accent); margin: 10px 0;">↓</div>
+    <div class="branch-container">
+      <div class="branch">
+        <h4>忠实继承派</h4>
+        <ul>
+          <li><strong>冯·弗兰兹</strong>（1915-1998）</li>
+          <li>荣格最亲密的合作者</li>
+          <li>炼金术与投射研究</li>
+          <li><strong>雅各比</strong>（1883-1970）</li>
+          <li>理论体系化与通俗化</li>
+          <li><strong>埃丁格</strong>（1922-1998）</li>
+          <li>自我-自性轴理论</li>
+        </ul>
+      </div>
+      <div class="branch">
+        <h4>发展修正派</h4>
+        <ul>
+          <li><strong>诺伊曼</strong>（1905-1960）</li>
+          <li>创造性中心 / 中心化</li>
+          <li>意识起源与发展</li>
+          <li><strong>福德汉姆</strong>（1905-1995）</li>
+          <li>原初自性 / 中心自性</li>
+          <li>儿童分析 / 整合-去整合</li>
+        </ul>
+      </div>
+      <div class="branch">
+        <h4>批判重构派</h4>
+        <ul>
+          <li><strong>希尔曼</strong>（1926-2011）</li>
+          <li>原型心理学</li>
+          <li>解构自性中心论</li>
+          <li><strong>萨缪尔斯</strong>（1946-）</li>
+          <li>后荣格学派分类</li>
+          <li>建构主义视角</li>
+        </ul>
+      </div>
+      <div class="branch">
+        <h4>当代综合者</h4>
+        <ul>
+          <li><strong>斯坦</strong>（1943-）</li>
+          <li>整合古典与发展学派</li>
+          <li>自性化临床实践</li>
+          <li>中年转化理论</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>4.1 忠实继承派</h3>
+
+  <h4>① 冯·弗兰兹（Marie-Louise von Franz, 1915–1998）</h4>
+
+  <p><strong>生平与关系：</strong>1933年（18岁）在苏黎世结识荣格，称此为"她一生决定性的相遇"。1934年开始接受荣格的分析训练。为支付分析费用，为荣格翻译希腊文、拉丁文炼金术手稿（《Aurora Consurgens》等），这使她成为荣格炼金术研究的核心合作者。荣格去世后，她成为苏黎世荣格学院的核心人物。</p>
+
+  <p><strong>对自性/自性化的核心贡献：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>通俗化阐释</strong>：在《人及其象征》中撰写"个体化过程"一章，将荣格数十年理论提炼为"阴影→阿尼玛/阿尼姆斯→自性"三步框架——这是全球读者最熟悉的自性化入门路径</li>
+    <li><strong>投射与自性化的关系</strong>：在《投射与心灵再回收》（1995）中，系统阐述投射在自性化中的作用——投影不是要被"消除"，而是要被"再回收"（reclaim）。通过收回投射，个体逐步认识自己无意识中的内容，从而推进自性化</li>
+    <li><strong>炼金术延续</strong>：继承荣格将炼金术视为自性化象征语言的传统，并在《炼金术的心理学》系列讲座中深入展开</li>
+    <li><strong>童话与自性化</strong>：在《童话心理学》中，将童话中的母题解读为自性化不同阶段的象征表现</li>
+  </ul>
+
+  <p><strong>理论忠诚度：</strong>冯·弗兰兹几乎完全忠实于荣格的原典框架，她的创新主要体现在<strong>应用的拓展</strong>（投射、童话）和<strong>表达的通俗化</strong>，而非理论框架的修正。她是荣格自性理论最忠实的"翻译者"和"传播者"。</p>
+
+  <h4>② 雅各比（Jolande Jacobi, 1890–1970）</h4>
+
+  <p><strong>生平与关系：</strong>1890年出生于荷兰，1920年代在维也纳结识荣格。1933年成为苏黎世荣格学院创建者之一。她是荣格学派最早的理论"系统化者"之一。</p>
+
+  <p><strong>核心贡献：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>理论图式化</strong>：《荣格心理学》（The Psychology of C.G. Jung, 1942）是英语世界第一本系统介绍荣格理论的教科书。她将荣格散见于20多卷著作中的概念整理为清晰的理论图式——意识/无意识/集体无意识的三层结构、自我/人格面具/阴影/阿尼玛/阿尼姆斯/自性/自性化的核心概念序列</li>
+    <li><strong>自性化的阶段化</strong>：明确将自性化分为前半生（适应、人格面具发展）和后半生（面对阴影、整合无意识、走向自性）两个阶段</li>
+    <li><strong>复杂性悖论</strong>：忠实于荣格但被批评过于简化——荣格本人对此态度复杂，一方面认可其传播价值，另一方面担心将活生生的经验简化为刻板图式</li>
+  </ul>
+
+  <p><strong>理论忠诚度：</strong>极高。雅各比不修正荣格，而是<strong>组织</strong>荣格。她的贡献是"编辑性"的而非"创造性"的——但正是这种系统化使荣格理论得以在全球传播。</p>
+
+  <h4>③ 埃丁格（Edward F. Edinger, 1922–1998）</h4>
+
+  <p><strong>生平与关系：</strong>美国分析心理学家，纽约荣格学派的代表人物。他的著作以对荣格原典的精细解读著称。</p>
+
+  <p><strong>核心贡献：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>自我-自性轴（Ego-Self Axis）</strong>：这是埃丁格最具影响力的概念贡献。他提出自我与自性之间存在一种"轴"——这一轴线在健康人格中是通畅的，在病理中则被阻断或扭曲。自我-自性轴的概念将荣格"自我是自性的一部分"这一直觉性洞见，转化为可操作的临床概念</li>
+    <li><strong>自我-自性关系的三个阶段</strong>：① 原始统一（婴儿期，自我尚未分化）→ ② 分离（成年期，自我独立运作）→ ③ 再联结（自性化，自我有意识地与自性建立关系）</li>
+    <li><strong>自性的临床意义</strong>：在《永恒的漏斗》等著作中，将炼金术图像与临床经验结合，展示自性化过程在当代人心理中的表现</li>
+  </ul>
+
+  <blockquote>
+    "The ego-self axis is the connecting link between consciousness and the unconscious, between the individual and the transpersonal. When this axis is intact, the ego feels related to a larger meaningful totality. When it is ruptured, the result is alienation, meaninglessness, and despair."
+    <span class="source">——Edward Edinger, Ego and Archetype</span>
+    <span class="translation">自我-自性轴是意识与无意识之间、个体与超个人之间的连接纽带。当这一轴心完整时，自我感到与一个更大的、有意义的整体相连。当它断裂时，结果就是异化、无意义和绝望。</span>
+  </blockquote>
+
+  <p><strong>理论忠诚度：</strong>高。埃丁格不修正荣格的核心概念，而是将其<strong>精细化</strong>和<strong>临床化</strong>。自我-自性轴是对荣格"自我-自性关系"的延伸阐释而非修正。</p>
+
+  <h3>4.2 发展修正派</h3>
+
+  <h4>④ 诺伊曼（Erich Neumann, 1905–1960）</h4>
+
+  <p><strong>生平与关系：</strong>1905年生于柏林，犹太裔。1933年在柏林结识荣格，后随荣格到苏黎世接受分析训练。1934年移居特拉维夫。荣格评价他为"最杰出的学生"。虽然被归为"发展修正派"，但诺伊曼自认是荣格理论的"发展者"而非"修正者"。</p>
+
+  <p><strong>对自性理论的系统修正：</strong></p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>维度</th><th>荣格</th><th>诺伊曼</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>自性的位置</strong></td><td>心灵中心与整体</td><td><strong>创造性中心</strong>（creative center）——更强调动态生成性</td></tr>
+        <tr><td><strong>自性化机制</strong></td><td>超越功能整合对立面</td><td><strong>中心化</strong>（centroversion）——自性主动整合和转化对立面的驱力</td></tr>
+        <tr><td><strong>发展观</strong></td><td>自性化主要在后半生</td><td>自性从婴儿期就驱动意识发展——<strong>全生命周期</strong>的自性化</td></tr>
+        <tr><td><strong>自性与本能</strong></td><td>自性与本能的关系暧昧</td><td>自性不仅超越本能，还<strong>组织本能</strong>——自性是"本能的精神组织者"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>核心著作《意识的起源与历史》（1949）：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li>提出意识发展的<strong>乌罗波罗斯→大母→分离→中心化</strong>四阶段模型</li>
+    <li>乌罗波罗斯（Ouroboros）：衔尾蛇，象征意识与无意识未分化的原始状态</li>
+    <li>大母阶段：意识从无意识中浮现，但仍被无意识的"大母"原型支配</li>
+    <li>分离阶段：自我从大母中分离，建立独立意识</li>
+    <li>中心化阶段：自我与自性建立有意识的关系——对应荣格的"自性化"</li>
+  </ul>
+
+  <p><strong>诺伊曼的创造性：</strong>他在荣格框架内引入了"发展心理学"维度——荣格主要关注后半生的自性化，诺伊曼则将自性化扩展到从婴儿到老年的完整发展轨迹。他的"中心化"概念比荣格的"超越功能"更具动态性和主动性。</p>
+
+  <h4>⑤ 福德汉姆（Michael Fordham, 1905–1995）</h4>
+
+  <p><strong>生平与关系：</strong>英国精神科医生，"发展学派"荣格心理学的创始人。1950年代后，将荣格理论与克莱因客体关系理论结合，发展出独特的儿童分析体系。</p>
+
+  <p><strong>对自性理论的最根本修正：</strong></p>
+
+  <div class="callout">
+    <div class="callout-title">福德汉姆的核心创新：自性的二分</div>
+    <p>福德汉姆将荣格的"自性"概念<strong>一分为二</strong>：</p>
+    <table>
+      <thead><tr><th>概念</th><th>定义</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td><strong>原初自性</strong>（Primary Self）</td><td>婴儿先天存在的整体性，是原初的整合状态</td><td>提供原初的心理整合</td></tr>
+        <tr><td><strong>中心自性</strong>（Central Self）</td><td>在发展过程中逐步形成的调节中心</td><td>整合意识与无意识</td></tr>
+      </tbody>
+    </table>
+    <p>这一区分直接回应了荣格自性理论的核心张力——自性既是"先天的整体"又是"发展的目标"。福德汉姆通过二分，使这两个看似矛盾的特征各得其所。</p>
+  </div>
+
+  <p><strong>整合-去整合理论（Deintegration-Reintegration）：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>原初整合</strong>：婴儿期的原初自性是一种整合状态</li>
+    <li><strong>去整合</strong>（Deintegration）：原初自性在发展过程中"分裂"为各个心理功能——这是发展的必要机制</li>
+    <li><strong>再整合</strong>（Reintegration）：在自性化过程中，分裂的部分被重新整合——不是回到原始统一，而是达到更高层次的整合</li>
+    <li><strong>与荣格的关系</strong>：这一模型将荣格"自性化=整合"的直觉，细化为一个发展性的循环过程</li>
+  </ul>
+
+  <p><strong>儿童分析的开创：</strong>荣格本人极少分析儿童。福德汉姆认为，如果自性从婴儿期就存在，那么儿童的心理过程也应通过自性理论来理解。他开创了荣格学派儿童分析的先河。</p>
+
+  <p><strong>理论忠诚度：</strong>中等。福德汉姆在概念框架上做了实质性修正——将"自性"一分为二、引入"去整合"概念。但这些修正并非对荣格的否定，而是对荣格理论中模糊地带的精确化。他自称是"荣格的发展者"。</p>
+
+  <h3>4.3 批判重构派</h3>
+
+  <h4>⑥ 希尔曼（James Hillman, 1926–2011）</h4>
+
+  <p><strong>生平与关系：</strong>美国心理学家，曾任苏黎世荣格学院 Director。1960年代后逐渐发展出"原型心理学"（Archetypal Psychology），被视为对荣格自性理论的<strong>最根本挑战</strong>。</p>
+
+  <p><strong>对自性理论的根本质疑：</strong></p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>质疑一：反对"中心"</h4>
+      <p>荣格将自性视为心灵"中心"。希尔曼反对这一隐喻，认为心灵是<strong>多中心的</strong>（polycentric）——每个原型都有自己的"中心"，不存在一个统领一切的"自性中心"。</p>
+    </div>
+    <div class="card">
+      <h4>质疑二：反对"整体性"</h4>
+      <p>荣格将自性化视为走向"整体性"（wholeness）。希尔曼质疑这一目标，认为"整体性"可能是一种<strong>膨胀</strong>——试图将所有经验统一为一个"整体"本身可能是自我的一种僭越。</p>
+    </div>
+    <div class="card">
+      <h4>质疑三：反对"发展"</h4>
+      <p>荣格将自性化视为一种"发展过程"。希尔曼认为，这暗含了一种<strong>目的论</strong>（teleology）——假定心灵有一个"目标"。他主张用"<strong>灵魂制造</strong>"（soul-making）替代自性化。</p>
+    </div>
+  </div>
+
+  <p><strong>希尔曼的替代方案——"灵魂制造"：</strong></p>
+  <blockquote>
+    "Soul-making"不是走向一个预定的"自性"，而是<strong>深化日常经验的灵魂维度</strong>。每一次对意象的深度想象（imagining）、每一次对日常事件的诗性解读，都是"灵魂制造"。它没有"终点"，只有"深化"。
+    <span class="source">——James Hillman, Re-Visioning Psychology</span>
+  </blockquote>
+
+  <p><strong>关键概念对比：</strong></p>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>维度</th><th>荣格：自性化</th><th>希尔曼：灵魂制造</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>心灵结构</td><td>有中心（自性）</td><td>多中心（多原型）</td></tr>
+        <tr><td>目标</td><td>整体性（wholeness）</td><td>深度（depth）</td></tr>
+        <tr><td>方向</td><td>发展性的（从部分到整体）</td><td>非发展性的（深化当下）</td></tr>
+        <tr><td>方法</td><td>积极想象→整合</td><td>意象工作→想象（imagining）</td></tr>
+        <tr><td>病理观</td><td>自性化受阻</td><td>"灵魂缺失"（loss of soul）</td></tr>
+        <tr><td>时间观</td><td>线性/目的论的</td><td>循环/非目的论的</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>对希尔曼的评价：</strong>希尔曼的批判尖锐而深刻，但也被批评为<strong>解构有余、建构不足</strong>——他否定了"自性"概念，却未能提供一个同等有力的替代核心概念。有评论者指出，原型心理学最终可能走向一种"美学化的碎片化"，缺乏荣格理论中"整体性追求"所提供的精神力量。</p>
+
+  <h4>⑦ 萨缪尔斯（Andrew Samuels, 1946–）</h4>
+
+  <p><strong>生平与关系：</strong>英国分析心理学家， Essex 大学教授。后荣格学派最重要的理论史家和反思者。</p>
+
+  <p><strong>核心贡献——后荣格学派三分法：</strong></p>
+  <p>萨缪尔斯在《荣格与后荣格学派》（1985）中，将后荣格学派分为三个主要分支：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>学派</th><th>核心特征</th><th>代表人物</th><th>地理中心</th></tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td><strong>古典派</strong>（Classical）</td><td>忠实于荣格原典框架，强调原型、自性化、象征</td><td>冯·弗兰兹、雅各比、埃丁格</td><td>苏黎世</td></tr>
+        <tr class="highlight"><td><strong>发展派</strong>（Developmental）</td><td>将荣格理论与客体关系/发展心理学结合</td><td>福德汉姆、诺伊曼</td><td>伦敦</td></tr>
+        <tr class="highlight"><td><strong>原型派</strong>（Archetypal）</td><td>强调原型的自主性，弱化自性概念</td><td>希尔曼</td><td>美国</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>萨缪尔斯自身的立场——建构主义：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li>萨缪尔斯本人不属任何一派，而是采取"建构主义"立场——认为心理理论不是"发现"的，而是"建构"的</li>
+    <li>他质疑"自性"概念的<strong>本质主义倾向</strong>——自性被荣格描述为一种"先验存在"，萨缪尔斯认为这更像是一种<strong>建构</strong>而非发现</li>
+    <li>他主张以"<strong>心理政治</strong>"（psychopolitics）视角看待自性——自性不是一个客观实体，而是一个文化建构的概念，其含义随时代和文化而变</li>
+  </ul>
+
+  <p><strong>对自性化概念的重构：</strong>萨缪尔斯提出将自性化从"个体内在过程"扩展到"<strong>关系性自性化</strong>"——自性化不仅发生在个体内部，也发生在人际关系、社会政治层面。这一立场与当代关系精神分析的发展方向一致。</p>
+
+  <h3>4.4 当代综合者</h3>
+
+  <h4>⑧ 斯坦（Murray Stein, 1943–）</h4>
+
+  <p><strong>生平与关系：</strong>美国分析心理学家，芝加哥荣格学派代表人物。曾任国际分析心理学会（IAAP）主席。是当代荣格心理学最重要的综合者和传播者之一。</p>
+
+  <p><strong>核心贡献：</strong></p>
+  <ul style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>学派整合</strong>：斯坦的独特贡献在于整合古典派（忠实于荣格原典）和发展派（福德汉姆、诺伊曼）的洞见。他既保留荣格对自性原型的核心洞见，也吸收发展派对自性在生命周期中动态表现的发现</li>
+    <li><strong>中年转化理论</strong>：在《中年转化》（Midlife Transition, 1983）中，将自性化理论具体化为中年期的心理任务——前半生建立的身份在40岁左右开始松动，自性化的"召唤"变得不可回避</li>
+    <li><strong>自性化的临床实践</strong>：在《荣格的心理治疗实践》中，将自性化从抽象理论转化为可操作的临床框架——分析关系本身就是自性化过程的缩影</li>
+    <li><strong>理论传播</strong>：通过《荣格的心灵地图》（Jung's Map of the Soul, 1998）等著作，将荣格的自性理论以现代读者可理解的方式重新阐释</li>
+  </ul>
+
+  <p><strong>斯坦的整合视角：</strong></p>
+  <blockquote>
+    斯坦认为，自性化不是一次性完成的"目标"，而是<strong>终生的动态过程</strong>。他综合荣格原典（CW7四阶段、CW9ii系统定义）和发展派（福德汉姆的整合-去整合、诺伊曼的中心化），提出了"自性化波浪"概念——自性化以"整合→去整合→再整合"的循环方式贯穿一生，每个循环都使自我-自性关系更加通透。
+    <span class="source">——综合自 Stein, Jung's Map of the Soul</span>
+  </blockquote>
+
+  <p><strong>理论忠诚度：</strong>高。斯坦不修正荣格的核心概念，而是<strong>综合</strong>各派的洞见，使荣格理论在当代语境中保持活力。他的贡献是"综合性的"而非"修正性的"。</p>
+
+  <h3>4.5 八位学者忠诚度光谱</h3>
+
+  <p>以下图表展示八位学者对荣格自性/自性化理论的忠诚度，从"完全忠实"到"根本否定"构成连续光谱：</p>
+
+  <div class="loyalty-chart">
+    <div class="loyalty-bar">
+      <span class="name">冯·弗兰兹</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 95%;">95%</div></div>
+      <span class="label">忠实传播</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">雅各比</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 90%;">90%</div></div>
+      <span class="label">系统化</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">埃丁格</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 85%;">85%</div></div>
+      <span class="label">精细化</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">斯坦</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 80%;">80%</div></div>
+      <span class="label">综合</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">诺伊曼</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 65%;">65%</div></div>
+      <span class="label">发展扩展</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">福德汉姆</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 55%;">55%</div></div>
+      <span class="label">概念二分</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">萨缪尔斯</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 40%;">40%</div></div>
+      <span class="label">建构主义</span>
+    </div>
+    <div class="loyalty-bar">
+      <span class="name">希尔曼</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 20%;">20%</div></div>
+      <span class="label">根本否定</span>
+    </div>
+  </div>
+
+  <div class="note">注：忠诚度百分比为概念性评估，基于各学者对荣格核心概念（自性为中心/整体、自性化为整合过程、自性先于自我等）的保留程度。非精确量化，旨在直观展示光谱分布。</div>
+
+  <h3>4.6 八位学者核心观点速查表</h3>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>学者</th><th>对"自性"的态度</th><th>对"自性化"的态度</th><th>独特贡献</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>冯·弗兰兹</strong></td><td>完全接受</td><td>三步框架化</td><td>投射再回收、童话心理学</td></tr>
+        <tr><td><strong>雅各比</strong></td><td>完全接受</td><td>前后半生二分</td><td>理论系统化教科书</td></tr>
+        <tr><td><strong>埃丁格</strong></td><td>完全接受</td><td>自我-自性轴</td><td>三阶段发展模型</td></tr>
+        <tr><td><strong>诺伊曼</strong></td><td>修正为"创造性中心"</td><td>扩展为"中心化"</td><td>意识起源四阶段</td></tr>
+        <tr><td><strong>福德汉姆</strong></td><td>一分为二（原初/中心）</td><td>整合-去整合循环</td><td>儿童分析、发展学派</td></tr>
+        <tr><td><strong>希尔曼</strong></td><td>根本否定</td><td>替代为"灵魂制造"</td><td>原型心理学、多中心论</td></tr>
+        <tr><td><strong>萨缪尔斯</strong></td><td>建构主义质疑</td><td>扩展到关系层面</td><td>后荣格学派三分法</td></tr>
+        <tr><td><strong>斯坦</strong></td><td>综合接受</td><td>终生波浪式过程</td><td>中年转化、学派整合</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 5: CROSS-CUTTING ANALYSIS ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 05</span>综合分析与洞察</h2>
+
+  <h3>5.1 自性理论的内在张力</h3>
+
+  <p>交叉验证三份资料后，本报告发现荣格自性理论中存在<strong>四组结构性张力</strong>，这些张力不是理论的缺陷，而是其生命力的源泉——后荣格学者几乎所有的理论创新都是对这些张力的回应。</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>张力</th><th>面向A</th><th>面向B</th><th>回应者</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>中心 vs 整体</strong></td>
+          <td>自性是心灵的"中心"（CW 12, §44）</td>
+          <td>自性是包含一切的"整体圆周"（同一段）</td>
+          <td>希尔曼否定中心→多中心论</td>
+        </tr>
+        <tr>
+          <td><strong>先验 vs 后成</strong></td>
+          <td>自性先天存在，先于自我（CW 8, §430）</td>
+          <td>自性化是"后半生"的任务（CW 7）</td>
+          <td>福德汉姆：原初自性/中心自性二分</td>
+        </tr>
+        <tr>
+          <td><strong>原型 vs 超越原型</strong></td>
+          <td>自性是"整体性原型"（CW 9ii）</td>
+          <td>自性"超越所有原型"，类似上帝意象（CW 9ii, §73）</td>
+          <td>诺伊曼：自性=本能的精神组织者</td>
+        </tr>
+        <tr>
+          <td><strong>目标 vs 过程</strong></td>
+          <td>自性化有明确目标——"becoming what it was destined to become"</td>
+          <td>"没有线性进化；只有对自性的环绕"（MDR）</td>
+          <td>希尔曼：灵魂制造替代自性化</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">关键洞察</div>
+    <p>荣格本人似乎<strong>有意保持</strong>这些张力的开放性——他拒绝将自性定义为一个封闭概念，而是让它在不同语境中展现不同面向。这种"刻意的模糊"使理论保持弹性，但也为后学的分裂埋下伏笔：每一派学者往往<strong>选择性地强调其中一面</strong>，以此为基础建构自己的体系。</p>
+  </div>
+
+  <h3>5.2 方法论决定理论形态</h3>
+
+  <p>三份资料的交叉比对揭示了一个深层规律：<strong>学者选择的研究方法，几乎决定了其对自性理论的态度</strong>。</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>学者</th><th>核心方法</th><th>理论走向</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>冯·弗兰兹</td><td>炼金术文本分析 + 童话母题分析</td><td>→ 忠实于荣格象征学方法，扩展应用范围</td></tr>
+        <tr><td>雅各比</td><td>概念系统化与图式化</td><td>→ 保存理论框架，优化表达形式</td></tr>
+        <tr><td>埃丁格</td><td>临床经验 + 炼金术图像解读</td><td>→ 将自性概念精细化到自我-自性轴</td></tr>
+        <tr><td>诺伊曼</td><td>发展心理学 + 神话学</td><td>→ 将自性扩展到全生命周期</td></tr>
+        <tr><td>福德汉姆</td><td>克莱因客体关系 + 儿童观察</td><td>→ 将自性一分为二，引入发展循环</td></tr>
+        <tr><td>希尔曼</td><td>意象工作 + 文学/美学</td><td>→ 否定自性中心，走向多中心论</td></tr>
+        <tr><td>萨缪尔斯</td><td>政治学 + 建构主义哲学</td><td>→ 将自性视为文化建构而非客观实体</td></tr>
+        <tr><td>斯坦</td><td>临床综合 + 理论史</td><td>→ 整合各派，聚焦中年转化实践</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">方法论启示</div>
+    <p><strong>方法越是偏离荣格原典的象征学路径（梦的分析 + 积极想象 + 炼金术扩充），理论就越偏离荣格原典框架。</strong>希尔曼虽然仍使用"意象"，但他将意象从"整合工具"变为"终极目的"——不再服务于自性化，而是本身就是"灵魂制造"。这一微妙转变导致了最根本的理论分歧。</p>
+  </div>
+
+  <h3>5.3 后荣格理论创新的四种模式</h3>
+
+  <p>综合八位学者的理论路径，可以归纳出四种创新模式：</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>模式一：应用拓展</h4>
+      <p><strong>代表</strong>：冯·弗兰兹（投射、童话）<br/><strong>逻辑</strong>：不改框架，找新领域<br/><strong>效果</strong>：扩大理论的解释范围</p>
+    </div>
+    <div class="card">
+      <h4>模式二：系统化</h4>
+      <p><strong>代表</strong>：雅各比、斯坦<br/><strong>逻辑</strong>：不改框架，整理与综合<br/><strong>效果</strong>：提升理论的传播力与内在一致性</p>
+    </div>
+    <div class="card">
+      <h4>模式三：概念分化</h4>
+      <p><strong>代表</strong>：诺伊曼（中心化）、福德汉姆（原初/中心自性）、埃丁格（自我-自性轴）<br/><strong>逻辑</strong>：将荣格的统一概念拆分为子概念<br/><strong>效果</strong>：解决内在张力，增强精确性</p>
+    </div>
+    <div class="card">
+      <h4>模式四：范式替代</h4>
+      <p><strong>代表</strong>：希尔曼（灵魂制造）、萨缪尔斯（建构主义）<br/><strong>逻辑</strong>：用新概念替代旧概念<br/><strong>效果</strong>：根本性挑战，但可能丧失原有解释力</p>
+    </div>
+  </div>
+
+  <h3>5.4 自性化概念的三层误读风险</h3>
+
+  <p>综合荣格原典与后学批评，自性化概念在传播中存在三层典型误读：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>层次</th><th>误读</th><th>荣格原意</th><th>来源</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>第一层</strong></td>
+          <td>自性化 = 自我完善/自我实现</td>
+          <td>自性化 ≠ 自我完善，而是无意识的自我显现</td>
+          <td>IAAP红书页面特别警示</td>
+        </tr>
+        <tr>
+          <td><strong>第二层</strong></td>
+          <td>自性化 = 个人主义/与众不同</td>
+          <td>自性化 ≠ 个人主义，恰恰需要与集体保持关系</td>
+          <td>CW 6 明确区分</td>
+        </tr>
+        <tr>
+          <td><strong>第三层</strong></td>
+          <td>自性化是一个"完成态"</td>
+          <td>自性化是"环绕"，没有线性进化的终点</td>
+          <td>荣格《回忆·梦·思考》</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">von Franz 在《人及其象征》中的三步框架虽然极大促进了自性化概念的传播，但也可能无意中强化了"自性化=有步骤可完成"的误读。荣格本人的晚期表述更强调其非线性和不可完成性。</div>
+
+  <h3>5.5 跨学科影响</h3>
+
+  <p>自性/自性化概念已超越分析心理学领域，对多个学科产生深远影响：</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>宗教研究</h4>
+      <p>自性与上帝意象的关系（CW 9ii）引发宗教学界持续讨论。荣格将基督视为"不完整的自性象征"的论点，至今仍是宗教对话的热点。</p>
+    </div>
+    <div class="card">
+      <h4>文学批评</h4>
+      <p>自性化过程成为文学分析的核心框架——从乔伊斯的《尤利西斯》到托尔金的《魔戒》，英雄旅程被解读为自性化的象征叙事。</p>
+    </div>
+    <div class="card">
+      <h4>艺术治疗</h4>
+      <p>曼陀罗绘制成为艺术治疗的标准技术。荣格在CW 9i中对曼陀罗的治疗功能的阐述，直接催生了一个治疗流派。</p>
+    </div>
+    <div class="card">
+      <h4>人格心理学</h4>
+      <p>MBTI（迈尔斯-布里格斯类型指标）基于荣格CW 6的心理类型理论，成为全球使用最广的人格测评工具之一。虽然MBTI不直接测量自性化，但它为理解个体差异提供了荣格理论基础。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAPTER 6: CONCLUSIONS & APPENDIX ===== -->
+<div class="chapter">
+  <h2><span class="chapter-num">Chapter 06</span>结论与建议</h2>
+
+  <h3>6.1 核心结论</h3>
+
+  <ol style="padding-left: 24px; margin: 12px 0;">
+    <li><strong>自性是荣格心理学的拱顶石概念。</strong>它不是众多原型之一，而是心灵的组织原则——所有其他原型（阴影、阿尼玛/阿尼姆斯、人格面具等）都围绕自性运转。理解自性是理解荣格整个理论体系的钥匙。</li>
+    <li><strong>自性化不是"成为更好的自己"，而是"成为自己所是"。</strong>这一区分至关重要——前者暗示一个外在标准，后者暗示一个内在潜能的实现。荣格反复强调自性化不是自我完善，而是无意识内容的逐步整合。</li>
+    <li><strong>荣格本人对自性的理解经历了五十年演变。</strong>从1912年的英雄象征（未命名）到1951年的系统定义（CW 9ii），再到1961年的"环绕"隐喻——概念不是静止的，而是在实践中不断深化的。</li>
+    <li><strong>后荣格学者的理论创新几乎都是对荣格自性理论内在张力的回应。</strong>福德汉姆的"原初/中心自性"二分回应了"先验vs后成"张力；希尔曼的"多中心论"回应了"中心vs整体"张力；萨缪尔斯的"建构主义"回应了"原型vs超越原型"张力。</li>
+    <li><strong>忠诚度越低的修正，创新性越强但也越可能丧失原理论的解释力。</strong>希尔曼的原型心理学虽然富有启发性，但被批评为"解构有余、建构不足"——否定"自性"概念后，缺乏同等有力的替代核心。</li>
+  </ol>
+
+  <h3>6.2 延伸阅读建议</h3>
+
+  <p>根据本报告各章节内容，建议按以下路径深入阅读：</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>阅读阶段</th><th>推荐书目</th><th>对应报告章节</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>入门</strong></td>
+          <td>《人及其象征》（MHS, 1964）——von Franz撰写的"自性化过程"章节</td>
+          <td>第3章 §3.5</td>
+        </tr>
+        <tr>
+          <td><strong>进阶</strong></td>
+          <td>CW 7《两篇论分析心理学的论文》——自性化四阶段</td>
+          <td>第2章 §2.1</td>
+        </tr>
+        <tr>
+          <td><strong>深化</strong></td>
+          <td>CW 9ii《Aion》——自性现象学系统论述</td>
+          <td>第2章 §2.3</td>
+        </tr>
+        <tr>
+          <td><strong>拓展</strong></td>
+          <td>CW 9i"论曼陀罗象征" + CW 14《神秘结合》</td>
+          <td>第2章 §2.2, §2.4</td>
+        </tr>
+        <tr>
+          <td><strong>后学</strong></td>
+          <td>斯坦《荣格的心灵地图》+ 萨缪尔斯《荣格与后荣格学派》</td>
+          <td>第4章 §4.4, §4.3</td>
+        </tr>
+        <tr>
+          <td><strong>批判</strong></td>
+          <td>希尔曼《重新构想心理学》（Re-Visioning Psychology）</td>
+          <td>第4章 §4.3</td>
+        </tr>
+        <tr>
+          <td><strong>发展</strong></td>
+          <td>福德汉姆儿童分析著作 + 诺伊曼《意识的起源与历史》</td>
+          <td>第4章 §4.2</td>
+        </tr>
+        <tr>
+          <td><strong>自传</strong></td>
+          <td>荣格《回忆·梦·思考》</td>
+          <td>第2章 §2.4, 第3章</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.3 核心术语中英对照表</h3>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>英文</th><th>中文</th><th>简要定义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Self</td><td>自性</td><td>心灵总体与中心原型，包含意识与无意识</td></tr>
+        <tr><td>Individuation</td><td>自性化 / 个体化</td><td>成为心理个体的过程，意识与无意识的整合</td></tr>
+        <tr><td>Ego</td><td>自我</td><td>意识的中心，自性的一部分</td></tr>
+        <tr><td>Persona</td><td>人格面具</td><td>为适应社会而戴的"面具"</td></tr>
+        <tr><td>Shadow</td><td>阴影</td><td>被压抑或否认的人格部分</td></tr>
+        <tr><td>Anima/Animus</td><td>阿尼玛 / 阿尼姆斯</td><td>男性中的女性面向 / 女性中的男性面向</td></tr>
+        <tr><td>Collective Unconscious</td><td>集体无意识</td><td>人类共有的无意识层，包含原型</td></tr>
+        <tr><td>Archetype</td><td>原型</td><td>集体无意识中的先天模式</td></tr>
+        <tr><td>Mandala</td><td>曼陀罗</td><td>梵文"圆"，自性的自发象征</td></tr>
+        <tr><td>Transcendent Function</td><td>超越功能</td><td>连接意识与无意识的心理功能</td></tr>
+        <tr><td>Inflation</td><td>膨胀</td><td>自我或无意识僭越正常边界的失衡状态</td></tr>
+        <tr><td>Wholeness</td><td>整体性</td><td>自性化的目标，意识与无意识的统一</td></tr>
+        <tr><td>Circumambulation</td><td>环绕</td><td>荣格晚期对自性化的隐喻——非线性的围绕</td></tr>
+        <tr><td>Ego-Self Axis</td><td>自我-自性轴</td><td>埃丁格概念，自我与自性之间的连接纽带</td></tr>
+        <tr><td>Centroversion</td><td>中心化</td><td>诺伊曼概念，自性主动整合对立面的驱力</td></tr>
+        <tr><td>Deintegration</td><td>去整合</td><td>福德汉姆概念，原初自性在发展中的必要分裂</td></tr>
+        <tr><td>Soul-making</td><td>灵魂制造</td><td>希尔曼概念，自性化的替代方案</td></tr>
+        <tr><td>Numinosity</td><td>神圣感</td><td>原型经验具有的独特情感特质</td></tr>
+        <tr><td>Quadratura Circuli</td><td>方化圆</td><td>自性象征，代表对立面的统一</td></tr>
+        <tr><td>Philosopher's Stone</td><td>哲人石</td><td>炼金术中自性的象征</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.4 参考来源汇总</h3>
+
+  <p>本报告整合自三路并行搜索成果，核心参考来源包括：</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>荣格原典</h4>
+      <p>CW 5/6/7/8/9i/9ii/12/14；《回忆·梦·思考》(1961)；《人及其象征》(1964)；《红书》Liber Novus (2009)</p>
+    </div>
+    <div class="card">
+      <h4>学术机构</h4>
+      <p>IAAP（国际分析心理学会）官方卷次摘要；英国分析心理学会（SAP）；Pacifica研究生学院图书馆指南；Philemon Foundation</p>
+    </div>
+    <div class="card">
+      <h4>后荣格学者著作</h4>
+      <p>von Franz《投射与心灵再回收》《童话心理学》；Jacobi《荣格心理学》；Edinger《自我与原型》；Neumann《意识的起源与历史》；Hillman《重新构想心理学》；Samuels《荣格与后荣格学派》；Stein《荣格的心灵地图》</p>
+    </div>
+    <div class="card">
+      <h4>中文学术资源</h4>
+      <p>陈灿锐、申荷永《荣格与后荣格学派"自性观"》（《心理学探新》2011年第05期）</p>
+    </div>
+  </div>
+
+  <hr style="margin: 40px 0; border: none; border-top: 2px solid var(--accent);"/>
+
+  <div style="text-align: center; color: var(--text-muted); font-size: 14px; padding: 20px;">
+    <p>本报告由报告汇总员基于三路并行搜索成果交叉验证整合而成</p>
+    <p>资料覆盖：荣格原典（CW 5/6/7/8/9i/9ii/12/14）+ 概念演变脉络（1912-1964）+ 八位后荣格学者评价</p>
+    <p>交付日期：2026-08-05</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

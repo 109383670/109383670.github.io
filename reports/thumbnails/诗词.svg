@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#101826"/>
+      <stop offset="100%" stop-color="#060a12"/>
+    </linearGradient>
+    <linearGradient id="moon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 圆月 -->
+  <circle cx="290" cy="85" r="30" fill="url(--moon)" opacity="0.5"/>
+  <circle cx="290" cy="85" r="38" fill="none" stroke="#94a3b8" stroke-width="0.5" opacity="0.2"/>
+  <!-- 远山 -->
+  <path d="M 0 210 L 80 150 L 140 185 L 220 140 L 300 190 L 400 155 L 400 240 L 0 240 Z" fill="none" stroke="url(--ink)" stroke-width="1.2" opacity="0.5"/>
+  <path d="M 0 220 L 60 175 L 130 200 L 200 165 L 280 205 L 400 175 L 400 240 L 0 240 Z" fill="none" stroke="url(--ink)" stroke-width="0.8" opacity="0.3"/>
+  <!-- 柳 -->
+  <g transform="translate(110, 160)" opacity="0.5">
+    <line x1="0" y1="0" x2="0" y2="60" stroke="#1e293b" stroke-width="1.5"/>
+    <path d="M 0 5 Q -15 15 -20 35" fill="none" stroke="#475569" stroke-width="0.8"/>
+    <path d="M 0 10 Q 12 20 15 38" fill="none" stroke="#475569" stroke-width="0.8"/>
+    <path d="M 0 15 Q -8 25 -12 45" fill="none" stroke="#475569" stroke-width="0.6"/>
+  </g>
+  <!-- 舟 -->
+  <g transform="translate(200, 205)" opacity="0.45">
+    <path d="M -22 0 Q 0 12 22 0 L 16 5 L -16 5 Z" fill="none" stroke="#94a3b8" stroke-width="0.8"/>
+  </g>
+  <!-- 词牌字 -->
+  <text x="90" y="120" fill="#94a3b8" font-family="serif" font-size="18" opacity="0.35">漱</text>
+  <text x="120" y="140" fill="#94a3b8" font-family="serif" font-size="18" opacity="0.3">玉</text>
+  <text x="100" y="95" fill="#94a3b8" font-family="serif" font-size="18" opacity="0.3">词</text>
+  <text x="60" y="145" fill="#94a3b8" font-family="serif" font-size="18" opacity="0.25">林</text>
+  <!-- 飞鸟 -->
+  <path d="M 200 70 Q 205 65 210 70" fill="none" stroke="#94a3b8" stroke-width="0.8" opacity="0.3"/>
+  <path d="M 220 60 Q 225 55 230 60" fill="none" stroke="#94a3b8" stroke-width="0.8" opacity="0.25"/>
+  <text x="200" y="270" text-anchor="middle" fill="#cbd5e1" font-family="serif" font-size="15" font-weight="bold">漱玉词林 · 诗词园</text>
+</svg>
