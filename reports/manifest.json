@@ -3,6 +3,20 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "黑格尔小逻辑结构可视化",
+      "type": "html",
+      "title": "黑格尔小逻辑结构可视化",
+      "summary": "存在论·本质论·概念论三编结构，正反合辩证法在《小逻辑》中的完整展开。",
+      "tags": [
+        "哲学",
+        "黑格尔",
+        "辩证法"
+      ],
+      "date": "2026-08-10",
+      "path": "reports/黑格尔小逻辑结构可视化.html",
+      "thumbnail": "reports/thumbnails/黑格尔小逻辑结构可视化.svg"
+    },
+    {
       "id": "诗词",
       "type": "html",
       "title": "漱玉词林 · 诗词园",

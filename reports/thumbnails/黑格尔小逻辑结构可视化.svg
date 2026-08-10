@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#141828"/>
+      <stop offset="100%" stop-color="#060810"/>
+    </radialGradient>
+    <linearGradient id="thesis" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="antithesis" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#f87171"/>
+    </linearGradient>
+    <linearGradient id="synthesis" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8a96e"/>
+      <stop offset="100%" stop-color="#8a7350"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 正反合三角 -->
+  <g transform="translate(200, 125)">
+    <!-- 三个环节 -->
+    <circle cx="-60" cy="35" r="28" fill="none" stroke="url(--thesis)" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="-60" cy="35" r="28" fill="url(--thesis)" opacity="0.06"/>
+    <text x="-60" y="32" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="13" opacity="0.7">正</text>
+    <text x="-60" y="46" text-anchor="middle" fill="#818cf8" font-family="serif" font-size="8" opacity="0.5">Being</text>
+
+    <circle cx="60" cy="35" r="28" fill="none" stroke="url(--antithesis)" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="60" cy="35" r="28" fill="url(--antithesis)" opacity="0.06"/>
+    <text x="60" y="32" text-anchor="middle" fill="#fca5a5" font-family="serif" font-size="13" opacity="0.7">反</text>
+    <text x="60" y="46" text-anchor="middle" fill="#f87171" font-family="serif" font-size="8" opacity="0.5">Nothing</text>
+
+    <circle cx="0" cy="-35" r="28" fill="none" stroke="url(--synthesis)" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="0" cy="-35" r="28" fill="url(--synthesis)" opacity="0.06"/>
+    <text x="0" y="-38" text-anchor="middle" fill="#fde68a" font-family="serif" font-size="13" opacity="0.7">合</text>
+    <text x="0" y="-24" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="8" opacity="0.5">Becoming</text>
+
+    <!-- 环节线 -->
+    <line x1="-40" y1="22" x2="-18" y2="-18" stroke="url(--thesis)" stroke-width="1" opacity="0.3"/>
+    <line x1="40" y1="22" x2="18" y2="-18" stroke="url(--antithesis)" stroke-width="1" opacity="0.3"/>
+    <line x1="-28" y1="45" x2="28" y2="45" stroke="#c8a96e" stroke-width="0.5" opacity="0.2"/>
+  </g>
+  <!-- 递进箭头 -->
+  <path d="M 90 160 L 120 160 M 114 154 L 120 160 L 114 166" stroke="#c8a96e" stroke-width="1" fill="none" opacity="0.3"/>
+  <path d="M 280 160 L 310 160 M 304 154 L 310 160 L 304 166" stroke="#c8a96e" stroke-width="1" fill="none" opacity="0.3"/>
+  <!-- 上升螺旋（精神的自我运动） -->
+  <g transform="translate(200, 215)" opacity="0.4">
+    <circle cx="-25" cy="0" r="8" fill="none" stroke="url(--gold)" stroke-width="0.8"/>
+    <circle cx="0" cy="-6" r="8" fill="none" stroke="url(--gold)" stroke-width="0.8"/>
+    <circle cx="25" cy="0" r="8" fill="none" stroke="url(--gold)" stroke-width="0.8"/>
+    <line x1="-17" y1="-2" x2="-8" y2="-5" stroke="url(--gold)" stroke-width="0.6" opacity="0.4"/>
+    <line x1="8" y1="-5" x2="17" y2="-2" stroke="url(--gold)" stroke-width="0.6" opacity="0.4"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" fill="#a5b4fc" font-family="serif" font-size="15" font-weight="bold">黑格尔 · 小逻辑结构</text>
+</svg>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黑格尔小逻辑结构可视化</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+    background: #f5f0e8;
+    color: #3d2b1f;
+  }
+  .page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 32px;
+  }
+  .card {
+    background: #fffef9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(61,43,31,0.08);
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #e8e0d4;
+  }
+  .chart-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .chart-row > .card {
+    flex: 1;
+    min-width: 340px;
+  }
+  .chart-container {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    min-height: 300px;
+  }
+  .chart-container svg,
+  .chart-container canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-responsive table {
+    min-width: 480px;
+  }
+
+  /* 学术典雅风格扩展 */
+  .page-header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #5c4033;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    color: #3d2b1f;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .page-header .subtitle {
+    font-size: 15px;
+    color: #6b5744;
+    font-style: italic;
+  }
+  .section-title {
+    font-size: 20px;
+    color: #3d2b1f;
+    margin-bottom: 16px;
+    padding-left: 12px;
+    border-left: 4px solid #2d5a3a;
+    font-weight: 600;
+  }
+  .dialectic-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .dialectic-card {
+    flex: 1;
+    min-width: 240px;
+    background: linear-gradient(135deg, #f9f6f0 0%, #f0ebe0 100%);
+    border: 1px solid #d4c5a9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s;
+  }
+  .dialectic-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(61,43,31,0.12);
+  }
+  .dialectic-card .step-num {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 50%;
+    background: #2d5a3a;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .dialectic-card h3 {
+    font-size: 16px;
+    color: #3d2b1f;
+    margin-bottom: 8px;
+  }
+  .dialectic-card p {
+    font-size: 13px;
+    color: #6b5744;
+    line-height: 1.6;
+  }
+  .dialectic-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #2d5a3a;
+    min-width: 30px;
+  }
+  .attitude-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .attitude-card {
+    background: #f9f6f0;
+    border: 1px solid #d4c5a9;
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .attitude-card h4 {
+    font-size: 15px;
+    color: #2d5a3a;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #c4b896;
+  }
+  .attitude-card .label {
+    font-size: 12px;
+    color: #8b7355;
+    font-weight: bold;
+    margin-top: 8px;
+  }
+  .attitude-card .content {
+    font-size: 13px;
+    color: #4a3728;
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+  .conclusion-box {
+    background: linear-gradient(135deg, #2d5a3a 0%, #1a3d26 100%);
+    color: #f0ebe0;
+    border-radius: 8px;
+    padding: 18px 24px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+  .conclusion-box strong {
+    color: #e8d5a3;
+  }
+  .tree-chart-container {
+    width: 100%;
+    height: 600px;
+    min-height: 500px;
+  }
+  .circle-chart-container {
+    width: 100%;
+    height: 400px;
+    min-height: 350px;
+  }
+  .note-text {
+    font-size: 13px;
+    color: #6b5744;
+    text-align: center;
+    margin-top: 12px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .page-wrapper { padding: 20px 16px; }
+    .card { padding: 16px; margin-bottom: 16px; border-radius: 8px; }
+    .chart-row { gap: 16px; }
+    .chart-row > .card { min-width: 100%; }
+    .chart-container { min-height: 240px; }
+    .table-responsive table { font-size: 12px; }
+    .table-responsive th,
+    .table-responsive td { padding: 8px 6px; }
+    .page-header h1 { font-size: 20px; }
+    .dialectic-cards { flex-direction: column; }
+    .dialectic-arrow { transform: rotate(90deg); min-height: 30px; }
+    .attitude-grid { grid-template-columns: 1fr; }
+    .tree-chart-container { height: 500px; min-height: 420px; }
+    .circle-chart-container { height: 320px; min-height: 280px; }
+    .section-title { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- 页面标题 -->
+  <div class="page-header">
+    <h1>哲学科学百科全书纲要 · 第一部分 · 逻辑学（小逻辑）</h1>
+    <div class="subtitle">G.W.F. 黑格尔 · 1817初版 / 1830定本</div>
+  </div>
+
+  <!-- 板块一：辩证法三环节 -->
+  <div class="card">
+    <div class="section-title">辩证法的三个环节</div>
+    <div class="dialectic-cards">
+      <div class="dialectic-card">
+        <span class="step-num">1</span>
+        <h3>知性（抽象）</h3>
+        <p>坚持固定规定性与彼此差别</p>
+      </div>
+      <div class="dialectic-arrow">→</div>
+      <div class="dialectic-card">
+        <span class="step-num">2</span>
+        <h3>辩证的否定理性</h3>
+        <p>规定扬弃自身并过渡到反面</p>
+      </div>
+      <div class="dialectic-arrow">→</div>
+      <div class="dialectic-card">
+        <span class="step-num">3</span>
+        <h3>思辨的肯定理性</h3>
+        <p>在对立中认识统一</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 板块二：预备概念 -->
+  <div class="card">
+    <div class="section-title">预备概念：思想对客观性的三种态度</div>
+    <div class="attitude-grid">
+      <div class="attitude-card">
+        <h4>旧形而上学</h4>
+        <div class="label">主张</div>
+        <div class="content">思维规定即事物规定</div>
+        <div class="label">批判</div>
+        <div class="content">缺乏反思，陷入教条</div>
+      </div>
+      <div class="attitude-card">
+        <h4>经验主义 / 批判哲学</h4>
+        <div class="label">主张</div>
+        <div class="content">客观性=普遍必然性</div>
+        <div class="label">批判</div>
+        <div class="content">仍属主观，物自体不可达</div>
+      </div>
+      <div class="attitude-card">
+        <h4>直接知识论</h4>
+        <div class="label">主张</div>
+        <div class="content">真理可直接把握，排斥中介</div>
+        <div class="label">批判</div>
+        <div class="content">可为迷信辩护，神缩为空泛</div>
+      </div>
+    </div>
+    <div class="conclusion-box">
+      <strong>正面结论：</strong>思想的真正客观性 = 把握事物自身（an sich）
+    </div>
+  </div>
+
+  <!-- 板块三：主体树图 -->
+  <div class="card">
+    <div class="section-title">三篇结构：范畴链条的层级展开</div>
+    <div class="tree-chart-container" id="treeChart" data-chart="true"></div>
+  </div>
+
+  <!-- 板块四：体系圆圈 -->
+  <div class="card">
+    <div class="section-title">体系圆圈：绝对理念的自我运动</div>
+    <div class="circle-chart-container" id="circleChart" data-chart="true"></div>
+    <div class="note-text">绝对理念自由释放自身 → 进入自然哲学 → 经精神哲学回到自身，构成大圆圈</div>
+  </div>
+
+</div>
+
+<script src="https://image.uc.cn/s/uae/g/3n/mos-production/0915/echarts.min.js"></script>
+<script>
+var isMobile = window.innerWidth <= 768;
+
+// ===== 板块三：树图 =====
+(function() {
+  var chartDom = document.getElementById('treeChart');
+  var myChart = echarts.init(chartDom);
+
+  var treeData = {
+    name: '小逻辑',
+    children: [
+      {
+        name: '第一篇 存在论',
+        motion: '过渡',
+        german: 'Die Lehre vom Sein',
+        focus: '思想的直接性 · 自在的概念',
+        children: [
+          {
+            name: 'A. 质',
+            children: [
+              { name: '纯有' }, { name: '无' }, { name: '变易' },
+              { name: '定在' }, { name: '某物/别物' }, { name: '自为存在' }, { name: '一与多' }
+            ]
+          },
+          {
+            name: 'B. 量',
+            children: [
+              { name: '纯粹的量' }, { name: '定量' }, { name: '程度' }
+            ]
+          },
+          {
+            name: 'C. 尺度',
+            children: [
+              { name: '质与量的统一' }, { name: '节点线' }, { name: '无尺度的东西 → 沉入本质' }
+            ]
+          }
+        ]
+      },
+      {
+        name: '第二篇 本质论',
+        motion: '映现（成对出现）',
+        german: 'Die Lehre vom Wesen',
+        focus: '思想的反思性 · 自为存在与假象的概念',
+        children: [
+          {
+            name: 'A. 本质作为实存的根据',
+            children: [
+              { name: '同一' }, { name: '差别/对立/矛盾' }, { name: '根据' },
+              { name: '实存' }, { name: '物' }
+            ]
+          },
+          {
+            name: 'B. 现象',
+            children: [
+              { name: '现象世界' }, { name: '内容与形式' }, { name: '关系（全体与部分/力/内外）' }
+            ]
+          },
+          {
+            name: 'C. 现实',
+            children: [
+              { name: '实体性关系' }, { name: '因果性关系' }, { name: '交互作用' }
+            ]
+          }
+        ]
+      },
+      {
+        name: '第三篇 概念论',
+        motion: '自身中介 / 自由',
+        german: 'Die Lehre vom Begriff',
+        focus: '思想返回自身 · 自在自为的概念',
+        children: [
+          {
+            name: 'A. 主观概念',
+            children: [
+              { name: '概念本身' }, { name: '判断（质/反思/必然/概念）' }, { name: '推论（质/反思/必然）' }
+            ]
+          },
+          {
+            name: 'B. 客体',
+            children: [
+              { name: '机械过程' }, { name: '化学过程' }, { name: '目的论' }
+            ]
+          },
+          {
+            name: 'C. 理念',
+            children: [
+              { name: '生命' }, { name: '认识活动' }, { name: '绝对理念 → 外化为自然哲学' }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  var option = {
+    title: {
+      text: '《小逻辑》三篇范畴层级结构',
+      left: 'center',
+      top: isMobile ? 4 : 8,
+      textStyle: { fontSize: isMobile ? 13 : 14, color: '#3d2b1f', fontFamily: 'Georgia, "Noto Serif SC", serif' }
+    },
+    tooltip: {
+      trigger: 'item',
+      formatter: function(params) {
+        var d = params.data;
+        var result = '<b>' + d.name + '</b>';
+        if (d.german) {
+          result += '<br/>德文：' + d.german;
+          result += '<br/>主题：' + d.focus;
+          result += '<br/>运动方式：' + d.motion;
+        }
+        return result;
+      }
+    },
+    series: [{
+      type: 'tree',
+      data: [treeData],
+      orient: 'LR',
+      left: isMobile ? '2%' : '8%',
+      right: isMobile ? '20%' : '18%',
+      top: isMobile ? '10%' : '8%',
+      bottom: '5%',
+      symbol: 'circle',
+      symbolSize: isMobile ? 7 : 9,
+      initialTreeDepth: isMobile ? 2 : 3,
+      label: {
+        position: 'right',
+        verticalAlign: 'middle',
+        fontSize: isMobile ? 10 : 12,
+        color: '#3d2b1f',
+        fontFamily: 'Georgia, "Noto Serif SC", serif'
+      },
+      leaves: {
+        label: {
+          position: 'right',
+          verticalAlign: 'middle',
+          fontSize: isMobile ? 10 : 11,
+          color: '#2d5a3a'
+        }
+      },
+      lineStyle: {
+        color: '#8b7355',
+        width: 1.2,
+        curveness: 0.5
+      },
+      itemStyle: {
+        color: '#2d5a3a',
+        borderColor: '#1a3d26'
+      },
+      emphasis: {
+        focus: 'descendant'
+      },
+      expandAndCollapse: true,
+      animationDuration: 400,
+      animationDurationUpdate: 400
+    }]
+  };
+
+  myChart.setOption(option);
+  window.addEventListener('resize', function() { myChart.resize(); });
+})();
+
+// ===== 板块四：体系圆圈 =====
+(function() {
+  var chartDom = document.getElementById('circleChart');
+  var myChart = echarts.init(chartDom);
+
+  var nodes = [
+    { name: '逻辑学（纯粹理念）', symbolSize: isMobile ? 50 : 65, itemStyle: { color: '#2d5a3a' }, label: { color: '#fff' } },
+    { name: '自然哲学（理念的他在）', symbolSize: isMobile ? 50 : 65, itemStyle: { color: '#5c4033' }, label: { color: '#fff' } },
+    { name: '精神哲学（理念的复归）', symbolSize: isMobile ? 50 : 65, itemStyle: { color: '#8b6914' }, label: { color: '#fff' } }
+  ];
+
+  var links = [
+    { source: '逻辑学（纯粹理念）', target: '自然哲学（理念的他在）' },
+    { source: '自然哲学（理念的他在）', target: '精神哲学（理念的复归）' },
+    { source: '精神哲学（理念的复归）', target: '逻辑学（纯粹理念）' }
+  ];
+
+  var option = {
+    title: {
+      text: '哲学体系的圆圈运动',
+      left: 'center',
+      top: isMobile ? 4 : 8,
+      textStyle: { fontSize: isMobile ? 13 : 14, color: '#3d2b1f', fontFamily: 'Georgia, "Noto Serif SC", serif' }
+    },
+    tooltip: {
+      trigger: 'item',
+      formatter: function(params) {
+        if (params.dataType === 'edge') {
+          return params.data.source + ' → ' + params.data.target;
+        }
+        return '<b>' + params.data.name + '</b>';
+      }
+    },
+    animationDurationUpdate: 1500,
+    animationEasingUpdate: 'quinticInOut',
+    series: [{
+      type: 'graph',
+      layout: 'circular',
+      circular: {
+        rotateLabel: false
+      },
+      data: nodes,
+      links: links,
+      roam: false,
+      label: {
+        show: true,
+        position: 'inside',
+        fontSize: isMobile ? 9 : 11,
+        fontFamily: 'Georgia, "Noto Serif SC", serif',
+        formatter: function(params) {
+          var name = params.name;
+          if (name.length > 6) {
+            return name.substring(0, 4) + '\n' + name.substring(4);
+          }
+          return name;
+        }
+      },
+      edgeSymbol: ['none', 'arrow'],
+      edgeSymbolSize: [4, 10],
+      lineStyle: {
+        color: '#8b7355',
+        width: 2,
+        curveness: 0.1,
+        opacity: 0.8
+      },
+      emphasis: {
+        focus: 'adjacency',
+        lineStyle: { width: 3 }
+      }
+    }]
+  };
+
+  myChart.setOption(option);
+  window.addEventListener('resize', function() { myChart.resize(); });
+})();
+</script>
+</body>
+</html>
