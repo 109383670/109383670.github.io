@@ -3,6 +3,48 @@
   "$comment": "报告清单。加新报告只需在 reports 数组追加一条记录，并在 reports/ 目录放入对应文件。type 取值：html（新标签页打开自包含网页）或 markdown（站内阅读器渲染 .md）。",
   "reports": [
     {
+      "id": "苏格拉底名言录",
+      "type": "html",
+      "title": "苏格拉底名言合集",
+      "summary": "认识你自己、无知之知、精神助产术——苏格拉底名言与对话录精华集。",
+      "tags": [
+        "哲学",
+        "苏格拉底",
+        "名言"
+      ],
+      "date": "2026-08-11",
+      "path": "reports/苏格拉底名言录.html",
+      "thumbnail": "reports/thumbnails/苏格拉底名言录.svg"
+    },
+    {
+      "id": "柏拉图理论",
+      "type": "html",
+      "title": "柏拉图理论全景报告",
+      "summary": "理念论、洞穴寓言、理想国——柏拉图哲学体系的完整图谱与当代回响。",
+      "tags": [
+        "哲学",
+        "柏拉图",
+        "理念论"
+      ],
+      "date": "2026-08-11",
+      "path": "reports/柏拉图理论.html",
+      "thumbnail": "reports/thumbnails/柏拉图理论.svg"
+    },
+    {
+      "id": "古代青楼报告",
+      "type": "html",
+      "title": "中国古代青楼文化",
+      "summary": "青楼从艺妓文化到社会现象——中国古代青楼的历史演变、才艺传统与社会角色。",
+      "tags": [
+        "文化",
+        "历史",
+        "青楼"
+      ],
+      "date": "2026-08-11",
+      "path": "reports/古代青楼报告.html",
+      "thumbnail": "reports/thumbnails/古代青楼报告.svg"
+    },
+    {
       "id": "黑格尔小逻辑结构可视化",
       "type": "html",
       "title": "黑格尔小逻辑结构可视化",

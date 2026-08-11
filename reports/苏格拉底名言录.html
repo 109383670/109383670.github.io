@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>苏格拉底名言合集 · Σωκράτης</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=GFS+Didot&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+:root {
+  --marble: #f7f5f0;
+  --marble-dark: #e8e4dc;
+  --athens-blue: #1b3a5c;
+  --athens-blue-light: #2d5a8a;
+  --olive: #6b7d4f;
+  --gold: #b8932f;
+  --gold-light: #d4af37;
+  --text-dark: #2a2a2a;
+  --text-medium: #555;
+  --text-light: #888;
+  --card-bg: #fffdf8;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 24px rgba(27,58,92,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: var(--marble);
+  color: var(--text-dark);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+/* ===== Header ===== */
+header {
+  background: linear-gradient(135deg, var(--athens-blue) 0%, var(--athens-blue-light) 100%);
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px 50px;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 20L50 20L38 30L43 45L30 35L17 45L22 30L10 20L25 20Z' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+header h1 {
+  font-family: 'GFS Didot', serif;
+  font-size: 3em;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+header .greek-name {
+  font-family: 'GFS Didot', serif;
+  font-size: 1.6em;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+header .subtitle {
+  font-size: 1.05em;
+  opacity: 0.85;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 300;
+}
+header .divider {
+  width: 80px;
+  height: 2px;
+  background: var(--gold-light);
+  margin: 20px auto;
+  position: relative;
+  z-index: 1;
+}
+header .meta-info {
+  font-size: 0.85em;
+  opacity: 0.7;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+/* ===== Filter Bar ===== */
+.filter-bar {
+  background: var(--marble-dark);
+  padding: 16px 20px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.filter-btn {
+  background: transparent;
+  border: 1.5px solid var(--athens-blue);
+  color: var(--athens-blue);
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--athens-blue);
+  color: #fff;
+}
+.filter-btn .count {
+  font-size: 0.8em;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+/* ===== Cards Container ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+  columns: 1;
+  column-gap: 20px;
+}
+@media (min-width: 680px) { .container { columns: 2; } }
+@media (min-width: 1024px) { .container { columns: 3; } }
+
+/* ===== Quote Card ===== */
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 24px 22px;
+  margin-bottom: 20px;
+  break-inside: avoid;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--gold);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+  border-left-color: var(--athens-blue);
+}
+.card .card-number {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-family: 'GFS Didot', serif;
+  font-size: 1.8em;
+  color: var(--marble-dark);
+  font-weight: bold;
+}
+.card .greek-original {
+  font-family: 'GFS Didot', serif;
+  font-size: 1.15em;
+  color: var(--athens-blue);
+  margin-bottom: 8px;
+  line-height: 1.6;
+  font-style: italic;
+}
+.card .transliteration {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.82em;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.card .chinese-translation {
+  font-size: 1.02em;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  line-height: 1.8;
+  font-weight: 600;
+}
+.card .source {
+  font-size: 0.8em;
+  color: var(--olive);
+  font-family: 'Noto Sans SC', sans-serif;
+  border-top: 1px solid var(--marble-dark);
+  padding-top: 8px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.card .source .source-text {
+  font-weight: 500;
+}
+.card .source .stephanus {
+  color: var(--text-light);
+  font-size: 0.9em;
+}
+.card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+.card .tag {
+  font-size: 0.72em;
+  background: var(--marble-dark);
+  color: var(--text-medium);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+/* ===== Footer ===== */
+footer {
+  background: var(--athens-blue);
+  color: #fff;
+  text-align: center;
+  padding: 40px 20px;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+footer h3 {
+  font-family: 'GFS Didot', serif;
+  font-size: 1.4em;
+  margin-bottom: 12px;
+  color: var(--gold-light);
+}
+footer p {
+  font-size: 0.85em;
+  opacity: 0.8;
+  max-width: 700px;
+  margin: 0 auto 8px;
+  line-height: 1.7;
+}
+footer .disclaimer {
+  margin-top: 16px;
+  font-size: 0.78em;
+  opacity: 0.6;
+}
+
+/* ===== Search ===== */
+.search-box {
+  margin: 16px auto;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20px;
+  padding: 4px 16px;
+  border: 1.5px solid var(--marble-dark);
+}
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 4px;
+  font-size: 0.9em;
+  font-family: 'Noto Sans SC', sans-serif;
+  background: transparent;
+  color: var(--text-dark);
+}
+.search-box svg {
+  width: 18px;
+  height: 18px;
+  color: var(--text-light);
+  flex-shrink: 0;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-light);
+  font-size: 1.1em;
+  display: none;
+}
+
+/* ===== Scroll to top ===== */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  background: var(--athens-blue);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2em;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scroll-top.visible { opacity: 1; }
+.scroll-top:hover { background: var(--athens-blue-light); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="greek-name">Σωκράτης</div>
+  <h1>苏格拉底名言合集</h1>
+  <div class="divider"></div>
+  <p class="subtitle">未经省察的生活是不值得过的 —— 收录柏拉图对话录与色诺芬著作中的苏格拉底言论</p>
+  <div class="meta-info">约公元前 470 年 — 公元前 399 年 · 雅典</div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">全部 <span class="count" id="count-all"></span></button>
+  <button class="filter-btn" data-filter="self">认识自我</button>
+  <button class="filter-btn" data-filter="virtue">美德与智慧</button>
+  <button class="filter-btn" data-filter="examine">省察与思辨</button>
+  <button class="filter-btn" data-filter="death">生死与灵魂</button>
+  <button class="filter-btn" data-filter="justice">正义与法律</button>
+  <button class="filter-btn" data-filter="education">教育与求知</button>
+  <button class="filter-btn" data-filter="life">生活与品格</button>
+  <button class="filter-btn" data-filter="love">爱与美</button>
+  <div class="search-box">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input type="text" id="searchInput" placeholder="搜索名言关键词…" />
+  </div>
+</div>
+
+<div class="container" id="cardsContainer"></div>
+<div class="no-results" id="noResults">未找到匹配的名言</div>
+
+<footer>
+  <h3>Σωκράτης</h3>
+  <p>苏格拉底本人未留下任何著作。本合集所收录的名言均来自其弟子柏拉图的对话录及色诺芬的著作。每条名言尽量标注希腊语原文、拉丁转写、中文翻译及 Stephanus 标准页码。</p>
+  <p>希腊语原文以柏拉图著作标准校勘本为参照，中文翻译综合参考多个译本。部分名言存在翻译争议，已在出处中注明。</p>
+  <p class="disclaimer">本页面仅供学习研究使用 · 生成式 AI 辅助整理</p>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const quotes = [
+  // ===== 申辩篇 Apology =====
+  {
+    greek: "ὁ δὲ ἀνεξέταστος βίος οὐ βιωτὸς ἀνθρώπῳ",
+    translit: "ho de anexetastos bios ou biōtos anthrōpōi",
+    chinese: "未经省察的生活是不值得过的。",
+    source: "申辩篇",
+    stephanus: "Apology 38a",
+    tags: ["examine", "life"]
+  },
+  {
+    greek: "οἶδα ὅτι οὐκ οἶδα",
+    translit: "oida hoti ouk oida",
+    chinese: "我知道我一无所知。",
+    source: "申辩篇",
+    stephanus: "Apology 21d",
+    tags: ["self", "virtue"]
+  },
+  {
+    greek: "ἓν οὖν μὲν τοῦτο ἴσως ἐγὼ ἐπίσταμαι, ὅτι οὐκ οἶδα",
+    translit: "hen oun men touto isōs egō epistamai, hoti ouk oida",
+    chinese: "也许我仅知道一件事，那就是我什么都不知道。",
+    source: "申辩篇",
+    stephanus: "Apology 21d",
+    tags: ["self"]
+  },
+  {
+    greek: "ἐγὼ γὰρ οὔτε οἶδα οὔτε οἴομαι εἰδέναι",
+    translit: "egō gar oute oida oute oiomai eidenai",
+    chinese: "我既不知道，也不自以为知道。",
+    source: "申辩篇",
+    stephanus: "Apology 21b",
+    tags: ["self"]
+  },
+  {
+    greek: "ὡς δὴ οὐκ ἔστιν ἄλλο ἢ σοφία ἡ ἐπιστήμη, ἡ δὲ ἀμαθία ἡ ἄγνοια",
+    translit: "hōs dē ouk estin allo ē sophia hē epistēmē, hē d' amathia hē agnoia",
+    chinese: "智慧不外乎知识，无知不外乎不知。",
+    source: "申辩篇",
+    stephanus: "Apology 23a",
+    tags: ["virtue"]
+  },
+  {
+    greek: "ἐγὼ δὲ δείξω ὑμῖν ὅτι τοιοῦτός εἰμι ὃν ἂν θεὸς ἐπιτρέψῃ",
+    translit: "egō de deixō hymin hoti toioutos eimi hon an theos epitrepsēi",
+    chinese: "我将向你们表明，我是神所委派的那种人。",
+    source: "申辩篇",
+    stephanus: "Apology 30e-31a",
+    tags: ["examine"]
+  },
+  {
+    greek: "τὸν μὲν οὖν βίον οὐδεὶς οἶδεν εἶναι ἐν τῷ θνήσκειν, εἰ μὴ τὸ μέγιστον ἀγαθόν",
+    translit: "ton men oun bion oudeis oiden einai en tōi thnēskein, ei mē to megiston agathon",
+    chinese: "没有人知道死亡是否恰恰是人生最大的福祉。",
+    source: "申辩篇",
+    stephanus: "Apology 29a",
+    tags: ["death"]
+  },
+  {
+    greek: "θάνατον μὲν γὰρ οὐδεὶς οἶδεν εἴτε ἀγαθόν ἐστιν εἴτε κακόν",
+    translit: "thanaton men gar oudeis oiden eite agathon estin eite kakon",
+    chinese: "没有人知道死亡究竟是善还是恶。",
+    source: "申辩篇",
+    stephanus: "Apology 29a-b",
+    tags: ["death"]
+  },
+  {
+    greek: "οὐ γὰρ δὴ τοῦ ζῆν ἕνεκα, ἀλλὰ τοῦ εὖ ζῆν",
+    translit: "ou gar dē tou zēn heneka, alla tou eu zēn",
+    chinese: "重要的不是活着，而是活得好。",
+    source: "申辩篇",
+    stephanus: "Apology 38a",
+    tags: ["life"]
+  },
+  {
+    greek: "ἐὰν μὲν ἀποκτείνητέ με, οὐ ῥᾳδίως ἂν ἄλλον τοιοῦτον εὕροιτε",
+    translit: "ean men apokteinēte me, ou rhadiōs an allon toiouton heuroite",
+    chinese: "如果你们处死我，你们不容易再找到像我这样的人。",
+    source: "申辩篇",
+    stephanus: "Apology 30d-31a",
+    tags: ["examine"]
+  },
+  {
+    greek: "ἐγὼ γὰρ ἀεὶ τοῦτο ποιῶ, καὶ ἐν τῇ αὐτῇ διατριβῇ εἰμί",
+    translit: "egō gar aei touto poiō, kai en tēi autēi diatribēi eimi",
+    chinese: "我始终做同样的事——在街头劝告人们不要只关心身体和财富，而要关心灵魂。",
+    source: "申辩篇",
+    stephanus: "Apology 30a-b",
+    tags: ["examine", "virtue"]
+  },
+  {
+    greek: "χρήματα μὲν οὐδεὶς οὐδέποτε ἐκ τῶν ἐμῶν λόγων ἔλαβεν, ἐμοῦ δὲ δίκαιον εἶναι",
+    translit: "chrēmata men oudeis oudepote ek tōn emōn logōn elaben, emou de dikaion einai",
+    chinese: "从未有人因我的谈话而付过钱，我认为这是公正的。",
+    source: "申辩篇",
+    stephanus: "Apology 33b",
+    tags: ["life"]
+  },
+  {
+    greek: "εἰ μὲν γὰρ ἀποθνῄσκων μέλλοιτε ἀποθνῄσκειν, εἴη ἂν οὐ κακόν",
+    translit: "ei men gar apothnēiskōn mellēte apothnēiskein, eiē an ou kakon",
+    chinese: "如果死后便能与众先哲交谈，那死亡便不是坏事。",
+    source: "申辩篇",
+    stephanus: "Apology 41a-c",
+    tags: ["death"]
+  },
+  {
+    greek: "ὁ δὲ ἀνεξέταστος βίος οὐ βιωτὸς ἀνθρώπῳ",
+    translit: "ho de anexetastos bios ou biōtos anthrōpōi",
+    chinese: "未经省察的生活，对人来说不值得过。",
+    source: "申辩篇",
+    stephanus: "Apology 38a5-6",
+    tags: ["examine"]
+  },
+
+  // ===== 斐多篇 Phaedo =====
+  {
+    greek: "οἱ δὲ φιλοσοφοῦντες ὡς ἀποθνῄσκοντες μελετῶσιν ἀποθνῄσκειν",
+    translit: "hoi de philosophountes hōs apothnēskontes meletōsin apothnēskein",
+    chinese: "真正从事哲学的人，所练习的无非是赴死。",
+    source: "斐多篇",
+    stephanus: "Phaedo 67e",
+    tags: ["death", "examine"]
+  },
+  {
+    greek: "ψυχὴ ἀθάνατος καὶ ἀνώλεθρος",
+    translit: "psychē athanatos kai anōlethros",
+    chinese: "灵魂是不朽的、不可毁灭的。",
+    source: "斐多篇",
+    stephanus: "Phaedo 106c-d",
+    tags: ["death"]
+  },
+  {
+    greek: "τὸ μὲν σῶμα κώλυσιν ἐστὶν τῇ ψυχῇ πρὸς τὴν τοῦ ὄντος κατάληψιν",
+    translit: "to men sōma kōlysis estin tēi psychēi pros tēn tou ontos katalēpsin",
+    chinese: "身体是灵魂认识真理的障碍。",
+    source: "斐多篇",
+    stephanus: "Phaedo 65b-66a",
+    tags: ["death", "examine"]
+  },
+  {
+    greek: "ἡ γὰρ τοῦ διαλέγεσθαι δύναμις ἡμῶν αὕτη ἐστὶν ἡ τὸ ὂν θεωροῦσα",
+    translit: "hē gar tou dialegesthai dynamis hēmōn hautē estin hē to on theōrousā",
+    chinese: "我们通过辩证的力量来观照真实的存在。",
+    source: "斐多篇",
+    stephanus: "Phaedo 79a",
+    tags: ["examine"]
+  },
+  {
+    greek: "καλὸν γὰρ τὸ δίκαιον, καὶ ἄλλο δὴ οὐδὲν καλὸν ἀλλὰ τὸ δίκαιον",
+    translit: "kalon gar to dikaion, kai allo dē oude kalon alla to dikaion",
+    chinese: "正义是美的，除了正义之外没有什么是美的。",
+    source: "斐多篇",
+    stephanus: "Phaedo 99a",
+    tags: ["justice", "virtue"]
+  },
+  {
+    greek: "ἐν τῷ ὀρθῷ ζῆν καὶ ἀποθνῄσκειν",
+    translit: "en tōi orthōi zēn kai apothnēskein",
+    chinese: "正直地生活，正直地死去。",
+    source: "斐多篇",
+    stephanus: "Phaedo 107c-d",
+    tags: ["death", "virtue"]
+  },
+  {
+    greek: "τὴν ψυχὴν ἀθάνατον εἶναι",
+    translit: "tēn psychēn athanaton einai",
+    chinese: "灵魂是不朽的。",
+    source: "斐多篇",
+    stephanus: "Phaedo 102b-107b",
+    tags: ["death"]
+  },
+
+  // ===== 理想国 Republic =====
+  {
+    greek: "ὁ μὲν γὰρ ἄρχων πρῶτον αὐτὸς ἀρχόμενος ἄρξει",
+    translit: "ho men gar archōn prōton autos archomenos arxei",
+    chinese: "统治者必须首先学会被统治，然后才能统治。",
+    source: "理想国",
+    stephanus: "Republic 343c",
+    tags: ["justice"]
+  },
+  {
+    greek: "δίκαιον μὲν γὰρ τὸ τὰ ἴδια πράττειν καὶ μὴ πολυπραγμονεῖν",
+    translit: "dikaion men gar to ta idia prattein kai mē polypragmonein",
+    chinese: "正义就是各做各的事，不干涉他人。",
+    source: "理想国",
+    stephanus: "Republic 433a-b",
+    tags: ["justice"]
+  },
+  {
+    greek: "φιλοσοφίαν δὲ τὴν τοῦ ἀληθοῦς ὄντος θέαν",
+    translit: "philosophian de tēn tou alēthous ontos thean",
+    chinese: "哲学就是对真实存在的观照。",
+    source: "理想国",
+    stephanus: "Republic 490a-b",
+    tags: ["examine"]
+  },
+  {
+    greek: "ἡ δὲ τοῦ ἀγαθοῦ ἰδέα ἡ μεγίστη μάθησις",
+    translit: "hē de tou agathou idea hē megalē mathēsis",
+    chinese: "善的理念是最大的知识。",
+    source: "理想国",
+    stephanus: "Republic 505a",
+    tags: ["virtue", "education"]
+  },
+  {
+    greek: "ἐκ τῆς τοῦ ἀγαθοῦ γνώσεως ἀρετὴ καὶ πᾶν τὸ καλὸν γίγνεται",
+    translit: "ek tēs tou agathou gnōseōs aretē kai pan to kalon gigetai",
+    chinese: "美德和一切美好的事物都源于对善的认识。",
+    source: "理想国",
+    stephanus: "Republic 505a-b",
+    tags: ["virtue"]
+  },
+  {
+    greek: "μὴ οὖν μοι μόνον πίστευε, ἀλλὰ βίαν ποιεῖ",
+    translit: "mē oun moi monon pisteue, alla bian poiei",
+    chinese: "不要只相信我，而要自己去探求。",
+    source: "理想国",
+    stephanus: "Republic 511c-d",
+    tags: ["education"]
+  },
+
+  // ===== 会饮篇 Symposium =====
+  {
+    greek: "ἔρως δὲ ὁ τοῦ καλοῦ ἔρως",
+    translit: "erōs de ho tou kalou erōs",
+    chinese: "爱是对美的爱。",
+    source: "会饮篇",
+    stephanus: "Symposium 201a",
+    tags: ["love"]
+  },
+  {
+    greek: "οὐδεὶς ἐρᾷ ὧν μὴ ἐπιθυμεῖ",
+    translit: "oudeis erai hōn mē epithymei",
+    chinese: "没有人去爱他所不渴望的东西。",
+    source: "会饮篇",
+    stephanus: "Symposium 200a",
+    tags: ["love"]
+  },
+  {
+    greek: "τὸ ἐρᾶν τοῦ καλοῦ ἐστίν",
+    translit: "to eran tou kalou estin",
+    chinese: "爱就是对美的追求。",
+    source: "会饮篇",
+    stephanus: "Symposium 204d-e",
+    tags: ["love"]
+  },
+  {
+    greek: "ἐκ μὲν γὰρ τοῦ καλοῦ τὸ ἀγαθόν",
+    translit: "ek men gar tou kalou to agathon",
+    chinese: "善从美中产生。",
+    source: "会饮篇",
+    stephanus: "Symposium 206c",
+    tags: ["love", "virtue"]
+  },
+  {
+    greek: "πρὸς τὸ ἀεὶ ὂν ζητεῖν, ἐν ᾧ τὸ καλὸν πέφυκε",
+    translit: "pros to aei on zētein, en hōi to kalon pephyke",
+    chinese: "爱引导我们追求永恒的美。",
+    source: "会饮篇",
+    stephanus: "Symposium 210e-211b",
+    tags: ["love"]
+  },
+
+  // ===== 克里同篇 Crito =====
+  {
+    greek: "οὐ δεῖ ἀντιποιεῖν ἀδικίαν ἀδικίᾳ",
+    translit: "ou dei antipoiein adikian adikia",
+    chinese: "不应当以不义对抗不义。",
+    source: "克里同篇",
+    stephanus: "Crito 49b-c",
+    tags: ["justice"]
+  },
+  {
+    greek: "τὸ ἀδικεῖν ἐν παντὶ τρόπῳ κακὸν καὶ αἰσχρὸν τῷ ἀδικοῦντι",
+    translit: "to adikein en panti tropōi kakon kai aischron tōi adikounti",
+    chinese: "以任何方式行不义，对行不义者而言都是恶和耻辱。",
+    source: "克里同篇",
+    stephanus: "Crito 49a",
+    tags: ["justice", "virtue"]
+  },
+  {
+    greek: "οὐχ ἡ ζωὴ πολύτιμος, ἀλλ' ἡ εὖ ζωή",
+    translit: "ouch hē zōē polytimos, all' hē eu zōē",
+    chinese: "生命本身并不珍贵，好的生活才珍贵。",
+    source: "克里同篇",
+    stephanus: "Crito 48b",
+    tags: ["life", "virtue"]
+  },
+  {
+    greek: "τὸν δὲ βίον ὃν βιωτέον, οὐχ οὕτως βιωτέον ὡς τὸ πλῆθος κελεύει",
+    translit: "ton de bion hon biōteon, ouch houtōs biōteon hōs to plēthos keleuei",
+    chinese: "我们不应按照多数人的意见来生活，而应按照最好的方式来生活。",
+    source: "克里同篇",
+    stephanus: "Crito 47c-d",
+    tags: ["life", "examine"]
+  },
+
+  // ===== 高尔吉亚篇 Gorgias =====
+  {
+    greek: "ῥᾷον γὰρ κωλύειν ἢ ἐπανορθοῦν τὰς ἁμαρτίας",
+    translit: "rhāion gar kōlyein ē epanorthoun tas hamartias",
+    chinese: "阻止犯错比纠正错误更容易。",
+    source: "高尔吉亚篇",
+    stephanus: "Gorgias 478a",
+    tags: ["virtue", "education"]
+  },
+  {
+    greek: "κακὸν μὲν γὰρ τὸ ἀδικεῖν, κακὸν δὲ τὸ ἀδικεῖσθαι",
+    translit: "kakon men gar to adikein, kakon de to adikeisthai",
+    chinese: "行不义是恶，遭受不义也是恶——但行不义是更大的恶。",
+    source: "高尔吉亚篇",
+    stephanus: "Gorgias 469b-c",
+    tags: ["justice"]
+  },
+  {
+    greek: "ὁ δὲ ἀγαθὸς ἀνὴρ ἀγαθὰ πράττειν πέφυκεν",
+    translit: "ho de agathos anēr agatha prattein pephyken",
+    chinese: "好人天生就该做善事。",
+    source: "高尔吉亚篇",
+    stephanus: "Gorgias 470c",
+    tags: ["virtue"]
+  },
+
+  // ===== 美诺篇 Meno =====
+  {
+    greek: "οὐκ ἔστιν ἀρετὴν διδάξαι, ἀλλ' ἀνάμνησις ἐστίν",
+    translit: "ouk estin aretēn didaxai, all' anamnēsis estin",
+    chinese: "美德不能被教授，它是灵魂的回忆。",
+    source: "美诺篇",
+    stephanus: "Meno 81c-d",
+    tags: ["virtue", "education"]
+  },
+  {
+    greek: "ἡ ψυχὴ ἀθάνατος τε οὖσα καὶ πολλαχῇ γεγενημένη",
+    translit: "hē psychē athanatos te ousa kai pollachēi gegeneuomenē",
+    chinese: "灵魂是不朽的，已经多次转生。",
+    source: "美诺篇",
+    stephanus: "Meno 81c",
+    tags: ["death"]
+  },
+  {
+    greek: "ζητεῖν τε χρὴ περὶ ὧν μὴ οἶδαμεν",
+    translit: "zētein te chrē peri hōn mē oidamen",
+    chinese: "我们应当去探求那些我们不知道的事物。",
+    source: "美诺篇",
+    stephanus: "Meno 86b-c",
+    tags: ["education", "examine"]
+  },
+
+  // ===== 普罗泰戈拉篇 Protagoras =====
+  {
+    greek: "ἀρετὴν διδακτὸν εἶναι",
+    translit: "aretēn didakton einai",
+    chinese: "美德是可以教授的。",
+    source: "普罗泰戈拉篇",
+    stephanus: "Protagoras 319a-320c",
+    tags: ["virtue", "education"]
+  },
+  {
+    greek: "ὁ δὲ καιρὸς τῶν λόγων βραχύς",
+    translit: "ho de kairos tōn logōn brachys",
+    chinese: "言谈的时机是短暂的。",
+    source: "普罗泰戈拉篇",
+    stephanus: "Protagoras 335d",
+    tags: ["life"]
+  },
+
+  // ===== 游叙弗伦篇 Euthyphro =====
+  {
+    greek: "τὸ δὲ ὅσιον τοῦτο αὐτὸ ἐστὶν ὃ πᾶσιν τοῖς θεοῖς φίλον",
+    translit: "to de hosion touto auto estin ho pasin tois theois philon",
+    chinese: "虔诚就是所有神灵所喜爱的东西。",
+    source: "游叙弗伦篇",
+    stephanus: "Euthyphro 9e",
+    tags: ["virtue"]
+  },
+  {
+    greek: "εἰ γὰρ διὰ τὸ φιλεῖσθαι ὑπὸ τῶν θεῶν ὅσιόν ἐστιν, ἀλλ' ὅτι ὅσιόν ἐστιν φιλεῖται",
+    translit: "ei gar dia to phileisthai hypo tōn theōn hosion estin, all' hoti hosion estin philetai",
+    chinese: "一件事不是因为被神所爱才成为虔诚的，而是因为它是虔诚的才被神所爱。",
+    source: "游叙弗伦篇",
+    stephanus: "Euthyphro 10a-11a",
+    tags: ["virtue", "examine"]
+  },
+
+  // ===== 拉凯斯篇 Laches =====
+  {
+    greek: "ἀνδρεία ψυχῆς τις ἕξις",
+    translit: "andreia psychēs tis hexis",
+    chinese: "勇敢是灵魂的一种品质。",
+    source: "拉凯斯篇",
+    stephanus: "Laches 192b",
+    tags: ["virtue"]
+  },
+  {
+    greek: "ὁ μὴ φειδόμενος τῶν κακῶν οὐδὲν ἀγαθὸν ποιήσει",
+    translit: "ho mē pheidomenos tōn kakōn ouden agathon poiēsei",
+    chinese: "不远离恶的人，做不出任何善事。",
+    source: "拉凯斯篇",
+    stephanus: "Laches 193d",
+    tags: ["virtue"]
+  },
+
+  // ===== 卡尔米德斯篇 Charmides =====
+  {
+    greek: "σωφροσύνη ἐστὶν τὸ ἑαυτοῦ πράττειν",
+    translit: "sōphrosynē estin to heautou prattein",
+    chinese: "节制就是做自己的事。",
+    source: "卡尔米德斯篇",
+    stephanus: "Charmides 161b",
+    tags: ["virtue"]
+  },
+  {
+    greek: "γνῶθι σαυτόν",
+    translit: "gnōthi sauton",
+    chinese: "认识你自己。",
+    source: "卡尔米德斯篇（引用德尔菲神谕）",
+    stephanus: "Charmides 164d-165a",
+    tags: ["self"]
+  },
+
+  // ===== 斐德罗篇 Phaedrus =====
+  {
+    greek: "ψυχὴ πᾶσα ἀθάνατος· τὸ γὰρ ἀεὶ κινούμενον ἀθάνατον",
+    translit: "psychē pasa athanatos; to gar aei kinoumenon athanaton",
+    chinese: "一切灵魂都是不朽的，因为永远运动的东西是不朽的。",
+    source: "斐德罗篇",
+    stephanus: "Phaedrus 245c",
+    tags: ["death"]
+  },
+  {
+    greek: "μανία δὲ ἡ μὲν οὖσα διὰ θεῖαν ἀποστολὴν καλλίων τῆς σωφροσύνης",
+    translit: "mania dē hē men ousa dia theian apostolēn kalliōn tēs sōphrosynēs",
+    chinese: "神赐的迷狂比清醒的节制更美。",
+    source: "斐德罗篇",
+    stephanus: "Phaedrus 244d-e",
+    tags: ["love", "examine"]
+  },
+  {
+    greek: "ὁ δὲ λόγων γραφὴν ἀδελφὸν μὲν εἶναι τοῦ ζῶντος λόγου",
+    translit: "ho de logōn graphēn adelphon men einai tou zōntos logou",
+    chinese: "书写的文字不过是活生生的言辞的兄弟。",
+    source: "斐德罗篇",
+    stephanus: "Phaedrus 276a",
+    tags: ["education"]
+  },
+
+  // ===== 泰阿泰德篇 Theaetetus =====
+  {
+    greek: "οὔτε γὰρ ἐπ' ἄλλῳ οὔτε πρὸς ἄλλον ἀξιῶ λέγειν",
+    translit: "oute gar ep' allōi oute pros allon axiō legein",
+    chinese: "我不愿对别人或为别人说话，只愿与你说。",
+    source: "泰阿泰德篇",
+    stephanus: "Theaetetus 143b",
+    tags: ["examine"]
+  },
+  {
+    greek: "τὸ μὲν γὰρ πρῶτον ὅτι τί ποτ' ἐστὶν ἐπιστήμη",
+    translit: "to men gar prōton hoti ti pot' estin epistēmē",
+    chinese: "首先要弄清楚：知识究竟是什么？",
+    source: "泰阿泰德篇",
+    stephanus: "Theaetetus 146c",
+    tags: ["education", "examine"]
+  },
+
+  // ===== 色诺芬《回忆苏格拉底》Memorabilia =====
+  {
+    greek: "αὐτάρκης δὲ ὢν πρὸς τὸ ζῆν, ὡς ἐλάχιστα δεόμενος",
+    translit: "autarkēs de ōn pros to zēn, hōs elachista deomenos",
+    chinese: "自足就是以最少的需求生活。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia I.6.5",
+    tags: ["life"]
+  },
+  {
+    greek: "τὸ μὲν σωφρονεῖν ἐστὶν τὸ μὴ ἐπιθυμεῖν ὧν μὴ δεῖ",
+    translit: "to sōphronein estin to mē epithymein hōn mē dei",
+    chinese: "节制就是不渴望不该渴望的东西。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia I.5.4",
+    tags: ["virtue"]
+  },
+  {
+    greek: "οἱ μὲν γὰρ ἄνθρωποι εὐδαίμονες διὰ τὴν ἀρετὴν γίγνονται",
+    translit: "hoi men gar anthrōpoi eudaimones dia tēn aretēn gigontai",
+    chinese: "人们因美德而获得幸福。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia II.1.28",
+    tags: ["virtue", "life"]
+  },
+  {
+    greek: "φίλον μὲν γὰρ εἶναι χρὴ τὸν βουλόμενον φίλον εἶναι",
+    translit: "philon men gar einai chrē ton boulomenon philon einai",
+    chinese: "想要有朋友，自己必须先成为朋友。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia II.6.6",
+    tags: ["life"]
+  },
+  {
+    greek: "ἡ μὲν γὰρ ἀρετὴ οὐκ ἐν τῷ πλούτῳ ἐστὶν ἀλλ' ὁ πλοῦτος ἐν τῇ ἀρετῇ",
+    translit: "hē men gar aretē ouk en tōi ploutōi estin all' ho ploutos en tēi aretēi",
+    chinese: "美德不在于财富，而财富在于美德。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia I.1.11",
+    tags: ["virtue", "life"]
+  },
+  {
+    greek: "τὸν αὑτοῦ βίον σκοπεῖν, πότερον εὖ ζῇ ἢ μή",
+    translit: "ton hauton bion skopein, poteron eu zēi ē mē",
+    chinese: "审视自己的生活，看是否过得好。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia I.3.5",
+    tags: ["examine", "self"]
+  },
+
+  // ===== 申辩篇补充 =====
+  {
+    greek: "εἴποις ἂν οὖν ὅτι Σωκράτης ἀδικεῖ τοὺς νέους φθείρων",
+    translit: "eipois an oun hoti Sōkratēs adikei tous neous phtheirōn",
+    chinese: "你可以说苏格拉底因败坏青年而有罪——但我的败坏就是让他们追问自己。",
+    source: "申辩篇",
+    stephanus: "Apology 23c-24b",
+    tags: ["examine", "education"]
+  },
+  {
+    greek: "ἐμοὶ μὲν γὰρ τὸ ζῆν ἐστὶν τὸ φιλοσοφεῖν",
+    translit: "emoi men gar to zēn estin to philosophein",
+    chinese: "对我来说，活着就是从事哲学。",
+    source: "申辩篇",
+    stephanus: "Apology 28d-29a",
+    tags: ["life", "examine"]
+  },
+  {
+    greek: "οὐ δεῖ φόβῳ τῷ θανάτου ὑποχωρεῖν",
+    translit: "ou dei phobōi tōi thanatou hypochōrein",
+    chinese: "不应当因对死亡的恐惧而退缩。",
+    source: "申辩篇",
+    stephanus: "Apology 28d",
+    tags: ["death", "virtue"]
+  },
+  {
+    greek: "ὁ δὲ θεὸς ἐμοὶ ἐπέταξεν τοῦτο ποιεῖν",
+    translit: "ho de theos emoi epetaxen touto poiein",
+    chinese: "是神命令我做这件事——省察自己和他人。",
+    source: "申辩篇",
+    stephanus: "Apology 28e-29a",
+    tags: ["examine"]
+  },
+
+  // ===== 斐多篇补充 =====
+  {
+    greek: "ἡδονὴν δὲ τὴν μεγίστην ἡγοῦμαι νόσον",
+    translit: "hēdonēn de tēn megalēn hēgoumai noson",
+    chinese: "我认为最大的快乐是一种病。",
+    source: "斐多篇",
+    stephanus: "Phaedo 64b-c",
+    tags: ["virtue", "life"]
+  },
+  {
+    greek: "ἡ ψυχὴ τοῦ σώματος ἀρχεῖ",
+    translit: "hē psychē tou sōmatos archei",
+    chinese: "灵魂统治身体。",
+    source: "斐多篇",
+    stephanus: "Phaedo 79e-80a",
+    tags: ["death"]
+  },
+
+  // ===== 理想国补充 =====
+  {
+    greek: "ἡ δὲ τοῦ ἀγαθοῦ ἰδέα μέγιστον ἐστὶν μάθημα",
+    translit: "hē de tou agathou idea megiston estin mathēma",
+    chinese: "善的理念是最重要的学问。",
+    source: "理想国",
+    stephanus: "Republic 504d-505a",
+    tags: ["virtue", "education"]
+  },
+  {
+    greek: "ἀληθῶς οὖν, ὦ Γλαύκων, ἡ τοῦ ἀγαθοῦ μάθησις ἡ μεγίστη",
+    translit: "alēthōs oun, ō Glaukōn, hē tou agathou mathēsis hē megalē",
+    chinese: "格劳孔啊，关于善的学问确实是最大的学问。",
+    source: "理想国",
+    stephanus: "Republic 505a2-3",
+    tags: ["education", "virtue"]
+  },
+  {
+    greek: "τὸ δὲ πλῆθος ἄκυρον εἶναι χρὴ",
+    translit: "to de plēthos akyron einai chrē",
+    chinese: "多数人的意见不应成为标准。",
+    source: "理想国",
+    stephanus: "Republic 493a-c",
+    tags: ["examine"]
+  },
+
+  // ===== 会饮篇补充 =====
+  {
+    greek: "ἔστιν δὲ ὁ ἔρως τοῦ ἀεὶ ὄντος",
+    translit: "estin de ho erōs tou aei ontos",
+    chinese: "爱是对永恒之物的追求。",
+    source: "会饮篇",
+    stephanus: "Symposium 206e-207a",
+    tags: ["love"]
+  },
+  {
+    greek: "διὰ τὸ ἐρᾶν τοῦ καλοῦ, ἐν τῷ καλῷ τίκτει",
+    translit: "dia to eran tou kalou, en tōi kalōi tiktei",
+    chinese: "因为爱美，所以在美中生育。",
+    source: "会饮篇",
+    stephanus: "Symposium 206e",
+    tags: ["love"]
+  },
+
+  // ===== 色诺芬补充 =====
+  {
+    greek: "τὸν μὲν γὰρ ἄρχοντα δεῖν ἄριστον εἶναι",
+    translit: "ton men gar archonta dein ariston einai",
+    chinese: "统治者必须是最优秀的人。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia III.2.1",
+    tags: ["justice"]
+  },
+  {
+    greek: "ἡ δὲ ἐγκράτεια ἐστὶν ἀρετὴ μεγίστη",
+    translit: "hē de enkrateia estin aretē megalē",
+    chinese: "自制是最大的美德。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia I.5.1",
+    tags: ["virtue"]
+  },
+  {
+    greek: "οὐδὲν γὰρ ἄλλο πλὴν σοφία τὸν ἄνθρωπον εὐδαίμονα ποιεῖ",
+    translit: "ouden gar allo plēn sophia ton anthrōpon eudaimona poiei",
+    chinese: "除了智慧，没有别的东西能使人幸福。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia IV.2.24",
+    tags: ["virtue", "life"]
+  },
+  {
+    greek: "τὸ δὲ κακὸν ποιεῖν κακίον τοῦ πάσχειν",
+    translit: "to de kakon poiein kakion tou paschein",
+    chinese: "作恶比受恶更坏。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia III.9.4",
+    tags: ["justice", "virtue"]
+  },
+
+  // ===== 其他篇目 =====
+  {
+    greek: "τὸ δὲ αὑτὸν γιγνώσκειν",
+    translit: "to de hauton gignōskein",
+    chinese: "认识你自己——这是一切智慧的开端。",
+    source: "（德尔菲神谕，苏格拉底常引用）",
+    stephanus: "见 Apology 21a, Charmides 164d 等",
+    tags: ["self"]
+  },
+  {
+    greek: "μηδὲν ἄγαν",
+    translit: "mēden agan",
+    chinese: "凡事不过分。（刻于德尔菲神庙，苏格拉底奉行此训）",
+    source: "（德尔菲箴言）",
+    stephanus: "苏格拉底多处引用",
+    tags: ["virtue", "life"]
+  },
+  {
+    greek: "ἐγγύα πάρα δ'ἄτα",
+    translit: "engya para d'ata",
+    chinese: "担保即毁损。（不要轻易为人担保）",
+    source: "（德尔菲箴言，苏格拉底引用）",
+    stephanus: "见 Apology 21a 等处",
+    tags: ["life"]
+  },
+  {
+    greek: "βίος ἀνεξέταστος οὐ βιωτὸς ἀνθρώπῳ",
+    translit: "bios anexetastos ou biōtos anthrōpōi",
+    chinese: "未经审视的生活不值得人去过。",
+    source: "申辩篇",
+    stephanus: "Apology 38a5-6",
+    tags: ["examine", "self"]
+  },
+  {
+    greek: "τὸν δὲ πλοῦτον οὐκ ἐν τῇ κτήσει ἀλλ' ἐν τῇ χρείᾳ εἶναι",
+    translit: "ton de plouton ouk en tēi ktēsei all' en tēi chreiai einai",
+    chinese: "财富不在于拥有多少，而在于需要多少。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia I.6.4",
+    tags: ["life", "virtue"]
+  },
+  {
+    greek: "ὁ δὲ καιρὸς ἐν ὀλίγῳ",
+    translit: "ho de kairos en oligōi",
+    chinese: "时机稍纵即逝。",
+    source: "回忆苏格拉底",
+    stephanus: "Memorabilia III.7.9",
+    tags: ["life"]
+  }
+];
+
+// ===== Render =====
+const container = document.getElementById('cardsContainer');
+const noResults = document.getElementById('noResults');
+let currentFilter = 'all';
+let searchTerm = '';
+
+function renderCards() {
+  const filtered = quotes.filter((q, idx) => {
+    const matchFilter = currentFilter === 'all' || q.tags.includes(currentFilter);
+    const matchSearch = searchTerm === '' ||
+      q.chinese.toLowerCase().includes(searchTerm) ||
+      q.greek.toLowerCase().includes(searchTerm) ||
+      q.translit.toLowerCase().includes(searchTerm) ||
+      q.source.toLowerCase().includes(searchTerm) ||
+      q.stephanus.toLowerCase().includes(searchTerm);
+    return matchFilter && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+
+  container.innerHTML = filtered.map((q, idx) => `
+    <div class="card" data-tags="${q.tags.join(',')}">
+      <div class="card-number">${String(idx + 1).padStart(2, '0')}</div>
+      <div class="greek-original">${q.greek}</div>
+      <div class="transliteration">${q.translit}</div>
+      <div class="chinese-translation">${q.chinese}</div>
+      <div class="tags">${q.tags.map(t => `<span class="tag">${tagLabel(t)}</span>`).join('')}</div>
+      <div class="source">
+        <span class="source-text">📖 ${q.source}</span>
+        <span class="stephanus">${q.stephanus}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function tagLabel(tag) {
+  const labels = {
+    self: '认识自我', virtue: '美德与智慧', examine: '省察与思辨',
+    death: '生死与灵魂', justice: '正义与法律', education: '教育与求知',
+    life: '生活与品格', love: '爱与美'
+  };
+  return labels[tag] || tag;
+}
+
+// Update counts
+function updateCounts() {
+  const allCount = document.getElementById('count-all');
+  allCount.textContent = `(${quotes.length})`;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    const filter = btn.dataset.filter;
+    if (filter === 'all') return;
+    const count = quotes.filter(q => q.tags.includes(filter)).length;
+    const countSpan = btn.querySelector('.count');
+    if (countSpan) countSpan.textContent = `(${count})`;
+    else btn.insertAdjacentHTML('beforeend', ` <span class="count">(${count})</span>`);
+  });
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchTerm = e.target.value.toLowerCase().trim();
+  renderCards();
+});
+
+// Scroll to top
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+
+// Init
+updateCounts();
+renderCards();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#0d1520"/>
+      <stop offset="100%" stop-color="#04080d"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="cave" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- 洞穴 -->
+  <path d="M 40 260 Q 60 100 200 80 Q 340 100 360 260 Z" fill="url(--cave)" opacity="0.5"/>
+  <path d="M 80 260 Q 100 130 200 115 Q 300 130 320 260 Z" fill="#0a0f1a" opacity="0.6"/>
+  <!-- 洞穴顶光 -->
+  <path d="M 140 110 Q 200 90 260 110" stroke="#fbbf24" stroke-width="0.5" opacity="0.2" fill="none"/>
+  <!-- 墙上的影子人 -->
+  <g transform="translate(200, 195)" opacity="0.55">
+    <circle cx="0" cy="-18" r="9" fill="url(--gold)"/>
+    <path d="M -12 -10 L 12 -10 L 16 12 L -16 12 Z" fill="url(--gold)"/>
+    <line x1="-12" y1="-6" x2="-26" y2="-14" stroke="url(--gold)" stroke-width="2" opacity="0.4"/>
+    <line x1="12" y1="-6" x2="26" y2="-14" stroke="url(--gold)" stroke-width="2" opacity="0.4"/>
+    <line x1="-6" y1="12" x2="-10" y2="26" stroke="url(--gold)" stroke-width="2" opacity="0.35"/>
+    <line x1="6" y1="12" x2="10" y2="26" stroke="url(--gold)" stroke-width="2" opacity="0.35"/>
+  </g>
+  <!-- 篝火 -->
+  <g transform="translate(200, 225)" opacity="0.5">
+    <path d="M -8 0 L 8 0 L 5 5 L -5 5 Z" fill="none" stroke="#fbbf24" stroke-width="0.8"/>
+    <circle cx="0" cy="-3" r="4" fill="#fbbf24" opacity="0.4"/>
+  </g>
+  <!-- 理性之光 -->
+  <path d="M 200 150 L 165 175 M 200 150 L 200 175 M 200 150 L 235 175" stroke="#fbbf24" stroke-width="0.6" opacity="0.15"/>
+  <text x="200" y="272" text-anchor="middle" fill="#fbbf24" font-family="serif" font-size="15" font-weight="bold">柏拉图理论 · 全景报告</text>
+</svg>

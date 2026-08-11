@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柏拉图理论全景报告 · Πλάτων</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=GFS+Didot&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+:root{--marble:#f7f5f0;--marble-d:#e8e4dc;--blue:#1b3a5c;--blue-l:#2d5a8a;--olive:#6b7d4f;--gold:#b8932f;--gold-l:#d4af37;--text:#2a2a2a;--text-m:#555;--text-l:#888;--card:#fffdf8;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-h:0 6px 24px rgba(27,58,92,.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif SC',serif;background:var(--marble);color:var(--text);line-height:1.9}
+header{background:linear-gradient(135deg,var(--blue),var(--blue-l));color:#fff;text-align:center;padding:60px 20px 50px;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 20L50 20L38 30L43 45L30 35L17 45L22 30L10 20L25 20Z' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E");opacity:.5}
+header h1{font-family:'GFS Didot',serif;font-size:2.8em;margin-bottom:8px;position:relative;z-index:1}
+header .greek{font-family:'GFS Didot',serif;font-size:1.5em;color:var(--gold-l);margin-bottom:12px;position:relative;z-index:1}
+header .sub{font-size:1em;opacity:.85;max-width:650px;margin:0 auto;position:relative;z-index:1;font-family:'Noto Sans SC',sans-serif;font-weight:300}
+header .div{width:80px;height:2px;background:var(--gold-l);margin:20px auto;position:relative;z-index:1}
+header .meta{font-size:.85em;opacity:.7;margin-top:8px;position:relative;z-index:1;font-family:'Noto Sans SC',sans-serif}
+nav{background:var(--marble-d);padding:12px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav a{background:transparent;border:1.5px solid var(--blue);color:var(--blue);padding:5px 14px;border-radius:18px;cursor:pointer;font-size:.82em;font-family:'Noto Sans SC',sans-serif;font-weight:500;transition:all .3s;text-decoration:none;white-space:nowrap}
+nav a:hover,nav a.active{background:var(--blue);color:#fff}
+.container{max-width:900px;margin:0 auto;padding:30px 20px 60px}
+section{margin-bottom:50px;scroll-margin-top:70px}
+section h2{font-family:'GFS Didot',serif;font-size:2em;color:var(--blue);border-bottom:2px solid var(--gold);padding-bottom:10px;margin-bottom:20px}
+section h3{font-size:1.3em;color:var(--blue-l);margin:24px 0 12px;border-left:4px solid var(--gold);padding-left:12px}
+section h4{font-size:1.1em;color:var(--olive);margin:18px 0 8px}
+section p{margin-bottom:14px;text-align:justify}
+.quote{background:var(--card);border-left:4px solid var(--blue);padding:16px 20px;margin:16px 0;border-radius:0 8px 8px 0;box-shadow:var(--shadow)}
+.quote .gk{font-family:'GFS Didot',serif;font-size:1.1em;color:var(--blue);font-style:italic;margin-bottom:6px}
+.quote .tr{font-size:.82em;color:var(--text-l);font-style:italic;margin-bottom:6px}
+.quote .cn{font-weight:600;margin-bottom:6px}
+.quote .src{font-size:.8em;color:var(--olive)}
+.card{background:var(--card);border-radius:10px;padding:20px;margin:16px 0;box-shadow:var(--shadow);border-left:4px solid var(--gold);transition:all .3s}
+.card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+.card h4{margin-top:0}
+.concept{display:inline-block;background:var(--marble-d);color:var(--text-m);padding:2px 10px;border-radius:12px;font-size:.78em;margin:2px;font-family:'Noto Sans SC',sans-serif}
+.diagram{background:#fff;border-radius:10px;padding:20px;margin:20px 0;box-shadow:var(--shadow);text-align:center;overflow-x:auto}
+.diagram svg{max-width:100%;height:auto}
+.diagram .caption{font-size:.85em;color:var(--text-l);margin-top:8px;font-family:'Noto Sans SC',sans-serif}
+.timeline{position:relative;padding:20px 0}
+.timeline::before{content:'';position:absolute;left:30px;top:0;bottom:0;width:3px;background:var(--gold)}
+.tl-item{position:relative;padding-left:70px;margin-bottom:24px}
+.tl-item::before{content:'';position:absolute;left:24px;top:6px;width:15px;height:15px;border-radius:50%;background:var(--blue);border:3px solid var(--gold)}
+.tl-item .year{font-weight:700;color:var(--blue);font-family:'GFS Didot',serif;font-size:1.1em}
+.tl-item .event{color:var(--text-m)}
+.glossary{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:680px){.glossary{grid-template-columns:1fr 1fr}}
+.glossary-item{background:var(--card);padding:12px 16px;border-radius:8px;box-shadow:var(--shadow);border-left:3px solid var(--olive)}
+.glossary-item .gk{font-family:'GFS Didot',serif;color:var(--blue);font-size:1.05em}
+.glossary-item .en{font-size:.82em;color:var(--text-l);font-style:italic}
+.glossary-item .cn{font-weight:600}
+.glossary-item .desc{font-size:.85em;color:var(--text-m);margin-top:4px}
+footer{background:var(--blue);color:#fff;text-align:center;padding:40px 20px;font-family:'Noto Sans SC',sans-serif}
+footer h3{font-family:'GFS Didot',serif;font-size:1.4em;margin-bottom:12px;color:var(--gold-l)}
+footer p{font-size:.85em;opacity:.8;max-width:700px;margin:0 auto 8px;line-height:1.7}
+.scroll-top{position:fixed;bottom:30px;right:30px;width:44px;height:44px;background:var(--blue);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.2em;box-shadow:var(--shadow);opacity:0;transition:opacity .3s;z-index:200;display:flex;align-items:center;justify-content:center}
+.scroll-top.visible{opacity:1}
+.scroll-top:hover{background:var(--blue-l)}
+.two-col{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:680px){.two-col{grid-template-columns:1fr 1fr}}
+.highlight{background:linear-gradient(180deg,transparent 60%,rgba(184,147,47,.2) 60%);font-weight:600}
+.note{background:#f0ede5;border-radius:8px;padding:14px 18px;margin:14px 0;font-size:.9em;color:var(--text-m);border-left:3px solid var(--olive)}
+.note strong{color:var(--blue)}
+</style>
+</head>
+<body>
+<header>
+<div class="greek">Πλάτων</div>
+<h1>柏拉图理论全景报告</h1>
+<div class="div"></div>
+<p class="sub">从理念论到宇宙生成——系统梳理柏拉图哲学的八大板块，附可视化图表与希腊语原文</p>
+<div class="meta">约公元前 427 年 — 公元前 347 年 · 雅典 · 学园创立者</div>
+</header>
+
+<nav id="nav">
+<a href="#sec1" class="active">一、生平与背景</a>
+<a href="#sec2">二、理念论</a>
+<a href="#sec3">三、认识论</a>
+<a href="#sec4">四、灵魂学说</a>
+<a href="#sec5">五、治理哲学</a>
+<a href="#sec6">六、伦理学</a>
+<a href="#sec7">七、美学与爱欲</a>
+<a href="#sec8">八、宇宙论与晚期</a>
+<a href="#glossary">术语表</a>
+<a href="#timeline">年表</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== 第一板块：生平与背景 ===== -->
+<section id="sec1">
+<h2>一、生平与时代背景</h2>
+
+<h3>1.1 家世与早年</h3>
+<p>柏拉图（Πλάτων，Plátōn）约生于公元前 427 年，出身雅典贵族家庭。其父阿里斯同（Ariston）据传为雅典末代国王科德罗斯的后裔，母亲珀里克提俄涅（Perictione）是梭伦的后代。柏拉图原名阿里斯托克勒斯（Aristocles），"柏拉图"（意为"宽广"）是其体育教练因他体格宽阔而起的绰号，后沿用为名。</p>
+<p>柏拉图幼年丧父，母亲改嫁皮里兰佩斯（Pyrilampes），其子德摩斯梯尼（Demosthenes，非同名演说家）后来成为"三十人执政团"之一。这一家庭背景使柏拉图自幼接触雅典治理核心圈，但也让他对治理的弊端有深刻体认。</p>
+
+<h3>1.2 苏格拉底的影响</h3>
+<p>约公元前 407 年，20 岁的柏拉图结识苏格拉底，此前他已接受过完整的贵族教育——学习音乐、诗歌、体操与哲学。苏格拉底对柏拉图的影响是决定性的：苏格拉底的省察方法、对定义的执着追求、"美德即知识"的信念，构成了柏拉图哲学的出发点。</p>
+<div class="quote">
+<div class="gk">ἐγὼ γὰρ τοῦτό γε οἶδα, ὅτι ὅ τι μὲν ἂν ποιῶ, ἔσται τοῦτο πρὸς τὸν Σωκράτη</div>
+<div class="tr">egō gar touto ge oida, hoti ho ti an poiō, estai touto pros ton Sōkratē</div>
+<div class="cn">"我知道这一点：无论我做什么，都将面向苏格拉底。"</div>
+<div class="src">—— 柏拉图《斐多篇》59b（柏拉图因病未能在苏格拉底临终时在场）</div>
+</div>
+<p>公元前 399 年，苏格拉底被雅典陪审团以"不敬传统信仰"和"误导青年"的指控被判离世。这一事件对 28 岁的柏拉图造成巨大冲击，直接促使他对雅典政制彻底失望，并转向哲学建构。苏格拉底离世成为柏拉图治理哲学的负面起点——他在《理想国》中设计的哲人王治理，正是对"未经哲学审视的治理权"的回应。</p>
+
+<h3>1.3 三次叙拉古之行</h3>
+<p>苏格拉底离世后，柏拉图离开雅典，游历麦加拉、昔兰尼、埃及和南意大利等地，接触了毕达哥拉斯学派的数论传统。约公元前 387 年，他第一次前往叙拉古（Syracuse），试图将哲学理念付诸治理实践，结识叙拉古执政者狄奥尼修斯一世（Dionysius I），但以未果告终。据传他被贩卖，后由友人营救。</p>
+<p>公元前 367 年和公元前 361 年，柏拉图又两次前往叙拉古，试图教育狄奥尼修斯二世成为"哲人王"，均告未果。这三次经历使柏拉图认识到，哲学与权力的结合在现实中极为困难，他在《理想国》中感叹：</p>
+<div class="quote">
+<div class="gk">οὔπω ποτὲ ἔσται εὐδαίμων ἡ πόλις, ἕως ἂν οἱ φιλόσοφοι βασιλεύωσιν</div>
+<div class="tr">oupōpote estai eudaimōn hē polis, heōs an hoi philosophoi basileuōsin</div>
+<div class="cn">"除非哲学家成为国王，否则城邦永远不会幸福。"</div>
+<div class="src">—— 《理想国》473c-d</div>
+</div>
+
+<h3>1.4 学园的创立</h3>
+<p>约公元前 387 年，柏拉图回到雅典，在城外的阿卡德米（Akademia，以英雄阿卡德摩斯命名）建立学园。这是西方历史上第一所综合性高等学府，存在近 900 年，直至公元 529 年被东罗马皇帝查士丁尼下令关闭。学园不仅教授哲学，还涵盖数学、天文、生物等学科，门口据说刻有"不懂几何者不得入内"（ἀγεωμέτρητος μηδεὶς εἰσίτω）。</p>
+<p>亚里士多德 17 岁进入学园，学习工作近 20 年，被柏拉图称为"学园之心"（νοῦς τῆς διατριβῆς）。柏拉图去世后，亚里士多德因未获继任学园领袖而离开，后创立吕克昂（Lyceum），与柏拉图的学园形成学术对话与竞争关系。</p>
+
+<div class="diagram">
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+<text x="350" y="25" text-anchor="middle" font-size="14" fill="#1b3a5c" font-weight="bold">柏拉图生平关键节点</text>
+<line x1="50" y1="100" x2="650" y2="100" stroke="#b8932f" stroke-width="2"/>
+<circle cx="80" cy="100" r="8" fill="#1b3a5c"/><text x="80" y="125" text-anchor="middle" font-size="10" fill="#555">前427 生于雅典</text>
+<circle cx="180" cy="100" r="8" fill="#1b3a5c"/><text x="180" y="125" text-anchor="middle" font-size="10" fill="#555">前407 结识苏格拉底</text>
+<circle cx="260" cy="100" r="8" fill="#6b7d4f"/><text x="260" y="125" text-anchor="middle" font-size="10" fill="#555">前399 苏格拉底离世</text>
+<circle cx="360" cy="100" r="8" fill="#1b3a5c"/><text x="360" y="125" text-anchor="middle" font-size="10" fill="#555">前387 创立学园</text>
+<circle cx="460" cy="100" r="8" fill="#6b7d4f"/><text x="460" y="125" text-anchor="middle" font-size="10" fill="#555">前367 二访叙拉古</text>
+<circle cx="540" cy="100" r="8" fill="#6b7d4f"/><text x="540" y="125" text-anchor="middle" font-size="10" fill="#555">前361 三访叙拉古</text>
+<circle cx="620" cy="100" r="8" fill="#1b3a5c"/><text x="620" y="125" text-anchor="middle" font-size="10" fill="#555">前347 去世</text>
+<text x="80" y="80" text-anchor="middle" font-size="9" fill="#1b3a5c">贵族出身</text>
+<text x="260" y="80" text-anchor="middle" font-size="9" fill="#6b7d4f">思想转折</text>
+<text x="460" y="80" text-anchor="middle" font-size="9" fill="#6b7d4f">治理实践</text>
+</svg>
+<div class="caption">图1：柏拉图生平关键节点时间线</div>
+</div>
+</section>
+
+<!-- ===== 第二板块：理念论 ===== -->
+<section id="sec2">
+<h2>二、理念论（Theory of Forms/Ideas）</h2>
+<p>理念论是柏拉图哲学的核心基石，也是西方形而上学史上最具影响力的理论之一。其基本主张是：在可感的、变化的个别事物之外，存在一个永恒不变的、完美的"理念"（εἶδος / ἰδέα，eidos / idea）世界，它是可感事物的根据和原型。</p>
+
+<h3>2.1 现象界与理念界的二元划分</h3>
+<p>柏拉图将存在划分为两个领域：</p>
+<div class="two-col">
+<div class="card">
+<h4>可感界（ὁρατόν / horaton）</h4>
+<p>• 由感官把握的世界<br>• 处于生灭变化中<br>• 个别事物（树、桌、人）<br>• 既存在又不存在<br>• 认识方式：<span class="concept">意见（δόξα / doxa）</span></p>
+</div>
+<div class="card">
+<h4>可知界（νοητόν / noēton）</h4>
+<p>• 由理性把握的世界<br>• 永恒不变<br>• 普遍理念（美本身、善本身）<br>• 真正的存在<br>• 认识方式：<span class="concept">知识（ἐπιστήμη / epistēmē）</span></p>
+</div>
+</div>
+
+<h3>2.2 分有与模仿</h3>
+<p>可感事物与理念的关系如何？柏拉图提出两种解释模型：</p>
+<p><strong>分有说（μέθεξις / methexis）：</strong>可感事物因"分有"理念而获得其属性。一朵花是美的，因为它分有了"美本身"（αὐτὸ τὸ καλόν）。</p>
+<div class="quote">
+<div class="gk">τὰ δὲ καλὰ πράγματα πάντα διὰ τὴν τοῦ καλοῦ παρουσίαν καλὰ φαίνεται</div>
+<div class="tr">ta de kala pragmata panta dia tēn tou kalou parousian kala phainetai</div>
+<div class="cn">"一切美的事物之所以显得美，是因为美的理念在场。"</div>
+<div class="src">—— 《斐多篇》100d</div>
+</div>
+<p><strong>模仿说（μίμησις / mimēsis）：</strong>可感事物是理念的"模仿"或"摹本"。理念是原型（παράδειγμα / paradeigma），可感事物是影像。</p>
+<div class="note"><strong>亚里士多德的批评：</strong>亚里士多德在《形而上学》中指出"分有"概念含混——"分有"究竟是什么意思？它只是"一个空洞的比喻和诗意的表达"（Metaphysics A9, 991a20）。这一批评促使柏拉图在晚期对话中修正理论。</div>
+
+<h3>2.3 理念的层级</h3>
+<p>柏拉图认为理念之间存在层级关系：</p>
+<div class="diagram">
+<svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+<polygon points="250,20 180,80 320,80" fill="#d4af37" opacity="0.9"/>
+<text x="250" y="55" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">善的理念</text>
+<text x="250" y="68" text-anchor="middle" font-size="8" fill="#fff">ἡ τοῦ ἀγαθοῦ ἰδέα</text>
+<polygon points="180,80 100,150 260,150 320,80" fill="#1b3a5c" opacity="0.8"/>
+<text x="210" y="120" text-anchor="middle" font-size="10" fill="#fff">数学理念</text>
+<text x="210" y="133" text-anchor="middle" font-size="8" fill="#fff">数、几何形</text>
+<polygon points="100,150 40,220 200,220 260,150" fill="#2d5a8a" opacity="0.7"/>
+<text x="150" y="185" text-anchor="middle" font-size="10" fill="#fff">人造物理念</text>
+<text x="150" y="198" text-anchor="middle" font-size="8" fill="#fff">桌、床、工具</text>
+<polygon points="200,220 40,220 20,265 220,265" fill="#6b7d4f" opacity="0.6"/>
+<text x="120" y="248" text-anchor="middle" font-size="9" fill="#fff">自然物理念</text>
+<text x="120" y="260" text-anchor="middle" font-size="7" fill="#fff">动植物、山川</text>
+<text x="370" y="50" font-size="9" fill="#555">↑ 最高：统摄一切</text>
+<text x="370" y="120" font-size="9" fill="#555">↑ 抽象程度递减</text>
+<text x="370" y="190" font-size="9" fill="#555">↑ 具体程度递增</text>
+<text x="370" y="250" font-size="9" fill="#555">↓ 最低：最接近现象</text>
+</svg>
+<div class="caption">图2：理念层级金字塔（据《理想国》第六卷及后世阐释）</div>
+</div>
+
+<h3>2.4 洞穴比喻（Ἀλληγορία τοῦ Σπηλαίου）</h3>
+<p>《理想国》第七卷开篇的洞穴比喻是西方哲学史上最著名的比喻之一：</p>
+<p>想象一个深洞穴，困者从出生起就被束缚，只能面向洞壁。他们身后有火光，火光与人之间有一堵矮墙，墙后有人举着各种器物走过。火光将器物的影子投射到困者面前的洞壁上。困者将这些影子视为唯一的真实。</p>
+<p>当一名困者被解除束缚，转身看到火光和器物时，他会因光亮而痛苦。当他被拖出洞穴，进入阳光下的世界时，他首先会被刺眼的光芒所眩晕，然后逐渐适应——先看影子，再看水中倒影，再看事物本身，最后看星空，最终能够直视太阳。</p>
+<div class="diagram">
+<svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg">
+<!-- Cave -->
+<rect x="10" y="60" width="250" height="170" fill="#e8e4dc" stroke="#1b3a5c" stroke-width="1.5" rx="5"/>
+<text x="135" y="80" text-anchor="middle" font-size="11" fill="#1b3a5c" font-weight="bold">洞穴内部</text>
+<!-- Prisoners -->
+<circle cx="50" cy="200" r="8" fill="#1b3a5c"/><text x="50" y="225" text-anchor="middle" font-size="8" fill="#555">困者</text>
+<circle cx="70" cy="200" r="8" fill="#1b3a5c"/>
+<circle cx="90" cy="200" r="8" fill="#1b3a5c"/>
+<!-- Wall shadows -->
+<line x1="50" y1="192" x2="50" y2="120" stroke="#888" stroke-dasharray="3,2"/>
+<line x1="70" y1="192" x2="70" y2="120" stroke="#888" stroke-dasharray="3,2"/>
+<line x1="90" y1="192" x2="90" y2="120" stroke="#888" stroke-dasharray="3,2"/>
+<text x="70" y="110" text-anchor="middle" font-size="8" fill="#888">影子</text>
+<!-- Fire -->
+<polygon points="180,195 170,210 190,210" fill="#d4af37"/><text x="180" y="228" text-anchor="middle" font-size="8" fill="#555">火光</text>
+<!-- Wall -->
+<rect x="155" y="140" width="50" height="60" fill="#ccc" opacity="0.5"/>
+<text x="180" y="135" text-anchor="middle" font-size="7" fill="#888">矮墙</text>
+<!-- Objects -->
+<rect x="165" y="150" width="8" height="12" fill="#1b3a5c"/>
+<circle cx="185" cy="156" r="5" fill="#6b7d4f"/>
+<!-- Arrow out -->
+<line x1="260" y1="145" x2="340" y2="145" stroke="#b8932f" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="300" y="138" text-anchor="middle" font-size="9" fill="#b8932f">上升</text>
+<!-- Outside -->
+<rect x="340" y="60" width="250" height="170" fill="#f7f5f0" stroke="#1b3a5c" stroke-width="1.5" rx="5"/>
+<text x="465" y="80" text-anchor="middle" font-size="11" fill="#1b3a5c" font-weight="bold">洞穴外部</text>
+<!-- Sun -->
+<circle cx="530" cy="110" r="18" fill="#d4af37" opacity="0.8"/>
+<text x="530" y="115" text-anchor="middle" font-size="9" fill="#fff">太阳</text>
+<text x="530" y="145" text-anchor="middle" font-size="8" fill="#555">= 善的理念</text>
+<!-- Stages -->
+<text x="380" y="180" font-size="8" fill="#555">① 影子</text>
+<text x="380" y="195" font-size="8" fill="#555">② 倒影</text>
+<text x="380" y="210" font-size="8" fill="#555">③ 事物</text>
+<text x="380" y="225" font-size="8" fill="#555">④ 太阳</text>
+<defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#b8932f"/></marker></defs>
+</svg>
+<div class="caption">图3：洞穴比喻示意图</div>
+</div>
+<p>比喻的哲学含义：洞穴=可感世界，外部=理念世界，太阳=善的理念，影子=可感事物的影像，火光=可感世界的光源。困者的解放过程就是灵魂通过辩证法逐步上升至真理的过程。</p>
+
+<h3>2.5 太阳比喻</h3>
+<p>在可感世界中，太阳是视觉的源泉——太阳光使眼睛能看见事物，太阳也使事物能被看见。类比地，在可知世界中，<span class="highlight">善的理念</span>是知识的源泉——它使理智能认识理念，也使理念能被认识。</p>
+<div class="quote">
+<div class="gk">τὸν ἥλιον οὐ μόνον τῶν ὁρωμένων φῶς παρέχειν, ἀλλὰ καὶ τὴν γένεσιν καὶ αὔξησιν καὶ τροφήν</div>
+<div class="tr">ton hēlion ou monon tōn horōmenōn phōs parechein, alla kai tēn genesin kai auxēsin kai trophēn</div>
+<div class="cn">"太阳不仅提供可见事物的光，还提供它们的生成、成长和营养。"</div>
+<div class="src">—— 《理想国》509b</div>
+</div>
+
+<h3>2.6 线段比喻</h3>
+<p>柏拉图用一条按比例分割的线段来表示认识的四个层次：</p>
+<div class="diagram">
+<svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+<line x1="50" y1="100" x2="550" y2="100" stroke="#1b3a5c" stroke-width="3"/>
+<!-- Division marks -->
+<line x1="50" y1="90" x2="50" y2="110" stroke="#1b3a5c" stroke-width="2"/>
+<line x1="300" y1="90" x2="300" y2="110" stroke="#b8932f" stroke-width="2"/>
+<line x1="550" y1="90" x2="550" y2="110" stroke="#1b3a5c" stroke-width="2"/>
+<!-- Sub-divisions -->
+<line x1="175" y1="93" x2="175" y2="107" stroke="#6b7d4f" stroke-width="1.5"/>
+<line x1="425" y1="93" x2="425" y2="107" stroke="#6b7d4f" stroke-width="1.5"/>
+<!-- Labels -->
+<text x="112" y="80" text-anchor="middle" font-size="9" fill="#6b7d4f">影像 εἰκασία</text>
+<text x="112" y="125" text-anchor="middle" font-size="8" fill="#555">影子、倒影</text>
+<text x="237" y="80" text-anchor="middle" font-size="9" fill="#6b7d4f">信念 πίστις</text>
+<text x="237" y="125" text-anchor="middle" font-size="8" fill="#555">可感事物</text>
+<text x="362" y="80" text-anchor="middle" font-size="9" fill="#1b3a5c">数学 διάνοια</text>
+<text x="362" y="125" text-anchor="middle" font-size="8" fill="#555">数理对象</text>
+<text x="487" y="80" text-anchor="middle" font-size="9" fill="#1b3a5c">理性 νόησις</text>
+<text x="487" y="125" text-anchor="middle" font-size="8" fill="#555">理念/善</text>
+<!-- Brackets -->
+<text x="175" y="55" text-anchor="middle" font-size="10" fill="#6b7d4f" font-weight="bold">可感界 (ὁρατόν)</text>
+<text x="487" y="55" text-anchor="middle" font-size="10" fill="#1b3a5c" font-weight="bold">可知界 (νοητόν)</text>
+<line x1="50" y1="60" x2="300" y2="60" stroke="#6b7d4f" stroke-width="1"/>
+<line x1="300" y1="60" x2="550" y2="60" stroke="#1b3a5c" stroke-width="1"/>
+<text x="175" y="155" text-anchor="middle" font-size="8" fill="#888">意见 (δόξα)</text>
+<text x="487" y="155" text-anchor="middle" font-size="8" fill="#888">知识 (ἐπιστήμη)</text>
+<text x="300" y="180" text-anchor="middle" font-size="9" fill="#b8932f">清晰度与真实度递增 →</text>
+</svg>
+<div class="caption">图4：线段比喻——认识四层次（据《理想国》509d-511e）</div>
+</div>
+</section>
+
+<!-- ===== 第三板块：认识论 ===== -->
+<section id="sec3">
+<h2>三、认识论与回忆说</h2>
+
+<h3>3.1 回忆说（ἀνάμνησις / Anamnesis）</h3>
+<p>柏拉图在《美诺篇》中提出：学习不是从无到有地获取知识，而是灵魂对前世已知但已遗忘的知识的"回忆"。这一理论基于灵魂先在性——灵魂在投生肉体之前，曾在理念世界中直观过理念。</p>
+<div class="quote">
+<div class="gk">ἡ μὲν γὰρ ψυχὴ ἀθάνατος τε οὖσα καὶ πολλαχῇ γεγενημένη, ἑωρακυῖά τε τὰ ὄντα πάντα</div>
+<div class="tr">hē men gar psychē athanatos te ousa kai pollachēi gegeneuomenē, heōrakuia te ta onta panta</div>
+<div class="cn">"灵魂是不朽的，已经多次转生，见过此世和彼世的一切事物。"</div>
+<div class="src">—— 《美诺篇》81c</div>
+</div>
+<p>苏格拉底通过向一个未受教育的仆从少年提问，引导他"回忆"出几何定理（正方形面积加倍问题），以此证明回忆说——少年从未学过几何，却能通过正确提问而"想起"真理。</p>
+
+<h3>3.2 知识与意见</h3>
+<p>柏拉图严格区分知识（ἐπιστήμη）与意见（δόξα）：</p>
+<div class="card">
+<p><strong>知识（ἐπιστήμη）</strong>：以理念为对象，通过理性（νόησις）把握，具有普遍性和必然性，不会出错。</p>
+<p><strong>意见（δόξα）</strong>：以可感事物为对象，通过感官感知，处于知识与无知之间，可能正确也可能错误。</p>
+<p>关键区别在于<span class="highlight">对象的不同</span>，而不仅是认知能力的不同。可感事物既存在又不存在（处于生灭变化中），因此只能产生意见；理念是真正的存在，因此能产生知识。</p>
+</div>
+
+<h3>3.3 辩证法（διαλεκτική）</h3>
+<p>辩证法是柏拉图认识论的核心方法，是灵魂从意见上升到知识的途径。它包括：</p>
+<p>• <strong>下降路径</strong>：从假设出发，逐步推导结论（如数学方法）<br>• <strong>上升路径</strong>：追问假设本身的根据，逐级上升，直至达到"无假设的第一原则"——善的理念</p>
+<div class="quote">
+<div class="gk">ὁ δὲ διαλεκτικὸς τρόπος μόνος τὴν ὁδὸν ταύτην ἐνέγκας ἀνιὼν πρὸς τὴν τοῦ ἀγαθοῦ ἰδέαν</div>
+<div class="tr">ho de dialektikos tropos monos tēn hodon tautēn enegkas aniōn pros tēn tou agathou idean</div>
+<div class="cn">"唯有辩证法能沿着这条路上升，直达善的理念。"</div>
+<div class="src">—— 《理想国》532a</div>
+</div>
+</section>
+
+<!-- ===== 第四板块：灵魂学说 ===== -->
+<section id="sec4">
+<h2>四、灵魂学说</h2>
+
+<h3>4.1 灵魂三分法</h3>
+<p>柏拉图在《理想国》和《斐德罗篇》中将灵魂分为三个部分：</p>
+<div class="two-col">
+<div class="card">
+<h4>理性（λογιστικόν / logistikon）</h4>
+<p>位于头部，追求真理和智慧。对应城邦中的治理者（哲人王），美德为<span class="concept">智慧（σοφία）</span>。</p>
+</div>
+<div class="card">
+<h4>激情（θυμοειδές / thymoeides）</h4>
+<p>位于胸部，追求荣誉和胜利。对应城邦中的护卫者（护卫者），美德为<span class="concept">勇敢（ἀνδρεία）</span>。</p>
+</div>
+</div>
+<div class="card">
+<h4>欲望（ἐπιθυμητικόν / epithymētikon）</h4>
+<p>位于腹部，追求物质和肉体满足。对应城邦中的生产者（农民、工匠、商人），美德为<span class="concept">节制（σωφροσύνη）</span>。</p>
+</div>
+<p>当三个部分各司其职、和谐运作时，灵魂便实现了<span class="highlight">正义（δικαιοσύνη）</span>——这是第四种美德。</p>
+
+<h3>4.2 灵魂马车比喻</h3>
+<p>《斐德罗篇》246a-254e 中，柏拉图将灵魂比作一辆由两匹飞马拉着的马车，御者代表理性：</p>
+<div class="diagram">
+<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+<!-- Charioteer -->
+<circle cx="250" cy="60" r="15" fill="#1b3a5c"/><text x="250" y="64" text-anchor="middle" font-size="9" fill="#fff">御者</text>
+<text x="250" y="40" text-anchor="middle" font-size="9" fill="#1b3a5c" font-weight="bold">理性</text>
+<!-- Good horse -->
+<ellipse cx="180" cy="110" rx="35" ry="20" fill="#6b7d4f" opacity="0.8"/>
+<text x="180" y="115" text-anchor="middle" font-size="9" fill="#fff">白马</text>
+<text x="180" y="145" text-anchor="middle" font-size="8" fill="#6b7d4f">激情（顺从理性）</text>
+<!-- Bad horse -->
+<ellipse cx="320" cy="110" rx="35" ry="20" fill="#8b4513" opacity="0.8"/>
+<text x="320" y="115" text-anchor="middle" font-size="9" fill="#fff">黑马</text>
+<text x="320" y="145" text-anchor="middle" font-size="8" fill="#8b4513">欲望（不受理性引导）</text>
+<!-- Reins -->
+<line x1="240" y1="72" x2="195" y2="95" stroke="#555" stroke-width="1.5"/>
+<line x1="260" y1="72" x2="305" y2="95" stroke="#555" stroke-width="1.5"/>
+<!-- Chariot -->
+<rect x="225" y="155" width="50" height="25" fill="#b8932f" opacity="0.7" rx="3"/>
+<text x="250" y="172" text-anchor="middle" font-size="8" fill="#fff">车身</text>
+<!-- Wings -->
+<path d="M230 55 L210 40 L220 55" fill="#d4af37" opacity="0.6"/>
+<path d="M270 55 L290 40 L280 55" fill="#d4af37" opacity="0.6"/>
+<text x="250" y="195" text-anchor="middle" font-size="9" fill="#555">灵魂马车驶向理念天界</text>
+</svg>
+<div class="caption">图5：灵魂马车比喻（据《斐德罗篇》246a-254e）</div>
+</div>
+<p>白马代表激情，高贵而顺从御者；黑马代表欲望，粗鄙而难以驾驭。御者必须努力控制黑马、配合白马，才能驾驶灵魂马车飞升到"超天之地"（ὑπερουράνιος τόπος）观照理念。</p>
+
+<h3>4.3 灵魂不朽论证</h3>
+<p>柏拉图在《斐多篇》中提出多个灵魂不朽的论证：</p>
+<p><strong>① 对立生成论证：</strong>一切事物从其对立面生成（冷从热来，热从冷来）。生从逝来，逝从生来。因此，生者逝后必再生于彼世，死者亦必再生于此世——灵魂在生死之间循环。</p>
+<p><strong>② 回忆论证：</strong>我们能认识理念（如"相等本身"），但感官世界中没有完全相等的东西，因此灵魂必然在生前就已认识理念。灵魂在出生前已存在。</p>
+<p><strong>③ 亲和性论证：</strong>灵魂与理念同属永恒不变的存在，而身体与可感事物同属生灭变化的存在。灵魂亲近的是神圣的、不朽的，因此灵魂本身是不朽的。</p>
+<p><strong>④ 生命论证：</strong>灵魂是赋予生命的原则（ἡ ψυχὴ ἀεὶ ζωὴν παρέχει）。生命与灵魂不可分离，因此灵魂不会接受其对立面——离世，故灵魂不朽。</p>
+<div class="note"><strong>学界注意：</strong>柏拉图的论证并非全部逻辑严密。亚里士多德在《论灵魂》中对部分论证提出了反驳。但这些论证展现了柏拉图对灵魂本质的深刻思考，对后世影响深远。</div>
+</section>
+
+<!-- ===== 第五板块：治理哲学 ===== -->
+<section id="sec5">
+<h2>五、治理哲学与《理想国》</h2>
+
+<h3>5.1 城邦三分结构</h3>
+<p>柏拉图将理想城邦分为三个阶层，与灵魂三部分严格对应：</p>
+<div class="diagram">
+<svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+<!-- City -->
+<rect x="20" y="20" width="200" height="240" fill="#f7f5f0" stroke="#1b3a5c" rx="5"/>
+<text x="120" y="40" text-anchor="middle" font-size="12" fill="#1b3a5c" font-weight="bold">城邦 (πόλις)</text>
+<rect x="40" y="50" width="160" height="60" fill="#1b3a5c" opacity="0.8" rx="3"/>
+<text x="120" y="75" text-anchor="middle" font-size="10" fill="#fff">治理者</text>
+<text x="120" y="90" text-anchor="middle" font-size="9" fill="#fff">哲人王</text>
+<text x="120" y="103" text-anchor="middle" font-size="8" fill="#d4af37">智慧 (σοφία)</text>
+<rect x="40" y="120" width="160" height="60" fill="#6b7d4f" opacity="0.7" rx="3"/>
+<text x="120" y="145" text-anchor="middle" font-size="10" fill="#fff">护卫者</text>
+<text x="120" y="160" text-anchor="middle" font-size="9" fill="#fff">护卫者</text>
+<text x="120" y="173" text-anchor="middle" font-size="8" fill="#d4af37">勇敢 (ἀνδρεία)</text>
+<rect x="40" y="190" width="160" height="60" fill="#8b4513" opacity="0.6" rx="3"/>
+<text x="120" y="215" text-anchor="middle" font-size="10" fill="#fff">生产者</text>
+<text x="120" y="230" text-anchor="middle" font-size="9" fill="#fff">农工商</text>
+<text x="120" y="243" text-anchor="middle" font-size="8" fill="#d4af37">节制 (σωφροσύνη)</text>
+<!-- Soul -->
+<rect x="280" y="20" width="200" height="240" fill="#f7f5f0" stroke="#6b7d4f" rx="5"/>
+<text x="380" y="40" text-anchor="middle" font-size="12" fill="#6b7d4f" font-weight="bold">灵魂 (ψυχή)</text>
+<rect x="300" y="50" width="160" height="60" fill="#1b3a5c" opacity="0.8" rx="3"/>
+<text x="380" y="75" text-anchor="middle" font-size="10" fill="#fff">理性</text>
+<text x="380" y="90" text-anchor="middle" font-size="9" fill="#fff">λογιστικόν</text>
+<text x="380" y="103" text-anchor="middle" font-size="8" fill="#d4af37">智慧</text>
+<rect x="300" y="120" width="160" height="60" fill="#6b7d4f" opacity="0.7" rx="3"/>
+<text x="380" y="145" text-anchor="middle" font-size="10" fill="#fff">激情</text>
+<text x="380" y="160" text-anchor="middle" font-size="9" fill="#fff">θυμοειδές</text>
+<text x="380" y="173" text-anchor="middle" font-size="8" fill="#d4af37">勇敢</text>
+<rect x="300" y="190" width="160" height="60" fill="#8b4513" opacity="0.6" rx="3"/>
+<text x="380" y="215" text-anchor="middle" font-size="10" fill="#fff">欲望</text>
+<text x="380" y="230" text-anchor="middle" font-size="9" fill="#fff">ἐπιθυμητικόν</text>
+<text x="380" y="243" text-anchor="middle" font-size="8" fill="#d4af37">节制</text>
+<!-- Connection -->
+<line x1="220" y1="80" x2="300" y2="80" stroke="#b8932f" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="220" y1="150" x2="300" y2="150" stroke="#b8932f" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="220" y1="220" x2="300" y2="220" stroke="#b8932f" stroke-width="1.5" stroke-dasharray="4,3"/>
+<text x="260" y="275" text-anchor="middle" font-size="9" fill="#b8932f">对应关系</text>
+</svg>
+<div class="caption">图6：城邦三阶层与灵魂三部分对应图</div>
+</div>
+
+<h3>5.2 正义的定义</h3>
+<p>柏拉图的正义观不同于现代"权利"概念。在他看来，正义是<span class="highlight">秩序与和谐</span>——城邦中每个阶层做自己应做的事，不逾越其他阶层的职能；灵魂中每个部分各司其职，理性统率全局。</p>
+<div class="quote">
+<div class="gk">τὸ τὰ αὑτοῦ πράττειν καὶ μὴ πολυπραγμονεῖν δικαιοσύνη ἐστίν</div>
+<div class="tr">to ta hautou prattein kai mē polypragmonein dikaiosynē estin</div>
+<div class="cn">"正义就是各做自己的事，不干涉他人。"</div>
+<div class="src">—— 《理想国》433a-b</div>
+</div>
+
+<h3>5.3 哲人王</h3>
+<p>柏拉图主张，唯有经过严格哲学训练、认识善的理念的人才有资格治理城邦。哲人王不被赋予私人财产和家庭（共有财产与家庭），以避免私利腐蚀公义。这一主张在古代和现代都备受讨论，但它深刻揭示了治理权与知识/道德的关系问题。</p>
+
+<h3>5.4 五种政体的演变</h3>
+<p>柏拉图在《理想国》第八卷描述了政体的退化过程：</p>
+<div class="diagram">
+<svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+<rect x="20" y="20" width="100" height="50" fill="#1b3a5c" opacity="0.8" rx="5"/>
+<text x="70" y="42" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">贤人政体</text>
+<text x="70" y="55" text-anchor="middle" font-size="8" fill="#d4af37"> aristokrateia</text>
+<text x="70" y="85" text-anchor="middle" font-size="8" fill="#555">哲人王治理</text>
+<text x="70" y="97" text-anchor="middle" font-size="8" fill="#555">理性主导</text>
+<line x1="120" y1="45" x2="140" y2="45" stroke="#b8932f" stroke-width="2" marker-end="url(#ar2)"/>
+<rect x="140" y="20" width="100" height="50" fill="#2d5a8a" opacity="0.7" rx="5"/>
+<text x="190" y="42" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">勋阀政体</text>
+<text x="190" y="55" text-anchor="middle" font-size="8" fill="#d4af37">timokrateia</text>
+<text x="190" y="85" text-anchor="middle" font-size="8" fill="#555">荣誉至上</text>
+<text x="190" y="97" text-anchor="middle" font-size="8" fill="#555">激情主导</text>
+<line x1="240" y1="45" x2="260" y2="45" stroke="#b8932f" stroke-width="2" marker-end="url(#ar2)"/>
+<rect x="260" y="20" width="100" height="50" fill="#6b7d4f" opacity="0.6" rx="5"/>
+<text x="310" y="42" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">寡头政体</text>
+<text x="310" y="55" text-anchor="middle" font-size="8" fill="#d4af37">oligarkhia</text>
+<text x="310" y="85" text-anchor="middle" font-size="8" fill="#555">财富至上</text>
+<text x="310" y="97" text-anchor="middle" font-size="8" fill="#555">欲望初显</text>
+<line x1="360" y1="45" x2="380" y2="45" stroke="#b8932f" stroke-width="2" marker-end="url(#ar2)"/>
+<rect x="380" y="20" width="100" height="50" fill="#8b4513" opacity="0.5" rx="5"/>
+<text x="430" y="42" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">平民政体</text>
+<text x="430" y="55" text-anchor="middle" font-size="8" fill="#d4af37">平民政体</text>
+<text x="430" y="85" text-anchor="middle" font-size="8" fill="#555">自由至上</text>
+<text x="430" y="97" text-anchor="middle" font-size="8" fill="#555">欲望泛滥</text>
+<line x1="480" y1="45" x2="500" y2="45" stroke="#b8932f" stroke-width="2" marker-end="url(#ar2)"/>
+<rect x="500" y="20" width="80" height="50" fill="#4a0000" opacity="0.6" rx="5"/>
+<text x="540" y="42" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">集权政体</text>
+<text x="540" y="55" text-anchor="middle" font-size="8" fill="#d4af37">tyrannis</text>
+<text x="540" y="85" text-anchor="middle" font-size="8" fill="#555">一人独治</text>
+<text x="540" y="97" text-anchor="middle" font-size="8" fill="#555">最劣状态</text>
+<text x="300" y="130" text-anchor="middle" font-size="10" fill="#b8932f">↓ 逐级退化：理性 → 激情 → 财富 → 自由 → 放纵 ↓</text>
+<text x="300" y="155" text-anchor="middle" font-size="9" fill="#555">每一政体因内在矛盾而瓦解，退化为下一形态</text>
+<text x="300" y="180" text-anchor="middle" font-size="9" fill="#1b3a5c">柏拉图认为雅典民主对苏格拉底的判决，正是政制内在不足的体现</text>
+<defs><marker id="ar2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#b8932f"/></marker></defs>
+</svg>
+<div class="caption">图7：五种政体演变流程（据《理想国》第八卷）</div>
+</div>
+</section>
+
+<!-- ===== 第六板块：伦理学 ===== -->
+<section id="sec6">
+<h2>六、伦理学</h2>
+
+<h3>6.1 美德即知识</h3>
+<p>柏拉图继承苏格拉底的核心命题"美德即知识"（ἡ ἀρετὴ ἐπιστήμη ἐστίν），但赋予了更深的形而上学基础。美德不是盲目的习惯或天赋，而是灵魂对善的理念的认识。一个人真正知道什么是善，就必然行善；作恶源于无知。</p>
+<div class="note"><strong>苏格拉底与柏拉图的区别：</strong>苏格拉底的"美德即知识"更多是道德直觉主义；柏拉图则将"知识"锚定在理念论的形而上学框架中——善的理念是最高对象，美德是灵魂对善的认识和分有。</div>
+
+<h3>6.2 四主德</h3>
+<p>柏拉图系统阐述了古希腊四主德：</p>
+<div class="card">
+<p><strong>① 智慧（σοφία / sophia）</strong>：理性部分的美德，是对善和真理的认识。属于治理者。</p>
+<p><strong>② 勇敢（ἀνδρεία / andreia）</strong>：激情部分的美德，是经理性认可后坚持正确信念的能力。属于护卫者。</p>
+<p><strong>③ 节制（σωφροσύνη / sōphrosynē）</strong>：欲望部分的美德，是欲望服从理性的自我控制。属于生产者，但也要求全城邦认同治理。</p>
+和谐统一的状态——每个部分各司其职。属于整个灵魂和整个城邦。</p>
+</div>
+
+<h3>6.3 快乐与善</h3>
+<p>在《斐莱布篇》中，柏拉图探讨了快乐（ἡδονή）与理智（νοῦς）何者更善的问题。他区分了"纯快乐"（如审美愉悦）和"混合快乐"（如解渴——包含痛苦的消除），认为善的生活不是纯粹的快乐，而是理性与适度快乐的混合。善的要素包括：尺度与比例（μετριότης）、美（κάλλος）、真理（ἀλήθεια）。</p>
+<div class="quote">
+<div class="gk">οὐδὲν γὰρ ἄλλο ἢ τὸ μετρίως ἔχειν καὶ τὸ καλὸν καὶ τὸ τέλεον καὶ τὸ αὐτάρκες</div>
+<div class="tr">ouden gar allo ē to metriōs echein kai to kalon kai to teleon kai to autarkes</div>
+<div class="cn">"善不外乎适度、美、完满和自足。"</div>
+<div class="src">—— 《斐莱布篇》65a</div>
+</div>
+
+<h3>6.4 德性的统一性</h3>
+<p>柏拉图在早期对话（如《普罗泰戈拉篇》）中探讨了一个重要问题：诸美德是统一的还是各自独立的？苏格拉底倾向于认为诸美德统一于智慧——勇敢、节制、正义都可以归结为某种形式的知识。但在《理想国》中，柏拉图似乎承认美德有多元结构，灵魂不同部分有不同的美德，虽然它们最终在理性的统率下统一。</p>
+</section>
+
+<!-- ===== 第七板块：美学与爱欲 ===== -->
+<section id="sec7">
+<h2>七、美学与爱欲论</h2>
+
+<h3>7.1 爱的阶梯</h3>
+<p>《会饮篇》中，苏格拉底转述女祭司狄奥提玛（Diotima）的教导，描述了爱欲（ἔρως / erōs）从肉体之美上升到理念之美的阶梯：</p>
+<div class="diagram">
+<svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+<rect x="50" y="240" width="400" height="30" fill="#8b4513" opacity="0.5" rx="3"/>
+<text x="250" y="258" text-anchor="middle" font-size="9" fill="#fff">① 爱一个具体的美的身体</text>
+<rect x="80" y="200" width="340" height="30" fill="#6b7d4f" opacity="0.5" rx="3"/>
+<text x="250" y="218" text-anchor="middle" font-size="9" fill="#fff">② 爱所有美的身体（认识到美是共通的）</text>
+<rect x="110" y="160" width="280" height="30" fill="#2d5a8a" opacity="0.5" rx="3"/>
+<text x="250" y="178" text-anchor="middle" font-size="9" fill="#fff">③ 爱美的灵魂、美的法律和制度</text>
+<rect x="140" y="120" width="220" height="30" fill="#1b3a5c" opacity="0.6" rx="3"/>
+<text x="250" y="138" text-anchor="middle" font-size="9" fill="#fff">④ 爱美的知识（科学/哲学）</text>
+<rect x="170" y="80" width="160" height="30" fill="#b8932f" opacity="0.7" rx="3"/>
+<text x="250" y="98" text-anchor="middle" font-size="9" fill="#fff">⑤ 爱美本身（美的理念）</text>
+<rect x="200" y="40" width="100" height="30" fill="#d4af37" opacity="0.8" rx="3"/>
+<text x="250" y="58" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">⑥ 观照善</text>
+<line x1="250" y1="270" x2="250" y2="30" stroke="#b8932f" stroke-width="1.5" stroke-dasharray="3,3"/>
+<text x="470" y="155" text-anchor="middle" font-size="9" fill="#b8932f" transform="rotate(90 470 155)">上升 →</text>
+</svg>
+<div class="caption">图8：爱的阶梯（据《会饮篇》210a-211b）</div>
+</div>
+<p>爱的阶梯表明，爱欲不应停留在肉体层面，而应逐步上升——从个别到普遍，从感官到理性，从现象到理念。最终目标是观照"美本身"——永恒的、不变的、独立于任何具体美的事物的美的理念。</p>
+<div class="quote">
+<div class="gk">τοῦτο δὴ τὸ καλὸν ἀεὶ ὂν, οὔτε γιγνόμενον οὔτε ἀπολλύμενον</div>
+<div class="tr">touto dē to kalon aei on, oute gignomenon oute apollymenon</div>
+<div class="cn">"这美本身是永恒存在的，既不生成也不消亡。"</div>
+<div class="src">—— 《会饮篇》211a</div>
+</div>
+
+<h3>7.2 艺术与模仿（μίμησις）</h3>
+<p>柏拉图对艺术的态度是哲学史上最具讨论的议题之一。在《理想国》第十卷中，他提出艺术是"模仿的模仿"——理念是原型，可感事物是理念的摹本，而绘画、诗歌等艺术作品是对可感事物的模仿，因此距真理隔了三层。</p>
+<div class="card">
+<p><strong>三层距离：</strong>理念（真理）→ 可感事物（摹本）→ 艺术作品（摹本的摹本）</p>
+<p>例如：床的理念 → 木匠制作的具体床 → 画家画的床</p>
+</div>
+<p>基于此，柏拉图主张在理想城邦中对诗人（包括荷马）进行规范与引导，因为：① 艺术远离真理；② 艺术激发灵魂中非理性的部分（情感和欲望），破坏灵魂的和谐；③ 艺术可能传达不准确的道德认知。</p>
+<div class="note"><strong>学界反思：</strong>柏拉图本人是最伟大的文学艺术家之一，他的对话录本身就是优美的文学作品。他对艺术的批评更多是针对艺术在城邦教育中的<span class="highlight">功能</span>而非艺术本身的价值。在《法律篇》中，他的态度有所缓和，允许经过甄选的艺术存在。</div>
+</section>
+
+<!-- ===== 第八板块：宇宙论与晚期 ===== -->
+<section id="sec8">
+<h2>八、宇宙论与晚期思想</h2>
+
+<h3>8.1 《蒂迈欧篇》的宇宙生成论</h3>
+<p>《蒂迈欧篇》是柏拉图宇宙论的核心文本，也是西方宇宙论传统的奠基之作。其核心概念是：</p>
+<p><strong>造物主（δημιουργός / dēmiourgos）：</strong>不是从无中创造世界的全能上帝，而是将预先存在的质料按照理念模型加以"安排"的理性工匠。造物主是善的，因此他尽可能将秩序赋予原本混乱的质料。</p>
+<div class="quote">
+<div class="gk">ἀγαθὸς ἦν ἀγαθῷ δὲ οὐδεὶς περὶ οὐδενὸς οὐδέποτε ἐπιθυμεῖ ἄλλο πλὴν τὸ ὅμοιον</div>
+<div class="tr">agathos ēn agathōi de oudeis peri oudenos oudepote epithymei allo plēn to homoion</div>
+<div class="cn">"他是善的，而善者不会嫉妒任何东西，因此他希望一切尽可能像他自己。"</div>
+<div class="src">—— 《蒂迈欧篇》29e</div>
+</div>
+<p><strong>恒在与生成（τὸ ὂν / τὸ γιγνόμενον）：</strong>柏拉图区分了"恒在"（永恒不变的理念/模型）和"生成"（变化中的可感世界/造物）。宇宙是"生成"的，但它模仿"恒在"的模型。</p>
+<p><strong>接受者（ὑποδοχή / hypodochē）：</strong>又称"容器"（χώρα / chōra），是一切生成事物得以在其中形成的无形质料。它本身没有性质，但能接受一切形式——如同金子可以被塑造成各种形状。</p>
+
+<div class="diagram">
+<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+<rect x="20" y="60" width="120" height="80" fill="#1b3a5c" opacity="0.7" rx="5"/>
+<text x="80" y="90" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">恒在 (τὸ ὂν)</text>
+<text x="80" y="108" text-anchor="middle" font-size="8" fill="#fff">永恒模型/理念</text>
+<text x="80" y="122" text-anchor="middle" font-size="8" fill="#fff">不生不灭</text>
+<rect x="190" y="60" width="120" height="80" fill="#b8932f" opacity="0.7" rx="5"/>
+<text x="250" y="90" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">造物主</text>
+<text x="250" y="108" text-anchor="middle" font-size="8" fill="#fff">δημιουργός</text>
+<text x="250" y="122" text-anchor="middle" font-size="8" fill="#fff">理性工匠</text>
+<rect x="360" y="60" width="120" height="80" fill="#6b7d4f" opacity="0.6" rx="5"/>
+<text x="420" y="90" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">生成 (γιγνόμενον)</text>
+<text x="420" y="108" text-anchor="middle" font-size="8" fill="#fff">可感宇宙</text>
+<text x="420" y="122" text-anchor="middle" font-size="8" fill="#fff">有生有灭</text>
+<line x1="140" y1="100" x2="190" y2="100" stroke="#555" stroke-width="1.5" marker-end="url(#ar3)"/>
+<text x="165" y="92" text-anchor="middle" font-size="7" fill="#555">模型</text>
+<line x1="310" y1="100" x2="360" y2="100" stroke="#555" stroke-width="1.5" marker-end="url(#ar3)"/>
+<text x="335" y="92" text-anchor="middle" font-size="7" fill="#555">制造</text>
+<rect x="190" y="155" width="120" height="30" fill="#e8e4dc" stroke="#888" rx="3"/>
+<text x="250" y="174" text-anchor="middle" font-size="8" fill="#555">接受者 (χώρα)</text>
+<line x1="250" y1="140" x2="250" y2="155" stroke="#888" stroke-dasharray="2,2"/>
+<text x="250" y="195" text-anchor="middle" font-size="9" fill="#1b3a5c">造物主以理念为模型，在接受者中塑造可感宇宙</text>
+<defs><marker id="ar3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#555"/></marker></defs>
+</svg>
+<div class="caption">图9：蒂迈欧宇宙生成结构</div>
+</div>
+
+<h3>8.2 几何原子论</h3>
+<p>柏拉图在《蒂迈欧篇》中提出了一种独特的物质理论：四种元素（火、气、水、土）分别对应四种正多面体——火=正四面体，气=正八面体，水=正二十面体，土=正六面体（立方体）。第五种正多面体（正十二面体）被造物主用于"装饰整个宇宙"。这些多面体由两种基本三角形组合而成，元素的转化本质上是三角形的重组。</p>
+
+<h3>8.3 晚期对话的自我修正</h3>
+<p>柏拉图在晚期对话中对中期理念论进行了深刻反思：</p>
+<p><strong>《巴门尼德篇》：</strong>以老年巴门尼德与少年苏格拉底对话的形式，对理念论提出八组"困难"（aporiai）。核心问题包括：① 理念与可感事物的关系（分有说的困境）；② 理念之间的关系（"一"与"多"的问题）；③ 如果理念是绝对的"一"，它如何能被多个事物分有而不丧失统一性？</p>
+<p><strong>《智者篇》：</strong>引入"通种论"（κοινωνία τῶν γενῶν），承认理念之间存在结合与分离的关系。存在（ὄν）与非存在（μὴ ὄν）、同（ταὐτόν）与异（θάτερον）等最高理念可以相互结合。这解决了中期理念论中"理念各自孤立"的困境。</p>
+<p><strong>《政治家篇》：</strong>使用"二分法"（διαίρεσις / diairesis）来定义政治家的本质，将知识逐步二分直至达到目标定义。这体现了晚期柏拉图对方法论的系统化探索。</p>
+
+<h3>8.4 未成文学说（ἄγραφα δόγματα）</h3>
+<p>亚里士多德在《形而上学》中提及柏拉图有一套"口传学说"，未写入对话录中。20世纪图宾根学派（Tübinger Schule）通过亚里士多德的记述和残篇重建了这一学说，其核心是：</p>
+<div class="card">
+<p><strong>一与不定之二（τὸ ἓν καὶ ἡ ἀόριστος δυάς）：</strong>万物的最高本原是"一"（统一性/善）和"不定之二"（不定/多/对立）。理念由"一"限定"不定之二"而生成。这比对话录中的理念论更接近毕达哥拉斯学派的数论。</p>
+<p><strong>数学结构：</strong>理念具有数学结构，数是连接最高本原与可感世界的中介。</p>
+</div>
+<div class="note"><strong>学界讨论：</strong>未成文学说的地位和真实性至今仍有讨论。图宾根学派认为它是柏拉图哲学的真正核心；另一些学者认为亚里士多德的记述可能不准确或过度简化。无论如何，它为理解柏拉图思想提供了重要视角。</div>
+</section>
+
+<!-- ===== 术语表 ===== -->
+<section id="glossary">
+<h2>希腊语术语对照表</h2>
+<div class="glossary">
+<div class="glossary-item"><div class="gk">ἰδέα / εἶδος</div><div class="en">idea / eidos</div><div class="cn">理念 / 形式</div><div class="desc">柏拉图哲学核心概念，指永恒不变的完美原型</div></div>
+<div class="glossary-item"><div class="gk">ἀγαθόν</div><div class="en">agathon</div><div class="cn">善</div><div class="desc">最高理念，一切存在的终极根据和目的</div></div>
+<div class="glossary-item"><div class="gk">ψυχή</div><div class="en">psychē</div><div class="cn">灵魂</div><div class="desc">赋予生命的原则，不朽且先于身体存在</div></div>
+<div class="glossary-item"><div class="gk">ἀνάμνησις</div><div class="en">anamnēsis</div><div class="cn">回忆</div><div class="desc">学习即灵魂对前世知识的回忆</div></div>
+<div class="glossary-item"><div class="gk">μέθεξις</div><div class="en">methexis</div><div class="cn">分有</div><div class="desc">可感事物因分有理念而获得属性</div></div>
+<div class="glossary-item"><div class="gk">μίμησις</div><div class="en">mimēsis</div><div class="cn">模仿</div><div class="desc">可感事物/艺术对理念的模仿</div></div>
+<div class="glossary-item"><div class="gk">δικαιοσύνη</div><div class="en">dikaiosynē</div><div class="cn">正义</div><div class="desc">各部分各司其职的和谐状态</div></div>
+<div class="glossary-item"><div class="gk">ἀρετή</div><div class="en">aretē</div><div class="cn">美德 / 德性</div><div class="desc">事物发挥其功能的卓越状态</div></div>
+<div class="glossary-item"><div class="gk">ἐπιστήμη</div><div class="en">epistēmē</div><div class="cn">知识</div><div class="desc">以理念为对象的必然性认识</div></div>
+<div class="glossary-item"><div class="gk">δόξα</div><div class="en">doxa</div><div class="cn">意见</div><div class="desc">以可感事物为对象的不确定认识</div></div>
+<div class="glossary-item"><div class="gk">διαλεκτική</div><div class="en">dialektikē</div><div class="cn">辩证法</div><div class="desc">通过问答上升至第一原则的方法</div></div>
+<div class="glossary-item"><div class="gk">δημιουργός</div><div class="en">dēmiourgos</div><div class="cn">造物主</div><div class="desc">以理念为模型塑造宇宙的理性工匠</div></div>
+<div class="glossary-item"><div class="gk">χώρα</div><div class="en">chōra</div><div class="cn">接受者 / 场所</div><div class="desc">一切生成事物得以形成的无形质料</div></div>
+<div class="glossary-item"><div class="gk">ἔρως</div><div class="en">erōs</div><div class="cn">爱欲</div><div class="desc">从肉体美上升到理念美的驱动力</div></div>
+<div class="glossary-item"><div class="gk">λόγος</div><div class="en">logos</div><div class="cn">理性 / 言辞</div><div class="desc">理性思维和表达的能力</div></div>
+<div class="glossary-item"><div class="gk">νόησις</div><div class="en">noēsis</div><div class="cn">理性直观</div><div class="desc">直接把握理念的认知能力</div></div>
+<div class="glossary-item"><div class="gk">παράδειγμα</div><div class="en">paradeigma</div><div class="cn">原型 / 范型</div><div class="desc">理念作为可感事物的模型</div></div>
+<div class="glossary-item"><div class="gk">σωφροσύνη</div><div class="en">sōphrosynē</div><div class="cn">节制</div><div class="desc">欲望服从理性的自我控制</div></div>
+</div>
+</section>
+
+<!-- ===== 年表 ===== -->
+<section id="timeline">
+<h2>柏拉图生平与著作年表</h2>
+<div class="timeline">
+<div class="tl-item"><div class="year">前 427</div><div class="event">柏拉图生于雅典，原名阿里斯托克勒斯</div></div>
+<div class="tl-item"><div class="year">前 407</div><div class="event">结识苏格拉底，成为其弟子</div></div>
+<div class="tl-item"><div class="year">前 399</div><div class="event">苏格拉底被判离世，柏拉图离开雅典，开始游历</div></div>
+<div class="tl-item"><div class="year">前 395-387</div><div class="event">游历麦加拉、昔兰尼、埃及、南意大利；接触毕达哥拉斯学派</div></div>
+<div class="tl-item"><div class="year">前 387</div><div class="event">第一次叙拉古之行；回国后创立学园（Akademia）</div></div>
+<div class="tl-item"><div class="year">前 380s</div><div class="event">撰写中期对话：《申辩篇》《斐多篇》《会饮篇》《理想国》等</div></div>
+<div class="tl-item"><div class="year">前 367</div><div class="event">第二次叙拉古之行，教育狄奥尼修斯二世</div></div>
+<div class="tl-item"><div class="year">前 360s</div><div class="event">撰写晚期对话：《巴门尼德篇》《智者篇》《政治家篇》《蒂迈欧篇》等</div></div>
+<div class="tl-item"><div class="year">前 361</div><div class="event">第三次叙拉古之行</div></div>
+<div class="tl-item"><div class="year">前 347</div><div class="event">柏拉图去世，享年约 80 岁；学园由斯彪西波继任</div></div>
+<div class="tl-item"><div class="year">前 367/347</div><div class="event">亚里士多德在学园学习工作近 20 年</div></div>
+<div class="tl-item"><div class="year">公元 529</div><div class="event">东罗马皇帝查士丁尼关闭学园，学园存在近 900 年</div></div>
+</div>
+</section>
+
+<!-- ===== 参考文献 ===== -->
+<section>
+<h2>主要参考文献</h2>
+<div class="card">
+<p><strong>柏拉图原典（希腊语）：</strong></p>
+<p>• Platonis Opera, ed. John Burnet (Oxford Classical Texts, 1900-1907) — 标准希腊语校勘本</p>
+<p>• Plato, Complete Works, ed. John M. Cooper (Hackett, 1997) — 英文标准全集</p>
+</div>
+<div class="card">
+<p><strong>中文译本：</strong></p>
+<p>• 王太庆译《柏拉图对话集》（商务印书馆）</p>
+<p>• 郭斌和、张竹明译《理想国》（商务印书馆）</p>
+<p>• 杨绛译《斐多》（生活·读书·新知三联书店）</p>
+<p>• 王晓朝译《柏拉图全集》（人民出版社，4卷本）</p>
+<p>• 溥林（熊林）译《柏拉图全集》希汉对照本（四川大学出版社）</p>
+</div>
+<div class="card">
+<p><strong>研究文献：</strong></p>
+<p>• 亚里士多德《形而上学》A4-A9（对柏拉图理念论的记述与批评）</p>
+<p>• 第欧根尼·拉尔修《名哲言行录》第三卷（柏拉图传记）</p>
+<p>• G. Vlastos, Plato's Universe (Oxford, 1975)</p>
+<p>• K. Sayre, Plato's Late Ontology (Princeton, 1983)</p>
+<p>• H. Krämer, Plato and the Foundations of Metaphysics（图宾根学派代表作）</p>
+<p>• 陈康译注《巴曼尼得斯篇》（商务印书馆）</p>
+<p>• 刘鑫《柏拉图〈理想国〉中灵魂和城邦的类比》（北京大学，2009）</p>
+</div>
+</section>
+
+</div>
+
+<footer>
+<h3>Πλάτων</h3>
+<p>柏拉图的哲学体系博大精深，本报告仅为其理论全景的概览。每个板块都可以独立展开为专门研究。柏拉图的思想历经 2400 余年仍具活力，持续激发着哲学、政治学、伦理学、美学等领域的思考。</p>
+<p>所有希腊语引文以 Burnet 校勘本为参照，Stephanus 页码为标准引用方式。中文翻译综合参考多个译本，力求准确传达原意。</p>
+<p style="margin-top:16px;font-size:.78em;opacity:.6">本页面仅供学习研究使用 · 生成式 AI 辅助整理</p>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 100;
+    if (window.scrollY >= top) current = sec.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
